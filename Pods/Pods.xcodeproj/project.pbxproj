@@ -1,0 +1,549 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0304EB46766C59BD2D10632F /* CSNotificationsObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = F9CADB37174833BE007599D1 /* CSNotificationsObserver.h */; };
+		125E49725713804669BFAE2D /* CSCore.h in Headers */ = {isa = PBXBuildFile; fileRef = F25E99F162AE4D4A1FAF170D /* CSCore.h */; };
+		133A58601CF0CE4907312B8D /* CSEventType.h in Headers */ = {isa = PBXBuildFile; fileRef = 13B33791B134E0EB20DB0BEF /* CSEventType.h */; };
+		187BC1545E3E776245612F59 /* CSStreamSenseClip.h in Headers */ = {isa = PBXBuildFile; fileRef = D7CADD7D3143FCFA6EA0160C /* CSStreamSenseClip.h */; };
+		1E50C98233BE748680E5F065 /* CSMeasurementDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = E8065325C9F59E0EB8572CE5 /* CSMeasurementDispatcher.h */; };
+		1F1C95A13EF211DE853D2A3E /* CSStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 96AC43493C161460096DA588 /* CSStorage.h */; };
+		246FE340E0A09BBD5AED2CD3 /* CSStreamSenseState.h in Headers */ = {isa = PBXBuildFile; fileRef = CBEF5BECEEC3E7AB5844092E /* CSStreamSenseState.h */; };
+		26309DE9BBE17902193AF8B9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C9CEED436E9AE9C783F17D /* AVFoundation.framework */; };
+		2A2B77FAE54D21E7A7C96DB1 /* Pods-comScore-iOS-SDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 596FCC47C2D0D94F523569E0 /* Pods-comScore-iOS-SDK-dummy.m */; };
+		302452897DB01DD741FA9B48 /* CSOfflineCache.h in Headers */ = {isa = PBXBuildFile; fileRef = E850AB000614AA285EBE1CAC /* CSOfflineCache.h */; };
+		324E08272CA50C4F92CA7BDC /* CSStreamSense.h in Headers */ = {isa = PBXBuildFile; fileRef = 13B9092489C6D840CE4DFDB7 /* CSStreamSense.h */; };
+		350EC8B6B18E61AC3A3C3D6E /* CSStreamSensePlaylist.h in Headers */ = {isa = PBXBuildFile; fileRef = AA99A1D1024E54FD0660A386 /* CSStreamSensePlaylist.h */; };
+		44C43FEFA2AD618766C90B5B /* CSCacheFlusher.h in Headers */ = {isa = PBXBuildFile; fileRef = 2037167510DAB4F73C9DF38A /* CSCacheFlusher.h */; };
+		4DFEB28C7201C93B3BBC07ED /* CSTaskExecutor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5939E39524B88A9D55AB2A52 /* CSTaskExecutor.h */; };
+		5260AACECBF4C81E895F9898 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB6003F8E26A36731F59ED2C /* CoreMedia.framework */; };
+		552B761EF4F2EAF41116310C /* CSApplicationState.h in Headers */ = {isa = PBXBuildFile; fileRef = 874DB6CAAD603EB177D9924D /* CSApplicationState.h */; };
+		5A428DE8657CD6F4D1D9CA78 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F2E14D2664E6B9C7FF9FF6 /* MediaPlayer.framework */; };
+		5E0171A211A0AC6503694960 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACFB4B5272EBE74D8DD05B6C /* SystemConfiguration.framework */; };
+		71C6594FE6F5C8D95F83CF82 /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 37339F4A859D11A7847B6BB2 /* Pods-dummy.m */; };
+		77EEA650F84DEBBDE825A565 /* CSStreamSenseAVPlayerPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = F04DC6D90D6F65158E62BCEE /* CSStreamSenseAVPlayerPlugin.h */; };
+		7986A15D82C12683ADCDE84B /* CSCensus.h in Headers */ = {isa = PBXBuildFile; fileRef = D9897B5089B6D70636C782BA /* CSCensus.h */; };
+		7D2D7A71BA5A09761E5B508D /* CSKeepAlive.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BEB6AD40EE9D1601228E57C /* CSKeepAlive.h */; };
+		8ACEB471278BBEC62AFD4B69 /* CSStreamSenseDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A041AE14E66B4E7429A1E2C /* CSStreamSenseDefines.h */; };
+		96F9D23DA16E253EA3F8CC5A /* CSStreamingTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 01E4413CF848C3BAC207F9BE /* CSStreamingTag.h */; };
+		A8088EDB38904FE2DD936DB6 /* CSStreamSenseDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 48941BBF146B5FBDAA57CCB9 /* CSStreamSenseDelegate.h */; };
+		AA58F963ED8A4AF8251B75FC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36881216B6ACF3A179D9CA6D /* Foundation.framework */; };
+		BFFDCD64E8F4F72BB25862EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36881216B6ACF3A179D9CA6D /* Foundation.framework */; };
+		CA95E80DD76A996193385F3D /* CSComScore.h in Headers */ = {isa = PBXBuildFile; fileRef = A79DE77FD8FA10380B5D8471 /* CSComScore.h */; };
+		D8DA482E5357F0AB8F5621E1 /* CSTransmissionMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 07E9FC52D68424371072967A /* CSTransmissionMode.h */; };
+		DBD8165F90BA6F3D2CD2F764 /* CSStreamSensePluginProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 93CB2C50A62F860967452B4F /* CSStreamSensePluginProtocol.h */; };
+		E97AF4D46D008AAEB7EEC1C2 /* CSStreamSensePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2729130160E21D5BC0E1D548 /* CSStreamSensePlugin.h */; };
+		F1DEBF4411A42F0B1A59B015 /* CSSessionState.h in Headers */ = {isa = PBXBuildFile; fileRef = F4122CD979838FD2E6594C78 /* CSSessionState.h */; };
+		F53B57A726DB6B9793ABB293 /* CSStreamSenseMPMoviePlayerControllerPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = E03D0A0D0004A00066D83142 /* CSStreamSenseMPMoviePlayerControllerPlugin.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		105B78E8D70D5BCC1FC1960D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 101E6ABE8A40E4B07BEEDC10 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2549E6F7F7CAD85079E9A741;
+			remoteInfo = "Pods-comScore-iOS-SDK";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		01E4413CF848C3BAC207F9BE /* CSStreamingTag.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamingTag.h; path = comScore/headers/CSStreamingTag.h; sourceTree = "<group>"; };
+		07E9FC52D68424371072967A /* CSTransmissionMode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSTransmissionMode.h; path = comScore/headers/CSTransmissionMode.h; sourceTree = "<group>"; };
+		13B33791B134E0EB20DB0BEF /* CSEventType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSEventType.h; path = comScore/headers/CSEventType.h; sourceTree = "<group>"; };
+		13B9092489C6D840CE4DFDB7 /* CSStreamSense.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSense.h; path = comScore/headers/CSStreamSense.h; sourceTree = "<group>"; };
+		16A63340C2D5994350B2B62A /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
+		2037167510DAB4F73C9DF38A /* CSCacheFlusher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSCacheFlusher.h; path = comScore/headers/CSCacheFlusher.h; sourceTree = "<group>"; };
+		2729130160E21D5BC0E1D548 /* CSStreamSensePlugin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSensePlugin.h; path = comScore/headers/CSStreamSensePlugin.h; sourceTree = "<group>"; };
+		29E9F4FD0D89A4251F397D8C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
+		2A041AE14E66B4E7429A1E2C /* CSStreamSenseDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseDefines.h; path = comScore/headers/CSStreamSenseDefines.h; sourceTree = "<group>"; };
+		36881216B6ACF3A179D9CA6D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		37339F4A859D11A7847B6BB2 /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
+		44ED0B5A22D18919B1AC835F /* Pods-comScore-iOS-SDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-comScore-iOS-SDK-prefix.pch"; sourceTree = "<group>"; };
+		48941BBF146B5FBDAA57CCB9 /* CSStreamSenseDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseDelegate.h; path = comScore/headers/CSStreamSenseDelegate.h; sourceTree = "<group>"; };
+		5939E39524B88A9D55AB2A52 /* CSTaskExecutor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSTaskExecutor.h; path = comScore/headers/CSTaskExecutor.h; sourceTree = "<group>"; };
+		596FCC47C2D0D94F523569E0 /* Pods-comScore-iOS-SDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-comScore-iOS-SDK-dummy.m"; sourceTree = "<group>"; };
+		6BEB6AD40EE9D1601228E57C /* CSKeepAlive.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSKeepAlive.h; path = comScore/headers/CSKeepAlive.h; sourceTree = "<group>"; };
+		6F467EA59978F3210C809D12 /* Pods-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-environment.h"; sourceTree = "<group>"; };
+		764E56B118A96D98F9FD0919 /* Pods-comScore-iOS-SDK.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-comScore-iOS-SDK.xcconfig"; sourceTree = "<group>"; };
+		823D40A5D410EEE5DF0AFCB7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		874DB6CAAD603EB177D9924D /* CSApplicationState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSApplicationState.h; path = comScore/headers/CSApplicationState.h; sourceTree = "<group>"; };
+		8F386E63D1F7055579977355 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
+		9188D59825EA0B16A8EC6B6D /* Pods-comScore-iOS-SDK-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-comScore-iOS-SDK-Private.xcconfig"; sourceTree = "<group>"; };
+		93CB2C50A62F860967452B4F /* CSStreamSensePluginProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSensePluginProtocol.h; path = comScore/headers/CSStreamSensePluginProtocol.h; sourceTree = "<group>"; };
+		96AC43493C161460096DA588 /* CSStorage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStorage.h; path = comScore/headers/CSStorage.h; sourceTree = "<group>"; };
+		A79DE77FD8FA10380B5D8471 /* CSComScore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSComScore.h; path = comScore/headers/CSComScore.h; sourceTree = "<group>"; };
+		AA99A1D1024E54FD0660A386 /* CSStreamSensePlaylist.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSensePlaylist.h; path = comScore/headers/CSStreamSensePlaylist.h; sourceTree = "<group>"; };
+		AAAE034BBB5322C9C8BF5B1A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
+		ACFB4B5272EBE74D8DD05B6C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		C0332D73BC55EF2ADCCA1664 /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
+		C4C9CEED436E9AE9C783F17D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		CB577039306B334CDDA09010 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		CBEF5BECEEC3E7AB5844092E /* CSStreamSenseState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseState.h; path = comScore/headers/CSStreamSenseState.h; sourceTree = "<group>"; };
+		D7CADD7D3143FCFA6EA0160C /* CSStreamSenseClip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseClip.h; path = comScore/headers/CSStreamSenseClip.h; sourceTree = "<group>"; };
+		D9897B5089B6D70636C782BA /* CSCensus.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSCensus.h; path = comScore/headers/CSCensus.h; sourceTree = "<group>"; };
+		DB6003F8E26A36731F59ED2C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
+		E03D0A0D0004A00066D83142 /* CSStreamSenseMPMoviePlayerControllerPlugin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseMPMoviePlayerControllerPlugin.h; path = comScore/headers/CSStreamSenseMPMoviePlayerControllerPlugin.h; sourceTree = "<group>"; };
+		E5F2E14D2664E6B9C7FF9FF6 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
+		E8065325C9F59E0EB8572CE5 /* CSMeasurementDispatcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSMeasurementDispatcher.h; path = comScore/headers/CSMeasurementDispatcher.h; sourceTree = "<group>"; };
+		E850AB000614AA285EBE1CAC /* CSOfflineCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSOfflineCache.h; path = comScore/headers/CSOfflineCache.h; sourceTree = "<group>"; };
+		F04DC6D90D6F65158E62BCEE /* CSStreamSenseAVPlayerPlugin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseAVPlayerPlugin.h; path = comScore/headers/CSStreamSenseAVPlayerPlugin.h; sourceTree = "<group>"; };
+		F25E99F162AE4D4A1FAF170D /* CSCore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSCore.h; path = comScore/headers/CSCore.h; sourceTree = "<group>"; };
+		F3D0404F30A3260FC6B1CB82 /* libPods-comScore-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-comScore-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4122CD979838FD2E6594C78 /* CSSessionState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSSessionState.h; path = comScore/headers/CSSessionState.h; sourceTree = "<group>"; };
+		F9CADB37174833BE007599D1 /* CSNotificationsObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSNotificationsObserver.h; path = comScore/headers/CSNotificationsObserver.h; sourceTree = "<group>"; };
+		FEBD71EA5E0E5928880E7902 /* libcomScore.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libcomScore.a; path = comScore/libcomScore.a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		18CC244B9B65EA32BDDB4CA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				26309DE9BBE17902193AF8B9 /* AVFoundation.framework in Frameworks */,
+				5260AACECBF4C81E895F9898 /* CoreMedia.framework in Frameworks */,
+				BFFDCD64E8F4F72BB25862EE /* Foundation.framework in Frameworks */,
+				5A428DE8657CD6F4D1D9CA78 /* MediaPlayer.framework in Frameworks */,
+				5E0171A211A0AC6503694960 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		99A1F0C416C43905DF5BCCDC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA58F963ED8A4AF8251B75FC /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0698F19F4D45AE33FF2FF039 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				16A63340C2D5994350B2B62A /* Pods-acknowledgements.markdown */,
+				8F386E63D1F7055579977355 /* Pods-acknowledgements.plist */,
+				37339F4A859D11A7847B6BB2 /* Pods-dummy.m */,
+				6F467EA59978F3210C809D12 /* Pods-environment.h */,
+				C0332D73BC55EF2ADCCA1664 /* Pods-resources.sh */,
+				29E9F4FD0D89A4251F397D8C /* Pods.debug.xcconfig */,
+				AAAE034BBB5322C9C8BF5B1A /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			path = "Target Support Files/Pods";
+			sourceTree = "<group>";
+		};
+		23830F15C04515F4B222494D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				823D40A5D410EEE5DF0AFCB7 /* libPods.a */,
+				F3D0404F30A3260FC6B1CB82 /* libPods-comScore-iOS-SDK.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		356E45AB82BDD942E31D283F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				390E01EC3B9108E9B39D9716 /* comScore-iOS-SDK */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		390E01EC3B9108E9B39D9716 /* comScore-iOS-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				874DB6CAAD603EB177D9924D /* CSApplicationState.h */,
+				2037167510DAB4F73C9DF38A /* CSCacheFlusher.h */,
+				D9897B5089B6D70636C782BA /* CSCensus.h */,
+				A79DE77FD8FA10380B5D8471 /* CSComScore.h */,
+				F25E99F162AE4D4A1FAF170D /* CSCore.h */,
+				13B33791B134E0EB20DB0BEF /* CSEventType.h */,
+				6BEB6AD40EE9D1601228E57C /* CSKeepAlive.h */,
+				E8065325C9F59E0EB8572CE5 /* CSMeasurementDispatcher.h */,
+				F9CADB37174833BE007599D1 /* CSNotificationsObserver.h */,
+				E850AB000614AA285EBE1CAC /* CSOfflineCache.h */,
+				F4122CD979838FD2E6594C78 /* CSSessionState.h */,
+				96AC43493C161460096DA588 /* CSStorage.h */,
+				13B9092489C6D840CE4DFDB7 /* CSStreamSense.h */,
+				F04DC6D90D6F65158E62BCEE /* CSStreamSenseAVPlayerPlugin.h */,
+				D7CADD7D3143FCFA6EA0160C /* CSStreamSenseClip.h */,
+				2A041AE14E66B4E7429A1E2C /* CSStreamSenseDefines.h */,
+				48941BBF146B5FBDAA57CCB9 /* CSStreamSenseDelegate.h */,
+				E03D0A0D0004A00066D83142 /* CSStreamSenseMPMoviePlayerControllerPlugin.h */,
+				AA99A1D1024E54FD0660A386 /* CSStreamSensePlaylist.h */,
+				2729130160E21D5BC0E1D548 /* CSStreamSensePlugin.h */,
+				93CB2C50A62F860967452B4F /* CSStreamSensePluginProtocol.h */,
+				CBEF5BECEEC3E7AB5844092E /* CSStreamSenseState.h */,
+				01E4413CF848C3BAC207F9BE /* CSStreamingTag.h */,
+				5939E39524B88A9D55AB2A52 /* CSTaskExecutor.h */,
+				07E9FC52D68424371072967A /* CSTransmissionMode.h */,
+				AD5211876E7E40136E4D1179 /* Frameworks */,
+				39D6665AC91B1B4DA369C596 /* Support Files */,
+			);
+			path = "comScore-iOS-SDK";
+			sourceTree = "<group>";
+		};
+		39D6665AC91B1B4DA369C596 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				764E56B118A96D98F9FD0919 /* Pods-comScore-iOS-SDK.xcconfig */,
+				9188D59825EA0B16A8EC6B6D /* Pods-comScore-iOS-SDK-Private.xcconfig */,
+				596FCC47C2D0D94F523569E0 /* Pods-comScore-iOS-SDK-dummy.m */,
+				44ED0B5A22D18919B1AC835F /* Pods-comScore-iOS-SDK-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-comScore-iOS-SDK";
+			sourceTree = "<group>";
+		};
+		4C28E093746F7CDCD6AB3DF8 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				0698F19F4D45AE33FF2FF039 /* Pods */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		AD5211876E7E40136E4D1179 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FEBD71EA5E0E5928880E7902 /* libcomScore.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BDEFE7B70ED77053C6C940D2 = {
+			isa = PBXGroup;
+			children = (
+				CB577039306B334CDDA09010 /* Podfile */,
+				C777467B593131EC640EA619 /* Frameworks */,
+				356E45AB82BDD942E31D283F /* Pods */,
+				23830F15C04515F4B222494D /* Products */,
+				4C28E093746F7CDCD6AB3DF8 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		C777467B593131EC640EA619 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CB3B3F8B73B403BED437BDBE /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CB3B3F8B73B403BED437BDBE /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				C4C9CEED436E9AE9C783F17D /* AVFoundation.framework */,
+				DB6003F8E26A36731F59ED2C /* CoreMedia.framework */,
+				36881216B6ACF3A179D9CA6D /* Foundation.framework */,
+				E5F2E14D2664E6B9C7FF9FF6 /* MediaPlayer.framework */,
+				ACFB4B5272EBE74D8DD05B6C /* SystemConfiguration.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0590FCE072440FC2B6EF9D11 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				552B761EF4F2EAF41116310C /* CSApplicationState.h in Headers */,
+				44C43FEFA2AD618766C90B5B /* CSCacheFlusher.h in Headers */,
+				7986A15D82C12683ADCDE84B /* CSCensus.h in Headers */,
+				CA95E80DD76A996193385F3D /* CSComScore.h in Headers */,
+				125E49725713804669BFAE2D /* CSCore.h in Headers */,
+				133A58601CF0CE4907312B8D /* CSEventType.h in Headers */,
+				7D2D7A71BA5A09761E5B508D /* CSKeepAlive.h in Headers */,
+				1E50C98233BE748680E5F065 /* CSMeasurementDispatcher.h in Headers */,
+				0304EB46766C59BD2D10632F /* CSNotificationsObserver.h in Headers */,
+				302452897DB01DD741FA9B48 /* CSOfflineCache.h in Headers */,
+				F1DEBF4411A42F0B1A59B015 /* CSSessionState.h in Headers */,
+				1F1C95A13EF211DE853D2A3E /* CSStorage.h in Headers */,
+				324E08272CA50C4F92CA7BDC /* CSStreamSense.h in Headers */,
+				77EEA650F84DEBBDE825A565 /* CSStreamSenseAVPlayerPlugin.h in Headers */,
+				187BC1545E3E776245612F59 /* CSStreamSenseClip.h in Headers */,
+				8ACEB471278BBEC62AFD4B69 /* CSStreamSenseDefines.h in Headers */,
+				A8088EDB38904FE2DD936DB6 /* CSStreamSenseDelegate.h in Headers */,
+				F53B57A726DB6B9793ABB293 /* CSStreamSenseMPMoviePlayerControllerPlugin.h in Headers */,
+				350EC8B6B18E61AC3A3C3D6E /* CSStreamSensePlaylist.h in Headers */,
+				E97AF4D46D008AAEB7EEC1C2 /* CSStreamSensePlugin.h in Headers */,
+				DBD8165F90BA6F3D2CD2F764 /* CSStreamSensePluginProtocol.h in Headers */,
+				246FE340E0A09BBD5AED2CD3 /* CSStreamSenseState.h in Headers */,
+				96F9D23DA16E253EA3F8CC5A /* CSStreamingTag.h in Headers */,
+				4DFEB28C7201C93B3BBC07ED /* CSTaskExecutor.h in Headers */,
+				D8DA482E5357F0AB8F5621E1 /* CSTransmissionMode.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2549E6F7F7CAD85079E9A741 /* Pods-comScore-iOS-SDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4D219498455442EAAF9414C6 /* Build configuration list for PBXNativeTarget "Pods-comScore-iOS-SDK" */;
+			buildPhases = (
+				8885B9DC667D7F6780FF855D /* Sources */,
+				18CC244B9B65EA32BDDB4CA0 /* Frameworks */,
+				0590FCE072440FC2B6EF9D11 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-comScore-iOS-SDK";
+			productName = "Pods-comScore-iOS-SDK";
+			productReference = F3D0404F30A3260FC6B1CB82 /* libPods-comScore-iOS-SDK.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		2F582B9C2FB21420CE2A5291 /* Pods */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 067AFB64229331A365153453 /* Build configuration list for PBXNativeTarget "Pods" */;
+			buildPhases = (
+				5A31D137E6AD5A13C4BDA57C /* Sources */,
+				99A1F0C416C43905DF5BCCDC /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7EF2C9BA379676D40D9DC025 /* PBXTargetDependency */,
+			);
+			name = Pods;
+			productName = Pods;
+			productReference = 823D40A5D410EEE5DF0AFCB7 /* libPods.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		101E6ABE8A40E4B07BEEDC10 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+			};
+			buildConfigurationList = 91A81133964756BA30D2A654 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BDEFE7B70ED77053C6C940D2;
+			productRefGroup = 23830F15C04515F4B222494D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2F582B9C2FB21420CE2A5291 /* Pods */,
+				2549E6F7F7CAD85079E9A741 /* Pods-comScore-iOS-SDK */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5A31D137E6AD5A13C4BDA57C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71C6594FE6F5C8D95F83CF82 /* Pods-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8885B9DC667D7F6780FF855D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A2B77FAE54D21E7A7C96DB1 /* Pods-comScore-iOS-SDK-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7EF2C9BA379676D40D9DC025 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-comScore-iOS-SDK";
+			target = 2549E6F7F7CAD85079E9A741 /* Pods-comScore-iOS-SDK */;
+			targetProxy = 105B78E8D70D5BCC1FC1960D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		215C17A67E2A3E61119FDECB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29E9F4FD0D89A4251F397D8C /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6CBD08FEFCF4FECC5ECB43EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		790D016F032B2ED8E6AB6865 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9188D59825EA0B16A8EC6B6D /* Pods-comScore-iOS-SDK-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-comScore-iOS-SDK/Pods-comScore-iOS-SDK-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		8F00B3FC172D73E782BC260A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D0620D6AF03E2BA16E788BC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9188D59825EA0B16A8EC6B6D /* Pods-comScore-iOS-SDK-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-comScore-iOS-SDK/Pods-comScore-iOS-SDK-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		E4F268302EAE72095960A960 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AAAE034BBB5322C9C8BF5B1A /* Pods.release.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		067AFB64229331A365153453 /* Build configuration list for PBXNativeTarget "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				215C17A67E2A3E61119FDECB /* Debug */,
+				E4F268302EAE72095960A960 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4D219498455442EAAF9414C6 /* Build configuration list for PBXNativeTarget "Pods-comScore-iOS-SDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0620D6AF03E2BA16E788BC9 /* Debug */,
+				790D016F032B2ED8E6AB6865 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		91A81133964756BA30D2A654 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6CBD08FEFCF4FECC5ECB43EC /* Debug */,
+				8F00B3FC172D73E782BC260A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 101E6ABE8A40E4B07BEEDC10 /* Project object */;
+}
