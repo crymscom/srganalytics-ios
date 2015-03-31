@@ -59,6 +59,7 @@
 		9F1519261AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsTrackerConfig.h; sourceTree = "<group>"; };
 		9F1519271AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTrackerConfig.m; sourceTree = "<group>"; };
 		9F1519291AC5906600AE051D /* RTSAnalyticsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsDataSource.h; sourceTree = "<group>"; };
+		9F1519501ACA9C3200AE051D /* RTSAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTSAnalytics.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +117,7 @@
 		9F1518BD1AC2F1CE00AE051D /* RTSAnalytics */ = {
 			isa = PBXGroup;
 			children = (
+				9F1519501ACA9C3200AE051D /* RTSAnalytics.h */,
 				9F1518BE1AC2F1CE00AE051D /* RTSAnalyticsTracker.h */,
 				9F1518C01AC2F1CE00AE051D /* RTSAnalyticsTracker.m */,
 				9F1519261AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.h */,
