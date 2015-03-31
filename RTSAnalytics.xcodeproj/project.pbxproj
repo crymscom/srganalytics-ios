@@ -50,8 +50,6 @@
 		9F1518C01AC2F1CE00AE051D /* RTSAnalyticsTracker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTracker.m; sourceTree = "<group>"; };
 		9F1518C61AC2F1CE00AE051D /* RTSAnalyticsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RTSAnalyticsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1518CC1AC2F1CE00AE051D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9F1519121AC30A0C00AE051D /* SRGViewCountProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRGViewCountProvider.h; path = RTSAnalytics/SRGViewCountProvider.h; sourceTree = "<group>"; };
-		9F1519131AC30A0C00AE051D /* SRGViewCountProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRGViewCountProvider.m; path = RTSAnalytics/SRGViewCountProvider.m; sourceTree = "<group>"; };
 		9F15191B1AC421AD00AE051D /* NSDictionary+RTSAnalyticsUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+RTSAnalyticsUtils.h"; path = "RTSAnalytics/NSDictionary+RTSAnalyticsUtils.h"; sourceTree = "<group>"; };
 		9F15191C1AC421AD00AE051D /* NSDictionary+RTSAnalyticsUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+RTSAnalyticsUtils.m"; path = "RTSAnalytics/NSDictionary+RTSAnalyticsUtils.m"; sourceTree = "<group>"; };
 		9F15191E1AC4221400AE051D /* NSString+RTSAnalyticsUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+RTSAnalyticsUtils.h"; path = "RTSAnalytics/NSString+RTSAnalyticsUtils.h"; sourceTree = "<group>"; };
@@ -99,7 +97,6 @@
 			children = (
 				9F1518BD1AC2F1CE00AE051D /* RTSAnalytics */,
 				9F15191A1AC4219000AE051D /* Categories */,
-				9F1519191AC40FA800AE051D /* __FUTURE__ */,
 				9F1518CA1AC2F1CE00AE051D /* RTSAnalyticsTests */,
 				9F1518BC1AC2F1CE00AE051D /* Products */,
 				672CEE20A4903FABD91AD0BD /* Pods */,
@@ -142,15 +139,6 @@
 				9F1518CC1AC2F1CE00AE051D /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		9F1519191AC40FA800AE051D /* __FUTURE__ */ = {
-			isa = PBXGroup;
-			children = (
-				9F1519121AC30A0C00AE051D /* SRGViewCountProvider.h */,
-				9F1519131AC30A0C00AE051D /* SRGViewCountProvider.m */,
-			);
-			name = __FUTURE__;
 			sourceTree = "<group>";
 		};
 		9F15191A1AC4219000AE051D /* Categories */ = {

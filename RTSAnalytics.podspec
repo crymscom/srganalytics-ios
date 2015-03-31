@@ -19,7 +19,11 @@ Pod::Spec.new do |s|
   
   s.requires_arc = true
     
-  s.source_files = "RTSAnalytics/*.{m,h}"
-  
+  s.source_files = "RTSAnalytics"
+  s.public_header_files   = "RTSAnalytics/*.h"
+
   s.frameworks = [ "Foundation", "UIKit" ]
+  
+  s.dependency "comScore-iOS-SDK", "3.1502.26"
+  s.dependency "RTSMediaPlayer", "~> 0.0.1"
 end
