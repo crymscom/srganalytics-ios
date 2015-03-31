@@ -90,7 +90,7 @@
     
 //  *** StreamSense ***
  
-    if (player.playbackState == RTSMediaPlaybackStatePendingPlay) {
+    if (player.playbackState == RTSMediaPlaybackStatePreparing || player.playbackState == RTSMediaPlaybackStateStalled) {
         _wasReadyToPlay = YES;
     }
 
