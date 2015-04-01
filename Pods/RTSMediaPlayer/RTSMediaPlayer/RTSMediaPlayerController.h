@@ -26,9 +26,14 @@ typedef NS_ENUM(NSInteger, RTSMediaPlaybackState) {
 	RTSMediaPlaybackStateIdle,
 	
 	/**
-	 *  Player is preparing to play the media. It will load everything needed to play the media. This can typically take some time under bad network conditions.
+	 *  The player is preparing to play the media. It will load everything needed to play the media. This can typically take some time under bad network conditions.
 	 */
 	RTSMediaPlaybackStatePreparing,
+	
+	/**
+	 *  The player is ready to play the media. The `player` property becomes available (i.e. is non-nil) upon entering this state.
+	 */
+	RTSMediaPlaybackStateReady,
 	
 	/**
 	 *  The media is playing, i.e. you can hear sound and/or see a video playing.
@@ -44,11 +49,6 @@ typedef NS_ENUM(NSInteger, RTSMediaPlaybackState) {
 	 *  The player is stalled, i.e. it is waiting for the media to resume playing.
 	 */
 	RTSMediaPlaybackStateStalled,
-	
-	/**
-	 *  The player is in the ended state when the media has reached its end. For a live media, this state is impossible.
-	 */
-	RTSMediaPlaybackStateEnded
 };
 
 /**
@@ -90,16 +90,12 @@ FOUNDATION_EXTERN NSString * const RTSMediaPlayerPlaybackDidFinishErrorUserInfoK
  *  Posted when the playback state changes, either programatically or by the user.
  */
 FOUNDATION_EXTERN NSString * const RTSMediaPlayerPlaybackStateDidChangeNotification;
+FOUNDATION_EXTERN NSString * const RTSMediaPlayerPreviousPlaybackStateUserInfoKey; // NSNumber (RTSMediaPlaybackState)
 
 /**
  *  Posted when the currently playing media changes. Used when calling `playIdentifier:`
  */
 FOUNDATION_EXTERN NSString * const RTSMediaPlayerNowPlayingMediaDidChangeNotification;
-
-/**
- *  Posted when the AVPlayer instances has been created and is ready to play the media`
- */
-FOUNDATION_EXTERN NSString * const RTSMediaPlayerIsReadyToPlayNotification;
 
 /**
  *  RTSMediaPlayerController is inspired by the MPMoviePlayerController class.
@@ -212,6 +208,8 @@ FOUNDATION_EXTERN NSString * const RTSMediaPlayerIsReadyToPlayNotification;
 - (void) play;
 
 - (void) prepareToPlay;
+
+@property BOOL playWhenReady;
 
 /**
  *  Start playing media specified with its identifier.

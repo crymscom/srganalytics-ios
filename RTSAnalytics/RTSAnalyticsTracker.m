@@ -19,7 +19,6 @@
 
 
 @interface RTSAnalyticsTracker () {
-    BOOL _wasReadyToPlay;
 //    BOOL _wasSegmentSelected; // To be used when we need to distinguish segments being played and segments selected by the user.
 }
 @property(nonatomic, strong) RTSAnalyticsTrackerConfig *config;
@@ -75,29 +74,25 @@
     [CSComScore viewWithLabels:[self.dataSource comScoreLabelsForAppEnteringForeground]];
 }
 
-- (void)sendComScoreMetadataUponVideoPlaybackReadyToPlayNotification:(NSNotification *)notification
-{
-}
-
 - (void)sendMetadataUponVideoPlayerViewStatusChange:(NSNotification *)notification
 {
     RTSMediaPlayerController *player = [notification object];
     
 //  *** comScore ***
     
-    NSDictionary *labels = [self.dataSource comScoreReadyToPlayLabelsForIdentifier:player.identifier];
-    [CSComScore viewWithLabels:labels];
+    if (player.playbackState == RTSMediaPlaybackStateReady) {
+        NSDictionary *labels = [self.dataSource comScoreReadyToPlayLabelsForIdentifier:player.identifier];
+        [CSComScore viewWithLabels:labels];
+    }
     
 //  *** StreamSense ***
+    
+    RTSMediaPlaybackState oldState = [notification.userInfo[RTSMediaPlayerPreviousPlaybackStateUserInfoKey] integerValue];
+    RTSMediaPlaybackState newState = player.playbackState;
  
-    if (player.playbackState == RTSMediaPlaybackStatePreparing || player.playbackState == RTSMediaPlaybackStateStalled) {
-        _wasReadyToPlay = YES;
-    }
-
     CSStreamSense *streamSense = [self configuredStreamSenseInstance];
 
-    if (_wasReadyToPlay && (player.playbackState == RTSMediaPlaybackStatePlaying)) {
-        _wasReadyToPlay = NO;
+    if (oldState == RTSMediaPlaybackStateReady && newState == RTSMediaPlaybackStatePlaying) {
         [[streamSense playlist] setLabels:[self.dataSource streamSensePlaylistMetadataForIdentifier:player.identifier]];
         [[streamSense clip] setLabels:[self.dataSource streamSenseFullLengthClipMetadataForIdentifier:player.identifier]];
         [streamSense notify:CSStreamSensePlay position:0];
@@ -120,8 +115,8 @@
             case RTSMediaPlaybackStatePlaying:
                 return CSStreamSensePlay;
 
-            case RTSMediaPlaybackStateEnded:
-                return CSStreamSenseEnd;
+            case RTSMediaPlaybackStateReady:
+                return (oldState == RTSMediaPlaybackStatePlaying) ? CSStreamSenseEnd : CSStreamSenseCustom;
 
             default:
                 return CSStreamSenseCustom;

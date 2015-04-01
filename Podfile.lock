@@ -23,7 +23,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   RTSMediaPlayer:
-    :commit: 0f686b73568bf1da3a3cf9627c910e5e85298e3f
+    :commit: 833a162ef1da78fa605d3cf963e74b087163cc3a
     :git: git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git
   TransitionKit:
     :commit: 6874dea2229bdefb89f6c8f708f1fae467ee5ba2
