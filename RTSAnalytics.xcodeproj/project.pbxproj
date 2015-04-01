@@ -18,6 +18,10 @@
 		9F1519281AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1519271AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.m */; };
 		9FD74D3A1ACC1DC600A2D86A /* CSRequest+RTSNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD74D371ACC1DC600A2D86A /* CSRequest+RTSNotification.m */; };
 		9FD74D3D1ACC240700A2D86A /* RTSAnalyticsTrackerConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD74D3C1ACC240700A2D86A /* RTSAnalyticsTrackerConfigTest.m */; };
+		9FD74D3F1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD74D3E1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m */; };
+		9FD74D411ACC2DDC00A2D86A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */; };
+		9FD74D431ACC2DF900A2D86A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */; };
+		AF02266D66D1568E51B1517C /* libPods-RTSAnalyticsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 948C8D45046D41F3F8256570 /* libPods-RTSAnalyticsTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,9 +48,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		07F149EED1FD7EFE5F5A2EF8 /* Pods-RTSAnalyticsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RTSAnalyticsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RTSAnalyticsTests/Pods-RTSAnalyticsTests.release.xcconfig"; sourceTree = "<group>"; };
 		3BDB9122CCBE15E6075B5D31 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		62EA57A2AB29B2C32F9A9566 /* Pods-RTSAnalyticsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RTSAnalyticsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RTSAnalyticsTests/Pods-RTSAnalyticsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6AA4E3FD5E876FA798EC44DA /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		6D062CCDFB80D8AA5143D6B7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		948C8D45046D41F3F8256570 /* libPods-RTSAnalyticsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RTSAnalyticsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1518BB1AC2F1CE00AE051D /* libRTSAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRTSAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1518BE1AC2F1CE00AE051D /* RTSAnalyticsTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsTracker.h; sourceTree = "<group>"; };
 		9F1518C01AC2F1CE00AE051D /* RTSAnalyticsTracker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTracker.m; sourceTree = "<group>"; };
@@ -65,6 +72,9 @@
 		9FD74D361ACC1DC600A2D86A /* CSRequest+RTSNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CSRequest+RTSNotification.h"; path = "RTSAnalytics/CSRequest+RTSNotification.h"; sourceTree = "<group>"; };
 		9FD74D371ACC1DC600A2D86A /* CSRequest+RTSNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CSRequest+RTSNotification.m"; path = "RTSAnalytics/CSRequest+RTSNotification.m"; sourceTree = "<group>"; };
 		9FD74D3C1ACC240700A2D86A /* RTSAnalyticsTrackerConfigTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTrackerConfigTest.m; sourceTree = "<group>"; };
+		9FD74D3E1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTrackerTest.m; sourceTree = "<group>"; };
+		9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +92,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FD74D431ACC2DF900A2D86A /* SystemConfiguration.framework in Frameworks */,
+				9FD74D411ACC2DDC00A2D86A /* CFNetwork.framework in Frameworks */,
 				9F1518C71AC2F1CE00AE051D /* libRTSAnalytics.a in Frameworks */,
+				AF02266D66D1568E51B1517C /* libPods-RTSAnalyticsTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +107,8 @@
 			children = (
 				6D062CCDFB80D8AA5143D6B7 /* Pods.debug.xcconfig */,
 				6AA4E3FD5E876FA798EC44DA /* Pods.release.xcconfig */,
+				62EA57A2AB29B2C32F9A9566 /* Pods-RTSAnalyticsTests.debug.xcconfig */,
+				07F149EED1FD7EFE5F5A2EF8 /* Pods-RTSAnalyticsTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -135,6 +150,7 @@
 		9F1518CA1AC2F1CE00AE051D /* RTSAnalyticsTests */ = {
 			isa = PBXGroup;
 			children = (
+				9FD74D3E1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m */,
 				9FD74D3C1ACC240700A2D86A /* RTSAnalyticsTrackerConfigTest.m */,
 				9F1518CB1AC2F1CE00AE051D /* Supporting Files */,
 			);
@@ -165,9 +181,12 @@
 		AC99606425BE818BA71D7E4D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */,
+				9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */,
 				9F1519231AC422B800AE051D /* Foundation.framework */,
 				9F1519211AC422AE00AE051D /* UIKit.framework */,
 				3BDB9122CCBE15E6075B5D31 /* libPods.a */,
+				948C8D45046D41F3F8256570 /* libPods-RTSAnalyticsTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,9 +217,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9F1518D21AC2F1CE00AE051D /* Build configuration list for PBXNativeTarget "RTSAnalyticsTests" */;
 			buildPhases = (
+				B6EBEFF0C9DF9A6707EE001E /* Check Pods Manifest.lock */,
 				9F1518C21AC2F1CE00AE051D /* Sources */,
 				9F1518C31AC2F1CE00AE051D /* Frameworks */,
 				9F1518C41AC2F1CE00AE051D /* Resources */,
+				F43E35ED449D9104757E6530 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -288,6 +309,36 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B6EBEFF0C9DF9A6707EE001E /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F43E35ED449D9104757E6530 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RTSAnalyticsTests/Pods-RTSAnalyticsTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -308,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FD74D3D1ACC240700A2D86A /* RTSAnalyticsTrackerConfigTest.m in Sources */,
+				9FD74D3F1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +476,7 @@
 		};
 		9F1518D31AC2F1CE00AE051D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62EA57A2AB29B2C32F9A9566 /* Pods-RTSAnalyticsTests.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -441,6 +494,7 @@
 		};
 		9F1518D41AC2F1CE00AE051D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 07F149EED1FD7EFE5F5A2EF8 /* Pods-RTSAnalyticsTests.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
