@@ -29,11 +29,17 @@
 
 - (NSString *)appName
 {
+    if (NSClassFromString(@"XCTestCase") != NULL) {
+        return @"<TestAppName>";
+    }
     return [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"] stringByAppendingString:@" iOS"];
 }
 
 - (NSString *)version
 {
+    if (NSClassFromString(@"XCTestCase") != NULL) {
+        return @"<TestVersion>";
+    }
     return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 }
 

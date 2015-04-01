@@ -88,19 +88,18 @@ static NSString * const RTSAnalyticsLoggerDomainAnalyticsComscore = @"Comscore";
     DDLogInfo(@"Sending comScore and streamSense metadata upon player status did change");
     
     RTSMediaPlayerController *player = [notification object];
-    
+    RTSMediaPlaybackState oldState = [notification.userInfo[RTSMediaPlayerPreviousPlaybackStateUserInfoKey] integerValue];
+    RTSMediaPlaybackState newState = player.playbackState;
+
 //  *** comScore ***
     
-    if (player.playbackState == RTSMediaPlaybackStateReady) {
+    if (oldState == RTSMediaPlaybackStatePreparing && player.playbackState == RTSMediaPlaybackStateReady) {
         NSDictionary *labels = [self.dataSource comScoreReadyToPlayLabelsForIdentifier:player.identifier];
         [CSComScore viewWithLabels:labels];
     }
     
 //  *** StreamSense ***
     
-    RTSMediaPlaybackState oldState = [notification.userInfo[RTSMediaPlayerPreviousPlaybackStateUserInfoKey] integerValue];
-    RTSMediaPlaybackState newState = player.playbackState;
- 
     CSStreamSense *streamSense = [self configuredStreamSenseInstance];
 
     if (oldState == RTSMediaPlaybackStateReady && newState == RTSMediaPlaybackStatePlaying) {
