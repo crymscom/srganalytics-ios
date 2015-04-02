@@ -93,7 +93,7 @@ static NSString * const RTSAnalyticsLoggerDomainAnalyticsComscore = @"Comscore";
 
 //  *** comScore ***
     
-    if (oldState == RTSMediaPlaybackStatePreparing && player.playbackState == RTSMediaPlaybackStateReady) {
+    if (oldState == RTSMediaPlaybackStatePreparing && newState == RTSMediaPlaybackStateReady) {
         NSDictionary *labels = [self.dataSource comScoreReadyToPlayLabelsForIdentifier:player.identifier];
         [CSComScore viewWithLabels:labels];
     }
