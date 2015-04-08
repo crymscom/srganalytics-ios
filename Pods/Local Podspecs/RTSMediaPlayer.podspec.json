@@ -1,6 +1,6 @@
 {
   "name": "RTSMediaPlayer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "summary": "Shared media player for RTS mobile apps.",
   "homepage": "ssh://git@bitbucket.org/rtsmb/rtsmediaplayer-ios.git",
   "authors": {
@@ -10,7 +10,7 @@
   "source": {
     "git": "ssh://git@bitbucket.org/rtsmb/rtsmediaplayer-ios.git",
     "branch": "master",
-    "tag": "0.0.1"
+    "tag": "0.0.2"
   },
   "platforms": {
     "ios": "7.0"
