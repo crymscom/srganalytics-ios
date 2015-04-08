@@ -121,6 +121,9 @@ static NSString * const RTSAnalyticsLoggerDomainAnalyticsComscore = @"Comscore";
             case RTSMediaPlaybackStateReady:
                 return (oldState == RTSMediaPlaybackStatePlaying) ? CSStreamSenseEnd : CSStreamSenseCustom;
 
+            case RTSMediaPlaybackStateEnded:
+                return CSStreamSenseEnd;
+
             default:
                 return CSStreamSenseCustom;
         }
