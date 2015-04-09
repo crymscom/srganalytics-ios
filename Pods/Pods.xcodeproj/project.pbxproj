@@ -1246,7 +1246,7 @@
 		41B7181A482F69D1945B4487 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0620;
 			};
 			buildConfigurationList = 14F41D1113E319A0DABE9814 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1474,6 +1474,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 095B0C4EF52C269516C2ABA0 /* Pods-TransitionKit-Private.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-TransitionKit/Pods-TransitionKit-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1489,6 +1490,7 @@
 		0441667FFFF35597DBF376FB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				PRODUCT_NAME = RTSMediaPlayer;
 				SDKROOT = iphoneos;
@@ -1501,6 +1503,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 234D3B6ED8A9E092B6F85A09 /* Pods-RTSAnalyticsTests-OCMock-Private.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-RTSAnalyticsTests-OCMock/Pods-RTSAnalyticsTests-OCMock-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1517,6 +1520,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ABC224DC1F422E872023DB94 /* Pods-CocoaLumberjack-Private.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-CocoaLumberjack/Pods-CocoaLumberjack-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1533,6 +1537,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 37D6073FB346F8B8E01AB1D6 /* Pods.debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1588,6 +1593,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AB6B17441481CF6332148305 /* Pods-RTSAnalyticsTests.debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1604,6 +1610,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3948464C729AF767BF551666 /* Pods-RTSMediaPlayer-Private.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-RTSMediaPlayer/Pods-RTSMediaPlayer-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1620,6 +1627,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A3F584A2A5EFA1D8DF41993E /* Pods-comScore-iOS-SDK-Private.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-comScore-iOS-SDK/Pods-comScore-iOS-SDK-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1636,6 +1644,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3948464C729AF767BF551666 /* Pods-RTSMediaPlayer-Private.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-RTSMediaPlayer/Pods-RTSMediaPlayer-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1651,6 +1660,7 @@
 		8BBB234EE5B67CBF2369F028 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				PRODUCT_NAME = RTSMediaPlayer;
 				SDKROOT = iphoneos;
@@ -1663,6 +1673,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 095B0C4EF52C269516C2ABA0 /* Pods-TransitionKit-Private.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-TransitionKit/Pods-TransitionKit-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1679,6 +1690,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E463853C9AFA43EF81BEF079 /* Pods-libextobjc-Private.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-libextobjc/Pods-libextobjc-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1695,6 +1707,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A3F584A2A5EFA1D8DF41993E /* Pods-comScore-iOS-SDK-Private.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-comScore-iOS-SDK/Pods-comScore-iOS-SDK-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1711,6 +1724,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 234D3B6ED8A9E092B6F85A09 /* Pods-RTSAnalyticsTests-OCMock-Private.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-RTSAnalyticsTests-OCMock/Pods-RTSAnalyticsTests-OCMock-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1727,6 +1741,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 96DA5692CE7CCA17F322DDC7 /* Pods-RTSAnalyticsTests.release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1777,6 +1792,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ABC224DC1F422E872023DB94 /* Pods-CocoaLumberjack-Private.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-CocoaLumberjack/Pods-CocoaLumberjack-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1793,6 +1809,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E463853C9AFA43EF81BEF079 /* Pods-libextobjc-Private.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-libextobjc/Pods-libextobjc-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1809,6 +1826,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F9F4E7D84463C9D245DD5235 /* Pods.release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
