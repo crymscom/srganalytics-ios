@@ -51,31 +51,9 @@ typedef NS_ENUM(NSInteger, RTSMediaPlaybackState) {
 	RTSMediaPlaybackStateStalled,
 	
 	/**
-	 *  The player has reached the end of the media and has automatically stopped playback. Upon entering this state, the `RTSMediaPlayerPlaybackDidFinishNotification` is posted with `RTSMediaFinishReasonPlaybackEnded`.
+	 *  The player has reached the end of the media and has automatically stopped playback.
 	 */
 	RTSMediaPlaybackStateEnded,
-};
-
-/**
- *  @enum RTSMediaFinishReason
- *
- *  Enumeration of the possible finished reasons used by `RTSMediaPlayerPlaybackDidFinishNotification`.
- */
-typedef NS_ENUM(NSInteger, RTSMediaFinishReason) {
-	/**
-	 *  Ended because player reached the end of the media
-	 */
-	RTSMediaFinishReasonPlaybackEnded,
-	
-	/**
-	 *  Ended due to an error
-	 */
-	RTSMediaFinishReasonPlaybackError,
-	
-	/**
-	 *  Ended without error and also without reaching the end of the stream
-	 */
-	RTSMediaFinishReasonUserExited
 };
 
 /**
@@ -84,23 +62,14 @@ typedef NS_ENUM(NSInteger, RTSMediaFinishReason) {
  *  -------------------
  */
 
-/**
- *  Posted when media playback ends or a user exits playback.
- */
-FOUNDATION_EXTERN NSString * const RTSMediaPlayerPlaybackDidFinishNotification;
-FOUNDATION_EXTERN NSString * const RTSMediaPlayerPlaybackDidFinishReasonUserInfoKey; // NSNumber (RTSMediaFinishReason)
-FOUNDATION_EXTERN NSString * const RTSMediaPlayerPlaybackDidFinishErrorUserInfoKey; // NSError
+FOUNDATION_EXTERN NSString * const RTSMediaPlayerPlaybackDidFailNotification;
+FOUNDATION_EXTERN NSString * const RTSMediaPlayerPlaybackDidFailErrorUserInfoKey; // NSError
 
 /**
  *  Posted when the playback state changes, either programatically or by the user.
  */
 FOUNDATION_EXTERN NSString * const RTSMediaPlayerPlaybackStateDidChangeNotification;
 FOUNDATION_EXTERN NSString * const RTSMediaPlayerPreviousPlaybackStateUserInfoKey; // NSNumber (RTSMediaPlaybackState)
-
-/**
- *  Posted when the currently playing media changes. Used when calling `playIdentifier:`
- */
-FOUNDATION_EXTERN NSString * const RTSMediaPlayerNowPlayingMediaDidChangeNotification;
 
 /**
  *  RTSMediaPlayerController is inspired by the MPMoviePlayerController class.
@@ -205,16 +174,7 @@ FOUNDATION_EXTERN NSString * const RTSMediaPlayerNowPlayingMediaDidChangeNotific
  *  --------------------------
  */
 
-/**
- *  Start playing the current media.
- *
- *  @see identifier
- */
-- (void) play;
-
 - (void) prepareToPlay;
-
-@property BOOL playWhenReady;
 
 /**
  *  Start playing media specified with its identifier.
@@ -226,21 +186,9 @@ FOUNDATION_EXTERN NSString * const RTSMediaPlayerNowPlayingMediaDidChangeNotific
 - (void) playIdentifier:(NSString *)identifier;
 
 /**
- *  Pause the currently playing media.
- */
-- (void) pause;
-
-/**
  *  Stop playing the current media.
  */
-- (void) stop;
-
-/**
- *  Moves the playback cursor to a given time.
- *
- *  @param time The time to which to move the playback cursor.
- */
-- (void) seekToTime:(NSTimeInterval)time;
+- (void) reset;
 
 /**
  *  -------------------

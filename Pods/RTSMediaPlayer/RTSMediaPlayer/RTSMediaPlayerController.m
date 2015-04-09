@@ -3,16 +3,19 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
+#import "RTSMediaPlayerError.h"
 #import "RTSMediaPlayerController.h"
 #import "RTSMediaPlayerView.h"
 #import "RTSActivityGestureRecognizer.h"
+#import "RTSInvocationRecorder.h"
 
 #import <TransitionKit/TransitionKit.h>
 #import <libextobjc/EXTScope.h>
 
-NSString * const RTSMediaPlayerPlaybackDidFinishNotification = @"RTSMediaPlayerPlaybackDidFinish";
+NSString * const RTSMediaPlayerErrorDomain = @"RTSMediaPlayerErrorDomain";
+
+NSString * const RTSMediaPlayerPlaybackDidFailNotification = @"RTSMediaPlayerPlaybackDidFail";
 NSString * const RTSMediaPlayerPlaybackStateDidChangeNotification = @"RTSMediaPlayerPlaybackStateDidChange";
-NSString * const RTSMediaPlayerNowPlayingMediaDidChangeNotification = @"RTSMediaPlayerNowPlayingMediaDidChange";
 
 NSString * const RTSMediaPlayerWillShowControlOverlaysNotification = @"RTSMediaPlayerWillShowControlOverlays";
 NSString * const RTSMediaPlayerDidShowControlOverlaysNotification = @"RTSMediaPlayerDidShowControlOverlays";
@@ -20,8 +23,7 @@ NSString * const RTSMediaPlayerWillHideControlOverlaysNotification = @"RTSMediaP
 NSString * const RTSMediaPlayerDidHideControlOverlaysNotification = @"RTSMediaPlayerDidHideControlOverlays";
 
 
-NSString * const RTSMediaPlayerPlaybackDidFinishReasonUserInfoKey = @"Reason";
-NSString * const RTSMediaPlayerPlaybackDidFinishErrorUserInfoKey = @"Error";
+NSString * const RTSMediaPlayerPlaybackDidFailErrorUserInfoKey = @"Error";
 
 NSString * const RTSMediaPlayerPreviousPlaybackStateUserInfoKey = @"PreviousPlaybackState";
 
@@ -80,8 +82,6 @@ NSString * const RTSMediaPlayerPreviousPlaybackStateUserInfoKey = @"PreviousPlay
 	_identifier = identifier;
 	_dataSource = dataSource;
 	
-	_previousPlaybackTime = kCMTimeInvalid;
-	
 	[self.stateMachine activate];
 	
 	return self;
@@ -89,7 +89,10 @@ NSString * const RTSMediaPlayerPreviousPlaybackStateUserInfoKey = @"PreviousPlay
 
 - (void) dealloc
 {
-	[self stop];
+	if (![self.stateMachine.currentState isEqual:self.idleState])
+	{
+		NSLog(@"WARNING: The media player controller reached dealloc while still playing. You should call the `reset` method.");
+	}
 	self.player = nil;
 }
 
@@ -106,20 +109,12 @@ NSString * const RTSMediaPlayerPreviousPlaybackStateUserInfoKey = @"PreviousPlay
 
 #pragma mark - Loading
 
-static const NSString *ResultKey = @"Result";
-
-static NSDictionary * SuccessErrorInfo(id result)
-{
-	return @{ ResultKey: result };
-}
-
 static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 {
 	NSDictionary *userInfo = @{ NSLocalizedFailureReasonErrorKey: failureReason ?: @"Unknown failure reason.",
 	                            NSLocalizedDescriptionKey: @"An unknown error occured." };
-	NSError *unknownError = [NSError errorWithDomain:@"RTSMediaPlayerErrorDomain" code:0 userInfo:userInfo];
-	return @{ RTSMediaPlayerPlaybackDidFinishReasonUserInfoKey: @(RTSMediaFinishReasonPlaybackError),
-	          RTSMediaPlayerPlaybackDidFinishErrorUserInfoKey: error ?: unknownError };
+	NSError *unknownError = [NSError errorWithDomain:RTSMediaPlayerErrorDomain code:RTSMediaPlayerErrorUnknown userInfo:userInfo];
+	return @{ RTSMediaPlayerPlaybackDidFailErrorUserInfoKey: error ?: unknownError };
 }
 
 - (TKStateMachine *) stateMachine
@@ -181,10 +176,10 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 		self.playbackState = [states[transition.destinationState.name] integerValue];
 	}];
 	
-	[end setDidFireEventBlock:^(TKEvent *event, TKTransition *transition) {
+	[idle setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
 		@strongify(self)
-		NSDictionary *userInfo = @{ RTSMediaPlayerPlaybackDidFinishReasonUserInfoKey: @(RTSMediaFinishReasonPlaybackEnded) };
-		[self postNotificationName:RTSMediaPlayerPlaybackDidFinishNotification userInfo:userInfo];
+		self.previousPlaybackTime = kCMTimeInvalid;
+		self.player = (AVPlayer *)[[RTSInvocationRecorder alloc] initWithTargetClass:[AVPlayer class]];
 	}];
 	
 	[load setDidFireEventBlock:^(TKEvent *event, TKTransition *transition) {
@@ -209,20 +204,16 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	[loadSuccess setDidFireEventBlock:^(TKEvent *event, TKTransition *transition) {
 		@strongify(self)
 		[self registerPeriodicTimeObserver];
-		if (self.playWhenReady)
-			[self play];
 	}];
 	
 	[reset setDidFireEventBlock:^(TKEvent *event, TKTransition *transition) {
 		@strongify(self)
-		if ([@[ playing, paused, stalled ] containsObject:transition.sourceState])
+		NSDictionary *errorUserInfo = transition.userInfo;
+		if (errorUserInfo)
 		{
-			NSDictionary *userInfo = transition.userInfo ?: @{ RTSMediaPlayerPlaybackDidFinishReasonUserInfoKey: @(RTSMediaFinishReasonUserExited) };
-			[self postNotificationName:RTSMediaPlayerPlaybackDidFinishNotification userInfo:userInfo];
+			[self postNotificationName:RTSMediaPlayerPlaybackDidFailNotification userInfo:errorUserInfo];
 		}
-		
 		self.playerView.player = nil;
-		self.player = nil;
 	}];
 	
 	self.idleState = idle;
@@ -256,35 +247,13 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 - (void) postNotificationName:(NSString *)notificationName userInfo:(NSDictionary *)userInfo
 {
 	NSNotification *notification = [NSNotification notificationWithName:notificationName object:self userInfo:userInfo];
-	[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:NO];
+	if ([NSThread isMainThread])
+		[[NSNotificationCenter defaultCenter] postNotification:notification];
+	else
+		[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:NO];
 }
 
 #pragma mark - Playback
-
-- (void) play
-{
-	if (self.player)
-	{
-		[self.player play];
-	}
-	else
-	{
-		self.playWhenReady = YES;
-		[self prepareToPlay];
-	}
-}
-
-- (void) pause
-{
-	if (self.player)
-	{
-		[self.player pause];
-	}
-	else
-	{
-		self.playWhenReady = NO;
-	}
-}
 
 - (void) prepareToPlay
 {
@@ -295,24 +264,20 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 {
 	if (![self.identifier isEqualToString:identifier])
 	{
-		[self stop];
+		[self reset];
 		self.identifier = identifier;
 	}
 	
-	[self play];
+	[self.player play];
 }
 
-- (void) stop
+- (void) reset
 {
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(prepareToPlay) object:nil];
 	if (![self.stateMachine.currentState isEqual:self.idleState])
 	{
 		[self fireEvent:self.resetEvent userInfo:nil];
 	}
-}
-
-- (void) seekToTime:(NSTimeInterval)time
-{
-	[self.player seekToTime:CMTimeMakeWithSeconds(time, 1000) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:NULL];
 }
 
 - (RTSMediaPlaybackState) playbackState
@@ -346,6 +311,10 @@ static const void * const AVPlayerItemStatusContext = &AVPlayerItemStatusContext
 {
 	@synchronized(self)
 	{
+		if ([_player isProxy])
+		{
+			[self performSelector:@selector(prepareToPlay) withObject:nil afterDelay:0];
+		}
 		return _player;
 	}
 }
@@ -354,14 +323,30 @@ static const void * const AVPlayerItemStatusContext = &AVPlayerItemStatusContext
 {
 	@synchronized(self)
 	{
-		[_player removeObserver:self forKeyPath:@"currentItem.status" context:(void *)AVPlayerItemStatusContext];
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
-		[_player removeTimeObserver:self.periodicTimeObserver];
+		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+		if ([_player isProxy])
+		{
+			for (NSInvocation *invocation in ((RTSInvocationRecorder *)_player).invocations)
+			{
+				[invocation invokeWithTarget:player];
+			}
+		}
+		else
+		{
+			[_player removeObserver:self forKeyPath:@"currentItem.status" context:(void *)AVPlayerItemStatusContext];
+			[defaultCenter removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
+			[defaultCenter removeObserver:self name:AVPlayerItemFailedToPlayToEndTimeNotification object:_player.currentItem];
+			[_player removeTimeObserver:self.periodicTimeObserver];
+		}
 		
 		_player = player;
 		
-		[_player addObserver:self forKeyPath:@"currentItem.status" options:0 context:(void *)AVPlayerItemStatusContext];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
+		if (![_player isProxy])
+		{
+			[_player addObserver:self forKeyPath:@"currentItem.status" options:0 context:(void *)AVPlayerItemStatusContext];
+			[defaultCenter addObserver:self selector:@selector(playerItemDidPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
+			[defaultCenter addObserver:self selector:@selector(playerItemFailedToPlayToEndTime:) name:AVPlayerItemFailedToPlayToEndTimeNotification object:_player.currentItem];
+		}
 	}
 }
 
@@ -404,7 +389,7 @@ static const void * const AVPlayerItemStatusContext = &AVPlayerItemStatusContext
 		switch (playerItem.status)
 		{
 			case AVPlayerItemStatusReadyToPlay:
-				[self fireEvent:self.loadSuccessEvent userInfo:SuccessErrorInfo(playerItem)];
+				[self fireEvent:self.loadSuccessEvent userInfo:nil];
 				break;
 			case AVPlayerItemStatusFailed:
 				[self fireEvent:self.resetEvent userInfo:ErrorUserInfo(playerItem.error, @"The AVPlayerItem did report a failed status without an error.")];
@@ -422,6 +407,12 @@ static const void * const AVPlayerItemStatusContext = &AVPlayerItemStatusContext
 - (void) playerItemDidPlayToEndTime:(NSNotification *)notification
 {
 	[self fireEvent:self.endEvent userInfo:nil];
+}
+
+- (void) playerItemFailedToPlayToEndTime:(NSNotification *)notification
+{
+	NSError *error = notification.userInfo[AVPlayerItemFailedToPlayToEndTimeErrorKey];
+	[self fireEvent:self.resetEvent userInfo:ErrorUserInfo(error, @"AVPlayerItemFailedToPlayToEndTimeNotification did not provide an error.")];
 }
 
 #pragma mark - View
