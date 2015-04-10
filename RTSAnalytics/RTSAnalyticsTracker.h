@@ -4,12 +4,22 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RTSAnalyticsTrackerConfig.h"
-#import "RTSAnalyticsDataSource.h"
+
+#import "RTSAnalyticsMediaPlayerDataSource.h"
 
 @interface RTSAnalyticsTracker : NSObject
 
-- (instancetype)initWithConfig:(RTSAnalyticsTrackerConfig *)config dataSource:(id<RTSAnalyticsDataSource>)dataSource;
+/**
+ *  Singleton instance of the tracker
+ *
+ *  @return Instance
+ */
++ (instancetype)sharedTracker;
+
+/**
+ *  <#Description#>
+ */
+- (void)startTrackingWithMediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource;
 
 
 @end

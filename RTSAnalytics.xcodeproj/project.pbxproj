@@ -15,7 +15,6 @@
 		9F1519201AC4221400AE051D /* NSString+RTSAnalyticsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F15191F1AC4221400AE051D /* NSString+RTSAnalyticsUtils.m */; };
 		9F1519221AC422AE00AE051D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1519211AC422AE00AE051D /* UIKit.framework */; };
 		9F1519241AC422B800AE051D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1519231AC422B800AE051D /* Foundation.framework */; };
-		9F1519281AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1519271AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.m */; };
 		9FD74D3A1ACC1DC600A2D86A /* CSRequest+RTSNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD74D371ACC1DC600A2D86A /* CSRequest+RTSNotification.m */; };
 		9FD74D3D1ACC240700A2D86A /* RTSAnalyticsTrackerConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD74D3C1ACC240700A2D86A /* RTSAnalyticsTrackerConfigTest.m */; };
 		9FD74D3F1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD74D3E1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m */; };
@@ -66,9 +65,7 @@
 		9F15191F1AC4221400AE051D /* NSString+RTSAnalyticsUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+RTSAnalyticsUtils.m"; path = "RTSAnalytics/NSString+RTSAnalyticsUtils.m"; sourceTree = "<group>"; };
 		9F1519211AC422AE00AE051D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F1519231AC422B800AE051D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		9F1519261AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsTrackerConfig.h; sourceTree = "<group>"; };
-		9F1519271AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTrackerConfig.m; sourceTree = "<group>"; };
-		9F1519291AC5906600AE051D /* RTSAnalyticsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsDataSource.h; sourceTree = "<group>"; };
+		9F1519291AC5906600AE051D /* RTSAnalyticsMediaPlayerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsMediaPlayerDataSource.h; sourceTree = "<group>"; };
 		9F1519501ACA9C3200AE051D /* RTSAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTSAnalytics.h; sourceTree = "<group>"; };
 		9FD74D361ACC1DC600A2D86A /* CSRequest+RTSNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CSRequest+RTSNotification.h"; path = "RTSAnalytics/CSRequest+RTSNotification.h"; sourceTree = "<group>"; };
 		9FD74D371ACC1DC600A2D86A /* CSRequest+RTSNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CSRequest+RTSNotification.m"; path = "RTSAnalytics/CSRequest+RTSNotification.m"; sourceTree = "<group>"; };
@@ -141,11 +138,9 @@
 			isa = PBXGroup;
 			children = (
 				9F1519501ACA9C3200AE051D /* RTSAnalytics.h */,
+				9F1519291AC5906600AE051D /* RTSAnalyticsMediaPlayerDataSource.h */,
 				9F1518BE1AC2F1CE00AE051D /* RTSAnalyticsTracker.h */,
 				9F1518C01AC2F1CE00AE051D /* RTSAnalyticsTracker.m */,
-				9F1519261AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.h */,
-				9F1519271AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.m */,
-				9F1519291AC5906600AE051D /* RTSAnalyticsDataSource.h */,
 				B671DDD81AD553E300474526 /* RTSAnalyticsTracker+Logging.h */,
 				B671DDD91AD553E300474526 /* RTSAnalyticsTracker+Logging.m */,
 			);
@@ -351,7 +346,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F1519281AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.m in Sources */,
 				B671DDDA1AD553E300474526 /* RTSAnalyticsTracker+Logging.m in Sources */,
 				9FD74D3A1ACC1DC600A2D86A /* CSRequest+RTSNotification.m in Sources */,
 				9F1518C11AC2F1CE00AE051D /* RTSAnalyticsTracker.m in Sources */,
