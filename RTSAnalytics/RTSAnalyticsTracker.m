@@ -7,6 +7,7 @@
 
 #import <RTSMediaPlayer/RTSMediaPlayerController.h>
 #import "RTSMediaPlayerControllerStreamSenseTracker.h"
+#import "RTSAnalyticsNetmetrixTracker.h"
 
 #import "NSString+RTSAnalyticsUtils.h"
 #import "NSDictionary+RTSAnalyticsUtils.h"
@@ -24,6 +25,7 @@
 
 @interface RTSAnalyticsTracker ()
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
+@property (nonatomic, strong) RTSAnalyticsNetmetrixTracker *netmetrixTracker;
 @property (nonatomic, strong) NSMutableDictionary *streamsenseTrackers;
 @end
 
@@ -54,6 +56,10 @@
 	[CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
 	[CSComScore setLabels:[self comScoreGlobalLabels]];
 	
+	NSString *netmetrixAppID = [self infoDictionnaryValueForKey:@"NetmetrixAppID"];
+	NSString *netmetrixDomain = [self infoDictionnaryValueForKey:@"NetmetrixDomain"];
+	self.netmetrixTracker = [[RTSAnalyticsNetmetrixTracker alloc] initWithAppID:netmetrixAppID domain:netmetrixDomain];
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackStateDidChange:) name:RTSMediaPlayerPlaybackStateDidChangeNotification object:nil];
@@ -80,6 +86,13 @@
 			  @"srg_ap_push": @"0",
 			  @"ns_site": @"mainsite",
 			  @"ns_vsite": comScoreVirtualSite};
+}
+
+- (NSString *) infoDictionnaryValueForKey:(NSString *)key
+{
+	NSBundle *mainBundle = [NSBundle mainBundle];
+	NSDictionary *analyticsInfoDictionnary = [mainBundle objectForInfoDictionaryKey:@"RTSAnalytics"];
+	return [analyticsInfoDictionnary objectForKey:key];
 }
 
 #pragma mark - Notifications
@@ -152,6 +165,8 @@
 	[labels safeSetValue:[NSString stringWithFormat:@"%@.%@", category, title] forKey:@"name"];
 	
 	[CSComScore viewWithLabels:labels];
+	
+	[self.netmetrixTracker trackView];
 }
 
 #pragma mark - Stream tracking

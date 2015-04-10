@@ -24,6 +24,7 @@
 		B671DDDA1AD553E300474526 /* RTSAnalyticsTracker+Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = B671DDD91AD553E300474526 /* RTSAnalyticsTracker+Logging.m */; };
 		B671DDDD1AD55FC100474526 /* RTSMediaPlayerControllerStreamSenseTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B671DDDC1AD55FC100474526 /* RTSMediaPlayerControllerStreamSenseTracker.m */; };
 		B671DDE11AD669ED00474526 /* UIViewController+Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = B671DDE01AD669ED00474526 /* UIViewController+Analytics.m */; };
+		B6D6B09C1AD85A42006B3675 /* RTSAnalyticsNetmetrixTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D6B09B1AD85A42006B3675 /* RTSAnalyticsNetmetrixTracker.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,8 @@
 		B671DDDE1AD6659F00474526 /* RTSAnalyticsPageViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsPageViewDataSource.h; sourceTree = "<group>"; };
 		B671DDDF1AD669ED00474526 /* UIViewController+Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Analytics.h"; path = "RTSAnalytics/UIViewController+Analytics.h"; sourceTree = "<group>"; };
 		B671DDE01AD669ED00474526 /* UIViewController+Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Analytics.m"; path = "RTSAnalytics/UIViewController+Analytics.m"; sourceTree = "<group>"; };
+		B6D6B09A1AD85A42006B3675 /* RTSAnalyticsNetmetrixTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsNetmetrixTracker.h; sourceTree = "<group>"; };
+		B6D6B09B1AD85A42006B3675 /* RTSAnalyticsNetmetrixTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsNetmetrixTracker.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +156,8 @@
 				B671DDDC1AD55FC100474526 /* RTSMediaPlayerControllerStreamSenseTracker.m */,
 				B671DDD81AD553E300474526 /* RTSAnalyticsTracker+Logging.h */,
 				B671DDD91AD553E300474526 /* RTSAnalyticsTracker+Logging.m */,
+				B6D6B09A1AD85A42006B3675 /* RTSAnalyticsNetmetrixTracker.h */,
+				B6D6B09B1AD85A42006B3675 /* RTSAnalyticsNetmetrixTracker.m */,
 			);
 			path = RTSAnalytics;
 			sourceTree = "<group>";
@@ -364,6 +369,7 @@
 				9F1518C11AC2F1CE00AE051D /* RTSAnalyticsTracker.m in Sources */,
 				9F1519201AC4221400AE051D /* NSString+RTSAnalyticsUtils.m in Sources */,
 				9F15191D1AC421AD00AE051D /* NSDictionary+RTSAnalyticsUtils.m in Sources */,
+				B6D6B09C1AD85A42006B3675 /* RTSAnalyticsNetmetrixTracker.m in Sources */,
 				B671DDE11AD669ED00474526 /* UIViewController+Analytics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
