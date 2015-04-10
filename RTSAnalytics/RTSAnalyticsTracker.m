@@ -87,7 +87,7 @@
 - (void) applicationWillEnterForeground:(NSNotification *)notification
 {
 	//FIXME: check if from push
-	[self trackPageViewTitle:@"comingToForeground" category:@"app" levels:@[ @"event" ] fromPushNotification:NO];
+	[self trackPageViewTitle:@"comingToForeground" levels:@[ @"app", @"event" ] fromPushNotification:NO];
 }
 
 #pragma mark - PageView tracking
@@ -99,11 +99,6 @@
 }
 
 - (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels fromPushNotification:(BOOL)fromPush
-{
-	[self trackPageViewTitle:title category:nil levels:levels fromPushNotification:fromPush];
-}
-
-- (void)trackPageViewTitle:(NSString *)title category:(NSString *)defaultCategory levels:(NSArray *)levels fromPushNotification:(BOOL)fromPush
 {
 	NSMutableDictionary *labels = [NSMutableDictionary dictionary];
 	
