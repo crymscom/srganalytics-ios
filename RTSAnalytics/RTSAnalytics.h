@@ -6,6 +6,8 @@
 #ifndef RTSAnalytics_RTSAnalytics_h
 #define RTSAnalytics_RTSAnalytics_h
 
+#define kRTSAnalyticsVersion @"0.0.1"
+
 #import "RTSAnalyticsTracker.h"
 #import "RTSAnalyticsTrackerConfig.h"
 #import "RTSAnalyticsDataSource.h"
