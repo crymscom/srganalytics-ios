@@ -8,6 +8,7 @@ pod 'RTSMediaPlayer', :git => 'git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git', 
 pod 'TransitionKit', { :git => 'https://github.com/0xced/TransitionKit.git', :commit => '6874dea2229bdefb89f6c8f708f1fae467ee5ba2' }
 
 pod 'CocoaLumberjack', '~> 2.0.0'
+pod 'AFNetworking', '~> 1.3.4'
 
 target :'RTSAnalyticsTests', :exclusive => true do
     pod 'OCMock', '~> 3.1.2'

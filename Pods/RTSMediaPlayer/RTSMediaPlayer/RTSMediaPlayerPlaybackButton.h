@@ -8,14 +8,14 @@
 @class RTSMediaPlayerController;
 
 IB_DESIGNABLE
-@interface RTSPlayPauseButton : UIButton
+@interface RTSMediaPlayerPlaybackButton : UIButton
 
 /**
  *  <#Description#>
  */
 @property (nonatomic, weak) IBOutlet RTSMediaPlayerController *mediaPlayerController;
 
-@property (nonatomic) IBInspectable UIColor *drawColor;
+@property (nonatomic) IBInspectable UIColor *normalColor;
 @property (nonatomic) IBInspectable UIColor *hightlightColor;
 
 @end

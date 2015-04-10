@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   
   s.license = { :type => "N/A" }
   
-  s.authors = { "Cédric Foellmi" => "cedric.foellmi@hortis.ch", "Cédric Luthi" => "cedric.luthi@rts.ch" }
+  s.authors = { "Cédric Foellmi" => "cedric.foellmi@hortis.ch", "Cédric Luthi" => "cedric.luthi@rts.ch", "Frédéric Humbert-Droz" => "fred.hd@me.com", }
   
   s.source = { :git => "git@bitbucket.org:rtsmb/rtsanalytics-ios.git", :tag => s.version.to_s }
   
@@ -24,6 +24,7 @@ Pod::Spec.new do |s|
 
   s.frameworks = [ "Foundation", "UIKit" ]
   
-  s.dependency "comScore-iOS-SDK", "3.1502.26"
-  s.dependency "RTSMediaPlayer", "~> 0.0.2"
+  s.dependency "AFNetworking",       "~> 1.3.4"
+  s.dependency "comScore-iOS-SDK",   "3.1502.26"
+  s.dependency "RTSMediaPlayer",     "~> 0.0.2"
 end
