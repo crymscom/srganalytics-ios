@@ -25,6 +25,13 @@
 /**
  *  <#Description#>
  *
+ *  @param dataSource <#dataSource description#>
+ */
+- (void)trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)dataSource;
+
+/**
+ *  <#Description#>
+ *
  *  @param title    <#title description#>
  *  @param levels   <#levels description#>
  *  @param fromPush <#fromPush description#>

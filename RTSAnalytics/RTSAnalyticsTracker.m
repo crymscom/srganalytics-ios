@@ -92,6 +92,17 @@
 
 #pragma mark - PageView tracking
 
+- (void)trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)dataSource
+{
+	NSString *title = [dataSource pageViewTitle];
+	NSArray *levels = nil;
+	
+	if ([dataSource respondsToSelector:@selector(pageViewLevels)])
+		levels = [dataSource pageViewLevels];
+	
+	//FIXME : detect from notification
+	[self trackPageViewTitle:title levels:levels fromPushNotification:NO];
+}
 
 - (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels
 {

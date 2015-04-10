@@ -27,18 +27,10 @@ static void AnalyticsViewDidAppear(UIViewController *self, SEL _cmd, BOOL animat
 
 - (void) sendPageView
 {
-	id<RTSAnalyticsPageViewDataSource> controller = (id<RTSAnalyticsPageViewDataSource>)self;
-	if ([controller respondsToSelector:@selector(pageViewTitle)])
-	{
-		NSString *title = [controller pageViewTitle];
-		NSArray *levels = nil;
-		
-		if ([controller respondsToSelector:@selector(pageViewLevels)])
-			levels = [controller pageViewLevels];
-
-		//FIXME : detect from notification
-		[[RTSAnalyticsTracker sharedTracker] trackPageViewTitle:title levels:levels fromPushNotification:NO];
-	}
+	if (![self conformsToProtocol:@protocol(RTSAnalyticsPageViewDataSource)])
+		return;
+	
+	[[RTSAnalyticsTracker sharedTracker] trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)self];
 }
 
 + (void) load
