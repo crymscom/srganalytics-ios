@@ -11,7 +11,5 @@
 
 - (instancetype)initWithConfig:(RTSAnalyticsTrackerConfig *)config dataSource:(id<RTSAnalyticsDataSource>)dataSource;
 
-- (void)startLoggingInternalComScoreTasks;
-- (void)stopLoggingInternalComScoreTasks;
 
 @end

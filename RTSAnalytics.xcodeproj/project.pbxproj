@@ -22,6 +22,7 @@
 		9FD74D411ACC2DDC00A2D86A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */; };
 		9FD74D431ACC2DF900A2D86A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */; };
 		AF02266D66D1568E51B1517C /* libPods-RTSAnalyticsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 948C8D45046D41F3F8256570 /* libPods-RTSAnalyticsTests.a */; };
+		B671DDDA1AD553E300474526 /* RTSAnalyticsTracker+Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = B671DDD91AD553E300474526 /* RTSAnalyticsTracker+Logging.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,8 @@
 		9FD74D3E1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTrackerTest.m; sourceTree = "<group>"; };
 		9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B671DDD81AD553E300474526 /* RTSAnalyticsTracker+Logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RTSAnalyticsTracker+Logging.h"; sourceTree = "<group>"; };
+		B671DDD91AD553E300474526 /* RTSAnalyticsTracker+Logging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RTSAnalyticsTracker+Logging.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +146,8 @@
 				9F1519261AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.h */,
 				9F1519271AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.m */,
 				9F1519291AC5906600AE051D /* RTSAnalyticsDataSource.h */,
+				B671DDD81AD553E300474526 /* RTSAnalyticsTracker+Logging.h */,
+				B671DDD91AD553E300474526 /* RTSAnalyticsTracker+Logging.m */,
 			);
 			path = RTSAnalytics;
 			sourceTree = "<group>";
@@ -347,6 +352,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F1519281AC58D5B00AE051D /* RTSAnalyticsTrackerConfig.m in Sources */,
+				B671DDDA1AD553E300474526 /* RTSAnalyticsTracker+Logging.m in Sources */,
 				9FD74D3A1ACC1DC600A2D86A /* CSRequest+RTSNotification.m in Sources */,
 				9F1518C11AC2F1CE00AE051D /* RTSAnalyticsTracker.m in Sources */,
 				9F1519201AC4221400AE051D /* NSString+RTSAnalyticsUtils.m in Sources */,
