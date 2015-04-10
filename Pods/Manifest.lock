@@ -34,7 +34,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   RTSMediaPlayer:
-    :commit: 469bf70c8e53e2653ca0a052bb6cb2cec175fc4b
+    :commit: f1b8e17350cbb0d38271438c73944a254980cc31
     :git: git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git
   TransitionKit:
     :commit: 6874dea2229bdefb89f6c8f708f1fae467ee5ba2
@@ -45,7 +45,7 @@ SPEC CHECKSUMS:
   comScore-iOS-SDK: 75e852619b2c7353156023d4eb7cae42ef83c670
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
-  RTSMediaPlayer: dee63f24d51a92f3547df8e50566ef57b5c47b24
+  RTSMediaPlayer: 26a7d0947a1483aa59fc8f02232ab998d581bbbb
   TransitionKit: 3a14b6acc7cf2d1dd3e454e24dbad1cfab9a1ef1
 
 COCOAPODS: 0.36.0
