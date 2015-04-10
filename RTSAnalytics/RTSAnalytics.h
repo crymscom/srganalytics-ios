@@ -9,7 +9,8 @@
 #define kRTSAnalyticsVersion @"0.0.1"
 
 #import "RTSAnalyticsTracker.h"
-#import "RTSAnalyticsTrackerConfig.h"
-#import "RTSAnalyticsDataSource.h"
+#import "RTSAnalyticsTracker+Logging.h"
+
+#import "RTSAnalyticsMediaPlayerDataSource.h"
 
 #endif
