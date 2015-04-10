@@ -75,8 +75,8 @@
 	NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 	
 	NSString *businessUnit = [mainBundle.bundleIdentifier componentsSeparatedByString:@"."][1];
-	NSDictionary *analyticsInfoDictionnary = [mainBundle objectForInfoDictionaryKey:@"RTSAnalytics"];
-	NSString *comScoreVirtualSite = [analyticsInfoDictionnary objectForKey:@"ComscoreVirtualSite"];
+	
+	NSString *comScoreVirtualSite = [self infoDictionnaryValueForKey:@"ComscoreVirtualSite"];
 	NSAssert(comScoreVirtualSite.length > 0, @"You MUST define `RTSAnalytics>ComscoreVirtualSite` key in your app plist");
 	
 	return @{ @"ns_ap_an": appName,
