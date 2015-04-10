@@ -8,6 +8,9 @@
 #import <RTSMediaPlayer/RTSMediaPlayerController.h>
 #import "RTSMediaPlayerControllerStreamSenseTracker.h"
 
+#import "NSString+RTSAnalyticsUtils.h"
+#import "NSDictionary+RTSAnalyticsUtils.h"
+
 #import <comScore-iOS-SDK/CSComScore.h>
 #import <CocoaLumberjack/CocoaLumberjack.h>
 
@@ -51,6 +54,8 @@
 	[CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
 	[CSComScore setLabels:[self comScoreGlobalLabels]];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackStateDidChange:) name:RTSMediaPlayerPlaybackStateDidChangeNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackDidFail:) name:RTSMediaPlayerPlaybackDidFailNotification object:nil];
 }
@@ -78,6 +83,72 @@
 }
 
 #pragma mark - Notifications
+
+- (void) applicationWillEnterForeground:(NSNotification *)notification
+{
+	//FIXME: check if from push
+	[self trackPageViewTitle:@"comingToForeground" category:@"app" levels:@[ @"event" ] fromPushNotification:NO];
+}
+
+#pragma mark - PageView tracking
+
+
+- (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels
+{
+	[self trackPageViewTitle:title levels:levels fromPushNotification:NO];
+}
+
+- (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels fromPushNotification:(BOOL)fromPush
+{
+	[self trackPageViewTitle:title category:nil levels:levels fromPushNotification:fromPush];
+}
+
+- (void)trackPageViewTitle:(NSString *)title category:(NSString *)defaultCategory levels:(NSArray *)levels fromPushNotification:(BOOL)fromPush
+{
+	NSMutableDictionary *labels = [NSMutableDictionary dictionary];
+	
+	title = [title comScoreFormattedString];
+	
+	if (title.length == 0) {
+		title = @"Untitled";
+	}
+	
+	[labels safeSetValue:title forKey:@"srg_title"];
+	
+	[labels safeSetValue:@(fromPush) forKey:@"srg_ap_push"];
+	
+	__block NSMutableString *category = [NSMutableString new];
+	if (levels.count == 0)
+	{
+		[category appendString:@"app"];
+		[labels safeSetValue:[category copy] forKey:@"srg_n1"];
+	}
+	else
+	{
+		[levels enumerateObjectsUsingBlock:^(id value, NSUInteger idx, BOOL *stop) {
+			NSLog(@"%@, %ld", value, idx);
+			
+			NSString *levelKey = [NSString stringWithFormat:@"srg_n%ld", idx+1];
+			NSString *levelValue = [[value description] comScoreFormattedString];
+			
+			if (idx<10) {
+				[labels safeSetValue:levelValue forKey:levelKey];
+			}
+			
+			if (category.length > 0) {
+				[category appendString:@"."];
+			}
+			[category appendString:levelValue];
+		}];
+	}
+	
+	[labels safeSetValue:category forKey:@"category"];
+	[labels safeSetValue:[NSString stringWithFormat:@"%@.%@", category, title] forKey:@"name"];
+	
+	[CSComScore viewWithLabels:labels];
+}
+
+#pragma mark - Stream tracking
 
 - (void)mediaPlayerPlaybackStateDidChange:(NSNotification *)notification
 {
@@ -115,10 +186,6 @@
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
 	[self removeTrackerForMediaPlayer:mediaPlayerController];
 }
-
-
-
-#pragma mark - Stream tracking
 
 - (void) createTrackerForMediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
 {

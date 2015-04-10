@@ -12,5 +12,6 @@
 #import "RTSAnalyticsTracker+Logging.h"
 
 #import "RTSAnalyticsMediaPlayerDataSource.h"
+#import "RTSAnalyticsPageViewDataSource.h"
 
 #endif

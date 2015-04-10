@@ -5,6 +5,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "RTSAnalyticsPageViewDataSource.h"
 #import "RTSAnalyticsMediaPlayerDataSource.h"
 
 @interface RTSAnalyticsTracker : NSObject
@@ -21,5 +22,22 @@
  */
 - (void)startTrackingWithMediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource;
 
+/**
+ *  <#Description#>
+ *
+ *  @param title    <#title description#>
+ *  @param levels   <#levels description#>
+ *  @param fromPush <#fromPush description#>
+ */
+- (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels;
+
+/**
+ *  <#Description#>
+ *
+ *  @param title    <#title description#>
+ *  @param levels   <#levels description#>
+ *  @param fromPush <#fromPush description#>
+ */
+- (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels fromPushNotification:(BOOL)fromPush;
 
 @end
