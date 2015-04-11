@@ -17,15 +17,14 @@
 @implementation UIViewController (Analytics)
 
 static void (*viewDidAppearIMP)(UIViewController *, SEL, BOOL);
-
 static void AnalyticsViewDidAppear(UIViewController *self, SEL _cmd, BOOL animated);
 static void AnalyticsViewDidAppear(UIViewController *self, SEL _cmd, BOOL animated)
 {
 	viewDidAppearIMP(self, _cmd, animated);
-	[self sendPageView];
+	[self trackPageView];
 }
 
-- (void) sendPageView
+- (void) trackPageView
 {
 	if (![self conformsToProtocol:@protocol(RTSAnalyticsPageViewDataSource)])
 		return;
@@ -39,6 +38,5 @@ static void AnalyticsViewDidAppear(UIViewController *self, SEL _cmd, BOOL animat
 	viewDidAppearIMP = (__typeof__(viewDidAppearIMP))method_getImplementation(viewDidAppear);
 	method_setImplementation(viewDidAppear, (IMP)AnalyticsViewDidAppear);
 }
-
 
 @end
