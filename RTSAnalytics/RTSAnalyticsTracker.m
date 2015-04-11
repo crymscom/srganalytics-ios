@@ -31,7 +31,7 @@
 
 @implementation RTSAnalyticsTracker
 
-- (void)dealloc
+- (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -46,7 +46,7 @@
 	return sharedInstance;
 }
 
-- (void)startTrackingWithMediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+- (void) startTrackingWithMediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
 {
 	_dataSource = dataSource;
 	_streamsenseTrackers = [NSMutableDictionary new];
@@ -66,7 +66,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackDidFail:) name:RTSMediaPlayerPlaybackDidFailNotification object:nil];
 }
 
-- (NSDictionary *)comScoreGlobalLabels
+- (NSDictionary *) comScoreGlobalLabels
 {
 	NSBundle *mainBundle = [NSBundle mainBundle];
 	
@@ -90,8 +90,7 @@
 
 - (NSString *) infoDictionnaryValueForKey:(NSString *)key
 {
-	NSBundle *mainBundle = [NSBundle mainBundle];
-	NSDictionary *analyticsInfoDictionnary = [mainBundle objectForInfoDictionaryKey:@"RTSAnalytics"];
+	NSDictionary *analyticsInfoDictionnary = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RTSAnalytics"];
 	return [analyticsInfoDictionnary objectForKey:key];
 }
 
@@ -105,7 +104,7 @@
 
 #pragma mark - PageView tracking
 
-- (void)trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)dataSource
+- (void) trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)dataSource
 {
 	NSString *title = [dataSource pageViewTitle];
 	NSArray *levels = nil;
@@ -117,22 +116,17 @@
 	[self trackPageViewTitle:title levels:levels fromPushNotification:NO];
 }
 
-- (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels
+- (void) trackPageViewTitle:(NSString *)title levels:(NSArray *)levels
 {
 	[self trackPageViewTitle:title levels:levels fromPushNotification:NO];
 }
 
-- (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels fromPushNotification:(BOOL)fromPush
+- (void) trackPageViewTitle:(NSString *)title levels:(NSArray *)levels fromPushNotification:(BOOL)fromPush
 {
 	NSMutableDictionary *labels = [NSMutableDictionary dictionary];
 	
 	title = [title comScoreFormattedString];
-	
-	if (title.length == 0) {
-		title = @"Untitled";
-	}
-	
-	[labels safeSetValue:title forKey:@"srg_title"];
+	[labels safeSetValue:(title.length > 0 ? title : @"Untitled") forKey:@"srg_title"];
 	
 	[labels safeSetValue:@(fromPush) forKey:@"srg_ap_push"];
 	
@@ -145,8 +139,6 @@
 	else
 	{
 		[levels enumerateObjectsUsingBlock:^(id value, NSUInteger idx, BOOL *stop) {
-			NSLog(@"%@, %ld", value, idx);
-			
 			NSString *levelKey = [NSString stringWithFormat:@"srg_n%ld", idx+1];
 			NSString *levelValue = [[value description] comScoreFormattedString];
 			
@@ -161,8 +153,8 @@
 		}];
 	}
 	
-	[labels safeSetValue:category forKey:@"category"];
-	[labels safeSetValue:[NSString stringWithFormat:@"%@.%@", category, title] forKey:@"name"];
+	[labels safeSetValue:[category copy] forKey:@"category"];
+	[labels safeSetValue:[NSString stringWithFormat:@"%@.%@", [category copy], title] forKey:@"name"];
 	
 	[CSComScore viewWithLabels:labels];
 	
@@ -171,7 +163,7 @@
 
 #pragma mark - Stream tracking
 
-- (void)mediaPlayerPlaybackStateDidChange:(NSNotification *)notification
+- (void) mediaPlayerPlaybackStateDidChange:(NSNotification *)notification
 {
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
 	switch (mediaPlayerController.playbackState)
@@ -202,7 +194,7 @@
 	}
 }
 
-- (void)mediaPlayerPlaybackDidFail:(NSNotification *)notification
+- (void) mediaPlayerPlaybackDidFail:(NSNotification *)notification
 {
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
 	[self removeTrackerForMediaPlayer:mediaPlayerController];
@@ -210,7 +202,7 @@
 
 - (void) createTrackerForMediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
 {
-	DDLogVerbose(@"Create a new tracker for media %@", mediaPlayerController.identifier);
+	DDLogVerbose(@"Create a new stream tracker for media identifier `%@`", mediaPlayerController.identifier);
 	
 	RTSMediaPlayerControllerStreamSenseTracker *mediaPlayerControllerStreamSensePlugin = [[RTSMediaPlayerControllerStreamSenseTracker alloc] initWithPlayer:mediaPlayerController dataSource:self.dataSource];
 	self.streamsenseTrackers[mediaPlayerController.identifier] = mediaPlayerControllerStreamSensePlugin;
@@ -220,7 +212,7 @@
 
 - (void) notifyTracker:(CSStreamSenseEventType)eventType mediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
 {
-	DDLogVerbose(@"Notify tracker event %@ for media %@", @(eventType), mediaPlayerController.identifier);
+	DDLogVerbose(@"Notify stream tracker event %@ for media identifier `%@`", @(eventType), mediaPlayerController.identifier);
 	
 	RTSMediaPlayerControllerStreamSenseTracker *mediaPlayerControllerStreamSensePlugin = self.streamsenseTrackers[mediaPlayerController.identifier];
 	[mediaPlayerControllerStreamSensePlugin notify:eventType];
@@ -228,7 +220,7 @@
 
 - (void) removeTrackerForMediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
 {
-	DDLogVerbose(@"Delete tracker for media %@", mediaPlayerController.identifier);
+	DDLogVerbose(@"Delete stream tracker for media identifier `%@`", mediaPlayerController.identifier);
 	
 	[self notifyTracker:CSStreamSenseEnd mediaPlayer:mediaPlayerController];
 	[self.streamsenseTrackers removeObjectForKey:mediaPlayerController.identifier];

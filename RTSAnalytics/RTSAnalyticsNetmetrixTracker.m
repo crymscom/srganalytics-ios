@@ -64,10 +64,9 @@ static NSString * const LoggerDomainAnalyticsNetmetrix = @"Netmetrix";
 	DDLogVerbose(@"%@ : Sending netmetrix view", LoggerDomainAnalyticsNetmetrix);
 	
 	[self.netmetrixClient getPath:nil parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		 DDLogDebug(@"%@ : Did send netmetrix GET view, %@", LoggerDomainAnalyticsNetmetrix, responseObject);
-	 }
-						  failure:^(AFHTTPRequestOperation *operation, NSError *error)
-	 {
+		DDLogDebug(@"%@ : Did send netmetrix GET view, %@", LoggerDomainAnalyticsNetmetrix, responseObject);
+		
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		 DDLogError(@"%@ : Failed to send GET view, error: %@", LoggerDomainAnalyticsNetmetrix, error.localizedDescription);
 	 }];
 }
