@@ -20,6 +20,8 @@
 - (void)dispatchHeartbeatEvent;
 @end
 
+static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
+
 @interface RTSMediaPlayerControllerStreamSenseTracker ()
 
 @property (nonatomic, strong) RTSMediaPlayerController *mediaPlayerController;
@@ -56,6 +58,8 @@
 	
 	[self setLabel:@"ns_vsite" value:streamSenseVirtualSite];
 	[self setLabel:@"srg_ptype" value:@"p_app_ios"];
+	
+	DDLogVerbose(@"%@ : new Streamsense instance with ns_vsite = %@", LoggerDomainAnalyticsStreamSense, streamSenseVirtualSite);
 
 	return self;
 }
@@ -96,6 +100,7 @@
 	[self setLabel:@"ns_st_sg" value:[self scalingMode]];
 	[self setLabel:@"ns_ap_ot" value:[self orientation]];
 	[self setLabel:@"ns_st_airplay" value:[self airplay]];
+	[self setLabel:@"ns_st_cu" value:[self contentURL]];
 	
 	if ([self.dataSource respondsToSelector:@selector(streamSenseLabelsMetadataForIdentifier:)]) {
 		NSDictionary *dataSourceLabels = [self.dataSource streamSenseLabelsMetadataForIdentifier:self.mediaPlayerController.identifier];
@@ -142,9 +147,10 @@
 
 - (NSString *) windowState
 {
+	AVPlayerLayer *playerLayer = [(RTSMediaPlayerView *)self.mediaPlayerController.view playerLayer];
+	CGSize size = playerLayer.videoRect.size;
 	CGRect screenRect = [[UIScreen mainScreen] bounds];
-	CGSize presentationSize = self.player.currentItem.presentationSize;
-	return CGSizeEqualToSize(presentationSize, screenRect.size) ? @"full" : @"norm";
+	return round(size.width) == round(screenRect.size.width) && round(size.height) == round(screenRect.size.height)  ? @"full" : @"norm";
 }
 
 - (NSString *) volume
@@ -218,8 +224,8 @@
 - (NSString *) dimensions
 {
 	AVPlayerLayer *playerLayer = [(RTSMediaPlayerView *)self.mediaPlayerController.view playerLayer];
-	CGSize size = playerLayer.frame.size;
-	return CGSizeEqualToSize(size, CGSizeZero) ? NULL : [NSString stringWithFormat:@"%0.0fx%0.0f", size.width, size.height];
+	CGSize size = playerLayer.videoRect.size;
+	return [NSString stringWithFormat:@"%0.0fx%0.0f", size.width, size.height];
 }
 
 - (NSString *) contentURL

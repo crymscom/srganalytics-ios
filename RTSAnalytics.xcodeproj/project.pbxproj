@@ -154,10 +154,10 @@
 				9F1518C01AC2F1CE00AE051D /* RTSAnalyticsTracker.m */,
 				B671DDD81AD553E300474526 /* RTSAnalyticsTracker+Logging.h */,
 				B671DDD91AD553E300474526 /* RTSAnalyticsTracker+Logging.m */,
-				B671DDDB1AD55FC100474526 /* RTSMediaPlayerControllerStreamSenseTracker.h */,
-				B671DDDC1AD55FC100474526 /* RTSMediaPlayerControllerStreamSenseTracker.m */,
 				B6D6B09A1AD85A42006B3675 /* RTSAnalyticsNetmetrixTracker.h */,
 				B6D6B09B1AD85A42006B3675 /* RTSAnalyticsNetmetrixTracker.m */,
+				B671DDDB1AD55FC100474526 /* RTSMediaPlayerControllerStreamSenseTracker.h */,
+				B671DDDC1AD55FC100474526 /* RTSMediaPlayerControllerStreamSenseTracker.m */,
 			);
 			path = RTSAnalytics;
 			sourceTree = "<group>";
