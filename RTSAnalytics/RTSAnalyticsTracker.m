@@ -27,6 +27,7 @@
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
 @property (nonatomic, strong) RTSAnalyticsNetmetrixTracker *netmetrixTracker;
 @property (nonatomic, strong) NSMutableDictionary *streamsenseTrackers;
+@property (nonatomic, weak) id<RTSAnalyticsPageViewDataSource> lastPageViewDataSource;
 @end
 
 @implementation RTSAnalyticsTracker
@@ -62,6 +63,7 @@
 	self.netmetrixTracker = [[RTSAnalyticsNetmetrixTracker alloc] initWithAppID:netmetrixAppID domain:netmetrixDomain];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackStateDidChange:) name:RTSMediaPlayerPlaybackStateDidChangeNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackDidFail:) name:RTSMediaPlayerPlaybackDidFailNotification object:nil];
@@ -103,10 +105,23 @@
 	[self trackPageViewTitle:@"comingToForeground" levels:@[ @"app", @"event" ] fromPushNotification:NO];
 }
 
+- (void) applicationDidBecomeActive:(NSNotification *)notification
+{
+	if (!self.lastPageViewDataSource)
+		return;
+	
+	[self trackPageViewForDataSource:self.lastPageViewDataSource];
+}
+
 #pragma mark - PageView tracking
 
 - (void) trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)dataSource
 {
+	_lastPageViewDataSource = dataSource;
+	
+	if (!dataSource)
+		return;
+	
 	NSString *title = [dataSource pageViewTitle];
 	NSArray *levels = nil;
 	
