@@ -60,7 +60,11 @@
 	
 	NSString *netmetrixAppID = [self infoDictionnaryValueForKey:@"NetmetrixAppID"];
 	NSString *netmetrixDomain = [self infoDictionnaryValueForKey:@"NetmetrixDomain"];
-	self.netmetrixTracker = [[RTSAnalyticsNetmetrixTracker alloc] initWithAppID:netmetrixAppID domain:netmetrixDomain];
+	if (netmetrixAppID.length > 0) {
+		self.netmetrixTracker = [[RTSAnalyticsNetmetrixTracker alloc] initWithAppID:netmetrixAppID domain:netmetrixDomain ?: [self businessUnit]];
+	}else{
+		DDLogInfo(@"Netmetrix has not been initialized due to missing appId. This is the normal behaviour while developping/testing apps");
+	}
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
