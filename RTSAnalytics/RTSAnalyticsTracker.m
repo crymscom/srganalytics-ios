@@ -82,7 +82,7 @@
 	NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 	
 	NSString *comScoreVirtualSite = [self infoDictionnaryValueForKey:@"ComscoreVirtualSite"];
-	NSAssert(comScoreVirtualSite.length > 0, @"You MUST define `RTSAnalytics>ComscoreVirtualSite` key in your app plist");
+	NSAssert(comScoreVirtualSite.length > 0, @"You MUST define `RTSAnalytics>ComscoreVirtualSite` key in your app Info.plist");
 	
 	return @{ @"ns_ap_an": appName,
 			  @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
