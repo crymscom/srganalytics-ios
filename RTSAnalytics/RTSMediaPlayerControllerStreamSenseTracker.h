@@ -13,24 +13,43 @@
 #import <comScore-iOS-SDK/CSStreamSensePluginProtocol.h>
 
 /**
- <#Description#>
+ *  The `RTSMediaPlayerControllerStreamSenseTracker` is a plugin for `RTSMediaPlayerController` and take care of populating persistent labels, 
+ *  playlist labels and clip labels.
+ *
+ *  To add custom labels, playlist and clip labels implements a dataSource responding to `RTSAnalyticsMediaPlayerDataSource` protocol.
+ *
+ *  @discussion  Due to Comscore SDK implementation, Streamsense measurements are not sent when media player playback state changes to buffering.
  */
 @interface RTSMediaPlayerControllerStreamSenseTracker : CSStreamSense
 
 /**
- *  <#Description#>
- *
- *  @param mediaPlayerController <#mediaPlayerController description#>
- *  @param dataSource            <#dataSource description#>
- *
- *  @return <#return value description#>
+ *  ----------------------------------------------------
+ *  @name Initializing a Media Player Controller Tracker
+ *  ----------------------------------------------------
  */
-- (id) initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource;
 
 /**
- *  <#Description#>
+ *  Returns a media player controller Streamsense tracker instance.
  *
- *  @param playerEvent <#playerEvent description#>
+ *  @param mediaPlayerController the media player controller used for generating persistent labels.
+ *  @param dataSource            the datasource for custom labels, playlist labels and clip labels of currently playing media.
+ *
+ *  @return a media player controller StreamSense tracker.
+ */
+- (id) initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL1;
+
+/**
+ *  --------------------------------------------
+ *  @name Stream Tracking
+ *  --------------------------------------------
+ */
+
+/**
+ *  Notify the tracker to send a stream event. This method must be call each time the media player controller playback state changes.
+ *
+ *  This method will update Streamsense persistent and custom labels by calling methods defined in `RTSAnalyticsMediaPlayerDataSource` protocol.
+ *
+ *  @param playerEvent the event type corresponding to the media player controller playback state.
  */
 - (void) notify:(CSStreamSenseEventType)playerEvent;
 
