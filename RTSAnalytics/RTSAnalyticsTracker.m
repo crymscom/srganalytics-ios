@@ -77,15 +77,13 @@
 	NSString *appLanguage = [[mainBundle preferredLocalizations] firstObject] ?: @"fr";
 	NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 	
-	NSString *businessUnit = [mainBundle.bundleIdentifier componentsSeparatedByString:@"."][1];
-	
 	NSString *comScoreVirtualSite = [self infoDictionnaryValueForKey:@"ComscoreVirtualSite"];
 	NSAssert(comScoreVirtualSite.length > 0, @"You MUST define `RTSAnalytics>ComscoreVirtualSite` key in your app plist");
 	
 	return @{ @"ns_ap_an": appName,
 			  @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
 			  @"ns_ap_ver": appVersion,
-			  @"srg_unit": businessUnit,
+			  @"srg_unit": [self businessUnit].uppercaseString,
 			  @"srg_ap_push": @"0",
 			  @"ns_site": @"mainsite",
 			  @"ns_vsite": comScoreVirtualSite};
@@ -95,6 +93,11 @@
 {
 	NSDictionary *analyticsInfoDictionnary = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RTSAnalytics"];
 	return [analyticsInfoDictionnary objectForKey:key];
+}
+
+- (NSString *) businessUnit
+{
+	return [[[NSBundle mainBundle].bundleIdentifier componentsSeparatedByString:@"."][1] lowercaseString];
 }
 
 #pragma mark - Notifications
