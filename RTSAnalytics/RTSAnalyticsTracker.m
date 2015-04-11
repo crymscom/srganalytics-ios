@@ -51,9 +51,10 @@
 	_dataSource = dataSource;
 	_streamsenseTrackers = [NSMutableDictionary new];
 	
-	[CSComScore onUxActive];
+	[CSComScore setAppContext];
 	[CSComScore setCustomerC2:@"6036016"];
 	[CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
+	[CSComScore enableAutoUpdate:60 foregroundOnly:NO]; //60 is the Comscore default interval value
 	[CSComScore setLabels:[self comScoreGlobalLabels]];
 	
 	NSString *netmetrixAppID = [self infoDictionnaryValueForKey:@"NetmetrixAppID"];
@@ -208,6 +209,8 @@
 	self.streamsenseTrackers[mediaPlayerController.identifier] = mediaPlayerControllerStreamSensePlugin;
 	
 	[self notifyTracker:CSStreamSenseBuffer mediaPlayer:mediaPlayerController];
+	
+	[self updateComscoreUxStatus];
 }
 
 - (void) notifyTracker:(CSStreamSenseEventType)eventType mediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
@@ -224,6 +227,18 @@
 	
 	[self notifyTracker:CSStreamSenseEnd mediaPlayer:mediaPlayerController];
 	[self.streamsenseTrackers removeObjectForKey:mediaPlayerController.identifier];
+	
+	[self updateComscoreUxStatus];
+}
+
+- (void) updateComscoreUxStatus
+{
+	BOOL areSomeMediaPlaying = self.streamsenseTrackers.count > 0;
+	if (areSomeMediaPlaying) {
+		[CSComScore onUxActive];
+	}else{
+		[CSComScore onUxInactive];
+	}
 }
 
 @end
