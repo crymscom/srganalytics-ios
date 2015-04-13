@@ -51,7 +51,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	[self setLabel:@"ns_st_mv" value:[mediaPlayerBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 	[self setLabel:@"ns_st_it" value:@"c"];
 	
-	NSBundle *mainBundle = [NSBundle mainBundle];
+	NSBundle *mainBundle = [NSBundle bundleForClass:[self class]];
 	NSDictionary *analyticsInfoDictionnary = [mainBundle objectForInfoDictionaryKey:@"RTSAnalytics"];
 	NSString *streamSenseVirtualSite = [analyticsInfoDictionnary objectForKey:@"StreamsenseVirtualSite"];
 	NSAssert(streamSenseVirtualSite.length > 0, @"You MUST define `RTSAnalytics>StreamsenseVirtualSite` key in your app Info.plist");

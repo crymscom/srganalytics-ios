@@ -75,7 +75,7 @@
 
 - (NSDictionary *) comScoreGlobalLabels
 {
-	NSBundle *mainBundle = [NSBundle mainBundle];
+	NSBundle *mainBundle = [NSBundle bundleForClass:[self class]];
 	
 	NSString *appName = [[mainBundle objectForInfoDictionaryKey:@"CFBundleExecutable"] stringByAppendingString:@" iOS"];
 	NSString *appLanguage = [[mainBundle preferredLocalizations] firstObject] ?: @"fr";
@@ -95,13 +95,13 @@
 
 - (NSString *) infoDictionnaryValueForKey:(NSString *)key
 {
-	NSDictionary *analyticsInfoDictionnary = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RTSAnalytics"];
+	NSDictionary *analyticsInfoDictionnary = [[NSBundle bundleForClass:[self class]] objectForInfoDictionaryKey:@"RTSAnalytics"];
 	return [analyticsInfoDictionnary objectForKey:key];
 }
 
 - (NSString *) businessUnit
 {
-	return [[[NSBundle mainBundle].bundleIdentifier componentsSeparatedByString:@"."][1] lowercaseString];
+	return [[[NSBundle bundleForClass:[self class]].bundleIdentifier componentsSeparatedByString:@"."][1] lowercaseString];
 }
 
 #pragma mark - Notifications
