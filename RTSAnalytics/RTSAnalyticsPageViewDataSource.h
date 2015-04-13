@@ -19,7 +19,7 @@
  *
  *  @discussion The title will be "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+RTSAnalyticsUtils` category.
  */
-- (NSString *) pageViewTitle;
+- (NSString *)pageViewTitle;
 
 @optional
 
@@ -34,7 +34,7 @@
  *
  *  @discussion Each level value will be "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+RTSAnalyticsUtils` category.
  */
-- (NSArray *) pageViewLevels;
+- (NSArray *)pageViewLevels;
 
 /**
  *  Returns a dictionary of key values that will be set a labels when sending view events. 
@@ -42,7 +42,7 @@
  *
  *  @return a dictionary of labels.
  */
-- (NSDictionary *) pageViewCustomLabels;
+- (NSDictionary *)pageViewCustomLabels;
 
 /**
  *  Returns the value specifying weither the view controller has been opened from a push notification or not.
@@ -50,6 +50,6 @@
  *
  *  @return YES if the presented view controller has been opened from a push notification, NO otherwise. Default value is NO.
  */
-- (BOOL) pageViewFromPushNotification;
+- (BOOL)pageViewFromPushNotification;
 
 @end
