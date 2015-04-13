@@ -20,7 +20,7 @@
  *
  *  @param identifier the identifier of the video requesting default labels for Streamsense measurement.
  *
- *  @return a dictionary of labels value.
+ *  @return a dictionary of labels.
  */
 - (NSDictionary *)streamSenseLabelsMetadataForIdentifier:(NSString *)identifier;
 

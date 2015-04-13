@@ -30,7 +30,7 @@
  *  If the page view levels array is nil or empty, the tracker will add one default level `srg_n1` label and a `category` label with value `app`. 
  *  Up to 10 levels can be set, more levels will be dropped 
  *
- *  @return an array of string
+ *  @return an array of string.
  *
  *  @discussion Each level value will be "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+RTSAnalyticsUtils` category.
  */
