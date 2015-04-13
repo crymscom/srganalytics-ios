@@ -37,6 +37,14 @@
 - (NSArray *) pageViewLevels;
 
 /**
+ *  Returns a dictionary of key values that will be set a labels when sending view events. 
+ *  When returning custom labels, beware persistent labels can be overrided by those custom labels values.
+ *
+ *  @return a dictionary of labels.
+ */
+- (NSDictionary *) pageViewCustomLabels;
+
+/**
  *  Returns the value specifying weither the view controller has been opened from a push notification or not.
  *  The tracker will set the `srg_ap_push` label value to `1` if true, `0` otherwise.
  *

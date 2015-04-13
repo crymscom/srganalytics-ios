@@ -109,7 +109,7 @@
 - (void) applicationWillEnterForeground:(NSNotification *)notification
 {
 	//FIXME: check if from push
-	[self trackPageViewTitle:@"comingToForeground" levels:@[ @"app", @"event" ] fromPushNotification:NO];
+	[self trackPageViewTitle:@"comingToForeground" levels:@[ @"app", @"event" ]];
 }
 
 - (void) applicationDidBecomeActive:(NSNotification *)notification
@@ -135,16 +135,21 @@
 	if ([dataSource respondsToSelector:@selector(pageViewLevels)])
 		levels = [dataSource pageViewLevels];
 	
+	NSDictionary *customLabels = nil;
+	if ([dataSource respondsToSelector:@selector(pageViewCustomLabels)]) {
+		customLabels = [dataSource pageViewCustomLabels];
+	}
+	
 	//FIXME : detect from notification
-	[self trackPageViewTitle:title levels:levels fromPushNotification:NO];
+	[self trackPageViewTitle:title levels:levels customLabels:customLabels fromPushNotification:NO];
 }
 
 - (void) trackPageViewTitle:(NSString *)title levels:(NSArray *)levels
 {
-	[self trackPageViewTitle:title levels:levels fromPushNotification:NO];
+	[self trackPageViewTitle:title levels:levels customLabels:nil fromPushNotification:NO];
 }
 
-- (void) trackPageViewTitle:(NSString *)title levels:(NSArray *)levels fromPushNotification:(BOOL)fromPush
+- (void) trackPageViewTitle:(NSString *)title levels:(NSArray *)levels customLabels:(NSDictionary *)customLabels fromPushNotification:(BOOL)fromPush
 {
 	NSMutableDictionary *labels = [NSMutableDictionary dictionary];
 	
@@ -153,14 +158,15 @@
 	
 	[labels safeSetValue:@(fromPush) forKey:@"srg_ap_push"];
 	
-	__block NSMutableString *category = [NSMutableString new];
-	if (levels.count == 0)
+	NSString *category = @"app";
+	
+	if (!levels)
 	{
-		[category appendString:@"app"];
-		[labels safeSetValue:[category copy] forKey:@"srg_n1"];
+		[labels safeSetValue:category forKey:@"srg_n1"];
 	}
-	else
+	else if (levels.count > 0)
 	{
+		__block NSMutableString *levelsConcatenation = [NSMutableString new];
 		[levels enumerateObjectsUsingBlock:^(id value, NSUInteger idx, BOOL *stop) {
 			NSString *levelKey = [NSString stringWithFormat:@"srg_n%ld", idx+1];
 			NSString *levelValue = [[value description] comScoreFormattedString];
@@ -169,15 +175,21 @@
 				[labels safeSetValue:levelValue forKey:levelKey];
 			}
 			
-			if (category.length > 0) {
-				[category appendString:@"."];
+			if (levelsConcatenation.length > 0) {
+				[levelsConcatenation appendString:@"."];
 			}
-			[category appendString:levelValue];
+			[levelsConcatenation appendString:levelValue];
 		}];
+		
+		category = [levelsConcatenation copy];
 	}
 	
-	[labels safeSetValue:[category copy] forKey:@"category"];
-	[labels safeSetValue:[NSString stringWithFormat:@"%@.%@", [category copy], title] forKey:@"name"];
+	[labels safeSetValue:category forKey:@"category"];
+	[labels safeSetValue:[NSString stringWithFormat:@"%@.%@", category, title] forKey:@"name"];
+	
+	[customLabels enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		[labels safeSetValue:[obj description] forKey:[key description]];
+	}];
 	
 	[CSComScore viewWithLabels:labels];
 	
