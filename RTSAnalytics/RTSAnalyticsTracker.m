@@ -32,48 +32,57 @@
 
 @implementation RTSAnalyticsTracker
 
-- (void) dealloc
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 + (instancetype) sharedTracker
 {
 	static RTSAnalyticsTracker *sharedInstance = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		sharedInstance = [[[self class] alloc] init];
+		sharedInstance = [[[self class] alloc] init_custom_RTSAnalyticsTracker];
 	});
 	return sharedInstance;
 }
 
-- (void) startTrackingWithMediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+- (id)init_custom_RTSAnalyticsTracker
 {
-	_dataSource = dataSource;
-	_streamsenseTrackers = [NSMutableDictionary new];
-	
-	[CSComScore setAppContext];
-	[CSComScore setCustomerC2:@"6036016"];
-	[CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
-	[CSComScore enableAutoUpdate:60 foregroundOnly:NO]; //60 is the Comscore default interval value
-	[CSComScore setLabels:[self comScoreGlobalLabels]];
-	
-	NSString *netmetrixAppID = [self infoDictionnaryValueForKey:@"NetmetrixAppID"];
-	NSString *netmetrixDomain = [self infoDictionnaryValueForKey:@"NetmetrixDomain"];
-	if (netmetrixAppID.length > 0) {
-		self.netmetrixTracker = [[RTSAnalyticsNetmetrixTracker alloc] initWithAppID:netmetrixAppID domain:netmetrixDomain ?: [self businessUnit]];
-	}else{
-		DDLogInfo(@"Netmetrix has not been initialized due to missing appId. This is the normal behaviour while developping/testing apps");
-	}
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackStateDidChange:) name:RTSMediaPlayerPlaybackStateDidChangeNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackDidFail:) name:RTSMediaPlayerPlaybackDidFailNotification object:nil];
+    self = [super init];
+    if (self) {
+        _streamsenseTrackers = [NSMutableDictionary new];
+        
+        [CSComScore setAppContext];
+        [CSComScore setCustomerC2:@"6036016"];
+        [CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
+        [CSComScore enableAutoUpdate:60 foregroundOnly:NO]; //60 is the Comscore default interval value
+        [CSComScore setLabels:[self comScoreGlobalLabels]];
+        
+        NSString *netmetrixAppID = [self infoDictionnaryValueForKey:@"NetmetrixAppID"];
+        NSString *netmetrixDomain = [self infoDictionnaryValueForKey:@"NetmetrixDomain"];
+        if (netmetrixAppID.length > 0) {
+            self.netmetrixTracker = [[RTSAnalyticsNetmetrixTracker alloc] initWithAppID:netmetrixAppID domain:netmetrixDomain ?: [self businessUnit]];
+        }
+        else {
+            DDLogInfo(@"Netmetrix has not been initialized due to missing appId. This is the normal behaviour while developping/testing apps");
+        }
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackStateDidChange:) name:RTSMediaPlayerPlaybackStateDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackDidFail:) name:RTSMediaPlayerPlaybackDidFailNotification object:nil];
+    }
+    return self;
 }
 
-- (NSDictionary *) comScoreGlobalLabels
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)startTrackingWithMediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+{
+	_dataSource = dataSource;
+}
+
+- (NSDictionary *)comScoreGlobalLabels
 {
 	NSBundle *mainBundle = [NSBundle bundleForClass:[self class]];
 	
@@ -93,41 +102,45 @@
 			  @"ns_vsite": comScoreVirtualSite};
 }
 
-- (NSString *) infoDictionnaryValueForKey:(NSString *)key
+- (NSString *)infoDictionnaryValueForKey:(NSString *)key
 {
 	NSDictionary *analyticsInfoDictionnary = [[NSBundle bundleForClass:[self class]] objectForInfoDictionaryKey:@"RTSAnalytics"];
 	return [analyticsInfoDictionnary objectForKey:key];
 }
 
-- (NSString *) businessUnit
+// TODO: This must not be hardcoded into plist, as we want to be able to play with it.
+// Moreover, retrieving like the line below is very fragile.
+- (NSString *)businessUnit
 {
 	return [[[NSBundle bundleForClass:[self class]].bundleIdentifier componentsSeparatedByString:@"."][1] lowercaseString];
 }
 
 #pragma mark - Notifications
 
-- (void) applicationWillEnterForeground:(NSNotification *)notification
+- (void)applicationWillEnterForeground:(NSNotification *)notification
 {
 	//FIXME: check if from push
 	[self trackPageViewTitle:@"comingToForeground" levels:@[ @"app", @"event" ]];
 }
 
-- (void) applicationDidBecomeActive:(NSNotification *)notification
+- (void)applicationDidBecomeActive:(NSNotification *)notification
 {
-	if (!self.lastPageViewDataSource)
+    if (!self.lastPageViewDataSource) {
 		return;
+    }
 	
 	[self trackPageViewForDataSource:self.lastPageViewDataSource];
 }
 
 #pragma mark - PageView tracking
 
-- (void) trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)dataSource
+- (void)trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)dataSource
 {
 	_lastPageViewDataSource = dataSource;
 	
-	if (!dataSource)
+    if (!dataSource) {
 		return;
+    }
 	
 	NSString *title = [dataSource pageViewTitle];
 	NSArray *levels = nil;
@@ -144,12 +157,12 @@
 	[self trackPageViewTitle:title levels:levels customLabels:customLabels fromPushNotification:NO];
 }
 
-- (void) trackPageViewTitle:(NSString *)title levels:(NSArray *)levels
+- (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels
 {
 	[self trackPageViewTitle:title levels:levels customLabels:nil fromPushNotification:NO];
 }
 
-- (void) trackPageViewTitle:(NSString *)title levels:(NSArray *)levels customLabels:(NSDictionary *)customLabels fromPushNotification:(BOOL)fromPush
+- (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels customLabels:(NSDictionary *)customLabels fromPushNotification:(BOOL)fromPush
 {
 	NSMutableDictionary *labels = [NSMutableDictionary dictionary];
 	
@@ -198,8 +211,13 @@
 
 #pragma mark - Stream tracking
 
-- (void) mediaPlayerPlaybackStateDidChange:(NSNotification *)notification
+- (void)mediaPlayerPlaybackStateDidChange:(NSNotification *)notification
 {
+    if (!_dataSource) {
+        // We haven't started yet.
+        return;
+    }
+    
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
 	switch (mediaPlayerController.playbackState)
 	{
@@ -229,21 +247,20 @@
 	}
 }
 
-- (void) mediaPlayerPlaybackDidFail:(NSNotification *)notification
+- (void)mediaPlayerPlaybackDidFail:(NSNotification *)notification
 {
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
 	[self removeTrackerForMediaPlayer:mediaPlayerController];
 }
 
-- (void) createTrackerForMediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
+- (void)createTrackerForMediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
 {
 	DDLogVerbose(@"Create a new stream tracker for media identifier `%@`", mediaPlayerController.identifier);
 	
-	RTSMediaPlayerControllerStreamSenseTracker *mediaPlayerControllerStreamSensePlugin = [[RTSMediaPlayerControllerStreamSenseTracker alloc] initWithPlayer:mediaPlayerController dataSource:self.dataSource];
-	self.streamsenseTrackers[mediaPlayerController.identifier] = mediaPlayerControllerStreamSensePlugin;
+	RTSMediaPlayerControllerStreamSenseTracker *tracker = [[RTSMediaPlayerControllerStreamSenseTracker alloc] initWithPlayer:mediaPlayerController dataSource:self.dataSource];
+	self.streamsenseTrackers[mediaPlayerController.identifier] = tracker;
 	
 	[self notifyTracker:CSStreamSenseBuffer mediaPlayer:mediaPlayerController];
-	
 	[self updateComscoreUxStatus];
 }
 
@@ -251,8 +268,8 @@
 {
 	DDLogVerbose(@"Notify stream tracker event %@ for media identifier `%@`", @(eventType), mediaPlayerController.identifier);
 	
-	RTSMediaPlayerControllerStreamSenseTracker *mediaPlayerControllerStreamSensePlugin = self.streamsenseTrackers[mediaPlayerController.identifier];
-	[mediaPlayerControllerStreamSensePlugin notify:eventType];
+	RTSMediaPlayerControllerStreamSenseTracker *tracker = self.streamsenseTrackers[mediaPlayerController.identifier];
+	[tracker notify:eventType];
 }
 
 - (void) removeTrackerForMediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
@@ -261,7 +278,6 @@
 	
 	[self notifyTracker:CSStreamSenseEnd mediaPlayer:mediaPlayerController];
 	[self.streamsenseTrackers removeObjectForKey:mediaPlayerController.identifier];
-	
 	[self updateComscoreUxStatus];
 }
 
@@ -270,7 +286,8 @@
 	BOOL areSomeMediaPlaying = self.streamsenseTrackers.count > 0;
 	if (areSomeMediaPlaying) {
 		[CSComScore onUxActive];
-	}else{
+	}
+    else {
 		[CSComScore onUxInactive];
 	}
 }
