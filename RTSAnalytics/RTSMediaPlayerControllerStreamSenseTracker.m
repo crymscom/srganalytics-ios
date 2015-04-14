@@ -64,11 +64,6 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return self;
 }
 
-- (AVPlayer *) player
-{
-	return ![self.mediaPlayerController.player isProxy] ? self.mediaPlayerController.player : nil;
-}
-
 - (void) notify:(CSStreamSenseEventType)playerEvent
 {
 	[self updateLabels];
@@ -85,7 +80,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (long) currentPositionInMilliseconds
 {
-	CMTime currentTime = [self.player.currentItem currentTime];
+	CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
 	return (long) floor(CMTimeGetSeconds(currentTime) * 1000);
 }
 
@@ -119,6 +114,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	
 	// Clips
 	[[self clip] setLabel:@"ns_st_cs" value:[self dimensions]];
+	[[self clip] setLabel:@"ns_st_cl" value:[self duration]];
 	[[self clip] setLabel:@"ns_st_li" value:[self liveStream]];
 	
 	if ([self.dataSource respondsToSelector:@selector(streamSenseClipMetadataForIdentifier:)]) {
@@ -133,7 +129,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (NSString *) bitRate
 {
-	AVPlayerItem *currentItem = self.player.currentItem;
+	AVPlayerItem *currentItem = self.mediaPlayerController.player.currentItem;
 	if (currentItem)
 	{
 		NSArray *events = currentItem.accessLog.events;
@@ -155,7 +151,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (NSString *) volume
 {
-	if (self.player && self.player.isMuted)
+	if (self.mediaPlayerController.player && self.mediaPlayerController.player.isMuted)
 		return @"0";
 	
 	if (![[AVAudioSession sharedInstance] respondsToSelector:@selector(outputVolume)])
@@ -213,12 +209,12 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (NSString *) airplay
 {
-	return self.player.isExternalPlaybackActive ? @"1" : @"0";
+	return self.mediaPlayerController.player.isExternalPlaybackActive ? @"1" : @"0";
 }
 
 - (NSString *) liveStream
 {
-	return (CMTimeCompare(self.player.currentItem.duration, kCMTimeIndefinite) == 0) ? @"1" : @"0";
+	return (CMTimeCompare(self.mediaPlayerController.player.currentItem.duration, kCMTimeIndefinite) == 0) ? @"1" : @"0";
 }
 
 - (NSString *) dimensions
@@ -228,9 +224,19 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return [NSString stringWithFormat:@"%0.0fx%0.0f", size.width, size.height];
 }
 
+- (NSString *) duration
+{
+	if ([self.mediaPlayerController.player currentItem]) {
+		if ([self.mediaPlayerController.player status] == AVPlayerItemStatusReadyToPlay) {
+			return [NSString stringWithFormat:@"%ld", (long) CMTimeGetSeconds(self.mediaPlayerController.player.currentItem.asset.duration) * 1000];
+		}
+	}
+	return @"0";
+}
+
 - (NSString *) contentURL
 {
-	AVAsset *asset = self.player.currentItem.asset;
+	AVAsset *asset = self.mediaPlayerController.player.currentItem.asset;
 	if ([asset isKindOfClass:[AVURLAsset class]]) {
 		NSURL *assetURL = [(AVURLAsset *)asset URL];
 		NSURL *newURL = [[NSURL alloc] initWithScheme:[assetURL scheme] host:[assetURL host] path:[assetURL path]];
