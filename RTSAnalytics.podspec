@@ -24,7 +24,6 @@ Pod::Spec.new do |s|
 
   s.frameworks = [ "Foundation", "UIKit" ]
   
-  s.dependency "AFNetworking",       "~> 1.3.4"
   s.dependency "comScore-iOS-SDK",   "3.1502.26"
   s.dependency "RTSMediaPlayer",     "~> 0.0.2"
 end
