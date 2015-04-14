@@ -6,6 +6,25 @@
 #import <UIKit/UIKit.h>
 
 /**
+ *  -------------------
+ *  @name Notifications
+ *  -------------------
+ */
+
+/**
+ *  Posted before sending the GET request
+ */
+FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixWillSendRequestNotification;
+
+
+/**
+ *  Posted when the request's response is received
+ */
+FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestDidFinishNotification;
+FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestSuccessUserInfoKey;
+FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey;
+
+/**
  *  `RTSAnalyticsNetmetrixTracker` is used to track view events for Netmetrix.
  * 
  *  The tracker uses a `AFHTTPClient` to send HTTP GET requests. The destination URL is specified by a domain and appID.
