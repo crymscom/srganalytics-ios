@@ -10,6 +10,7 @@
 
 @interface NSString (RTSAnalyticsUtils)
 
+- (NSString *)comScoreTitleFormattedString;
 - (NSString *)comScoreFormattedString;
 - (NSString *)truncateAndAddEllipsisForStatistics;
 - (NSString *)truncateAndAddEllipsis:(int)maxLength;

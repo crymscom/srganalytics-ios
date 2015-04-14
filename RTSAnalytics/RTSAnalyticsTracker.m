@@ -166,8 +166,8 @@
 {
 	NSMutableDictionary *labels = [NSMutableDictionary dictionary];
 	
-	title = [title comScoreFormattedString];
-	[labels safeSetValue:(title.length > 0 ? title : @"Untitled") forKey:@"srg_title"];
+	title = title.length > 0 ? [title comScoreTitleFormattedString] : @"untitled";
+	[labels safeSetValue:title forKey:@"srg_title"];
 	
 	[labels safeSetValue:@(fromPush) forKey:@"srg_ap_push"];
 	
@@ -198,7 +198,7 @@
 	}
 	
 	[labels safeSetValue:category forKey:@"category"];
-	[labels safeSetValue:[NSString stringWithFormat:@"%@.%@", category, title] forKey:@"name"];
+	[labels safeSetValue:[NSString stringWithFormat:@"%@.%@", category, [title comScoreFormattedString]] forKey:@"name"];
 	
 	[customLabels enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 		[labels safeSetValue:[obj description] forKey:[key description]];
