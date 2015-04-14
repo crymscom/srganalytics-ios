@@ -24,6 +24,8 @@
 	<dict>
 		<key>ComscoreVirtualSite</key>
 		<string>rts-app-test-v</string>
+		<key>NetmetrixAppID</key>
+		<string>null</string>
 		<key>StreamsenseVirtualSite</key>
 		<string>rts-app-test-v</string>
 	</dict>

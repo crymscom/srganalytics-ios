@@ -55,8 +55,8 @@
         [CSComScore setLabels:[self comScoreGlobalLabels]];
         
         NSString *netmetrixAppID = [self infoDictionnaryValueForKey:@"NetmetrixAppID"];
-        NSString *netmetrixDomain = [self infoDictionnaryValueForKey:@"NetmetrixDomain"];
         if (netmetrixAppID.length > 0) {
+			NSString *netmetrixDomain = [self infoDictionnaryValueForKey:@"NetmetrixDomain"];
             self.netmetrixTracker = [[RTSAnalyticsNetmetrixTracker alloc] initWithAppID:netmetrixAppID domain:netmetrixDomain ?: [self businessUnit]];
         }
         else {
