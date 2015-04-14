@@ -99,7 +99,7 @@ static BOOL isLogEnabled = NO;
 		DDLogError(@"ERROR sending %@ > %@", event, name);
 	}
 	
-	DDLogDebug(@"Stats sent:\n%@", dictionaryRepresentation);
+	DDLogDebug(@"Comscore view event sent:\n%@", dictionaryRepresentation);
 }
 
 @end
