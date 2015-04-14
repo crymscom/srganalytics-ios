@@ -50,7 +50,7 @@ static BOOL isLogEnabled = NO;
 			 [message appendFormat:@"%@: %@\n", NSStringFromSelector(selector), [CSComScore performSelector:selector]];
 		 }
 		 [message deleteCharactersInRange:NSMakeRange(message.length - 1, 1)];
-		 DDLogInfo(@"%@", message);
+		 DDLogDebug(@"%@", message);
 		 
 	 } background:YES];
 }
@@ -93,13 +93,13 @@ static BOOL isLogEnabled = NO;
 	
 	BOOL success = [notification.userInfo[RTSAnalyticsComScoreRequestSuccessUserInfoKey] boolValue];
 	if (success) {
-		DDLogDebug(@"%@ > %@", event, name);
+		DDLogInfo(@"%@ > %@", event, name);
 	}
 	else {
 		DDLogError(@"ERROR sending %@ > %@", event, name);
 	}
 	
-	DDLogVerbose(@"Stats sent:\n%@", dictionaryRepresentation);
+	DDLogDebug(@"Stats sent:\n%@", dictionaryRepresentation);
 }
 
 @end
