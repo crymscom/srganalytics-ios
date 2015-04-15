@@ -66,7 +66,7 @@
 		9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B64502681ADE56F5001021A8 /* RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalytics.h; sourceTree = "<group>"; };
 		B64502691ADE56F5001021A8 /* StreamMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamMeasurement.h; sourceTree = "<group>"; };
-		B64502971ADE7DC7001021A8 /* RTSAnalytics.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = RTSAnalytics.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		B64502971ADE7DC7001021A8 /* RTSAnalytics.podspec */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = text; path = RTSAnalytics.podspec; sourceTree = "<group>"; usesTabs = 0; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		B64502A51ADE81F9001021A8 /* CSRequest+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSRequest+RTSAnalytics.m"; sourceTree = "<group>"; };
 		B64502A61ADE81F9001021A8 /* CSRequest+RTSAnalytics_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CSRequest+RTSAnalytics_private.h"; sourceTree = "<group>"; };
 		B64502A71ADE81F9001021A8 /* NSDictionary+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+RTSAnalytics.m"; sourceTree = "<group>"; };

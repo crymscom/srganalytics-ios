@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.license     = { :type => "N/A" }
   s.authors     = { "Cédric Foellmi" => "cedric.foellmi@hortis.ch", "Cédric Luthi" => "cedric.luthi@rts.ch", "Frédéric Humbert-Droz" => "fred.hd@me.com" }
   s.source      = { :git => "git@bitbucket.org:rtsmb/rtsanalytics-ios.git", :tag => s.version.to_s }
-
+  
   # Platform setup
   s.requires_arc = true
   s.ios.deployment_target = "7.0"
@@ -29,5 +29,5 @@ Pod::Spec.new do |s|
     sm.private_header_files = "RTSAnalytics/StreamMeasurement/**/*_private.h"
     sm.dependency             "RTSMediaPlayer", "~> 0.0.2"
   end
-
+  
 end
