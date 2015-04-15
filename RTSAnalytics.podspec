@@ -11,18 +11,22 @@ Pod::Spec.new do |s|
   # Platform setup
   s.requires_arc = true
   s.ios.deployment_target = "7.0"
-
-  # Library setup
-  s.source_files         = "RTSAnalytics/RTSAnalytics.h", "RTSAnalytics/Core/**/*.{h,m}"
-  s.private_header_files = "RTSAnalytics/Core/**/*_private.h"
-  s.frameworks           = [ "Foundation", "UIKit" ]
-  s.dependency             "comScore-iOS-SDK", "3.1502.26"
-
+  
+  # Exclude optional Stream Measurement modules
+  s.default_subspec = 'Core'
+  
   ### Subspecs
+  
+  s.subspec 'Core' do |co|
+    co.source_files         = "RTSAnalytics/RTSAnalytics.h", "RTSAnalytics/Core/**/*.{h,m}"
+    co.private_header_files = "RTSAnalytics/Core/**/*_private.h"
+    co.frameworks           = [ "Foundation", "UIKit" ]
+    co.dependency             "comScore-iOS-SDK", "3.1502.26"
+  end
   
   s.subspec 'StreamMeasurement' do |sm|
     sm.source_files         = "RTSAnalytics/StreamMeasurement.h", "RTSAnalytics/StreamMeasurement/**/*.{h,m}"
-	sm.private_header_files = "RTSAnalytics/StreamMeasurement/**/*_private.h"
+    sm.private_header_files = "RTSAnalytics/StreamMeasurement/**/*_private.h"
     sm.dependency             "RTSMediaPlayer", "~> 0.0.2"
   end
 
