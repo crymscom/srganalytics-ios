@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import "NSDictionary+RTSAnalyticsUtils.h"
+#import "NSDictionary+RTSAnalytics_private.h"
 
-@implementation NSDictionary (RTSAnalyticsUtils)
+@implementation NSDictionary (RTSAnalytics)
 
 - (void)safeSetValue:(id)value forKey:(NSString *)key
 {

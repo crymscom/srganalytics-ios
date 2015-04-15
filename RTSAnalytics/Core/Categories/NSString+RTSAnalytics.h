@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (RTSAnalyticsUtils)
+@interface NSString (RTSAnalytics)
 
 - (NSString *)comScoreTitleFormattedString;
 - (NSString *)comScoreFormattedString;

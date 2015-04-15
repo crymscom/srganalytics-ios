@@ -3,7 +3,8 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import "RTSAnalyticsNetmetrixTracker.h"
+#import "RTSAnalyticsTracker.h"
+#import "RTSAnalyticsNetmetrixTracker_private.h"
 #import <CocoaLumberjack/CocoaLumberjack.h>
 
 static NSString * const LoggerDomainAnalyticsNetmetrix = @"Netmetrix";
@@ -16,33 +17,41 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 @interface RTSAnalyticsNetmetrixTracker ()
 
 @property (nonatomic, strong) NSString *appID;
-@property (nonatomic, strong) NSString *domain;
+@property (nonatomic, assign) SSRBusinessUnit businessUnit;
+@property (nonatomic, assign) BOOL production;
 
 @end
 
 @implementation RTSAnalyticsNetmetrixTracker
 
-- (instancetype) initWithAppID:(NSString *)appID domain:(NSString *)domain
+- (instancetype) initWithAppID:(NSString *)appID businessUnit:(SSRBusinessUnit)businessUnit production:(BOOL)production
 {
 	if (!(self = [super init]))
 		return nil;
 	
 	_appID = appID;
-	_domain = domain;
+	_businessUnit = businessUnit;
+	_production = production;
 	
-	DDLogDebug(@"%@ initialization\nAppID: %@\nDomain: %@", LoggerDomainAnalyticsNetmetrix, appID, domain);
+	DDLogDebug(@"%@ initialization\nAppID: %@\nDomain: %@", LoggerDomainAnalyticsNetmetrix, appID, self.netmetrixDomain);
 
 	return self;
+}
+
+- (NSString *) netmetrixDomain
+{
+	NSArray *netmetrixDomains = @[ @"srf", @"rts", @"rtsi", @"rtr", @"swissinf" ];
+	return netmetrixDomains[self.businessUnit];
 }
 
 #pragma mark - Track View
 
 - (void) trackView
 {
-	if (!self.appID && !self.domain)
+	if (!self.production)
 		return;
 	
-	NSString *netmetrixURLString = [NSString stringWithFormat:@"http://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.domain, self.appID, self.device];
+	NSString *netmetrixURLString = [NSString stringWithFormat:@"http://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netmetrixDomain, self.appID, self.device];
 	NSURL *netmetrixURL = [NSURL URLWithString:netmetrixURLString];
 	
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:netmetrixURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];

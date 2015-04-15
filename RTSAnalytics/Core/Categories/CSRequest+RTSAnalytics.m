@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 RTS. All rights reserved.
 //
 
-#import "CSRequest+RTSNotification.h"
+#import "CSRequest+RTSAnalytics_private.h"
 #import <objc/runtime.h>
 
 NSString * const RTSAnalyticsComScoreRequestDidFinishNotification = @"RTSAnalyticsComScoreRequestDidFinish";

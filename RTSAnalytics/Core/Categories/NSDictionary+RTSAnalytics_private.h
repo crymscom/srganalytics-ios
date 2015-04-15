@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSDictionary (RTSAnalyticsUtils)
+@interface NSDictionary (RTSAnalytics)
 - (void)safeSetValue:(id)value forKey:(NSString *)key;
 @end

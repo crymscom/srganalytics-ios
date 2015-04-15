@@ -33,10 +33,11 @@
  *
  *  @param mediaPlayerController the media player controller used for generating persistent labels.
  *  @param dataSource            the datasource for custom labels, playlist labels and clip labels of currently playing media.
+ *  @param virtualSite           the streamsense virtual site for stream measurement
  *
  *  @return a media player controller StreamSense tracker.
  */
-- (id) initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL1;
+- (id) initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource virtualSite:(NSString *)virtualSite OS_NONNULL1;
 
 /**
  *  --------------------------------------------

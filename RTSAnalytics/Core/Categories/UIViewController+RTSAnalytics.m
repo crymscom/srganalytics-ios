@@ -6,15 +6,15 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import "UIViewController+Analytics.h"
+#import "UIViewController+RTSAnalytics.h"
 
 #import <objc/runtime.h>
 
 #import "RTSAnalyticsTracker.h"
-#import "NSString+RTSAnalyticsUtils.h"
+#import "NSString+RTSAnalytics.h"
 #import "RTSAnalyticsPageViewDataSource.h"
 
-@implementation UIViewController (Analytics)
+@implementation UIViewController (RTSAnalytics)
 
 static void (*viewDidAppearIMP)(UIViewController *, SEL, BOOL);
 static void AnalyticsViewDidAppear(UIViewController *self, SEL _cmd, BOOL animated);

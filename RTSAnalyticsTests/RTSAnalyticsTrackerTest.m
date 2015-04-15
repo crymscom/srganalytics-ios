@@ -41,7 +41,7 @@
     id comScoreClassMock = OCMClassMock([CSComScore class]);
     
     // Also check that when we have multiple trackers, the setup is done only once for comScore.
-	[[RTSAnalyticsTracker sharedTracker] startTrackingWithMediaDataSource:self.dataSourceMock];
+	[[RTSAnalyticsTracker sharedTracker] startTrackingForBusinessUnit:SSRBusinessUnitRTS mediaDataSource:self.dataSourceMock];
 	
     OCMVerify([comScoreClassMock setCustomerC2:[OCMArg isNotNil]]);
     OCMVerify([comScoreClassMock setPublisherSecret:[OCMArg isNotNil]]);
@@ -76,7 +76,7 @@
 {
     id comScoreClassMock = OCMClassMock([CSComScore class]);
     
-    [[RTSAnalyticsTracker sharedTracker] startTrackingWithMediaDataSource:self.dataSourceMock];
+    [[RTSAnalyticsTracker sharedTracker] startTrackingForBusinessUnit:SSRBusinessUnitRTS mediaDataSource:self.dataSourceMock];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification
                                                         object:nil

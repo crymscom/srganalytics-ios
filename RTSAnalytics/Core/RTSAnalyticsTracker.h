@@ -6,7 +6,23 @@
 #import <Foundation/Foundation.h>
 
 #import "RTSAnalyticsPageViewDataSource.h"
-#import "RTSAnalyticsMediaPlayerDataSource.h"
+
+#if __has_include("StreamMeasurement.h")
+#define RTSAnalyticsStreamTrackerIncluded
+#import "StreamMeasurement.h"
+#endif
+
+/**
+ <#Description#>
+ */
+typedef enum {
+	SSRBusinessUnitSRF,
+	SSRBusinessUnitRTS,
+	SSRBusinessUnitRSI,
+	SSRBusinessUnitRTR,
+	SSRBusinessUnitSWI
+} SSRBusinessUnit;
+
 
 /**
  *  RTSAnalyticsTracker is used to track view events and stream measurements for SRG/SSR apps.
@@ -29,20 +45,28 @@
 + (instancetype)sharedTracker;
 
 /**
- *  Starts the tracker for page views and streams played with RTSMediaPlayerController.
- *
- *  @param dataSource the datasource which provides labels/playlist/clip for Streamsense tracker. (Mandatory)
- *
- *  @discussion the tracker uses values set in application Info.plist to track Comscore, Streamsense and Netmetrix measurement. 
- *  Add an Info.plist dictionary named `RTSAnalytics` with 4 keypairs :
- *              ComscoreVirtualSite    : string - mandatory
- *              StreamsenseVirtualSite : string - mandatory
- *              NetmetrixAppID         : string - NetmetrixAppID MUST be set ONLY for application in production.
- *	            NetmetrixDomain        : string - optionnal - if not set, the domain will use the calculated BusinessUnit string based on the application bundleIdentifier.
- *
- *  The application MUST call `-startTrackingWithMediaDataSource:` ONLY in `-application:didFinishLaunchingWithOptions:`.
+ *  <#Description#>
  */
-- (void)startTrackingWithMediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL_ALL;
+@property (nonatomic, strong) NSString *comscoreVSite;
+
+/**
+ *  <#Description#>
+ */
+@property (nonatomic, strong) NSString *netmetrixAppId;
+
+/**
+ *  <#Description#>
+ */
+@property (nonatomic, assign) BOOL production;
+
+/**
+ *  <#Description#>
+ */
+#ifdef RTSAnalyticsStreamTrackerIncluded
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource;
+#else
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit;
+#endif
 
 /**
  *  --------------------------------------------
@@ -63,6 +87,7 @@
  *  The methods is also automatically called when the app becomes active again. A reference of the last page view datasource is kept by the tracker.
  */
 - (void)trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)dataSource;
+
 
 /**
  *  Track a view event identified by its title and levels labels. 

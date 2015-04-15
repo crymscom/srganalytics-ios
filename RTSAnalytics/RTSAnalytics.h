@@ -11,5 +11,10 @@
 #import "RTSAnalyticsTracker.h"
 #import "RTSAnalyticsTracker+Logging.h"
 
-#import "RTSAnalyticsMediaPlayerDataSource.h"
 #import "RTSAnalyticsPageViewDataSource.h"
+
+#import "UIViewController+RTSAnalytics.h"
+
+#if __has_include("StreamMeasurement.h")
+#import "StreamMeasurement.h"
+#endif

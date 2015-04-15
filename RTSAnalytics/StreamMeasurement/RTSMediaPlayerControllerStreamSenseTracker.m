@@ -3,7 +3,7 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import "RTSMediaPlayerControllerStreamSenseTracker.h"
+#import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 
 #import "RTSAnalytics.h"
 
@@ -36,7 +36,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	_mediaPlayerController = nil;
 }
 
-- (id)initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+- (id)initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource virtualSite:(NSString *)virtualSite
 {
 	if(!(self = [super init]))
 	   return nil;
@@ -51,15 +51,13 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	[self setLabel:@"ns_st_mv" value:[mediaPlayerBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 	[self setLabel:@"ns_st_it" value:@"c"];
 	
-	NSBundle *mainBundle = [NSBundle bundleForClass:[self class]];
-	NSDictionary *analyticsInfoDictionnary = [mainBundle objectForInfoDictionaryKey:@"RTSAnalytics"];
-	NSString *streamSenseVirtualSite = [analyticsInfoDictionnary objectForKey:@"StreamsenseVirtualSite"];
-	NSAssert(streamSenseVirtualSite.length > 0, @"You MUST define `RTSAnalytics>StreamsenseVirtualSite` key in your app Info.plist");
+	if (virtualSite.length > 0) {
+		[self setLabel:@"ns_vsite" value:virtualSite];
+	}
 	
-	[self setLabel:@"ns_vsite" value:streamSenseVirtualSite];
 	[self setLabel:@"srg_ptype" value:@"p_app_ios"];
 	
-	DDLogVerbose(@"%@ : new Streamsense instance with ns_vsite = %@", LoggerDomainAnalyticsStreamSense, streamSenseVirtualSite);
+	DDLogVerbose(@"%@ : new Streamsense instance with ns_vsite = %@", LoggerDomainAnalyticsStreamSense, self.labels[@"ns_vsite"]);
 
 	return self;
 }

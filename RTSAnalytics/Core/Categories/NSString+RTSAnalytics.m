@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import "NSString+RTSAnalyticsUtils.h"
+#import "NSString+RTSAnalytics.h"
 
-@implementation NSString (RTSAnalyticsUtils)
+@implementation NSString (RTSAnalytics)
 
 - (NSString *)comScoreTitleFormattedString
 {

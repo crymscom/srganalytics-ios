@@ -47,7 +47,7 @@ FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoK
  *
  *  @return a Netmetrix tracker
  */
-- (instancetype) initWithAppID:(NSString *)appID domain:(NSString *)domain;
+- (instancetype) initWithAppID:(NSString *)appID businessUnit:(SSRBusinessUnit)businessUnit production:(BOOL)production;
 
 /**
  *  --------------------------------------------

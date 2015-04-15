@@ -9,7 +9,7 @@
 #import <comScore-iOS-SDK/CSComScore.h>
 #import <comScore-iOS-SDK/CSTaskExecutor.h>
 
-#import "CSRequest+RTSNotification.h"
+#import "CSRequest+RTSAnalytics_private.h"
 
 #import <CocoaLumberjack/CocoaLumberjack.h>
 

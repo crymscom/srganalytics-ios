@@ -8,7 +8,7 @@
 /**
  *  The implementation swizzles `viewDidAppear:` for automatic analytics
  */
-@interface UIViewController (Analytics)
+@interface UIViewController (RTSAnalytics)
 
 /**
  *  Call this method to track view events manually when content changes (by ex.: filtering data, changing part of the view, ...)
