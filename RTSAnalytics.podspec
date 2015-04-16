@@ -22,6 +22,7 @@ Pod::Spec.new do |s|
     co.private_header_files = "RTSAnalytics/Core/**/*_private.h"
     co.frameworks           = [ "Foundation", "UIKit" ]
     co.dependency             "comScore-iOS-SDK", "3.1502.26"
+    co.dependency             "CocoaLumberjack",  "~> 2.0.0"
   end
   
   s.subspec 'StreamMeasurement' do |sm|
