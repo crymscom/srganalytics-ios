@@ -15,6 +15,16 @@ Pod::Spec.new do |s|
   # Exclude optional Stream Measurement modules
   s.default_subspec = 'Core'
   
+  s.prefix_header_contents = <<-EOS
+  #if __has_include("CSStreamSense.h")
+  #import <AVFoundation/AVFoundation.h>
+  #import <MediaPlayer/MediaPlayer.h>
+  #endif
+  #if __has_include("RTSMediaPlayer.h")
+  #import <RTSAnalytics/RTSAnalyticsMediaPlayer.h>
+  #endif
+  EOS
+
   ### Subspecs
   
   s.subspec 'Core' do |co|
