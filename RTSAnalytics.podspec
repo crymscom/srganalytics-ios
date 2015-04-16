@@ -14,23 +14,13 @@ Pod::Spec.new do |s|
   
   # Exclude optional Stream Measurement modules
   s.default_subspec = 'Core'
-  
-  s.prefix_header_contents = <<-EOS
-  #if __has_include("CSStreamSense.h")
-  #import <AVFoundation/AVFoundation.h>
-  #import <MediaPlayer/MediaPlayer.h>
-  #endif
-  #if __has_include("RTSMediaPlayer.h")
-  #import <RTSAnalytics/RTSAnalyticsMediaPlayer.h>
-  #endif
-  EOS
 
   ### Subspecs
   
   s.subspec 'Core' do |co|
     co.source_files         = "RTSAnalytics/RTSAnalytics.h", "RTSAnalytics/Core/**/*.{h,m}"
     co.private_header_files = "RTSAnalytics/Core/**/*_private.h"
-    co.frameworks           = [ "Foundation", "UIKit" ]
+    co.frameworks           = "AVFoundation", "CoreMedia", "Foundation", "MediaPlayer", "UIKit"
     co.dependency             "comScore-iOS-SDK", "3.1502.26"
     co.dependency             "CocoaLumberjack",  "~> 2.0.0"
   end
