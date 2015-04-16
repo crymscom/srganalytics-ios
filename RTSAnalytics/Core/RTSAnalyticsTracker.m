@@ -13,9 +13,9 @@
 #import <comScore-iOS-SDK/CSComScore.h>
 #import <CocoaLumberjack/CocoaLumberjack.h>
 
-#if __has_include("StreamMeasurement.h")
-#define RTSAnalyticsStreamTrackerIncluded
-#import "StreamMeasurement.h"
+#if __has_include("RTSAnalyticsMediaPlayer.h")
+#define RTSAnalyticsMediaPlayerIncluded
+#import "RTSAnalyticsMediaPlayer.h"
 #import "RTSAnalyticsStreamTracker_private.h"
 #endif
 
@@ -119,7 +119,7 @@
 
 #pragma mark - PageView tracking
 
-#ifdef RTSAnalyticsStreamTrackerIncluded
+#ifdef RTSAnalyticsMediaPlayerIncluded
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
 {
 	_businessUnit = businessUnit;

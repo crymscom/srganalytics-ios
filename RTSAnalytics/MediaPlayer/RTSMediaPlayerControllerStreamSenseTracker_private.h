@@ -20,7 +20,7 @@
  *
  *  @discussion  Due to Comscore SDK implementation, Streamsense measurements are not sent when media player playback state changes to buffering.
  */
-@interface RTSMediaPlayerControllerStreamSenseTracker : CSStreamSense
+@interface RTSMediaPlayerControllerStreamSenseTracker : CSStreamSensePlugin
 
 /**
  *  ----------------------------------------------------
@@ -37,7 +37,7 @@
  *
  *  @return a media player controller StreamSense tracker.
  */
-- (id) initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource virtualSite:(NSString *)virtualSite OS_NONNULL1;
+- (id) initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource virtualSite:(NSString *)virtualSite OS_NONNULL_ALL;
 
 /**
  *  --------------------------------------------

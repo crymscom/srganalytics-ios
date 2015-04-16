@@ -7,9 +7,9 @@
 
 #import "RTSAnalyticsPageViewDataSource.h"
 
-#if __has_include("StreamMeasurement.h")
-#define RTSAnalyticsStreamTrackerIncluded
-#import "StreamMeasurement.h"
+#if __has_include("RTSAnalyticsMediaPlayer.h")
+#define RTSAnalyticsMediaPlayerIncluded
+#import "RTSAnalyticsMediaPlayer.h"
 #endif
 
 /**
@@ -62,8 +62,8 @@ typedef enum {
 /**
  *  <#Description#>
  */
-#ifdef RTSAnalyticsStreamTrackerIncluded
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource;
+#ifdef RTSAnalyticsMediaPlayerIncluded
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL_ALL;
 #else
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit;
 #endif

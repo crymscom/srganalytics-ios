@@ -51,10 +51,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	[self setLabel:@"ns_st_mv" value:[mediaPlayerBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 	[self setLabel:@"ns_st_it" value:@"c"];
 	
-	if (virtualSite.length > 0) {
-		[self setLabel:@"ns_vsite" value:virtualSite];
-	}
-	
+	[self setLabel:@"ns_vsite" value:virtualSite];
 	[self setLabel:@"srg_ptype" value:@"p_app_ios"];
 	
 	DDLogVerbose(@"%@ : new Streamsense instance with ns_vsite = %@", LoggerDomainAnalyticsStreamSense, self.labels[@"ns_vsite"]);

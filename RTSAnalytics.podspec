@@ -25,9 +25,9 @@ Pod::Spec.new do |s|
     co.dependency             "CocoaLumberjack",  "~> 2.0.0"
   end
   
-  s.subspec 'StreamMeasurement' do |sm|
-    sm.source_files         = "RTSAnalytics/StreamMeasurement.h", "RTSAnalytics/StreamMeasurement/**/*.{h,m}"
-    sm.private_header_files = "RTSAnalytics/StreamMeasurement/**/*_private.h"
+  s.subspec 'MediaPlayer' do |sm|
+    sm.source_files         = "RTSAnalytics/RTSAnalyticsMediaPlayer.h", "RTSAnalytics/MediaPlayer/**/*.{h,m}"
+    sm.private_header_files = "RTSAnalytics/MediaPlayer/**/*_private.h"
     sm.dependency             "RTSMediaPlayer", "~> 0.0.2"
   end
   

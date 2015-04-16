@@ -15,6 +15,6 @@
 
 #import "UIViewController+RTSAnalytics.h"
 
-#if __has_include("StreamMeasurement.h")
-#import "StreamMeasurement.h"
+#if __has_include("RTSAnalyticsMediaPlayer.h")
+#import "RTSAnalyticsMediaPlayer.h"
 #endif
