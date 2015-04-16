@@ -127,7 +127,7 @@
 	[self startComscoreTracker];
 	[self startNetmetrixTracker];
 	
-	NSString *streamSenseVirtualSite = self.production ? [NSString stringWithFormat:@"%@-v", self.businessUnitName.lowercaseString] : nil;
+	NSString *streamSenseVirtualSite = self.production ? [NSString stringWithFormat:@"%@-v", self.businessUnitName.lowercaseString] : self.comscoreVSite;
 	[[RTSAnalyticsStreamTracker sharedTracker] startStreamMeasurementForVirtualSite:streamSenseVirtualSite mediaDataSource:dataSource];
 }
 #else
