@@ -13,14 +13,49 @@
 #endif
 
 /**
- <#Description#>
+ * SRG/SSR Business units
  */
 typedef enum {
+	/**
+	 *  Business unit for Schweizer Radio und Fernsehen (SRF)
+	 *
+	 *  - Comscore value   : "sfr"
+	 *  - Netmetrix domain : "sfr"
+	 */
 	SSRBusinessUnitSRF,
+	
+	/**
+	 *  Business unit for Radio Télévision Suisse (RTS)
+	 *
+	 *  - Comscore value   : "rts"
+	 *  - Netmetrix domain : "rts"
+	 */
 	SSRBusinessUnitRTS,
+	
+	/**
+	 *  Business unit for Radiotelevisione svizzera (RSI)
+	 *
+	 *  - Comscore value   : "rsi"
+	 *  - Netmetrix domain : "rtsi"
+	 */
 	SSRBusinessUnitRSI,
+	
+	/**
+	 *  Business unit for Radiotelevisiun Svizra Rumantscha (RTR)
+	 *
+	 *  - Comscore value   : "rtr"
+	 *  - Netmetrix domain : "rtr"
+	 */
 	SSRBusinessUnitRTR,
+	
+	/**
+	 *  Business unit for Swissinfo (SWI)
+	 *
+	 *  - Comscore value   : "swi"
+	 *  - Netmetrix domain : "swissinf"
+	 */
 	SSRBusinessUnitSWI
+	
 } SSRBusinessUnit;
 
 
@@ -32,9 +67,9 @@ typedef enum {
 @interface RTSAnalyticsTracker : NSObject
 
 /**
- *  --------------------------------------------
+ *  ---------------------------------------
  *  @name Initializing an Analytics Tracker
- *  --------------------------------------------
+ *  ---------------------------------------
  */
 
 /**
@@ -45,22 +80,17 @@ typedef enum {
 + (instancetype)sharedTracker;
 
 /**
- *  <#Description#>
- */
-@property (nonatomic, strong) NSString *comscoreVSite;
-
-/**
- *  <#Description#>
- */
-@property (nonatomic, strong) NSString *netmetrixAppId;
-
-/**
- *  <#Description#>
- */
-@property (nonatomic, assign) BOOL production;
-
-/**
- *  <#Description#>
+ *  Start tracking page events and streams
+ *
+ *  @param businessUnit the SRG/SSR business unit for statistics measurements
+ *  @param dataSource   the data source to be provided for stream tracking. This parameter is mandatory if using `RTSAnalytics\MediaPlayer` submodule
+ *
+ *  @discussion the tracker uses values set in application Info.plist to track Comscore, Streamsense and Netmetrix measurement.
+ *  Add an Info.plist dictionary named `RTSAnalytics` with 2 keypairs :
+ *              ComscoreVirtualSite    : string - mandatory
+ *              NetmetrixAppID         : string - NetmetrixAppID MUST be set ONLY for application in production.
+ *
+ *  The application MUST call `-startTrackingWithMediaDataSource:` ONLY in `-application:didFinishLaunchingWithOptions:`.
  */
 #ifdef RTSAnalyticsMediaPlayerIncluded
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL_ALL;
@@ -69,9 +99,40 @@ typedef enum {
 #endif
 
 /**
- *  --------------------------------------------
+ *  --------------------
+ *  @name Tracker Object
+ *  --------------------
+ */
+
+/**
+ *  The ComScore virtual site to be used for sending stats.
+ */
+@property (nonatomic, strong) NSString *comscoreVSite;
+
+/**
+ *  The NetMetrix application name to be used for view event tracking.
+ */
+@property (nonatomic, strong) NSString *netmetrixAppId;
+
+/**
+ *  The value to specify weither analytics must be send to real servers and virtual sites. Default is NO.
+ *
+ *  @discussion Set this value to inform the library that the stats must be sent for production measurement.
+ *  If set to "NO" :
+ *   - ComScore Virtual Site :     value will be "{businessUnit}-app-test-v"
+ *   - StreamSense Virtual Site :  value will be "{businessUnit}-app-test-v"
+ *   - NetMetrix :                 Netmetrix view events will NOT be sent !
+ *
+ *  If set to "YES :
+ *   - ComScore Virtual Site :     value will be equal to `comscoreVSite` provided property
+ *   - StreamSense Virtual Site :  value will be set to "{businessUnit}-v"
+ */
+@property (nonatomic, assign) BOOL production;
+
+/**
+ *  -------------------
  *  @name View Tracking
- *  --------------------------------------------
+ *  -------------------
  */
 
 /**

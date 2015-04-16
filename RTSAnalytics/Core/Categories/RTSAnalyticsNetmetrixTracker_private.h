@@ -32,9 +32,9 @@ FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoK
 @interface RTSAnalyticsNetmetrixTracker : NSObject
 
 /**
- *  --------------------------------------------
+ *  --------------------------------------
  *  @name Initializing a Netmetrix Tracker
- *  --------------------------------------------
+ *  --------------------------------------
  */
 
 /**
@@ -50,9 +50,9 @@ FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoK
 - (instancetype) initWithAppID:(NSString *)appID businessUnit:(SSRBusinessUnit)businessUnit production:(BOOL)production;
 
 /**
- *  --------------------------------------------
+ *  -------------------
  *  @name View Tracking
- *  --------------------------------------------
+ *  -------------------
  */
 
 /**
