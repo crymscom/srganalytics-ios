@@ -13,26 +13,17 @@
 
 @implementation RTSAnalytics_Demo_2_MediaPlayerTests
 
-- (void)setUp {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
-- (void)test_1_OpenDefaultMediaPlayerControllerSendsStreamStartMeasurement
+- (void)test_1_OpenDefaultMediaPlayerControllerSendsLiveStreamStartMeasurement
 {
-	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
+	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
 	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
     XCTAssertEqualObjects(@"play", labels[@"ns_st_ev"]);
+	XCTAssertEqualObjects(@"1",    labels[@"ns_st_li"]);
 }
 
-- (void)test_2_CloseMediaPlayerSendsStreamEndMeasurement
+- (void)test_2_CloseMediaPlayerSendsStreamLiveEndMeasurement
 {
 	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
 		[tester tapViewWithAccessibilityLabel:@"Done"];
@@ -40,6 +31,32 @@
 	
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(@"end", labels[@"ns_st_ev"]);
+	XCTAssertEqualObjects(@"1",   labels[@"ns_st_li"]);
+	
+	[tester waitForTimeInterval:2.0f];
+}
+
+- (void)test_3_OpenDefaultMediaPlayerControllerSendsLiveStreamStartMeasurement
+{
+	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+	
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+	XCTAssertEqualObjects(@"play", labels[@"ns_st_ev"]);
+	XCTAssertEqualObjects(@"0",    labels[@"ns_st_li"]);
+}
+
+- (void)test_4_CloseMediaPlayerSendsStreamLiveEndMeasurement
+{
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
+		[tester tapViewWithAccessibilityLabel:@"Done"];
+	}];
+	
+	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+	XCTAssertEqualObjects(@"end", labels[@"ns_st_ev"]);
+	XCTAssertEqualObjects(@"0",    labels[@"ns_st_li"]);
+	
+	[tester waitForTimeInterval:2.0f];
 }
 
 @end

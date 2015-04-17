@@ -16,32 +16,16 @@
 
 @implementation RTSAnalytics_Demo_3_PushNotificationTests
 
-- (void)setUp {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
 - (void) test_1_ViewControllerPresentedFromPushSendsViewEventWithValidTag
 {
-	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
+	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
 	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-	
-	XCTAssertEqualObjects(@"app.title", labels[@"name"]);
 	XCTAssertEqualObjects(@"1",         labels[@"srg_ap_push"]);
-	XCTAssertEqualObjects(@"app",       labels[@"srg_n1"]);
-	XCTAssertEqualObjects(@"Title",     labels[@"srg_title"]);
-	XCTAssertEqualObjects(@"view",      labels[@"ns_type"]);
 	
 	[tester tapViewWithAccessibilityLabel:@"Done"];
 }
-
 
 - (void) test_2_PresentAnotherViewControllerSendsViewEventWithValidTag
 {
@@ -49,12 +33,7 @@
 	
 	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-	
-	XCTAssertEqualObjects(@"app.title", labels[@"name"]);
 	XCTAssertEqualObjects(@"0",         labels[@"srg_ap_push"]);
-	XCTAssertEqualObjects(@"app",       labels[@"srg_n1"]);
-	XCTAssertEqualObjects(@"Title",     labels[@"srg_title"]);
-	XCTAssertEqualObjects(@"view",      labels[@"ns_type"]);
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
 }
