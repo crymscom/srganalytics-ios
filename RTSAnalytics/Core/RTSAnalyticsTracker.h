@@ -82,8 +82,9 @@ typedef enum {
 /**
  *  Start tracking page events and streams
  *
- *  @param businessUnit the SRG/SSR business unit for statistics measurements
- *  @param dataSource   the data source to be provided for stream tracking. This parameter is mandatory if using `RTSAnalytics\MediaPlayer` submodule
+ *  @param businessUnit  the SRG/SSR business unit for statistics measurements
+ *  @param launchOptions the launchOptions given by `-application:didFinishLaunchingWithOptions:`, so the lib is aware of application opening from push notification
+ *  @param dataSource    the data source to be provided for stream tracking. This parameter is mandatory if using `RTSAnalytics\MediaPlayer` submodule
  *
  *  @discussion the tracker uses values set in application Info.plist to track Comscore, Streamsense and Netmetrix measurement.
  *  Add an Info.plist dictionary named `RTSAnalytics` with 2 keypairs :
@@ -93,9 +94,9 @@ typedef enum {
  *  The application MUST call `-startTrackingWithMediaDataSource:` ONLY in `-application:didFinishLaunchingWithOptions:`.
  */
 #ifdef RTSAnalyticsMediaPlayerIncluded
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL_ALL;
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit launchOptions:(NSDictionary *)launchOptions mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL_ALL;
 #else
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit;
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit launchOptions:(NSDictionary *)launchOptions;
 #endif
 
 /**
@@ -173,5 +174,19 @@ typedef enum {
  *  Each level value is "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+RTSAnalyticsUtils` category.
  */
 - (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels customLabels:(NSDictionary *)customLabels fromPushNotification:(BOOL)fromPush;
+
+/**
+ *  ---------------------------------
+ *  @name Push Notifications Tracking
+ *  ---------------------------------
+ */
+
+/**
+ *  Inform the library the next view event needs to include `srg_ap_push` flag.
+ *
+ *  @discussion This method must be called from `-application:didReceiveRemoteNotification:fetchCompletionHandler:` for remote push notifications
+ *  or from `-application:didReceiveLocalNotification:` for local push notifications.
+ */
+- (void)trackPushNotificationReceived;
 
 @end

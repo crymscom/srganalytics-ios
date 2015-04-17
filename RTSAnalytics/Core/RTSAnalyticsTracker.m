@@ -31,6 +31,7 @@
 @property (nonatomic, strong) RTSAnalyticsNetmetrixTracker *netmetrixTracker;
 @property (nonatomic, weak) id<RTSAnalyticsPageViewDataSource> lastPageViewDataSource;
 @property (nonatomic, assign) SSRBusinessUnit businessUnit;
+@property (nonatomic, assign) BOOL pushNotificationReceived;
 @end
 
 @implementation RTSAnalyticsTracker
@@ -65,15 +66,13 @@
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification
 {
-	//FIXME: check if from push
 	[self trackPageViewTitle:@"comingToForeground" levels:@[ @"app", @"event" ]];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification
 {
-	if (!self.lastPageViewDataSource) {
+	if (self.pushNotificationReceived)
 		return;
-	}
 	
 	[self trackPageViewForDataSource:self.lastPageViewDataSource];
 }
@@ -120,25 +119,33 @@
 #pragma mark - PageView tracking
 
 #ifdef RTSAnalyticsMediaPlayerIncluded
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit launchOptions:(NSDictionary *)launchOptions mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
 {
-	_businessUnit = businessUnit;
-	
-	[self startComscoreTracker];
-	[self startNetmetrixTracker];
+	[self startTrackingForBusinessUnit:businessUnit launchOptions:launchOptions];
 	
 	NSString *streamSenseVirtualSite = self.production ? [NSString stringWithFormat:@"%@-v", self.businessUnitName.lowercaseString] : self.comscoreVSite;
 	[[RTSAnalyticsStreamTracker sharedTracker] startStreamMeasurementForVirtualSite:streamSenseVirtualSite mediaDataSource:dataSource];
 }
-#else
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
+#endif
+
+
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit launchOptions:(NSDictionary *)launchOptions
 {
 	_businessUnit = businessUnit;
 	
+	// Check if launch from Push
+	NSDictionary *remotePushNotificationUserInfo = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+	NSDictionary *localPushNotificationUserInfo = [launchOptions valueForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+	if(remotePushNotificationUserInfo || localPushNotificationUserInfo)
+	{
+		[self trackPushNotificationReceived];
+	}
+	
+	//Start View event Trackers
 	[self startComscoreTracker];
 	[self startNetmetrixTracker];
 }
-#endif
+
 
 - (void)startComscoreTracker
 {
@@ -175,9 +182,8 @@
 {
 	_lastPageViewDataSource = dataSource;
 	
-    if (!dataSource) {
+    if (!dataSource)
 		return;
-    }
 	
 	NSString *title = [dataSource pageViewTitle];
 	NSArray *levels = nil;
@@ -190,8 +196,8 @@
 		customLabels = [dataSource pageViewCustomLabels];
 	}
 	
-	//FIXME : detect from notification
-	[self trackPageViewTitle:title levels:levels customLabels:customLabels fromPushNotification:NO];
+	[self trackPageViewTitle:title levels:levels customLabels:customLabels fromPushNotification:self.pushNotificationReceived];
+	self.pushNotificationReceived = NO;
 }
 
 - (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels
@@ -244,6 +250,13 @@
 	[CSComScore viewWithLabels:labels];
 	
 	[self.netmetrixTracker trackView];
+}
+
+#pragma mark - Local and Push Notifications tracking
+
+- (void)trackPushNotificationReceived
+{
+	self.pushNotificationReceived = YES;
 }
 
 @end
