@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:RTSAnalytics Demo/RTSAnalytics Demo.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:RTSAnalytics.xcodeproj">
    </FileRef>
    <FileRef

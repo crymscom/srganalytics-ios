@@ -1,0 +1,62 @@
+{
+  "name": "RTSAnalytics",
+  "version": "0.0.1",
+  "summary": "RTS Analytics for the RTS Media Player",
+  "description": "RTS Analytics for the RTS Media Player",
+  "homepage": "http://rts.ch",
+  "license": {
+    "type": "N/A"
+  },
+  "authors": {
+    "Cédric Foellmi": "cedric.foellmi@hortis.ch",
+    "Cédric Luthi": "cedric.luthi@rts.ch",
+    "Frédéric Humbert-Droz": "fred.hd@me.com"
+  },
+  "source": {
+    "git": "git@bitbucket.org:rtsmb/rtsanalytics-ios.git",
+    "tag": "0.0.1"
+  },
+  "requires_arc": true,
+  "platforms": {
+    "ios": "7.0"
+  },
+  "default_subspecs": "Core",
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": [
+        "RTSAnalytics/RTSAnalytics.h",
+        "RTSAnalytics/Core/**/*.{h,m}"
+      ],
+      "private_header_files": "RTSAnalytics/Core/**/*_private.h",
+      "frameworks": [
+        "AVFoundation",
+        "CoreMedia",
+        "Foundation",
+        "MediaPlayer",
+        "UIKit"
+      ],
+      "dependencies": {
+        "comScore-iOS-SDK": [
+          "3.1502.26"
+        ],
+        "CocoaLumberjack": [
+          "~> 2.0.0"
+        ]
+      }
+    },
+    {
+      "name": "MediaPlayer",
+      "source_files": [
+        "RTSAnalytics/RTSAnalyticsMediaPlayer.h",
+        "RTSAnalytics/MediaPlayer/**/*.{h,m}"
+      ],
+      "private_header_files": "RTSAnalytics/MediaPlayer/**/*_private.h",
+      "dependencies": {
+        "RTSMediaPlayer": [
+          "~> 0.0.2"
+        ]
+      }
+    }
+  ]
+}
