@@ -21,7 +21,17 @@
 
 - (NSString *)pageViewTitle
 {
-	return @"Title";
+	return self.title;
+}
+
+- (NSArray *)pageViewLevels
+{
+	return self.levels;
+}
+
+- (NSDictionary *)pageViewCustomLabels
+{
+	return self.customLabels;
 }
 
 @end
