@@ -108,9 +108,17 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	}
 	
 	// Clips
-	[[self clip] setLabel:@"ns_st_cs" value:[self dimensions]];
-	[[self clip] setLabel:@"ns_st_cl" value:[self duration]];
-	[[self clip] setLabel:@"ns_st_li" value:[self liveStream]];
+	NSString *dimensions = [self dimensions];
+	if (dimensions)
+		[[self clip] setLabel:@"ns_st_cs" value:dimensions];
+	
+	NSString *duration = [self duration];
+	if (duration)
+		[[self clip] setLabel:@"ns_st_cl" value:duration];
+	
+	NSString *liveStream = [self liveStream];
+	if (liveStream)
+		[[self clip] setLabel:@"ns_st_li" value:liveStream];
 	
 	if ([self.dataSource respondsToSelector:@selector(streamSenseClipMetadataForIdentifier:)]) {
 		NSDictionary *dataSourceClip = [self.dataSource streamSenseClipMetadataForIdentifier:self.mediaPlayerController.identifier];
@@ -209,12 +217,18 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (NSString *) liveStream
 {
+	if (!self.mediaPlayerController.player.currentItem)
+		return nil;
+		
 	return (CMTimeCompare(self.mediaPlayerController.player.currentItem.duration, kCMTimeIndefinite) == 0) ? @"1" : @"0";
 }
 
 - (NSString *) dimensions
 {
 	AVPlayerLayer *playerLayer = [(RTSMediaPlayerView *)self.mediaPlayerController.view playerLayer];
+	if (!playerLayer)
+		return nil;
+	
 	CGSize size = playerLayer.videoRect.size;
 	return [NSString stringWithFormat:@"%0.0fx%0.0f", size.width, size.height];
 }
@@ -226,7 +240,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 			return [NSString stringWithFormat:@"%ld", (long) CMTimeGetSeconds(self.mediaPlayerController.player.currentItem.asset.duration) * 1000];
 		}
 	}
-	return @"0";
+	return nil;
 }
 
 - (NSString *) contentURL
