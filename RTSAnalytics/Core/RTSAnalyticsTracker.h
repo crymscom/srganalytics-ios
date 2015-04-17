@@ -94,7 +94,7 @@ typedef enum {
  *  The application MUST call `-startTrackingWithMediaDataSource:` ONLY in `-application:didFinishLaunchingWithOptions:`.
  */
 #ifdef RTSAnalyticsMediaPlayerIncluded
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit launchOptions:(NSDictionary *)launchOptions mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL_ALL;
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit launchOptions:(NSDictionary *)launchOptions mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL3;
 #else
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit launchOptions:(NSDictionary *)launchOptions;
 #endif
