@@ -15,6 +15,7 @@
 		B64503761AE1059B001021A8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B64503711AE1059B001021A8 /* LaunchScreen.xib */; };
 		B64503771AE1059B001021A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B64503731AE1059B001021A8 /* Main.storyboard */; };
 		B64503791AE12C7B001021A8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B64503781AE12C7B001021A8 /* Images.xcassets */; };
+		B645037B1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B645037A1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m */; };
 		F8AE0038F60E13CCB267B741 /* libPods-RTSAnalytics DemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2464D27DE407598383F8D18C /* libPods-RTSAnalytics DemoTests.a */; };
 		FD525F0398ED682D45333275 /* libPods-RTSAnalytics Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7785A001E583F176EEF0604 /* libPods-RTSAnalytics Demo.a */; };
 /* End PBXBuildFile section */
@@ -51,6 +52,7 @@
 		B64503721AE1059B001021A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		B64503741AE1059B001021A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B64503781AE12C7B001021A8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B645037A1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalytics_Demo_2_MediaPlayerTests.m; sourceTree = "<group>"; };
 		EC694A5C0196003E240F1F48 /* Pods-RTSAnalytics DemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RTSAnalytics DemoTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-RTSAnalytics DemoTests/Pods-RTSAnalytics DemoTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m */,
+				B645037A1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m */,
 				B64503451AE0F14E001021A8 /* Supporting Files */,
 			);
 			path = "RTSAnalytics DemoTests";
@@ -360,6 +363,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B645037B1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m in Sources */,
 				B64503481AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
