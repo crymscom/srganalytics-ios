@@ -64,6 +64,9 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="tableView"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="90d-Gp-nAG" id="Tz2-MY-GUa"/>
                             <outlet property="delegate" destination="90d-Gp-nAG" id="EKg-Q3-Qdl"/>

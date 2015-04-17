@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B64503481AE0F14E001021A8 /* RTSAnalytics_DemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503471AE0F14E001021A8 /* RTSAnalytics_DemoTests.m */; };
+		B64503481AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m */; };
 		B64503661AE10567001021A8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503611AE10567001021A8 /* AppDelegate.m */; };
 		B64503671AE10567001021A8 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503631AE10567001021A8 /* TableViewController.m */; };
 		B64503681AE10567001021A8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503651AE10567001021A8 /* ViewController.m */; };
@@ -38,7 +38,7 @@
 		B64503281AE0F14E001021A8 /* RTSAnalytics Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RTSAnalytics Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B64503411AE0F14E001021A8 /* RTSAnalytics DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RTSAnalytics DemoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B64503461AE0F14E001021A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B64503471AE0F14E001021A8 /* RTSAnalytics_DemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RTSAnalytics_DemoTests.m; sourceTree = "<group>"; };
+		B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RTSAnalytics_Demo_1_ViewEventTests.m; sourceTree = "<group>"; };
 		B645035A1AE0F865001021A8 /* libRTSAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRTSAnalytics.a; path = "../build/Debug-iphoneos/libRTSAnalytics.a"; sourceTree = "<group>"; };
 		B64503601AE10567001021A8 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B64503611AE10567001021A8 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -108,7 +108,7 @@
 		B64503441AE0F14E001021A8 /* RTSAnalytics DemoTests */ = {
 			isa = PBXGroup;
 			children = (
-				B64503471AE0F14E001021A8 /* RTSAnalytics_DemoTests.m */,
+				B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m */,
 				B64503451AE0F14E001021A8 /* Supporting Files */,
 			);
 			path = "RTSAnalytics DemoTests";
@@ -360,7 +360,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B64503481AE0F14E001021A8 /* RTSAnalytics_DemoTests.m in Sources */,
+				B64503481AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
