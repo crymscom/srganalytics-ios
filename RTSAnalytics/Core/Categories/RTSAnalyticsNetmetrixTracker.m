@@ -8,6 +8,7 @@
 #import <CocoaLumberjack/CocoaLumberjack.h>
 
 static NSString * const LoggerDomainAnalyticsNetmetrix = @"Netmetrix";
+static NSString * const RTSAnalyticsNetmetrixRequestDidFinishFakeNotification = @"RTSAnalyticsNetmetrixRequestDidFinishFake";
 
 NSString * const RTSAnalyticsNetmetrixWillSendRequestNotification = @"RTSAnalyticsNetmetrixWillSendRequest";
 NSString * const RTSAnalyticsNetmetrixRequestDidFinishNotification = @"RTSAnalyticsNetmetrixRequestDidFinish";
@@ -48,9 +49,6 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 
 - (void) trackView
 {
-	if (!self.production)
-		return;
-	
 	NSString *netmetrixURLString = [NSString stringWithFormat:@"http://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netmetrixDomain, self.appID, self.device];
 	NSURL *netmetrixURL = [NSURL URLWithString:netmetrixURLString];
 	
@@ -62,31 +60,36 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 	NSString *systemVersion = [[[UIDevice currentDevice] systemVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
 	NSString *userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (iOS-%@; CPU %@ %@ like Mac OS X)", self.device, self.operatingSystem, systemVersion];
 	[request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
-
-	DDLogVerbose(@"%@ : will send view event:\nurl        = %@\nuser-agent = %@", LoggerDomainAnalyticsNetmetrix, netmetrixURLString, userAgent);
-	[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixWillSendRequestNotification object:request userInfo:nil];
 	
-	//Never sends page view is testing
-	if ([self.appID isEqualToString:@"test"] || NSClassFromString(@"XCTestCase") != NULL) {
-		DDLogWarn(@"%@ response will be fake due to testing flag or xctest bundle", LoggerDomainAnalyticsNetmetrix);
-		[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixRequestDidFinishNotification object:request userInfo:nil];
-		return;
+	BOOL testMode = [self.appID isEqualToString:@"test"] || NSClassFromString(@"XCTestCase") != NULL;
+	if (self.production || testMode)
+	{
+		DDLogVerbose(@"%@ : will send view event:\nurl        = %@\nuser-agent = %@", LoggerDomainAnalyticsNetmetrix, netmetrixURLString, userAgent);
+		[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixWillSendRequestNotification object:request userInfo:nil];
 	}
 	
-	[NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-		
-		BOOL success = !connectionError;
-		NSDictionary *userInfo = @{ RTSAnalyticsNetmetrixRequestSuccessUserInfoKey: @(success), RTSAnalyticsNetmetrixRequestResponseUserInfoKey: response };
-		[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixRequestDidFinishNotification object:request userInfo:userInfo];
-		
-		if (success) {
-			DDLogInfo(@"%@ view > %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod);
-		}else{
-			DDLogError(@"%@ ERROR sending %@ view : %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod, connectionError.localizedDescription);
-		}
-		
-		DDLogDebug(@"%@ view event sent:\n%@", LoggerDomainAnalyticsNetmetrix,[(NSHTTPURLResponse*)response allHeaderFields]);
-	}];
+	if (testMode)
+	{
+		DDLogWarn(@"%@ response will be fake due to testing flag or xctest bundle presence", LoggerDomainAnalyticsNetmetrix);
+		[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixRequestDidFinishFakeNotification object:request userInfo:nil];
+	}
+	else if (self.production)
+	{
+		[NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+			
+			BOOL success = !connectionError;
+			NSDictionary *userInfo = @{ RTSAnalyticsNetmetrixRequestSuccessUserInfoKey: @(success), RTSAnalyticsNetmetrixRequestResponseUserInfoKey: response };
+			[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixRequestDidFinishNotification object:request userInfo:userInfo];
+			
+			if (success) {
+				DDLogInfo(@"%@ view > %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod);
+			}else{
+				DDLogError(@"%@ ERROR sending %@ view : %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod, connectionError.localizedDescription);
+			}
+			
+			DDLogDebug(@"%@ view event sent:\n%@", LoggerDomainAnalyticsNetmetrix,[(NSHTTPURLResponse*)response allHeaderFields]);
+		}];
+	}
 }
 
 #pragma mark - Helpers
