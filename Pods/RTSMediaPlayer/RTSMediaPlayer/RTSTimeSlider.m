@@ -166,43 +166,44 @@ NSString *RTSTimeSliderFormatter(NSTimeInterval seconds)
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
 	if (mediaPlayerController.playbackState == RTSMediaPlaybackStateIdle)
 	{
-		[self.mediaPlayerController.player removeTimeObserver:self.periodicTimeObserver];
+		[mediaPlayerController.player removeTimeObserver:self.periodicTimeObserver];
 	}
 	else if (mediaPlayerController.playbackState == RTSMediaPlaybackStateReady)
 	{
 		@weakify(self)
 		self.periodicTimeObserver = [mediaPlayerController.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 5) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
 			@strongify(self)
-			if (self.isTracking)
-				return;
-			
-			AVPlayer *player = self.mediaPlayerController.player;
-			CMTime endTime = CMTimeConvertScale (player.currentItem.asset.duration, player.currentTime.timescale, kCMTimeRoundingMethod_RoundHalfAwayFromZero);
-			if (CMTimeCompare(endTime, kCMTimeZero) != 0)
+			if (!self.isTracking)
 			{
-				Float64 duration = CMTimeGetSeconds(player.currentItem.asset.duration);
-				self.maximumValue = !isnan(duration) ? duration : 0.0f;
-				self.maximumValueLabel.text = RTSTimeSliderFormatter(duration);
+				AVPlayer *player = mediaPlayerController.player;
+				AVPlayerItem *playerItem = player.currentItem;
 				
-				Float64 currentTime = CMTimeGetSeconds(player.currentTime);
-				if (currentTime < 0)
-					return;
-				
-				self.value = currentTime;
-				self.valueLabel.text = RTSTimeSliderFormatter(currentTime);
-				self.timeLeftValueLabel.text = RTSTimeSliderFormatter(currentTime - duration);
-				
-				[self setNeedsDisplay];
+				CMTime endTime = CMTimeConvertScale (playerItem.asset.duration, player.currentTime.timescale, kCMTimeRoundingMethod_RoundHalfAwayFromZero);
+				if (CMTimeCompare(endTime, kCMTimeZero) != 0)
+				{
+					Float64 duration = CMTimeGetSeconds(endTime);
+					self.maximumValue = !isnan(duration) ? duration : 0.0f;
+					self.maximumValueLabel.text = RTSTimeSliderFormatter(duration);
+					
+					Float64 currentTime = CMTimeGetSeconds(player.currentTime);
+					if (currentTime < 0)
+						return;
+					
+					self.value = currentTime;
+					self.valueLabel.text = RTSTimeSliderFormatter(currentTime);
+					self.timeLeftValueLabel.text = RTSTimeSliderFormatter(currentTime - duration);
+				}
+				else
+				{
+					self.maximumValue = 0;
+					self.value = 0;
+					
+					self.maximumValueLabel.text = @"--:--";
+					self.valueLabel.text = @"--:--";
+					self.timeLeftValueLabel.text = @"--:--";
+				}
 			}
-			else
-			{
-				self.maximumValue = 0;
-				self.value = 0;
-				
-				self.maximumValueLabel.text = @"--:--";
-				self.valueLabel.text = @"--:--";
-				self.timeLeftValueLabel.text = @"--:--";
-			}
+			[self setNeedsDisplay];
 		}];
 	}
 }
@@ -299,7 +300,10 @@ NSString *RTSTimeSliderFormatter(NSTimeInterval seconds)
 {
 	BOOL beginTracking = [super beginTrackingWithTouch:touch withEvent:event];
 	if (beginTracking)
-		[self.mediaPlayerController.player pause];
+	{
+		[self.mediaPlayerController pause];
+	}
+	
 	
 	return beginTracking;
 }
@@ -316,7 +320,10 @@ NSString *RTSTimeSliderFormatter(NSTimeInterval seconds)
 - (void) endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
 	if (self.tracking)
+	{
 		[self.mediaPlayerController.player seekToTime:CMTimeMakeWithSeconds(self.value, 1)];
+		[self.mediaPlayerController play];
+	}
 	
 	[super endTrackingWithTouch:touch withEvent:event];
 }

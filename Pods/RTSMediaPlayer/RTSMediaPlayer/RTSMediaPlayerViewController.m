@@ -9,8 +9,6 @@
 #import <RTSMediaPlayer/RTSMediaPlayerControllerDataSource.h>
 #import <RTSMediaPlayer/RTSMediaPlayerController.h>
 
-
-
 @interface RTSMediaPlayerViewController () <RTSMediaPlayerControllerDataSource>
 
 @property (nonatomic, weak) id<RTSMediaPlayerControllerDataSource> dataSource;
@@ -25,9 +23,13 @@
 
 @end
 
-
-
 @implementation RTSMediaPlayerViewController
+
+- (void) dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[UIApplication sharedApplication] setStatusBarHidden:NO];
+}
 
 - (instancetype) initWithContentURL:(NSURL *)contentURL
 {
@@ -49,12 +51,14 @@
 {
 	[super viewDidLoad];
 
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackStateDidChange:) name:RTSMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerDidShowControlOverlays:) name:RTSMediaPlayerDidShowControlOverlaysNotification object:self.mediaPlayerController];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerDidHideControlOverlays:) name:RTSMediaPlayerDidHideControlOverlaysNotification object:self.mediaPlayerController];
+	
 	[self.mediaPlayerController setDataSource:self.dataSource];
 	
 	[self.mediaPlayerController attachPlayerToView:self.view];
 	[self.mediaPlayerController playIdentifier:self.identifier];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackStateDidChange:) name:RTSMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController];
 }
 
 - (UIStatusBarStyle) preferredStatusBarStyle
@@ -80,16 +84,29 @@
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
 	switch (mediaPlayerController.playbackState)
 	{
-		case RTSMediaPlaybackStateEnded:
-			[self dismiss:nil];
-			break;
 		case RTSMediaPlaybackStatePreparing:
+		case RTSMediaPlaybackStateReady:
 		case RTSMediaPlaybackStateStalled:
 			[self.loadingIndicator startAnimating];
+			break;
+		case RTSMediaPlaybackStateEnded:
+			[self dismiss:nil];
+		case RTSMediaPlaybackStatePaused:
+		case RTSMediaPlaybackStatePlaying:
 		default:
 			[self.loadingIndicator stopAnimating];
 			break;
 	}
+}
+
+- (void) mediaPlayerDidShowControlOverlays:(NSNotification *)notification
+{
+	[[UIApplication sharedApplication] setStatusBarHidden:NO];
+}
+
+- (void) mediaPlayerDidHideControlOverlays:(NSNotification *)notificaiton
+{
+	[[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
 
@@ -101,7 +118,5 @@
 	[self.mediaPlayerController reset];
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
-
-
 
 @end
