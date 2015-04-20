@@ -14,6 +14,8 @@
 
 @interface RTSAnalyticsStreamTracker ()
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
+@property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDelegate> mediaPlayerDelegate;
+
 @property (nonatomic, strong) NSMutableDictionary *streamsenseTrackers;
 @property (nonatomic, strong) NSString *virtualSite;
 @end
@@ -55,9 +57,10 @@
 }
 
 
-#pragma mark - Stream tracking
 
-- (void)mediaPlayerPlaybackStateDidChange:(NSNotification *)notification
+#pragma mark - Notifications
+
+- (void) mediaPlayerPlaybackStateDidChange:(NSNotification *)notification
 {
 	if (!_dataSource) {
 		// We haven't started yet.
@@ -65,42 +68,76 @@
 	}
 	
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
-	switch (mediaPlayerController.playbackState)
+	
+	BOOL shouldTrackMediaPlayerController = YES;
+	if ([self.mediaPlayerDelegate conformsToProtocol:@protocol(RTSAnalyticsMediaPlayerDelegate)])
+		shouldTrackMediaPlayerController = [self.mediaPlayerDelegate shouldTrackMediaWithIdentifier:mediaPlayerController.identifier];
+	
+	if (shouldTrackMediaPlayerController)
 	{
-		case RTSMediaPlaybackStatePreparing:
-			[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController];
-			break;
-			
-		case RTSMediaPlaybackStateReady:
-			break;
-			
-		case RTSMediaPlaybackStateStalled:
-			[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController];
-			break;
-			
-		case RTSMediaPlaybackStatePlaying:
-			[self notifyStreamTrackerEvent:CSStreamSensePlay mediaPlayer:mediaPlayerController];
-			break;
-			
-		case RTSMediaPlaybackStatePaused:
-			[self notifyStreamTrackerEvent:CSStreamSensePause mediaPlayer:mediaPlayerController];
-			break;
-			
-		case RTSMediaPlaybackStateEnded:
-			[self notifyStreamTrackerEvent:CSStreamSenseEnd mediaPlayer:mediaPlayerController];
-			break;
-			
-		case RTSMediaPlaybackStateIdle:
-			[self notifyStreamTrackerEvent:CSStreamSenseEnd mediaPlayer:mediaPlayerController];
-			[self removeStreamTrackerForMediaPlayer:mediaPlayerController];
-			break;
+		switch (mediaPlayerController.playbackState)
+		{
+			case RTSMediaPlaybackStatePreparing:
+				[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController];
+				break;
+				
+			case RTSMediaPlaybackStateReady:
+				break;
+				
+			case RTSMediaPlaybackStateStalled:
+				[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController];
+				break;
+				
+			case RTSMediaPlaybackStatePlaying:
+				[self notifyStreamTrackerEvent:CSStreamSensePlay mediaPlayer:mediaPlayerController];
+				break;
+				
+			case RTSMediaPlaybackStatePaused:
+				[self notifyStreamTrackerEvent:CSStreamSensePause mediaPlayer:mediaPlayerController];
+				break;
+				
+			case RTSMediaPlaybackStateEnded:
+				[self notifyStreamTrackerEvent:CSStreamSenseEnd mediaPlayer:mediaPlayerController];
+				break;
+				
+			case RTSMediaPlaybackStateIdle:
+				[self stopTrackingMediaPlayerController:mediaPlayerController];
+				break;
+		}
+	}
+	else if (self.streamsenseTrackers[mediaPlayerController.identifier])
+	{
+		[self stopTrackingMediaPlayerController:mediaPlayerController];
 	}
 }
 
-- (void)mediaPlayerPlaybackDidFail:(NSNotification *)notification
+- (void) mediaPlayerPlaybackDidFail:(NSNotification *)notification
 {
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
-	[self removeStreamTrackerForMediaPlayer:mediaPlayerController];
+	[self stopTrackingMediaPlayerController:mediaPlayerController];
+}
+
+
+
+#pragma mark - Stream tracking
+
+- (void) trackMediaPlayerFromPresentingViewController:(id<RTSAnalyticsMediaPlayerDelegate>)mediaPlayerDelegate
+{
+	_mediaPlayerDelegate = mediaPlayerDelegate;
+}
+
+- (void) startTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+{
+	[self notifyStreamTrackerEvent:CSStreamSensePlay mediaPlayer:mediaPlayerController];
+}
+
+- (void) stopTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+{
+	[self notifyStreamTrackerEvent:CSStreamSenseEnd mediaPlayer:mediaPlayerController];
+
+	DDLogVerbose(@"Delete stream tracker for media identifier `%@`", mediaPlayerController.identifier);
+	[self.streamsenseTrackers removeObjectForKey:mediaPlayerController.identifier];
+	[CSComScore onUxInactive];
 }
 
 - (void) notifyStreamTrackerEvent:(CSStreamSenseEventType)eventType mediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
@@ -117,15 +154,8 @@
 		
 		[CSComScore onUxActive];
 	}
+	
 	[tracker notify:eventType];
 }
-
-- (void) removeStreamTrackerForMediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
-{
-	DDLogVerbose(@"Delete stream tracker for media identifier `%@`", mediaPlayerController.identifier);
-	[self.streamsenseTrackers removeObjectForKey:mediaPlayerController.identifier];
-	[CSComScore onUxInactive];
-}
-
 
 @end

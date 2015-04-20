@@ -37,6 +37,9 @@
 		B645031C1ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503161ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker.m */; };
 		B645031D1ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker_private.h in Headers */ = {isa = PBXBuildFile; fileRef = B64503171ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B645031E1ADFA753001021A8 /* RTSAnalyticsMediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = B64503181ADFA753001021A8 /* RTSAnalyticsMediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B645038D1AE3D74D001021A8 /* RTSAnalyticsMediaPlayerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B645038C1AE3D74D001021A8 /* RTSAnalyticsMediaPlayerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B64503931AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = B64503911AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B64503941AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503921AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +90,9 @@
 		B64503161ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSMediaPlayerControllerStreamSenseTracker.m; sourceTree = "<group>"; };
 		B64503171ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSMediaPlayerControllerStreamSenseTracker_private.h; sourceTree = "<group>"; };
 		B64503181ADFA753001021A8 /* RTSAnalyticsMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsMediaPlayer.h; sourceTree = "<group>"; };
+		B645038C1AE3D74D001021A8 /* RTSAnalyticsMediaPlayerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsMediaPlayerDelegate.h; sourceTree = "<group>"; };
+		B64503911AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RTSAnalyticsMediaPlayer.h"; sourceTree = "<group>"; };
+		B64503921AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RTSAnalyticsMediaPlayer.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,10 +227,13 @@
 			isa = PBXGroup;
 			children = (
 				B64503131ADFA753001021A8 /* RTSAnalyticsMediaPlayerDataSource.h */,
+				B645038C1AE3D74D001021A8 /* RTSAnalyticsMediaPlayerDelegate.h */,
 				B64503151ADFA753001021A8 /* RTSAnalyticsStreamTracker_private.h */,
 				B64503141ADFA753001021A8 /* RTSAnalyticsStreamTracker.m */,
 				B64503171ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker_private.h */,
 				B64503161ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker.m */,
+				B64503911AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.h */,
+				B64503921AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m */,
 			);
 			path = MediaPlayer;
 			sourceTree = "<group>";
@@ -239,11 +248,13 @@
 				B64502961ADE7114001021A8 /* RTSAnalytics.h in Headers */,
 				B645031E1ADFA753001021A8 /* RTSAnalyticsMediaPlayer.h in Headers */,
 				B64503191ADFA753001021A8 /* RTSAnalyticsMediaPlayerDataSource.h in Headers */,
+				B645038D1AE3D74D001021A8 /* RTSAnalyticsMediaPlayerDelegate.h in Headers */,
 				B64502BC1ADE81F9001021A8 /* RTSAnalyticsPageViewDataSource.h in Headers */,
 				B64502C51ADE8223001021A8 /* NSString+RTSAnalytics.h in Headers */,
 				B64502B71ADE81F9001021A8 /* NSDictionary+RTSAnalytics_private.h in Headers */,
 				B645031B1ADFA753001021A8 /* RTSAnalyticsStreamTracker_private.h in Headers */,
 				B645031D1ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker_private.h in Headers */,
+				B64503931AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.h in Headers */,
 				B64502BF1ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.h in Headers */,
 				B64502C91ADE8257001021A8 /* UIViewController+RTSAnalytics.h in Headers */,
 				B64502BD1ADE81F9001021A8 /* RTSAnalyticsTracker.h in Headers */,
@@ -414,6 +425,7 @@
 				B64502B41ADE81F9001021A8 /* CSRequest+RTSAnalytics.m in Sources */,
 				B64502CA1ADE8257001021A8 /* UIViewController+RTSAnalytics.m in Sources */,
 				B64502B81ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker.m in Sources */,
+				B64503941AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m in Sources */,
 				B64502C01ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.m in Sources */,
 				B645031A1ADFA753001021A8 /* RTSAnalyticsStreamTracker.m in Sources */,
 			);
