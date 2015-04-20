@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import "NSDictionary+RTSAnalytics_private.h"
+#import "NSDictionary+RTSAnalytics.h"
 
 @implementation NSDictionary (RTSAnalytics)
 

@@ -8,7 +8,7 @@
 #import "RTSAnalyticsNetmetrixTracker_private.h"
 
 #import "NSString+RTSAnalytics.h"
-#import "NSDictionary+RTSAnalytics_private.h"
+#import "NSDictionary+RTSAnalytics.h"
 
 #import <comScore-iOS-SDK/CSComScore.h>
 #import <CocoaLumberjack/CocoaLumberjack.h>
