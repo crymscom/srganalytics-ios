@@ -26,10 +26,11 @@ static void AnalyticsViewDidAppear(UIViewController *self, SEL _cmd, BOOL animat
 
 - (void) trackPageView
 {
-	if (![self conformsToProtocol:@protocol(RTSAnalyticsPageViewDataSource)])
-		return;
+	id<RTSAnalyticsPageViewDataSource> viewEventDataSource = nil;
+	if ([self conformsToProtocol:@protocol(RTSAnalyticsPageViewDataSource)])
+		viewEventDataSource = (id<RTSAnalyticsPageViewDataSource>)self;
 	
-	[[RTSAnalyticsTracker sharedTracker] trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)self];
+	[[RTSAnalyticsTracker sharedTracker] trackPageViewForDataSource:viewEventDataSource];
 }
 
 + (void) load
