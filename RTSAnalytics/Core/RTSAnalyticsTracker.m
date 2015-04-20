@@ -84,9 +84,16 @@
 	return @[ @"SRF", @"RTS", @"RSI", @"RTR", @"SWI" ];
 }
 
-- (NSString *) businessUnitName
+- (NSString *) businessUnitIdentifier:(SSRBusinessUnit)businessUnit
 {
-	return self.businessUnits[self.businessUnit];
+	return [self.businessUnits[businessUnit] lowercaseString];
+}
+
+- (SSRBusinessUnit) businessUnitForIdentifier:(NSString *)buIdentifier
+{
+	NSUInteger index = [self.businessUnits indexOfObject:buIdentifier.uppercaseString];
+	NSAssert(index == NSNotFound, @"Business unit not found with identifier '%@'", buIdentifier);
+	return (SSRBusinessUnit)index;
 }
 
 - (NSString *) comscoreVSite
@@ -123,7 +130,8 @@
 {
 	[self startTrackingForBusinessUnit:businessUnit launchOptions:launchOptions];
 	
-	NSString *streamSenseVirtualSite = self.production ? [NSString stringWithFormat:@"%@-v", self.businessUnitName.lowercaseString] : self.comscoreVSite;
+	NSString *businessUnitIdentifier = [self businessUnitIdentifier:self.businessUnit];
+	NSString *streamSenseVirtualSite = self.production ? [NSString stringWithFormat:@"%@-v", businessUnitIdentifier] : self.comscoreVSite;
 	[[RTSAnalyticsStreamTracker sharedTracker] startStreamMeasurementForVirtualSite:streamSenseVirtualSite mediaDataSource:dataSource];
 }
 #endif
@@ -164,7 +172,7 @@
 	[CSComScore setLabels:@{ @"ns_ap_an": appName,
 			  @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
 			  @"ns_ap_ver": appVersion,
-			  @"srg_unit": self.businessUnitName,
+			  @"srg_unit": [self businessUnitIdentifier:self.businessUnit].uppercaseString,
 			  @"srg_ap_push": @"0",
 			  @"ns_site": @"mainsite",
 			  @"ns_vsite": self.comscoreVSite}];

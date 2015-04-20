@@ -131,6 +131,24 @@ typedef enum {
 @property (nonatomic, assign) BOOL production;
 
 /**
+ *  Return the business unit identifier
+ *
+ *  @param businessUnit the business unit
+ *
+ *  @return the corresponding identifier
+ */
+- (NSString *) businessUnitIdentifier:(SSRBusinessUnit)businessUnit;
+
+/**
+ *  Returns the business unit depending on its identifier
+ *
+ *  @param buIdentifier the identifier string like 'srf', 'rts', 'rsi', 'rtr', 'swi'
+ *
+ *  @return the corresponding business unit
+ */
+- (SSRBusinessUnit) businessUnitForIdentifier:(NSString *)buIdentifier;
+
+/**
  *  -------------------
  *  @name View Tracking
  *  -------------------
