@@ -92,7 +92,7 @@
 - (SSRBusinessUnit) businessUnitForIdentifier:(NSString *)buIdentifier
 {
 	NSUInteger index = [self.businessUnits indexOfObject:buIdentifier.uppercaseString];
-	NSAssert(index == NSNotFound, @"Business unit not found with identifier '%@'", buIdentifier);
+	NSAssert(index != NSNotFound, @"Business unit not found with identifier '%@'", buIdentifier);
 	return (SSRBusinessUnit)index;
 }
 
