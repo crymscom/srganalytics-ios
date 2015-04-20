@@ -12,6 +12,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "CustomMediaPlayerViewController.h"
 
 @interface TableViewController () <UITableViewDelegate, RTSAnalyticsPageViewDataSource, RTSMediaPlayerControllerDataSource>
 
@@ -50,6 +51,11 @@
 		RTSMediaPlayerViewController *playerViewController = [[RTSMediaPlayerViewController alloc] initWithContentIdentifier:cell.reuseIdentifier dataSource:self];
 		[self presentViewController:playerViewController animated:YES completion:NULL];
 	}
+	else if ([cell.reuseIdentifier hasPrefix:@"CustomMediaPlayer"])
+	{
+		CustomMediaPlayerViewController *playerViewController = [[CustomMediaPlayerViewController alloc] initWithContentIdentifier:cell.reuseIdentifier dataSource:self];
+		[self presentViewController:playerViewController animated:YES completion:NULL];
+	}
 	else if ([cell.reuseIdentifier isEqualToString:@"PushNotificationCell"])
 	{
 		UIApplication *application = [UIApplication sharedApplication];
@@ -64,11 +70,11 @@
 - (void) mediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController contentURLForIdentifier:(NSString *)identifier completionHandler:(void (^)(NSURL *, NSError *))completionHandler
 {
 	NSString *urlString = nil;
-	if ([identifier isEqualToString:@"MediaPlayerLiveCell"])
+	if ([identifier hasSuffix:@"LiveCell"])
 	{
 		urlString = @"https://srgssruni9ch-lh.akamaihd.net/i/enc9uni_ch@191320/master.m3u8";
 	}
-	else if ([identifier isEqualToString:@"MediaPlayerVODCell"])
+	else if ([identifier hasSuffix:@"VODCell"])
 	{
 		urlString = @"http://stream-i.rts.ch/i/tp/1993/tp_10071993-,450,700,k.mp4.csmil/master.m3u8";
 	}
