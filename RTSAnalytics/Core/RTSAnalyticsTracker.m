@@ -157,25 +157,30 @@
 
 - (void)startComscoreTracker
 {
+	NSAssert(self.comscoreVSite.length > 0, @"You MUST set `comscoreVSite` property, or define `RTSAnalytics>ComscoreVirtualSite` key in your app Info.plist");
+	
+	[CSComScore setAppContext];
+	[CSComScore setCustomerC2:@"6036016"];
+	[CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
+	[CSComScore enableAutoUpdate:60 foregroundOnly:NO]; //60 is the Comscore default interval value
+	[CSComScore setLabels:[self comscoreGlobalLabels]];
+}
+
+-(NSDictionary *)comscoreGlobalLabels
+{
 	NSBundle *mainBundle = [NSBundle bundleForClass:[self class]];
 	
 	NSString *appName = [[mainBundle objectForInfoDictionaryKey:@"CFBundleExecutable"] stringByAppendingString:@" iOS"];
 	NSString *appLanguage = [[mainBundle preferredLocalizations] firstObject] ?: @"fr";
 	NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-	
-	NSAssert(self.comscoreVSite.length > 0, @"You MUST set `comscoreVSite` property, or define `RTSAnalytics>ComscoreVirtualSite` key in your app Info.plist");
 
-	[CSComScore setAppContext];
-	[CSComScore setCustomerC2:@"6036016"];
-	[CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
-	[CSComScore enableAutoUpdate:60 foregroundOnly:NO]; //60 is the Comscore default interval value
-	[CSComScore setLabels:@{ @"ns_ap_an": appName,
+	return @{ @"ns_ap_an": appName,
 			  @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
 			  @"ns_ap_ver": appVersion,
 			  @"srg_unit": [self businessUnitIdentifier:self.businessUnit].uppercaseString,
 			  @"srg_ap_push": @"0",
 			  @"ns_site": @"mainsite",
-			  @"ns_vsite": self.comscoreVSite}];
+			  @"ns_vsite": self.comscoreVSite};
 }
 
 - (void)startNetmetrixTracker
