@@ -76,7 +76,7 @@
 	}
 	else if ([identifier hasSuffix:@"VODCell"])
 	{
-		urlString = @"http://stream-i.rts.ch/i/tp/1993/tp_10071993-,450,700,k.mp4.csmil/master.m3u8";
+		urlString = @"http://stream-i.rts.ch/i/tp/1993/tp_10071993-,450,k.mp4.csmil/master.m3u8";
 	}
 	
 	NSURL *URL = [NSURL URLWithString:urlString];
