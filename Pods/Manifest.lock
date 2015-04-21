@@ -34,8 +34,7 @@ DEPENDENCIES:
   - OCMock (~> 3.1.2)
   - RTSAnalytics (from `.`)
   - RTSAnalytics/MediaPlayer (from `.`)
-  - RTSMediaPlayer (from `git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git`, branch
-    `develop`)
+  - RTSMediaPlayer (from `git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git`, branch `develop`)
   - TransitionKit (from `https://github.com/0xced/TransitionKit.git`, commit `6874dea2229bdefb89f6c8f708f1fae467ee5ba2`)
 
 EXTERNAL SOURCES:
@@ -66,4 +65,4 @@ SPEC CHECKSUMS:
   RTSMediaPlayer: 26a7d0947a1483aa59fc8f02232ab998d581bbbb
   TransitionKit: 3a14b6acc7cf2d1dd3e454e24dbad1cfab9a1ef1
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.36.0
