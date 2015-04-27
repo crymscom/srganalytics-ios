@@ -248,7 +248,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	AVAsset *asset = self.mediaPlayerController.player.currentItem.asset;
 	if ([asset isKindOfClass:[AVURLAsset class]]) {
 		NSURL *assetURL = [(AVURLAsset *)asset URL];
-		NSURL *newURL = [[NSURL alloc] initWithScheme:[assetURL scheme] host:[assetURL host] path:[assetURL path]];
+		NSURL *newURL = [[NSURL alloc] initWithScheme:assetURL.scheme host:assetURL.host path:assetURL.path.length > 0 ? assetURL.path: @"/" ];
 		return newURL.absoluteString;
 	}
 	return nil;
