@@ -120,8 +120,8 @@ typedef enum {
  *
  *  @discussion Set this value to inform the library that the stats must be sent for production measurement.
  *  If set to "NO" :
- *   - ComScore Virtual Site :     value will be "{businessUnit}-app-test-v"
- *   - StreamSense Virtual Site :  value will be "{businessUnit}-app-test-v"
+ *   - ComScore Virtual Site :     value will be "rts-app-test-v"
+ *   - StreamSense Virtual Site :  value will be "rts-app-test-v"
  *   - NetMetrix :                 Netmetrix view events will NOT be sent !
  *
  *  If set to "YES :

@@ -131,7 +131,7 @@
 	[self startTrackingForBusinessUnit:businessUnit launchOptions:launchOptions];
 	
 	NSString *businessUnitIdentifier = [self businessUnitIdentifier:self.businessUnit];
-	NSString *streamSenseVirtualSite = self.production ? [NSString stringWithFormat:@"%@-v", businessUnitIdentifier] : self.comscoreVSite;
+	NSString *streamSenseVirtualSite = self.production ? [NSString stringWithFormat:@"%@-v", businessUnitIdentifier] : @"rts-app-test-v";
 	[[RTSAnalyticsStreamTracker sharedTracker] startStreamMeasurementForVirtualSite:streamSenseVirtualSite mediaDataSource:dataSource];
 }
 #endif
@@ -174,13 +174,15 @@
 	NSString *appLanguage = [[mainBundle preferredLocalizations] firstObject] ?: @"fr";
 	NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 
+	NSString *ns_vsite = self.production ? self.comscoreVSite : @"rts-app-test-v";
+	
 	return @{ @"ns_ap_an": appName,
 			  @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
 			  @"ns_ap_ver": appVersion,
 			  @"srg_unit": [self businessUnitIdentifier:self.businessUnit].uppercaseString,
 			  @"srg_ap_push": @"0",
 			  @"ns_site": @"mainsite",
-			  @"ns_vsite": self.comscoreVSite};
+			  @"ns_vsite": ns_vsite};
 }
 
 - (void)startNetmetrixTracker
