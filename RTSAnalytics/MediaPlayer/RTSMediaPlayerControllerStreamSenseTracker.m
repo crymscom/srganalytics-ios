@@ -108,6 +108,10 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	if (liveStream)
 		[[self clip] setLabel:@"ns_st_li" value:liveStream];
 	
+	NSString *srg_enc = [self srg_enc];
+	if (srg_enc)
+		[[self clip] setLabel:@"srg_enc" value:srg_enc];
+	
 	
 	if ([self.dataSource respondsToSelector:@selector(streamSenseLabelsMetadataForIdentifier:)]) {
 		NSDictionary *dataSourceLabels = [self.dataSource streamSenseLabelsMetadataForIdentifier:self.mediaPlayerController.identifier];
@@ -256,6 +260,23 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 		NSURL *newURL = [[NSURL alloc] initWithScheme:assetURL.scheme host:assetURL.host path:assetURL.path.length > 0 ? assetURL.path: @"/" ];
 		return newURL;
 	}
+	return nil;
+}
+
+- (NSString *) srg_enc
+{
+	// Add 'Encoder' value (live only):
+	NSURL *contentURL = [self contentURL];
+	NSString *liveStream = [self liveStream];
+	if (contentURL.path.length > 0 && [liveStream isEqualToString:@"1"])
+	{
+		NSRegularExpression *re = [NSRegularExpression regularExpressionWithPattern:@"enc(\\d+)" options:0 error:nil];
+		NSTextCheckingResult *firstMatch = [re firstMatchInString:contentURL.path options:0 range:NSMakeRange(0, contentURL.path.length)];
+		
+		if (firstMatch.range.location != NSNotFound)
+			return [contentURL.path substringWithRange:[firstMatch rangeAtIndex:1]];
+	}
+	
 	return nil;
 }
 

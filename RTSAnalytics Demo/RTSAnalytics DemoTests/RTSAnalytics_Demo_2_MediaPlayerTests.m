@@ -21,6 +21,7 @@
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
     XCTAssertEqualObjects(@"play", labels[@"ns_st_ev"]);
 	XCTAssertEqualObjects(@"1",    labels[@"ns_st_li"]);
+	XCTAssertEqualObjects(@"9",    labels[@"srg_enc"]);
 }
 
 - (void)test_2_CloseMediaPlayerSendsStreamLiveEndMeasurement
@@ -32,6 +33,7 @@
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(@"end", labels[@"ns_st_ev"]);
 	XCTAssertEqualObjects(@"1",   labels[@"ns_st_li"]);
+	XCTAssertEqualObjects(@"9",   labels[@"srg_enc"]);
 	
 	[tester waitForTimeInterval:2.0f];
 }
@@ -44,6 +46,7 @@
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(@"play", labels[@"ns_st_ev"]);
 	XCTAssertEqualObjects(@"0",    labels[@"ns_st_li"]);
+	XCTAssertNil(labels[@"srg_enc"]);
 }
 
 - (void)test_4_CloseMediaPlayerSendsStreamLiveEndMeasurement
@@ -54,7 +57,8 @@
 	
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(@"end", labels[@"ns_st_ev"]);
-	XCTAssertEqualObjects(@"0",    labels[@"ns_st_li"]);
+	XCTAssertEqualObjects(@"0",   labels[@"ns_st_li"]);
+	XCTAssertNil(labels[@"srg_enc"]);
 	
 	[tester waitForTimeInterval:2.0f];
 }
