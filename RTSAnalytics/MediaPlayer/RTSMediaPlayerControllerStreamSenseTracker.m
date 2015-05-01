@@ -90,7 +90,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	[self setLabel:@"ns_st_sg" value:[self scalingMode]];
 	[self setLabel:@"ns_ap_ot" value:[self orientation]];
 	[self setLabel:@"ns_st_airplay" value:[self airplay]];
-	[self setLabel:@"ns_st_cu" value:[self contentURL]];
+	[self setLabel:@"ns_st_cu" value:[[self contentURL] absoluteString]];
 	
 	if ([self.dataSource respondsToSelector:@selector(streamSenseLabelsMetadataForIdentifier:)]) {
 		NSDictionary *dataSourceLabels = [self.dataSource streamSenseLabelsMetadataForIdentifier:self.mediaPlayerController.identifier];
@@ -243,13 +243,13 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return nil;
 }
 
-- (NSString *) contentURL
+- (NSURL *) contentURL
 {
 	AVAsset *asset = self.mediaPlayerController.player.currentItem.asset;
 	if ([asset isKindOfClass:[AVURLAsset class]]) {
 		NSURL *assetURL = [(AVURLAsset *)asset URL];
 		NSURL *newURL = [[NSURL alloc] initWithScheme:assetURL.scheme host:assetURL.host path:assetURL.path.length > 0 ? assetURL.path: @"/" ];
-		return newURL.absoluteString;
+		return newURL;
 	}
 	return nil;
 }
