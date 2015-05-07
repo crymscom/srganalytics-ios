@@ -4,7 +4,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
 workspace 'RTSAnalytics.xcworkspace'
 
-pod 'comScore-iOS-SDK', '3.1502.26'
+pod 'comScore-iOS-SDK-RTS', '3.1502.26'
 pod 'RTSMediaPlayer', :git => 'git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git', :branch => 'develop'
 pod 'TransitionKit', { :git => 'https://github.com/0xced/TransitionKit.git', :commit => '6874dea2229bdefb89f6c8f708f1fae467ee5ba2' }
 

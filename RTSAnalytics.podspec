@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
     co.source_files         = "RTSAnalytics/RTSAnalytics.h", "RTSAnalytics/Core/**/*.{h,m}"
     co.private_header_files = "RTSAnalytics/Core/**/*_private.h"
     co.frameworks           = "AVFoundation", "CoreMedia", "Foundation", "MediaPlayer", "UIKit"
-    co.dependency             "comScore-iOS-SDK", "3.1502.26"
+    co.dependency             "comScore-iOS-SDK-RTS", "3.1502.26"
     co.dependency             "CocoaLumberjack",  "~> 2.0.0"
   end
   
