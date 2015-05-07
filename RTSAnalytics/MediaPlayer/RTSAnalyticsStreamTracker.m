@@ -9,7 +9,7 @@
 #import <RTSMediaPlayer/RTSMediaPlayerController.h>
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 
-#import <comScore-iOS-SDK/CSComScore.h>
+#import <comScore-iOS-SDK-RTS/CSComScore.h>
 #import <CocoaLumberjack/CocoaLumberjack.h>
 
 @interface RTSAnalyticsStreamTracker ()

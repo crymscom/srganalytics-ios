@@ -11,7 +11,7 @@
 #import <OCMock/OCMock.h>
 
 #import <RTSMediaPlayer/RTSMediaPlayer.h>
-#import <comScore-iOS-SDK/CSComScore.h>
+#import <comScore-iOS-SDK-RTS/CSComScore.h>
 
 #import "RTSAnalyticsTracker.h"
 #import "RTSAnalyticsMediaPlayerDataSource.h"

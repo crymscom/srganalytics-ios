@@ -37,7 +37,7 @@
         "UIKit"
       ],
       "dependencies": {
-        "comScore-iOS-SDK": [
+        "comScore-iOS-SDK-RTS": [
           "3.1502.26"
         ],
         "CocoaLumberjack": [

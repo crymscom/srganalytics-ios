@@ -9,8 +9,8 @@
 
 #import <RTSMediaPlayer/RTSMediaPlayerController.h>
 
-#import <comScore-iOS-SDK/CSStreamSensePlugin.h>
-#import <comScore-iOS-SDK/CSStreamSensePluginProtocol.h>
+#import <comScore-iOS-SDK-RTS/CSStreamSensePlugin.h>
+#import <comScore-iOS-SDK-RTS/CSStreamSensePluginProtocol.h>
 
 /**
  *  The `RTSMediaPlayerControllerStreamSenseTracker` is a plugin for `RTSMediaPlayerController` and take care of populating persistent labels, 

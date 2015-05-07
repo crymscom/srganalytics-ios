@@ -5,9 +5,9 @@
 
 #import "RTSAnalyticsTracker+Logging.h"
 
-#import <comScore-iOS-SDK/CSCore.h>
-#import <comScore-iOS-SDK/CSComScore.h>
-#import <comScore-iOS-SDK/CSTaskExecutor.h>
+#import <comScore-iOS-SDK-RTS/CSCore.h>
+#import <comScore-iOS-SDK-RTS/CSComScore.h>
+#import <comScore-iOS-SDK-RTS/CSTaskExecutor.h>
 
 #import "CSRequest+RTSAnalytics_private.h"
 
