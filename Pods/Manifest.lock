@@ -24,8 +24,8 @@ PODS:
     - RTSMediaPlayer (~> 0.0.2)
   - RTSMediaPlayer (0.0.2):
     - libextobjc/EXTScope (~> 0.4.1)
-    - TransitionKit (~> 2.1.1)
-  - TransitionKit (2.1.1)
+    - TransitionKit (~> 2.2.0)
+  - TransitionKit (2.2.0)
 
 DEPENDENCIES:
   - CocoaLumberjack (~> 2.0.0)
@@ -36,7 +36,6 @@ DEPENDENCIES:
   - RTSAnalytics/MediaPlayer (from `.`)
   - RTSMediaPlayer (from `git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git`, branch
     `develop`)
-  - TransitionKit (from `https://github.com/0xced/TransitionKit.git`, commit `6874dea2229bdefb89f6c8f708f1fae467ee5ba2`)
 
 EXTERNAL SOURCES:
   RTSAnalytics:
@@ -44,17 +43,11 @@ EXTERNAL SOURCES:
   RTSMediaPlayer:
     :branch: develop
     :git: git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git
-  TransitionKit:
-    :commit: 6874dea2229bdefb89f6c8f708f1fae467ee5ba2
-    :git: https://github.com/0xced/TransitionKit.git
 
 CHECKOUT OPTIONS:
   RTSMediaPlayer:
-    :commit: 83465ba7d637ad67fbb8b1a512218e426f9e36d3
+    :commit: fe31ce74cb46767cfdcb4ab319efc2b6730da561
     :git: git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git
-  TransitionKit:
-    :commit: 6874dea2229bdefb89f6c8f708f1fae467ee5ba2
-    :git: https://github.com/0xced/TransitionKit.git
 
 SPEC CHECKSUMS:
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
@@ -63,7 +56,7 @@ SPEC CHECKSUMS:
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
   RTSAnalytics: fd6994d877d70226585d9c4f0f6b5fa39b6d182d
-  RTSMediaPlayer: 26a7d0947a1483aa59fc8f02232ab998d581bbbb
-  TransitionKit: 3a14b6acc7cf2d1dd3e454e24dbad1cfab9a1ef1
+  RTSMediaPlayer: 0d63a63fe03abd30e19bbb484a663e35f79a7d15
+  TransitionKit: 5c9001a77acc409d71f26a4eba0159cf8619c418
 
 COCOAPODS: 0.37.1
