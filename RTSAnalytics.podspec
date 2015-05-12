@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name        = "RTSAnalytics"
-  s.version     = "0.0.1"
+  s.version     = "0.1.0"
   s.summary     = "RTS Analytics for the RTS Media Player"
   s.description = "RTS Analytics for the RTS Media Player"
   s.homepage    = "http://rts.ch"
