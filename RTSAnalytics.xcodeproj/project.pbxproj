@@ -544,6 +544,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 62EA57A2AB29B2C32F9A9566 /* Pods-RTSAnalyticsTests.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
