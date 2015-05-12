@@ -1,0 +1,2 @@
+PODS_COMSCORE_IOS_SDK_RTS_LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/comScore-iOS-SDK-RTS/comScore"
+PODS_COMSCORE_IOS_SDK_RTS_OTHER_LDFLAGS = -l"comScore" -framework "AVFoundation" -framework "CoreMedia" -framework "Foundation" -framework "MediaPlayer" -framework "SystemConfiguration"

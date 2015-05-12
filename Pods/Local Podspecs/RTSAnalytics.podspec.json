@@ -1,6 +1,6 @@
 {
   "name": "RTSAnalytics",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "summary": "RTS Analytics for the RTS Media Player",
   "description": "RTS Analytics for the RTS Media Player",
   "homepage": "http://rts.ch",
@@ -14,7 +14,7 @@
   },
   "source": {
     "git": "git@bitbucket.org:rtsmb/rtsanalytics-ios.git",
-    "tag": "0.0.1"
+    "tag": "0.1.0"
   },
   "requires_arc": true,
   "platforms": {
