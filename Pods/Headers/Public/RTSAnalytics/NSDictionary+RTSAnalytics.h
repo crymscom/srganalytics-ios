@@ -1,1 +1,1 @@
-../../../../RTSAnalytics/Core/Categories/NSDictionary+RTSAnalytics.h
+../../../../RTSAnalytics/Core/NSDictionary+RTSAnalytics.h

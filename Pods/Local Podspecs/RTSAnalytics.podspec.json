@@ -26,9 +26,9 @@
       "name": "Core",
       "source_files": [
         "RTSAnalytics/RTSAnalytics.h",
-        "RTSAnalytics/Core/**/*.{h,m}"
+        "RTSAnalytics/Core/*.{h,m}"
       ],
-      "private_header_files": "RTSAnalytics/Core/**/*_private.h",
+      "private_header_files": "RTSAnalytics/Core/*_private.h",
       "frameworks": [
         "AVFoundation",
         "CoreMedia",
@@ -49,12 +49,12 @@
       "name": "MediaPlayer",
       "source_files": [
         "RTSAnalytics/RTSAnalyticsMediaPlayer.h",
-        "RTSAnalytics/MediaPlayer/**/*.{h,m}"
+        "RTSAnalytics/MediaPlayer/*.{h,m}"
       ],
-      "private_header_files": "RTSAnalytics/MediaPlayer/**/*_private.h",
+      "private_header_files": "RTSAnalytics/MediaPlayer/*_private.h",
       "dependencies": {
         "RTSMediaPlayer": [
-          "~> 0.0.2"
+          "~> 0.0.3"
         ]
       }
     }

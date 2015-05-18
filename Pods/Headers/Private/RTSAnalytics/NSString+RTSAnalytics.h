@@ -1,1 +1,1 @@
-../../../../RTSAnalytics/Core/Categories/NSString+RTSAnalytics.h
+../../../../RTSAnalytics/Core/NSString+RTSAnalytics.h

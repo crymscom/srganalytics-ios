@@ -3,9 +3,8 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
-
 #import "RTSAnalytics.h"
+#import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 
 #import <comScore-iOS-SDK-RTS/CSStreamSense.h>
 #import <comScore-iOS-SDK-RTS/CSStreamSensePlaylist.h>

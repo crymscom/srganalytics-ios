@@ -30,6 +30,9 @@
     ],
     "TransitionKit": [
       "~> 2.2.0"
+    ],
+    "CocoaLumberjack": [
+      "~> 2.0.0"
     ]
   }
 }

@@ -1,1 +1,1 @@
-../../../../RTSAnalytics/Core/Categories/CSRequest+RTSAnalytics_private.h
+../../../../RTSAnalytics/Core/CSRequest+RTSAnalytics_private.h

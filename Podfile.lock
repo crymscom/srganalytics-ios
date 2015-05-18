@@ -21,8 +21,9 @@ PODS:
     - CocoaLumberjack (~> 2.0.0)
     - comScore-iOS-SDK-RTS (= 3.1502.26)
   - RTSAnalytics/MediaPlayer (0.1.0):
-    - RTSMediaPlayer (~> 0.0.2)
+    - RTSMediaPlayer (~> 0.0.3)
   - RTSMediaPlayer (0.0.3):
+    - CocoaLumberjack (~> 2.0.0)
     - libextobjc/EXTScope (~> 0.4.1)
     - TransitionKit (~> 2.2.0)
   - TransitionKit (2.2.0)
@@ -46,7 +47,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   RTSMediaPlayer:
-    :commit: 5cafc41f07805d9c442d8864b35bba854f1546d9
+    :commit: 26e95576f592c74adba09c94e6119ae1be7eaa86
     :git: git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git
 
 SPEC CHECKSUMS:
@@ -55,8 +56,8 @@ SPEC CHECKSUMS:
   KIF: ef1691e54e1d969c3b4fd0b5b56a3d7ddf37f216
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
-  RTSAnalytics: e2302847813444b044257ff29a37196f5eeeabd5
-  RTSMediaPlayer: cfcbff646d7f35f1ecc904edc55159b3a37ee37f
+  RTSAnalytics: cde7eca2e2dedc035913894eb8eb9b72ff10bcea
+  RTSMediaPlayer: 2528c631df117c99025f57576350e19e4db49131
   TransitionKit: 5c9001a77acc409d71f26a4eba0159cf8619c418
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.37.1

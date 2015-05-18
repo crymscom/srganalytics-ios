@@ -24,16 +24,17 @@ static void AnalyticsViewDidAppear(UIViewController *self, SEL _cmd, BOOL animat
 	[self trackPageView];
 }
 
-- (void) trackPageView
+- (void)trackPageView
 {
 	id<RTSAnalyticsPageViewDataSource> viewEventDataSource = nil;
-	if ([self conformsToProtocol:@protocol(RTSAnalyticsPageViewDataSource)])
+    if ([self conformsToProtocol:@protocol(RTSAnalyticsPageViewDataSource)]) {
 		viewEventDataSource = (id<RTSAnalyticsPageViewDataSource>)self;
+    }
 	
 	[[RTSAnalyticsTracker sharedTracker] trackPageViewForDataSource:viewEventDataSource];
 }
 
-+ (void) load
++ (void)load
 {
 	Method viewDidAppear = class_getInstanceMethod(self, @selector(viewDidAppear:));
 	viewDidAppearIMP = (__typeof__(viewDidAppearIMP))method_getImplementation(viewDidAppear);

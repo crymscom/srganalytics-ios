@@ -1,1 +1,1 @@
-../../../../RTSAnalytics/Core/Categories/UIViewController+RTSAnalytics.h
+../../../../RTSAnalytics/Core/UIViewController+RTSAnalytics.h

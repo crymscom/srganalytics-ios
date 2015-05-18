@@ -13,6 +13,6 @@
 /**
  *  Call this method to track view events manually when content changes (by ex.: filtering data, changing part of the view, ...)
  */
-- (void) trackPageView;
+- (void)trackPageView;
 
 @end

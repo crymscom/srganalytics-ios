@@ -11,15 +11,19 @@
 		9F1518C71AC2F1CE00AE051D /* libRTSAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1518BB1AC2F1CE00AE051D /* libRTSAnalytics.a */; };
 		9F1519221AC422AE00AE051D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1519211AC422AE00AE051D /* UIKit.framework */; };
 		9F1519241AC422B800AE051D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1519231AC422B800AE051D /* Foundation.framework */; };
+		9F4420F41B09DB2F00AD0613 /* CSRequest+RTSAnalytics_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F4420EC1B09DB2F00AD0613 /* CSRequest+RTSAnalytics_private.h */; };
+		9F4420F51B09DB2F00AD0613 /* CSRequest+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4420ED1B09DB2F00AD0613 /* CSRequest+RTSAnalytics.m */; };
+		9F4420F61B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F4420EE1B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.h */; };
+		9F4420F71B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4420EF1B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.m */; };
+		9F4420F81B09DB2F00AD0613 /* NSString+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F4420F01B09DB2F00AD0613 /* NSString+RTSAnalytics.h */; };
+		9F4420F91B09DB2F00AD0613 /* NSString+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4420F11B09DB2F00AD0613 /* NSString+RTSAnalytics.m */; };
+		9F4420FA1B09DB2F00AD0613 /* UIViewController+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F4420F21B09DB2F00AD0613 /* UIViewController+RTSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9F4420FB1B09DB2F00AD0613 /* UIViewController+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4420F31B09DB2F00AD0613 /* UIViewController+RTSAnalytics.m */; };
 		9FD74D3F1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD74D3E1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m */; };
 		9FD74D411ACC2DDC00A2D86A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */; };
 		9FD74D431ACC2DF900A2D86A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */; };
 		AF02266D66D1568E51B1517C /* libPods-RTSAnalyticsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 948C8D45046D41F3F8256570 /* libPods-RTSAnalyticsTests.a */; };
 		B64502961ADE7114001021A8 /* RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = B64502681ADE56F5001021A8 /* RTSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B64502B41ADE81F9001021A8 /* CSRequest+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = B64502A51ADE81F9001021A8 /* CSRequest+RTSAnalytics.m */; };
-		B64502B51ADE81F9001021A8 /* CSRequest+RTSAnalytics_private.h in Headers */ = {isa = PBXBuildFile; fileRef = B64502A61ADE81F9001021A8 /* CSRequest+RTSAnalytics_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B64502B61ADE81F9001021A8 /* NSDictionary+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = B64502A71ADE81F9001021A8 /* NSDictionary+RTSAnalytics.m */; };
-		B64502B71ADE81F9001021A8 /* NSDictionary+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = B64502A81ADE81F9001021A8 /* NSDictionary+RTSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B64502B81ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B64502A91ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker.m */; };
 		B64502B91ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker_private.h in Headers */ = {isa = PBXBuildFile; fileRef = B64502AA1ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B64502BC1ADE81F9001021A8 /* RTSAnalyticsPageViewDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = B64502AD1ADE81F9001021A8 /* RTSAnalyticsPageViewDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -27,10 +31,6 @@
 		B64502BE1ADE81F9001021A8 /* RTSAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B64502AF1ADE81F9001021A8 /* RTSAnalyticsTracker.m */; };
 		B64502BF1ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = B64502B01ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B64502C01ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = B64502B11ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.m */; };
-		B64502C51ADE8223001021A8 /* NSString+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = B64502C31ADE8223001021A8 /* NSString+RTSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B64502C61ADE8223001021A8 /* NSString+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = B64502C41ADE8223001021A8 /* NSString+RTSAnalytics.m */; };
-		B64502C91ADE8257001021A8 /* UIViewController+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = B64502C71ADE8257001021A8 /* UIViewController+RTSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B64502CA1ADE8257001021A8 /* UIViewController+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = B64502C81ADE8257001021A8 /* UIViewController+RTSAnalytics.m */; };
 		B64503191ADFA753001021A8 /* RTSAnalyticsMediaPlayerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = B64503131ADFA753001021A8 /* RTSAnalyticsMediaPlayerDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B645031A1ADFA753001021A8 /* RTSAnalyticsStreamTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503141ADFA753001021A8 /* RTSAnalyticsStreamTracker.m */; };
 		B645031B1ADFA753001021A8 /* RTSAnalyticsStreamTracker_private.h in Headers */ = {isa = PBXBuildFile; fileRef = B64503151ADFA753001021A8 /* RTSAnalyticsStreamTracker_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -64,26 +64,26 @@
 		9F1518CC1AC2F1CE00AE051D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F1519211AC422AE00AE051D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F1519231AC422B800AE051D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9F4420EC1B09DB2F00AD0613 /* CSRequest+RTSAnalytics_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CSRequest+RTSAnalytics_private.h"; path = "RTSAnalytics/Core/CSRequest+RTSAnalytics_private.h"; sourceTree = SOURCE_ROOT; };
+		9F4420ED1B09DB2F00AD0613 /* CSRequest+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CSRequest+RTSAnalytics.m"; path = "RTSAnalytics/Core/CSRequest+RTSAnalytics.m"; sourceTree = SOURCE_ROOT; };
+		9F4420EE1B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+RTSAnalytics.h"; path = "RTSAnalytics/Core/NSDictionary+RTSAnalytics.h"; sourceTree = SOURCE_ROOT; };
+		9F4420EF1B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+RTSAnalytics.m"; path = "RTSAnalytics/Core/NSDictionary+RTSAnalytics.m"; sourceTree = SOURCE_ROOT; };
+		9F4420F01B09DB2F00AD0613 /* NSString+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+RTSAnalytics.h"; path = "RTSAnalytics/Core/NSString+RTSAnalytics.h"; sourceTree = SOURCE_ROOT; };
+		9F4420F11B09DB2F00AD0613 /* NSString+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+RTSAnalytics.m"; path = "RTSAnalytics/Core/NSString+RTSAnalytics.m"; sourceTree = SOURCE_ROOT; };
+		9F4420F21B09DB2F00AD0613 /* UIViewController+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+RTSAnalytics.h"; path = "RTSAnalytics/Core/UIViewController+RTSAnalytics.h"; sourceTree = SOURCE_ROOT; };
+		9F4420F31B09DB2F00AD0613 /* UIViewController+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+RTSAnalytics.m"; path = "RTSAnalytics/Core/UIViewController+RTSAnalytics.m"; sourceTree = SOURCE_ROOT; };
 		9FD74D3E1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTrackerTest.m; sourceTree = "<group>"; };
 		9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B64502681ADE56F5001021A8 /* RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalytics.h; sourceTree = "<group>"; };
 		B64502971ADE7DC7001021A8 /* RTSAnalytics.podspec */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = text; path = RTSAnalytics.podspec; sourceTree = "<group>"; usesTabs = 0; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		B64502A51ADE81F9001021A8 /* CSRequest+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSRequest+RTSAnalytics.m"; sourceTree = "<group>"; };
-		B64502A61ADE81F9001021A8 /* CSRequest+RTSAnalytics_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CSRequest+RTSAnalytics_private.h"; sourceTree = "<group>"; };
-		B64502A71ADE81F9001021A8 /* NSDictionary+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+RTSAnalytics.m"; sourceTree = "<group>"; };
-		B64502A81ADE81F9001021A8 /* NSDictionary+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+RTSAnalytics.h"; sourceTree = "<group>"; };
-		B64502A91ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RTSAnalyticsNetmetrixTracker.m; path = Categories/RTSAnalyticsNetmetrixTracker.m; sourceTree = "<group>"; };
-		B64502AA1ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTSAnalyticsNetmetrixTracker_private.h; path = Categories/RTSAnalyticsNetmetrixTracker_private.h; sourceTree = "<group>"; };
+		B64502A91ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsNetmetrixTracker.m; sourceTree = "<group>"; };
+		B64502AA1ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsNetmetrixTracker_private.h; sourceTree = "<group>"; };
 		B64502AD1ADE81F9001021A8 /* RTSAnalyticsPageViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsPageViewDataSource.h; sourceTree = "<group>"; };
 		B64502AE1ADE81F9001021A8 /* RTSAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsTracker.h; sourceTree = "<group>"; };
 		B64502AF1ADE81F9001021A8 /* RTSAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTracker.m; sourceTree = "<group>"; };
 		B64502B01ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RTSAnalyticsTracker+Logging.h"; sourceTree = "<group>"; };
 		B64502B11ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RTSAnalyticsTracker+Logging.m"; sourceTree = "<group>"; };
-		B64502C31ADE8223001021A8 /* NSString+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RTSAnalytics.h"; sourceTree = "<group>"; };
-		B64502C41ADE8223001021A8 /* NSString+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RTSAnalytics.m"; sourceTree = "<group>"; };
-		B64502C71ADE8257001021A8 /* UIViewController+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RTSAnalytics.h"; sourceTree = "<group>"; };
-		B64502C81ADE8257001021A8 /* UIViewController+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RTSAnalytics.m"; sourceTree = "<group>"; };
 		B64503131ADFA753001021A8 /* RTSAnalyticsMediaPlayerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsMediaPlayerDataSource.h; sourceTree = "<group>"; };
 		B64503141ADFA753001021A8 /* RTSAnalyticsStreamTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsStreamTracker.m; sourceTree = "<group>"; };
 		B64503151ADFA753001021A8 /* RTSAnalyticsStreamTracker_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsStreamTracker_private.h; sourceTree = "<group>"; };
@@ -211,14 +211,14 @@
 		B64502A41ADE81F9001021A8 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				B64502A61ADE81F9001021A8 /* CSRequest+RTSAnalytics_private.h */,
-				B64502A51ADE81F9001021A8 /* CSRequest+RTSAnalytics.m */,
-				B64502A81ADE81F9001021A8 /* NSDictionary+RTSAnalytics.h */,
-				B64502A71ADE81F9001021A8 /* NSDictionary+RTSAnalytics.m */,
-				B64502C31ADE8223001021A8 /* NSString+RTSAnalytics.h */,
-				B64502C41ADE8223001021A8 /* NSString+RTSAnalytics.m */,
-				B64502C71ADE8257001021A8 /* UIViewController+RTSAnalytics.h */,
-				B64502C81ADE8257001021A8 /* UIViewController+RTSAnalytics.m */,
+				9F4420EC1B09DB2F00AD0613 /* CSRequest+RTSAnalytics_private.h */,
+				9F4420ED1B09DB2F00AD0613 /* CSRequest+RTSAnalytics.m */,
+				9F4420EE1B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.h */,
+				9F4420EF1B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.m */,
+				9F4420F01B09DB2F00AD0613 /* NSString+RTSAnalytics.h */,
+				9F4420F11B09DB2F00AD0613 /* NSString+RTSAnalytics.m */,
+				9F4420F21B09DB2F00AD0613 /* UIViewController+RTSAnalytics.h */,
+				9F4420F31B09DB2F00AD0613 /* UIViewController+RTSAnalytics.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -247,19 +247,19 @@
 			files = (
 				B64502961ADE7114001021A8 /* RTSAnalytics.h in Headers */,
 				B645031E1ADFA753001021A8 /* RTSAnalyticsMediaPlayer.h in Headers */,
+				9F4420FA1B09DB2F00AD0613 /* UIViewController+RTSAnalytics.h in Headers */,
+				9F4420F41B09DB2F00AD0613 /* CSRequest+RTSAnalytics_private.h in Headers */,
 				B64503191ADFA753001021A8 /* RTSAnalyticsMediaPlayerDataSource.h in Headers */,
 				B645038D1AE3D74D001021A8 /* RTSAnalyticsMediaPlayerDelegate.h in Headers */,
 				B64502BC1ADE81F9001021A8 /* RTSAnalyticsPageViewDataSource.h in Headers */,
-				B64502B71ADE81F9001021A8 /* NSDictionary+RTSAnalytics.h in Headers */,
-				B64502C51ADE8223001021A8 /* NSString+RTSAnalytics.h in Headers */,
 				B645031B1ADFA753001021A8 /* RTSAnalyticsStreamTracker_private.h in Headers */,
 				B645031D1ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker_private.h in Headers */,
 				B64503931AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.h in Headers */,
 				B64502BF1ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.h in Headers */,
-				B64502C91ADE8257001021A8 /* UIViewController+RTSAnalytics.h in Headers */,
 				B64502BD1ADE81F9001021A8 /* RTSAnalyticsTracker.h in Headers */,
+				9F4420F61B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.h in Headers */,
 				B64502B91ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker_private.h in Headers */,
-				B64502B51ADE81F9001021A8 /* CSRequest+RTSAnalytics_private.h in Headers */,
+				9F4420F81B09DB2F00AD0613 /* NSString+RTSAnalytics.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,16 +418,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B64502C61ADE8223001021A8 /* NSString+RTSAnalytics.m in Sources */,
-				B64502B61ADE81F9001021A8 /* NSDictionary+RTSAnalytics.m in Sources */,
 				B645031C1ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker.m in Sources */,
+				9F4420F71B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.m in Sources */,
 				B64502BE1ADE81F9001021A8 /* RTSAnalyticsTracker.m in Sources */,
-				B64502B41ADE81F9001021A8 /* CSRequest+RTSAnalytics.m in Sources */,
-				B64502CA1ADE8257001021A8 /* UIViewController+RTSAnalytics.m in Sources */,
 				B64502B81ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker.m in Sources */,
 				B64503941AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m in Sources */,
 				B64502C01ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.m in Sources */,
 				B645031A1ADFA753001021A8 /* RTSAnalyticsStreamTracker.m in Sources */,
+				9F4420FB1B09DB2F00AD0613 /* UIViewController+RTSAnalytics.m in Sources */,
+				9F4420F51B09DB2F00AD0613 /* CSRequest+RTSAnalytics.m in Sources */,
+				9F4420F91B09DB2F00AD0613 /* NSString+RTSAnalytics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
