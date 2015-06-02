@@ -53,6 +53,9 @@
       ],
       "private_header_files": "RTSAnalytics/MediaPlayer/*_private.h",
       "dependencies": {
+        "RTSAnalytics/Core": [
+
+        ],
         "RTSMediaPlayer": [
           "~> 0.0.3"
         ]

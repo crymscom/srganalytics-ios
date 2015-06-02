@@ -21,12 +21,14 @@
  */
 typedef NS_ENUM(NSInteger, RTSMediaPlaybackState) {
 	/**
-	 *  Default state when controller is initialized. The player also returns to the idle state when an error occurs or when the `stop` method is called.
+	 *  Default state when controller is initialized. The player also returns to the idle state when an error occurs or 
+	 *  when the `stop` method is called.
 	 */
 	RTSMediaPlaybackStateIdle,
 	
 	/**
-	 *  The player is preparing to play the media. It will load everything needed to play the media. This can typically take some time under bad network conditions.
+	 *  The player is preparing to play the media. It will load everything needed to play the media. This can typically 
+	 *  take some time under bad network conditions.
 	 */
 	RTSMediaPlaybackStatePreparing,
 	
@@ -39,7 +41,13 @@ typedef NS_ENUM(NSInteger, RTSMediaPlaybackState) {
 	 *  The media is playing, i.e. you can hear sound and/or see a video playing.
 	 */
 	RTSMediaPlaybackStatePlaying,
-	
+
+	/**
+	 *  The media is seeking (i.e. the playback is paused while looking for another time tick). This can be the result of the
+	 *  user moving a slider, or the player itself jumping above a blocked segment.
+	 */
+	RTSMediaPlaybackStateSeeking,
+
 	/**
 	 *  The player is paused at the user request.
 	 */
@@ -62,6 +70,9 @@ typedef NS_ENUM(NSInteger, RTSMediaPlaybackState) {
  *  -------------------
  */
 
+FOUNDATION_EXTERN NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingNotification;
+FOUNDATION_EXTERN NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey;
+
 FOUNDATION_EXTERN NSString * const RTSMediaPlayerPlaybackDidFailNotification;
 FOUNDATION_EXTERN NSString * const RTSMediaPlayerPlaybackDidFailErrorUserInfoKey; // NSError
 
@@ -73,11 +84,15 @@ FOUNDATION_EXTERN NSString * const RTSMediaPlayerPreviousPlaybackStateUserInfoKe
 
 /**
  *  RTSMediaPlayerController is inspired by the MPMoviePlayerController class.
- *  A media player (of type RTSMediaPlayerController) manages the playback of a media from a file or a network stream. You can incorporate a media player’s view into a view hierarchy owned by your app, or use a RTSMediaPlayerViewController object to manage the presentation for you.
+ *  A media player (of type RTSMediaPlayerController) manages the playback of a media from a file or a network stream. 
+ *  You can incorporate a media player’s view into a view hierarchy owned by your app, or use a RTSMediaPlayerViewController
+ *  object to manage the presentation for you.
  *
  *  The media player controller posts several notifications, see the notifications section.
  *
- *  Errors are handled through the `RTSMediaPlayerPlaybackDidFinishNotification` notification. There are two possible source of errors: either the error comes from the dataSource (see `RTSMediaPlayerControllerDataSource`) or from the network (playback error).
+ *  Errors are handled through the `RTSMediaPlayerPlaybackDidFinishNotification` notification. There are two possible 
+ *  source of errors: either the error comes from the dataSource (see `RTSMediaPlayerControllerDataSource`) or from 
+ *  the network (playback error).
  *
  *  The media player controller manages its overlays visibility. See the `overlayViews` property.
  */
@@ -193,6 +208,27 @@ FOUNDATION_EXTERN NSString * const RTSMediaPlayerPreviousPlaybackStateUserInfoKe
  *  Stop playing the current media.
  */
 - (void) reset;
+
+/**
+ *  Register a block for periodical execution during playback. Playback observers are more reliable than periodic time 
+ *  observers which trigger block execution also when the player state changes. Such observers are therefore especially 
+ *  useful when some work needs to be done periodically in a reliable way
+ *
+ *  @param interval Time interval between block executions
+ *  @param queue    The serial queue onto which block should be enqueued (main queue if NULL)
+ *  @param block	The block to be executed during playback
+ *
+ *  @return The time observer. The observer is retained by the media player controller, you can store a weak reference
+ *          to it to remove it at a later time if needed
+ */
+- (id) addPlaybackTimeObserverForInterval:(CMTime)interval queue:(dispatch_queue_t)queue usingBlock:(void (^)(CMTime time))block;
+
+/**
+ *  Remove a playback time observer (does nothing if the observer is not registered)
+ *
+ *  @param playbackTimeObserver The playback time observer to remove
+ */
+- (void) removePlaybackTimeObserver:(id)observer;
 
 /**
  *  -------------------

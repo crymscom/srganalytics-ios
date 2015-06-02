@@ -18,6 +18,7 @@
   "requires_arc": true,
   "source_files": "RTSMediaPlayer",
   "public_header_files": "RTSMediaPlayer/*.h",
+  "private_header_files": "RTSMediaPlayer/*+Private.h",
   "resource_bundles": {
     "RTSMediaPlayer": [
       "RTSMediaPlayer/Info.plist",

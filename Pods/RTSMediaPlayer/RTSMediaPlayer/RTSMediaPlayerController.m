@@ -3,18 +3,22 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import "RTSMediaPlayerError.h"
-#import "RTSMediaPlayerController.h"
-#import "RTSMediaPlayerView.h"
-#import "RTSActivityGestureRecognizer.h"
-
 #import <objc/runtime.h>
 #import <CocoaLumberjack/CocoaLumberjack.h>
 #import <TransitionKit/TransitionKit.h>
 #import <libextobjc/EXTScope.h>
 
+#import "RTSMediaPlayerController.h"
+#import "RTSMediaPlayerController+Private.h"
+
+#import "RTSMediaPlayerError.h"
+#import "RTSMediaPlayerView.h"
+#import "RTSPlaybackTimeObserver.h"
+#import "RTSActivityGestureRecognizer.h"
+
 NSString * const RTSMediaPlayerErrorDomain = @"RTSMediaPlayerErrorDomain";
 
+NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingNotification = @"RTSMediaPlayerPlaybackDidPauseUponBlocking";
 NSString * const RTSMediaPlayerPlaybackDidFailNotification = @"RTSMediaPlayerPlaybackDidFail";
 NSString * const RTSMediaPlayerPlaybackStateDidChangeNotification = @"RTSMediaPlayerPlaybackStateDidChange";
 
@@ -30,19 +34,24 @@ NSString * const RTSMediaPlayerPreviousPlaybackStateUserInfoKey = @"PreviousPlay
 
 NSString * const RTSMediaPlayerStateMachineContentURLInfoKey = @"ContentURL";
 NSString * const RTSMediaPlayerStateMachineAutoPlayInfoKey = @"AutoPlay";
+NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey = @"BlockingReason";
 
 @interface RTSMediaPlayerController () <RTSMediaPlayerControllerDataSource, UIGestureRecognizerDelegate>
 
 @property (readonly) TKStateMachine *stateMachine;
+
 @property (readwrite) TKState *idleState;
 @property (readwrite) TKState *readyState;
 @property (readwrite) TKState *pausedState;
 @property (readwrite) TKState *playingState;
+@property (readwrite) TKState *seekingState;
 @property (readwrite) TKState *stalledState;
+
 @property (readwrite) TKEvent *loadEvent;
 @property (readwrite) TKEvent *loadSuccessEvent;
 @property (readwrite) TKEvent *playEvent;
 @property (readwrite) TKEvent *pauseEvent;
+@property (readwrite) TKEvent *seekEvent;
 @property (readwrite) TKEvent *endEvent;
 @property (readwrite) TKEvent *stopEvent;
 @property (readwrite) TKEvent *stallEvent;
@@ -53,6 +62,8 @@ NSString * const RTSMediaPlayerStateMachineAutoPlayInfoKey = @"AutoPlay";
 @property (readwrite) id periodicTimeObserver;
 @property (readwrite) id playbackStartObserver;
 @property (readwrite) CMTime previousPlaybackTime;
+
+@property (readwrite) NSMutableDictionary *playbackTimeObservers;
 
 @property (readonly) RTSMediaPlayerView *playerView;
 @property (readonly) RTSActivityGestureRecognizer *activityGestureRecognizer;
@@ -91,6 +102,8 @@ NSString * const RTSMediaPlayerStateMachineAutoPlayInfoKey = @"AutoPlay";
 	_identifier = identifier;
 	_dataSource = dataSource;
 	
+	self.playbackTimeObservers = [NSMutableDictionary dictionary];
+	
 	[self.stateMachine activate];
 	
 	return self;
@@ -112,10 +125,15 @@ NSString * const RTSMediaPlayerStateMachineAutoPlayInfoKey = @"AutoPlay";
 #pragma mark - RTSMediaPlayerControllerDataSource 
 
 // Used when initialized with `initWithContentURL:`
-- (void) mediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController contentURLForIdentifier:(NSString *)identifier completionHandler:(void (^)(NSURL *contentURL, NSError *error))completionHandler
+- (void)mediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+	  contentURLForIdentifier:(NSString *)identifier
+			completionHandler:(void (^)(NSURL *contentURL, NSError *error))completionHandler
 {
-	if (!identifier)
-		@throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Trying to play a media with a nil identifier." userInfo:nil];
+	if (!identifier) {
+		@throw [NSException exceptionWithName:NSInternalInconsistencyException
+									   reason:@"Trying to play a media with a nil identifier."
+									 userInfo:nil];
+	}
 	
 	completionHandler([NSURL URLWithString:identifier], nil);
 }
@@ -137,24 +155,32 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	
 	TKStateMachine *stateMachine = [TKStateMachine new];
 	
-	[[NSNotificationCenter defaultCenter] addObserverForName:TKStateMachineDidChangeStateNotification object:stateMachine queue:[NSOperationQueue new] usingBlock:^(NSNotification *notification) {
-		TKTransition *transition = notification.userInfo[TKStateMachineDidChangeStateTransitionUserInfoKey];
-		DDLogDebug(@"(%@) ---[%@]---> (%@)", transition.sourceState.name, transition.event.name.lowercaseString, transition.destinationState.name);
+	[[NSNotificationCenter defaultCenter] addObserverForName:TKStateMachineDidChangeStateNotification
+													  object:stateMachine
+													   queue:[NSOperationQueue new]
+												  usingBlock:^(NSNotification *notification) {
+													  TKTransition *transition = notification.userInfo[TKStateMachineDidChangeStateTransitionUserInfoKey];
+													  DDLogDebug(@"(%@) ---[%@]---> (%@)",
+																 transition.sourceState.name,
+																 transition.event.name.lowercaseString,
+																 transition.destinationState.name);
 	}];
 	
 	TKState *idle = [TKState stateWithName:@"Idle"];
 	TKState *preparing = [TKState stateWithName:@"Preparing"];
 	TKState *ready = [TKState stateWithName:@"Ready"];
 	TKState *playing = [TKState stateWithName:@"Playing"];
+	TKState *seeking = [TKState stateWithName:@"Seeking"];
 	TKState *paused = [TKState stateWithName:@"Paused"];
 	TKState *stalled = [TKState stateWithName:@"Stalled"];
 	TKState *ended = [TKState stateWithName:@"Ended"];
-	[stateMachine addStates:@[ idle, preparing, ready, playing, paused, stalled, ended ]];
+	[stateMachine addStates:@[ idle, preparing, ready, playing, seeking, paused, stalled, ended ]];
 	stateMachine.initialState = idle;
 	
 	TKEvent *load = [TKEvent eventWithName:@"Load" transitioningFromStates:@[ idle ] toState:preparing];
 	TKEvent *loadSuccess = [TKEvent eventWithName:@"Load Success" transitioningFromStates:@[ preparing ] toState:ready];
 	TKEvent *play = [TKEvent eventWithName:@"Play" transitioningFromStates:@[ ready, paused, stalled, ended ] toState:playing];
+	TKEvent *seek = [TKEvent eventWithName:@"Seek" transitioningFromStates:@[ ready, paused, stalled, ended ] toState:seeking]; // Including 'Stalled"?
 	TKEvent *pause = [TKEvent eventWithName:@"Pause" transitioningFromStates:@[ ready, playing ] toState:paused];
 	TKEvent *end = [TKEvent eventWithName:@"End" transitioningFromStates:@[ playing ] toState:ended];
 	TKEvent *stall = [TKEvent eventWithName:@"Stall" transitioningFromStates:@[ playing ] toState:stalled];
@@ -162,12 +188,13 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	[allStatesButIdle removeObject:idle];
 	TKEvent *reset = [TKEvent eventWithName:@"Reset" transitioningFromStates:[allStatesButIdle allObjects] toState:idle];
 	
-	[stateMachine addEvents:@[ load, loadSuccess, play, pause, end, stall, reset ]];
+	[stateMachine addEvents:@[ load, loadSuccess, play, seek, pause, end, stall, reset ]];
 	
 	NSDictionary *states = @{ idle.name:      @(RTSMediaPlaybackStateIdle),
 	                          preparing.name: @(RTSMediaPlaybackStatePreparing),
 	                          ready.name:     @(RTSMediaPlaybackStateReady),
 	                          playing.name:   @(RTSMediaPlaybackStatePlaying),
+							  seeking.name:   @(RTSMediaPlaybackStateSeeking),
 	                          paused.name:    @(RTSMediaPlaybackStatePaused),
 	                          stalled.name:   @(RTSMediaPlaybackStateStalled),
 	                          ended.name:     @(RTSMediaPlaybackStateEnded) };
@@ -176,16 +203,21 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	
 	@weakify(self)
 	
-	[[NSNotificationCenter defaultCenter] addObserverForName:TKStateMachineDidChangeStateNotification object:stateMachine queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-		@strongify(self)
-		TKTransition *transition = notification.userInfo[TKStateMachineDidChangeStateTransitionUserInfoKey];
-		self.playbackState = [states[transition.destinationState.name] integerValue];
-	}];
+	[[NSNotificationCenter defaultCenter] addObserverForName:TKStateMachineDidChangeStateNotification
+													  object:stateMachine
+													   queue:[NSOperationQueue mainQueue]
+												  usingBlock:^(NSNotification *notification) {
+													  @strongify(self)
+													  TKTransition *transition = notification.userInfo[TKStateMachineDidChangeStateTransitionUserInfoKey];
+													  self.playbackState = [states[transition.destinationState.name] integerValue];
+												  }];
 	
 	[preparing setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
 		@strongify(self)
         if (!self.dataSource) {
-			@throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"RTSMediaPlayerController dataSource can not be nil." userInfo:nil];
+			@throw [NSException exceptionWithName:NSInternalInconsistencyException
+										   reason:@"RTSMediaPlayerController dataSource can not be nil."
+										 userInfo:nil];
         }
 		
 		[self.dataSource mediaPlayerController:self contentURLForIdentifier:self.identifier completionHandler:^(NSURL *contentURL, NSError *error) {
@@ -218,7 +250,8 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 		BOOL autoPlay = [transition.userInfo[RTSMediaPlayerStateMachineAutoPlayInfoKey] boolValue];
 		if (autoPlay) {
 			[self.player play];
-		}else if (self.player.rate == 0) {
+		}
+		else if (self.player.rate == 0) {
 			[self fireEvent:self.pauseEvent userInfo:nil];
 		}
 	}];
@@ -226,6 +259,13 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	[playing setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
 		@strongify(self)
 		[self resetIdleTimer];
+	}];
+	
+	[seeking setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
+		NSDictionary *errorUserInfo = transition.userInfo[RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey];
+		if (errorUserInfo) {
+			[self postNotificationName:RTSMediaPlayerPlaybackSeekingUponBlockingNotification userInfo:errorUserInfo];
+		}
 	}];
 	
 	[reset setWillFireEventBlock:^(TKEvent *event, TKTransition *transition) {
@@ -249,6 +289,7 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	self.pausedState = paused;
 	self.playingState = playing;
 	self.stalledState = stalled;
+	self.seekingState = seeking;
 	
 	self.loadEvent = load;
 	self.loadSuccessEvent = loadSuccess;
@@ -256,6 +297,7 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	self.pauseEvent = pause;
 	self.endEvent = end;
 	self.stallEvent = stall;
+	self.seekEvent = seek;
 	self.resetEvent = reset;
 	
 	_stateMachine = stateMachine;
@@ -270,6 +312,11 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	if (!success) {
 		DDLogWarn(@"Invalid Transition: %@", error.localizedFailureReason);
 	}
+}
+
+- (void)fireSeekEventWithUserInfo:(NSDictionary *)userInfo
+{
+	[self fireEvent:self.seekEvent userInfo:userInfo];
 }
 
 #pragma mark - Notifications
@@ -356,6 +403,40 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	}
 }
 
+- (id) addPlaybackTimeObserverForInterval:(CMTime)interval queue:(dispatch_queue_t)queue usingBlock:(void (^)(CMTime time))block
+{
+	if (!block)
+	{
+		return nil;
+	}
+	
+	NSString *identifier = [[NSUUID UUID] UUIDString];
+	RTSPlaybackTimeObserver *playbackTimeObserver = [self playbackTimeObserverForInterval:interval queue:queue];
+	[playbackTimeObserver setBlock:block forIdentifier:identifier];
+	
+	// Return the opaque identifier
+	return identifier;
+}
+
+- (void) removePlaybackTimeObserver:(id)observer
+{
+	for (RTSPlaybackTimeObserver *playbackTimeObserver in [self.playbackTimeObservers allValues]) {
+		[playbackTimeObserver removeBlockWithIdentifier:observer];
+	}
+}
+
+- (RTSPlaybackTimeObserver *) playbackTimeObserverForInterval:(CMTime)interval queue:(dispatch_queue_t)queue
+{
+	NSString *key = [NSString stringWithFormat:@"%@-%@-%@-%@-%p", @(interval.value), @(interval.timescale), @(interval.flags), @(interval.epoch), queue];
+	RTSPlaybackTimeObserver *playbackTimeObserver = self.playbackTimeObservers[key];
+	if (!playbackTimeObserver)
+	{
+		playbackTimeObserver = [[RTSPlaybackTimeObserver alloc] initWithInterval:interval queue:queue];
+		self.playbackTimeObservers[key] = playbackTimeObserver;
+	}
+	return playbackTimeObserver;
+}
+
 #pragma mark - AVPlayer
 
 static const void * const AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
@@ -405,6 +486,8 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 			self.periodicTimeObserver = nil;
 		}
 		
+		[self unregisterPlaybackObservers];
+		
 		_player = player;
 		
 		AVPlayerItem *playerItem = player.currentItem;
@@ -423,6 +506,7 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 			
 			[self registerPlaybackStartObserver];
 			[self registerPeriodicTimeObserver];
+			[self registerPlaybackObservers];
 		}
 	}
 }
@@ -452,7 +536,6 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 
 - (void)registerPeriodicTimeObserver
 {
-	
 	if (self.periodicTimeObserver)
 	{
 		[self.player removeTimeObserver:self.periodicTimeObserver];
@@ -478,6 +561,24 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 
 		self.previousPlaybackTime = playbackTime;
 	}];
+}
+
+- (void) registerPlaybackObservers
+{
+	[self unregisterPlaybackObservers];
+	
+	for (RTSPlaybackTimeObserver *playbackBlockRegistration in [self.playbackTimeObservers allValues])
+	{
+		[playbackBlockRegistration attachToMediaPlayer:self.player];
+	}
+}
+
+- (void) unregisterPlaybackObservers
+{
+	for (RTSPlaybackTimeObserver *playbackBlockRegistration in [self.playbackTimeObservers allValues])
+	{
+		[playbackBlockRegistration detach];
+	}
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
