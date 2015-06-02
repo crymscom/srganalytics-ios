@@ -49,18 +49,29 @@
 
 - (void)startStreamMeasurementForVirtualSite:(NSString *)virtualSite mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
 {
-	_dataSource = dataSource;
-	_virtualSite = virtualSite;
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackStateDidChange:) name:RTSMediaPlayerPlaybackStateDidChangeNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerPlaybackDidFail:) name:RTSMediaPlayerPlaybackDidFailNotification object:nil];
+    NSParameterAssert(virtualSite && dataSource);
+    
+    if (!_dataSource && !_virtualSite) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(mediaPlayerPlaybackStateDidChange:)
+                                                     name:RTSMediaPlayerPlaybackStateDidChangeNotification
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(mediaPlayerPlaybackDidFail:)
+                                                     name:RTSMediaPlayerPlaybackDidFailNotification
+                                                   object:nil];
+    }
+    
+    _dataSource = dataSource;
+    _virtualSite = virtualSite;
 }
 
 
 
 #pragma mark - Notifications
 
-- (void) mediaPlayerPlaybackStateDidChange:(NSNotification *)notification
+- (void)mediaPlayerPlaybackStateDidChange:(NSNotification *)notification
 {
 	if (!_dataSource) {
 		// We haven't started yet.
