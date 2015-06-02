@@ -23,16 +23,21 @@ static BOOL isLogEnabled = NO;
 	
 	if (isLogEnabled) {
 		[self startLoggingInternalComScoreTasks];
-	}else{
+	}
+    else {
 		[self stopLoggingInternalComScoreTasks];
 	}
 }
 
 - (void)startLoggingInternalComScoreTasks
 {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(comScoreRequestDidFinish:) name:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(comScoreRequestDidFinish:)
+                                                 name:RTSAnalyticsComScoreRequestDidFinishNotification
+                                               object:nil];
 	
-	// +[CSComScore setPixelURL:] is dispatched on an internal comScore queue, so calling +[CSComScore pixelURL] right after doesn’t work, we must also dispatch it on the same queue!
+    // +[CSComScore setPixelURL:] is dispatched on an internal comScore queue, so calling +[CSComScore pixelURL]
+    // right after doesn’t work, we must also dispatch it on the same queue!
 	[[[CSComScore core] taskExecutor] execute:^
 	 {
 		 const SEL selectors[] = {
