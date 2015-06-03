@@ -62,8 +62,9 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (NSMutableDictionary *) createMeasurementLabels:(CSStreamSenseEventType)eventType initialLabels:(NSDictionary *)initialLabels
 {
+	NSMutableDictionary *measurementLabels = [super createMeasurementLabels:eventType initialLabels:initialLabels];
 	[self updateLabels];
-	return nil;
+	return measurementLabels;
 }
 
 #pragma mark - CSStreamSensePluginProtocol
