@@ -15,10 +15,6 @@
 
 #import <CocoaLumberjack/CocoaLumberjack.h>
 
-@interface CSStreamSense ()
-- (void)dispatchHeartbeatEvent;
-@end
-
 static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 @interface RTSMediaPlayerControllerStreamSenseTracker ()
@@ -64,10 +60,10 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	[self notify:playerEvent position:[self currentPositionInMilliseconds] labels:nil];
 }
 
-- (void) dispatchHeartbeatEvent
+- (NSMutableDictionary *) createMeasurementLabels:(CSStreamSenseEventType)eventType initialLabels:(NSDictionary *)initialLabels
 {
 	[self updateLabels];
-	[super dispatchHeartbeatEvent];
+	return nil;
 }
 
 #pragma mark - CSStreamSensePluginProtocol
