@@ -52,7 +52,7 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 	NSString *netmetrixURLString = [NSString stringWithFormat:@"http://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netmetrixDomain, self.appID, self.device];
 	NSURL *netmetrixURL = [NSURL URLWithString:netmetrixURLString];
 	
-	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:netmetrixURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:netmetrixURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30];
 	[request setHTTPMethod: @"GET"];
 	[request setValue:@"image/gif" forHTTPHeaderField:@"Accept"];
 	
