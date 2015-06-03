@@ -67,6 +67,15 @@
     _virtualSite = virtualSite;
 }
 
+- (BOOL) shouldTrackMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+{
+	BOOL shouldTrackMediaPlayerController = YES;
+	if ([self.mediaPlayerDelegate conformsToProtocol:@protocol(RTSAnalyticsMediaPlayerDelegate)])
+		shouldTrackMediaPlayerController = [self.mediaPlayerDelegate shouldTrackMediaWithIdentifier:mediaPlayerController.identifier];
+	
+	return shouldTrackMediaPlayerController;
+}
+
 
 
 #pragma mark - Notifications
@@ -79,12 +88,8 @@
 	}
 	
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
-	
-	BOOL shouldTrackMediaPlayerController = YES;
-	if ([self.mediaPlayerDelegate conformsToProtocol:@protocol(RTSAnalyticsMediaPlayerDelegate)])
-		shouldTrackMediaPlayerController = [self.mediaPlayerDelegate shouldTrackMediaWithIdentifier:mediaPlayerController.identifier];
-	
-	if (shouldTrackMediaPlayerController) {
+	if ([self shouldTrackMediaPlayerController:mediaPlayerController])
+	{
 		switch (mediaPlayerController.playbackState) {
 			case RTSMediaPlaybackStatePreparing:
 				[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController];
@@ -123,8 +128,10 @@
 - (void)mediaPlayerPlaybackDidFail:(NSNotification *)notification
 {
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
-	[self stopTrackingMediaPlayerController:mediaPlayerController];
+	if ([self shouldTrackMediaPlayerController:mediaPlayerController])
+		[self stopTrackingMediaPlayerController:mediaPlayerController];
 }
+
 
 
 #pragma mark - Stream tracking
