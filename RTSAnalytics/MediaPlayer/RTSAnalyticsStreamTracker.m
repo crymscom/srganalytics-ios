@@ -148,6 +148,9 @@
 
 - (void)stopTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
 {
+	if (![self.streamsenseTrackers.allKeys containsObject:mediaPlayerController.identifier])
+		return;
+	
 	[self notifyStreamTrackerEvent:CSStreamSenseEnd mediaPlayer:mediaPlayerController];
 	[CSComScore onUxInactive];
     
