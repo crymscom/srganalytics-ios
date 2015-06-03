@@ -77,17 +77,21 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 	{
 		[NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
 			
-			BOOL success = !connectionError;
-			NSDictionary *userInfo = @{ RTSAnalyticsNetmetrixRequestSuccessUserInfoKey: @(success), RTSAnalyticsNetmetrixRequestResponseUserInfoKey: response };
-			[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixRequestDidFinishNotification object:request userInfo:userInfo];
-			
-			if (success) {
+			BOOL succes = !connectionError;
+			if (succes) {
 				DDLogInfo(@"%@ view > %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod);
 			}else{
 				DDLogError(@"%@ ERROR sending %@ view : %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod, connectionError.localizedDescription);
 			}
 			
 			DDLogDebug(@"%@ view event sent:\n%@", LoggerDomainAnalyticsNetmetrix,[(NSHTTPURLResponse*)response allHeaderFields]);
+			
+			NSMutableDictionary *userInfo = [NSMutableDictionary new];
+			[userInfo setObject:@(succes) forKey:RTSAnalyticsNetmetrixRequestSuccessUserInfoKey];
+			if (response)
+				[userInfo setObject:response forKey:RTSAnalyticsNetmetrixRequestResponseUserInfoKey];
+			
+			[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixRequestDidFinishNotification object:request userInfo:[userInfo copy]];
 		}];
 	}
 }
