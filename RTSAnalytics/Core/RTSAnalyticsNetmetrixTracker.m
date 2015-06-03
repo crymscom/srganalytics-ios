@@ -84,12 +84,11 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 				DDLogError(@"%@ ERROR sending %@ view : %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod, connectionError.localizedDescription);
 			}
 			
-			DDLogDebug(@"%@ view event sent:\n%@", LoggerDomainAnalyticsNetmetrix,[(NSHTTPURLResponse*)response allHeaderFields]);
+			DDLogDebug(@"%@ view event sent:\n%@", LoggerDomainAnalyticsNetmetrix, [(NSHTTPURLResponse *)response allHeaderFields]);
 			
-			NSMutableDictionary *userInfo = [NSMutableDictionary new];
-			[userInfo setObject:@(succes) forKey:RTSAnalyticsNetmetrixRequestSuccessUserInfoKey];
+			NSMutableDictionary *userInfo = [@{ RTSAnalyticsNetmetrixRequestSuccessUserInfoKey: @(succes) } mutableCopy];
 			if (response)
-				[userInfo setObject:response forKey:RTSAnalyticsNetmetrixRequestResponseUserInfoKey];
+				userInfo[RTSAnalyticsNetmetrixRequestResponseUserInfoKey] = response;
 			
 			[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixRequestDidFinishNotification object:request userInfo:[userInfo copy]];
 		}];
