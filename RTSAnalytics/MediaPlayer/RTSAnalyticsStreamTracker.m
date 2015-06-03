@@ -142,10 +142,10 @@
 - (void)stopTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
 {
 	[self notifyStreamTrackerEvent:CSStreamSenseEnd mediaPlayer:mediaPlayerController];
+	[CSComScore onUxInactive];
     
 	DDLogVerbose(@"Delete stream tracker for media identifier `%@`", mediaPlayerController.identifier);
-	[self.streamsenseTrackers removeObjectForKey:mediaPlayerController.identifier];
-	[CSComScore onUxInactive];
+	[self.streamsenseTrackers removeObjectForKey:mediaPlayerController.identifier];	
 }
 
 - (void)notifyStreamTrackerEvent:(CSStreamSenseEventType)eventType mediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
