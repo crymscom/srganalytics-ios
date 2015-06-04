@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
   s.name        = "RTSAnalytics"
   s.version     = "0.1.1"
-  s.summary     = "RTS Analytics for the RTS Media Player"
-  s.description = "RTS Analytics for the RTS Media Player"
+  s.summary     = "Analytics for SRG mobile applications"
+  s.description = "Analytics for SRG mobile applications"
   s.homepage    = "http://rts.ch"
   s.license     = { :type => "N/A" }
   s.authors     = { "Cédric Foellmi" => "cedric.foellmi@hortis.ch", "Cédric Luthi" => "cedric.luthi@rts.ch", "Frédéric Humbert-Droz" => "fred.hd@me.com" }
-  s.source      = { :git => "git@bitbucket.org:rtsmb/rtsanalytics-ios.git", :tag => s.version.to_s }
+  s.source      = { :git => "git@bitbucket.org:rtsmb/srganalytics-ios.git", :tag => s.version.to_s }
   
   # Platform setup
   s.requires_arc = true
