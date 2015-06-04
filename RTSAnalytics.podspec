@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.version     = "0.1.1"
   s.summary     = "Analytics for SRG mobile applications"
   s.description = "Analytics for SRG mobile applications"
-  s.homepage    = "http://rts.ch"
+  s.homepage    = "https://bitbucket.org/rtsmb/srganalytics-ios"
   s.license     = { :type => "N/A" }
   s.authors     = { "Cédric Foellmi" => "cedric.foellmi@hortis.ch", "Cédric Luthi" => "cedric.luthi@rts.ch", "Frédéric Humbert-Droz" => "fred.hd@me.com" }
   s.source      = { :git => "git@bitbucket.org:rtsmb/srganalytics-ios.git", :tag => s.version.to_s }
