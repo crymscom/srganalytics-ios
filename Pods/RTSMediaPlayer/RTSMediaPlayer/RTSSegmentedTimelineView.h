@@ -1,6 +1,7 @@
 //
-//  Created by Samuel Défago on 28.04.15.
-//  Copyright (c) 2015 RTS. All rights reserved.
+//  Copyright (c) RTS. All rights reserved.
+//
+//  Licence information is available from the LICENCE file.
 //
 
 #import <CoreMedia/CoreMedia.h>
@@ -10,7 +11,7 @@
 @class RTSMediaSegmentsController;
 @class RTSMediaPlayerController;
 
-@protocol RTSTimelineViewDelegate;
+@protocol RTSSegmentedTimelineViewDelegate;
 
 /**
  *  A view displaying segments associated with a stream as a linear collection of cells
@@ -23,12 +24,17 @@
  *  Customisation of timeline cells is achieved through subclassing of UICollectionViewCell, exactly like a usual 
  *  UICollectionView
  */
-@interface RTSTimelineView : UIView <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface RTSSegmentedTimelineView : UIView <UICollectionViewDataSource, UICollectionViewDelegate>
 
 /**
  *  The controller which provides segments to the timeline
  */
 @property (nonatomic, weak) IBOutlet RTSMediaSegmentsController *segmentsController;
+
+/**
+ *  The timeline delegate
+ */
+@property (nonatomic, weak) IBOutlet id<RTSSegmentedTimelineViewDelegate> delegate;
 
 /**
  *  The width of cells within the timeline. Defaults to 60
@@ -44,13 +50,13 @@
  *  Register cell classes for reuse. Cells must be subclasses of UICollectionViewCell and can be instantiated either
  *  programmatically or using a nib. For more information about cell reuse, refer to UICollectionView documentation
  */
-- (void) registerClass:(Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier;
-- (void) registerNib:(UINib *)nib forCellWithReuseIdentifier:(NSString *)identifier;
+- (void)registerClass:(Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier;
+- (void)registerNib:(UINib *)nib forCellWithReuseIdentifier:(NSString *)identifier;
 
 /**
  *  Call this method to trigger a reload of the segments from the data source
  */
-- (void) reloadSegmentsForIdentifier:(NSString *)identifier;
+- (void)reloadSegmentsForIdentifier:(NSString *)identifier;
 
 /**
  *  Dequeue a reusable cell for a given segment
@@ -58,35 +64,27 @@
  *  @param identifier The cell identifier (must be appropriately set for the cell)
  *  @param segment    The segment for which a cell must be dequeued
  */
-- (id) dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forSegment:(id<RTSMediaPlayerSegment>)segment;
+- (id)dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forSegment:(id<RTSMediaSegment>)segment;
 
-/**
- *  The timeline delegate
- */
-@property (nonatomic, weak) IBOutlet id<RTSTimelineViewDelegate> delegate;
-
-/**
- *  The currently visible cells
- */
-- (NSArray *) visibleCells;
+- (NSArray *)visibleCells;
 
 /**
  *  Scroll to make the specified segment visible (does nothing if the segment does not belong to the displayed segments)
  */
-- (void) scrollToSegment:(id<RTSMediaPlayerSegment>)segment animated:(BOOL)animated;
+- (void)scrollToSegment:(id<RTSMediaSegment>)segment animated:(BOOL)animated;
 
 /**
  *  Scroll to make the segment to which the specified time belongs visible (does nothing if the time does not match
  *  any segment)
  */
-- (void) scrollToSegmentAtTime:(CMTime)time animated:(BOOL)animated;
+- (void)scrollToSegmentAtTime:(CMTime)time animated:(BOOL)animated;
 
 @end
 
 /**
  *  Timeline delegate protocol
  */
-@protocol RTSTimelineViewDelegate <NSObject>
+@protocol RTSSegmentedTimelineViewDelegate <NSObject>
 
 /**
  *  Return the cell to be displayed for a segment. You should call -dequeueReusableCellWithReuseIdentifier:forSegment:
@@ -97,16 +95,7 @@
  *
  *  @return The cell to use
  */
-- (UICollectionViewCell *) timelineView:(RTSTimelineView *)timelineView cellForSegment:(id<RTSMediaPlayerSegment>)segment;
+- (UICollectionViewCell *)timelineView:(RTSSegmentedTimelineView *)timelineView cellForSegment:(id<RTSMediaSegment>)segment;
 
-@optional
-
-/**
- *  This method is called when the user taps on a cell
- *
- *  @param timelineView The timeline
- *  @param segment      The segment which has been selected
- */
-- (void) timelineView:(RTSTimelineView *)timelineView didSelectSegment:(id<RTSMediaPlayerSegment>)segment;
 
 @end

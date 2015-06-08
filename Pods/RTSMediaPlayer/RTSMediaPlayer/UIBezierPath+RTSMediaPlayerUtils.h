@@ -6,5 +6,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RTSActivityGestureRecognizer : UIGestureRecognizer
+@interface UIBezierPath (RTSMediaPlayerUtils)
+
+-(UIImage *)imageWithColor:(UIColor*)color;
+
 @end

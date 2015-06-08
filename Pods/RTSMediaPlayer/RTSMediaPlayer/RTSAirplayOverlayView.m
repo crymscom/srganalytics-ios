@@ -1,9 +1,12 @@
 //
-//  Created by Frédéric Humbert-Droz on 17/05/15.
-//  Copyright (c) 2015 RTS. All rights reserved.
+//  Copyright (c) RTS. All rights reserved.
+//
+//  Licence information is available from the LICENCE file.
 //
 
 #import "RTSAirplayOverlayView.h"
+
+#import "NSBundle+RTSMediaPlayer.h"
 
 @interface RTSAirplayOverlayView () <RTSAirplayOverlayViewDataSource>
 
@@ -164,7 +167,7 @@
 
 - (NSString *) airplayOverlayView:(RTSAirplayOverlayView *)airplayOverlayView subtitleForAirplayRouteName:(NSString *)routeName
 {
-	return [NSString stringWithFormat:@"Cette vidéo est en lecture sur «%@»", routeName];
+	return [NSString stringWithFormat:RTSMediaPlayerLocalizedString(@"This video is playing on «%@»", nil), routeName];
 }
 
 - (NSDictionary *) airplayOverlayViewSubitleAttributedDictionary:(RTSAirplayOverlayView *)airplayOverlayView

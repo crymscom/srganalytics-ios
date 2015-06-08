@@ -1,17 +1,15 @@
 //
-//  Created by Samuel Défago on 06.05.15.
-//  Copyright (c) 2015 RTS. All rights reserved.
+//  Copyright (c) RTS. All rights reserved.
+//
+//  Licence information is available from the LICENCE file.
 //
 
 #import "RTSTimelineSlider.h"
 
 #import "RTSMediaPlayerController.h"
-#import "RTSMediaPlayerSegment.h"
+#import "RTSMediaSegment.h"
 #import "RTSMediaSegmentsController.h"
 #import "NSBundle+RTSMediaPlayer.h"
-
-// Function declarations
-static void commonInit(RTSTimelineSlider *self);
 
 @implementation RTSTimelineSlider
 
@@ -19,32 +17,43 @@ static void commonInit(RTSTimelineSlider *self);
 
 - (instancetype) initWithFrame:(CGRect)frame
 {
-	if (self = [super initWithFrame:frame])
-	{
-		commonInit(self);
+	self = [super initWithFrame:frame];
+	if (self) {
+		[self setup_RTSTimelineSlider];
 	}
 	return self;
 }
 
 - (instancetype) initWithCoder:(NSCoder *)aDecoder
 {
-	if (self = [super initWithCoder:aDecoder])
-	{
-		commonInit(self);
+	self = [super initWithCoder:aDecoder];
+	if (self) {
+		[self setup_RTSTimelineSlider];
 	}
 	return self;
 }
 
+- (void)setup_RTSTimelineSlider
+{
+	NSString *thumbImagePath = [[NSBundle RTSMediaPlayerBundle] pathForResource:@"thumb_timeline_slider" ofType:@"png"];
+	UIImage *thumbImage = [UIImage imageWithContentsOfFile:thumbImagePath];
+	[self setThumbImage:thumbImage forState:UIControlStateNormal];
+	[self setThumbImage:thumbImage forState:UIControlStateHighlighted];
+	
+	// Add the ability to tap anywhere to seek at this specific location
+	UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(seekOnTap:)];
+	[self addGestureRecognizer:gestureRecognizer];
+}
+
 #pragma mark - Overrides
 
-- (void) layoutSubviews
+- (void)layoutSubviews
 {
 	[super layoutSubviews];
-	
 	[self setNeedsDisplay];
 }
 
-- (void) drawRect:(CGRect)rect
+- (void)drawRect:(CGRect)rect
 {
 	[super drawRect:rect];
 	
@@ -60,16 +69,16 @@ static void commonInit(RTSTimelineSlider *self);
 	CGFloat thumbStartXPos = CGRectGetMidX([self thumbRectForBounds:rect trackRect:trackRect value:self.minimumValue]);
 	CGFloat thumbEndXPos = CGRectGetMidX([self thumbRectForBounds:rect trackRect:trackRect value:self.maximumValue]);
 	
-	for (id<RTSMediaPlayerSegment> segment in self.segmentsController.visibleSegments)
+	for (id<RTSMediaSegment> segment in self.segmentsController.visibleSegments)
 	{	
 		// Skip events not in the timeline
-		if (CMTIME_COMPARE_INLINE(segment.segmentTimeRange.start, < , currentTimeRange.start)
-			|| CMTIME_COMPARE_INLINE(segment.segmentTimeRange.start, >, CMTimeRangeGetEnd(currentTimeRange)))
+		if (CMTIME_COMPARE_INLINE(segment.timeRange.start, < , currentTimeRange.start)
+			|| CMTIME_COMPARE_INLINE(segment.timeRange.start, >, CMTimeRangeGetEnd(currentTimeRange)))
 		{
 			continue;
 		}
 		
-		CGFloat tickXPos = thumbStartXPos + (CMTimeGetSeconds(segment.segmentTimeRange.start) / CMTimeGetSeconds(currentTimeRange.duration)) * (thumbEndXPos - thumbStartXPos);
+		CGFloat tickXPos = thumbStartXPos + (CMTimeGetSeconds(segment.timeRange.start) / CMTimeGetSeconds(currentTimeRange.duration)) * (thumbEndXPos - thumbStartXPos);
 		
 		UIImage *iconImage = nil;
 		if ([self.delegate respondsToSelector:@selector(timelineSlider:iconImageForSegment:)]) {
@@ -110,25 +119,22 @@ static void commonInit(RTSTimelineSlider *self);
 
 - (CMTimeRange) currentTimeRange
 {
-	AVPlayerItem *playerItem = self.mediaPlayerController.player.currentItem;
+	AVPlayerItem *playerItem = self.playbackController.playerItem;
 	
 	NSValue *firstSeekableTimeRangeValue = [playerItem.seekableTimeRanges firstObject];
-	if (!firstSeekableTimeRangeValue)
-	{
+	if (!firstSeekableTimeRangeValue) {
 		return kCMTimeRangeZero;
 	}
 	
 	NSValue *lastSeekableTimeRangeValue = [playerItem.seekableTimeRanges lastObject];
-	if (!lastSeekableTimeRangeValue)
-	{
+	if (!lastSeekableTimeRangeValue) {
 		return kCMTimeRangeZero;
 	}
 	
 	CMTimeRange firstSeekableTimeRange = [firstSeekableTimeRangeValue CMTimeRangeValue];
 	CMTimeRange lastSeekableTimeRange = [firstSeekableTimeRangeValue CMTimeRangeValue];
 	
-	if (!CMTIMERANGE_IS_VALID(firstSeekableTimeRange) || !CMTIMERANGE_IS_VALID(lastSeekableTimeRange))
-	{
+	if (!CMTIMERANGE_IS_VALID(firstSeekableTimeRange) || !CMTIMERANGE_IS_VALID(lastSeekableTimeRange)) {
 		return kCMTimeRangeZero;
 	}
 	
@@ -139,18 +145,17 @@ static void commonInit(RTSTimelineSlider *self);
 
 - (void) reloadSegmentsForIdentifier:(NSString *)identifier
 {
-	[self.segmentsController reloadDataForIdentifier:identifier withCompletionHandler:^{
+	[self.segmentsController reloadSegmentsForIdentifier:identifier completionHandler:^(NSError *error){
 		[self setNeedsDisplay];
 	}];
 }
 
 #pragma mark - Gestures
 
-- (void) seek:(UIGestureRecognizer *)gestureRecognizer
+- (void)seekOnTap:(UIGestureRecognizer *)gestureRecognizer
 {
 	// Cannot tap on the thumb itself
-	if (self.highlighted)
-	{
+	if (self.highlighted) {
 		return;
 	}
 	
@@ -158,23 +163,8 @@ static void commonInit(RTSTimelineSlider *self);
 	float value = self.minimumValue + (self.maximumValue - self.minimumValue) * xPos / CGRectGetWidth(self.bounds);
 	
 	CMTime time = CMTimeMakeWithSeconds(value, 1.);
-	[self.mediaPlayerController.player seekToTime:time];
+	[self.playbackController seekToTime:time completionHandler:nil];
 }
 
 @end
 
-#pragma mark - Functions
-
-static void commonInit(RTSTimelineSlider *self)
-{
-	// Use hollow thumb by default (makes events behind it visible)
-	// TODO: Provide a customisation mechanism. Use a Bezier path to generate the image instead of a png
-	NSString *thumbImagePath = [[NSBundle RTSMediaPlayerBundle] pathForResource:@"thumb_timeline_slider" ofType:@"png"];
-	UIImage *thumbImage = [UIImage imageWithContentsOfFile:thumbImagePath];
-	[self setThumbImage:thumbImage forState:UIControlStateNormal];
-	[self setThumbImage:thumbImage forState:UIControlStateHighlighted];
-	
-	// Add the ability to tap anywhere to seek at this specific location
-	UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(seek:)];
-	[self addGestureRecognizer:gestureRecognizer];
-}

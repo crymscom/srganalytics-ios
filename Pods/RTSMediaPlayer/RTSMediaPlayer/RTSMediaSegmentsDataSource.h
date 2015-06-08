@@ -1,14 +1,15 @@
 //
-//  Created by Samuel Défago on 21.05.15.
-//  Copyright (c) 2015 RTS. All rights reserved.
+//  Copyright (c) RTS. All rights reserved.
+//
+//  Licence information is available from the LICENCE file.
 //
 
 #import <Foundation/Foundation.h>
 
 @class RTSMediaSegmentsController;
-@protocol RTSMediaPlayerSegment;
+@protocol RTSMediaSegment;
 
-typedef void (^RTSMediaSegmentsCompletionHandler)(id<RTSMediaPlayerSegment> fullLength, NSArray *segments, NSError *error);
+typedef void (^RTSMediaSegmentsCompletionHandler)(id<RTSMediaSegment> fullLength, NSArray *segments, NSError *error);
 
 @protocol RTSMediaSegmentsDataSource <NSObject>
 

@@ -15,15 +15,15 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - OCMock (3.1.2)
-  - RTSAnalytics (0.1.0):
-    - RTSAnalytics/Core (= 0.1.0)
-  - RTSAnalytics/Core (0.1.0):
+  - RTSAnalytics (0.2.3):
+    - RTSAnalytics/Core (= 0.2.3)
+  - RTSAnalytics/Core (0.2.3):
     - CocoaLumberjack (~> 2.0.0)
     - comScore-iOS-SDK-RTS (= 3.1502.26)
-  - RTSAnalytics/MediaPlayer (0.1.0):
+  - RTSAnalytics/MediaPlayer (0.2.3):
     - RTSAnalytics/Core
-    - RTSMediaPlayer (~> 0.0.3)
-  - RTSMediaPlayer (0.0.3):
+    - RTSMediaPlayer
+  - RTSMediaPlayer (0.2.2):
     - CocoaLumberjack (~> 2.0.0)
     - libextobjc/EXTScope (~> 0.4.1)
     - TransitionKit (~> 2.2.0)
@@ -36,7 +36,7 @@ DEPENDENCIES:
   - OCMock (~> 3.1.2)
   - RTSAnalytics (from `.`)
   - RTSAnalytics/MediaPlayer (from `.`)
-  - RTSMediaPlayer (from `git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git`, branch
+  - RTSMediaPlayer (from `git@bitbucket.org:rtsmb/srgmediaplayer-ios.git`, branch
     `develop`)
 
 EXTERNAL SOURCES:
@@ -44,12 +44,12 @@ EXTERNAL SOURCES:
     :path: .
   RTSMediaPlayer:
     :branch: develop
-    :git: git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git
+    :git: git@bitbucket.org:rtsmb/srgmediaplayer-ios.git
 
 CHECKOUT OPTIONS:
   RTSMediaPlayer:
-    :commit: 321ef0cd0d9467e2cf637ee21c4af9054671c229
-    :git: git@bitbucket.org:rtsmb/rtsmediaplayer-ios.git
+    :commit: 03a5e5aff23e2d454206ba75aa49524c12b1dad0
+    :git: git@bitbucket.org:rtsmb/srgmediaplayer-ios.git
 
 SPEC CHECKSUMS:
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
@@ -57,8 +57,8 @@ SPEC CHECKSUMS:
   KIF: ef1691e54e1d969c3b4fd0b5b56a3d7ddf37f216
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
-  RTSAnalytics: a73dc88063ad2710ba25ce5255df3953947e6ec1
-  RTSMediaPlayer: d44ea3cecdde670a07617a7a623b50b74f128b97
+  RTSAnalytics: 293415e966dff9ab55ab4fe910830e7f25c29041
+  RTSMediaPlayer: 7f7782bfe36616d80968f6371697e0c8b8282159
   TransitionKit: 5c9001a77acc409d71f26a4eba0159cf8619c418
 
 COCOAPODS: 0.37.2

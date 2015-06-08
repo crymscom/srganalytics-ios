@@ -1,41 +1,38 @@
 //
-//  Created by Samuel Défago on 28.04.15.
-//  Copyright (c) 2015 RTS. All rights reserved.
+//  Copyright (c) RTS. All rights reserved.
+//
+//  Licence information is available from the LICENCE file.
 //
 
-#import "RTSTimelineView.h"
+#import "RTSSegmentedTimelineView.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import "RTSMediaPlayerController.h"
-#import "RTSMediaPlayerSegment.h"
+#import "RTSMediaSegment.h"
 #import "RTSMediaSegmentsController.h"
 
 // Function declarations
-static void commonInit(RTSTimelineView *self);
+static void commonInit(RTSSegmentedTimelineView *self);
 
-@interface RTSTimelineView ()
-
+@interface RTSSegmentedTimelineView ()
 @property (nonatomic, weak) UICollectionView *collectionView;
-
 @end
 
-@implementation RTSTimelineView
+@implementation RTSSegmentedTimelineView
 
 #pragma mark - Object lifecycle
 
-- (instancetype) initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
-	if (self = [super initWithFrame:frame])
-	{
+	if (self = [super initWithFrame:frame]) {
 		commonInit(self);
 	}
 	return self;
 }
 
-- (instancetype) initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-	if (self = [super initWithCoder:aDecoder])
-	{
+	if (self = [super initWithCoder:aDecoder]) {
 		commonInit(self);
 	}
 	return self;
@@ -43,23 +40,21 @@ static void commonInit(RTSTimelineView *self);
 
 #pragma mark - Getters and setters
 
-- (void) setItemWidth:(CGFloat)itemWidth
+- (void)setItemWidth:(CGFloat)itemWidth
 {
 	_itemWidth = itemWidth;
-	
 	[self layoutIfNeeded];
 }
 
-- (void) setItemSpacing:(CGFloat)itemSpacing
+- (void)setItemSpacing:(CGFloat)itemSpacing
 {
 	_itemSpacing = itemSpacing;
-	
 	[self layoutIfNeeded];
 }
 
 #pragma mark - Overrides
 
-- (void) layoutSubviews
+- (void)layoutSubviews
 {
 	[super layoutSubviews];
 	
@@ -71,21 +66,20 @@ static void commonInit(RTSTimelineView *self);
 
 #pragma mark - Cell reuse
 
-- (void) registerClass:(Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier
+- (void)registerClass:(Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier
 {
 	[self.collectionView registerClass:cellClass forCellWithReuseIdentifier:identifier];
 }
 
-- (void) registerNib:(UINib *)nib forCellWithReuseIdentifier:(NSString *)identifier
+- (void)registerNib:(UINib *)nib forCellWithReuseIdentifier:(NSString *)identifier
 {
 	[self.collectionView registerNib:nib forCellWithReuseIdentifier:identifier];
 }
 
-- (id) dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forSegment:(id<RTSMediaPlayerSegment>)segment
+- (id)dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forSegment:(id<RTSMediaSegment>)segment
 {
 	NSInteger index = [self.segmentsController.visibleSegments indexOfObject:segment];
-	if (index == NSNotFound)
-	{
+	if (index == NSNotFound) {
 		return nil;
 	}
 	
@@ -97,35 +91,32 @@ static void commonInit(RTSTimelineView *self);
 
 - (void) reloadSegmentsForIdentifier:(NSString *)identifier
 {
-	[self.segmentsController reloadDataForIdentifier:identifier withCompletionHandler:^{
-        self.hidden = (self.segmentsController.visibleSegments.count == 0);        
+	[self.segmentsController reloadSegmentsForIdentifier:identifier completionHandler:^(NSError *error){
+        self.hidden = (self.segmentsController.visibleSegments.count == 0);
 		[self.collectionView reloadData];
 	}];
 }
 
 #pragma mark - UICollectionViewDataSource protocol
 
-- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
 	return self.segmentsController.visibleSegments.count;
 }
 
-- (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	id<RTSMediaPlayerSegment> segment = self.segmentsController.visibleSegments[indexPath.row];
+	id<RTSMediaSegment> segment = self.segmentsController.visibleSegments[indexPath.row];
 	return [self.delegate timelineView:self cellForSegment:segment];
 }
 
 #pragma mark - UICollectionViewDelegate protocol
 
-- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	id<RTSMediaPlayerSegment> segment = self.segmentsController.visibleSegments[indexPath.row];
-	
-	if ([self.delegate respondsToSelector:@selector(timelineView:didSelectSegment:)])
-	{
-		[self.delegate timelineView:self didSelectSegment:segment];
-	}
+	id<RTSMediaSegment> segment = self.segmentsController.visibleSegments[indexPath.row];
+	[self scrollToSegmentAtTime:segment.timeRange.start animated:YES];
+	[self.segmentsController playVisibleSegmentAtIndex:indexPath.row];	
 }
 
 #pragma mark - Visible cells
@@ -137,11 +128,11 @@ static void commonInit(RTSTimelineView *self);
 									 self.collectionView.contentOffset.y,
 									 CGRectGetWidth(self.collectionView.frame),
 									 CGRectGetHeight(self.collectionView.frame));
+	
 	NSArray *layoutAttributesArray = [self.collectionView.collectionViewLayout layoutAttributesForElementsInRect:contentFrame];
 	
 	NSMutableArray *indexPaths = [NSMutableArray array];
-	for (UICollectionViewLayoutAttributes *layoutAttributes in layoutAttributesArray)
-	{
+	for (UICollectionViewLayoutAttributes *layoutAttributes in layoutAttributesArray) {
 		[indexPaths addObject:layoutAttributes.indexPath];
 	}
 	
@@ -155,11 +146,10 @@ static void commonInit(RTSTimelineView *self);
     return self.collectionView.visibleCells;
 }
 
-- (void) scrollToSegment:(id<RTSMediaPlayerSegment>)segment animated:(BOOL)animated
+- (void) scrollToSegment:(id<RTSMediaSegment>)segment animated:(BOOL)animated
 {
 	NSInteger segmentIndex = [self.segmentsController.visibleSegments indexOfObject:segment];
-	if (segmentIndex == NSNotFound)
-	{
+	if (segmentIndex == NSNotFound) {
 		return;
 	}
 	
@@ -170,10 +160,8 @@ static void commonInit(RTSTimelineView *self);
 
 - (void) scrollToSegmentAtTime:(CMTime)time animated:(BOOL)animated
 {
-	for (id<RTSMediaPlayerSegment> segment in self.segmentsController.visibleSegments)
-	{
-		if (CMTimeRangeContainsTime(segment.segmentTimeRange, time))
-		{
+	for (id<RTSMediaSegment> segment in self.segmentsController.visibleSegments) {
+		if (CMTimeRangeContainsTime(segment.timeRange, time)) {
 			[self scrollToSegment:segment animated:animated];
 			return;
 		}
@@ -184,7 +172,7 @@ static void commonInit(RTSTimelineView *self);
 
 #pragma mark - Functions
 
-static void commonInit(RTSTimelineView *self)
+static void commonInit(RTSSegmentedTimelineView *self)
 {
 	UICollectionViewFlowLayout *collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
 	collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;

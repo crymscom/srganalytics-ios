@@ -1,6 +1,7 @@
 //
-//  Created by Cédric Luthi on 25.02.15.
-//  Copyright (c) 2015 RTS. All rights reserved.
+//  Copyright (c) RTS. All rights reserved.
+//
+//  Licence information is available from the LICENCE file.
 //
 
 #import <objc/runtime.h>
@@ -16,11 +17,12 @@
 #import "RTSPlaybackTimeObserver.h"
 #import "RTSActivityGestureRecognizer.h"
 
+NSTimeInterval const RTSMediaPlayerOverlayHidingDelay = 5.0;
+
 NSString * const RTSMediaPlayerErrorDomain = @"RTSMediaPlayerErrorDomain";
 
-NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingNotification = @"RTSMediaPlayerPlaybackDidPauseUponBlocking";
-NSString * const RTSMediaPlayerPlaybackDidFailNotification = @"RTSMediaPlayerPlaybackDidFail";
 NSString * const RTSMediaPlayerPlaybackStateDidChangeNotification = @"RTSMediaPlayerPlaybackStateDidChange";
+NSString * const RTSMediaPlayerPlaybackDidFailNotification = @"RTSMediaPlayerPlaybackDidFail";
 
 NSString * const RTSMediaPlayerWillShowControlOverlaysNotification = @"RTSMediaPlayerWillShowControlOverlays";
 NSString * const RTSMediaPlayerDidShowControlOverlaysNotification = @"RTSMediaPlayerDidShowControlOverlays";
@@ -102,6 +104,7 @@ NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey = @"Bloc
 	_identifier = identifier;
 	_dataSource = dataSource;
 	
+	self.overlayViewsHidingDelay = RTSMediaPlayerOverlayHidingDelay;
 	self.playbackTimeObservers = [NSMutableDictionary dictionary];
 	
 	[self.stateMachine activate];
@@ -179,9 +182,9 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	
 	TKEvent *load = [TKEvent eventWithName:@"Load" transitioningFromStates:@[ idle ] toState:preparing];
 	TKEvent *loadSuccess = [TKEvent eventWithName:@"Load Success" transitioningFromStates:@[ preparing ] toState:ready];
-	TKEvent *play = [TKEvent eventWithName:@"Play" transitioningFromStates:@[ ready, paused, stalled, ended ] toState:playing];
-	TKEvent *seek = [TKEvent eventWithName:@"Seek" transitioningFromStates:@[ ready, paused, stalled, ended ] toState:seeking]; // Including 'Stalled"?
-	TKEvent *pause = [TKEvent eventWithName:@"Pause" transitioningFromStates:@[ ready, playing ] toState:paused];
+	TKEvent *play = [TKEvent eventWithName:@"Play" transitioningFromStates:@[ ready, paused, stalled, ended, seeking ] toState:playing];
+	TKEvent *seek = [TKEvent eventWithName:@"Seek" transitioningFromStates:@[ ready, paused, stalled, ended, playing ] toState:seeking]; // Including 'Stalled"?
+	TKEvent *pause = [TKEvent eventWithName:@"Pause" transitioningFromStates:@[ ready, playing, seeking ] toState:paused];
 	TKEvent *end = [TKEvent eventWithName:@"End" transitioningFromStates:@[ playing ] toState:ended];
 	TKEvent *stall = [TKEvent eventWithName:@"Stall" transitioningFromStates:@[ playing ] toState:stalled];
 	NSMutableSet *allStatesButIdle = [NSMutableSet setWithSet:stateMachine.states];
@@ -261,13 +264,11 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 		[self resetIdleTimer];
 	}];
 	
-	[seeking setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-		NSDictionary *errorUserInfo = transition.userInfo[RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey];
-		if (errorUserInfo) {
-			[self postNotificationName:RTSMediaPlayerPlaybackSeekingUponBlockingNotification userInfo:errorUserInfo];
-		}
+	[playing setWillExitStateBlock:^(TKState *state, TKTransition *transition) {
+		@strongify(self)
+		[self registerPlaybackStartObserver];
 	}];
-	
+		
 	[reset setWillFireEventBlock:^(TKEvent *event, TKTransition *transition) {
 		@strongify(self)
 		NSDictionary *errorUserInfo = transition.userInfo;
@@ -336,8 +337,7 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 
 - (void) loadPlayerShouldPlayImediately:(BOOL)autoPlay
 {
-	if ([self.stateMachine.currentState isEqual:self.idleState])
-	{
+	if ([self.stateMachine.currentState isEqual:self.idleState]) {
 		[self fireEvent:self.loadEvent userInfo: @{ RTSMediaPlayerStateMachineAutoPlayInfoKey : @(autoPlay) }];
 	}
 }
@@ -351,9 +351,20 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 {
 	if ([self.stateMachine.currentState isEqual:self.idleState]) {
 		[self loadPlayerShouldPlayImediately:YES];
-	}else{
+	}
+	else {
 		[self.player play];
 	}
+}
+
+- (void)playIdentifier:(NSString *)identifier
+{
+	if (![self.identifier isEqualToString:identifier]) {
+		[self reset];
+		self.identifier = identifier;
+	}
+	
+	[self play];
 }
 
 - (void) pause
@@ -361,15 +372,14 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	[self.player pause];
 }
 
-- (void) playIdentifier:(NSString *)identifier
+- (void)mute:(BOOL)flag
 {
-	if (![self.identifier isEqualToString:identifier])
-	{
-		[self reset];
-		self.identifier = identifier;
-	}
-	
-	[self play];
+	self.player.muted = flag;
+}
+
+- (BOOL)isMuted
+{
+	return self.player.muted;
 }
 
 - (void) reset
@@ -378,6 +388,19 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	if (![self.stateMachine.currentState isEqual:self.idleState]) {
 		[self fireEvent:self.resetEvent userInfo:nil];
 	}
+}
+
+- (void)seekToTime:(CMTime)time completionHandler:(void (^)(BOOL finished))completionHandler
+{
+	[self.player seekToTime:time
+			toleranceBefore:kCMTimeZero
+			 toleranceAfter:kCMTimeZero
+		  completionHandler:completionHandler];
+}
+
+- (AVPlayerItem *)playerItem
+{
+	return self.player.currentItem;
 }
 
 - (RTSMediaPlaybackState) playbackState
@@ -413,6 +436,10 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	NSString *identifier = [[NSUUID UUID] UUIDString];
 	RTSPlaybackTimeObserver *playbackTimeObserver = [self playbackTimeObserverForInterval:interval queue:queue];
 	[playbackTimeObserver setBlock:block forIdentifier:identifier];
+	
+	if (self.player) {
+		[playbackTimeObserver attachToMediaPlayer:self.player];
+	}
 	
 	// Return the opaque identifier
 	return identifier;
@@ -590,7 +617,7 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 		switch (playerItem.status)
 		{
 			case AVPlayerItemStatusReadyToPlay:
-				if (self.player.rate != 0 && ![self.stateMachine.currentState isEqual:self.readyState]) {
+				if (self.player.rate != 0 && ![self.stateMachine.currentState isEqual:self.readyState] && ![self.stateMachine.currentState isEqual:self.seekingState]) {
 					[self play];
 				}
 				break;
@@ -789,8 +816,7 @@ static void LogProperties(id object)
 - (void) setOverlaysVisible:(BOOL)visible
 {
 	[self postNotificationName:visible ? RTSMediaPlayerWillShowControlOverlaysNotification : RTSMediaPlayerWillHideControlOverlaysNotification userInfo:nil];
-	for (UIView *overlayView in self.overlayViews)
-	{
+	for (UIView *overlayView in self.overlayViews) {
 		overlayView.hidden = !visible;
 	}
 	[self postNotificationName:visible ? RTSMediaPlayerDidShowControlOverlaysNotification : RTSMediaPlayerDidHideControlOverlaysNotification userInfo:nil];
@@ -802,10 +828,9 @@ static void LogProperties(id object)
 	[self setOverlaysVisible:firstOverlayView.hidden];
 }
 
-- (dispatch_source_t) idleTimer
+- (dispatch_source_t)idleTimer
 {
-	if (!_idleTimer)
-	{
+	if (!_idleTimer) {
 		_idleTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
 		@weakify(self)
 		dispatch_source_set_event_handler(_idleTimer, ^{
@@ -820,28 +845,31 @@ static void LogProperties(id object)
 
 - (void) resetIdleTimer
 {
-	int64_t delayInNanoseconds = 5 * NSEC_PER_SEC;
+	int64_t delayInNanoseconds = ((self.overlayViewsHidingDelay > 0.0) ? self.overlayViewsHidingDelay : RTSMediaPlayerOverlayHidingDelay) * NSEC_PER_SEC;
 	int64_t toleranceInNanoseconds = 0.1 * NSEC_PER_SEC;
 	dispatch_source_set_timer(self.idleTimer, dispatch_time(DISPATCH_TIME_NOW, delayInNanoseconds), DISPATCH_TIME_FOREVER, toleranceInNanoseconds);
 }
 
 #pragma mark - Resize Aspect
 
-- (void) handleDoubleTap
+- (void)handleDoubleTap
 {
-	if (!self.playerView.playerLayer.isReadyForDisplay)
+	if (!self.playerView.playerLayer.isReadyForDisplay) {
 		return;
+	}
 	
 	[self toggleAspect];
 }
 
-- (void) toggleAspect
+- (void)toggleAspect
 {
 	AVPlayerLayer *playerLayer = self.playerView.playerLayer;
-	if ([playerLayer.videoGravity isEqualToString:AVLayerVideoGravityResizeAspect])
+	if ([playerLayer.videoGravity isEqualToString:AVLayerVideoGravityResizeAspect]) {
 		playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-	else
+	}
+	else {
 		playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+	}
 }
 
 @end

@@ -1,16 +1,18 @@
 {
   "name": "RTSMediaPlayer",
-  "version": "0.0.3",
-  "summary": "Shared media player for RTS mobile apps.",
-  "homepage": "ssh://git@bitbucket.org/rtsmb/rtsmediaplayer-ios.git",
+  "version": "0.2.2",
+  "summary": "Shared media player for SRG mobile apps.",
+  "homepage": "https://bitbucket.org/rtsmb/srgmediaplayer-ios",
   "authors": {
     "Frédéric Humbert-Droz": "fred.hd@me.com",
-    "Cédric Luthi": "cedric.luthi@rts.ch"
+    "Cédric Luthi": "cedric.luthi@rts.ch",
+    "Cédric Foellmi": "cedric@onekilopars.ec",
+    "Samuel Défago": "defagos@gmail.com"
   },
   "source": {
-    "git": "ssh://git@bitbucket.org/rtsmb/rtsmediaplayer-ios.git",
+    "git": "ssh://git@bitbucket.org/rtsmb/srgmediaplayer-ios.git",
     "branch": "master",
-    "tag": "0.0.3"
+    "tag": "0.2.2"
   },
   "platforms": {
     "ios": "7.0"
@@ -22,7 +24,8 @@
   "resource_bundles": {
     "RTSMediaPlayer": [
       "RTSMediaPlayer/Info.plist",
-      "RTSMediaPlayer/*.xib"
+      "RTSMediaPlayer/*.xib",
+      "RTSMediaPlayer/*.png"
     ]
   },
   "dependencies": {
