@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name        = "SRGAnalytics"
-  s.version     = "0.2.1"
+  s.version     = "0.2.2"
   s.summary     = "Analytics for SRG mobile applications"
   s.description = "Analytics for SRG mobile applications"
   s.homepage    = "https://bitbucket.org/rtsmb/srganalytics-ios"
@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
     sm.source_files         = "RTSAnalytics/RTSAnalyticsMediaPlayer.h", "RTSAnalytics/MediaPlayer/*.{h,m}"
     sm.private_header_files = "RTSAnalytics/MediaPlayer/*_private.h"
     sm.dependency             "SRGAnalytics/Core"
-    # sm.dependency             "SRGMediaPlayer"
+    sm.dependency             "RTSMediaPlayer"
   end
 
 end
