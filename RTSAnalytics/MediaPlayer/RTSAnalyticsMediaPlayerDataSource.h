@@ -4,6 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RTSMediaPlayer/RTSMediaSegment.h>
 
 /**
  *  The `RTSAnalyticsMediaPlayerDataSource` groups methods that are used for Streamsense measurement when using `RTSMediaPlayerController`.
@@ -40,6 +41,6 @@
  *
  *  @return a dictionary of clip labels.
  */
-- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier;
+- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(id<RTSMediaSegment>)segment;
 
 @end

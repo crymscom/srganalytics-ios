@@ -7,6 +7,7 @@
 
 #import "RTSAnalyticsMediaPlayerDataSource.h"
 
+#import <RTSMediaPlayer/RTSMediaSegment.h>
 #import <RTSMediaPlayer/RTSMediaPlayerController.h>
 
 #import <comScore-iOS-SDK-RTS/CSStreamSensePlugin.h>
@@ -52,6 +53,6 @@
  *
  *  @param playerEvent the event type corresponding to the media player controller playback state.
  */
-- (void) notify:(CSStreamSenseEventType)playerEvent;
+- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment;
 
 @end

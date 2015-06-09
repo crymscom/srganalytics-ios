@@ -93,7 +93,7 @@
 	return nil;
 }
 
-- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier
+- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(id<RTSMediaSegment>)segment
 {
 	return nil;
 }

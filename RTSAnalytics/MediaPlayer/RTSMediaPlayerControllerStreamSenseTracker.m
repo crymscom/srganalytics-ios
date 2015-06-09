@@ -54,16 +54,16 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return self;
 }
 
-- (void) notify:(CSStreamSenseEventType)playerEvent
+- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment
 {
-	[self updateLabels];
+    [self updateLabels:segment];
 	[self notify:playerEvent position:[self currentPositionInMilliseconds] labels:nil];
 }
 
 - (NSMutableDictionary *) createMeasurementLabels:(CSStreamSenseEventType)eventType initialLabels:(NSDictionary *)initialLabels
 {
 	NSMutableDictionary *measurementLabels = [super createMeasurementLabels:eventType initialLabels:initialLabels];
-	[self updateLabels];
+    [self updateLabels:nil];
 	return measurementLabels;
 }
 
@@ -77,7 +77,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 #pragma mark - Private Labels methods
 
-- (void) updateLabels
+- (void)updateLabels:(id<RTSMediaSegment>)segment
 {
 	// Labels
 	[self setLabel:@"ns_st_br" value:[self bitRate]];
@@ -125,8 +125,10 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	}
 	
 	// Clips
-	if ([self.dataSource respondsToSelector:@selector(streamSenseClipMetadataForIdentifier:)]) {
-		NSDictionary *dataSourceClip = [self.dataSource streamSenseClipMetadataForIdentifier:self.mediaPlayerController.identifier];
+	if ([self.dataSource respondsToSelector:@selector(streamSenseClipMetadataForIdentifier:withSegment:)]) {
+		NSDictionary *dataSourceClip = [self.dataSource streamSenseClipMetadataForIdentifier:self.mediaPlayerController.identifier
+                                                                                 withSegment:segment];
+        
 		[dataSourceClip enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 			[[self clip] setLabel:key value:obj];
 		}];
