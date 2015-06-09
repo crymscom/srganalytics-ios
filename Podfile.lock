@@ -23,33 +23,24 @@ PODS:
   - RTSAnalytics/MediaPlayer (0.2.3):
     - RTSAnalytics/Core
     - RTSMediaPlayer
-  - RTSMediaPlayer (0.2.2):
+  - RTSMediaPlayer (0.2.4):
     - CocoaLumberjack (~> 2.0.0)
     - libextobjc/EXTScope (~> 0.4.1)
     - TransitionKit (~> 2.2.0)
   - TransitionKit (2.2.0)
 
 DEPENDENCIES:
-  - CocoaLumberjack (~> 2.0.0)
+  - CocoaLumberjack (= 2.0.0)
   - comScore-iOS-SDK-RTS (= 3.1502.26)
   - KIF (= 3.2.1)
   - OCMock (~> 3.1.2)
   - RTSAnalytics (from `.`)
   - RTSAnalytics/MediaPlayer (from `.`)
-  - RTSMediaPlayer (from `git@bitbucket.org:rtsmb/srgmediaplayer-ios.git`, branch
-    `develop`)
+  - RTSMediaPlayer (= 0.2.4)
 
 EXTERNAL SOURCES:
   RTSAnalytics:
     :path: .
-  RTSMediaPlayer:
-    :branch: develop
-    :git: git@bitbucket.org:rtsmb/srgmediaplayer-ios.git
-
-CHECKOUT OPTIONS:
-  RTSMediaPlayer:
-    :commit: 03a5e5aff23e2d454206ba75aa49524c12b1dad0
-    :git: git@bitbucket.org:rtsmb/srgmediaplayer-ios.git
 
 SPEC CHECKSUMS:
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
@@ -58,7 +49,7 @@ SPEC CHECKSUMS:
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
   RTSAnalytics: 293415e966dff9ab55ab4fe910830e7f25c29041
-  RTSMediaPlayer: 7f7782bfe36616d80968f6371697e0c8b8282159
+  RTSMediaPlayer: 2ea420cf39420d6587047d2c0f31521f6d32ed1b
   TransitionKit: 5c9001a77acc409d71f26a4eba0159cf8619c418
 
 COCOAPODS: 0.37.2
