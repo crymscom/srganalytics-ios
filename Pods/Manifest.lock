@@ -23,7 +23,7 @@ PODS:
   - RTSAnalytics/MediaPlayer (0.2.3):
     - RTSAnalytics/Core
     - RTSMediaPlayer
-  - RTSMediaPlayer (0.2.4):
+  - RTSMediaPlayer (0.2.5):
     - CocoaLumberjack (~> 2.0.0)
     - libextobjc/EXTScope (~> 0.4.1)
     - TransitionKit (~> 2.2.0)
@@ -36,7 +36,7 @@ DEPENDENCIES:
   - OCMock (~> 3.1.2)
   - RTSAnalytics (from `.`)
   - RTSAnalytics/MediaPlayer (from `.`)
-  - RTSMediaPlayer (= 0.2.4)
+  - RTSMediaPlayer (= 0.2.5)
 
 EXTERNAL SOURCES:
   RTSAnalytics:
@@ -49,7 +49,7 @@ SPEC CHECKSUMS:
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
   RTSAnalytics: 293415e966dff9ab55ab4fe910830e7f25c29041
-  RTSMediaPlayer: 2ea420cf39420d6587047d2c0f31521f6d32ed1b
+  RTSMediaPlayer: 4984ae30c1756647ccce5701b38b3fae0dff1153
   TransitionKit: 5c9001a77acc409d71f26a4eba0159cf8619c418
 
 COCOAPODS: 0.37.2
