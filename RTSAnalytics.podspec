@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name        = "RTSAnalytics"
-  s.version     = "0.3.3"
+  s.version     = "0.3.4"
   s.summary     = "Analytics for SRG mobile applications"
   s.description = "Analytics for SRG mobile applications"
   s.homepage    = "https://bitbucket.org/rtsmb/srganalytics-ios"
