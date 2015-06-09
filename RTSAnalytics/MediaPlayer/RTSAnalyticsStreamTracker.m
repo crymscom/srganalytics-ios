@@ -140,11 +140,10 @@
         case RTSMediaPlaybackSegmentSwitch:
         case RTSMediaPlaybackSegmentStart: {
             BOOL wasUserSelected = [notification.userInfo[RTSMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
-            if (wasUserSelected) {
-                [self notifyStreamTrackerEvent:CSStreamSensePlay
-                                   mediaPlayer:segmentsController.playerController
-                                       segment:notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentObjectInfoKey]];
-            }
+            id segment = (wasUserSelected) ? notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentObjectInfoKey] : nil;
+            [self notifyStreamTrackerEvent:CSStreamSensePlay
+                               mediaPlayer:segmentsController.playerController
+                                   segment:segment];
         }
             break;
             
