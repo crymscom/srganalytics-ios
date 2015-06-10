@@ -3,7 +3,7 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import "RTSAnalyticsTracker+Logging.h"
+#import "RTSAnalyticsTracker+Logging_private.h"
 
 #import <comScore-iOS-SDK-RTS/CSCore.h>
 #import <comScore-iOS-SDK-RTS/CSComScore.h>
@@ -12,21 +12,7 @@
 #import "CSRequest+RTSAnalytics_private.h"
 #import "RTSAnalyticsLogger.h"
 
-static BOOL isLogEnabled = NO;
-
 @implementation RTSAnalyticsTracker (Logging)
-
-- (void)setLogEnabled:(BOOL)enabled
-{
-	isLogEnabled = enabled;
-	
-	if (isLogEnabled) {
-		[self startLoggingInternalComScoreTasks];
-	}
-    else {
-		[self stopLoggingInternalComScoreTasks];
-	}
-}
 
 - (void)startLoggingInternalComScoreTasks
 {
@@ -57,11 +43,6 @@ static BOOL isLogEnabled = NO;
 		 RTSAnalyticsLogDebug(@"%@", message);
 		 
 	 } background:YES];
-}
-
-- (void)stopLoggingInternalComScoreTasks
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
 }
 
 #pragma mark - Notifications

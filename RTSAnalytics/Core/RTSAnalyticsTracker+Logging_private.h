@@ -15,11 +15,6 @@
  */
 @interface RTSAnalyticsTracker (Logging)
 
-/**
- *  Enable or disable printing labels sent by Comscore SDK
- *
- *  @param enabled YES to print the sent labels, NO otherwise. Default is NO.
- */
-- (void)setLogEnabled:(BOOL)enabled;
+- (void)startLoggingInternalComScoreTasks;
 
 @end

@@ -9,6 +9,7 @@
 
 #import "NSString+RTSAnalytics.h"
 #import "NSDictionary+RTSAnalytics.h"
+#import "RTSAnalyticsTracker+Logging_private.h"
 #import "RTSAnalyticsLogger.h"
 
 #import <comScore-iOS-SDK-RTS/CSComScore.h>
@@ -18,14 +19,6 @@
 #import "RTSAnalyticsMediaPlayer.h"
 #import "RTSAnalyticsStreamTracker_private.h"
 #endif
-
-@interface CSTaskExecutor : NSObject
-- (void)execute:(void(^)(void))block background:(BOOL)background;
-@end
-
-@interface CSCore : NSObject
-- (CSTaskExecutor *)taskExecutor;
-@end
 
 @interface RTSAnalyticsTracker ()
 @property (nonatomic, strong) RTSAnalyticsNetmetrixTracker *netmetrixTracker;
@@ -164,6 +157,8 @@
 	[CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
 	[CSComScore enableAutoUpdate:60 foregroundOnly:NO]; //60 is the Comscore default interval value
 	[CSComScore setLabels:[self comscoreGlobalLabels]];
+	
+	[self startLoggingInternalComScoreTasks];
 }
 
 -(NSDictionary *)comscoreGlobalLabels

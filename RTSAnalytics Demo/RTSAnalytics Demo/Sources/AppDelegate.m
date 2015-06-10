@@ -23,7 +23,6 @@
 	[analyticsTracker setComscoreVSite:@"rts-app-test-v"];
 	[analyticsTracker setNetmetrixAppId:@"test"];
 	
-	[analyticsTracker setLogEnabled:YES];
 	[analyticsTracker setProduction:NO];
 	
 	[analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS launchOptions:launchOptions mediaDataSource:self];
