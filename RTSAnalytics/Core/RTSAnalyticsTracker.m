@@ -9,9 +9,9 @@
 
 #import "NSString+RTSAnalytics.h"
 #import "NSDictionary+RTSAnalytics.h"
+#import "RTSAnalyticsLogger.h"
 
 #import <comScore-iOS-SDK-RTS/CSComScore.h>
-#import <CocoaLumberjack/CocoaLumberjack.h>
 
 #if __has_include("RTSAnalyticsMediaPlayer.h")
 #define RTSAnalyticsMediaPlayerIncluded

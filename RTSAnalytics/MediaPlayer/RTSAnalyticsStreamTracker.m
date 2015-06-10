@@ -5,13 +5,13 @@
 
 #import "RTSAnalyticsTracker.h"
 #import "RTSAnalyticsStreamTracker_private.h"
+#import "RTSAnalyticsLogger.h"
 
 #import <RTSMediaPlayer/RTSMediaPlayerController.h>
 #import <RTSMediaPlayer/RTSMediaSegmentsController.h>
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 
 #import <comScore-iOS-SDK-RTS/CSComScore.h>
-#import <CocoaLumberjack/CocoaLumberjack.h>
 
 @interface RTSAnalyticsStreamTracker ()
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
@@ -196,7 +196,7 @@
     
 	[CSComScore onUxInactive];
     
-	DDLogVerbose(@"Delete stream tracker for media identifier `%@`", mediaPlayerController.identifier);
+	RTSAnalyticsLogVerbose(@"Delete stream tracker for media identifier `%@`", mediaPlayerController.identifier);
 	[self.streamsenseTrackers removeObjectForKey:mediaPlayerController.identifier];	
 }
 
@@ -206,7 +206,7 @@
 {
 	RTSMediaPlayerControllerStreamSenseTracker *tracker = self.streamsenseTrackers[mediaPlayerController.identifier];
 	if (!tracker) {
-		DDLogVerbose(@"Create a new stream tracker for media identifier `%@`", mediaPlayerController.identifier);
+		RTSAnalyticsLogVerbose(@"Create a new stream tracker for media identifier `%@`", mediaPlayerController.identifier);
 		
 		tracker = [[RTSMediaPlayerControllerStreamSenseTracker alloc] initWithPlayer:mediaPlayerController
                                                                           dataSource:self.dataSource
@@ -216,7 +216,7 @@
 		[CSComScore onUxActive];
 	}
 	
-    DDLogVerbose(@"Notify stream tracker event %@ for media identifier `%@`", @(eventType), mediaPlayerController.identifier);
+    RTSAnalyticsLogVerbose(@"Notify stream tracker event %@ for media identifier `%@`", @(eventType), mediaPlayerController.identifier);
     [tracker notify:eventType withSegment:segment];
 }
 

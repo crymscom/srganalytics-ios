@@ -10,8 +10,7 @@
 #import <comScore-iOS-SDK-RTS/CSTaskExecutor.h>
 
 #import "CSRequest+RTSAnalytics_private.h"
-
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "RTSAnalyticsLogger.h"
 
 static BOOL isLogEnabled = NO;
 
@@ -55,7 +54,7 @@ static BOOL isLogEnabled = NO;
 			 [message appendFormat:@"%@: %@\n", NSStringFromSelector(selector), [CSComScore performSelector:selector]];
 		 }
 		 [message deleteCharactersInRange:NSMakeRange(message.length - 1, 1)];
-		 DDLogDebug(@"%@", message);
+		 RTSAnalyticsLogDebug(@"%@", message);
 		 
 	 } background:YES];
 }
@@ -98,13 +97,13 @@ static BOOL isLogEnabled = NO;
 	
 	BOOL success = [notification.userInfo[RTSAnalyticsComScoreRequestSuccessUserInfoKey] boolValue];
 	if (success) {
-		DDLogInfo(@"%@ > %@", event, name);
+		RTSAnalyticsLogInfo(@"%@ > %@", event, name);
 	}
 	else {
-		DDLogError(@"ERROR sending %@ > %@", event, name);
+		RTSAnalyticsLogError(@"ERROR sending %@ > %@", event, name);
 	}
 	
-	DDLogDebug(@"Comscore view event sent:\n%@", dictionaryRepresentation);
+	RTSAnalyticsLogDebug(@"Comscore view event sent:\n%@", dictionaryRepresentation);
 }
 
 @end

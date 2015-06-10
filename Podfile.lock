@@ -1,12 +1,4 @@
 PODS:
-  - CocoaLumberjack (2.0.0):
-    - CocoaLumberjack/Default (= 2.0.0)
-    - CocoaLumberjack/Extensions (= 2.0.0)
-  - CocoaLumberjack/Core (2.0.0)
-  - CocoaLumberjack/Default (2.0.0):
-    - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (2.0.0):
-    - CocoaLumberjack/Default
   - comScore-iOS-SDK-RTS (3.1502.26)
   - KIF (3.2.1):
     - KIF/XCTest (= 3.2.1)
@@ -15,41 +7,37 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - OCMock (3.1.2)
-  - RTSAnalytics (0.2.3):
-    - RTSAnalytics/Core (= 0.2.3)
-  - RTSAnalytics/Core (0.2.3):
-    - CocoaLumberjack (~> 2.0.0)
+  - RTSAnalytics (0.3.4):
+    - RTSAnalytics/Core (= 0.3.4)
+  - RTSAnalytics/Core (0.3.4):
     - comScore-iOS-SDK-RTS (= 3.1502.26)
-  - RTSAnalytics/MediaPlayer (0.2.3):
+  - RTSAnalytics/MediaPlayer (0.3.4):
     - RTSAnalytics/Core
     - RTSMediaPlayer
-  - RTSMediaPlayer (0.2.5):
-    - CocoaLumberjack (~> 2.0.0)
+  - RTSMediaPlayer (0.3.2):
     - libextobjc/EXTScope (~> 0.4.1)
     - TransitionKit (~> 2.2.0)
   - TransitionKit (2.2.0)
 
 DEPENDENCIES:
-  - CocoaLumberjack (= 2.0.0)
   - comScore-iOS-SDK-RTS (= 3.1502.26)
   - KIF (= 3.2.1)
   - OCMock (~> 3.1.2)
   - RTSAnalytics (from `.`)
   - RTSAnalytics/MediaPlayer (from `.`)
-  - RTSMediaPlayer (= 0.2.5)
+  - RTSMediaPlayer (= 0.3.2)
 
 EXTERNAL SOURCES:
   RTSAnalytics:
     :path: .
 
 SPEC CHECKSUMS:
-  CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   comScore-iOS-SDK-RTS: ebab82ac061523f057f7e2c4cb3ecc4b0af10ecf
   KIF: ef1691e54e1d969c3b4fd0b5b56a3d7ddf37f216
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
-  RTSAnalytics: 293415e966dff9ab55ab4fe910830e7f25c29041
-  RTSMediaPlayer: 4984ae30c1756647ccce5701b38b3fae0dff1153
+  RTSAnalytics: 6ed2db2fd8c3383f76be54592b82ff74f0d06cea
+  RTSMediaPlayer: 5a264c0f27bf7c215bfaeab0e948cca80b3a0ed3
   TransitionKit: 5c9001a77acc409d71f26a4eba0159cf8619c418
 
 COCOAPODS: 0.37.2

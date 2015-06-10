@@ -5,7 +5,7 @@
 
 #import "RTSAnalyticsTracker.h"
 #import "RTSAnalyticsNetmetrixTracker_private.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "RTSAnalyticsLogger.h"
 
 static NSString * const LoggerDomainAnalyticsNetmetrix = @"Netmetrix";
 static NSString * const RTSAnalyticsNetmetrixRequestDidFinishFakeNotification = @"RTSAnalyticsNetmetrixRequestDidFinishFake";
@@ -34,7 +34,7 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 	_businessUnit = businessUnit;
 	_production = production;
 	
-	DDLogDebug(@"%@ initialization\nAppID: %@\nDomain: %@", LoggerDomainAnalyticsNetmetrix, appID, self.netmetrixDomain);
+	RTSAnalyticsLogDebug(@"%@ initialization\nAppID: %@\nDomain: %@", LoggerDomainAnalyticsNetmetrix, appID, self.netmetrixDomain);
 
 	return self;
 }
@@ -64,13 +64,13 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 	BOOL testMode = [self.appID isEqualToString:@"test"] || NSClassFromString(@"XCTestCase") != NULL;
 	if (self.production || testMode)
 	{
-		DDLogVerbose(@"%@ : will send view event:\nurl        = %@\nuser-agent = %@", LoggerDomainAnalyticsNetmetrix, netmetrixURLString, userAgent);
+		RTSAnalyticsLogVerbose(@"%@ : will send view event:\nurl        = %@\nuser-agent = %@", LoggerDomainAnalyticsNetmetrix, netmetrixURLString, userAgent);
 		[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixWillSendRequestNotification object:request userInfo:nil];
 	}
 	
 	if (testMode)
 	{
-		DDLogWarn(@"%@ response will be fake due to testing flag or xctest bundle presence", LoggerDomainAnalyticsNetmetrix);
+		RTSAnalyticsLogWarning(@"%@ response will be fake due to testing flag or xctest bundle presence", LoggerDomainAnalyticsNetmetrix);
 		[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixRequestDidFinishFakeNotification object:request userInfo:nil];
 	}
 	else if (self.production)
@@ -79,12 +79,12 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 			
 			BOOL succes = !connectionError;
 			if (succes) {
-				DDLogInfo(@"%@ view > %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod);
+				RTSAnalyticsLogInfo(@"%@ view > %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod);
 			}else{
-				DDLogError(@"%@ ERROR sending %@ view : %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod, connectionError.localizedDescription);
+				RTSAnalyticsLogError(@"%@ ERROR sending %@ view : %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod, connectionError.localizedDescription);
 			}
 			
-			DDLogDebug(@"%@ view event sent:\n%@", LoggerDomainAnalyticsNetmetrix, [(NSHTTPURLResponse *)response allHeaderFields]);
+			RTSAnalyticsLogDebug(@"%@ view event sent:\n%@", LoggerDomainAnalyticsNetmetrix, [(NSHTTPURLResponse *)response allHeaderFields]);
 			
 			NSMutableDictionary *userInfo = [@{ RTSAnalyticsNetmetrixRequestSuccessUserInfoKey: @(succes) } mutableCopy];
 			if (response)

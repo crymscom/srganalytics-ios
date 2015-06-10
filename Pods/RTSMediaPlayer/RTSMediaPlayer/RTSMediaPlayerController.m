@@ -5,7 +5,6 @@
 //
 
 #import <objc/runtime.h>
-#import <CocoaLumberjack/CocoaLumberjack.h>
 #import <TransitionKit/TransitionKit.h>
 #import <libextobjc/EXTScope.h>
 
@@ -15,6 +14,7 @@
 #import "RTSMediaPlayerView.h"
 #import "RTSPlaybackTimeObserver.h"
 #import "RTSActivityGestureRecognizer.h"
+#import "RTSMediaPlayerLogger.h"
 
 NSTimeInterval const RTSMediaPlayerOverlayHidingDelay = 5.0;
 
@@ -115,7 +115,7 @@ NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey = @"Bloc
 {
 	if (![self.stateMachine.currentState isEqual:self.idleState])
 	{
-		DDLogWarn(@"The media player controller reached dealloc while still active. You should call the `reset` method before reaching dealloc.");
+		RTSMediaPlayerLogWarning(@"The media player controller reached dealloc while still active. You should call the `reset` method before reaching dealloc.");
 	}
 	
 	[self.activityView removeGestureRecognizer:self.activityGestureRecognizer];
@@ -162,7 +162,7 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 													   queue:[NSOperationQueue new]
 												  usingBlock:^(NSNotification *notification) {
 													  TKTransition *transition = notification.userInfo[TKStateMachineDidChangeStateTransitionUserInfoKey];
-													  DDLogDebug(@"(%@) ---[%@]---> (%@)",
+													  RTSMediaPlayerLogDebug(@"(%@) ---[%@]---> (%@)",
 																 transition.sourceState.name,
 																 transition.event.name.lowercaseString,
 																 transition.destinationState.name);
@@ -239,7 +239,7 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 		@strongify(self)
 		
 		NSURL *contentURL = transition.userInfo[RTSMediaPlayerStateMachineContentURLInfoKey];
-		DDLogInfo(@"Player URL: %@", contentURL);
+		RTSMediaPlayerLogInfo(@"Player URL: %@", contentURL);
 		
 		// The player observes its "currentItem.status" keyPath, see callback in `observeValueForKeyPath:ofObject:change:context:`
 		self.player = [AVPlayer playerWithURL:contentURL];
@@ -272,7 +272,7 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 		@strongify(self)
 		NSDictionary *errorUserInfo = transition.userInfo;
 		if (errorUserInfo) {
-			DDLogError(@"Playback did fail: %@", errorUserInfo[RTSMediaPlayerPlaybackDidFailErrorUserInfoKey]);
+			RTSMediaPlayerLogError(@"Playback did fail: %@", errorUserInfo[RTSMediaPlayerPlaybackDidFailErrorUserInfoKey]);
 			[self postNotificationName:RTSMediaPlayerPlaybackDidFailNotification userInfo:errorUserInfo];
 		}
 	}];
@@ -310,7 +310,7 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	NSError *error;
 	BOOL success = [self.stateMachine fireEvent:event userInfo:userInfo error:&error];
 	if (!success) {
-		DDLogWarn(@"Invalid Transition: %@", error.localizedFailureReason);
+		RTSMediaPlayerLogWarning(@"Invalid Transition: %@", error.localizedFailureReason);
 	}
 }
 
@@ -363,6 +363,7 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 
 - (void) pause
 {
+	[self fireEvent:self.pauseEvent userInfo:nil];
 	[self.player pause];
 }
 
@@ -376,7 +377,7 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	return self.player.muted;
 }
 
-- (void) reset
+- (void)reset
 {
 	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(prepareToPlay) object:nil];
 	if (![self.stateMachine.currentState isEqual:self.idleState]) {
@@ -386,11 +387,25 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 
 - (void)seekToTime:(CMTime)time completionHandler:(void (^)(BOOL finished))completionHandler
 {
-	[self fireEvent:self.seekEvent userInfo:nil];
+	if (self.stateMachine.currentState != self.seekingState) {
+		[self fireEvent:self.seekEvent userInfo:nil];
+	}
+	
+	RTSMediaPlayerLogInfo(@"Seeking to %@ sec.", @(CMTimeGetSeconds(time)));
+	
 	[self.player seekToTime:time
 			toleranceBefore:kCMTimeZero
 			 toleranceAfter:kCMTimeZero
 		  completionHandler:completionHandler];
+}
+
+- (void)playAtTime:(CMTime)time
+{
+	[self seekToTime:time completionHandler:^(BOOL finished) {
+		if (finished) {
+			[self play];
+		}
+   }];
 }
 
 - (AVPlayerItem *)playerItem
@@ -400,18 +415,17 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 
 - (RTSMediaPlaybackState) playbackState
 {
-	@synchronized(self)
-	{
+	@synchronized(self) {
 		return _playbackState;
 	}
 }
 
 - (void) setPlaybackState:(RTSMediaPlaybackState)playbackState
 {
-	@synchronized(self)
-	{
-		if (_playbackState == playbackState)
+	@synchronized(self) {
+		if (_playbackState == playbackState) {
 			return;
+		}
 		
 		NSDictionary *userInfo = @{ RTSMediaPlayerPreviousPlaybackStateUserInfoKey: @(_playbackState) };
 		
@@ -472,7 +486,7 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 	@synchronized(self)
 	{
 		if ([self.stateMachine.currentState isEqual:self.idleState] && !_player) {
-			DDLogWarn(@"Media player controller is not ready");
+			RTSMediaPlayerLogWarning(@"Media player controller is not ready");
 		}
 		return _player;
 	}
@@ -634,7 +648,7 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 		CMTimeRange timerange = [timeRanges[0] CMTimeRangeValue];
 		if(CMTimeGetSeconds(timerange.duration) >= bufferMinDuration && self.player.rate == 0) {
 			[self.player prerollAtRate:0.0 completionHandler:^(BOOL finished) {
-				if (![self.stateMachine.currentState isEqual:self.pausedState]) {
+				if (![self.stateMachine.currentState isEqual:self.pausedState] && ![self.stateMachine.currentState isEqual:self.seekingState]) {
 					[self play];
 				}
 			}];
@@ -695,12 +709,12 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 
 - (void) playerItemTimeJumped:(NSNotification *)notification
 {
-	DDLogDebug(@"%@ %@", THIS_METHOD, notification.userInfo);
+	RTSMediaPlayerLogDebug(@"playerItemTimeJumped: %@", notification.userInfo);
 }
 
 - (void) playerItemPlaybackStalled:(NSNotification *)notification
 {
-	DDLogDebug(@"%@ %@", THIS_METHOD, notification.userInfo);
+	RTSMediaPlayerLogDebug(@"playerItemPlaybackStalled: %@", notification.userInfo);
 }
 
 static void LogProperties(id object)
@@ -710,21 +724,21 @@ static void LogProperties(id object)
 	for (unsigned int i = 0; i < count; i++)
 	{
 		NSString *propertyName = @(property_getName(properties[i]));
-		DDLogVerbose(@"    %@: %@", propertyName, [object valueForKey:propertyName]);
+		RTSMediaPlayerLogTrace(@"    %@: %@", propertyName, [object valueForKey:propertyName]);
 	}
 	free(properties);
 }
 
 - (void) playerItemNewAccessLogEntry:(NSNotification *)notification
 {
-	DDLogDebug(@"%@ %@", THIS_METHOD, notification.userInfo);
+	RTSMediaPlayerLogVerbose(@"playerItemNewAccessLogEntry: %@", notification.userInfo);
 	AVPlayerItem *playerItem = notification.object;
 	LogProperties(playerItem.accessLog.events.lastObject);
 }
 
 - (void) playerItemNewErrorLogEntry:(NSNotification *)notification
 {
-	DDLogDebug(@"%@ %@", THIS_METHOD, notification.userInfo);
+	RTSMediaPlayerLogVerbose(@"playerItemNewErrorLogEntry: %@", notification.userInfo);
 	AVPlayerItem *playerItem = notification.object;
 	LogProperties(playerItem.errorLog.events.lastObject);
 }

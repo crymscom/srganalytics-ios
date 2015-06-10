@@ -6,53 +6,29 @@
 // project.
 
 
-// CocoaLumberjack
-#define COCOAPODS_POD_AVAILABLE_CocoaLumberjack
-#define COCOAPODS_VERSION_MAJOR_CocoaLumberjack 2
-#define COCOAPODS_VERSION_MINOR_CocoaLumberjack 0
-#define COCOAPODS_VERSION_PATCH_CocoaLumberjack 0
-
-// CocoaLumberjack/Core
-#define COCOAPODS_POD_AVAILABLE_CocoaLumberjack_Core
-#define COCOAPODS_VERSION_MAJOR_CocoaLumberjack_Core 2
-#define COCOAPODS_VERSION_MINOR_CocoaLumberjack_Core 0
-#define COCOAPODS_VERSION_PATCH_CocoaLumberjack_Core 0
-
-// CocoaLumberjack/Default
-#define COCOAPODS_POD_AVAILABLE_CocoaLumberjack_Default
-#define COCOAPODS_VERSION_MAJOR_CocoaLumberjack_Default 2
-#define COCOAPODS_VERSION_MINOR_CocoaLumberjack_Default 0
-#define COCOAPODS_VERSION_PATCH_CocoaLumberjack_Default 0
-
-// CocoaLumberjack/Extensions
-#define COCOAPODS_POD_AVAILABLE_CocoaLumberjack_Extensions
-#define COCOAPODS_VERSION_MAJOR_CocoaLumberjack_Extensions 2
-#define COCOAPODS_VERSION_MINOR_CocoaLumberjack_Extensions 0
-#define COCOAPODS_VERSION_PATCH_CocoaLumberjack_Extensions 0
-
 // RTSAnalytics
 #define COCOAPODS_POD_AVAILABLE_RTSAnalytics
 #define COCOAPODS_VERSION_MAJOR_RTSAnalytics 0
-#define COCOAPODS_VERSION_MINOR_RTSAnalytics 2
-#define COCOAPODS_VERSION_PATCH_RTSAnalytics 3
+#define COCOAPODS_VERSION_MINOR_RTSAnalytics 3
+#define COCOAPODS_VERSION_PATCH_RTSAnalytics 4
 
 // RTSAnalytics/Core
 #define COCOAPODS_POD_AVAILABLE_RTSAnalytics_Core
 #define COCOAPODS_VERSION_MAJOR_RTSAnalytics_Core 0
-#define COCOAPODS_VERSION_MINOR_RTSAnalytics_Core 2
-#define COCOAPODS_VERSION_PATCH_RTSAnalytics_Core 3
+#define COCOAPODS_VERSION_MINOR_RTSAnalytics_Core 3
+#define COCOAPODS_VERSION_PATCH_RTSAnalytics_Core 4
 
 // RTSAnalytics/MediaPlayer
 #define COCOAPODS_POD_AVAILABLE_RTSAnalytics_MediaPlayer
 #define COCOAPODS_VERSION_MAJOR_RTSAnalytics_MediaPlayer 0
-#define COCOAPODS_VERSION_MINOR_RTSAnalytics_MediaPlayer 2
-#define COCOAPODS_VERSION_PATCH_RTSAnalytics_MediaPlayer 3
+#define COCOAPODS_VERSION_MINOR_RTSAnalytics_MediaPlayer 3
+#define COCOAPODS_VERSION_PATCH_RTSAnalytics_MediaPlayer 4
 
 // RTSMediaPlayer
 #define COCOAPODS_POD_AVAILABLE_RTSMediaPlayer
 #define COCOAPODS_VERSION_MAJOR_RTSMediaPlayer 0
-#define COCOAPODS_VERSION_MINOR_RTSMediaPlayer 2
-#define COCOAPODS_VERSION_PATCH_RTSMediaPlayer 5
+#define COCOAPODS_VERSION_MINOR_RTSMediaPlayer 3
+#define COCOAPODS_VERSION_PATCH_RTSMediaPlayer 2
 
 // TransitionKit
 #define COCOAPODS_POD_AVAILABLE_TransitionKit

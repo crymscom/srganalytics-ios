@@ -5,6 +5,7 @@
 
 #import "RTSAnalytics.h"
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
+#import "RTSAnalyticsLogger.h"
 
 #import <comScore-iOS-SDK-RTS/CSStreamSense.h>
 #import <comScore-iOS-SDK-RTS/CSStreamSensePlaylist.h>
@@ -12,8 +13,6 @@
 
 #import <RTSMediaPlayer/RTSMediaPlayerView.h>
 #import <RTSMediaPlayer/NSBundle+RTSMediaPlayer.h>
-
-#import <CocoaLumberjack/CocoaLumberjack.h>
 
 static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
@@ -49,7 +48,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	[self setLabel:@"ns_vsite" value:virtualSite];
 	[self setLabel:@"srg_ptype" value:@"p_app_ios"];
 	
-	DDLogVerbose(@"%@ : new Streamsense instance with ns_vsite = %@", LoggerDomainAnalyticsStreamSense, self.labels[@"ns_vsite"]);
+	RTSAnalyticsLogVerbose(@"%@ : new Streamsense instance with ns_vsite = %@", LoggerDomainAnalyticsStreamSense, self.labels[@"ns_vsite"]);
 
 	return self;
 }

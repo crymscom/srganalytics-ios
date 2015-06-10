@@ -6,7 +6,6 @@
 #import "AppDelegate.h"
 
 #import <RTSAnalytics/RTSAnalytics.h>
-#import <CocoaLumberjack/CocoaLumberjack.h>
 
 @interface AppDelegate () <RTSAnalyticsMediaPlayerDataSource>
 
@@ -17,9 +16,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	// Logs
-	[DDLog addLogger:[DDTTYLogger sharedInstance] withLevel:DDLogLevelVerbose];
-	[[DDTTYLogger sharedInstance] setColorsEnabled:YES]; // If xcodecolors installed:
+	setenv("RTSAnalyticsLogLevel", "-1", 0);
 	
 	// Tracker
 	RTSAnalyticsTracker *analyticsTracker = [RTSAnalyticsTracker sharedTracker];
