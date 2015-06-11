@@ -257,7 +257,12 @@
 		[labels safeSetValue:[obj description] forKey:[key description]];
 	}];
 	
-	[CSComScore viewWithLabels:labels];
+	// From comScore documentation: "Please do not implement the Application Tag library on a separate thread or with a delay."
+	// Unfortunately, we are at risk to wait on a synchronous network request on a background thread because comScore developers don't know how to use a lock
+	// Calling `viewWithLabels:` on a background thread seems to work fine though.
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		[CSComScore viewWithLabels:labels];
+	});
 	
 	[self.netmetrixTracker trackView];
 }
