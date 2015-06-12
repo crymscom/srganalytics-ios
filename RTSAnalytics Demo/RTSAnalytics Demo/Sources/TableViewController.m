@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "CustomMediaPlayerViewController.h"
+#import "Segment.h"
 #import "SegmentsMediaPlayerViewController.h"
 
 @interface TableViewController () <UITableViewDelegate, RTSAnalyticsPageViewDataSource, RTSMediaPlayerControllerDataSource, RTSMediaSegmentsDataSource>
@@ -59,8 +60,8 @@
 	}
     else if ([cell.reuseIdentifier hasPrefix:@"SegmentsMediaPlayer"])
     {
-        SegmentsMediaPlayerViewController *segmentsViewController = [[SegmentsMediaPlayerViewController alloc] initWithContentIdentifier:cell.reuseIdentifier dataSource:self];
-        [self presentViewController:segmentsViewController animated:YES completion:nil];
+        SegmentsMediaPlayerViewController *segmentsPlayerViewController = [[SegmentsMediaPlayerViewController alloc] initWithContentIdentifier:cell.reuseIdentifier dataSource:self];
+        [self presentViewController:segmentsPlayerViewController animated:YES completion:nil];
     }
 	else if ([cell.reuseIdentifier isEqualToString:@"PushNotificationCell"])
 	{

@@ -7,8 +7,8 @@
 
 @interface SegmentsMediaPlayerViewController ()
 
-@property (nonatomic, strong) IBOutlet RTSMediaPlayerController *mediaPlayerController;
-@property (nonatomic, strong) IBOutlet RTSMediaSegmentsController *segmentsController;
+@property (nonatomic, weak) IBOutlet RTSMediaPlayerController *mediaPlayerController;
+@property (nonatomic, weak) IBOutlet RTSMediaSegmentsController *segmentsController;
 
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, weak) id<RTSMediaPlayerControllerDataSource, RTSMediaSegmentsDataSource> dataSource;

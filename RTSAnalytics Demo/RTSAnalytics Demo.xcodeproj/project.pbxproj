@@ -20,6 +20,7 @@
 		B64503901AE3DCA5001021A8 /* CustomMediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B645038F1AE3DCA5001021A8 /* CustomMediaPlayerViewController.m */; };
 		E687CE731B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E687CE721B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.m */; };
 		E687CE751B2AE09B009EC495 /* SegmentsMediaPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E687CE741B2AE09B009EC495 /* SegmentsMediaPlayerViewController.xib */; };
+		E687CE781B2AE852009EC495 /* Segment.m in Sources */ = {isa = PBXBuildFile; fileRef = E687CE771B2AE852009EC495 /* Segment.m */; };
 		F8AE0038F60E13CCB267B741 /* libPods-RTSAnalytics DemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2464D27DE407598383F8D18C /* libPods-RTSAnalytics DemoTests.a */; };
 		FD525F0398ED682D45333275 /* libPods-RTSAnalytics Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7785A001E583F176EEF0604 /* libPods-RTSAnalytics Demo.a */; };
 /* End PBXBuildFile section */
@@ -63,6 +64,8 @@
 		E687CE711B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentsMediaPlayerViewController.h; sourceTree = "<group>"; };
 		E687CE721B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentsMediaPlayerViewController.m; sourceTree = "<group>"; };
 		E687CE741B2AE09B009EC495 /* SegmentsMediaPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SegmentsMediaPlayerViewController.xib; sourceTree = "<group>"; };
+		E687CE761B2AE852009EC495 /* Segment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Segment.h; sourceTree = "<group>"; };
+		E687CE771B2AE852009EC495 /* Segment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Segment.m; sourceTree = "<group>"; };
 		EC694A5C0196003E240F1F48 /* Pods-RTSAnalytics DemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RTSAnalytics DemoTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-RTSAnalytics DemoTests/Pods-RTSAnalytics DemoTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,6 +146,8 @@
 				B64503611AE10567001021A8 /* AppDelegate.m */,
 				B645038E1AE3DCA5001021A8 /* CustomMediaPlayerViewController.h */,
 				B645038F1AE3DCA5001021A8 /* CustomMediaPlayerViewController.m */,
+				E687CE761B2AE852009EC495 /* Segment.h */,
+				E687CE771B2AE852009EC495 /* Segment.m */,
 				E687CE711B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.h */,
 				E687CE721B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.m */,
 				E687CE741B2AE09B009EC495 /* SegmentsMediaPlayerViewController.xib */,
@@ -371,6 +376,7 @@
 			files = (
 				B64503661AE10567001021A8 /* AppDelegate.m in Sources */,
 				B64503671AE10567001021A8 /* TableViewController.m in Sources */,
+				E687CE781B2AE852009EC495 /* Segment.m in Sources */,
 				B645036D1AE10590001021A8 /* main.m in Sources */,
 				B64503901AE3DCA5001021A8 /* CustomMediaPlayerViewController.m in Sources */,
 				E687CE731B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.m in Sources */,
