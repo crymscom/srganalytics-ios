@@ -13,8 +13,9 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "CustomMediaPlayerViewController.h"
+#import "SegmentsMediaPlayerViewController.h"
 
-@interface TableViewController () <UITableViewDelegate, RTSAnalyticsPageViewDataSource, RTSMediaPlayerControllerDataSource>
+@interface TableViewController () <UITableViewDelegate, RTSAnalyticsPageViewDataSource, RTSMediaPlayerControllerDataSource, RTSMediaSegmentsDataSource>
 
 @end
 
@@ -49,17 +50,22 @@
 	if ([cell.reuseIdentifier hasPrefix:@"MediaPlayer"])
 	{
 		RTSMediaPlayerViewController *playerViewController = [[RTSMediaPlayerViewController alloc] initWithContentIdentifier:cell.reuseIdentifier dataSource:self];
-		[self presentViewController:playerViewController animated:YES completion:NULL];
+		[self presentViewController:playerViewController animated:YES completion:nil];
 	}
 	else if ([cell.reuseIdentifier hasPrefix:@"CustomMediaPlayer"])
 	{
 		CustomMediaPlayerViewController *playerViewController = [[CustomMediaPlayerViewController alloc] initWithContentIdentifier:cell.reuseIdentifier dataSource:self];
-		[self presentViewController:playerViewController animated:YES completion:NULL];
+		[self presentViewController:playerViewController animated:YES completion:nil];
 	}
+    else if ([cell.reuseIdentifier hasPrefix:@"SegmentsMediaPlayer"])
+    {
+        SegmentsMediaPlayerViewController *segmentsViewController = [[SegmentsMediaPlayerViewController alloc] initWithContentIdentifier:cell.reuseIdentifier dataSource:self];
+        [self presentViewController:segmentsViewController animated:YES completion:nil];
+    }
 	else if ([cell.reuseIdentifier isEqualToString:@"PushNotificationCell"])
 	{
 		UIApplication *application = [UIApplication sharedApplication];
-		[(AppDelegate *)application.delegate application:application didReceiveRemoteNotification:nil fetchCompletionHandler:NULL];
+		[(AppDelegate *)application.delegate application:application didReceiveRemoteNotification:nil fetchCompletionHandler:nil];
 	}
 }
 
@@ -74,7 +80,7 @@
 	{
 		urlString = @"https://srgssruni9ch-lh.akamaihd.net/i/enc9uni_ch@191320/master.m3u8";
 	}
-	else if ([identifier hasSuffix:@"VODCell"])
+	else if ([identifier hasSuffix:@"VODCell"] || [identifier hasSuffix:@"SegmentsCell"])
 	{
 		urlString = @"http://stream-i.rts.ch/i/tp/1993/tp_10071993-,450,k.mp4.csmil/master.m3u8";
 	}
@@ -83,6 +89,14 @@
 	completionHandler(URL, nil);
 }
 
+
+
+#pragma mark - RTSMediaSegmentsDataSource
+
+- (void)segmentsController:(RTSMediaSegmentsController *)controller segmentsForIdentifier:(NSString *)identifier withCompletionHandler:(RTSMediaSegmentsCompletionHandler)completionHandler
+{
+    completionHandler(nil, nil, nil);
+}
 
 
 #pragma mark - RTSAnalyticsPageViewDataSource
