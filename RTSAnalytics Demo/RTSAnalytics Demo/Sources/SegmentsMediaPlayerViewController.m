@@ -48,6 +48,7 @@
 
 - (IBAction) dismiss:(id)sender
 {
+    [self.mediaPlayerController reset];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
