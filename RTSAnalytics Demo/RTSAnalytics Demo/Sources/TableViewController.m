@@ -94,7 +94,7 @@
 
 #pragma mark - RTSMediaSegmentsDataSource
 
-- (void)segmentsController:(RTSMediaSegmentsController *)controller segmentsForIdentifier:(NSString *)identifier withCompletionHandler:(RTSMediaSegmentsCompletionHandler)completionHandler
+- (void) segmentsController:(RTSMediaSegmentsController *)controller segmentsForIdentifier:(NSString *)identifier withCompletionHandler:(RTSMediaSegmentsCompletionHandler)completionHandler
 {
     AVPlayerItem *playerItem = controller.playerController.playerItem;
     CMTimeRange fullTimeRange = [[playerItem.seekableTimeRanges firstObject] CMTimeRangeValue];

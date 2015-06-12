@@ -54,13 +54,21 @@
 
 #pragma mark - RTSAnalyticsMediaPlayerDataSource
 
+- (NSDictionary *)streamSenseLabelsMetadataForIdentifier:(NSString *)identifier
+{
+    // TODO: Add labels for tests
+	return nil;
+}
+
 - (NSDictionary *)streamSensePlaylistMetadataForIdentifier:(NSString *)identifier
 {
+    // TODO: Add labels for tests
 	return nil;
 }
 
 - (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(id<RTSMediaSegment>)segment
 {
+    // TODO: Add labels for tests
 	return nil;
 }
 

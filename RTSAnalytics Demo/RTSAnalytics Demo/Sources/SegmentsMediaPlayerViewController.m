@@ -46,6 +46,11 @@
 
 #pragma mark - Actions
 
+- (IBAction) playFirstSegment:(id)sender
+{
+    [self.segmentsController playVisibleSegmentAtIndex:0];
+}
+
 - (IBAction) dismiss:(id)sender
 {
     [self.mediaPlayerController reset];
