@@ -55,14 +55,14 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment
 {
-    [self updateLabels:segment];
+    [self updateLabelsWithSegment:segment];
 	[self notify:playerEvent position:[self currentPositionInMilliseconds] labels:nil];
 }
 
 - (NSMutableDictionary *) createMeasurementLabels:(CSStreamSenseEventType)eventType initialLabels:(NSDictionary *)initialLabels
 {
 	NSMutableDictionary *measurementLabels = [super createMeasurementLabels:eventType initialLabels:initialLabels];
-    [self updateLabels:nil];
+    [self updateLabelsWithSegment:nil];
 	return measurementLabels;
 }
 
@@ -76,7 +76,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 #pragma mark - Private Labels methods
 
-- (void)updateLabels:(id<RTSMediaSegment>)segment
+- (void)updateLabelsWithSegment:(id<RTSMediaSegment>)segment
 {
 	// Labels
 	[self setLabel:@"ns_st_br" value:[self bitRate]];
