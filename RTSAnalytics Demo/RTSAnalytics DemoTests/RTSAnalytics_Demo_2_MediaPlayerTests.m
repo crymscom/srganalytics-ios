@@ -22,9 +22,9 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 	
 	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
 	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
-    XCTAssertEqualObjects(@"play", labels[@"ns_st_ev"]);
-	XCTAssertEqualObjects(@"1",    labels[@"ns_st_li"]);
-	XCTAssertEqualObjects(@"9",    labels[@"srg_enc"]);
+    XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+	XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+	XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
 }
 
 - (void)test_2_CloseMediaPlayerSendsStreamLiveEndMeasurement
@@ -34,9 +34,9 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 	}];
 	
 	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
-	XCTAssertEqualObjects(@"end", labels[@"ns_st_ev"]);
-	XCTAssertEqualObjects(@"1",   labels[@"ns_st_li"]);
-	XCTAssertEqualObjects(@"9",   labels[@"srg_enc"]);
+	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+	XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+	XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
 	
 	[tester waitForTimeInterval:2.0f];
 }
@@ -47,8 +47,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 	
 	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
 	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
-	XCTAssertEqualObjects(@"play", labels[@"ns_st_ev"]);
-	XCTAssertEqualObjects(@"0",    labels[@"ns_st_li"]);
+	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+	XCTAssertEqualObjects(labels[@"ns_st_li"], @"0");
 	XCTAssertNil(labels[@"srg_enc"]);
 }
 
@@ -59,8 +59,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 	}];
 	
 	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
-	XCTAssertEqualObjects(@"end", labels[@"ns_st_ev"]);
-	XCTAssertEqualObjects(@"0",   labels[@"ns_st_li"]);
+	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+	XCTAssertEqualObjects(labels[@"ns_st_li"], @"0");
 	XCTAssertNil(labels[@"srg_enc"]);
 	
 	[tester waitForTimeInterval:2.0f];

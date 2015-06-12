@@ -25,7 +25,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 	
 	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
 	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
-	XCTAssertEqualObjects(@"1",         labels[@"srg_ap_push"]);
+	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
 	
 	[tester tapViewWithAccessibilityLabel:@"Done"];
 }
@@ -36,7 +36,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 	
 	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
 	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
-	XCTAssertEqualObjects(@"0",         labels[@"srg_ap_push"]);
+	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
 }

@@ -39,20 +39,19 @@ static NSDictionary *startLabels = nil;
 - (void) test_1_ApplicationStartsAndStartMeasurementAndFirstPageViewEventAreSend
 {
 	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-	XCTAssertEqualObjects(@"RTSAnalytics Demo iOS", startLabels[@"ns_ap_an"]);
-	XCTAssertEqualObjects(@"mainsite",              startLabels[@"ns_site"]);
-	XCTAssertEqualObjects(@"rts-app-test-v",        startLabels[@"ns_vsite"]);
-	XCTAssertEqualObjects(@"RTS",                   startLabels[@"srg_unit"]);
+	XCTAssertEqualObjects(startLabels[@"ns_ap_an"], @"RTSAnalytics Demo iOS");
+	XCTAssertEqualObjects(startLabels[@"ns_site"], @"mainsite");
+	XCTAssertEqualObjects(startLabels[@"ns_vsite"], @"rts-app-test-v");
+	XCTAssertEqualObjects(startLabels[@"srg_unit"], @"RTS");
 	
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-	XCTAssertEqualObjects(@"app.mainpagetitle", labels[@"name"]);
-	XCTAssertEqualObjects(@"app",               labels[@"category"]);
-	XCTAssertEqualObjects(@"0",                 labels[@"srg_ap_push"]);
-	XCTAssertEqualObjects(@"app",               labels[@"srg_n1"]);
-	XCTAssertEqualObjects(@"MainPageTitle",     labels[@"srg_title"]);
-	XCTAssertEqualObjects(@"view",              labels[@"ns_type"]);
+	XCTAssertEqualObjects(labels[@"name"], @"app.mainpagetitle");
+	XCTAssertEqualObjects(labels[@"category"], @"app");
+	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+	XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
+	XCTAssertEqualObjects(labels[@"srg_title"], @"MainPageTitle");
+	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
 }
-
 
 - (void) test_2_PresentViewControllerWithNoTitleSendsViewEvent
 {
@@ -61,12 +60,12 @@ static NSDictionary *startLabels = nil;
 	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
 	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
 	
-	XCTAssertEqualObjects(@"app.untitled", labels[@"name"]);
-	XCTAssertEqualObjects(@"app",          labels[@"category"]);
-	XCTAssertEqualObjects(@"0",            labels[@"srg_ap_push"]);
-	XCTAssertEqualObjects(@"app",          labels[@"srg_n1"]);
-	XCTAssertEqualObjects(@"untitled",     labels[@"srg_title"]);
-	XCTAssertEqualObjects(@"view",         labels[@"ns_type"]);
+	XCTAssertEqualObjects(labels[@"name"], @"app.untitled");
+	XCTAssertEqualObjects(labels[@"category"], @"app");
+	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+	XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
+	XCTAssertEqualObjects(labels[@"srg_title"], @"untitled");
+	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
 }
@@ -78,11 +77,11 @@ static NSDictionary *startLabels = nil;
 	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
 	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
 	
-	XCTAssertEqualObjects(@"app.cest-un-titre-pour-levenement-", labels[@"name"]);
-	XCTAssertEqualObjects(@"0",                                  labels[@"srg_ap_push"]);
-	XCTAssertEqualObjects(@"app",                                labels[@"srg_n1"]);
-	XCTAssertEqualObjects(@"C'est un titre pour l'événement !",  labels[@"srg_title"]);
-	XCTAssertEqualObjects(@"view",                               labels[@"ns_type"]);
+	XCTAssertEqualObjects(labels[@"name"], @"app.cest-un-titre-pour-levenement-");
+	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+	XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
+	XCTAssertEqualObjects(labels[@"srg_title"], @"C'est un titre pour l'événement !");
+	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
 }
@@ -94,13 +93,13 @@ static NSDictionary *startLabels = nil;
 	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
 	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
 	
-	XCTAssertEqualObjects(@"tv.dautres-niveauxplus-loin.title", labels[@"name"]);
-	XCTAssertEqualObjects(@"0",                                 labels[@"srg_ap_push"]);
-	XCTAssertEqualObjects(@"tv",                                labels[@"srg_n1"]);
-	XCTAssertEqualObjects(@"dautres-niveauxplus-loin",          labels[@"srg_n2"]);
-	XCTAssertEqualObjects(@"tv.dautres-niveauxplus-loin",       labels[@"category"]);
-	XCTAssertEqualObjects(@"Title",                             labels[@"srg_title"]);
-	XCTAssertEqualObjects(@"view",                              labels[@"ns_type"]);
+	XCTAssertEqualObjects(labels[@"name"], @"tv.dautres-niveauxplus-loin.title");
+	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+	XCTAssertEqualObjects(labels[@"srg_n1"], @"tv");
+	XCTAssertEqualObjects(labels[@"srg_n2"], @"dautres-niveauxplus-loin");
+	XCTAssertEqualObjects(labels[@"category"], @"tv.dautres-niveauxplus-loin");
+	XCTAssertEqualObjects(labels[@"srg_title"], @"Title");
+	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
 }
@@ -112,19 +111,17 @@ static NSDictionary *startLabels = nil;
 	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
 	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
 	
-	XCTAssertEqualObjects(@"tv.n1.n2.title", labels[@"name"]);
-	XCTAssertEqualObjects(@"0",              labels[@"srg_ap_push"]);
-	XCTAssertEqualObjects(@"tv",             labels[@"srg_n1"]);
-	XCTAssertEqualObjects(@"n1",             labels[@"srg_n2"]);
-	XCTAssertEqualObjects(@"n2",             labels[@"srg_n3"]);
-	XCTAssertEqualObjects(@"tv.n1.n2",       labels[@"category"]);
-	XCTAssertEqualObjects(@"Title",          labels[@"srg_title"]);
-	XCTAssertEqualObjects(@"view",           labels[@"ns_type"]);
-	
-	XCTAssertEqualObjects(@"custom",         labels[@"srg_ap_cu"]);
+	XCTAssertEqualObjects(labels[@"name"], @"tv.n1.n2.title");
+	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+	XCTAssertEqualObjects(labels[@"srg_n1"], @"tv");
+	XCTAssertEqualObjects(labels[@"srg_n2"], @"n1");
+	XCTAssertEqualObjects(labels[@"srg_n3"], @"n2");
+	XCTAssertEqualObjects(labels[@"category"], @"tv.n1.n2");
+	XCTAssertEqualObjects(labels[@"srg_title"], @"Title");
+	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
+	XCTAssertEqualObjects(labels[@"srg_ap_cu"], @"custom");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
 }
-
 
 @end
