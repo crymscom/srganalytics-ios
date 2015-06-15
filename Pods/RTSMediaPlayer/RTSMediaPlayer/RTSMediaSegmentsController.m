@@ -122,7 +122,7 @@ NSString * const RTSMediaPlaybackSegmentChangeUserSelectInfoKey = @"RTSMediaPlay
 		RTSMediaPlayerLogDebug(@"Playing time %.2fs at index %@", CMTimeGetSeconds(time), @(index));
 		
 		if (self.playerController.playbackState == RTSMediaPlaybackStatePlaying && [self isTimeBlocked:time]) {
-			// The reason for blocking must be specified, and should actually be accessile from the segment object, IMHO.
+			// The reason for blocking must be specified, and should actually be accessible from the segment object, IMHO.
 			
 			NSDictionary *userInfo = userInfo = @{RTSMediaPlaybackSegmentChangeValueInfoKey: @(RTSMediaPlaybackSegmentSeekUponBlockingStart),
 												  RTSMediaPlaybackSegmentChangeSegmentObjectInfoKey: self.segments[index]};
@@ -365,9 +365,10 @@ NSString * const RTSMediaPlaybackSegmentChangeUserSelectInfoKey = @"RTSMediaPlay
 		return;
 	}
 	
+    self.wasSegmentSelected = YES; // Will be propagated into the notification
+    
 	[self.playerController seekToTime:segment.timeRange.start completionHandler:^(BOOL finished) {
 		if (finished) {
-			self.wasSegmentSelected = YES; // Will be propagated into the notification
 			[self.playerController play];
 		}
 	}];
