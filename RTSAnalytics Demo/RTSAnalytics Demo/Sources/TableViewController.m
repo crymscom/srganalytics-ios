@@ -102,17 +102,17 @@
     
     if ([identifier rangeOfString:@"TwoSegments"].length != 0)
     {
-        CMTimeRange timeRange1 = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(6., 1.));
+        CMTimeRange timeRange1 = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(3., 1.));
         Segment *segment1 = [[Segment alloc] initWithTimeRange:timeRange1];
         
-        CMTimeRange timeRange2 = CMTimeRangeMake(CMTimeMakeWithSeconds(5., 1.), CMTimeMakeWithSeconds(7., 1.));
+        CMTimeRange timeRange2 = CMTimeRangeMake(CMTimeMakeWithSeconds(5., 1.), CMTimeMakeWithSeconds(5., 1.));
         Segment *segment2 = [[Segment alloc] initWithTimeRange:timeRange2];
         
         completionHandler(fullLengthSegment, @[segment1, segment2], nil);
     }
     else
     {
-        CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(8., 1.));
+        CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(4., 1.));
         Segment *segment = [[Segment alloc] initWithTimeRange:timeRange];
         completionHandler(fullLengthSegment, @[segment], nil);
     }

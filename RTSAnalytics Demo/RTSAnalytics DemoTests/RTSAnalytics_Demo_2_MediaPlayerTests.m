@@ -71,7 +71,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 {
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
-    // Initial play when opening
+    // Initial full-length play when opening
     {
         NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
         NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
@@ -79,12 +79,12 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
     }
     
-    // Wait 3 seconds to hear the transition to the new segment
+    // Wait 3 seconds to hear the transition to the new segment (optional)
     [NSThread sleepForTimeInterval:3.];
     
-    // Go to 1st segment. Expect pause immediately followed by play. Must deal with both in a single waiting block, otherwise race
-    // conditions might arise because of how waiting is implemented (run loop). This is not possible with the current KIF implementation,
-    // we must therefore revert to XCTest instead
+    // Go to 1st segment. Expect full-length pause immediately followed by segment play. We MUST deal with both in a single waiting block,
+    // otherwise race conditions might arise because of how waiting is implemented (run loop). Doing so is not possible with the current
+    // KIF implementation, we therefore use XCTest instead
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
@@ -117,7 +117,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [tester tapViewWithAccessibilityLabel:@"Segment #1"];
         
         [self waitForExpectationsWithTimeout:10. handler:nil];
-    }
+    }    
 }
 
 @end
