@@ -71,33 +71,48 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 {
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
-    // Wait for the video to play
+    // Initial play when opening
     {
         NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
         NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
     }
     
+    // Wait 3 seconds to hear the transition to the new segment
     [NSThread sleepForTimeInterval:3.];
     
-    // Switch to the first segment
-    // TODO: It would be nice to test check that the transition is made through a pause / play, but sadly neither KIF nor XCTest see all
-    //       notifications. One possible solution could be to accumulate those notifications into an array, and to check and clear it
-    //       when KIF or XCTest manages to catch a notification
+    // Go to 1st segment. Expect pause immediately followed by play. Must deal with both in a single waiting block, otherwise race
+    // conditions might arise because of how waiting is implemented (run loop). This is not possible with the current KIF implementation,
+    // we must therefore revert to XCTest instead
     {
-        [system waitForNotificationName:RTSMediaPlaybackSegmentDidChangeNotification object:nil whileExecutingBlock:^{
-            [tester tapViewWithAccessibilityLabel:@"Segment #1"];
+        __block NSInteger numberOfNotificationsReceived = 0;
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            numberOfNotificationsReceived++;
+            
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                
+                // Not done yet
+                return NO;
+            }
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
         }];
         
-        // Catch a heartbeat afterwards
-#if 0
-        NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-        NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"hb");
-#endif
+        [tester tapViewWithAccessibilityLabel:@"Segment #1"];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
     }
-    
-    [tester waitForTimeInterval:2.0f];
 }
 
 @end
