@@ -76,6 +76,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
         NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
     }
     
     // Wait 3 seconds to hear the transition to the new segment
@@ -91,16 +92,20 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
             
             NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
 
+            // Pause notification
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 
-                // Not done yet
+                // Not finished yet
                 return NO;
             }
+            // Play notification
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
                 return YES;
             }
             else

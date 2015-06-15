@@ -56,20 +56,18 @@
 
 - (NSDictionary *)streamSenseLabelsMetadataForIdentifier:(NSString *)identifier
 {
-    // TODO: Add labels for tests
-	return nil;
+    return nil;
 }
 
 - (NSDictionary *)streamSensePlaylistMetadataForIdentifier:(NSString *)identifier
 {
-    // TODO: Add labels for tests
-	return nil;
+    return nil;
 }
 
 - (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(id<RTSMediaSegment>)segment
 {
-    // TODO: Add labels for tests
-	return nil;
+    // Add a clip_type custom field to check whether we are in a segment or in the full-length in tests
+    return @{ @"clip_type" : segment ? @"segment" : @"full_length" };
 }
 
 @end
