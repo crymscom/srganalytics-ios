@@ -102,10 +102,16 @@
     
     if ([identifier rangeOfString:@"TwoSegments"].length != 0)
     {
-        CMTimeRange timeRange1 = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(3., 1.));
+        const NSTimeInterval segment1StartTime = 2.;
+        const NSTimeInterval segment1Duration = 3.;
+        
+        const NSTimeInterval segment2StartTime = segment1StartTime + segment1Duration;
+        const NSTimeInterval segment2Duration = 5.;
+        
+        CMTimeRange timeRange1 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment1StartTime, 1.), CMTimeMakeWithSeconds(segment1Duration, 1.));
         Segment *segment1 = [[Segment alloc] initWithTimeRange:timeRange1 name:@"segment1"];
         
-        CMTimeRange timeRange2 = CMTimeRangeMake(CMTimeMakeWithSeconds(5., 1.), CMTimeMakeWithSeconds(5., 1.));
+        CMTimeRange timeRange2 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment2StartTime, 1.), CMTimeMakeWithSeconds(segment2Duration, 1.));
         Segment *segment2 = [[Segment alloc] initWithTimeRange:timeRange2 name:@"segment2"];
         
         completionHandler(fullLengthSegment, @[segment1, segment2], nil);
