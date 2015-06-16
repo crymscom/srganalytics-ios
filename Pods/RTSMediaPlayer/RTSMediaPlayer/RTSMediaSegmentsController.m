@@ -24,7 +24,7 @@ NSString * const RTSMediaPlaybackSegmentChangeUserSelectInfoKey = @"RTSMediaPlay
 @property(nonatomic, strong) NSArray *episodes;
 @property(nonatomic, strong) NSDictionary *indexMapping;
 @property(nonatomic, strong) id playerTimeObserver;
-@property(nonatomic, assign) NSInteger lastPlaybackPositionSegmentIndex;
+@property(nonatomic, assign) NSUInteger lastPlaybackPositionSegmentIndex;
 @property(nonatomic, assign) BOOL wasSegmentSelected;
 @end
 
@@ -45,7 +45,7 @@ NSString * const RTSMediaPlaybackSegmentChangeUserSelectInfoKey = @"RTSMediaPlay
 	}
 
 	[self removeBlockingTimeObserver];
-	self.lastPlaybackPositionSegmentIndex = -1;
+	self.lastPlaybackPositionSegmentIndex = NSNotFound;
 
 	RTSMediaSegmentsCompletionHandler reloadCompletionBlock = ^(id<RTSMediaSegment> fullLength, NSArray *segments, NSError *error) {
 		if (error) {
