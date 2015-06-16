@@ -107,14 +107,6 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	if (srg_enc)
 		[[self clip] setLabel:@"srg_enc" value:srg_enc];
 	
-	
-	if ([self.dataSource respondsToSelector:@selector(streamSenseLabelsMetadataForIdentifier:)]) {
-		NSDictionary *dataSourceLabels = [self.dataSource streamSenseLabelsMetadataForIdentifier:self.mediaPlayerController.identifier];
-		[dataSourceLabels enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-			[self setLabel:key value:obj];
-		}];
-	}
-	
 	// Playlist
 	if ([self.dataSource respondsToSelector:@selector(streamSensePlaylistMetadataForIdentifier:)]) {
 		NSDictionary *dataSourcePlaylist = [self.dataSource streamSensePlaylistMetadataForIdentifier:self.mediaPlayerController.identifier];

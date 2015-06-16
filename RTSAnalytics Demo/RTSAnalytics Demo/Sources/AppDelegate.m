@@ -54,11 +54,6 @@
 
 #pragma mark - RTSAnalyticsMediaPlayerDataSource
 
-- (NSDictionary *)streamSenseLabelsMetadataForIdentifier:(NSString *)identifier
-{
-	return nil;
-}
-
 - (NSDictionary *)streamSensePlaylistMetadataForIdentifier:(NSString *)identifier
 {
 	return nil;

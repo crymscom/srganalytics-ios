@@ -17,15 +17,6 @@
 @optional
 
 /**
- *  Returns a dictionary of key value that will be sent as Streamsense labels.
- *
- *  @param identifier the identifier of the video requesting default labels for Streamsense measurement.
- *
- *  @return a dictionary of labels.
- */
-- (NSDictionary *)streamSenseLabelsMetadataForIdentifier:(NSString *)identifier;
-
-/**
  *  Returns a dictionary of key values that will be sent as Streamsense playlist labels.
  *
  *  @param identifier the identifier of the video requesting playlist labels for Streamsense measurement.
