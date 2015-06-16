@@ -148,17 +148,19 @@
             break;
             
         case RTSMediaPlaybackSegmentEnd:
+            // According to its implementation, Comscore only sends an event if different from the previously sent one. We
+            // are therefore required to send a pause followed by a play
+            [self notifyStreamTrackerEvent:CSStreamSensePause
+                               mediaPlayer:segmentsController.playerController
+                                   segment:nil];
             [self notifyStreamTrackerEvent:CSStreamSensePlay
                                mediaPlayer:segmentsController.playerController
                                    segment:nil];
-            
             break;
             
         default:
             break;
     }
-    
-
 }
 
 
