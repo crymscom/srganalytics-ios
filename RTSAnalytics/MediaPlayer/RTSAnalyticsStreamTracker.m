@@ -17,6 +17,8 @@
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDelegate> mediaPlayerDelegate;
 
+@property (nonnull, strong) id segment;
+
 @property (nonatomic, strong) NSMutableDictionary *streamsenseTrackers;
 @property (nonatomic, strong) NSString *virtualSite;
 @end
@@ -98,27 +100,27 @@
 	{
 		switch (mediaPlayerController.playbackState) {
 			case RTSMediaPlaybackStatePreparing:
-				[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController segment:nil];
+				[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController segment:self.segment];
 				break;
 				
 			case RTSMediaPlaybackStateReady:
 				break;
 				
 			case RTSMediaPlaybackStateStalled:
-				[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController segment:nil];
+				[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController segment:self.segment];
 				break;
 				
 			case RTSMediaPlaybackStatePlaying:
-				[self notifyStreamTrackerEvent:CSStreamSensePlay mediaPlayer:mediaPlayerController segment:nil];
+				[self notifyStreamTrackerEvent:CSStreamSensePlay mediaPlayer:mediaPlayerController segment:self.segment];
 				break;
 				
 			case RTSMediaPlaybackStatePaused:
             case RTSMediaPlaybackStateSeeking:
-				[self notifyStreamTrackerEvent:CSStreamSensePause mediaPlayer:mediaPlayerController segment:nil];
+				[self notifyStreamTrackerEvent:CSStreamSensePause mediaPlayer:mediaPlayerController segment:self.segment];
 				break;
 				
 			case RTSMediaPlaybackStateEnded:
-				[self notifyStreamTrackerEvent:CSStreamSenseEnd mediaPlayer:mediaPlayerController segment:nil];
+				[self notifyStreamTrackerEvent:CSStreamSenseEnd mediaPlayer:mediaPlayerController segment:self.segment];
 				break;
 				
 			case RTSMediaPlaybackStateIdle:
@@ -137,7 +139,7 @@
     NSInteger value = [notification.userInfo[RTSMediaPlaybackSegmentChangeValueInfoKey] integerValue];
     BOOL wasUserSelected = [notification.userInfo[RTSMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
     id previousSegment = notification.userInfo[RTSMediaPlaybackSegmentChangePreviousSegmentInfoKey];
-    id segment = notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey];
+    self.segment = notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey];
 
     // According to its implementation, Comscore only sends an event if different from the previously sent one. We
     // are therefore required to send a pause followed by a play when a segment end is detected (in which case
@@ -147,7 +149,7 @@
         case RTSMediaPlaybackSegmentStart:
             [self notifyStreamTrackerEvent:CSStreamSensePlay
                                mediaPlayer:segmentsController.playerController
-                                   segment:wasUserSelected ? segment : nil];
+                                   segment:wasUserSelected ? self.segment : nil];
             break;
 
         case RTSMediaPlaybackSegmentSwitch: {
@@ -156,7 +158,7 @@
                                    segment:previousSegment];
             [self notifyStreamTrackerEvent:CSStreamSensePlay
                                mediaPlayer:segmentsController.playerController
-                                   segment:wasUserSelected ? segment : nil];
+                                   segment:wasUserSelected ? self.segment : nil];
             break;
         }
             
