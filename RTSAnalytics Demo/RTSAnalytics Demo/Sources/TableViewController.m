@@ -100,6 +100,7 @@
     CMTimeRange fullTimeRange = [[playerItem.seekableTimeRanges firstObject] CMTimeRangeValue];
     Segment *fullLengthSegment = [[Segment alloc] initWithTimeRange:fullTimeRange name:@"full"];
     
+    // Add tests for segments at the beginning / end of the full length
     if ([identifier rangeOfString:@"TwoSegments"].length != 0)
     {
         const NSTimeInterval segment1StartTime = 2.;

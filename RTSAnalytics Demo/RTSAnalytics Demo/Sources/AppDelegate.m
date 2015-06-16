@@ -68,6 +68,7 @@
 - (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(Segment *)segment
 {
     // Add a clip_type custom field to check whether we are in a segment or in the full-length in tests
+    // TODO: Should probably add mandatory clip label to supply valid test data to the server, see Comscore documentation, page 8
     return @{ @"clip_type" : segment ? segment.name : @"full_length" };
 }
 
