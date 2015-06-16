@@ -53,6 +53,11 @@
     [self.segmentsController playVisibleSegmentAtIndex:0];
 }
 
+- (IBAction) playSecondSegment:(id)sender
+{
+    [self.segmentsController playVisibleSegmentAtIndex:1];
+}
+
 - (IBAction) dismiss:(id)sender
 {
     [self.mediaPlayerController reset];
