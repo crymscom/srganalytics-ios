@@ -8,6 +8,7 @@
 @interface Segment ()
 
 @property (nonatomic) CMTimeRange timeRange;
+@property (nonatomic, copy) NSString *name;
 
 @end
 
@@ -15,11 +16,12 @@
 
 #pragma mark - Object lifecycle
 
-- (instancetype) initWithTimeRange:(CMTimeRange)timeRange
+- (instancetype) initWithTimeRange:(CMTimeRange)timeRange name:(NSString *)name
 {
     if (self = [super init])
     {
         self.timeRange = timeRange;
+        self.name = name;
         
     }
     return self;

@@ -6,6 +6,7 @@
 #import "AppDelegate.h"
 
 #import <RTSAnalytics/RTSAnalytics.h>
+#import "Segment.h"
 
 @interface AppDelegate () <RTSAnalyticsMediaPlayerDataSource>
 
@@ -64,10 +65,10 @@
     return nil;
 }
 
-- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(id<RTSMediaSegment>)segment
+- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(Segment *)segment
 {
     // Add a clip_type custom field to check whether we are in a segment or in the full-length in tests
-    return @{ @"clip_type" : segment ? @"segment" : @"full_length" };
+    return @{ @"clip_type" : segment ? segment.name : @"full_length" };
 }
 
 @end

@@ -7,6 +7,8 @@
 
 @interface Segment : NSObject <RTSMediaSegment>
 
-- (instancetype) initWithTimeRange:(CMTimeRange)timeRange;
+- (instancetype) initWithTimeRange:(CMTimeRange)timeRange name:(NSString *)name;
+
+@property (nonatomic, readonly, copy) NSString *name;
 
 @end

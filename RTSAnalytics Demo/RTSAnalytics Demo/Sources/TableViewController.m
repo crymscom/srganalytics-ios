@@ -98,22 +98,22 @@
 {
     AVPlayerItem *playerItem = controller.playerController.playerItem;
     CMTimeRange fullTimeRange = [[playerItem.seekableTimeRanges firstObject] CMTimeRangeValue];
-    Segment *fullLengthSegment = [[Segment alloc] initWithTimeRange:fullTimeRange];
+    Segment *fullLengthSegment = [[Segment alloc] initWithTimeRange:fullTimeRange name:@"full"];
     
     if ([identifier rangeOfString:@"TwoSegments"].length != 0)
     {
         CMTimeRange timeRange1 = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(3., 1.));
-        Segment *segment1 = [[Segment alloc] initWithTimeRange:timeRange1];
+        Segment *segment1 = [[Segment alloc] initWithTimeRange:timeRange1 name:@"segment1"];
         
         CMTimeRange timeRange2 = CMTimeRangeMake(CMTimeMakeWithSeconds(5., 1.), CMTimeMakeWithSeconds(5., 1.));
-        Segment *segment2 = [[Segment alloc] initWithTimeRange:timeRange2];
+        Segment *segment2 = [[Segment alloc] initWithTimeRange:timeRange2 name:@"segment2"];
         
         completionHandler(fullLengthSegment, @[segment1, segment2], nil);
     }
     else
     {
         CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(6.3, 1.));
-        Segment *segment = [[Segment alloc] initWithTimeRange:timeRange];
+        Segment *segment = [[Segment alloc] initWithTimeRange:timeRange name:@"segment"];
         completionHandler(fullLengthSegment, @[segment], nil);
     }
 }
