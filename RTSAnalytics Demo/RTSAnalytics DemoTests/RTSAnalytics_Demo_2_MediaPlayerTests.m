@@ -68,7 +68,9 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 }
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
-// receive segment labels. After the segment has been played through, we receive full-length labels again
+// receive segment labels. After the segment has been played through, we receive full-length labels again. Each transition is characterized
+// by a pause / play event combination, since two consecutive identical Comscore events are sent only once (the first event is sent, the
+// following ones are ignored)
 - (void)test_5_OpenDefaultMediaPlayerControllerAndPlaySegment
 {
     // Initial full-length play when opening
@@ -87,6 +89,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
             return YES;
         }];
         
+        // Open 1-segment demo
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:10. handler:nil];
@@ -95,7 +98,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     // Wait 3 seconds to hear the transition to the new segment (optional)
     [NSThread sleepForTimeInterval:3.];
     
-    // Go to 1st segment. Expect full-length pause immediately followed by segment play. We MUST deal with both in a single waiting block,
+    // Play the segment. Expect full-length pause immediately followed by segment play. We MUST deal with both in a single waiting block,
     // otherwise race conditions might arise because of how waiting is implemented (run loop). Doing so is not possible with the current
     // KIF implementation, we therefore use XCTest instead
     {
@@ -111,7 +114,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
             
             numberOfNotificationsReceived++;
             
-            // Pause notification
+            // Pause for the full-length
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
@@ -120,7 +123,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
                 // Not finished yet
                 return NO;
             }
-            // Play notification
+            // Play for the segment
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
@@ -134,13 +137,16 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
             }
         }];
         
+        // Tap on the button playing the first segment
         [tester tapViewWithAccessibilityLabel:@"Segment #1"];
         
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
 
-    // Let the segment be played through. A play notification for the full-length must be received when switching to the full-length again
+    // Let the segment be played through. A pause / play notification pair for the segment, respective full-length must be received when switching
+    // to the full-length again
     {
+        __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
             
@@ -150,11 +156,29 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
                 return NO;
             }
             
-            // FIXME: Well, it seems that the play issued because of the RTSMediaPlaybackSegmentEnd event generates a hb since a play
-            //        has already been notified
-            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
-            return YES;
+            numberOfNotificationsReceived++;
+            
+            // Pause for the segment
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
+                
+                // Not finished yet
+                return NO;
+            }
+            // Play for the full-length
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+                return YES;
+            }
+            // E.g.
+            else
+            {
+                return NO;
+            }
         }];
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
@@ -162,7 +186,9 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
 // receive segment labels. After the segment has been played through, we receive full-length labels again. This is the behavior
-// even if there is a segment right after the segment, since segment labels are sent over iff the user has selected the segment
+// even if there is a segment right after the segment, since segment labels are sent over iff the user has selected the segment.
+// Each transition is characterized by a pause / play event combination, since two consecutive identical Comscore events are sent
+// only once (the first event is sent, the following ones are ignored)
 - (void)test_6_OpenDefaultMediaPlayerControllerAndPlayConsecutiveSegments
 {
     // Initial full-length play when opening
@@ -205,7 +231,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
             
             numberOfNotificationsReceived++;
             
-            // Pause notification
+            // Pause for the full-length
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
@@ -214,7 +240,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
                 // Not finished yet
                 return NO;
             }
-            // Play notification
+            // Play for the first segment
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
@@ -233,8 +259,10 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
     
-    // Playback switches over to the second segment. We exit a user-selected segment, we thus expect a play with the full-length labels
+    // Playback switches over to the second segment. We exit a user-selected segment, we thus expect a pause / play event pair with the respective
+    // segment labels
     {
+        __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
             
@@ -244,13 +272,31 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
                 return NO;
             }
             
-            // FIXME: Well, it seems that the play issued because of the RTSMediaPlaybackSegmentEnd event generates a hb since a play
-            //        has already been notified
-            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
-            return YES;
+            numberOfNotificationsReceived++;
+            
+            // Pause for the first segment
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
+                
+                // Not finished yet
+                return NO;
+            }
+            // Play for the second segment
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment2");
+                return YES;
+            }
+            // E.g.
+            else
+            {
+                return NO;
+            }
         }];
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:60. handler:nil];
     }
 }
 
