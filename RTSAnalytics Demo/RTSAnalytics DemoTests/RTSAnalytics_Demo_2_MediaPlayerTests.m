@@ -38,8 +38,6 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
 	XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
 	XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
-	
-	[tester waitForTimeInterval:2.0f];
 }
 
 - (void)test_3_OpenDefaultMediaPlayerControllerSendsLiveStreamStartMeasurement
@@ -94,9 +92,6 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
-    
-    // Wait 3 seconds to hear the transition to the new segment (optional)
-    [NSThread sleepForTimeInterval:3.];
     
     // Play the segment. Expect full-length pause immediately followed by segment play. We MUST deal with both in a single waiting block,
     // otherwise race conditions might arise because of how waiting is implemented (run loop). Doing so is not possible with the current
@@ -182,6 +177,11 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         }];
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
+    
+    // Close
+    {
+        [tester tapViewWithAccessibilityLabel:@"Done"];
+    }
 }
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
@@ -211,9 +211,6 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
-    
-    // Wait 3 seconds to hear the transition to the new segment (optional)
-    [NSThread sleepForTimeInterval:3.];
     
     // Go to 1st segment. Expect full-length pause immediately followed by segment play. We MUST deal with both in a single waiting block,
     // otherwise race conditions might arise because of how waiting is implemented (run loop). Doing so is not possible with the current
@@ -297,6 +294,11 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
             }
         }];
         [self waitForExpectationsWithTimeout:60. handler:nil];
+    }
+    
+    // Close
+    {
+        [tester tapViewWithAccessibilityLabel:@"Done"];
     }
 }
 

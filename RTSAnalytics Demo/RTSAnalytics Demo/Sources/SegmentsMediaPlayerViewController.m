@@ -41,6 +41,8 @@
     [self.mediaPlayerController attachPlayerToView:self.view];
     [self.mediaPlayerController playIdentifier:self.identifier];
     
+    self.mediaPlayerController.overlayViewsHidingDelay = 1000.;
+    
     [self.segmentsController reloadSegmentsForIdentifier:self.identifier completionHandler:nil];
 }
 
