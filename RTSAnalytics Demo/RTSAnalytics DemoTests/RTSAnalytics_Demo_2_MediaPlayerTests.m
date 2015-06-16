@@ -71,14 +71,25 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 // receive segment labels. After the segment has been played through, we receive full-length labels again
 - (void)test_5_OpenDefaultMediaPlayerControllerAndPlaySegment
 {
-    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
-    
     // Initial full-length play when opening
     {
-        NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-        NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip view-related events
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
     }
     
     // Wait 3 seconds to hear the transition to the new segment (optional)
@@ -93,7 +104,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
             NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
             
             // Skip heartbeats
-            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"]) {
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
                 return NO;
             }
             
@@ -133,7 +145,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
             NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
             
             // Skip heartbeats
-            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"]) {
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
                 return NO;
             }
             
@@ -143,7 +156,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
         }];
-        [self waitForExpectationsWithTimeout:60. handler:nil];
+        [self waitForExpectationsWithTimeout:10. handler:nil];
     }
 }
 
@@ -152,14 +165,25 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 // even if there is a segment right after the segment, since segment labels are sent over iff the user has selected the segment
 - (void)test_6_OpenDefaultMediaPlayerControllerAndPlayConsecutiveSegments
 {
-    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
-    
     // Initial full-length play when opening
     {
-        NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-        NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip view-related events
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
     }
     
     // Wait 3 seconds to hear the transition to the new segment (optional)
@@ -174,7 +198,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
             NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
             
             // Skip heartbeats
-            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"]) {
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
                 return NO;
             }
             
@@ -214,7 +239,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
             NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
             
             // Skip heartbeats
-            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"]) {
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
                 return NO;
             }
             
