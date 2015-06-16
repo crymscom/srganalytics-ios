@@ -67,6 +67,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 	[tester waitForTimeInterval:2.0f];
 }
 
+// Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected, we receive
+// segment labels. After the segment has been played through, we receive full-length labels again
 - (void)test_5_OpenDefaultMediaPlayerControllerAndPlaySegment
 {
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
@@ -88,10 +90,15 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"]) {
+                return NO;
+            }
+            
             numberOfNotificationsReceived++;
             
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
-
             // Pause notification
             if (numberOfNotificationsReceived == 1)
             {
@@ -108,6 +115,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
                 return YES;
             }
+            // E.g.
             else
             {
                 return NO;
@@ -117,7 +125,26 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [tester tapViewWithAccessibilityLabel:@"Segment #1"];
         
         [self waitForExpectationsWithTimeout:10. handler:nil];
-    }    
+    }
+
+    // Let the segment be played through. A play notification for the full-length must be received when switching to the full-length again
+    {
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"]) {
+                return NO;
+            }
+            
+            // FIXME: Well, it seems that the play issued because of the RTSMediaPlaybackSegmentEnd event generates a hb since a play
+            //        has already been notified
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        [self waitForExpectationsWithTimeout:60. handler:nil];
+    }
 }
 
 @end
