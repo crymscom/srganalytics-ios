@@ -69,8 +69,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
 // receive segment labels. After the segment has been played through, we receive full-length labels again. Each transition is characterized
-// by a pause / play event combination, since two consecutive identical Comscore events are sent only once (the first event is sent, the
-// following ones are ignored)
+// by a pause / play event combination, since two consecutive identical Comscore events would otherwise be sent only once (the first event
+// is sent, the following ones are ignored)
 - (void)test_5_OpenDefaultMediaPlayerControllerAndPlaySegment
 {
     // Initial full-length play when opening
@@ -187,8 +187,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
 // receive segment labels. After the segment has been played through, we receive full-length labels again. This is the behavior
 // even if there is a segment right after the segment, since segment labels are sent over iff the user has selected the segment.
-// Each transition is characterized by a pause / play event combination, since two consecutive identical Comscore events are sent
-// only once (the first event is sent, the following ones are ignored)
+// Each transition is characterized by a pause / play event combination, required since two consecutive identical Comscore events
+// would otherwise be sent only once (the first event is sent, the following ones are ignored)
 - (void)test_6_OpenDefaultMediaPlayerControllerAndPlayConsecutiveSegments
 {
     // Initial full-length play when opening
@@ -283,11 +283,11 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
                 // Not finished yet
                 return NO;
             }
-            // Play for the second segment
+            // Play for the full-length (even if there is a segment, it was not selected by the user)
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-                XCTAssertEqualObjects(labels[@"clip_type"], @"segment2");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 return YES;
             }
             // E.g.
@@ -299,5 +299,10 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [self waitForExpectationsWithTimeout:60. handler:nil];
     }
 }
+
+// TODO: Add following tests:
+//  1) Segment at the very beginning
+//  2) Segment at the very end
+//  3) Switch between segments made by the user
 
 @end
