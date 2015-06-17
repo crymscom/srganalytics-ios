@@ -96,9 +96,7 @@
 
 - (void) segmentsController:(RTSMediaSegmentsController *)controller segmentsForIdentifier:(NSString *)identifier withCompletionHandler:(RTSMediaSegmentsCompletionHandler)completionHandler
 {
-    AVPlayerItem *playerItem = controller.playerController.playerItem;
-    CMTimeRange fullTimeRange = [[playerItem.seekableTimeRanges firstObject] CMTimeRangeValue];
-    Segment *fullLengthSegment = [[Segment alloc] initWithTimeRange:fullTimeRange name:@"full"];
+    Segment *fullLengthSegment = [[Segment alloc] initWithTimeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.)) name:@"full"];
     
     if ([identifier rangeOfString:@"MultipleSegments"].length != 0)
     {
@@ -108,26 +106,13 @@
         const NSTimeInterval segment2StartTime = segment1StartTime + segment1Duration;
         const NSTimeInterval segment2Duration = 5.;
         
-        const NSTimeInterval segment3StartTime = 40.;
-        const NSTimeInterval segment3Duration = 10.;
-        
-        // Segment at the very end
-        const NSTimeInterval segment4Duration = 8.;
-        NSTimeInterval segment4StartTime = CMTimeGetSeconds(CMTimeRangeGetEnd(fullTimeRange)) - segment4Duration;
-        
         CMTimeRange timeRange1 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment1StartTime, 1.), CMTimeMakeWithSeconds(segment1Duration, 1.));
         Segment *segment1 = [[Segment alloc] initWithTimeRange:timeRange1 name:@"segment1"];
         
         CMTimeRange timeRange2 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment2StartTime, 1.), CMTimeMakeWithSeconds(segment2Duration, 1.));
         Segment *segment2 = [[Segment alloc] initWithTimeRange:timeRange2 name:@"segment2"];
         
-        CMTimeRange timeRange3 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment3StartTime, 1.), CMTimeMakeWithSeconds(segment3Duration, 1.));
-        Segment *segment3 = [[Segment alloc] initWithTimeRange:timeRange3 name:@"segment3"];
-
-        CMTimeRange timeRange4 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment4StartTime, 1.), CMTimeMakeWithSeconds(segment4Duration, 1.));
-        Segment *segment4 = [[Segment alloc] initWithTimeRange:timeRange4 name:@"segment4"];
-        
-        completionHandler(fullLengthSegment, @[segment1, segment2, segment3, segment4], nil);
+        completionHandler(fullLengthSegment, @[segment1, segment2], nil);
     }
     else
     {
