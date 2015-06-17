@@ -52,9 +52,9 @@ static BOOL NotificationSend(CSRequest *self, SEL _cmd)
 	NSDictionary *labels = RTSDictionaryFromURLEncodedStringWithEncoding(request.URL.query, NSUTF8StringEncoding);
 	NSDictionary *userInfo = @{ RTSAnalyticsComScoreRequestSuccessUserInfoKey: @(success), RTSAnalyticsComScoreRequestLabelsUserInfoKey: labels };
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+    //dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:request userInfo:userInfo];
-    });
+    //});
 	
 	return success;
 }
