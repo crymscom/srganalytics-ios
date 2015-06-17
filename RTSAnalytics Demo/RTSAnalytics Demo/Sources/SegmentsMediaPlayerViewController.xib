@@ -109,6 +109,7 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="orZ-GR-Obh" customClass="RTSMediaPlayerPlaybackButton">
                             <rect key="frame" x="289" y="11" width="22" height="22"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <accessibility key="accessibilityConfiguration" label="play"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="22" id="Jf3-q0-NQb"/>
                                 <constraint firstAttribute="width" constant="22" id="fDj-a1-d5l"/>

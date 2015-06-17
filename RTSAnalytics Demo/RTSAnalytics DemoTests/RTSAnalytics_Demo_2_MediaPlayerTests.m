@@ -761,8 +761,81 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     [tester waitForTimeInterval:2.0f];
 }
 
-// TODO: Add following tests:
-//  1) Segment at the very end of the stream
-//  2) Play segment, tap on blocked segment -> should resume with the full length afterwards
+// Try to seek into a blocked segment. Must pause at on the full-length
+- (void)test_12_OpenMediaPlayerAndSeekIntoBlockedSegment
+{
+    // Initial full-length play when opening
+    {
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip view-related events
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        // Open 1-segment demo
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
+    }
+    
+    // Seek into the blocked segment
+    {
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester setValue:43. forSliderWithAccessibilityLabel:@"slider"];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
+    }
+    
+    [NSThread sleepForTimeInterval:3.];
+    
+    // Resume playback
+    {
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip view-related events
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapViewWithAccessibilityLabel:@"play"];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
+    }
+    
+    // Close
+    {
+        [tester tapViewWithAccessibilityLabel:@"Done"];
+    }
+    
+    [tester waitForTimeInterval:2.0f];
+}
 
 @end

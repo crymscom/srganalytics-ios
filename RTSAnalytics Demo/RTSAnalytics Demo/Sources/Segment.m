@@ -9,6 +9,7 @@
 
 @property (nonatomic) CMTimeRange timeRange;
 @property (nonatomic, copy) NSString *name;
+@property (nonatomic, getter=isBlocked) BOOL blocked;
 
 @end
 
@@ -16,23 +17,18 @@
 
 #pragma mark - Object lifecycle
 
-- (instancetype) initWithTimeRange:(CMTimeRange)timeRange name:(NSString *)name
+- (instancetype) initWithTimeRange:(CMTimeRange)timeRange name:(NSString *)name blocked:(BOOL)blocked
 {
     if (self = [super init])
     {
         self.timeRange = timeRange;
         self.name = name;
-        
+        self.blocked = blocked;
     }
     return self;
 }
 
 #pragma mark - RTSMediaSegment protocol
-
-- (BOOL)isBlocked
-{
-    return NO;
-}
 
 - (BOOL)isVisible
 {
