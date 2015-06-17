@@ -72,10 +72,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 }
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
-// receive segment labels. After the segment has been played through, we receive full-length labels again. Each transition is characterized
-// by a pause / play event combination, since two consecutive identical Comscore events would otherwise be sent only once (the first event
-// is sent, the following ones are ignored)
-- (void)test_5_OpenMediaPlayerControllerAndPlaySegment
+// receive segment labels. After the segment has been played through, we receive full-length labels again
+- (void)test_5_OpenMediaPlayerAndPlayOneSegment
 {
     // Initial full-length play when opening
     {
@@ -99,9 +97,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
     
-    // Play the segment. Expect full-length pause immediately followed by segment play. We MUST deal with both in a single waiting block,
-    // otherwise race conditions might arise because of how waiting is implemented (run loop). Doing so is not possible with the current
-    // KIF implementation, we therefore use XCTest instead
+    // Play the segment. Expect full-length pause immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
@@ -144,7 +140,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
 
-    // Let the segment be played through
+    // Let the segment be played through, at which point resumes with the full-length
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
@@ -191,12 +187,17 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     [tester waitForTimeInterval:2.0f];
 }
 
+/**
+ * Important remark about tests below: When studying transitions between full-length and segments, we receive a pause followed
+ * by a play. Both events MUST be dealt with in a single waiting block, otherwise race conditions might arise because of how 
+ * notification waiting is usually implemented (run loop). Doing so is not possible with the current KIF implementation, we 
+ * therefore use XCTest. KIF is only used to trigger UI events
+ */
+
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
 // receive segment labels. After the segment has been played through, we receive full-length labels again. This is the behavior
-// even if there is a segment right after the segment, since segment labels are sent over iff the user has selected the segment.
-// Each transition is characterized by a pause / play event combination, required since two consecutive identical Comscore events
-// would otherwise be sent only once (the first event is sent, the following ones are ignored)
-- (void)test_6_OpenMediaPlayerControllerAndPlayConsecutiveSegments
+// even if there is a segment right after the segment, since segment labels are sent over only if the user has selected the segment.
+- (void)test_6_OpenMediaPlayerAndPlayTwoConsecutiveSegments
 {
     // Initial full-length play when opening
     {
@@ -219,9 +220,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
     
-    // Go to 1st segment. Expect full-length pause immediately followed by segment play. We MUST deal with both in a single waiting block,
-    // otherwise race conditions might arise because of how waiting is implemented (run loop). Doing so is not possible with the current
-    // KIF implementation, we therefore use XCTest instead
+    // Go to 1st segment. Expect full-length pause immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
@@ -263,7 +262,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
     
-    // Playback switches over to the second segment
+    // Playback continues after the first segment. Even if a second segment immediately follows it, we switch to the full-length
+    // since the user does not select it explicitly
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
@@ -311,8 +311,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 }
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
-// receive segment labels. When switching segments manually, we receve
-- (void)test_7_OpenMediaPlayerControllerAndManuallySwitchBetweenSegments
+// receive segment labels. When switching segments manually, we receveive labels for the new segment
+- (void)test_7_OpenMediaPlayerAndManuallySwitchBetweenSegments
 {
     // Initial full-length play when opening
     {
@@ -335,9 +335,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
     
-    // Go to 1st segment. Expect full-length pause immediately followed by segment play. We MUST deal with both in a single waiting block,
-    // otherwise race conditions might arise because of how waiting is implemented (run loop). Doing so is not possible with the current
-    // KIF implementation, we therefore use XCTest instead
+    // Go to 1st segment. Expect full-length pause immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
@@ -379,8 +377,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
     
-    // Manually switch to the second segment. We exit a user-selected segment, we thus expect a pause / play event pair with the respective
-    // segment labels
+    // Manually switch to the second segment. Expect first segment pause immediately followed by second segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
@@ -453,9 +450,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
     
-    // Go to 1st segment. Expect full-length pause immediately followed by segment play. We MUST deal with both in a single waiting block,
-    // otherwise race conditions might arise because of how waiting is implemented (run loop). Doing so is not possible with the current
-    // KIF implementation, we therefore use XCTest instead
+    // Go to 1st segment. Expect full-length pause immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
@@ -497,8 +492,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
     
-    // Manually switch to the same segment. We exit a user-selected segment, we thus expect a pause / play event pair with the respective
-    // segment labels
+    // Manually switch to the same segment. Expect segment pause and play for the same segment
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
@@ -547,6 +541,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     
     [tester waitForTimeInterval:2.0f];
 }
+
+- (void)test_9_OpenMediaPlayer
 
 // TODO: Add following tests:
 //  1) Segment at the very end of the stream

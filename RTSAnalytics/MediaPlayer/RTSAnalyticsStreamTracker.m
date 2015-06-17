@@ -170,8 +170,8 @@
 
     // According to its implementation, Comscore only sends an event if different from the previously sent one. We
     // are therefore required to send a pause followed by a play when a segment end is detected (in which case
-    // playback continues with another segment or with the full-length). Segment information is sent iff the segment
-    // was selected by the user
+    // playback continues with another segment or with the full-length). Segment information is sent only if the
+    // segment was selected by the user
     switch (value) {
         case RTSMediaPlaybackSegmentStart:
             [self notifyStreamTrackerEvent:CSStreamSensePlay
