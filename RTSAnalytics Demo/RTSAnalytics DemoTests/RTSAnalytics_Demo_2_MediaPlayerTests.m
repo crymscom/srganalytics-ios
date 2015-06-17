@@ -75,7 +75,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 // receive segment labels. After the segment has been played through, we receive full-length labels again. Each transition is characterized
 // by a pause / play event combination, since two consecutive identical Comscore events would otherwise be sent only once (the first event
 // is sent, the following ones are ignored)
-- (void)test_5_OpenDefaultMediaPlayerControllerAndPlaySegment
+- (void)test_5_OpenMediaPlayerControllerAndPlaySegment
 {
     // Initial full-length play when opening
     {
@@ -196,7 +196,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 // even if there is a segment right after the segment, since segment labels are sent over iff the user has selected the segment.
 // Each transition is characterized by a pause / play event combination, required since two consecutive identical Comscore events
 // would otherwise be sent only once (the first event is sent, the following ones are ignored)
-- (void)test_6_OpenDefaultMediaPlayerControllerAndPlayConsecutiveSegments
+- (void)test_6_OpenMediaPlayerControllerAndPlayConsecutiveSegments
 {
     // Initial full-length play when opening
     {
@@ -312,7 +312,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
 // receive segment labels. When switching segments manually, we receve
-- (void)test_7_OpenDefaultMediaPlayerControllerAndManuallySwitchBetweenSegments
+- (void)test_7_OpenMediaPlayerControllerAndManuallySwitchBetweenSegments
 {
     // Initial full-length play when opening
     {
@@ -430,10 +430,128 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     [tester waitForTimeInterval:2.0f];
 }
 
+- (void)test_8_OpenMediaPlayerAndSwitchToTheSameSegment
+{
+    // Initial full-length play when opening
+    {
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip view-related events
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
+    }
+    
+    // Go to 1st segment. Expect full-length pause immediately followed by segment play. We MUST deal with both in a single waiting block,
+    // otherwise race conditions might arise because of how waiting is implemented (run loop). Doing so is not possible with the current
+    // KIF implementation, we therefore use XCTest instead
+    {
+        __block NSInteger numberOfNotificationsReceived = 0;
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            numberOfNotificationsReceived++;
+            
+            // Pause for the full-length
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+                
+                // Not finished yet
+                return NO;
+            }
+            // Play for the first segment
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
+                return YES;
+            }
+            // E.g.
+            else
+            {
+                return NO;
+            }
+        }];
+        
+        [tester tapViewWithAccessibilityLabel:@"Segment #1"];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
+    }
+    
+    // Manually switch to the same segment. We exit a user-selected segment, we thus expect a pause / play event pair with the respective
+    // segment labels
+    {
+        __block NSInteger numberOfNotificationsReceived = 0;
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            numberOfNotificationsReceived++;
+            
+            // Pause for the first segment
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
+                
+                // Not finished yet
+                return NO;
+            }
+            // Play for the full-length (even if there is a segment, it was not selected by the user)
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
+                return YES;
+            }
+            // E.g.
+            else
+            {
+                return NO;
+            }
+        }];
+        
+        [tester tapViewWithAccessibilityLabel:@"Segment #1"];
+        
+        [self waitForExpectationsWithTimeout:60. handler:nil];
+    }
+    
+    // Close
+    {
+        [tester tapViewWithAccessibilityLabel:@"Done"];
+    }
+    
+    [tester waitForTimeInterval:2.0f];
+}
 
 // TODO: Add following tests:
-//  1) Segment at the very end
-//  2) Switch to the same segment manually
-//  3) In segment, perform seek -> should switch to full-length
+//  1) Segment at the very end of the stream
+//  2) In segment, perform seek -> should switch to full-length
+//  3) Play segment, tap on blocked segment -> should resume with the full length afterwards
+//  4) Close the player within a segment -> must receive segment end
 
 @end
