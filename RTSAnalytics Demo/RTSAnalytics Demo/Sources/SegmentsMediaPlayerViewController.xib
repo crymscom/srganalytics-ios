@@ -43,6 +43,7 @@
                                     <subviews>
                                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="dbP-gV-yjr" customClass="RTSTimeSlider">
                                             <rect key="frame" x="46" y="0.0" width="447" height="31"/>
+                                            <accessibility key="accessibilityConfiguration" label="slider"/>
                                             <color key="minimumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <color key="thumbTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
