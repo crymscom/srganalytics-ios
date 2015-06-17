@@ -153,13 +153,13 @@ NSString * const RTSMediaPlaybackSegmentChangeUserSelectInfoKey = @"RTSMediaPlay
 								 RTSMediaPlaybackSegmentChangeSegmentInfoKey: self.segments[index],
 								 RTSMediaPlaybackSegmentChangeUserSelectInfoKey: @(self.wasSegmentSelected)};
 				}
+                
+                // Immediatly reseting the property after it has been used.
+                self.wasSegmentSelected = NO;
 				
 				[[NSNotificationCenter defaultCenter] postNotificationName:RTSMediaPlaybackSegmentDidChangeNotification
 																	object:self
 																  userInfo:userInfo];
-				
-				// Immediatly reseting the property after it has been used.
-				self.wasSegmentSelected = NO;
 			}
 			
 			self.lastPlaybackPositionSegmentIndex = index;
