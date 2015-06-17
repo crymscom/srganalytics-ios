@@ -427,6 +427,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     [tester waitForTimeInterval:2.0f];
 }
 
+// Expected behavior: When playing a segment, selecting the same segment generates a pause for the segment, followed by a play
+// for the same segment
 - (void)test_8_OpenMediaPlayerAndSwitchToTheSameSegment
 {
     // Initial full-length play when opening
@@ -542,6 +544,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     [tester waitForTimeInterval:2.0f];
 }
 
+// Expected behavior: When playing a segment, seeking anywhere must emit a pause event for the segment, followed by a play for the full-length
 - (void)openMediaPlayerAndPlaySegmentBeforeSeekingAtTime:(NSTimeInterval)time
 {
     // Initial full-length play when opening
@@ -667,9 +670,99 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     [self openMediaPlayerAndPlaySegmentBeforeSeekingAtTime:3.];
 }
 
+// Expected behavior: When closing the player while a segment is being played, no end event is expected for the segment, only for the
+// full-length
+- (void)test_11_OpenMediaPlayerAndPlaySegmentWhileClosingThePlayer
+{
+    // Initial full-length play when opening
+    {
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip view-related events
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
+    }
+    
+    // Go to 1st segment. Expect full-length pause immediately followed by segment play
+    {
+        __block NSInteger numberOfNotificationsReceived = 0;
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            numberOfNotificationsReceived++;
+            
+            // Pause for the full-length
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+                
+                // Not finished yet
+                return NO;
+            }
+            // Play for the first segment
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
+                return YES;
+            }
+            // E.g.
+            else
+            {
+                return NO;
+            }
+        }];
+        
+        [tester tapViewWithAccessibilityLabel:@"Segment #1"];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
+    }
+    
+    // Close the player. Only an end event is expected for the full-length
+    {
+        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapViewWithAccessibilityLabel:@"Done"];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
+    }
+    
+    [tester waitForTimeInterval:2.0f];
+}
+
 // TODO: Add following tests:
 //  1) Segment at the very end of the stream
 //  2) Play segment, tap on blocked segment -> should resume with the full length afterwards
-//  3) Close the player within a segment -> must receive segment end
 
 @end

@@ -158,7 +158,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SegmentsMediaPlayerTwoSegmentsVODCell" textLabel="0ZJ-5e-jGB" style="IBUITableViewCellStyleDefault" id="73Q-e3-pXT">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SegmentsMediaPlayerMultipleSegmentsVODCell" textLabel="0ZJ-5e-jGB" style="IBUITableViewCellStyleDefault" id="73Q-e3-pXT">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="73Q-e3-pXT" id="orD-Gj-tT5">
                                             <autoresizingMask key="autoresizingMask"/>
