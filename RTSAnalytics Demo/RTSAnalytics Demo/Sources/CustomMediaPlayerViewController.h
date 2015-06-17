@@ -3,7 +3,7 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import <RTSMediaPlayer/RTSMediaPlayerViewController.h>
+#import <RTSMediaPlayer/RTSMediaPlayer.h>
 
 @interface CustomMediaPlayerViewController : RTSMediaPlayerViewController
 

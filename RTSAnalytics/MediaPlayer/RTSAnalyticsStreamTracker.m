@@ -17,6 +17,8 @@
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDelegate> mediaPlayerDelegate;
 
+@property (nonatomic, strong) NSMutableDictionary *currentSegments;
+
 @property (nonatomic, strong) NSMutableDictionary *streamsenseTrackers;
 @property (nonatomic, strong) NSString *virtualSite;
 @end
@@ -39,6 +41,7 @@
 		return nil;
 	
 	_streamsenseTrackers = [NSMutableDictionary new];
+    _currentSegments = [NSMutableDictionary new];
 	
 	return self;
 }
@@ -83,6 +86,26 @@
 }
 
 
+#pragma mark - Segments
+
+- (id<RTSMediaSegment>)currentSegmentForMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+{
+    NSValue *key = [NSValue valueWithNonretainedObject:mediaPlayerController];
+    return self.currentSegments[key];
+}
+
+- (void)setCurrentSegment:(id<RTSMediaSegment>)segment forMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+{
+    NSValue *key = [NSValue valueWithNonretainedObject:mediaPlayerController];
+    if (segment)
+    {
+        self.currentSegments[key] = segment;
+    }
+    else
+    {
+        [self.currentSegments removeObjectForKey:key];
+    }
+}
 
 #pragma mark - Notifications
 
@@ -94,31 +117,39 @@
 	}
 	
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
+    id<RTSMediaSegment> currentSegment = [self currentSegmentForMediaPlayerController:mediaPlayerController];
+    
 	if ([self shouldTrackMediaPlayerController:mediaPlayerController])
 	{
 		switch (mediaPlayerController.playbackState) {
 			case RTSMediaPlaybackStatePreparing:
-				[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController segment:nil];
+				[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController segment:currentSegment];
 				break;
 				
 			case RTSMediaPlaybackStateReady:
 				break;
 				
 			case RTSMediaPlaybackStateStalled:
-				[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController segment:nil];
+				[self notifyStreamTrackerEvent:CSStreamSenseBuffer mediaPlayer:mediaPlayerController segment:currentSegment];
 				break;
 				
 			case RTSMediaPlaybackStatePlaying:
-				[self notifyStreamTrackerEvent:CSStreamSensePlay mediaPlayer:mediaPlayerController segment:nil];
+                if (!currentSegment)
+                {
+                    [self notifyStreamTrackerEvent:CSStreamSensePlay mediaPlayer:mediaPlayerController segment:currentSegment];
+                }
 				break;
-				
-			case RTSMediaPlaybackStatePaused:
+                
             case RTSMediaPlaybackStateSeeking:
-				[self notifyStreamTrackerEvent:CSStreamSensePause mediaPlayer:mediaPlayerController segment:nil];
+			case RTSMediaPlaybackStatePaused:
+                if (!currentSegment)
+                {
+                    [self notifyStreamTrackerEvent:CSStreamSensePause mediaPlayer:mediaPlayerController segment:currentSegment];
+                }
 				break;
 				
 			case RTSMediaPlaybackStateEnded:
-				[self notifyStreamTrackerEvent:CSStreamSenseEnd mediaPlayer:mediaPlayerController segment:nil];
+				[self notifyStreamTrackerEvent:CSStreamSenseEnd mediaPlayer:mediaPlayerController segment:currentSegment];
 				break;
 				
 			case RTSMediaPlaybackStateIdle:
@@ -134,31 +165,49 @@
 - (void)mediaPlayerPlaybackSegmentsDidChange:(NSNotification *)notification
 {
     RTSMediaSegmentsController *segmentsController = notification.object;
-    NSInteger value = [notification.userInfo[RTSMediaPlaybackSegmentChangeValueInfoKey] integerValue];
     
+    NSInteger value = [notification.userInfo[RTSMediaPlaybackSegmentChangeValueInfoKey] integerValue];
+    BOOL wasUserSelected = [notification.userInfo[RTSMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
+    
+    id<RTSMediaSegment> previousSegment = notification.userInfo[RTSMediaPlaybackSegmentChangePreviousSegmentInfoKey];
+    
+    id<RTSMediaSegment> segment = notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey];
+    [self setCurrentSegment:segment forMediaPlayerController:segmentsController.playerController];
+
+    // According to its implementation, Comscore only sends an event if different from the previously sent one. We
+    // are therefore required to send a pause followed by a play when a segment end is detected (in which case
+    // playback continues with another segment or with the full-length). Segment information is sent only if the
+    // segment was selected by the user
     switch (value) {
-        case RTSMediaPlaybackSegmentSwitch:
-        case RTSMediaPlaybackSegmentStart: {
-            BOOL wasUserSelected = [notification.userInfo[RTSMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
-            id segment = (wasUserSelected) ? notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentObjectInfoKey] : nil;
+        case RTSMediaPlaybackSegmentStart:
             [self notifyStreamTrackerEvent:CSStreamSensePlay
                                mediaPlayer:segmentsController.playerController
-                                   segment:segment];
-        }
+                                   segment:wasUserSelected ? segment : nil];
             break;
+
+        case RTSMediaPlaybackSegmentSwitch: {
+            [self notifyStreamTrackerEvent:CSStreamSensePause
+                               mediaPlayer:segmentsController.playerController
+                                   segment:previousSegment];
+            [self notifyStreamTrackerEvent:CSStreamSensePlay
+                               mediaPlayer:segmentsController.playerController
+                                   segment:wasUserSelected ? segment : nil];
+            break;
+        }
             
-        case RTSMediaPlaybackSegmentEnd:
+        case RTSMediaPlaybackSegmentEnd: {
+            [self notifyStreamTrackerEvent:CSStreamSensePause
+                               mediaPlayer:segmentsController.playerController
+                                   segment:previousSegment];
             [self notifyStreamTrackerEvent:CSStreamSensePlay
                                mediaPlayer:segmentsController.playerController
                                    segment:nil];
-            
             break;
+        }
             
         default:
             break;
     }
-    
-
 }
 
 
@@ -190,6 +239,7 @@
 	if (![self.streamsenseTrackers.allKeys containsObject:mediaPlayerController.identifier])
 		return;
 	
+    [self setCurrentSegment:nil forMediaPlayerController:mediaPlayerController];
 	[self notifyStreamTrackerEvent:CSStreamSenseEnd
                        mediaPlayer:mediaPlayerController
                            segment:nil];

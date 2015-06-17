@@ -10,6 +10,9 @@
 #import <XCTest/XCTest.h>
 #import <KIF/KIF.h>
 
+extern NSString * const RTSAnalyticsComScoreRequestDidFinishNotification;
+extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
+
 @interface RTSAnalytics_Demo_3_PushNotificationTests : KIFTestCase
 
 @end
@@ -20,22 +23,26 @@
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
-	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-	XCTAssertEqualObjects(@"1",         labels[@"srg_ap_push"]);
+	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
+	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
 	
 	[tester tapViewWithAccessibilityLabel:@"Done"];
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 - (void) test_2_PresentAnotherViewControllerSendsViewEventWithValidTag
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
-	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-	XCTAssertEqualObjects(@"0",         labels[@"srg_ap_push"]);
+	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
+	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 @end

@@ -18,6 +18,9 @@
 		B645037B1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B645037A1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m */; };
 		B645037D1AE13B6F001021A8 /* RTSAnalytics_Demo_3_PushNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B645037C1AE13B6F001021A8 /* RTSAnalytics_Demo_3_PushNotificationTests.m */; };
 		B64503901AE3DCA5001021A8 /* CustomMediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B645038F1AE3DCA5001021A8 /* CustomMediaPlayerViewController.m */; };
+		E687CE731B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E687CE721B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.m */; };
+		E687CE751B2AE09B009EC495 /* SegmentsMediaPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E687CE741B2AE09B009EC495 /* SegmentsMediaPlayerViewController.xib */; };
+		E687CE781B2AE852009EC495 /* Segment.m in Sources */ = {isa = PBXBuildFile; fileRef = E687CE771B2AE852009EC495 /* Segment.m */; };
 		F8AE0038F60E13CCB267B741 /* libPods-RTSAnalytics DemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2464D27DE407598383F8D18C /* libPods-RTSAnalytics DemoTests.a */; };
 		FD525F0398ED682D45333275 /* libPods-RTSAnalytics Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7785A001E583F176EEF0604 /* libPods-RTSAnalytics Demo.a */; };
 /* End PBXBuildFile section */
@@ -58,6 +61,11 @@
 		B645037C1AE13B6F001021A8 /* RTSAnalytics_Demo_3_PushNotificationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalytics_Demo_3_PushNotificationTests.m; sourceTree = "<group>"; };
 		B645038E1AE3DCA5001021A8 /* CustomMediaPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMediaPlayerViewController.h; sourceTree = "<group>"; };
 		B645038F1AE3DCA5001021A8 /* CustomMediaPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMediaPlayerViewController.m; sourceTree = "<group>"; };
+		E687CE711B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentsMediaPlayerViewController.h; sourceTree = "<group>"; };
+		E687CE721B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentsMediaPlayerViewController.m; sourceTree = "<group>"; };
+		E687CE741B2AE09B009EC495 /* SegmentsMediaPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SegmentsMediaPlayerViewController.xib; sourceTree = "<group>"; };
+		E687CE761B2AE852009EC495 /* Segment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Segment.h; sourceTree = "<group>"; };
+		E687CE771B2AE852009EC495 /* Segment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Segment.m; sourceTree = "<group>"; };
 		EC694A5C0196003E240F1F48 /* Pods-RTSAnalytics DemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RTSAnalytics DemoTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-RTSAnalytics DemoTests/Pods-RTSAnalytics DemoTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,12 +144,17 @@
 			children = (
 				B64503601AE10567001021A8 /* AppDelegate.h */,
 				B64503611AE10567001021A8 /* AppDelegate.m */,
+				B645038E1AE3DCA5001021A8 /* CustomMediaPlayerViewController.h */,
+				B645038F1AE3DCA5001021A8 /* CustomMediaPlayerViewController.m */,
+				E687CE761B2AE852009EC495 /* Segment.h */,
+				E687CE771B2AE852009EC495 /* Segment.m */,
+				E687CE711B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.h */,
+				E687CE721B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.m */,
+				E687CE741B2AE09B009EC495 /* SegmentsMediaPlayerViewController.xib */,
 				B64503621AE10567001021A8 /* TableViewController.h */,
 				B64503631AE10567001021A8 /* TableViewController.m */,
 				B64503641AE10567001021A8 /* ViewController.h */,
 				B64503651AE10567001021A8 /* ViewController.m */,
-				B645038E1AE3DCA5001021A8 /* CustomMediaPlayerViewController.h */,
-				B645038F1AE3DCA5001021A8 /* CustomMediaPlayerViewController.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -277,6 +290,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E687CE751B2AE09B009EC495 /* SegmentsMediaPlayerViewController.xib in Resources */,
 				B64503791AE12C7B001021A8 /* Images.xcassets in Resources */,
 				B64503771AE1059B001021A8 /* Main.storyboard in Resources */,
 				B64503761AE1059B001021A8 /* LaunchScreen.xib in Resources */,
@@ -362,8 +376,10 @@
 			files = (
 				B64503661AE10567001021A8 /* AppDelegate.m in Sources */,
 				B64503671AE10567001021A8 /* TableViewController.m in Sources */,
+				E687CE781B2AE852009EC495 /* Segment.m in Sources */,
 				B645036D1AE10590001021A8 /* main.m in Sources */,
 				B64503901AE3DCA5001021A8 /* CustomMediaPlayerViewController.m in Sources */,
+				E687CE731B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.m in Sources */,
 				B64503681AE10567001021A8 /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

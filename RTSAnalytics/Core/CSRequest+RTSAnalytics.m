@@ -51,7 +51,8 @@ static BOOL NotificationSend(CSRequest *self, SEL _cmd)
 	NSURLRequest *request = [self valueForKey:@"request"];
 	NSDictionary *labels = RTSDictionaryFromURLEncodedStringWithEncoding(request.URL.query, NSUTF8StringEncoding);
 	NSDictionary *userInfo = @{ RTSAnalyticsComScoreRequestSuccessUserInfoKey: @(success), RTSAnalyticsComScoreRequestLabelsUserInfoKey: labels };
-	[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:request userInfo:userInfo];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:request userInfo:userInfo];
 	
 	return success;
 }
