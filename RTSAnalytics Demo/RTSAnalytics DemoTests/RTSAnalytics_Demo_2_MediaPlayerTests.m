@@ -26,6 +26,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
 	XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
 	XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 - (void)test_2_CloseMediaPlayerSendsStreamLiveEndMeasurement
@@ -38,6 +40,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
 	XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
 	XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 - (void)test_3_OpenDefaultMediaPlayerControllerSendsLiveStreamStartMeasurement
@@ -49,6 +53,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
 	XCTAssertEqualObjects(labels[@"ns_st_li"], @"0");
 	XCTAssertNil(labels[@"srg_enc"]);
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 - (void)test_4_CloseMediaPlayerSendsStreamLiveEndMeasurement
@@ -181,6 +187,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     {
         [tester tapViewWithAccessibilityLabel:@"Done"];
     }
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
@@ -298,6 +306,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     {
         [tester tapViewWithAccessibilityLabel:@"Done"];
     }
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
@@ -369,8 +379,6 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         [self waitForExpectationsWithTimeout:10. handler:nil];
     }
     
-    [NSThread sleepForTimeInterval:2.];
-    
     // Manually switch to the second segment. We exit a user-selected segment, we thus expect a pause / play event pair with the respective
     // segment labels
     {
@@ -418,13 +426,14 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     {
         [tester tapViewWithAccessibilityLabel:@"Done"];
     }
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 
 // TODO: Add following tests:
-//  1) Segment at the very beginning
-//  2) Segment at the very end
-//  3) Switch to the same segment manually
-//  4) In segment, perform seek -> should switch to full-length
+//  1) Segment at the very end
+//  2) Switch to the same segment manually
+//  3) In segment, perform seek -> should switch to full-length
 
 @end
