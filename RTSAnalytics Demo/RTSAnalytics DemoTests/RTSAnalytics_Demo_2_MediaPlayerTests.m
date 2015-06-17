@@ -400,7 +400,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
                 // Not finished yet
                 return NO;
             }
-            // Play for the full-length (even if there is a segment, it was not selected by the user)
+            // Play for the second segment
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");

@@ -134,12 +134,18 @@
 				break;
 				
 			case RTSMediaPlaybackStatePlaying:
-				[self notifyStreamTrackerEvent:CSStreamSensePlay mediaPlayer:mediaPlayerController segment:currentSegment];
+                if (!currentSegment)
+                {
+                    [self notifyStreamTrackerEvent:CSStreamSensePlay mediaPlayer:mediaPlayerController segment:currentSegment];
+                }
 				break;
-				
-			case RTSMediaPlaybackStatePaused:
+                
             case RTSMediaPlaybackStateSeeking:
-				[self notifyStreamTrackerEvent:CSStreamSensePause mediaPlayer:mediaPlayerController segment:currentSegment];
+			case RTSMediaPlaybackStatePaused:
+                if (!currentSegment)
+                {
+                    [self notifyStreamTrackerEvent:CSStreamSensePause mediaPlayer:mediaPlayerController segment:currentSegment];
+                }
 				break;
 				
 			case RTSMediaPlaybackStateEnded:
