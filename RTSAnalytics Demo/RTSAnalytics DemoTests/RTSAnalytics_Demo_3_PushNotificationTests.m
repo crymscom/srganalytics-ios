@@ -28,6 +28,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
 	
 	[tester tapViewWithAccessibilityLabel:@"Done"];
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 - (void) test_2_PresentAnotherViewControllerSendsViewEventWithValidTag
@@ -39,6 +41,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 @end

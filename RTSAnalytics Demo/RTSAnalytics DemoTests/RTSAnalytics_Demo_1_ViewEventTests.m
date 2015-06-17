@@ -51,6 +51,8 @@ static NSDictionary *startLabels = nil;
 	XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
 	XCTAssertEqualObjects(labels[@"srg_title"], @"MainPageTitle");
 	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 - (void) test_2_PresentViewControllerWithNoTitleSendsViewEvent
@@ -68,6 +70,8 @@ static NSDictionary *startLabels = nil;
 	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 - (void) test_3_PresentViewControllerWithTitleViewEvent
@@ -84,6 +88,8 @@ static NSDictionary *startLabels = nil;
 	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 - (void) test_4_PresentViewControllerWithTitleAndLevelsSendsViewEvent
@@ -102,6 +108,8 @@ static NSDictionary *startLabels = nil;
 	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 - (void) test_5_PresentViewControllerWithTitleLevelsAndCustomLabelsSendsViewEvent
@@ -122,6 +130,8 @@ static NSDictionary *startLabels = nil;
 	XCTAssertEqualObjects(labels[@"srg_ap_cu"], @"custom");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 @end
