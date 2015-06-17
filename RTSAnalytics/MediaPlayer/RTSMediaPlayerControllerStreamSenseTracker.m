@@ -14,6 +14,15 @@
 #import <RTSMediaPlayer/RTSMediaPlayerView.h>
 #import <RTSMediaPlayer/NSBundle+RTSMediaPlayer.h>
 
+#ifdef RTSAnalyticsVersion
+    #define RTSStringize_(x) #x
+    #define RTSStringize(x) RTSStringize_(x)
+    #define kRTSAnalyticsVersion @(RTSStringize(RTSAnalyticsVersion))
+#else
+    #define kRTSAnalyticsVersion @"dev"
+    #warning No explicit version has been specified, set to "dev". Compile the project with a preprocessor macro called RTSAnalyticsVersion supplying the version number (without quotes)
+#endif
+
 static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 @interface RTSMediaPlayerControllerStreamSenseTracker ()

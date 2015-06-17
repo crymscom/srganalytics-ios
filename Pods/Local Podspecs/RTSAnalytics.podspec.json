@@ -1,6 +1,6 @@
 {
   "name": "RTSAnalytics",
-  "version": "0.3.4",
+  "version": "0.3.7",
   "summary": "Analytics for SRG mobile applications",
   "description": "Analytics for SRG mobile applications",
   "homepage": "https://bitbucket.org/rtsmb/srganalytics-ios",
@@ -14,12 +14,13 @@
   },
   "source": {
     "git": "git@bitbucket.org:rtsmb/srganalytics-ios.git",
-    "tag": "0.3.4"
+    "tag": "0.3.7"
   },
   "requires_arc": true,
   "platforms": {
     "ios": "7.0"
   },
+  "compiler_flags": "-DRTSAnalyticsVersion=0.3.7",
   "default_subspecs": "Core",
   "subspecs": [
     {
