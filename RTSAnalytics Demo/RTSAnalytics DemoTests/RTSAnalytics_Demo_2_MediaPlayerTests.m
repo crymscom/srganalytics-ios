@@ -543,6 +543,9 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 }
 
 - (void)test_9_OpenMediaPlayer
+{
+
+}
 
 // TODO: Add following tests:
 //  1) Segment at the very end of the stream
