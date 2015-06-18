@@ -10,6 +10,8 @@
 
 NSString * const RTSAnalyticsVersion(void)
 {
+    // TODO: Can be replaced by a bundle version when a resource bundle is available. Do not forget to remove the preprocessor
+    //       definition associated with this file in the podspec
 #ifdef RTS_ANALYTICS_VERSION
     return @(OS_STRINGIFY(RTS_ANALYTICS_VERSION));
 #else
