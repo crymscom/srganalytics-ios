@@ -20,7 +20,7 @@
   "platforms": {
     "ios": "7.0"
   },
-  "compiler_flags": "-DRTSAnalyticsVersion=0.3.7",
+  "compiler_flags": "-DRTS_ANALYTICS_VERSION=0.3.7",
   "default_subspecs": "Core",
   "subspecs": [
     {

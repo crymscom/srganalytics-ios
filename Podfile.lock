@@ -36,7 +36,7 @@ SPEC CHECKSUMS:
   KIF: ef1691e54e1d969c3b4fd0b5b56a3d7ddf37f216
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
-  RTSAnalytics: c2ce8e7f1884bba39cef6856257199d8d5beffa5
+  RTSAnalytics: 5abe8c0d6da684a3ad0bb7da4e84a4ccae2533b3
   RTSMediaPlayer: 5a264c0f27bf7c215bfaeab0e948cca80b3a0ed3
   TransitionKit: 5c9001a77acc409d71f26a4eba0159cf8619c418
 

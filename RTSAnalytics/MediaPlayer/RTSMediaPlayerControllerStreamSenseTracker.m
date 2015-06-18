@@ -6,6 +6,7 @@
 #import "RTSAnalytics.h"
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 #import "RTSAnalyticsLogger.h"
+#import "RTSAnalyticsVersion_private.h"
 
 #import <comScore-iOS-SDK-RTS/CSStreamSense.h>
 #import <comScore-iOS-SDK-RTS/CSStreamSensePlaylist.h>
@@ -13,15 +14,6 @@
 
 #import <RTSMediaPlayer/RTSMediaPlayerView.h>
 #import <RTSMediaPlayer/NSBundle+RTSMediaPlayer.h>
-
-#ifdef RTSAnalyticsVersion
-    #define RTSStringize_(x) #x
-    #define RTSStringize(x) RTSStringize_(x)
-    #define kRTSAnalyticsVersion @(RTSStringize(RTSAnalyticsVersion))
-#else
-    #define kRTSAnalyticsVersion @"dev"
-    #warning No explicit version has been specified, set to "dev". Compile the project with a preprocessor macro called RTSAnalyticsVersion supplying the version number (without quotes)
-#endif
 
 static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
@@ -50,7 +42,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	NSBundle *mediaPlayerBundle = [NSBundle RTSMediaPlayerBundle];
 	
 	[self setLabel:@"ns_st_mp" value:[mediaPlayerBundle objectForInfoDictionaryKey:@"CFBundleName"]];
-	[self setLabel:@"ns_st_pv" value:kRTSAnalyticsVersion];
+	[self setLabel:@"ns_st_pv" value:RTSAnalyticsVersion()];
 	[self setLabel:@"ns_st_mv" value:[mediaPlayerBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 	[self setLabel:@"ns_st_it" value:@"c"];
 	

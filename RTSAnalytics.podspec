@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   # Platform setup
   s.requires_arc = true
   s.ios.deployment_target = "7.0"
-  s.compiler_flags = '-DRTSAnalyticsVersion=' + s.version.to_s
+  s.compiler_flags = '-DRTS_ANALYTICS_VERSION=' + s.version.to_s
 
   # Exclude optional Stream Measurement modules
   s.default_subspec = 'Core'
