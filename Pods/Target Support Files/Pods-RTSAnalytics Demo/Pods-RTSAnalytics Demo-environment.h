@@ -18,6 +18,12 @@
 #define COCOAPODS_VERSION_MINOR_RTSAnalytics_Core 3
 #define COCOAPODS_VERSION_PATCH_RTSAnalytics_Core 7
 
+// RTSAnalytics/Core/Version
+#define COCOAPODS_POD_AVAILABLE_RTSAnalytics_Core_Version
+#define COCOAPODS_VERSION_MAJOR_RTSAnalytics_Core_Version 0
+#define COCOAPODS_VERSION_MINOR_RTSAnalytics_Core_Version 3
+#define COCOAPODS_VERSION_PATCH_RTSAnalytics_Core_Version 7
+
 // RTSAnalytics/MediaPlayer
 #define COCOAPODS_POD_AVAILABLE_RTSAnalytics_MediaPlayer
 #define COCOAPODS_VERSION_MAJOR_RTSAnalytics_MediaPlayer 0

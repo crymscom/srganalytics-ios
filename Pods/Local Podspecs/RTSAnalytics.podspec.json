@@ -20,7 +20,6 @@
   "platforms": {
     "ios": "7.0"
   },
-  "compiler_flags": "-DRTS_ANALYTICS_VERSION=0.3.7",
   "default_subspecs": "Core",
   "subspecs": [
     {
@@ -29,6 +28,7 @@
         "RTSAnalytics/RTSAnalytics.h",
         "RTSAnalytics/Core/*.{h,m}"
       ],
+      "exclude_files": "RTSAnalytics/Core/RTSAnalyticsVersion.{h,m}",
       "private_header_files": "RTSAnalytics/Core/*_private.h",
       "frameworks": [
         "AVFoundation",
@@ -41,7 +41,15 @@
         "comScore-iOS-SDK-RTS": [
           "3.1502.26"
         ]
-      }
+      },
+      "subspecs": [
+        {
+          "name": "Version",
+          "source_files": "RTSAnalytics/Core/RTSAnalyticsVersion.m",
+          "private_header_files": "RTSAnalytics/Core/*_private.h",
+          "compiler_flags": "-DRTS_ANALYTICS_VERSION=0.3.7"
+        }
+      ]
     },
     {
       "name": "MediaPlayer",
