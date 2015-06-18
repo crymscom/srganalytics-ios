@@ -6,6 +6,7 @@
 #import "RTSAnalytics.h"
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 #import "RTSAnalyticsLogger.h"
+#import "RTSAnalyticsVersion_private.h"
 
 #import <comScore-iOS-SDK-RTS/CSStreamSense.h>
 #import <comScore-iOS-SDK-RTS/CSStreamSensePlaylist.h>
@@ -41,7 +42,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	NSBundle *mediaPlayerBundle = [NSBundle RTSMediaPlayerBundle];
 	
 	[self setLabel:@"ns_st_mp" value:[mediaPlayerBundle objectForInfoDictionaryKey:@"CFBundleName"]];
-	[self setLabel:@"ns_st_pv" value:kRTSAnalyticsVersion];
+	[self setLabel:@"ns_st_pv" value:RTSAnalyticsVersion()];
 	[self setLabel:@"ns_st_mv" value:[mediaPlayerBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 	[self setLabel:@"ns_st_it" value:@"c"];
 	

@@ -1,6 +1,6 @@
 {
   "name": "RTSAnalytics",
-  "version": "0.3.4",
+  "version": "0.3.7",
   "summary": "Analytics for SRG mobile applications",
   "description": "Analytics for SRG mobile applications",
   "homepage": "https://bitbucket.org/rtsmb/srganalytics-ios",
@@ -14,7 +14,7 @@
   },
   "source": {
     "git": "git@bitbucket.org:rtsmb/srganalytics-ios.git",
-    "tag": "0.3.4"
+    "tag": "0.3.7"
   },
   "requires_arc": true,
   "platforms": {
@@ -28,6 +28,7 @@
         "RTSAnalytics/RTSAnalytics.h",
         "RTSAnalytics/Core/*.{h,m}"
       ],
+      "exclude_files": "RTSAnalytics/Core/RTSAnalyticsVersion.{h,m}",
       "private_header_files": "RTSAnalytics/Core/*_private.h",
       "frameworks": [
         "AVFoundation",
@@ -40,7 +41,15 @@
         "comScore-iOS-SDK-RTS": [
           "3.1502.26"
         ]
-      }
+      },
+      "subspecs": [
+        {
+          "name": "Version",
+          "source_files": "RTSAnalytics/Core/RTSAnalyticsVersion.m",
+          "private_header_files": "RTSAnalytics/Core/*_private.h",
+          "compiler_flags": "-DRTS_ANALYTICS_VERSION=0.3.7"
+        }
+      ]
     },
     {
       "name": "MediaPlayer",
