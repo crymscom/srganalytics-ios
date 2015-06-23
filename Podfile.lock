@@ -32,7 +32,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   RTSAnalytics:
-    :path: "."
+    :path: .
 
 SPEC CHECKSUMS:
   comScore-iOS-SDK-RTS: ebab82ac061523f057f7e2c4cb3ecc4b0af10ecf
