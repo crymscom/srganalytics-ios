@@ -89,24 +89,13 @@ static void commonInit(RTSSegmentedTimelineView *self);
 
 #pragma mark - Data
 
-- (void) reloadSegmentsForIdentifier:(NSString *)identifier
+- (void)reloadSegmentsForIdentifier:(NSString *)identifier completionHandler:(void (^)(NSError *error))completionHandler
 {
-	[self.segmentsController reloadSegmentsForIdentifier:identifier completionHandler:^(NSError *error){
-        self.hidden = (self.segmentsController.visibleSegments.count == 0);
-		[self.collectionView reloadData];
-		
-		if (error) {
-			NSString *msg = [NSString stringWithFormat:@"#Segments: %@ | %@",
-							 @(self.segmentsController.visibleSegments.count),
-							 error.localizedDescription];
-			
-			UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
-														 message:msg
-														delegate:nil
-											   cancelButtonTitle:@"OK"
-											   otherButtonTitles:nil];
-			[av show];
-		}
+	[self.segmentsController reloadSegmentsForIdentifier:identifier completionHandler:^(NSError *error) {
+        if (completionHandler) {
+            completionHandler(error);
+        }        
+        [self.collectionView reloadData];
 	}];
 }
 
@@ -233,6 +222,4 @@ static void commonInit(RTSSegmentedTimelineView *self)
 	
 	self.itemWidth = 60.f;
 	self.itemSpacing = 4.f;
-    
-    self.hidden = YES;
 }

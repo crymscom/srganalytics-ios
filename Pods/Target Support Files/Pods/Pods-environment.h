@@ -9,8 +9,8 @@
 // RTSMediaPlayer
 #define COCOAPODS_POD_AVAILABLE_RTSMediaPlayer
 #define COCOAPODS_VERSION_MAJOR_RTSMediaPlayer 0
-#define COCOAPODS_VERSION_MINOR_RTSMediaPlayer 3
-#define COCOAPODS_VERSION_PATCH_RTSMediaPlayer 2
+#define COCOAPODS_VERSION_MINOR_RTSMediaPlayer 4
+#define COCOAPODS_VERSION_PATCH_RTSMediaPlayer 0
 
 // TransitionKit
 #define COCOAPODS_POD_AVAILABLE_TransitionKit

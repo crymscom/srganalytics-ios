@@ -26,7 +26,6 @@ Pod::Spec.new do |s|
 
     co.subspec 'Version' do |ve|
       ve.source_files = "RTSAnalytics/Core/RTSAnalyticsVersion.m"
-      ve.private_header_files = "RTSAnalytics/Core/*_private.h"
       ve.compiler_flags = '-DRTS_ANALYTICS_VERSION=' + s.version.to_s
     end
   end
