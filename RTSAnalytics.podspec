@@ -19,12 +19,13 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |co|
     co.source_files         = "RTSAnalytics/RTSAnalytics.h", "RTSAnalytics/Core/*.{h,m}"
+    co.exclude_files        = "RTSAnalytics/Core/RTSAnalyticsVersion.m"
     co.private_header_files = "RTSAnalytics/Core/*_private.h"
     co.frameworks           = "AVFoundation", "CoreMedia", "Foundation", "MediaPlayer", "UIKit"
     co.dependency             "comScore-iOS-SDK-RTS", "3.1502.26"
 
     co.subspec 'Version' do |ve|
-      ve.source_files = "RTSAnalytics/Core/RTSAnalyticsVersion.m,RTSAnalytics/Core/RTSAnalyticsVersion_private.h"
+      ve.source_files = "RTSAnalytics/Core/RTSAnalyticsVersion.m","RTSAnalytics/Core/RTSAnalyticsVersion_private.h"
       ve.compiler_flags = '-DRTS_ANALYTICS_VERSION=' + s.version.to_s
     end
   end

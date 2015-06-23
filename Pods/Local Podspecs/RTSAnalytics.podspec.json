@@ -29,7 +29,7 @@
         "RTSAnalytics/RTSAnalytics.h",
         "RTSAnalytics/Core/*.{h,m}"
       ],
-      "exclude_files": "RTSAnalytics/Core/RTSAnalyticsVersion.{h,m}",
+      "exclude_files": "RTSAnalytics/Core/RTSAnalyticsVersion.m",
       "private_header_files": "RTSAnalytics/Core/*_private.h",
       "frameworks": [
         "AVFoundation",
@@ -46,7 +46,10 @@
       "subspecs": [
         {
           "name": "Version",
-          "source_files": "RTSAnalytics/Core/RTSAnalyticsVersion.m",
+          "source_files": [
+            "RTSAnalytics/Core/RTSAnalyticsVersion.m",
+            "RTSAnalytics/Core/RTSAnalyticsVersion_private.h"
+          ],
           "compiler_flags": "-DRTS_ANALYTICS_VERSION=0.4.0"
         }
       ]
