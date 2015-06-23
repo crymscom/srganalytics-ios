@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
     co.dependency             "comScore-iOS-SDK-RTS", "3.1502.26"
 
     co.subspec 'Version' do |ve|
-      ve.source_files = "RTSAnalytics/Core/RTSAnalyticsVersion.m"
+      ve.source_files = "RTSAnalytics/Core/RTSAnalyticsVersion.m,RTSAnalytics/Core/RTSAnalyticsVersion_private.h"
       ve.compiler_flags = '-DRTS_ANALYTICS_VERSION=' + s.version.to_s
     end
   end
