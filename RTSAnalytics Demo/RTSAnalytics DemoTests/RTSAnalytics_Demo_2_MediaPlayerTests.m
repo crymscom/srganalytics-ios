@@ -17,6 +17,11 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 
 @implementation RTSAnalytics_Demo_2_MediaPlayerTests
 
+- (void)setUp
+{
+    [super setUp];
+    [KIFSystemTestActor setDefaultTimeout:30.0];
+}
 - (void)test_1_OpenDefaultMediaPlayerControllerSendsLiveStreamStartMeasurement
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];

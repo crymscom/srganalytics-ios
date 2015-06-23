@@ -36,6 +36,12 @@ static NSDictionary *startLabels = nil;
 	}];
 }
 
+- (void)setUp
+{
+    [super setUp];
+    [KIFSystemTestActor setDefaultTimeout:30.0];
+}
+
 - (void) test_1_ApplicationStartsAndStartMeasurementAndFirstPageViewEventAreSend
 {
 	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
@@ -77,7 +83,7 @@ static NSDictionary *startLabels = nil;
 - (void) test_3_PresentViewControllerWithTitleViewEvent
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
-	
+    
 	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
 	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
 	

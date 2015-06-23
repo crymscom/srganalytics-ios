@@ -19,6 +19,12 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 
 @implementation RTSAnalytics_Demo_3_PushNotificationTests
 
+- (void)setUp
+{
+    [super setUp];
+    [KIFSystemTestActor setDefaultTimeout:30.0];
+}
+
 - (void) test_1_ViewControllerPresentedFromPushSendsViewEventWithValidTag
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
