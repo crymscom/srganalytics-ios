@@ -30,11 +30,11 @@
 #define COCOAPODS_VERSION_MINOR_RTSAnalytics_MediaPlayer 4
 #define COCOAPODS_VERSION_PATCH_RTSAnalytics_MediaPlayer 0
 
-// RTSMediaPlayer
-#define COCOAPODS_POD_AVAILABLE_RTSMediaPlayer
-#define COCOAPODS_VERSION_MAJOR_RTSMediaPlayer 0
-#define COCOAPODS_VERSION_MINOR_RTSMediaPlayer 4
-#define COCOAPODS_VERSION_PATCH_RTSMediaPlayer 0
+// SRGMediaPlayer
+#define COCOAPODS_POD_AVAILABLE_SRGMediaPlayer
+#define COCOAPODS_VERSION_MAJOR_SRGMediaPlayer 0
+#define COCOAPODS_VERSION_MINOR_SRGMediaPlayer 5
+#define COCOAPODS_VERSION_PATCH_SRGMediaPlayer 0
 
 // TransitionKit
 #define COCOAPODS_POD_AVAILABLE_TransitionKit

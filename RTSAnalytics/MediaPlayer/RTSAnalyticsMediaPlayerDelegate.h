@@ -4,7 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RTSMediaPlayer/RTSMediaPlayerController.h>
+#import <SRGMediaPlayer/RTSMediaPlayerController.h>
 
 /**
  *  The `RTSAnalyticsMediaPlayerDelegate` groups methods that are used to customize stream measurement behaviour when using `RTSMediaPlayerController`.

@@ -6,7 +6,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import <KIF/KIF.h>
-#import <RTSMediaPlayer/RTSMediaSegmentsController.h>
+#import <SRGMediaPlayer/RTSMediaSegmentsController.h>
 
 extern NSString * const RTSAnalyticsComScoreRequestDidFinishNotification;
 extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;

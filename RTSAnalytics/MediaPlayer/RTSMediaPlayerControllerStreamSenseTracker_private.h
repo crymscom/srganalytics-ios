@@ -7,8 +7,8 @@
 
 #import "RTSAnalyticsMediaPlayerDataSource.h"
 
-#import <RTSMediaPlayer/RTSMediaSegment.h>
-#import <RTSMediaPlayer/RTSMediaPlayerController.h>
+#import <SRGMediaPlayer/RTSMediaSegment.h>
+#import <SRGMediaPlayer/RTSMediaPlayerController.h>
 
 #import <comScore-iOS-SDK-RTS/CSStreamSensePlugin.h>
 #import <comScore-iOS-SDK-RTS/CSStreamSensePluginProtocol.h>

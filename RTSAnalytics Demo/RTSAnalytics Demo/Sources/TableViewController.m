@@ -8,7 +8,7 @@
 
 #import "TableViewController.h"
 #import <RTSAnalytics/RTSAnalytics.h>
-#import <RTSMediaPlayer/RTSMediaPlayer.h>
+#import <SRGMediaPlayer/SRGMediaPlayer.h>
 
 #import "AppDelegate.h"
 #import "ViewController.h"

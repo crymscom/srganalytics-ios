@@ -1,7 +1,7 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
-## RTSMediaPlayer
+## SRGMediaPlayer
 
 Copyright (c) RTS. All rights reserved.
 

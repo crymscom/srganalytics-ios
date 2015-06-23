@@ -8,7 +8,7 @@ Copyright (c) RTS. All rights reserved.
 <insert licence terms here>
 
 
-## RTSMediaPlayer
+## SRGMediaPlayer
 
 Copyright (c) RTS. All rights reserved.
 

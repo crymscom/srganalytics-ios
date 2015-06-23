@@ -65,8 +65,8 @@
         "RTSAnalytics/Core": [
 
         ],
-        "RTSMediaPlayer": [
-          "~> 0.4.0"
+        "SRGMediaPlayer": [
+          "~> 0.5.0"
         ]
       }
     }

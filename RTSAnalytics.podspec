@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
     sm.source_files         = "RTSAnalytics/RTSAnalyticsMediaPlayer.h", "RTSAnalytics/MediaPlayer/*.{h,m}"
     sm.private_header_files = "RTSAnalytics/MediaPlayer/*_private.h"
     sm.dependency             "RTSAnalytics/Core"
-    sm.dependency             "RTSMediaPlayer", "~> 0.4.0"
+    sm.dependency             "SRGMediaPlayer", "~> 0.5.0"
   end
 
 end
