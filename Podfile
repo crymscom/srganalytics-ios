@@ -24,3 +24,15 @@ target 'RTSAnalytics DemoTests', :exclusive => true do
 	xcodeproj 'RTSAnalytics Demo/RTSAnalytics Demo'
 	pod 'KIF', '3.2.1'
 end
+
+post_install do |installer|
+    
+    installer.project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['TARGETED_DEVICE_FAMILY'] = '1,2' # iPhone, iPad
+#            config.build_settings['TARGETED_DEVICE_FAMILY'] = '2'
+        end
+    end
+    
+end
+
