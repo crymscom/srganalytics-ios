@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name        = "RTSAnalytics"
-  s.version     = "0.3.7"
+  s.version     = "0.4.0"
   s.summary     = "Analytics for SRG mobile applications"
   s.description = "Analytics for SRG mobile applications"
   s.homepage    = "https://bitbucket.org/rtsmb/srganalytics-ios"
   s.license     = { :type => "N/A" }
-  s.authors     = { "Cédric Foellmi" => "cedric.foellmi@hortis.ch", "Cédric Luthi" => "cedric.luthi@rts.ch", "Frédéric Humbert-Droz" => "fred.hd@me.com" }
+  s.authors     = { "Cédric Foellmi" => "cedric.foellmi@hortis.ch", "Cédric Luthi" => "cedric.luthi@rts.ch", "Frédéric Humbert-Droz" => "fred.hd@me.com", "Samuel Défago" => "defagos@gmail.com" }
   s.source      = { :git => "git@bitbucket.org:rtsmb/srganalytics-ios.git", :tag => s.version.to_s }
 
   # Platform setup
@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
     sm.source_files         = "RTSAnalytics/RTSAnalyticsMediaPlayer.h", "RTSAnalytics/MediaPlayer/*.{h,m}"
     sm.private_header_files = "RTSAnalytics/MediaPlayer/*_private.h"
     sm.dependency             "RTSAnalytics/Core"
-    sm.dependency             "RTSMediaPlayer"
+    sm.dependency             "RTSMediaPlayer", "~> 0.4.0"
   end
 
 end
