@@ -22,6 +22,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     [super setUp];
     [KIFSystemTestActor setDefaultTimeout:30.0];
 }
+
 - (void)test_1_OpenDefaultMediaPlayerControllerSendsLiveStreamStartMeasurement
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
@@ -99,7 +100,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         // Open 1-segment demo
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Play the segment. Expect full-length pause immediately followed by segment play
@@ -142,7 +143,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         // Tap on the button playing the first segment
         [tester tapViewWithAccessibilityLabel:@"Segment #1"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
 
     // Let the segment be played through, at which point resumes with the full-length
@@ -181,7 +182,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
                 return NO;
             }
         }];
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Close
@@ -222,7 +223,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Go to 1st segment. Expect full-length pause immediately followed by segment play
@@ -264,7 +265,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester tapViewWithAccessibilityLabel:@"Segment #1"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Playback continues after the first segment. Even if a second segment immediately follows it, we switch to the full-length
@@ -337,7 +338,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Go to 1st segment. Expect full-length pause immediately followed by segment play
@@ -379,7 +380,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester tapViewWithAccessibilityLabel:@"Segment #1"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Manually switch to the second segment. Expect first segment pause immediately followed by second segment play
@@ -454,7 +455,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Go to 1st segment. Expect full-length pause immediately followed by segment play
@@ -496,7 +497,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester tapViewWithAccessibilityLabel:@"Segment #1"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Manually switch to the same segment. Expect segment pause and play for the same segment
@@ -570,7 +571,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Go to 1st segment. Expect full-length pause immediately followed by segment play
@@ -612,7 +613,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester tapViewWithAccessibilityLabel:@"Segment #1"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Seek outside the segment. Expect segment pause followed by full-length play
@@ -654,7 +655,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester setValue:time forSliderWithAccessibilityLabel:@"slider"];
                 
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Close
@@ -697,7 +698,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Go to 1st segment. Expect full-length pause immediately followed by segment play
@@ -739,7 +740,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester tapViewWithAccessibilityLabel:@"Segment #1"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Close the player. Only an end event is expected for the full-length
@@ -760,7 +761,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester tapViewWithAccessibilityLabel:@"Done"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     [tester waitForTimeInterval:2.0f];
@@ -788,7 +789,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         // Open 1-segment demo
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Seek into the blocked segment
@@ -809,7 +810,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester setValue:43. forSliderWithAccessibilityLabel:@"slider"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     [NSThread sleepForTimeInterval:3.];
@@ -832,7 +833,7 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
         
         [tester tapViewWithAccessibilityLabel:@"play"];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Close
