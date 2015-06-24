@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "12DB820F34E3A71D580C65B4"
+               BlueprintIdentifier = "BE1E8453F1EC7BB85B048C57"
                BuildableName = "libPods-RTSAnalytics Demo-RTSAnalytics.a"
                BlueprintName = "Pods-RTSAnalytics Demo-RTSAnalytics"
                ReferencedContainer = "container:Pods.xcodeproj">
