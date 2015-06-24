@@ -4,7 +4,7 @@
 //
 
 #import "ViewController.h"
-#import <RTSAnalytics/RTSAnalytics.h>
+#import <SRGAnalytics/SRGAnalytics.h>
 
 @interface ViewController () <RTSAnalyticsPageViewDataSource>
 

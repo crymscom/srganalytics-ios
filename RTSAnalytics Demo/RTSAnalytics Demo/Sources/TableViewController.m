@@ -6,9 +6,10 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import "TableViewController.h"
-#import <RTSAnalytics/RTSAnalytics.h>
+#import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
+
+#import "TableViewController.h"
 
 #import "AppDelegate.h"
 #import "ViewController.h"

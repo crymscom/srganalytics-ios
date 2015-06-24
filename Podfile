@@ -2,26 +2,28 @@ source 'ssh://git@bitbucket.org/rtsmb/srgpodspecs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '7.0'
-workspace 'RTSAnalytics.xcworkspace'
+workspace 'SRGAnalytics.xcworkspace'
 
 pod 'comScore-iOS-SDK-RTS', '3.1504.30'
-pod 'SRGMediaPlayer', '0.5.0'
+pod 'SRGMediaPlayer', '~> 0.5.2'
 
-target :'RTSAnalyticsTests', :exclusive => true do
+target :'SRGAnalyticsTests', :exclusive => true do
     pod 'OCMock', '~> 3.1.2'
 end
 
 ### Demo project
 
-target 'RTSAnalytics Demo', :exclusive => true do
-	xcodeproj 'RTSAnalytics Demo/RTSAnalytics Demo'
-	pod 'RTSAnalytics',               { :path => '.' }
-	pod 'RTSAnalytics/MediaPlayer',   { :path => '.' }
-	pod 'SRGMediaPlayer',             '0.5.0'
+target 'SRGAnalytics Demo', :exclusive => true do
+	xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo'
+	pod 'SRGAnalytics',               { :path => '.' }
+	pod 'SRGAnalytics/MediaPlayer',   { :path => '.' }
+	pod 'SRGMediaPlayer',             '~> 0.5.2'
 end
 
-target 'RTSAnalytics DemoTests', :exclusive => true do
-	xcodeproj 'RTSAnalytics Demo/RTSAnalytics Demo'
+target 'SRGAnalytics DemoTests', :exclusive => true do
+	xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo'
+    pod 'SRGAnalytics',               { :path => '.' }
+    pod 'SRGAnalytics/MediaPlayer',   { :path => '.' }
 	pod 'KIF', '3.2.1'
 end
 

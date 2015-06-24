@@ -3,9 +3,9 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import "AppDelegate.h"
 
-#import <RTSAnalytics/RTSAnalytics.h>
+#import <SRGAnalytics/SRGAnalytics.h>
+#import "AppDelegate.h"
 #import "Segment.h"
 
 @interface AppDelegate () <RTSAnalyticsMediaPlayerDataSource>

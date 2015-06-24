@@ -3,9 +3,8 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
+#import <SRGAnalytics/SRGAnalytics.h>
 #import "CustomMediaPlayerViewController.h"
-
-#import <RTSAnalytics/RTSAnalyticsMediaPlayerDelegate.h>
 
 @interface CustomMediaPlayerViewController () <RTSAnalyticsMediaPlayerDelegate>
 

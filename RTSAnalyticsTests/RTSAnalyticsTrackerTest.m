@@ -10,7 +10,7 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 
-#import <SRGMediaPlayer/RTSMediaPlayer.h>
+#import <SRGMediaPlayer/SRGMediaPlayer.h>
 #import <comScore-iOS-SDK-RTS/CSComScore.h>
 
 #import "RTSAnalyticsTracker.h"

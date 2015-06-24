@@ -1,0 +1,74 @@
+{
+  "name": "SRGAnalytics",
+  "version": "0.5.0",
+  "summary": "Analytics for SRG mobile applications",
+  "description": "Analytics for SRG mobile applications",
+  "homepage": "https://bitbucket.org/rtsmb/srganalytics-ios",
+  "license": {
+    "type": "N/A"
+  },
+  "authors": {
+    "Cédric Foellmi": "cedric.foellmi@hortis.ch",
+    "Cédric Luthi": "cedric.luthi@rts.ch",
+    "Frédéric Humbert-Droz": "fred.hd@me.com",
+    "Samuel Défago": "defagos@gmail.com"
+  },
+  "source": {
+    "git": "git@bitbucket.org:rtsmb/srganalytics-ios.git",
+    "tag": "0.5.0"
+  },
+  "requires_arc": true,
+  "platforms": {
+    "ios": "7.0"
+  },
+  "default_subspecs": "Core",
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": [
+        "RTSAnalytics/SRGAnalytics.h",
+        "RTSAnalytics/Core/*.{h,m}"
+      ],
+      "exclude_files": "RTSAnalytics/Core/RTSAnalyticsVersion.m",
+      "private_header_files": "RTSAnalytics/Core/*_private.h",
+      "frameworks": [
+        "AVFoundation",
+        "CoreMedia",
+        "Foundation",
+        "MediaPlayer",
+        "UIKit"
+      ],
+      "dependencies": {
+        "comScore-iOS-SDK-RTS": [
+          "3.1504.30"
+        ]
+      },
+      "subspecs": [
+        {
+          "name": "Version",
+          "source_files": [
+            "RTSAnalytics/Core/RTSAnalyticsVersion.m",
+            "RTSAnalytics/Core/RTSAnalyticsVersion_private.h"
+          ],
+          "compiler_flags": "-DRTS_ANALYTICS_VERSION=0.5.0"
+        }
+      ]
+    },
+    {
+      "name": "MediaPlayer",
+      "source_files": [
+        "RTSAnalytics/RTSAnalyticsMediaPlayer.h",
+        "RTSAnalytics/MediaPlayer/*.{h,m}"
+      ],
+      "private_header_files": "RTSAnalytics/MediaPlayer/*_private.h",
+      "dependencies": {
+        "SRGAnalytics/Core": [
+
+        ],
+        "SRGMediaPlayer": [
+          "~> 0.5.0"
+        ]
+      }
+    }
+  ]
+}

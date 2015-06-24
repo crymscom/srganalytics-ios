@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
-        <!--RTSAnalytics -->
+        <!--SRGAnalytics -->
         <scene sceneID="p8P-77-WG0">
             <objects>
                 <tableViewController id="90d-Gp-nAG" customClass="TableViewController" sceneMemberID="viewController">
@@ -201,7 +201,7 @@
                             <outlet property="delegate" destination="90d-Gp-nAG" id="EKg-Q3-Qdl"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="RTSAnalytics " id="N2p-jJ-FKb"/>
+                    <navigationItem key="navigationItem" title="SRGAnalytics " id="N2p-jJ-FKb"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g1a-aF-Uxo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

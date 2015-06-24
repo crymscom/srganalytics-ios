@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import <KIF/KIF.h>
-#import <RTSAnalytics/RTSAnalytics.h>
+#import <SRGAnalytics/SRGAnalytics.h>
 
 extern NSString * const RTSAnalyticsComScoreRequestDidFinishNotification;
 extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
@@ -45,7 +45,7 @@ static NSDictionary *startLabels = nil;
 - (void) test_1_ApplicationStartsAndStartMeasurementAndFirstPageViewEventAreSend
 {
 	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-	XCTAssertEqualObjects(startLabels[@"ns_ap_an"], @"RTSAnalytics Demo iOS");
+	XCTAssertEqualObjects(startLabels[@"ns_ap_an"], @"SRGAnalytics Demo iOS");
 	XCTAssertEqualObjects(startLabels[@"ns_site"], @"mainsite");
 	XCTAssertEqualObjects(startLabels[@"ns_vsite"], @"rts-app-test-v");
 	XCTAssertEqualObjects(startLabels[@"srg_unit"], @"RTS");

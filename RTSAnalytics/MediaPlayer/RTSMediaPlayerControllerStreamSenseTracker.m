@@ -3,7 +3,8 @@
 //  Copyright (c) 2015 RTS. All rights reserved.
 //
 
-#import "RTSAnalytics.h"
+#import "SRGAnalytics.h"
+
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 #import "RTSAnalyticsLogger.h"
 #import "RTSAnalyticsVersion_private.h"

@@ -1,1 +1,0 @@
-PODS_RTSANALYTICS_DEMO_RTSANALYTICS_OTHER_LDFLAGS = -framework "AVFoundation" -framework "CoreMedia" -framework "Foundation" -framework "MediaPlayer" -framework "UIKit"
