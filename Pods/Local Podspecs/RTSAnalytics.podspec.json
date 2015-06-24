@@ -40,7 +40,7 @@
       ],
       "dependencies": {
         "comScore-iOS-SDK-RTS": [
-          "3.1502.26"
+          "3.1504.30"
         ]
       },
       "subspecs": [

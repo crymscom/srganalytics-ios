@@ -11,7 +11,7 @@
 #define kDefaultPausedOnBufferingInterval 0.5f /* 500 ms */
 #define kPausePlaySwitchDelay 0.5f /* 500 ms */
 
-#define kStreamSenseVersion @"4.1502.26"
+#define kStreamSenseVersion @"4.1504.30"
 
 #define kHeartbeatPlayingTimeKey @"playingtime"
 #define kHeartbeatIntervalKey @"interval"

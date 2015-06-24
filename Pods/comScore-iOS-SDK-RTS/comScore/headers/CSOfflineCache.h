@@ -10,6 +10,8 @@
 
 @interface CSOfflineCache : NSObject {
 
+    int _maxBatchSize;
+
     NSURLConnection *_connection;
     NSMutableArray *_arrayOfCacheFiles;
     NSURLRequest *_request;
@@ -49,11 +51,11 @@
 
 - (void)saveMeasurement:(CSMeasurement *)m;
 
-@property(nonatomic, retain) NSString *url;
-@property(nonatomic, assign) int maxSize;
-@property(nonatomic, assign) int maxBatchSize;
-@property(nonatomic, assign) int maxFlushesInARow;
-@property(nonatomic, assign) int minutesToRetry;
-@property(nonatomic, assign) int expiryInDays;
+@property(retain) NSString *url;
+@property(assign) int maxSize;
+@property(assign) int maxBatchSize;
+@property(assign) int maxFlushesInARow;
+@property(assign) int minutesToRetry;
+@property(assign) int expiryInDays;
 
 @end

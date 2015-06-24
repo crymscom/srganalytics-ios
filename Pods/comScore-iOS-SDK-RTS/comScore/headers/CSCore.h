@@ -27,29 +27,8 @@
  ComScore analytics interface
  */
 @interface CSCore : NSObject{
-    NSString *_visitorID;
-    NSString *_publisherSecret;
-    NSString *_appName;
-    NSString *_devModel;
-    NSMutableDictionary *_labels;
-    NSMutableDictionary *_autoStartLabels;
-    BOOL _keepAliveEnabled;
-    long cacheFlushingInterval;
-    NSString *_crossPublisherId;
-    NSString *_md5CrossPublisherRawId;
-    BOOL _isCrossPublisherIdBasedOnIFDA;
+
     BOOL _errorHandlingEnabled;
-    NSUncaughtExceptionHandler *_defaultUncaughtExceptionHandler;
-    BOOL _autoStartEnabled;
-    BOOL _secure;
-    CSTransmissionMode _liveTransmissionMode;
-    CSTransmissionMode _offlineTransmissionMode;
-    NSArray *_measurementLabelOrder;
-    NSNumber *_adSupportFrameworkAvailable; // this is used so that we only check once for availability of the ad support framework
-    
-    BOOL _adIdChanged;
-    int _adIdEnabled; // -1: not setted, 0 disabled, 1 enabled
-    BOOL _idChangedWhenAppNotRunning;
     
     CSStorage *_storage;
     CSTaskExecutor *_taskExecutor;
@@ -58,54 +37,6 @@
     CSNotificationsObserver *observer;
     CSKeepAlive *_keepAlive;
     CSCacheFlusher *_cacheFlusher;
-    NSMutableSet *_ssids;
-    
-    // Common state machine fields
-    long long _autoUpdateInterval;
-    BOOL _autoUpdateInForegroundOnly;
-    int _runsCount;
-    long long _coldStartId;
-    int _coldStartCount;
-    BOOL _coldStart;
-    long long _installId;
-    long long _firstInstallId;
-    NSString *_currentVersion;
-    NSString *_previousVersion;
-    
-    // Application State Machine
-    CSApplicationState _currentApplicationState;
-    int _foregroundComponentsCount;
-    int _activeUxComponentsCount;
-    int _foregroundTransitionsCount;
-    long long _totalForegroundTime;
-    long long _accumulatedBackgroundTime;
-    long long _accumulatedForegroundTime;
-    long long _accumulatedInactiveTime;
-    long long _genesis;
-    long long _previousGenesis;
-    long long _lastApplicationAccumulationTimestamp;
-    long long _totalBackgroundTime;
-    long long _totalInactiveTime;
-    
-    // Session State Machine
-    CSSessionState _currentSessionState;
-    long long _accumulatedApplicationSessionTime;
-    long long _accumulatedUserSessionTime;
-    long long _accumulatedActiveUserSessionTime;
-    int _userSessionCount;
-    int _activeUserSessionCount;
-    long long _lastApplicationSessionTimestamp;
-    long long _lastUserSessionTimestamp;
-    long long _lastActiveUserSessionTimestamp;
-    int _userInteractionCount;
-    long long _lastUserInteractionTimestamp;
-    long long _lastSessionAccumulationTimestamp;
-    int _applicationSessionCount;
-    NSString *_userInteractionTimerId;
-    NSString *_autoUpdateTimerId;
-    
-    BOOL _enabled;
-    BOOL _wasErrorHandlingEnabled;
 }
 
 /**
@@ -115,7 +46,7 @@
  
  - value: A NSString that contains the PixelURL.
  */
-- (NSString *)setPixelURL:(NSString *)value;
+- (NSString *)setPixelURL:(NSString *)value background:(BOOL)background;
 
 /**
  Notify Application event (Start / Close / Aggregate) with custom labels
@@ -139,85 +70,53 @@
 
 - (CSCacheFlusher *)cacheFlusher;
 
-- (void)setVisitorId:(NSString *)value;
+- (void)setVisitorId:(NSString *)value background:(BOOL)background;
 
 - (void)resetVisitorID;
 
 - (void)restoreVisitorId;
 
-- (NSString *)visitorId;
+- (void)setPublisherSecret:(NSString *)value background:(BOOL)background;
 
-- (void)setPublisherSecret:(NSString *)value;
-
-- (NSString *)publisherSecret;
-
-- (void)appName:(NSString *)value;
-
-- (NSString *)appName;
-
-- (NSString *)devModel;
+- (void)setAppName:(NSString *)value background:(BOOL)background;
 
 - (NSString *)generateVisitorId;
 
 - (NSString *)generateVisitorIdWithPublisherSecret:(NSString *)publisherSecret;
 
-- (long long)genesis;
-
 - (long long)previousGenesis;
 
 - (NSString *)getPlainMACAddress;
 
-- (void)setLabel:(NSString *)name value:(NSString *)value;
+- (void)setLabel:(NSString *)name value:(NSString *)value background:(BOOL)background;
 
-- (void)setLabels:(NSDictionary *)labels;
-
-- (NSMutableDictionary *)labels;
+- (void)setLabels:(NSDictionary *)labels background:(BOOL)background;
 
 - (NSString *)label:(NSString *)labelName;
 
-- (void)setAutoStartLabel:(NSString *)name value:(NSString *)value;
+- (void)setAutoStartLabel:(NSString *)name value:(NSString *)value background:(BOOL)background;
 
-- (void)setAutoStartLabels:(NSDictionary *)labels;
-
-- (NSMutableDictionary *)autoStartLabels;
+- (void)setAutoStartLabels:(NSDictionary *)labels background:(BOOL)background;
 
 - (NSString *)autoStartLabel:(NSString *)labelName;
 
-- (BOOL)isKeepAliveEnabled;
+- (void)setKeepAliveEnabled:(BOOL)enabled background:(BOOL)background;
 
-- (void)setKeepAliveEnabled:(BOOL)enabled;
-
-- (void)setCustomerC2:(NSString *)c2;
+- (void)setCustomerC2:(NSString *)c2 background:(BOOL)background;
 
 - (NSString *)customerC2;
 
-- (void)setSecure:(BOOL)secure;
+- (void)setSecure:(BOOL)secure background:(BOOL)background;
 
-- (BOOL)isSecure;
-
-- (NSString *)crossPublisherId;
+- (NSString *)crossPublisherID;
 
 - (BOOL)crossPublisherIdChanged;
-
-- (NSArray *)measurementLabelOrder;
 
 - (void)disableAutoUpdate;
 
 - (void)enableAutoUpdate:(int)intervalInSeconds foregroundOnly:(BOOL)foregroundOnly;
 
-- (int)coldStartCount;
-
-- (long long)coldStartId;
-
-- (NSString *)currentVersion;
-
-- (long long)firstInstallId;
-
-- (long long)installId;
-
 - (NSString *)previousVersion;
-
-- (int)runsCount;
 
 - (BOOL)handleColdStart:(long long)timestamp;
 
@@ -233,7 +132,7 @@
 
 - (void)onUxInactive;
 
-- (void)setMeasurementLabelOrder:(NSArray *)ordering;
+- (void)setMeasurementLabelOrder:(NSArray *)ordering background:(BOOL)background;
 
 - (void)update:(long long)timestamp store:(BOOL)store;
 
@@ -245,42 +144,24 @@
 
 - (long long)totalInactiveTime:(BOOL)reset;
 
-- (BOOL)coldStart;
-
 - (void)update;
 
 - (BOOL)isNotProperlyInitialized;
 
-- (void)setOfflineURL:(NSString *)value;
-
 - (void)setOfflineURL:(NSString *)value background:(BOOL)background;
-
 
 /** 
  Enables or disables live events (GETs) dispatched one by one when connectivity is available
  */
-- (void)allowLiveTransmission:(CSTransmissionMode)mode;
+- (void)allowLiveTransmission:(CSTransmissionMode)mode background:(BOOL)background;
 
 /**
  Enables or disables automatic offline cache flushes (POSTS). The cache can always be manually 
  flushed using the public api comScore.FlushOfflineCache()
  */
-- (void)allowOfflineTransmission:(CSTransmissionMode)mode;
+- (void)allowOfflineTransmission:(CSTransmissionMode)mode background:(BOOL)background;
 
-
-/**
- Returns the live transmission mode
- */
-- (CSTransmissionMode)liveTransmissionMode;
-
-/**
- Returns the offline transmission mode
- */
-- (CSTransmissionMode)offlineTransmissionMode;
-
-- (long)cacheFlushingInterval;
-
-- (void)setCacheFlushingInterval:(long)seconds;
+- (void)setCacheFlushingInterval:(long)seconds background:(BOOL)background;
 
 /** Returns the task executor queue.
     The task executor queue is used to perform sequential operations in a background thread.
@@ -290,15 +171,13 @@
 /** Returns the measurement dispatcher instance */
 - (CSMeasurementDispatcher *)measurementDispatcher;
 
-- (BOOL)autoStartEnabled;
-
-- (void)setAutoStartEnabled:(BOOL)value;
+- (void)setAutoStartEnabled:(BOOL)value background:(BOOL)background;
 
 /**
  * Enables or disables tracking. When tracking is disabled, no measurement is sent and
  * no data is collected.
  */
-- (void)setEnabled:(BOOL)enabled;
+- (void)setEnabled:(BOOL)enabled background:(BOOL)background;
 
 /**
  * Indicates if tracking is enabled. When tracking is disabled, no measurement is sent and
@@ -306,9 +185,78 @@
  */
 - (BOOL)enabled;
 
+@property(retain) NSString *visitorID;
+@property(retain) NSString *publisherSecret;
+@property(retain) NSString *appName;
+@property(retain) NSMutableDictionary *labels;
+@property(retain) NSMutableDictionary *autoStartLabels;
+@property(retain) NSString *devModel;
+@property BOOL isKeepAliveEnabled;
+@property long cacheFlushingInterval;
+@property(retain) NSString *crossPublisherID_;
+@property(retain) NSString *md5CrossPublisherRawId;
+@property BOOL isCrossPublisherIdBasedOnIFDA;
+@property NSUncaughtExceptionHandler *defaultUncaughtExceptionHandler;
+@property BOOL autoStartEnabled;
+@property BOOL secure;
+@property CSTransmissionMode liveTransmissionMode;
+@property CSTransmissionMode offlineTransmissionMode;
+@property(retain) NSArray *measurementLabelOrder;
+@property(retain) NSNumber *adSupportFrameworkAvailable; // this is used so that we only check once for availability of the ad support framework
+@property BOOL adIdChanged;
+@property int adIdEnabled; // -1: not setted, 0 disabled, 1 enabled
+@property BOOL idChangedWhenAppNotRunning;
 
-@property(nonatomic, assign, getter = isErrorHandlingEnabled) BOOL errorHandlingEnabled;
-@property(readonly, nonatomic, assign) NSString *pixelURL;
+// Common state machine fields
+@property long long autoUpdateInterval;
+@property BOOL autoUpdateInForegroundOnly;
+@property int runsCount;
+@property long long coldStartId;
+@property int coldStartCount;
+@property BOOL coldStart;
+@property long long installId;
+@property long long firstInstallId;
+@property(retain) NSString *currentVersion;
+@property(retain) NSString *previousVersion_;
+
+// Application State Machine
+@property CSApplicationState currentApplicationState;
+@property int foregroundComponentsCount;
+@property int activeUxComponentsCount;
+@property int foregroundTransitionsCount;
+@property long long totalForegroundTime;
+@property long long accumulatedBackgroundTime;
+@property long long accumulatedForegroundTime;
+@property long long accumulatedInactiveTime;
+@property long long genesis;
+@property long long previousGenesis_;
+@property long long lastApplicationAccumulationTimestamp;
+@property long long totalBackgroundTime;
+@property long long totalInactiveTime;
+
+// Session State Machine
+@property CSSessionState currentSessionState;
+@property long long accumulatedApplicationSessionTime;
+@property long long accumulatedUserSessionTime;
+@property long long accumulatedActiveUserSessionTime;
+@property int userSessionCount;
+@property int activeUserSessionCount;
+@property long long lastApplicationSessionTimestamp;
+@property long long lastUserSessionTimestamp;
+@property long long lastActiveUserSessionTimestamp;
+@property int userInteractionCount;
+@property long long lastUserInteractionTimestamp;
+@property long long lastSessionAccumulationTimestamp;
+@property int applicationSessionCount;
+@property(retain) NSString *userInteractionTimerId;
+@property(retain) NSString *autoUpdateTimerId;
+
+@property(retain) NSMutableSet *ssids;
+@property BOOL enabled_;
+@property BOOL wasErrorHandlingEnabled;
+
+@property(assign, getter = isErrorHandlingEnabled) BOOL errorHandlingEnabled;
+@property(readonly, assign) NSString *pixelURL;
 
 @end
 

@@ -4,7 +4,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
 workspace 'RTSAnalytics.xcworkspace'
 
-pod 'comScore-iOS-SDK-RTS', '3.1502.26'
+pod 'comScore-iOS-SDK-RTS', '3.1504.30'
 pod 'SRGMediaPlayer', '0.5.0'
 
 target :'RTSAnalyticsTests', :exclusive => true do

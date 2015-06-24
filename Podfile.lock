@@ -1,5 +1,5 @@
 PODS:
-  - comScore-iOS-SDK-RTS (3.1502.26)
+  - comScore-iOS-SDK-RTS (3.1504.30)
   - KIF (3.2.1):
     - KIF/XCTest (= 3.2.1)
   - KIF/XCTest (3.2.1)
@@ -10,10 +10,10 @@ PODS:
   - RTSAnalytics (0.4.1):
     - RTSAnalytics/Core (= 0.4.1)
   - RTSAnalytics/Core (0.4.1):
-    - comScore-iOS-SDK-RTS (= 3.1502.26)
+    - comScore-iOS-SDK-RTS (= 3.1504.30)
     - RTSAnalytics/Core/Version (= 0.4.1)
   - RTSAnalytics/Core/Version (0.4.1):
-    - comScore-iOS-SDK-RTS (= 3.1502.26)
+    - comScore-iOS-SDK-RTS (= 3.1504.30)
   - RTSAnalytics/MediaPlayer (0.4.1):
     - RTSAnalytics/Core
     - SRGMediaPlayer (~> 0.5.0)
@@ -23,7 +23,7 @@ PODS:
   - TransitionKit (2.2.0)
 
 DEPENDENCIES:
-  - comScore-iOS-SDK-RTS (= 3.1502.26)
+  - comScore-iOS-SDK-RTS (= 3.1504.30)
   - KIF (= 3.2.1)
   - OCMock (~> 3.1.2)
   - RTSAnalytics (from `.`)
@@ -35,11 +35,11 @@ EXTERNAL SOURCES:
     :path: .
 
 SPEC CHECKSUMS:
-  comScore-iOS-SDK-RTS: ebab82ac061523f057f7e2c4cb3ecc4b0af10ecf
+  comScore-iOS-SDK-RTS: fba80241be3d1770a28304d7ff5a131ecd8c4ad6
   KIF: ef1691e54e1d969c3b4fd0b5b56a3d7ddf37f216
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
-  RTSAnalytics: ae4cb466b287e1f8e6a0af4607a73de2c18b70e2
+  RTSAnalytics: 4d6c32d9798cc54f6dd87aa212fc1bb03094257d
   SRGMediaPlayer: 05894983a2ca38bdb521382d98e08830d0faebb0
   TransitionKit: 5c9001a77acc409d71f26a4eba0159cf8619c418
 
