@@ -70,19 +70,4 @@
     [comScoreClassMock stopMocking];
 }
 
-- (void)testSendComScoreLabelsAfterAppEnteringForegroundNotification
-{
-    id comScoreClassMock = OCMClassMock([CSComScore class]);
-    
-    [[RTSAnalyticsTracker sharedTracker] startTrackingForBusinessUnit:SSRBusinessUnitRTS launchOptions:nil mediaDataSource:self.dataSourceMock];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification
-                                                        object:nil
-                                                      userInfo:nil];
-
-    OCMVerify([comScoreClassMock viewWithLabels:[OCMArg any]]);
-    
-    [comScoreClassMock stopMocking];
-}
-
 @end

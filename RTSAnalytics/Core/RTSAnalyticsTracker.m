@@ -46,7 +46,6 @@
     if (self) {
 		self.production = NO;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
     return self;
 }
@@ -60,14 +59,6 @@
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification
 {
-	[self trackPageViewTitle:@"comingToForeground" levels:@[ @"app", @"event" ]];
-}
-
-- (void)applicationDidBecomeActive:(NSNotification *)notification
-{
-	if (self.pushNotificationReceived)
-		return;
-	
 	[self trackPageViewForDataSource:self.lastPageViewDataSource];
 }
 
