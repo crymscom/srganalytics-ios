@@ -29,11 +29,11 @@
 
 @implementation RTSAnalyticsTracker
 
-+ (instancetype) sharedTracker
++ (instancetype)sharedTracker
 {
 	static RTSAnalyticsTracker *sharedInstance = nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
+	static dispatch_once_t RTSAnalyticsTracker_onceToken;
+	dispatch_once(&RTSAnalyticsTracker_onceToken, ^{
 		sharedInstance = [[[self class] alloc] init_custom_RTSAnalyticsTracker];
 	});
 	return sharedInstance;
@@ -161,7 +161,7 @@
 	[self startLoggingInternalComScoreTasks];
 }
 
--(NSDictionary *)comscoreGlobalLabels
+- (NSDictionary *)comscoreGlobalLabels
 {
 	NSBundle *mainBundle = [NSBundle bundleForClass:[self class]];
 	
@@ -170,7 +170,7 @@
 	NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 
 	NSString *ns_vsite = self.production ? self.comscoreVSite : @"rts-app-test-v";
-	
+    
 	return @{ @"ns_ap_an": appName,
 			  @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
 			  @"ns_ap_ver": appVersion,
@@ -221,7 +221,6 @@
 	
 	title = title.length > 0 ? [title comScoreTitleFormattedString] : @"untitled";
 	[labels safeSetValue:title forKey:@"srg_title"];
-	
 	[labels safeSetValue:@(fromPush) forKey:@"srg_ap_push"];
 	
 	NSString *category = @"app";

@@ -16,7 +16,7 @@
 #define COCOAPODS_POD_AVAILABLE_TransitionKit
 #define COCOAPODS_VERSION_MAJOR_TransitionKit 2
 #define COCOAPODS_VERSION_MINOR_TransitionKit 2
-#define COCOAPODS_VERSION_PATCH_TransitionKit 0
+#define COCOAPODS_VERSION_PATCH_TransitionKit 1
 
 // comScore-iOS-SDK-RTS
 #define COCOAPODS_POD_AVAILABLE_comScore_iOS_SDK_RTS

@@ -10,9 +10,6 @@
 #import <XCTest/XCTest.h>
 #import <KIF/KIF.h>
 
-extern NSString * const RTSAnalyticsComScoreRequestDidFinishNotification;
-extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
-
 @interface RTSAnalytics_Demo_3_PushNotificationTests : KIFTestCase
 
 @end
@@ -25,25 +22,24 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     [KIFSystemTestActor setDefaultTimeout:30.0];
 }
 
-- (void) test_1_ViewControllerPresentedFromPushSendsViewEventWithValidTag
+- (void)test_1_ViewControllerPresentedFromPushSendsViewEventWithValidTag
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
 	
 	[tester tapViewWithAccessibilityLabel:@"Done"];
-    
     [tester waitForTimeInterval:2.0f];
 }
 
-- (void) test_2_PresentAnotherViewControllerSendsViewEventWithValidTag
+- (void)test_2_PresentAnotherViewControllerSendsViewEventWithValidTag
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];

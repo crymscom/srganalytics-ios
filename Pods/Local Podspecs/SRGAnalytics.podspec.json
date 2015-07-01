@@ -1,6 +1,6 @@
 {
   "name": "SRGAnalytics",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "summary": "Analytics for SRG mobile applications",
   "description": "Analytics for SRG mobile applications",
   "homepage": "https://bitbucket.org/rtsmb/srganalytics-ios",
@@ -15,7 +15,7 @@
   },
   "source": {
     "git": "git@bitbucket.org:rtsmb/srganalytics-ios.git",
-    "tag": "0.5.0"
+    "tag": "0.5.1"
   },
   "requires_arc": true,
   "platforms": {
@@ -50,7 +50,7 @@
             "RTSAnalytics/Core/RTSAnalyticsVersion.m",
             "RTSAnalytics/Core/RTSAnalyticsVersion_private.h"
           ],
-          "compiler_flags": "-DRTS_ANALYTICS_VERSION=0.5.0"
+          "compiler_flags": "-DRTS_ANALYTICS_VERSION=0.5.1"
         }
       ]
     },
@@ -66,7 +66,7 @@
 
         ],
         "SRGMediaPlayer": [
-          "~> 0.5.0"
+          "~> 0.5"
         ]
       }
     }

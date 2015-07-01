@@ -8,9 +8,6 @@
 #import <KIF/KIF.h>
 #import <SRGMediaPlayer/RTSMediaSegmentsController.h>
 
-extern NSString * const RTSAnalyticsComScoreRequestDidFinishNotification;
-extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
-
 @interface RTSAnalytics_Demo_2_MediaPlayerTests : KIFTestCase
 
 @end
@@ -27,8 +24,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
     XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
 	XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
 	XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
@@ -38,11 +35,11 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 
 - (void)test_2_CloseMediaPlayerSendsStreamLiveEndMeasurement
 {
-	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil whileExecutingBlock:^{
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
 		[tester tapViewWithAccessibilityLabel:@"Done"];
 	}];
 	
-	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
 	XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
 	XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
@@ -54,8 +51,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
 	XCTAssertEqualObjects(labels[@"ns_st_li"], @"0");
 	XCTAssertNil(labels[@"srg_enc"]);
@@ -65,11 +62,11 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 
 - (void)test_4_CloseMediaPlayerSendsStreamLiveEndMeasurement
 {
-	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil whileExecutingBlock:^{
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
 		[tester tapViewWithAccessibilityLabel:@"Done"];
 	}];
 	
-	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
 	XCTAssertEqualObjects(labels[@"ns_st_li"], @"0");
 	XCTAssertNil(labels[@"srg_enc"]);
@@ -83,8 +80,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 {
     // Initial full-length play when opening
     {
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
             if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
@@ -106,8 +103,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     // Play the segment. Expect full-length pause immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -149,8 +146,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     // Let the segment be played through, at which point resumes with the full-length
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -207,8 +204,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 {
     // Initial full-length play when opening
     {
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
             if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
@@ -229,8 +226,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     // Go to 1st segment. Expect full-length pause immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -272,8 +269,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     // since the user does not select it explicitly
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -322,8 +319,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 {
     // Initial full-length play when opening
     {
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
             if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
@@ -344,8 +341,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     // Go to 1st segment. Expect full-length pause immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -386,8 +383,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     // Manually switch to the second segment. Expect first segment pause immediately followed by second segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -439,8 +436,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 {
     // Initial full-length play when opening
     {
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
             if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
@@ -461,8 +458,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     // Go to 1st segment. Expect full-length pause immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -503,8 +500,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     // Manually switch to the same segment. Expect segment pause and play for the same segment
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -555,8 +552,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 {
     // Initial full-length play when opening
     {
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
             if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
@@ -577,8 +574,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     // Go to 1st segment. Expect full-length pause immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -619,8 +616,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     // Seek outside the segment. Expect segment pause followed by full-length play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -682,8 +679,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 {
     // Initial full-length play when opening
     {
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
             if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
@@ -704,8 +701,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     // Go to 1st segment. Expect full-length pause immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -745,8 +742,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     
     // Close the player. Only an end event is expected for the full-length
     {
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -772,8 +769,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 {
     // Initial full-length play when opening
     {
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
             if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
@@ -794,8 +791,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     
     // Seek into the blocked segment
     {
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -817,8 +814,8 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
     
     // Resume playback
     {
-        [self expectationForNotification:RTSAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
             if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])

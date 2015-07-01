@@ -1,6 +1,7 @@
 source 'ssh://git@bitbucket.org/rtsmb/srgpodspecs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
+inhibit_all_warnings!
 platform :ios, '7.0'
 workspace 'SRGAnalytics.xcworkspace'
 
@@ -22,10 +23,10 @@ end
 
 target 'SRGAnalytics DemoTests', :exclusive => true do
 	xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo'
-    pod 'SRGAnalytics',               { :path => '.' }
-    pod 'SRGAnalytics/MediaPlayer',   { :path => '.' }
 	pod 'KIF', '3.2.1'
 end
+
+### Workaround to make sure to have iPad xibs compiled as well.
 
 post_install do |installer|
     

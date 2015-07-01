@@ -11,9 +11,6 @@
 #import <KIF/KIF.h>
 #import <SRGAnalytics/SRGAnalytics.h>
 
-extern NSString * const RTSAnalyticsComScoreRequestDidFinishNotification;
-extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
-
 @interface RTSAnalytics_Demo_1_ViewEventTests : KIFTestCase
 
 @end
@@ -22,18 +19,20 @@ extern NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
 
 static NSDictionary *startLabels = nil;
 
-+ (void) load
++ (void)load
 {
-	[[NSNotificationCenter defaultCenter] addObserverForName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-	{
-		NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
-		if ([labels[@"ns_ap_ev"] isEqualToString:@"start"]) {
-			static dispatch_once_t onceToken;
-			dispatch_once(&onceToken, ^{
-				startLabels  = labels;
-			});
-		}
-	}];
+	[[NSNotificationCenter defaultCenter] addObserverForName:@"RTSAnalyticsComScoreRequestDidFinish"
+                                                      object:nil
+                                                       queue:nil
+                                                  usingBlock:^(NSNotification *notification) {
+                                                      NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+                                                      if ([labels[@"ns_ap_ev"] isEqualToString:@"start"]) {
+                                                          static dispatch_once_t onceToken;
+                                                          dispatch_once(&onceToken, ^{
+                                                              startLabels = [labels copy];
+                                                          });
+                                                      }
+                                                  }];
 }
 
 - (void)setUp
@@ -42,9 +41,9 @@ static NSDictionary *startLabels = nil;
     [KIFSystemTestActor setDefaultTimeout:30.0];
 }
 
-- (void) test_1_ApplicationStartsAndStartMeasurementAndFirstPageViewEventAreSend
+- (void)test_1_ApplicationStartsAndStartMeasurementAndFirstPageViewEventAreSend
 {
-	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 	XCTAssertEqualObjects(startLabels[@"ns_ap_an"], @"SRGAnalytics Demo iOS");
 	XCTAssertEqualObjects(startLabels[@"ns_site"], @"mainsite");
 	XCTAssertEqualObjects(startLabels[@"ns_vsite"], @"rts-app-test-v");
@@ -61,12 +60,12 @@ static NSDictionary *startLabels = nil;
     [tester waitForTimeInterval:2.0f];
 }
 
-- (void) test_2_PresentViewControllerWithNoTitleSendsViewEvent
+- (void)test_2_PresentViewControllerWithNoTitleSendsViewEvent
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	
 	XCTAssertEqualObjects(labels[@"name"], @"app.untitled");
 	XCTAssertEqualObjects(labels[@"category"], @"app");
@@ -84,8 +83,8 @@ static NSDictionary *startLabels = nil;
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
-	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	
 	XCTAssertEqualObjects(labels[@"name"], @"app.cest-un-titre-pour-levenement-");
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
@@ -102,8 +101,8 @@ static NSDictionary *startLabels = nil;
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	
 	XCTAssertEqualObjects(labels[@"name"], @"tv.dautres-niveauxplus-loin.title");
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
@@ -122,8 +121,8 @@ static NSDictionary *startLabels = nil;
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:nil];
-	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	
 	XCTAssertEqualObjects(labels[@"name"], @"tv.n1.n2.title");
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");

@@ -57,19 +57,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0AC9040CB6772AEB63FCDE39 /* Pods-SRGAnalyticsTests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.test.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.test.xcconfig"; sourceTree = "<group>"; };
 		0B866E4F23445891E99E0F7D /* libPods-SRGAnalyticsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalyticsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		187F1FA0CD4216ED8F2BE07B /* Pods-SRGAnalyticsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.release.xcconfig"; sourceTree = "<group>"; };
+		18BFADC8E5A38BC54D9672E0 /* Pods-SRGAnalyticsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1AF1EE5C2B9C9B206B5A019D /* Pods-SRGAnalyticsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.release.xcconfig"; sourceTree = "<group>"; };
 		3BDB9122CCBE15E6075B5D31 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6AA4E3FD5E876FA798EC44DA /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		6D062CCDFB80D8AA5143D6B7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		82A2C563704C4F74C9F6D11E /* Pods-SRGAnalyticsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		753A47FB6E7AD7FBA4482B54 /* Pods.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.test.xcconfig; path = "Pods/Target Support Files/Pods/Pods.test.xcconfig"; sourceTree = "<group>"; };
+		8B6779BB2E463446A576E682 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9F1518BB1AC2F1CE00AE051D /* libSRGAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSRGAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1518C61AC2F1CE00AE051D /* SRGAnalyticsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SRGAnalyticsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1518CC1AC2F1CE00AE051D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F1519211AC422AE00AE051D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F1519231AC422B800AE051D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		9F4420EC1B09DB2F00AD0613 /* CSRequest+RTSAnalytics_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CSRequest+RTSAnalytics_private.h"; path = "RTSAnalytics/Core/CSRequest+RTSAnalytics_private.h"; sourceTree = SOURCE_ROOT; };
-		9F4420ED1B09DB2F00AD0613 /* CSRequest+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CSRequest+RTSAnalytics.m"; path = "RTSAnalytics/Core/CSRequest+RTSAnalytics.m"; sourceTree = SOURCE_ROOT; };
+		9F4420EC1B09DB2F00AD0613 /* CSRequest+RTSAnalytics_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "CSRequest+RTSAnalytics_private.h"; path = "RTSAnalytics/Core/CSRequest+RTSAnalytics_private.h"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9F4420ED1B09DB2F00AD0613 /* CSRequest+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = "CSRequest+RTSAnalytics.m"; path = "RTSAnalytics/Core/CSRequest+RTSAnalytics.m"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9F4420EE1B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+RTSAnalytics.h"; path = "RTSAnalytics/Core/NSDictionary+RTSAnalytics.h"; sourceTree = SOURCE_ROOT; };
 		9F4420EF1B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+RTSAnalytics.m"; path = "RTSAnalytics/Core/NSDictionary+RTSAnalytics.m"; sourceTree = SOURCE_ROOT; };
 		9F4420F01B09DB2F00AD0613 /* NSString+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+RTSAnalytics.h"; path = "RTSAnalytics/Core/NSString+RTSAnalytics.h"; sourceTree = SOURCE_ROOT; };
@@ -87,7 +88,7 @@
 		B64502AE1ADE81F9001021A8 /* RTSAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsTracker.h; sourceTree = "<group>"; };
 		B64502AF1ADE81F9001021A8 /* RTSAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTracker.m; sourceTree = "<group>"; };
 		B64502B01ADE81F9001021A8 /* RTSAnalyticsTracker+Logging_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RTSAnalyticsTracker+Logging_private.h"; sourceTree = "<group>"; };
-		B64502B11ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RTSAnalyticsTracker+Logging.m"; sourceTree = "<group>"; };
+		B64502B11ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "RTSAnalyticsTracker+Logging.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B64503131ADFA753001021A8 /* RTSAnalyticsMediaPlayerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsMediaPlayerDataSource.h; sourceTree = "<group>"; };
 		B64503141ADFA753001021A8 /* RTSAnalyticsStreamTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsStreamTracker.m; sourceTree = "<group>"; };
 		B64503151ADFA753001021A8 /* RTSAnalyticsStreamTracker_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsStreamTracker_private.h; sourceTree = "<group>"; };
@@ -101,6 +102,7 @@
 		C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsLogger.m; sourceTree = "<group>"; };
 		E6F023791B328F59001B6F0B /* RTSAnalyticsVersion_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsVersion_private.h; sourceTree = "<group>"; };
 		E6F0237A1B328F59001B6F0B /* RTSAnalyticsVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsVersion.m; sourceTree = "<group>"; };
+		FFFE1559FD6648948E474778 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,10 +133,12 @@
 		672CEE20A4903FABD91AD0BD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6D062CCDFB80D8AA5143D6B7 /* Pods.debug.xcconfig */,
-				6AA4E3FD5E876FA798EC44DA /* Pods.release.xcconfig */,
-				82A2C563704C4F74C9F6D11E /* Pods-SRGAnalyticsTests.debug.xcconfig */,
-				187F1FA0CD4216ED8F2BE07B /* Pods-SRGAnalyticsTests.release.xcconfig */,
+				8B6779BB2E463446A576E682 /* Pods.debug.xcconfig */,
+				753A47FB6E7AD7FBA4482B54 /* Pods.test.xcconfig */,
+				FFFE1559FD6648948E474778 /* Pods.release.xcconfig */,
+				18BFADC8E5A38BC54D9672E0 /* Pods-SRGAnalyticsTests.debug.xcconfig */,
+				0AC9040CB6772AEB63FCDE39 /* Pods-SRGAnalyticsTests.test.xcconfig */,
+				1AF1EE5C2B9C9B206B5A019D /* Pods-SRGAnalyticsTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -467,6 +471,97 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		9F01791A1B440579005DA9E3 /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Test;
+		};
+		9F01791B1B440579005DA9E3 /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 753A47FB6E7AD7FBA4482B54 /* Pods.test.xcconfig */;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"RTS_ANALYTICS_VERSION=Test",
+				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/KIF\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/OCMock\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SRGAnalytics\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SRGMediaPlayer\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/comScore-iOS-SDK-RTS\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/libextobjc\"",
+				);
+				PRODUCT_NAME = SRGAnalytics;
+				SKIP_INSTALL = YES;
+			};
+			name = Test;
+		};
+		9F01791C1B440579005DA9E3 /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0AC9040CB6772AEB63FCDE39 /* Pods-SRGAnalyticsTests.test.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = RTSAnalyticsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = SRGAnalyticsTests;
+			};
+			name = Test;
+		};
 		9F1518CD1AC2F1CE00AE051D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -541,7 +636,7 @@
 		};
 		9F1518D01AC2F1CE00AE051D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6D062CCDFB80D8AA5143D6B7 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 8B6779BB2E463446A576E682 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -554,7 +649,7 @@
 		};
 		9F1518D11AC2F1CE00AE051D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6AA4E3FD5E876FA798EC44DA /* Pods.release.xcconfig */;
+			baseConfigurationReference = FFFE1559FD6648948E474778 /* Pods.release.xcconfig */;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -567,7 +662,7 @@
 		};
 		9F1518D31AC2F1CE00AE051D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 82A2C563704C4F74C9F6D11E /* Pods-SRGAnalyticsTests.debug.xcconfig */;
+			baseConfigurationReference = 18BFADC8E5A38BC54D9672E0 /* Pods-SRGAnalyticsTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -586,7 +681,7 @@
 		};
 		9F1518D41AC2F1CE00AE051D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 187F1FA0CD4216ED8F2BE07B /* Pods-SRGAnalyticsTests.release.xcconfig */;
+			baseConfigurationReference = 1AF1EE5C2B9C9B206B5A019D /* Pods-SRGAnalyticsTests.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -605,6 +700,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F1518CD1AC2F1CE00AE051D /* Debug */,
+				9F01791A1B440579005DA9E3 /* Test */,
 				9F1518CE1AC2F1CE00AE051D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -614,6 +710,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F1518D01AC2F1CE00AE051D /* Debug */,
+				9F01791B1B440579005DA9E3 /* Test */,
 				9F1518D11AC2F1CE00AE051D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -623,6 +720,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F1518D31AC2F1CE00AE051D /* Debug */,
+				9F01791C1B440579005DA9E3 /* Test */,
 				9F1518D41AC2F1CE00AE051D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
