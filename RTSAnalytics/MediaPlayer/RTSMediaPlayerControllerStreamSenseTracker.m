@@ -34,8 +34,9 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (id)initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource virtualSite:(NSString *)virtualSite
 {
-	if(!(self = [super init]))
+    if(!(self = [super init])) {
 	   return nil;
+    }
 	
 	_mediaPlayerController = mediaPlayerController;
 	_dataSource = dataSource;
@@ -70,9 +71,12 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 #pragma mark - CSStreamSensePluginProtocol
 
-- (long) currentPositionInMilliseconds
+- (long)currentPositionInMilliseconds
 {
 	CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
+    if (CMTIME_IS_INDEFINITE(currentTime)) {
+        return 0.0;
+    }
 	return (long) floor(CMTimeGetSeconds(currentTime) * 1000);
 }
 
@@ -89,25 +93,30 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	[self setLabel:@"ns_st_airplay" value:[self airplay]];
 	
 	NSURL *contentURL = [self contentURL];
-	if (contentURL)
-	 [self setLabel:@"ns_st_cu" value:contentURL.absoluteString];
+    if (contentURL) {
+        [self setLabel:@"ns_st_cu" value:contentURL.absoluteString];
+    }
 	
 	// Clips
 	NSString *dimensions = [self dimensions];
-	if (dimensions)
+    if (dimensions) {
 		[[self clip] setLabel:@"ns_st_cs" value:dimensions];
+    }
 	
 	NSString *duration = [self duration];
-	if (duration)
+    if (duration) {
 		[[self clip] setLabel:@"ns_st_cl" value:duration];
+    }
 	
 	NSString *liveStream = [self liveStream];
-	if (liveStream)
+    if (liveStream) {
 		[[self clip] setLabel:@"ns_st_li" value:liveStream];
+    }
 	
 	NSString *srg_enc = [self srg_enc];
-	if (srg_enc)
+    if (srg_enc) {
 		[[self clip] setLabel:@"srg_enc" value:srg_enc];
+    }
 	
 	// Playlist
 	if ([self.dataSource respondsToSelector:@selector(streamSensePlaylistMetadataForIdentifier:)]) {
@@ -130,11 +139,10 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 #pragma mark - Private helper methods
 
-- (NSString *) bitRate
+- (NSString *)bitRate
 {
 	AVPlayerItem *currentItem = self.mediaPlayerController.player.currentItem;
-	if (currentItem)
-	{
+	if (currentItem) {
 		NSArray *events = currentItem.accessLog.events;
 		if (events.lastObject) {
 			double observedBitrate = [events.lastObject observedBitrate];
@@ -144,7 +152,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return nil;
 }
 
-- (NSString *) windowState
+- (NSString *)windowState
 {
 	AVPlayerLayer *playerLayer = [(RTSMediaPlayerView *)self.mediaPlayerController.view playerLayer];
 	CGSize size = playerLayer.videoRect.size;
@@ -152,13 +160,15 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return round(size.width) == round(screenRect.size.width) && round(size.height) == round(screenRect.size.height)  ? @"full" : @"norm";
 }
 
-- (NSString *) volume
+- (NSString *)volume
 {
-	if (self.mediaPlayerController.player && self.mediaPlayerController.player.isMuted)
+    if (self.mediaPlayerController.player && self.mediaPlayerController.player.isMuted) {
 		return @"0";
+    }
 	
-	if (![[AVAudioSession sharedInstance] respondsToSelector:@selector(outputVolume)])
+    if (![[AVAudioSession sharedInstance] respondsToSelector:@selector(outputVolume)]) {
 		return @"0";
+    }
 	
 	id instance = [AVAudioSession sharedInstance];
 	IMP outputVolumeImp = [instance methodForSelector:@selector(outputVolume)];
@@ -166,18 +176,21 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return [NSString stringWithFormat:@"%d", (int) (volume * 100)];
 }
 
-- (NSString *) scalingMode
+- (NSString *)scalingMode
 {
 	AVPlayerLayer *playerLayer = [(RTSMediaPlayerView *)self.mediaPlayerController.view playerLayer];
 	
 	NSString *result = @"no";
 	if (playerLayer) {
-		if ([playerLayer.videoGravity isEqualToString:@"AVLayerVideoGravityResize"])
+        if ([playerLayer.videoGravity isEqualToString:@"AVLayerVideoGravityResize"]) {
 			result = @"fill";
-		else if ([playerLayer.videoGravity isEqualToString:@"AVLayerVideoGravityResizeAspect"])
+        }
+        else if ([playerLayer.videoGravity isEqualToString:@"AVLayerVideoGravityResizeAspect"]) {
 			result = @"fit-a";
-		else if ([playerLayer.videoGravity isEqualToString:@"AVLayerVideoGravityResizeAspectFill"])
+        }
+        else if ([playerLayer.videoGravity isEqualToString:@"AVLayerVideoGravityResizeAspectFill"]) {
 			result = @"fill-a";
+        }
 	}
 	return result;
 }
@@ -243,7 +256,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return nil;
 }
 
-- (NSURL *) contentURL
+- (NSURL *)contentURL
 {
 	AVAsset *asset = self.mediaPlayerController.player.currentItem.asset;
 	if ([asset isKindOfClass:[AVURLAsset class]]) {
@@ -254,13 +267,12 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return nil;
 }
 
-- (NSString *) srg_enc
+- (NSString *)srg_enc
 {
 	// Add 'Encoder' value (live only):
 	NSURL *contentURL = [self contentURL];
 	NSString *liveStream = [self liveStream];
-	if (contentURL.path.length > 0 && [liveStream isEqualToString:@"1"])
-	{
+	if (contentURL.path.length > 0 && [liveStream isEqualToString:@"1"]) {
 		NSRegularExpression *re = [NSRegularExpression regularExpressionWithPattern:@"enc(\\d+)" options:0 error:nil];
 		NSTextCheckingResult *firstMatch = [re firstMatchInString:contentURL.path options:0 range:NSMakeRange(0, contentURL.path.length)];
 		
