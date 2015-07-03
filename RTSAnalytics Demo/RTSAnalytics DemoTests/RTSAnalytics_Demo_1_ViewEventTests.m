@@ -38,7 +38,7 @@ static NSDictionary *startLabels = nil;
 - (void)setUp
 {
     [super setUp];
-    [KIFSystemTestActor setDefaultTimeout:30.0];
+    [KIFSystemTestActor setDefaultTimeout:60.0];
 }
 
 - (void)test_1_ApplicationStartsAndStartMeasurementAndFirstPageViewEventAreSend
