@@ -45,7 +45,7 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSLog(@"Did Select indexPath at row %ld", indexPath.row);
+	NSLog(@"Did Select indexPath at row %ld", (long)indexPath.row);
 	
 	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 	
