@@ -54,7 +54,7 @@
 	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-	XCTAssertEqualObjects(labels[@"ns_st_li"], @"0");
+    XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must be present in other than live streams.");
 	XCTAssertNil(labels[@"srg_enc"]);
     
     [tester waitForTimeInterval:2.0f];
@@ -68,7 +68,7 @@
 	
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-	XCTAssertEqualObjects(labels[@"ns_st_li"], @"0");
+    XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must be present in other than live streams.");
 	XCTAssertNil(labels[@"srg_enc"]);
 	
 	[tester waitForTimeInterval:2.0f];

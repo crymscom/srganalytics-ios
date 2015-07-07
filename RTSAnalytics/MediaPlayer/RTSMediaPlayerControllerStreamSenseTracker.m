@@ -228,12 +228,18 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return self.mediaPlayerController.player.isExternalPlaybackActive ? @"1" : @"0";
 }
 
-- (NSString *) liveStream
+// As requested by Markus Gubler, do not even send a "0" when it is not live stream.
+- (NSString *)liveStream
 {
-	if (!self.mediaPlayerController.player.currentItem)
+    if (!self.mediaPlayerController.player.currentItem) {
 		return nil;
+    }
 		
-	return (CMTimeCompare(self.mediaPlayerController.player.currentItem.duration, kCMTimeIndefinite) == 0) ? @"1" : @"0";
+    if (CMTimeCompare(self.mediaPlayerController.player.currentItem.duration, kCMTimeIndefinite) == 0) {
+        return @"1";
+    }
+    
+    return nil;
 }
 
 - (NSString *) dimensions
