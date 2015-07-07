@@ -79,8 +79,9 @@
 - (BOOL) shouldTrackMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
 {
 	BOOL shouldTrackMediaPlayerController = YES;
-	if ([self.mediaPlayerDelegate conformsToProtocol:@protocol(RTSAnalyticsMediaPlayerDelegate)])
+    if ([self.mediaPlayerDelegate respondsToSelector:@selector(shouldTrackMediaWithIdentifier:)]) {
 		shouldTrackMediaPlayerController = [self.mediaPlayerDelegate shouldTrackMediaWithIdentifier:mediaPlayerController.identifier];
+    }
 	
 	return shouldTrackMediaPlayerController;
 }
