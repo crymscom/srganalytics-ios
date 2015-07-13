@@ -14,21 +14,24 @@ The library can be added to a project through [CocoaPods](http://cocoapods.org/)
 
 * The SRG specification repository:
     
-    ```ruby
+```
+#!ruby
     source 'ssh://git@bitbucket.org/rtsmb/srgpodspecs.git'
-    ```
+```
     
 * The `SRGAnalytics` dependency:
 
-    ```ruby
+```
+#!ruby
     pod 'SRGAnalytics', '<version>'
-    ```
+```
 
 * To add the SRGMediaPlayer support:
 
-    ```ruby
+```
+#!ruby
     pod 'SRGAnalytics/MediaPlayer'
-    ```
+```
 
 It is preferable to not provide a version number for the sub-spec SRGMediaPlayer.
 
