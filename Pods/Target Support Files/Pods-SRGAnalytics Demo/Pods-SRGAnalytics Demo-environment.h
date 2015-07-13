@@ -10,25 +10,25 @@
 #define COCOAPODS_POD_AVAILABLE_SRGAnalytics
 #define COCOAPODS_VERSION_MAJOR_SRGAnalytics 0
 #define COCOAPODS_VERSION_MINOR_SRGAnalytics 5
-#define COCOAPODS_VERSION_PATCH_SRGAnalytics 1
+#define COCOAPODS_VERSION_PATCH_SRGAnalytics 5
 
 // SRGAnalytics/Core
 #define COCOAPODS_POD_AVAILABLE_SRGAnalytics_Core
 #define COCOAPODS_VERSION_MAJOR_SRGAnalytics_Core 0
 #define COCOAPODS_VERSION_MINOR_SRGAnalytics_Core 5
-#define COCOAPODS_VERSION_PATCH_SRGAnalytics_Core 1
+#define COCOAPODS_VERSION_PATCH_SRGAnalytics_Core 5
 
 // SRGAnalytics/Core/Version
 #define COCOAPODS_POD_AVAILABLE_SRGAnalytics_Core_Version
 #define COCOAPODS_VERSION_MAJOR_SRGAnalytics_Core_Version 0
 #define COCOAPODS_VERSION_MINOR_SRGAnalytics_Core_Version 5
-#define COCOAPODS_VERSION_PATCH_SRGAnalytics_Core_Version 1
+#define COCOAPODS_VERSION_PATCH_SRGAnalytics_Core_Version 5
 
 // SRGAnalytics/MediaPlayer
 #define COCOAPODS_POD_AVAILABLE_SRGAnalytics_MediaPlayer
 #define COCOAPODS_VERSION_MAJOR_SRGAnalytics_MediaPlayer 0
 #define COCOAPODS_VERSION_MINOR_SRGAnalytics_MediaPlayer 5
-#define COCOAPODS_VERSION_PATCH_SRGAnalytics_MediaPlayer 1
+#define COCOAPODS_VERSION_PATCH_SRGAnalytics_MediaPlayer 5
 
 // SRGMediaPlayer
 #define COCOAPODS_POD_AVAILABLE_SRGMediaPlayer
