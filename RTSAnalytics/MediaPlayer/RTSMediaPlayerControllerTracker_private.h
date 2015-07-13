@@ -7,7 +7,7 @@
 #import "RTSAnalyticsMediaPlayerDataSource.h"
 #import "RTSAnalyticsMediaPlayerDelegate.h"
 
-@interface RTSAnalyticsStreamTracker : NSObject
+@interface RTSMediaPlayerControllerTracker : NSObject
 
 /**
  *  ---------------------------------------

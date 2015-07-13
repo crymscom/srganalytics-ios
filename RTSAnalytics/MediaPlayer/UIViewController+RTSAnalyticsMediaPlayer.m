@@ -7,7 +7,7 @@
 
 #import <objc/runtime.h>
 
-#import "RTSAnalyticsStreamTracker_private.h"
+#import "RTSMediaPlayerControllerTracker_private.h"
 #import "RTSAnalyticsMediaPlayerDelegate.h"
 
 @implementation UIViewController (RTSAnalyticsMediaPlayer)
@@ -21,12 +21,12 @@
 
 - (void) startTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
 {
-	[[RTSAnalyticsStreamTracker sharedTracker] startTrackingMediaPlayerController:mediaPlayerController];
+	[[RTSMediaPlayerControllerTracker sharedTracker] startTrackingMediaPlayerController:mediaPlayerController];
 }
 
 - (void) stopTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
 {
-	[[RTSAnalyticsStreamTracker sharedTracker] stopTrackingMediaPlayerController:mediaPlayerController];
+	[[RTSMediaPlayerControllerTracker sharedTracker] stopTrackingMediaPlayerController:mediaPlayerController];
 }
 
 #pragma mark - RTSAnalyticsMediaPlayerDelegate
@@ -45,7 +45,7 @@ static void AnalyticsViewDidLoad(UIViewController *self, SEL _cmd)
 	if ([self conformsToProtocol:@protocol(RTSAnalyticsMediaPlayerDelegate)])
 		mediaPlayerDelegate = (id<RTSAnalyticsMediaPlayerDelegate>)self;
 	
-	[[RTSAnalyticsStreamTracker sharedTracker] trackMediaPlayerFromPresentingViewController:mediaPlayerDelegate];
+	[[RTSMediaPlayerControllerTracker sharedTracker] trackMediaPlayerFromPresentingViewController:mediaPlayerDelegate];
 }
 
 @end

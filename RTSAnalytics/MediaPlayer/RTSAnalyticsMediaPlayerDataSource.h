@@ -17,6 +17,15 @@
 @optional
 
 /**
+ *  Returns a dictionary of key values that will be sent to comScore at the time of the player ready.
+ *
+ *  @param identifier the identifier of the media
+ *
+ *  @return a dictionary of view labels for comScore
+ */
+- (NSDictionary *)comScoreReadyToPlayLabelsForIdentifier:(NSString *)identifier;
+
+/**
  *  Returns a dictionary of key values that will be sent as Streamsense playlist labels.
  *
  *  @param identifier the identifier of the video requesting playlist labels for Streamsense measurement.

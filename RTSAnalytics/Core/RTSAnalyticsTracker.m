@@ -17,7 +17,7 @@
 #if __has_include("RTSAnalyticsMediaPlayer.h")
 #define RTSAnalyticsMediaPlayerIncluded
 #import "RTSAnalyticsMediaPlayer.h"
-#import "RTSAnalyticsStreamTracker_private.h"
+#import "RTSMediaPlayerControllerTracker_private.h"
 #endif
 
 @interface RTSAnalyticsTracker ()
@@ -125,7 +125,7 @@
 	
 	NSString *businessUnitIdentifier = [self businessUnitIdentifier:self.businessUnit];
 	NSString *streamSenseVirtualSite = self.production ? [NSString stringWithFormat:@"%@-v", businessUnitIdentifier] : @"rts-app-test-v";
-	[[RTSAnalyticsStreamTracker sharedTracker] startStreamMeasurementForVirtualSite:streamSenseVirtualSite mediaDataSource:dataSource];
+	[[RTSMediaPlayerControllerTracker sharedTracker] startStreamMeasurementForVirtualSite:streamSenseVirtualSite mediaDataSource:dataSource];
 }
 #endif
 

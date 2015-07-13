@@ -23,6 +23,6 @@
  *  @discussion A media tracker is created each time a new media player starts, however for some reasons (by ex: multilive) some streams should not be tracked.
  *  To force the creation of a new stream tracker instance call `-startTrackingMediaPlayerController:`, @see `UIViewController+RTSAnalyticsMediaPlayer.h`
  */
-- (BOOL) shouldTrackMediaWithIdentifier:(NSString *)identifier;
+- (BOOL)shouldTrackMediaWithIdentifier:(NSString *)identifier;
 
 @end
