@@ -100,8 +100,8 @@
 		B64503921AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RTSAnalyticsMediaPlayer.m"; sourceTree = "<group>"; };
 		C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsLogger.h; sourceTree = "<group>"; };
 		C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsLogger.m; sourceTree = "<group>"; };
-		E6F023791B328F59001B6F0B /* RTSAnalyticsVersion_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsVersion_private.h; sourceTree = "<group>"; };
-		E6F0237A1B328F59001B6F0B /* RTSAnalyticsVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsVersion.m; sourceTree = "<group>"; };
+		E6F023791B328F59001B6F0B /* RTSAnalyticsVersion_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTSAnalyticsVersion_private.h; path = Core/RTSAnalyticsVersion_private.h; sourceTree = "<group>"; };
+		E6F0237A1B328F59001B6F0B /* RTSAnalyticsVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RTSAnalyticsVersion.m; path = Core/RTSAnalyticsVersion.m; sourceTree = "<group>"; };
 		FFFE1559FD6648948E474778 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,8 +168,11 @@
 			isa = PBXGroup;
 			children = (
 				B64502681ADE56F5001021A8 /* SRGAnalytics.h */,
+				E6F023791B328F59001B6F0B /* RTSAnalyticsVersion_private.h */,
+				E6F0237A1B328F59001B6F0B /* RTSAnalyticsVersion.m */,
 				B64502561ADE56F5001021A8 /* Core */,
 				B64503121ADFA753001021A8 /* MediaPlayer */,
+				B64502A41ADE81F9001021A8 /* Helpers & Categories */,
 			);
 			name = SRGAnalytics;
 			path = RTSAnalytics;
@@ -192,6 +195,26 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		9FA2200B1B53E34300886FB2 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				B64502AA1ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker_private.h */,
+				B64502A91ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker.m */,
+			);
+			name = Private;
+			sourceTree = "<group>";
+		};
+		9FA2200C1B53E34C00886FB2 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				B64503151ADFA753001021A8 /* RTSAnalyticsStreamTracker_private.h */,
+				B64503141ADFA753001021A8 /* RTSAnalyticsStreamTracker.m */,
+				B64503171ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker_private.h */,
+				B64503161ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker.m */,
+			);
+			name = Private;
+			sourceTree = "<group>";
+		};
 		AC99606425BE818BA71D7E4D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,49 +231,43 @@
 		B64502561ADE56F5001021A8 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger.h */,
-				C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */,
-				B64503181ADFA753001021A8 /* RTSAnalyticsMediaPlayer.h */,
-				B64502AA1ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker_private.h */,
-				B64502A91ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker.m */,
-				B64502AD1ADE81F9001021A8 /* RTSAnalyticsPageViewDataSource.h */,
 				B64502AE1ADE81F9001021A8 /* RTSAnalyticsTracker.h */,
 				B64502AF1ADE81F9001021A8 /* RTSAnalyticsTracker.m */,
-				B64502B01ADE81F9001021A8 /* RTSAnalyticsTracker+Logging_private.h */,
-				B64502B11ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.m */,
-				E6F023791B328F59001B6F0B /* RTSAnalyticsVersion_private.h */,
-				E6F0237A1B328F59001B6F0B /* RTSAnalyticsVersion.m */,
-				B64502A41ADE81F9001021A8 /* Categories */,
+				B64502AD1ADE81F9001021A8 /* RTSAnalyticsPageViewDataSource.h */,
+				9F4420F21B09DB2F00AD0613 /* UIViewController+RTSAnalytics.h */,
+				9F4420F31B09DB2F00AD0613 /* UIViewController+RTSAnalytics.m */,
+				9FA2200B1B53E34300886FB2 /* Private */,
 			);
 			path = Core;
 			sourceTree = "<group>";
 		};
-		B64502A41ADE81F9001021A8 /* Categories */ = {
+		B64502A41ADE81F9001021A8 /* Helpers & Categories */ = {
 			isa = PBXGroup;
 			children = (
+				C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger.h */,
+				C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */,
+				B64502B01ADE81F9001021A8 /* RTSAnalyticsTracker+Logging_private.h */,
+				B64502B11ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.m */,
 				9F4420EC1B09DB2F00AD0613 /* CSRequest+RTSAnalytics_private.h */,
 				9F4420ED1B09DB2F00AD0613 /* CSRequest+RTSAnalytics.m */,
 				9F4420EE1B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.h */,
 				9F4420EF1B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.m */,
 				9F4420F01B09DB2F00AD0613 /* NSString+RTSAnalytics.h */,
 				9F4420F11B09DB2F00AD0613 /* NSString+RTSAnalytics.m */,
-				9F4420F21B09DB2F00AD0613 /* UIViewController+RTSAnalytics.h */,
-				9F4420F31B09DB2F00AD0613 /* UIViewController+RTSAnalytics.m */,
 			);
-			path = Categories;
+			name = "Helpers & Categories";
+			path = Core;
 			sourceTree = "<group>";
 		};
 		B64503121ADFA753001021A8 /* MediaPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				B64503181ADFA753001021A8 /* RTSAnalyticsMediaPlayer.h */,
 				B64503131ADFA753001021A8 /* RTSAnalyticsMediaPlayerDataSource.h */,
 				B645038C1AE3D74D001021A8 /* RTSAnalyticsMediaPlayerDelegate.h */,
-				B64503151ADFA753001021A8 /* RTSAnalyticsStreamTracker_private.h */,
-				B64503141ADFA753001021A8 /* RTSAnalyticsStreamTracker.m */,
-				B64503171ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker_private.h */,
-				B64503161ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker.m */,
 				B64503911AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.h */,
 				B64503921AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m */,
+				9FA2200C1B53E34C00886FB2 /* Private */,
 			);
 			path = MediaPlayer;
 			sourceTree = "<group>";
