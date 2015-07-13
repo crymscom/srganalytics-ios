@@ -53,7 +53,7 @@ In your app delegate, in the method `- (BOOL)application:(UIApplication *)applic
 
 ```
 
-Moreover, your app Info.plist file must contains a dictionary section called 'RTSAnalytics' (this will soon be made compatible with 'SRGAnalytics' naming as well), containing values for the following keys: 'ComscoreVirtualSite', 'NetmetrixAppID', 'StreamsenseVirtualSite'. By using custom build settings variables, it is possible to provide different values for different configurations (Debug, Beta, Release etc...)
+Moreover, your app *Info.plist* file must contains a dictionary section called 'RTSAnalytics' (this will soon be made compatible with 'SRGAnalytics' naming as well), containing values for the following keys: '**ComscoreVirtualSite**', '**NetmetrixAppID**', '**StreamsenseVirtualSite**'. By using custom build settings variables, it is possible to provide different values for different configurations (Debug, Beta, Release etc...)
 
 **Important Note:** By default, the flag 'production' is set to 'NO' to avoid sending useless statistics. It means that none of the statistics will be sent in such state. If you want to test your app in 'beta' stage, set this flag to 'YES' and provide dedicated 'site' values to the keys above.
 
