@@ -13,7 +13,8 @@
 @optional
 
 /**
- *  Method called before a CSStreamSense instance is automatically created. If not implemented, the default behaviour will occur : a new stream tracker will be created.
+ *  Method called before a CSStreamSense instance is automatically created. If not implemented, the default answer is considered
+ *  to be 'YES', that is, a new stream tracker will be created.
  *
  *  @param identifier the identifier of the currently playing media.
  *
