@@ -83,8 +83,8 @@
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
-            // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
             {
                 return NO;
             }
@@ -130,7 +130,6 @@
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
                 return YES;
             }
-            // E.g.
             else
             {
                 return NO;
@@ -173,7 +172,6 @@
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 return YES;
             }
-            // E.g.
             else
             {
                 return NO;
@@ -207,8 +205,8 @@
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
-            // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
             {
                 return NO;
             }
@@ -218,6 +216,7 @@
             return YES;
         }];
         
+        // Open 1-segment demo
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -253,7 +252,6 @@
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
                 return YES;
             }
-            // E.g.
             else
             {
                 return NO;
@@ -296,7 +294,6 @@
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 return YES;
             }
-            // E.g.
             else
             {
                 return NO;
@@ -322,8 +319,8 @@
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
-            // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
             {
                 return NO;
             }
@@ -368,7 +365,6 @@
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
                 return YES;
             }
-            // E.g.
             else
             {
                 return NO;
@@ -410,7 +406,6 @@
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment2");
                 return YES;
             }
-            // E.g.
             else
             {
                 return NO;
@@ -439,8 +434,8 @@
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
-            // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
             {
                 return NO;
             }
@@ -485,7 +480,6 @@
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
                 return YES;
             }
-            // E.g.
             else
             {
                 return NO;
@@ -527,7 +521,6 @@
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
                 return YES;
             }
-            // E.g.
             else
             {
                 return NO;
@@ -555,8 +548,8 @@
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
-            // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
             {
                 return NO;
             }
@@ -601,7 +594,6 @@
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
                 return YES;
             }
-            // E.g.
             else
             {
                 return NO;
@@ -643,7 +635,6 @@
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 return YES;
             }
-            // E.g.
             else
             {
                 return NO;
@@ -682,8 +673,8 @@
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
-            // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
             {
                 return NO;
             }
@@ -728,7 +719,6 @@
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
                 return YES;
             }
-            // E.g.
             else
             {
                 return NO;
@@ -772,8 +762,8 @@
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
-            // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
             {
                 return NO;
             }
@@ -817,8 +807,8 @@
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
-            // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
             {
                 return NO;
             }
@@ -840,5 +830,7 @@
     
     [tester waitForTimeInterval:2.0f];
 }
+
+// TODO: Should add the following test: If no segment is manually selected, we only receive full-length labels, never segment labels
 
 @end

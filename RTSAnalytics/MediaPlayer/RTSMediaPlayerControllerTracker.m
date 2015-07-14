@@ -179,39 +179,49 @@
     NSInteger value = [notification.userInfo[RTSMediaPlaybackSegmentChangeValueInfoKey] integerValue];
     BOOL wasUserSelected = [notification.userInfo[RTSMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
     
-    id<RTSMediaSegment> previousSegment = notification.userInfo[RTSMediaPlaybackSegmentChangePreviousSegmentInfoKey];
+    id<RTSMediaSegment> previousSegment = [self currentSegmentForMediaPlayerController:segmentsController.playerController];
     
     id<RTSMediaSegment> segment = notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey];
-    [self setCurrentSegment:segment forMediaPlayerController:segmentsController.playerController];
-
+    [self setCurrentSegment:(wasUserSelected ? segment : nil) forMediaPlayerController:segmentsController.playerController];
+    
     // According to its implementation, Comscore only sends an event if different from the previously sent one. We
     // are therefore required to send a pause followed by a play when a segment end is detected (in which case
     // playback continues with another segment or with the full-length). Segment information is sent only if the
     // segment was selected by the user
     switch (value) {
-        case RTSMediaPlaybackSegmentStart:
-            [self notifyStreamTrackerEvent:CSStreamSensePlay
-                               mediaPlayer:segmentsController.playerController
-                                   segment:wasUserSelected ? segment : nil];
+        case RTSMediaPlaybackSegmentStart: {
+            if (wasUserSelected) {
+                [self notifyStreamTrackerEvent:CSStreamSensePause
+                                   mediaPlayer:segmentsController.playerController
+                                       segment:previousSegment];
+                [self notifyStreamTrackerEvent:CSStreamSensePlay
+                                   mediaPlayer:segmentsController.playerController
+                                       segment:segment];
+            }
             break;
-
+        }
+            
         case RTSMediaPlaybackSegmentSwitch: {
-            [self notifyStreamTrackerEvent:CSStreamSensePause
-                               mediaPlayer:segmentsController.playerController
-                                   segment:previousSegment];
-            [self notifyStreamTrackerEvent:CSStreamSensePlay
-                               mediaPlayer:segmentsController.playerController
-                                   segment:wasUserSelected ? segment : nil];
+            if (wasUserSelected || previousSegment) {
+                [self notifyStreamTrackerEvent:CSStreamSensePause
+                                   mediaPlayer:segmentsController.playerController
+                                       segment:previousSegment];
+                [self notifyStreamTrackerEvent:CSStreamSensePlay
+                                   mediaPlayer:segmentsController.playerController
+                                       segment:segment];
+            }
             break;
         }
             
         case RTSMediaPlaybackSegmentEnd: {
-            [self notifyStreamTrackerEvent:CSStreamSensePause
-                               mediaPlayer:segmentsController.playerController
-                                   segment:previousSegment];
-            [self notifyStreamTrackerEvent:CSStreamSensePlay
-                               mediaPlayer:segmentsController.playerController
-                                   segment:nil];
+            if (previousSegment) {
+                [self notifyStreamTrackerEvent:CSStreamSensePause
+                                   mediaPlayer:segmentsController.playerController
+                                       segment:previousSegment];
+                [self notifyStreamTrackerEvent:CSStreamSensePlay
+                                   mediaPlayer:segmentsController.playerController
+                                       segment:nil];
+            }
             break;
         }
             
