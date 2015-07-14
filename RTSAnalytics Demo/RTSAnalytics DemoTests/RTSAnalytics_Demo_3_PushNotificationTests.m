@@ -22,7 +22,7 @@
     [KIFSystemTestActor setDefaultTimeout:30.0];
 }
 
-- (void)test_1_ViewControllerPresentedFromPushSendsViewEventWithValidTag
+- (void)testViewControllerPresentedFromPushSendsViewEventWithValidTag
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
@@ -34,7 +34,7 @@
     [tester waitForTimeInterval:2.0f];
 }
 
-- (void)test_2_PresentAnotherViewControllerSendsViewEventWithValidTag
+- (void)testPresentAnotherViewControllerSendsViewEventWithValidTag
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	

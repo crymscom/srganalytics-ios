@@ -41,7 +41,8 @@ static NSDictionary *startLabels = nil;
     [KIFSystemTestActor setDefaultTimeout:60.0];
 }
 
-- (void)test_1_ApplicationStartsAndStartMeasurementAndFirstPageViewEventAreSend
+// Making sure with AAAAA that this method is called first.
+- (void)testAAAAAApplicationStartsAndStartMeasurementAndFirstPageViewEventAreSend
 {
 	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 	XCTAssertEqualObjects(startLabels[@"ns_ap_an"], @"SRGAnalytics Demo iOS");
@@ -60,7 +61,7 @@ static NSDictionary *startLabels = nil;
     [tester waitForTimeInterval:2.0f];
 }
 
-- (void)test_2_PresentViewControllerWithNoTitleSendsViewEvent
+- (void)testPresentViewControllerWithNoTitleSendsViewEvent
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
@@ -79,7 +80,7 @@ static NSDictionary *startLabels = nil;
     [tester waitForTimeInterval:2.0f];
 }
 
-- (void) test_3_PresentViewControllerWithTitleViewEvent
+- (void) testPresentViewControllerWithTitleViewEvent
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
@@ -97,7 +98,7 @@ static NSDictionary *startLabels = nil;
     [tester waitForTimeInterval:2.0f];
 }
 
-- (void) test_4_PresentViewControllerWithTitleAndLevelsSendsViewEvent
+- (void) testPresentViewControllerWithTitleAndLevelsSendsViewEvent
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
@@ -117,7 +118,7 @@ static NSDictionary *startLabels = nil;
     [tester waitForTimeInterval:2.0f];
 }
 
-- (void) test_5_PresentViewControllerWithTitleLevelsAndCustomLabelsSendsViewEvent
+- (void) testPresentViewControllerWithTitleLevelsAndCustomLabelsSendsViewEvent
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
