@@ -536,25 +536,6 @@
 					"COCOAPODS=1",
 					"RTS_ANALYTICS_VERSION=Test",
 				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/KIF\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/OCMock\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SRGAnalytics\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SRGMediaPlayer\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/comScore-iOS-SDK-RTS\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/libextobjc\"",
-				);
 				PRODUCT_NAME = SRGAnalytics;
 				SKIP_INSTALL = YES;
 			};
