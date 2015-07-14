@@ -171,6 +171,10 @@
 - (void)mediaPlayerPlaybackSegmentsDidChange:(NSNotification *)notification
 {
     RTSMediaSegmentsController *segmentsController = notification.object;
+    RTSMediaPlayerController *mediaPlayerController = segmentsController.playerController;
+    if (![self shouldTrackMediaPlayerController:mediaPlayerController]) {
+        return;
+    }
     
     NSInteger value = [notification.userInfo[RTSMediaPlaybackSegmentChangeValueInfoKey] integerValue];
     BOOL wasUserSelected = [notification.userInfo[RTSMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
