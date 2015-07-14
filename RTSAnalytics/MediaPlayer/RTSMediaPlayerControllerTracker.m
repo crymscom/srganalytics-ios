@@ -208,7 +208,7 @@
                                        segment:previousSegment];
                 [self notifyStreamTrackerEvent:CSStreamSensePlay
                                    mediaPlayer:segmentsController.playerController
-                                       segment:segment];
+                                       segment:(wasUserSelected ? segment : nil)];
             }
             break;
         }
