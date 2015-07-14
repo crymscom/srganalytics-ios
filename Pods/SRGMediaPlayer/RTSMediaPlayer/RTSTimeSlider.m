@@ -101,11 +101,11 @@ static NSString *RTSTimeSliderFormatter(NSTimeInterval seconds)
 		
 		if (!self.isTracking)
 		{
-			CMTimeRange currentTimeRange = [self currentTimeRange];
-			if (!CMTIMERANGE_IS_EMPTY(currentTimeRange))
+			CMTimeRange timeRange = [self.playbackController timeRange];
+			if (!CMTIMERANGE_IS_EMPTY(timeRange))
 			{
-				self.minimumValue = CMTimeGetSeconds(currentTimeRange.start);
-				self.maximumValue = CMTimeGetSeconds(CMTimeRangeGetEnd(currentTimeRange));
+				self.minimumValue = CMTimeGetSeconds(timeRange.start);
+				self.maximumValue = CMTimeGetSeconds(CMTimeRangeGetEnd(timeRange));
 				
 				AVPlayerItem *playerItem = self.playbackController.playerItem;
 				self.value = CMTimeGetSeconds(playerItem.currentTime);
@@ -162,42 +162,18 @@ static NSString *RTSTimeSliderFormatter(NSTimeInterval seconds)
 }
 
 
-#pragma mark - Time range retrieval and display
+#pragma mark - Time display
 
-- (CMTimeRange)currentTimeRange
-{
-	// TODO: Should later add support for discontinuous seekable time ranges
-	AVPlayerItem *playerItem = self.playbackController.playerItem;
-	NSValue *seekableTimeRangeValue = [playerItem.seekableTimeRanges firstObject];
-	if (seekableTimeRangeValue) {
-		CMTimeRange seekableTimeRange = [seekableTimeRangeValue CMTimeRangeValue];
-		return CMTIMERANGE_IS_VALID(seekableTimeRange) ? seekableTimeRange : kCMTimeRangeZero;
-	}
-	else {
-		return kCMTimeRangeZero;
-	}
-}
-
-
-// Useful for live streams. How does it work for VOD?
 - (CMTime) time
 {
-    CMTimeRange currentTimeRange = [self currentTimeRange];
-    Float64 timeInSeconds = CMTimeGetSeconds(currentTimeRange.start) + (self.value - self.minimumValue) * CMTimeGetSeconds(currentTimeRange.duration) / (self.maximumValue - self.minimumValue);
+    CMTimeRange timeRange = self.playbackController.timeRange;
+    Float64 timeInSeconds = CMTimeGetSeconds(timeRange.start) + (self.value - self.minimumValue) * CMTimeGetSeconds(timeRange.duration) / (self.maximumValue - self.minimumValue);
     return CMTimeMakeWithSeconds(timeInSeconds, 1.);
-}
-
-- (CMTime) convertedValueCMTime
-{
-	CGFloat fraction = (self.value - self.minimumValue) / (self.maximumValue - self.minimumValue);
-	CGFloat duration = CMTimeGetSeconds(self.playbackController.playerItem.duration);
-	// Assuming start == 0.
-	return CMTimeMakeWithSeconds(fraction*duration, NSEC_PER_SEC);
 }
 
 - (void) updateTimeRangeLabels
 {
-	CMTimeRange currentTimeRange = [self currentTimeRange];
+	CMTimeRange timeRange = self.playbackController.timeRange;
 	AVPlayerItem *playerItem = self.playbackController.playerItem;
 	if (! playerItem || playerItem.status != AVPlayerItemStatusReadyToPlay) {
 		self.valueLabel.text = @"--:--";
@@ -212,7 +188,7 @@ static NSString *RTSTimeSliderFormatter(NSTimeInterval seconds)
 	//    to now. We consider a timeshift 'close to now' when the slider is at the end, up to a tolerance of 15 seconds
 	static const float RTSToleranceInSeconds = 15.f;
 	
-	if (CMTIMERANGE_IS_EMPTY(currentTimeRange)
+	if (CMTIMERANGE_IS_EMPTY(timeRange)
 		|| (CMTIME_IS_INDEFINITE(playerItem.duration) && (self.maximumValue - self.value < RTSToleranceInSeconds)))
 	{
 		self.valueLabel.text = @"--:--";
@@ -247,7 +223,7 @@ static NSString *RTSTimeSliderFormatter(NSTimeInterval seconds)
 		[self setNeedsDisplay];
 	}
 	
-	CMTime time = [self convertedValueCMTime];
+	CMTime time = [self time];
 	
 	// First seek to the playback controller.
 	[self.playbackController seekToTime:time completionHandler:nil];
@@ -265,8 +241,7 @@ static NSString *RTSTimeSliderFormatter(NSTimeInterval seconds)
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
 	if ([self isDraggable]) {
-		// Current time may not be the same as the current value time, if seek is not ended, or is blocked.
-		[self.playbackController playAtTime:[self convertedValueCMTime]];
+		[self.playbackController playAtTime:[self time]];
 	}
 	
 	[super endTrackingWithTouch:touch withEvent:event];

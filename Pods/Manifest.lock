@@ -16,8 +16,8 @@ PODS:
     - comScore-iOS-SDK-RTS (= 3.1504.30)
   - SRGAnalytics/MediaPlayer (0.5.4):
     - SRGAnalytics/Core
-    - SRGMediaPlayer (~> 0.8.2)
-  - SRGMediaPlayer (0.8.2):
+    - SRGMediaPlayer (~> 0.8.3)
+  - SRGMediaPlayer (0.8.3):
     - libextobjc/EXTScope (~> 0.4.1)
     - TransitionKit (~> 2.2.0)
   - TransitionKit (2.2.1)
@@ -28,7 +28,7 @@ DEPENDENCIES:
   - OCMock (~> 3.1.2)
   - SRGAnalytics (from `.`)
   - SRGAnalytics/MediaPlayer (from `.`)
-  - SRGMediaPlayer (~> 0.8.2)
+  - SRGMediaPlayer (~> 0.8.3)
 
 EXTERNAL SOURCES:
   SRGAnalytics:
@@ -39,8 +39,8 @@ SPEC CHECKSUMS:
   KIF: ef1691e54e1d969c3b4fd0b5b56a3d7ddf37f216
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
-  SRGAnalytics: 8ce4e9fd9ebf6ba54d98122359bf16bf3c09dd63
-  SRGMediaPlayer: 33d287a723831d93c2ee91ebad67a8409e735a13
+  SRGAnalytics: 3de17ea4485d4f16546ac88f5e2235b655d10185
+  SRGMediaPlayer: 3e5bafa6fe3bedfee59f28403e9aa4b9bdbb8aba
   TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250
 
 COCOAPODS: 0.37.2
