@@ -20,63 +20,65 @@
     [KIFSystemTestActor setDefaultTimeout:30.0];
 }
 
-- (void)test_1_OpenDefaultMediaPlayerControllerSendsLiveStreamStartMeasurement
+- (void)testOpenDefaultMediaPlayerAndPlayLiveStreamThenClose
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
-	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-    XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-	XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
-	XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
+    {
+        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+        XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
+        
+        [tester waitForTimeInterval:2.0f];
+    }
     
-    [tester waitForTimeInterval:2.0f];
+    {
+        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
+            [tester tapViewWithAccessibilityLabel:@"Done"];
+        }];
+        
+        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+        XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
+        
+        [tester waitForTimeInterval:2.0f];
+    }
 }
 
-- (void)test_2_CloseMediaPlayerSendsStreamLiveEndMeasurement
-{
-	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
-		[tester tapViewWithAccessibilityLabel:@"Done"];
-	}];
-	
-	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-	XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
-	XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
-    
-    [tester waitForTimeInterval:2.0f];
-}
-
-- (void)test_3_OpenDefaultMediaPlayerControllerSendsLiveStreamStartMeasurement
+- (void)testOpenDefaultMediaPlayerAndPlayVODStreamThenClose
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
-	
-	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
-	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-    XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must be present in other than live streams.");
-	XCTAssertNil(labels[@"srg_enc"]);
-    
-    [tester waitForTimeInterval:2.0f];
-}
 
-- (void)test_4_CloseMediaPlayerSendsStreamLiveEndMeasurement
-{
-	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
-		[tester tapViewWithAccessibilityLabel:@"Done"];
-	}];
-	
-	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-	XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-    XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must be present in other than live streams.");
-	XCTAssertNil(labels[@"srg_enc"]);
-	
-	[tester waitForTimeInterval:2.0f];
+    {
+        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
+        XCTAssertNil(labels[@"srg_enc"]);
+        
+        [tester waitForTimeInterval:2.0f];
+    }
+    
+    {
+        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
+            [tester tapViewWithAccessibilityLabel:@"Done"];
+        }];
+        
+        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
+        XCTAssertNil(labels[@"srg_enc"]);
+        
+        [tester waitForTimeInterval:2.0f];
+    }
 }
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
 // receive segment labels. After the segment has been played through, we receive full-length labels again
-- (void)test_5_OpenMediaPlayerAndPlayOneSegment
+- (void)testOpenMediaPlayerAndPlayOneSegment
 {
     // Initial full-length play when opening
     {
@@ -198,7 +200,7 @@
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
 // receive segment labels. After the segment has been played through, we receive full-length labels again. This is the behavior
 // even if there is a segment right after the segment, since segment labels are sent over only if the user has selected the segment.
-- (void)test_6_OpenMediaPlayerAndPlayTwoConsecutiveSegments
+- (void)testOpenMediaPlayerAndPlayTwoConsecutiveSegments
 {
     // Initial full-length play when opening
     {
@@ -312,7 +314,7 @@
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
 // receive segment labels. When switching segments manually, we receveive labels for the new segment
-- (void)test_7_OpenMediaPlayerAndManuallySwitchBetweenSegments
+- (void)testOpenMediaPlayerAndManuallySwitchBetweenSegments
 {
     // Initial full-length play when opening
     {
@@ -427,7 +429,7 @@
 
 // Expected behavior: When playing a segment, selecting the same segment generates a pause for the segment, followed by a play
 // for the same segment
-- (void)test_8_OpenMediaPlayerAndSwitchToTheSameSegment
+- (void)testOpenMediaPlayerAndSwitchToTheSameSegment
 {
     // Initial full-length play when opening
     {
@@ -654,19 +656,19 @@
     [tester waitForTimeInterval:2.0f];
 }
 
-- (void)test_9_OpenMediaPlayerAndPlaySegmentBeforeSeekingOutsideIt
+- (void)testOpenMediaPlayerAndPlaySegmentBeforeSeekingOutsideIt
 {
     [self openMediaPlayerAndPlaySegmentBeforeSeekingAtTime:40.];
 }
 
-- (void)test_10_OpenMediaPlayerAndPlaySegmentBeforeSeekingInsideIt
+- (void)testOpenMediaPlayerAndPlaySegmentBeforeSeekingInsideIt
 {
     [self openMediaPlayerAndPlaySegmentBeforeSeekingAtTime:3.];
 }
 
 // Expected behavior: When closing the player while a segment is being played, no end event is expected for the segment, only for the
 // full-length
-- (void)test_11_OpenMediaPlayerAndPlaySegmentWhileClosingThePlayer
+- (void)testOpenMediaPlayerAndPlaySegmentWhileClosingThePlayer
 {
     // Initial full-length play when opening
     {
@@ -755,7 +757,7 @@
 }
 
 // Try to seek into a blocked segment. Must pause at on the full-length
-- (void)test_12_OpenMediaPlayerAndSeekIntoBlockedSegment
+- (void)testOpenMediaPlayerAndSeekIntoBlockedSegment
 {
     // Initial full-length play when opening
     {
