@@ -301,7 +301,7 @@
                 return NO;
             }
         }];
-        [self waitForExpectationsWithTimeout:60. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Close
@@ -416,7 +416,7 @@
         
         [tester tapViewWithAccessibilityLabel:@"Segment #2"];
         
-        [self waitForExpectationsWithTimeout:60. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Close
@@ -531,7 +531,7 @@
         
         [tester tapViewWithAccessibilityLabel:@"Segment #1"];
         
-        [self waitForExpectationsWithTimeout:60. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     // Close
