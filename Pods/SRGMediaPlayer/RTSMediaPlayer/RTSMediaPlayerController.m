@@ -12,9 +12,15 @@
 
 #import "RTSMediaPlayerError.h"
 #import "RTSMediaPlayerView.h"
-#import "RTSPlaybackTimeObserver.h"
+#import "RTSPeriodicTimeObserver.h"
 #import "RTSActivityGestureRecognizer.h"
 #import "RTSMediaPlayerLogger.h"
+
+typedef NS_ENUM(NSInteger, RTSMediaType) {
+	RTSMediaTypeUnknown,
+	RTSMediaTypeVideo,
+	RTSMediaTypeAudio
+};
 
 NSTimeInterval const RTSMediaPlayerOverlayHidingDelay = 5.0;
 
@@ -66,7 +72,7 @@ NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey = @"Bloc
 @property (readwrite) id playbackStartObserver;
 @property (readwrite) CMTime previousPlaybackTime;
 
-@property (readwrite) NSMutableDictionary *playbackTimeObservers;
+@property (readwrite) NSMutableDictionary *periodicTimeObservers;
 
 @property (readonly) RTSMediaPlayerView *playerView;
 @property (readonly) RTSActivityGestureRecognizer *activityGestureRecognizer;
@@ -107,7 +113,9 @@ NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey = @"Bloc
 	_dataSource = dataSource;
 	
 	self.overlayViewsHidingDelay = RTSMediaPlayerOverlayHidingDelay;
-	self.playbackTimeObservers = [NSMutableDictionary dictionary];
+	self.periodicTimeObservers = [NSMutableDictionary dictionary];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
 	
 	[self.stateMachine activate];
 	
@@ -116,10 +124,11 @@ NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey = @"Bloc
 
 - (void) dealloc
 {
-	if (![self.stateMachine.currentState isEqual:self.idleState])
-	{
+	if (![self.stateMachine.currentState isEqual:self.idleState]) {
 		RTSMediaPlayerLogWarning(@"The media player controller reached dealloc while still active. You should call the `reset` method before reaching dealloc.");
 	}
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[self.activityView removeGestureRecognizer:self.activityGestureRecognizer];
 	
@@ -246,6 +255,11 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 		
 		// The player observes its "currentItem.status" keyPath, see callback in `observeValueForKeyPath:ofObject:change:context:`
 		self.player = [AVPlayer playerWithURL:contentURL];
+		
+		self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+		self.player.allowsExternalPlayback = YES;
+		self.player.usesExternalPlaybackWhileExternalScreenIsActive = YES;
+		
 		self.playerView.player = self.player;
 	}];
 	
@@ -258,6 +272,25 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 		}
 		else if (self.player.rate == 0) {
 			[self fireEvent:self.pauseEvent userInfo:nil];
+		}
+	}];
+	
+	[playing setWillEnterStateBlock:^(TKState *state, TKTransition *transition) {
+		@strongify(self)
+
+		// See https://developer.apple.com/library/ios/qa/qa1668/_index.html
+		RTSMediaType mediaType = [self mediaType];
+		if (mediaType == RTSMediaTypeVideo) {
+			[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+			[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeMoviePlayback error:nil];
+		}
+		else if (mediaType == RTSMediaTypeAudio) {
+			[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+			[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeDefault error:nil];
+		}
+		else {
+			[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+			[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeDefault error:nil];
 		}
 	}];
 	
@@ -282,6 +315,8 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	
 	[reset setDidFireEventBlock:^(TKEvent *event, TKTransition *transition) {
 		@strongify(self)
+		[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+		[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeDefault error:nil];
 		self.previousPlaybackTime = kCMTimeInvalid;
 		self.playerView.player = nil;
 		self.player = nil;
@@ -344,7 +379,7 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	[self loadPlayerShouldPlayImediately:NO];
 }
 
-- (void) play
+- (void)play
 {
 	if ([self.stateMachine.currentState isEqual:self.idleState]) {
 		[self loadPlayerShouldPlayImediately:YES];
@@ -364,9 +399,9 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	[self play];
 }
 
-- (void) pause
+- (void)pause
 {
-	[self fireEvent:self.pauseEvent userInfo:nil];
+	// The state machine state is updated to 'Paused' in the KVO implementation method
 	[self.player pause];
 }
 
@@ -438,42 +473,41 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	}
 }
 
-- (id) addPlaybackTimeObserverForInterval:(CMTime)interval queue:(dispatch_queue_t)queue usingBlock:(void (^)(CMTime time))block
+- (id) addPeriodicTimeObserverForInterval:(CMTime)interval queue:(dispatch_queue_t)queue usingBlock:(void (^)(CMTime time))block
 {
-	if (!block)
-	{
+	if (!block) {
 		return nil;
 	}
 	
 	NSString *identifier = [[NSUUID UUID] UUIDString];
-	RTSPlaybackTimeObserver *playbackTimeObserver = [self playbackTimeObserverForInterval:interval queue:queue];
-	[playbackTimeObserver setBlock:block forIdentifier:identifier];
+	RTSPeriodicTimeObserver *periodicTimeObserver = [self periodicTimeObserverForInterval:interval queue:queue];
+	[periodicTimeObserver setBlock:block forIdentifier:identifier];
 	
 	if (self.player) {
-		[playbackTimeObserver attachToMediaPlayer:self.player];
+		[periodicTimeObserver attachToMediaPlayer:self.player];
 	}
 	
 	// Return the opaque identifier
 	return identifier;
 }
 
-- (void) removePlaybackTimeObserver:(id)observer
+- (void) removePeriodicTimeObserver:(id)observer
 {
-	for (RTSPlaybackTimeObserver *playbackTimeObserver in [self.playbackTimeObservers allValues]) {
-		[playbackTimeObserver removeBlockWithIdentifier:observer];
+	for (RTSPeriodicTimeObserver *periodicTimeObserver in [self.periodicTimeObservers allValues]) {
+		[periodicTimeObserver removeBlockWithIdentifier:observer];
 	}
 }
 
-- (RTSPlaybackTimeObserver *) playbackTimeObserverForInterval:(CMTime)interval queue:(dispatch_queue_t)queue
+- (RTSPeriodicTimeObserver *) periodicTimeObserverForInterval:(CMTime)interval queue:(dispatch_queue_t)queue
 {
 	NSString *key = [NSString stringWithFormat:@"%@-%@-%@-%@-%p", @(interval.value), @(interval.timescale), @(interval.flags), @(interval.epoch), queue];
-	RTSPlaybackTimeObserver *playbackTimeObserver = self.playbackTimeObservers[key];
-	if (!playbackTimeObserver)
+	RTSPeriodicTimeObserver *periodicTimeObserver = self.periodicTimeObservers[key];
+	if (!periodicTimeObserver)
 	{
-		playbackTimeObserver = [[RTSPlaybackTimeObserver alloc] initWithInterval:interval queue:queue];
-		self.playbackTimeObservers[key] = playbackTimeObserver;
+		periodicTimeObserver = [[RTSPeriodicTimeObserver alloc] initWithInterval:interval queue:queue];
+		self.periodicTimeObservers[key] = periodicTimeObserver;
 	}
-	return playbackTimeObserver;
+	return periodicTimeObserver;
 }
 
 #pragma mark - AVPlayer
@@ -525,7 +559,7 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 			self.periodicTimeObserver = nil;
 		}
 		
-		[self unregisterPlaybackObservers];
+		[self unregisterPeriodicTimeObservers];
 		
 		_player = player;
 		
@@ -545,9 +579,24 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 			
 			[self registerPlaybackStartObserver];
 			[self registerPeriodicTimeObserver];
-			[self registerPlaybackObservers];
+			[self registerPeriodicTimeObservers];
 		}
 	}
+}
+
+- (RTSMediaType)mediaType
+{
+	if (! self.player) {
+		return RTSMediaTypeUnknown;
+	}
+	
+	NSArray *tracks = self.player.currentItem.tracks;
+	if (tracks.count == 0) {
+		return RTSMediaTypeUnknown;
+	}
+	
+	NSString *mediaType = [[tracks.firstObject assetTrack] mediaType];
+	return [mediaType isEqualToString:AVMediaTypeVideo] ? RTSMediaTypeVideo : RTSMediaTypeAudio;
 }
 
 - (void)registerPlaybackStartObserver
@@ -602,28 +651,25 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 	}];
 }
 
-- (void) registerPlaybackObservers
+- (void) registerPeriodicTimeObservers
 {
-	[self unregisterPlaybackObservers];
+	[self unregisterPeriodicTimeObservers];
 	
-	for (RTSPlaybackTimeObserver *playbackBlockRegistration in [self.playbackTimeObservers allValues])
-	{
+	for (RTSPeriodicTimeObserver *playbackBlockRegistration in [self.periodicTimeObservers allValues]) {
 		[playbackBlockRegistration attachToMediaPlayer:self.player];
 	}
 }
 
-- (void) unregisterPlaybackObservers
+- (void) unregisterPeriodicTimeObservers
 {
-	for (RTSPlaybackTimeObserver *playbackBlockRegistration in [self.playbackTimeObservers allValues])
-	{
+	for (RTSPeriodicTimeObserver *playbackBlockRegistration in [self.periodicTimeObservers allValues]) {
 		[playbackBlockRegistration detach];
 	}
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	if (context == AVPlayerItemStatusContext)
-	{
+	if (context == AVPlayerItemStatusContext) {
 		AVPlayer *player = object;
 		AVPlayerItem *playerItem = player.currentItem;
 		switch (playerItem.status)
@@ -640,50 +686,56 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 				break;
 		}
 	}
-	else if (context == AVPlayerItemLoadedTimeRangesContext){
-	
+	else if (context == AVPlayerItemLoadedTimeRangesContext) {
 		NSArray *timeRanges = (NSArray *)[change objectForKey:NSKeyValueChangeNewKey];
-		if (timeRanges.count == 0)
+		if (timeRanges.count == 0) {
 			return;
+		}
 		
 		Float64 bufferMinDuration = 5.0f;
 		
-		CMTimeRange timerange = [timeRanges[0] CMTimeRangeValue];
-		if(CMTimeGetSeconds(timerange.duration) >= bufferMinDuration && self.player.rate == 0) {
+		CMTimeRange timerange = [timeRanges.firstObject CMTimeRangeValue]; // Yes, subscripting with [0] may lead to a crash??
+		if (CMTimeGetSeconds(timerange.duration) >= bufferMinDuration && self.player.rate == 0) {
 			[self.player prerollAtRate:0.0 completionHandler:^(BOOL finished) {
-				if (![self.stateMachine.currentState isEqual:self.pausedState] && ![self.stateMachine.currentState isEqual:self.seekingState]) {
+				if (![self.stateMachine.currentState isEqual:self.pausedState] &&
+					![self.stateMachine.currentState isEqual:self.seekingState])
+				{
 					[self play];
 				}
 			}];
 		}
 		
 	}
-	else if (context == AVPlayerRateContext)
-	{
+	else if (context == AVPlayerRateContext) {
 		float oldRate = [change[NSKeyValueChangeOldKey] floatValue];
 		float newRate = [change[NSKeyValueChangeNewKey] floatValue];
 		
-		if (oldRate == newRate)
+		if (oldRate == newRate) {
 			return;
+		}
 		
 		AVPlayer *player = object;
 		AVPlayerItem *playerItem = player.currentItem;
 		
-		if (playerItem.loadedTimeRanges.count == 0)
+		if (playerItem.loadedTimeRanges.count == 0) {
 			return;
+		}
 		
-		CMTimeRange timerange = [playerItem.loadedTimeRanges[0] CMTimeRangeValue];
+		CMTimeRange timerange = [playerItem.loadedTimeRanges.firstObject CMTimeRangeValue]; // Yes, subscripting with [0] may lead to a crash??
 		BOOL stoppedManually = CMTimeGetSeconds(timerange.duration) > 0;
 		
 		if (oldRate == 1 && newRate == 0 && stoppedManually) {
 			[self fireEvent:self.pauseEvent userInfo:nil];
 		}
+		else if (newRate == 1 && oldRate == 0 && self.stateMachine.currentState != self.playingState) {
+			[self fireEvent:self.playEvent userInfo:nil];
+		}		
 	}
-	else if (context == AVPlayerItemPlaybackLikelyToKeepUpContext)
-	{
+	else if (context == AVPlayerItemPlaybackLikelyToKeepUpContext) {
 		AVPlayer *player = object;
-		if (!player.currentItem.playbackLikelyToKeepUp)
+		if (!player.currentItem.playbackLikelyToKeepUp) {
 			return;
+		}
 		
 		if (![self.stateMachine.currentState isEqual:self.playingState]) {
 			[self registerPlaybackStartObserver];
@@ -693,8 +745,7 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 			[player play];
 		}
 	}
-	else
-	{
+	else {
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}
 }
@@ -881,6 +932,16 @@ static void LogProperties(id object)
 	}
 	else {
 		playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+	}
+}
+
+#pragma mark - Notifications
+
+- (void)applicationWillResignActive:(NSNotification *)notification
+{
+	if ([self mediaType] == RTSMediaTypeVideo) {
+		[self.player pause];
+		[self fireEvent:self.pauseEvent userInfo:nil];
 	}
 }
 
