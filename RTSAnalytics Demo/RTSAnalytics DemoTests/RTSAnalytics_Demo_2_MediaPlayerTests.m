@@ -84,7 +84,7 @@
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
             {
                 return NO;
             }
@@ -208,7 +208,7 @@
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
             {
                 return NO;
             }
@@ -323,7 +323,7 @@
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
             {
                 return NO;
             }
@@ -440,7 +440,7 @@
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
             {
                 return NO;
             }
@@ -556,7 +556,7 @@
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
             {
                 return NO;
             }
@@ -683,7 +683,7 @@
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
             {
                 return NO;
             }
@@ -773,7 +773,7 @@
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
             {
                 return NO;
             }
@@ -818,7 +818,7 @@
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
             // Skip view-related events
-            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"])
+            if ([labels[@"name"] isEqualToString:@"app.mainpagetitle"] || [labels[@"name"] isEqualToString:@"UINavigationController"])
             {
                 return NO;
             }
