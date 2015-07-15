@@ -32,8 +32,14 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	_mediaPlayerController = nil;
 }
 
-- (id)initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource virtualSite:(NSString *)virtualSite
+- (id)initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController
+          dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+         virtualSite:(NSString *)virtualSite
 {
+    NSParameterAssert(mediaPlayerController);
+    NSParameterAssert(dataSource);
+    NSParameterAssert(virtualSite);
+
     if(!(self = [super init])) {
 	   return nil;
     }
@@ -62,7 +68,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	[self notify:playerEvent position:[self currentPositionInMilliseconds] labels:nil];
 }
 
-- (NSMutableDictionary *) createMeasurementLabels:(CSStreamSenseEventType)eventType initialLabels:(NSDictionary *)initialLabels
+- (NSMutableDictionary *)createMeasurementLabels:(CSStreamSenseEventType)eventType initialLabels:(NSDictionary *)initialLabels
 {
 	NSMutableDictionary *measurementLabels = [super createMeasurementLabels:eventType initialLabels:initialLabels];
     [self updateLabelsWithSegment:nil];
