@@ -13,7 +13,11 @@
 
 #import <comScore-iOS-SDK-RTS/CSComScore.h>
 
-@interface RTSMediaPlayerControllerTracker ()
+@interface RTSMediaPlayerControllerTracker () {
+@private
+    BOOL _skippingNextEvents;
+}
+
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDelegate> mediaPlayerDelegate;
 
@@ -136,16 +140,24 @@
 				break;
 				
 			case RTSMediaPlaybackStatePlaying:
-                if (!currentSegment) {
+                if (! currentSegment || ! _skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePlay
                                        mediaPlayer:mediaPlayerController
                                            segment:currentSegment];
                 }
+                _skippingNextEvents = NO;
 				break;
                 
             case RTSMediaPlaybackStateSeeking:
+                if (! currentSegment) {
+                    [self notifyStreamTrackerEvent:CSStreamSensePause
+                                       mediaPlayer:mediaPlayerController
+                                           segment:nil];
+                }
+                break;
+                
 			case RTSMediaPlaybackStatePaused:
-                if (!currentSegment) {
+                if (! _skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
                                        mediaPlayer:mediaPlayerController
                                            segment:currentSegment];
@@ -197,6 +209,7 @@
                 [self notifyStreamTrackerEvent:CSStreamSensePlay
                                    mediaPlayer:segmentsController.playerController
                                        segment:segment];
+                _skippingNextEvents = YES;
             }
             break;
         }
