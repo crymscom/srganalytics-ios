@@ -108,7 +108,7 @@
         const NSTimeInterval segment2Duration = 5.;
         
         const NSTimeInterval segment3StartTime = 40.;
-        const NSTimeInterval segment3Duration = 10.;
+        const NSTimeInterval segment3Duration = 30.;
         
         CMTimeRange timeRange1 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment1StartTime, 1.), CMTimeMakeWithSeconds(segment1Duration, 1.));
         Segment *segment1 = [[Segment alloc] initWithTimeRange:timeRange1 name:@"segment1" blocked:NO];
