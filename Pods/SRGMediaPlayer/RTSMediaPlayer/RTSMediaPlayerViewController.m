@@ -25,6 +25,7 @@
 @property (weak) IBOutlet RTSMediaPlayerPlaybackButton *playPauseButton;
 @property (weak) IBOutlet RTSTimeSlider *timeSlider;
 @property (weak) IBOutlet RTSVolumeView *volumeView;
+@property (weak) IBOutlet UIButton *liveButton;
 
 @property (weak) IBOutlet NSLayoutConstraint *valueLabelWidthConstraint;
 @property (weak) IBOutlet NSLayoutConstraint *timeLeftValueLabelWidthConstraint;
@@ -55,6 +56,8 @@
 	return self;
 }
 
+#pragma mark - View lifecycle
+
 - (void) viewDidLoad
 {
 	[super viewDidLoad];
@@ -68,6 +71,12 @@
 	[self.mediaPlayerController attachPlayerToView:self.view];
 	[self.mediaPlayerController playIdentifier:self.identifier];
 	
+	[self.liveButton setTitle:RTSMediaPlayerLocalizedString(@"Back to live", nil) forState:UIControlStateNormal];
+	self.liveButton.alpha = 0.f;
+	
+	self.liveButton.layer.borderColor = [UIColor whiteColor].CGColor;
+	self.liveButton.layer.borderWidth = 1.f;
+	
 	@weakify(self)
 	[self.mediaPlayerController addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1., 5.) queue:NULL usingBlock:^(CMTime time) {
 		@strongify(self)
@@ -75,6 +84,8 @@
 		CGFloat labelWidth = (CMTimeGetSeconds(self.mediaPlayerController.timeRange.duration) >= 60. * 60.) ? 56.f : 45.f;
 		self.valueLabelWidthConstraint.constant = labelWidth;
 		self.timeLeftValueLabelWidthConstraint.constant = labelWidth;
+		
+		[self updateLiveButton];
 	}];
 }
 
@@ -83,7 +94,19 @@
 	return UIStatusBarStyleDefault;
 }
 
+#pragma mark - UI
 
+- (void)updateLiveButton
+{
+	if (self.mediaPlayerController.streamType == RTSMediaStreamTypeDVR) {
+		[UIView animateWithDuration:0.2 animations:^{
+			self.liveButton.alpha = self.timeSlider.live ? 0.f : 1.f;
+		}];
+	}
+	else {
+		self.liveButton.alpha = 0.f;
+	}
+}
 
 #pragma mark - RTSMediaPlayerControllerDataSource
 
@@ -104,6 +127,7 @@
 		case RTSMediaPlaybackStatePreparing:
 		case RTSMediaPlaybackStateReady:
 		case RTSMediaPlaybackStateStalled:
+		case RTSMediaPlaybackStateSeeking:
 			[self.loadingIndicator startAnimating];
 			break;
 		case RTSMediaPlaybackStateEnded:
@@ -138,12 +162,21 @@
 
 - (IBAction) goToLive:(id)sender
 {
+	[UIView animateWithDuration:0.2 animations:^{
+		self.liveButton.alpha = 0.f;
+	}];
+	
 	CMTimeRange timeRange = self.mediaPlayerController.timeRange;
 	if (CMTIMERANGE_IS_INDEFINITE(timeRange) || CMTIMERANGE_IS_EMPTY(timeRange)) {
 		return;
 	}
 	
 	[self.mediaPlayerController playAtTime:CMTimeRangeGetEnd(timeRange)];
+}
+
+- (IBAction) seek:(id)sender
+{
+	[self updateLiveButton];
 }
 
 @end

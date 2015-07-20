@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RTSMediaPlayerViewController">
             <connections>
+                <outlet property="liveButton" destination="f2J-Sq-TNH" id="ufj-9B-9fS"/>
                 <outlet property="loadingIndicator" destination="d2t-q1-HOm" id="hhI-u7-Sja"/>
                 <outlet property="mediaPlayerController" destination="rfJ-1C-Ygo" id="1fS-p7-nwe"/>
                 <outlet property="playPauseButton" destination="orZ-GR-Obh" id="has-wO-PCl"/>
@@ -52,6 +53,7 @@
                                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="dbP-gV-yjr" customClass="RTSTimeSlider">
                                             <rect key="frame" x="56" y="0.0" width="427" height="31"/>
                                             <connections>
+                                                <action selector="seek:" destination="-1" eventType="valueChanged" id="Kez-Th-9XW"/>
                                                 <outlet property="playbackController" destination="rfJ-1C-Ygo" id="0Z5-H7-CBT"/>
                                                 <outlet property="timeLeftValueLabel" destination="OdH-jj-nfU" id="zcx-hm-PNg"/>
                                                 <outlet property="valueLabel" destination="kzH-xw-G6y" id="cEN-dj-owx"/>
@@ -153,11 +155,23 @@
                         <constraint firstAttribute="centerX" secondItem="orZ-GR-Obh" secondAttribute="centerX" id="tp9-ea-bQv"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2J-Sq-TNH">
-                    <rect key="frame" x="519" y="58" width="30" height="30"/>
-                    <state key="normal" title="Live">
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2J-Sq-TNH">
+                    <rect key="frame" x="484" y="50" width="102" height="30"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="0.52000000000000002" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="102" id="osw-dO-Mt3"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                    <state key="normal" title="Back to live">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="osw-dO-Mt3"/>
+                        </mask>
+                    </variation>
                     <connections>
                         <action selector="goToLive:" destination="-1" eventType="touchUpInside" id="850-9S-0FL"/>
                     </connections>
@@ -166,11 +180,11 @@
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="kqK-gI-E5v" secondAttribute="trailing" id="13J-fR-tYI"/>
-                <constraint firstAttribute="trailing" secondItem="f2J-Sq-TNH" secondAttribute="trailing" constant="51" id="5l4-9y-EDf"/>
+                <constraint firstAttribute="trailing" secondItem="f2J-Sq-TNH" secondAttribute="trailing" constant="14" id="5l4-9y-EDf"/>
                 <constraint firstItem="m4e-aB-8GY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="EjJ-Y6-i5x"/>
                 <constraint firstAttribute="trailing" secondItem="m4e-aB-8GY" secondAttribute="trailing" id="Ek5-aN-GFQ"/>
                 <constraint firstItem="kqK-gI-E5v" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="b1o-Vb-QQk"/>
-                <constraint firstItem="f2J-Sq-TNH" firstAttribute="top" secondItem="kqK-gI-E5v" secondAttribute="bottom" constant="8" id="d7a-A9-gqQ"/>
+                <constraint firstItem="f2J-Sq-TNH" firstAttribute="top" secondItem="kqK-gI-E5v" secondAttribute="bottom" id="d7a-A9-gqQ"/>
                 <constraint firstAttribute="centerX" secondItem="d2t-q1-HOm" secondAttribute="centerX" id="ghL-wx-Tv8"/>
                 <constraint firstAttribute="bottom" secondItem="m4e-aB-8GY" secondAttribute="bottom" id="mxb-hA-Ktf"/>
                 <constraint firstAttribute="centerY" secondItem="d2t-q1-HOm" secondAttribute="centerY" id="qRh-aH-gf7"/>
@@ -184,6 +198,7 @@
                 <outletCollection property="overlayViews" destination="kqK-gI-E5v" id="loX-MY-6Bg"/>
                 <outletCollection property="overlayViews" destination="m4e-aB-8GY" id="6Yh-NX-pIr"/>
                 <outletCollection property="overlayViews" destination="14B-nw-cM3" id="vtV-N5-t6X"/>
+                <outletCollection property="overlayViews" destination="f2J-Sq-TNH" id="Ho6-8D-aPf"/>
             </connections>
         </customObject>
     </objects>

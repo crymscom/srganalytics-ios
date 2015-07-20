@@ -171,16 +171,8 @@ static NSString *RTSTimeSliderFormatter(NSTimeInterval seconds)
     return CMTimeMakeWithSeconds(timeInSeconds, 1.);
 }
 
-- (void) updateTimeRangeLabels
+- (BOOL) isLive
 {
-	CMTimeRange timeRange = self.playbackController.timeRange;
-	AVPlayerItem *playerItem = self.playbackController.playerItem;
-	if (! playerItem || playerItem.status != AVPlayerItemStatusReadyToPlay) {
-		self.valueLabel.text = @"--:--";
-		self.timeLeftValueLabel.text = @"--:--";
-		return;
-	}
-	
 	// Live and timeshift feeds in live conditions. This happens when either the following condition
 	// is met:
 	//  - We have a pure live feed, which is characterized by an empty range
@@ -188,13 +180,24 @@ static NSString *RTSTimeSliderFormatter(NSTimeInterval seconds)
 	//    to now. We consider a timeshift 'close to now' when the slider is at the end, up to a tolerance of 15 seconds
 	static const float RTSToleranceInSeconds = 15.f;
 	
-	if (CMTIMERANGE_IS_EMPTY(timeRange)
-		|| (CMTIME_IS_INDEFINITE(playerItem.duration) && (self.maximumValue - self.value < RTSToleranceInSeconds)))
+	return self.playbackController.streamType == RTSMediaStreamTypeLive
+		|| (self.playbackController.streamType == RTSMediaStreamTypeDVR && (self.maximumValue - self.value < RTSToleranceInSeconds));
+}
+
+- (void) updateTimeRangeLabels
+{
+	AVPlayerItem *playerItem = self.playbackController.playerItem;
+	if (! playerItem || playerItem.status != AVPlayerItemStatusReadyToPlay) {
+		self.valueLabel.text = @"--:--";
+		self.timeLeftValueLabel.text = @"--:--";
+		return;
+	}
+	
+	if (self.live)
 	{
 		self.valueLabel.text = @"--:--";
 		self.timeLeftValueLabel.text = RTSMediaPlayerLocalizedString(@"Live", nil);
 	}
-	// Video on demand
 	else {
 		self.valueLabel.text = RTSTimeSliderFormatter(self.value);
 		self.timeLeftValueLabel.text = RTSTimeSliderFormatter(self.value - self.maximumValue);		
@@ -371,6 +374,39 @@ static NSString *RTSTimeSliderFormatter(NSTimeInterval seconds)
 					  CGRectGetMinY(trackFrame),
 					  CGRectGetMaxX(trackFrame) - CGRectGetMidX(thumbRect),
 					  CGRectGetHeight(trackFrame));
+}
+
+- (void)willMoveToWindow:(UIWindow *)window
+{
+	[super willMoveToWindow:window];
+	
+	if (window) {
+		@weakify(self)
+		self.periodicTimeObserver = [self.playbackController addPeriodicTimeObserverForInterval:CMTimeMake(1., 5.) queue:NULL usingBlock:^(CMTime time) {
+			@strongify(self)
+			
+			if (!self.isTracking)
+			{
+				CMTimeRange timeRange = [self.playbackController timeRange];
+				if (!CMTIMERANGE_IS_EMPTY(timeRange))
+				{
+					self.minimumValue = CMTimeGetSeconds(timeRange.start);
+					self.maximumValue = CMTimeGetSeconds(CMTimeRangeGetEnd(timeRange));
+					
+					AVPlayerItem *playerItem = self.playbackController.playerItem;
+					self.value = CMTimeGetSeconds(playerItem.currentTime);
+				}
+				else
+				{
+					self.minimumValue = 0.;
+					self.maximumValue = 0.;
+					self.value = 0.;
+				}
+			}
+			[self updateTimeRangeLabels];
+			[self setNeedsDisplay];
+		}];
+	}
 }
 
 @end
