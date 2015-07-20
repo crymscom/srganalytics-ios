@@ -96,7 +96,6 @@
             return YES;
         }];
         
-        // Open 1-segment demo
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -218,7 +217,6 @@
             return YES;
         }];
         
-        // Open 1-segment demo
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -566,7 +564,7 @@
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
-    // Go to 1st segment. Expect full-length pause immediately followed by segment play
+    // Go to the segment. Expect full-length pause immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
@@ -691,7 +689,7 @@
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
-    // Go to 1st segment. Expect full-length pause immediately followed by segment play
+    // Go to the segment. Expect full-length pause immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
@@ -756,7 +754,7 @@
     [tester waitForTimeInterval:2.0f];
 }
 
-// Try to seek into a blocked segment. Must pause at on the full-length
+// Try to seek into a blocked segment. Must pause the full-length
 - (void)testOpenMediaPlayerAndSeekIntoBlockedSegment
 {
     // Initial full-length play when opening
@@ -775,7 +773,6 @@
             return YES;
         }];
         
-        // Open 1-segment demo
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -802,9 +799,18 @@
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
-    [NSThread sleepForTimeInterval:3.];
+    // Close
+    {
+        [tester tapViewWithAccessibilityLabel:@"Done"];
+    }
     
-    // Resume playback
+    [tester waitForTimeInterval:2.0f];
+}
+
+// Pause while the full-length is being played
+- (void)testOpenMediaPlayerPlayThenPauseFullLength
+{
+    // Initial full-length play when opening
     {
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
@@ -817,6 +823,121 @@
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Pause
+    {
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+
+        [tester tapViewWithAccessibilityLabel:@"play"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Close
+    {
+        [tester tapViewWithAccessibilityLabel:@"Done"];
+    }
+    
+    [tester waitForTimeInterval:2.0f];
+}
+
+// Pause while a segment is being played
+- (void)testOpenMediaPlayerPlayThenPauseSegment
+{
+    // Initial full-length play when opening
+    {
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Go to the segment. Expect full-length pause immediately followed by segment play
+    {
+        __block NSInteger numberOfNotificationsReceived = 0;
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            numberOfNotificationsReceived++;
+            
+            // Pause for the full-length
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+                
+                // Not finished yet
+                return NO;
+            }
+            // Play for the first segment
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }];
+        
+        [tester tapViewWithAccessibilityLabel:@"Segment #1"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Pause
+    {
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
             return YES;
         }];
         

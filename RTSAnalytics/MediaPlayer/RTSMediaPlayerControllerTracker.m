@@ -6,6 +6,7 @@
 #import "RTSAnalyticsTracker.h"
 #import "RTSMediaPlayerControllerTracker_private.h"
 #import "RTSAnalyticsLogger.h"
+#import "RTSMediaPlayerControllerTrackingInfo.h"
 
 #import <SRGMediaPlayer/RTSMediaPlayerController.h>
 #import <SRGMediaPlayer/RTSMediaSegmentsController.h>
@@ -14,10 +15,11 @@
 #import <comScore-iOS-SDK-RTS/CSComScore.h>
 
 @interface RTSMediaPlayerControllerTracker ()
+
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDelegate> mediaPlayerDelegate;
 
-@property (nonatomic, strong) NSMutableDictionary *currentSegments;
+@property (nonatomic, strong) NSMutableDictionary *trackingInfos;
 
 @property (nonatomic, strong) NSMutableDictionary *streamsenseTrackers;
 @property (nonatomic, strong) NSString *virtualSite;
@@ -41,7 +43,7 @@
 		return nil;
 	
 	_streamsenseTrackers = [NSMutableDictionary new];
-    _currentSegments = [NSMutableDictionary new];
+    _trackingInfos = [NSMutableDictionary new];
 	
 	return self;
 }
@@ -86,25 +88,6 @@
 }
 
 
-#pragma mark - Segments
-
-- (id<RTSMediaSegment>)currentSegmentForMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
-{
-    NSValue *key = [NSValue valueWithNonretainedObject:mediaPlayerController];
-    return self.currentSegments[key];
-}
-
-- (void)setCurrentSegment:(id<RTSMediaSegment>)segment forMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
-{
-    NSValue *key = [NSValue valueWithNonretainedObject:mediaPlayerController];
-    if (segment) {
-        self.currentSegments[key] = segment;
-    }
-    else {
-        [self.currentSegments removeObjectForKey:key];
-    }
-}
-
 #pragma mark - Notifications
 
 - (void)mediaPlayerPlaybackStateDidChange:(NSNotification *)notification
@@ -115,14 +98,14 @@
 	}
 	
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
-    id<RTSMediaSegment> currentSegment = [self currentSegmentForMediaPlayerController:mediaPlayerController];
+    RTSMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
     
 	if ([self shouldTrackMediaPlayerController:mediaPlayerController]) {
 		switch (mediaPlayerController.playbackState) {
 			case RTSMediaPlaybackStatePreparing:
 				[self notifyStreamTrackerEvent:CSStreamSenseBuffer
                                    mediaPlayer:mediaPlayerController
-                                       segment:currentSegment];
+                                       segment:trackingInfo.currentSegment];
 				break;
 				
 			case RTSMediaPlaybackStateReady:
@@ -132,30 +115,38 @@
 			case RTSMediaPlaybackStateStalled:
 				[self notifyStreamTrackerEvent:CSStreamSenseBuffer
                                    mediaPlayer:mediaPlayerController
-                                       segment:currentSegment];
+                                       segment:trackingInfo.currentSegment];
 				break;
 				
 			case RTSMediaPlaybackStatePlaying:
-                if (!currentSegment) {
+                if (! trackingInfo.currentSegment || ! trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePlay
                                        mediaPlayer:mediaPlayerController
-                                           segment:currentSegment];
+                                           segment:trackingInfo.currentSegment];
                 }
+                trackingInfo.skippingNextEvents = NO;
 				break;
                 
             case RTSMediaPlaybackStateSeeking:
-			case RTSMediaPlaybackStatePaused:
-                if (!currentSegment) {
+                if (! trackingInfo.currentSegment) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
                                        mediaPlayer:mediaPlayerController
-                                           segment:currentSegment];
+                                           segment:nil];
+                }
+                break;
+                
+			case RTSMediaPlaybackStatePaused:
+                if (! trackingInfo.skippingNextEvents) {
+                    [self notifyStreamTrackerEvent:CSStreamSensePause
+                                       mediaPlayer:mediaPlayerController
+                                           segment:trackingInfo.currentSegment];
                 }
 				break;
 				
 			case RTSMediaPlaybackStateEnded:
 				[self notifyStreamTrackerEvent:CSStreamSenseEnd
                                    mediaPlayer:mediaPlayerController
-                                       segment:currentSegment];
+                                       segment:trackingInfo.currentSegment];
 				break;
 				
 			case RTSMediaPlaybackStateIdle:
@@ -179,10 +170,11 @@
     NSInteger value = [notification.userInfo[RTSMediaPlaybackSegmentChangeValueInfoKey] integerValue];
     BOOL wasUserSelected = [notification.userInfo[RTSMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
     
-    id<RTSMediaSegment> previousSegment = [self currentSegmentForMediaPlayerController:segmentsController.playerController];
+    RTSMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
+    id<RTSMediaSegment> previousSegment = trackingInfo.currentSegment;
     
     id<RTSMediaSegment> segment = notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey];
-    [self setCurrentSegment:(wasUserSelected ? segment : nil) forMediaPlayerController:segmentsController.playerController];
+    trackingInfo.currentSegment = (wasUserSelected ? segment : nil);
     
     // According to its implementation, Comscore only sends an event if different from the previously sent one. We
     // are therefore required to send a pause followed by a play when a segment end is detected (in which case
@@ -197,6 +189,9 @@
                 [self notifyStreamTrackerEvent:CSStreamSensePlay
                                    mediaPlayer:segmentsController.playerController
                                        segment:segment];
+                
+                
+                trackingInfo.skippingNextEvents = YES;
             }
             break;
         }
@@ -239,6 +234,24 @@
     }
 }
 
+#pragma mark - Tracking information
+
+- (RTSMediaPlayerControllerTrackingInfo *)trackingInfoForMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+{
+    NSValue *key = [NSValue valueWithNonretainedObject:mediaPlayerController];
+    RTSMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[key];
+    if (!trackingInfo) {
+        trackingInfo = [RTSMediaPlayerControllerTrackingInfo new];
+        self.trackingInfos[key] = trackingInfo;
+    }
+    return trackingInfo;
+}
+
+- (void)discardTrackingInfoForMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+{
+    NSValue *key = [NSValue valueWithNonretainedObject:mediaPlayerController];
+    [self.trackingInfos removeObjectForKey:key];
+}
 
 
 #pragma mark - Stream tracking
@@ -261,7 +274,7 @@
 		return;
     }
 	
-    [self setCurrentSegment:nil forMediaPlayerController:mediaPlayerController];
+    [self discardTrackingInfoForMediaPlayerController:mediaPlayerController];
 	[self notifyStreamTrackerEvent:CSStreamSenseEnd
                        mediaPlayer:mediaPlayerController
                            segment:nil];
