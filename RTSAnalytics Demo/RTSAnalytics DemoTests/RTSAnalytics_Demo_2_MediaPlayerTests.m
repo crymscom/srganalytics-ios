@@ -807,8 +807,8 @@
     [tester waitForTimeInterval:2.0f];
 }
 
-// Send to the background while the full-length is being played
-- (void)testOpenMediaPlayerAndSendToBackground
+// Pause while the full-length is being played
+- (void)testOpenMediaPlayerPlayThenPauseFullLength
 {
     // Initial full-length play when opening
     {
@@ -831,7 +831,7 @@
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
-    // Simulate background
+    // Pause
     {
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
@@ -846,9 +846,8 @@
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
         }];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
+
+        [tester tapViewWithAccessibilityLabel:@"play"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -861,8 +860,8 @@
     [tester waitForTimeInterval:2.0f];
 }
 
-// Send to the background while the full-length is being played
-- (void)testOpenMediaPlayerPlaySegmentAndSendToBackground
+// Pause while a segment is being played
+- (void)testOpenMediaPlayerPlayThenPauseSegment
 {
     // Initial full-length play when opening
     {
@@ -926,7 +925,7 @@
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
-    // Simulate background
+    // Pause
     {
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
@@ -938,12 +937,11 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
             return YES;
         }];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
+        [tester tapViewWithAccessibilityLabel:@"play"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
