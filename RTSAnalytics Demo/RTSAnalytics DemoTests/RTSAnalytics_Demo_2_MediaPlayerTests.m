@@ -96,7 +96,6 @@
             return YES;
         }];
         
-        // Open 1-segment demo
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -218,7 +217,6 @@
             return YES;
         }];
         
-        // Open 1-segment demo
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -775,7 +773,6 @@
             return YES;
         }];
         
-        // Open 1-segment demo
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
