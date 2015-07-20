@@ -978,7 +978,6 @@ static void LogProperties(id object)
 {
 	if ([self mediaType] == RTSMediaTypeVideo) {
 		[self.player pause];
-		[self fireEvent:self.pauseEvent userInfo:nil];
 	}
 }
 
