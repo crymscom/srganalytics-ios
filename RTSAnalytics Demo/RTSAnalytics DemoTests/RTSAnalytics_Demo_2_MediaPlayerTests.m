@@ -621,7 +621,7 @@
             
             numberOfNotificationsReceived++;
             
-            // Pause for the full-length
+            // Pause for the segment
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
@@ -630,7 +630,7 @@
                 // Not finished yet
                 return NO;
             }
-            // Play for the first segment
+            // Play for the full-length
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
