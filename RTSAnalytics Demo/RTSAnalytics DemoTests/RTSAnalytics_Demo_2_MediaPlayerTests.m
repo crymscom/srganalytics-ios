@@ -754,7 +754,7 @@
     [tester waitForTimeInterval:2.0f];
 }
 
-// Try to seek into a blocked segment. Must pause at on the full-length
+// Try to seek into a blocked segment. Must pause the full-length
 - (void)testOpenMediaPlayerAndSeekIntoBlockedSegment
 {
     // Initial full-length play when opening
