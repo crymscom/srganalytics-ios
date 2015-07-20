@@ -799,29 +799,6 @@
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
-    [NSThread sleepForTimeInterval:3.];
-    
-    // Resume playback
-    {
-        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-            
-            // Only consider relevant events
-            if (!labels[@"clip_type"])
-            {
-                return NO;
-            }
-            
-            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
-            return YES;
-        }];
-        
-        [tester tapViewWithAccessibilityLabel:@"play"];
-        
-        [self waitForExpectationsWithTimeout:20. handler:nil];
-    }
-    
     // Close
     {
         [tester tapViewWithAccessibilityLabel:@"Done"];
