@@ -78,7 +78,10 @@
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
 // receive segment labels. After the segment has been played through, we receive full-length labels again
-- (void)testOpenMediaPlayerAndPlayOneSegment
+//
+// Heartbeat information must contain full-length labels when playing the full-length, and segment information while playing a
+// segment selected by the user
+- (void)testOpenMediaPlayerAndPlayOneSegmentCheckHeartbeats
 {
     // Initial full-length play when opening
     {
@@ -107,9 +110,10 @@
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
             NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
             
-            // Skip heartbeats
+            // Skip heartbeats, but check information
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
             {
+                XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 return NO;
             }
             
@@ -152,6 +156,7 @@
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
             {
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
                 return NO;
             }
             
@@ -179,6 +184,22 @@
             }
         }];
         [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Wait for one more heartbeat, and check we get full-length information again
+    {
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            if (! [labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        [self waitForExpectationsWithTimeout:60. handler:nil];
     }
     
     // Close

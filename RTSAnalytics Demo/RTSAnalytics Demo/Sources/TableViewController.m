@@ -123,7 +123,7 @@
     }
     else
     {
-        CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(6.3, 1.));
+        CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(15., 1.));
         Segment *segment = [[Segment alloc] initWithTimeRange:timeRange name:@"segment" blocked:NO];
         completionHandler(fullLengthSegment, @[segment], nil);
     }
