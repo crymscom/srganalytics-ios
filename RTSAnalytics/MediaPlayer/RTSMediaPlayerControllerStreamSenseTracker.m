@@ -68,13 +68,6 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	[self notify:playerEvent position:[self currentPositionInMilliseconds] labels:nil];
 }
 
-- (NSMutableDictionary *)createMeasurementLabels:(CSStreamSenseEventType)eventType initialLabels:(NSDictionary *)initialLabels
-{
-	NSMutableDictionary *measurementLabels = [super createMeasurementLabels:eventType initialLabels:initialLabels];
-    [self updateLabelsWithSegment:nil];
-	return measurementLabels;
-}
-
 #pragma mark - CSStreamSensePluginProtocol
 
 - (long)currentPositionInMilliseconds
