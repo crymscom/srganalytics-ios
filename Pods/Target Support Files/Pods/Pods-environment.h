@@ -9,7 +9,7 @@
 // SRGMediaPlayer
 #define COCOAPODS_POD_AVAILABLE_SRGMediaPlayer
 #define COCOAPODS_VERSION_MAJOR_SRGMediaPlayer 1
-#define COCOAPODS_VERSION_MINOR_SRGMediaPlayer 0
+#define COCOAPODS_VERSION_MINOR_SRGMediaPlayer 1
 #define COCOAPODS_VERSION_PATCH_SRGMediaPlayer 0
 
 // TransitionKit
