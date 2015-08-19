@@ -86,6 +86,10 @@
 	{
 		urlString = @"http://stream-i.rts.ch/i/tp/1993/tp_10071993-,450,k.mp4.csmil/master.m3u8";
 	}
+    else if ([identifier hasSuffix:@"DVRCell"])
+    {
+        urlString = @"http://srgssruni22ach-lh.akamaihd.net/i/enc22auni_ch@195192/master.m3u8";
+    }
 	
 	NSURL *URL = [NSURL URLWithString:urlString];
 	completionHandler(URL, nil);
