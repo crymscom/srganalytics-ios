@@ -101,20 +101,32 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     if (dimensions) {
 		[[self clip] setLabel:@"ns_st_cs" value:dimensions];
     }
+    else {
+        [[[self clip] labels] removeObjectForKey:@"ns_st_cs"];
+    }
 	
 	NSString *duration = [self duration];
     if (duration) {
 		[[self clip] setLabel:@"ns_st_cl" value:duration];
+    }
+    else {
+        [[[self clip] labels] removeObjectForKey:@"ns_st_cl"];
     }
 	
 	NSString *liveStream = [self liveStream];
     if (liveStream) {
 		[[self clip] setLabel:@"ns_st_li" value:liveStream];
     }
+    else {
+        [[[self clip] labels] removeObjectForKey:@"ns_st_li"];
+    }
 	
 	NSString *srg_enc = [self srg_enc];
     if (srg_enc) {
 		[[self clip] setLabel:@"srg_enc" value:srg_enc];
+    }
+    else {
+        [[[self clip] labels] removeObjectForKey:@"srg_enc"];
     }
 	
 	// Playlist
