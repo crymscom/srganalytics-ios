@@ -14,9 +14,19 @@
 
 #pragma mark - RTSAnalyticsMediaPlayerDelegate
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    // TODO: Fragile since coupled to internal implementation details, but for tests
+    UISlider *slider = [self valueForKey:@"timeSlider"];
+    NSAssert(slider, @"Expect slider called timeSlider. Update to match internal implementation details");
+    slider.accessibilityLabel = @"slider";
+}
+
 - (BOOL) shouldTrackMediaWithIdentifier:(NSString *)identifier
 {
-	return [identifier hasSuffix:@"VODCell"];
+	return [identifier hasSuffix:@"VODCell"] || [identifier hasSuffix:@"DVRCell"];
 }
 
 @end

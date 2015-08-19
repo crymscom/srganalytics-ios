@@ -76,6 +76,78 @@
     }
 }
 
+// DVR streams should start at the end, i.e. live
+- (void)testOpenDefaultMediaPlayerPlayDVRStreamAndSeekToNonLiveThenClose
+{
+    {
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+            return YES;
+        }];
+        
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+
+    // Seek to the past
+    {
+        __block NSInteger numberOfNotificationsReceived = 0;
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            numberOfNotificationsReceived++;
+            
+            // Pause for the live
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                
+                // Not finished yet
+                return NO;
+            }
+            // Play for the past
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }];
+        
+        [tester setValue:2.f forSliderWithAccessibilityLabel:@"slider"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Close
+    {
+        [tester tapViewWithAccessibilityLabel:@"Done"];
+    }
+    
+    [tester waitForTimeInterval:2.0f];
+}
+
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
 // receive segment labels. After the segment has been played through, we receive full-length labels again
 //
