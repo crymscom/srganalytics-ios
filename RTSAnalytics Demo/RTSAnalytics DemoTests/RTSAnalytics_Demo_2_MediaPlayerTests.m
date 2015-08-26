@@ -1134,7 +1134,6 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-            AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
             XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
             return YES;
         }];
