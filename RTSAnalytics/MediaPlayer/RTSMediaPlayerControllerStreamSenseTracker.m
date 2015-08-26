@@ -134,6 +134,14 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     else {
         [[[self clip] labels] removeObjectForKey:@"srg_enc"];
     }
+    
+    NSString *timeshift = [self timeshiftFromLiveInMilliseconds];
+    if (timeshift) {
+        [[self clip] setLabel:@"srg_timeshift" value:timeshift];
+    }
+    else {
+        [[[self clip] labels] removeObjectForKey:@"srg_timeshift"];
+    }
 	
 	// Playlist
 	if ([self.dataSource respondsToSelector:@selector(streamSensePlaylistMetadataForIdentifier:)]) {
@@ -269,6 +277,18 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 		}
 	}
 	return nil;
+}
+
+- (NSString *)timeshiftFromLiveInMilliseconds
+{
+    if (self.mediaPlayerController.streamType == RTSMediaStreamTypeDVR) {
+        CMTime timeShift = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), self.mediaPlayerController.playerItem.currentTime);
+        return [NSString stringWithFormat:@"%ld", (long) fabs(CMTimeGetSeconds(timeShift)) * 1000];
+    }
+    else if (self.mediaPlayerController.streamType == RTSMediaStreamTypeLive) {
+        return @"0";
+    }
+    return nil;
 }
 
 - (NSURL *)contentURL
