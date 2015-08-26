@@ -98,7 +98,7 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-            XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+            XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
             return YES;
         }];
         
@@ -125,7 +125,7 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-                XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
                 
                 // Not finished yet
                 return NO;

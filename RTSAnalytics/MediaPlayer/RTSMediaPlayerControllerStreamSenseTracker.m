@@ -248,7 +248,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 // As requested by Markus Gubler, do not even send a "0" when it is not live stream.
 - (NSString *)liveStream
 {
-    return self.mediaPlayerController.live ? @"1" : nil;
+    return (self.mediaPlayerController.streamType == RTSMediaStreamTypeLive) ? @"1" : nil;
 }
 
 - (NSString *) dimensions
