@@ -8,9 +8,11 @@
 #import <KIF/KIF.h>
 #import <SRGMediaPlayer/RTSMediaSegmentsController.h>
 
-// Need some flexibility when testing times as they might not be exact
+// Need some flexibility when testing times as they might not be exact. Introduce several arbitrary tolerance levels which can
+// be used depending on the precision available
 #define AssertIsWithin1Second(expression1, expression2) XCTAssertTrue(fabs([expression1 doubleValue] - expression2) < 1000.)
-#define AssertIsWithinWithin6Seconds(expression1, expression2) XCTAssertTrue(fabs([expression1 doubleValue] - expression2) < 6000.)
+#define AssertIsWithin6Seconds(expression1, expression2) XCTAssertTrue(fabs([expression1 doubleValue] - expression2) < 6000.)
+#define AssertIsWithin20Seconds(expression1, expression2) XCTAssertTrue(fabs([expression1 doubleValue] - expression2) < 20000.)
 
 @interface RTSAnalytics_Demo_2_MediaPlayerTests : KIFTestCase
 
@@ -35,6 +37,7 @@
         XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
         AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
         XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
+        AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
         
         [tester waitForTimeInterval:2.0f];
     }
@@ -49,6 +52,7 @@
         XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
         AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
         XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
+        AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
         
         [tester waitForTimeInterval:2.0f];
     }
@@ -65,6 +69,7 @@
         XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
         AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
         XCTAssertNil(labels[@"srg_enc"]);
+        XCTAssertNil(labels[@"srg_timeshift"], @"The parameter srg_timeshift must only sent for live streams");
         
         [tester waitForTimeInterval:2.0f];
     }
@@ -79,6 +84,7 @@
         XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
         AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
         XCTAssertNil(labels[@"srg_enc"]);
+        XCTAssertNil(labels[@"srg_timeshift"], @"The parameter srg_timeshift must only sent for live streams");
         
         [tester waitForTimeInterval:2.0f];
     }
@@ -98,7 +104,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-            XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
+            XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+            AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
             return YES;
         }];
         
@@ -107,7 +114,9 @@
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
 
-    // Seek to the past
+    // Seek to the past. Must store the position for seeking back to the live later (KIF requires a valid slider position to move to)
+    static const CGFloat kPastPosition = 5.f;
+    __block float position = 0.f;
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
@@ -125,7 +134,8 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-                XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
+                XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
                 
                 // Not finished yet
                 return NO;
@@ -134,7 +144,13 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-                XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
+                XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                
+                // It is difficult to test this value since the DVR window varies with this test stream. Only check
+                // that the value is large enough, the probability is small that the test fails because the available
+                // DVR window is too small
+                position = [labels[@"srg_timeshift"] floatValue] / 1000.f;
+                XCTAssertTrue(position > 10.f);
                 return YES;
             }
             else
@@ -143,7 +159,58 @@
             }
         }];
         
-        [tester setValue:2.f forSliderWithAccessibilityLabel:@"slider"];
+        [tester setValue:kPastPosition forSliderWithAccessibilityLabel:@"slider"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Seek back to the live
+    {
+        __block NSInteger numberOfNotificationsReceived = 0;
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            numberOfNotificationsReceived++;
+            
+            // Pause for the past
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                
+                // It is difficult to test this value since the DVR window varies with this test stream. Only check
+                // that the value is large enough, the probability is small that the test fails because the available
+                // DVR window is too small
+                XCTAssertTrue([labels[@"srg_timeshift"] floatValue] > 10.f * 1000.f);
+                
+                // Not finished yet
+                return NO;
+            }
+            // Play for the live
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                
+                // Seeking is rarely precise. Check with a sufficient tolerance
+                AssertIsWithin20Seconds(labels[@"srg_timeshift"], 0.);
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }];
+        
+        // Add a tolerance to avoid trying to set a value larger than the slider max, which leads to a KIF exception
+        static const float kSliderTolerance = 4.f;
+        [tester setValue:position - kPastPosition - kSliderTolerance  forSliderWithAccessibilityLabel:@"slider"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -754,7 +821,7 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-                AssertIsWithinWithin6Seconds(labels[@"ns_st_po"], time * 1000.);        // difficult to test, will resume at the nearest chunk (can be a few seconds)
+                AssertIsWithin6Seconds(labels[@"ns_st_po"], time * 1000.);        // difficult to test, will resume at the nearest chunk (can be a few seconds)
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 return YES;
             }
