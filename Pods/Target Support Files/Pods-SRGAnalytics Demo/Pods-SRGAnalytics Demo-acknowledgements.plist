@@ -19,17 +19,6 @@
 &lt;insert licence terms here&gt;
 </string>
 			<key>Title</key>
-			<string>SRGAnalytics</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright (c) RTS. All rights reserved.
-
-&lt;insert licence terms here&gt;
-</string>
-			<key>Title</key>
 			<string>SRGMediaPlayer</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
@@ -267,6 +256,17 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 </string>
 			<key>Title</key>
 			<string>libextobjc</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>Copyright (c) RTS. All rights reserved.
+
+&lt;insert licence terms here&gt;
+</string>
+			<key>Title</key>
+			<string>SRGAnalytics</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

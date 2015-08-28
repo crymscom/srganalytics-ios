@@ -32,7 +32,7 @@ end
 
 post_install do |installer|
     
-    installer.project.targets.each do |target|
+    installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
             config.build_settings['TARGETED_DEVICE_FAMILY'] = '1,2' # iPhone, iPad
 #            config.build_settings['TARGETED_DEVICE_FAMILY'] = '2'
