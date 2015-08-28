@@ -16,4 +16,5 @@
  */
 FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestDidFinishNotification;
 FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestSuccessUserInfoKey;
+FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestErrorUserInfoKey;
 FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey;

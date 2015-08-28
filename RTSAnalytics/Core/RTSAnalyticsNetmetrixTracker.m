@@ -12,6 +12,7 @@ static NSString * const LoggerDomainAnalyticsNetmetrix = @"Netmetrix";
 
 NSString * const RTSAnalyticsNetmetrixRequestDidFinishNotification = @"RTSAnalyticsNetmetrixRequestDidFinish";
 NSString * const RTSAnalyticsNetmetrixRequestSuccessUserInfoKey = @"RTSAnalyticsNetmetrixSuccess";
+NSString * const RTSAnalyticsNetmetrixRequestErrorUserInfoKey = @"RTSAnalyticsNetmetrixError";
 NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalyticsNetmetrixResponse";
 
 @interface RTSAnalyticsNetmetrixTracker ()
@@ -83,6 +84,8 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 			NSMutableDictionary *userInfo = [@{ RTSAnalyticsNetmetrixRequestSuccessUserInfoKey: @(succes) } mutableCopy];
 			if (response)
 				userInfo[RTSAnalyticsNetmetrixRequestResponseUserInfoKey] = response;
+			if (connectionError)
+				userInfo[RTSAnalyticsNetmetrixRequestErrorUserInfoKey] = connectionError;
 			
 			[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixRequestDidFinishNotification object:request userInfo:[userInfo copy]];
 		}];
