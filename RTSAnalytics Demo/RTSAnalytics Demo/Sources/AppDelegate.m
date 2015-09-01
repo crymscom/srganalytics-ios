@@ -18,8 +18,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	setenv("RTSAnalyticsLogLevel", "-1", 0);
-	
 	// Tracker
 	RTSAnalyticsTracker *analyticsTracker = [RTSAnalyticsTracker sharedTracker];
 	[analyticsTracker setComscoreVSite:@"rts-app-test-v"];
