@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0AA218FFBA02C69AF0714143 /* libPods-SRGAnalytics Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A98F327A3E18DD244CE189 /* libPods-SRGAnalytics Demo.a */; };
-		815F8ADDD7452959BA776000 /* libPods-SRGAnalytics DemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C23567C9F5604E511D87D9 /* libPods-SRGAnalytics DemoTests.a */; };
+		70E7AB8C155258EEADAB902A /* libPods-SRGAnalytics DemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C23567C9F5604E511D87D9 /* libPods-SRGAnalytics DemoTests.a */; };
 		B64503481AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m */; };
 		B64503661AE10567001021A8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503611AE10567001021A8 /* AppDelegate.m */; };
 		B64503671AE10567001021A8 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503631AE10567001021A8 /* TableViewController.m */; };
@@ -87,7 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				815F8ADDD7452959BA776000 /* libPods-SRGAnalytics DemoTests.a in Frameworks */,
+				70E7AB8C155258EEADAB902A /* libPods-SRGAnalytics DemoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
