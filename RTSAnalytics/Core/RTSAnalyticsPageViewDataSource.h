@@ -1,6 +1,7 @@
 //
-//  Created by Frédéric Humbert-Droz on 09/04/15.
-//  Copyright (c) 2015 RTS. All rights reserved.
+//  Copyright (c) RTS. All rights reserved.
+//
+//  Licence information is available from the LICENCE file.
 //
 
 #import <Foundation/Foundation.h>
@@ -8,7 +9,8 @@
 /**
  *  The `RTSAnalyticsPageViewDataSource` groups methods that are used for view event measurement.
  * 
- *  If the UIViewController conforms to this protocol, the tracker will send a view event to Comscore and Netmetrix at each `-viewDidAppear:`
+ *  If the view controller conforms to this protocol, the tracker will send a view event to Comscore and Netmetrix at each `-viewDidAppear:`.
+ *  This protocol can also be used to add custom labels to the view event
  */
 @protocol RTSAnalyticsPageViewDataSource <NSObject>
 
@@ -38,7 +40,7 @@
 
 /**
  *  Returns a dictionary of key values that will be set a labels when sending view events. 
- *  When returning custom labels, beware persistent labels can be overrided by those custom labels values.
+ *  When returning custom labels, beware that persistent labels can be overrided by those custom labels values.
  *
  *  @return a dictionary of labels.
  */

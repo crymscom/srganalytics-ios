@@ -1,9 +1,7 @@
 //
-//  RTSAnalyticsVersion.h
-//  RTSAnalytics
+//  Copyright (c) RTS. All rights reserved.
 //
-//  Created by Samuel Defago on 18.06.15.
-//  Copyright (c) 2015 RTS. All rights reserved.
+//  Licence information is available from the LICENCE file.
 //
 
 #import <Foundation/Foundation.h>

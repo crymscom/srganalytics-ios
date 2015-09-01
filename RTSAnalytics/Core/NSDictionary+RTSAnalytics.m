@@ -1,9 +1,7 @@
 //
-//  NSDictionary+Utils.m
-//  RTSAnalytics
+//  Copyright (c) RTS. All rights reserved.
 //
-//  Created by Cédric Foellmi on 26/03/15.
-//  Copyright (c) 2015 RTS. All rights reserved.
+//  Licence information is available from the LICENCE file.
 //
 
 #import "NSDictionary+RTSAnalytics.h"
