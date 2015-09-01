@@ -15,6 +15,9 @@
  */
 @interface RTSAnalyticsTracker (Logging)
 
+/**
+ *  Start logging events to the `RTSAnalyticsLogger`
+ */
 - (void)startLoggingInternalComScoreTasks;
 
 @end

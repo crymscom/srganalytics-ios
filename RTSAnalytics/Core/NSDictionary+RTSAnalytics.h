@@ -9,5 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface NSDictionary (RTSAnalytics)
+
+/**
+ *  Set value and key iff both are non-nil
+ */
 - (void)safeSetValue:(id)value forKey:(NSString *)key;
+
 @end

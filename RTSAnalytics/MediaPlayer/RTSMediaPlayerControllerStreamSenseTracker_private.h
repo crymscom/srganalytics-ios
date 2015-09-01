@@ -14,7 +14,7 @@
 #import <comScore-iOS-SDK-RTS/CSStreamSensePluginProtocol.h>
 
 /**
- *  The `RTSMediaPlayerControllerStreamSenseTracker` is a plugin for `RTSMediaPlayerController` and take care of populating persistent labels, 
+ *  The `RTSMediaPlayerControllerStreamSenseTracker` is a plugin for `RTSMediaPlayerController` which takes care of populating persistent labels, 
  *  playlist labels and clip labels.
  *
  *  To add custom labels, playlist and clip labels implements a dataSource responding to `RTSAnalyticsMediaPlayerDataSource` protocol.
@@ -49,7 +49,7 @@
  */
 
 /**
- *  Notify the tracker to send a stream event. This method must be call each time the media player controller playback state changes.
+ *  Notify the tracker to send a stream event. This method must be called each time the media player controller playback state changes.
  *
  *  This method will update Streamsense persistent and custom labels by calling methods defined in `RTSAnalyticsMediaPlayerDataSource` protocol.
  *
