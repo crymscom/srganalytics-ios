@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14C56BC2F292F2DBCF8943C9 /* libPods-SRGAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9539421BE92A36DD263C8C38 /* libPods-SRGAnalytics.a */; };
 		6392DB23932134FCAC0D95E8 /* libPods-SRGAnalyticsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B866E4F23445891E99E0F7D /* libPods-SRGAnalyticsTests.a */; };
-		96DDCBAE6082E690E197CAB6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDB9122CCBE15E6075B5D31 /* libPods.a */; };
 		9F1518C71AC2F1CE00AE051D /* libSRGAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1518BB1AC2F1CE00AE051D /* libSRGAnalytics.a */; };
 		9F1519221AC422AE00AE051D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1519211AC422AE00AE051D /* UIKit.framework */; };
 		9F1519241AC422B800AE051D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1519231AC422B800AE051D /* Foundation.framework */; };
@@ -42,6 +42,8 @@
 		B64503941AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503921AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m */; };
 		C2332DAA1B2880EB00AA21BB /* RTSAnalyticsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger.h */; };
 		C2332DAB1B2880EB00AA21BB /* RTSAnalyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */; };
+		C28CE3E21B906DA200BA1D69 /* RTSAnalyticsNetmetrixTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = C28CE3E11B906DA200BA1D69 /* RTSAnalyticsNetmetrixTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C28CE3E41B907AF600BA1D69 /* RTSAnalyticsComScoreTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = C28CE3E31B907AF600BA1D69 /* RTSAnalyticsComScoreTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6F0237B1B328F59001B6F0B /* RTSAnalyticsVersion_private.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F023791B328F59001B6F0B /* RTSAnalyticsVersion_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E6F0237C1B328F59001B6F0B /* RTSAnalyticsVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F0237A1B328F59001B6F0B /* RTSAnalyticsVersion.m */; };
 		E6F471931B5D2C9200A566B3 /* RTSMediaPlayerControllerTrackingInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F471911B5D2C9200A566B3 /* RTSMediaPlayerControllerTrackingInfo.h */; };
@@ -64,8 +66,7 @@
 		18BFADC8E5A38BC54D9672E0 /* Pods-SRGAnalyticsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1AF1EE5C2B9C9B206B5A019D /* Pods-SRGAnalyticsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.release.xcconfig"; sourceTree = "<group>"; };
 		3BDB9122CCBE15E6075B5D31 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		753A47FB6E7AD7FBA4482B54 /* Pods.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.test.xcconfig; path = "Pods/Target Support Files/Pods/Pods.test.xcconfig"; sourceTree = "<group>"; };
-		8B6779BB2E463446A576E682 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		9539421BE92A36DD263C8C38 /* libPods-SRGAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalytics.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1518BB1AC2F1CE00AE051D /* libSRGAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSRGAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1518C61AC2F1CE00AE051D /* SRGAnalyticsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SRGAnalyticsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1518CC1AC2F1CE00AE051D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -102,11 +103,16 @@
 		B64503921AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RTSAnalyticsMediaPlayer.m"; sourceTree = "<group>"; };
 		C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsLogger.h; sourceTree = "<group>"; };
 		C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsLogger.m; sourceTree = "<group>"; };
+		C28CE3E11B906DA200BA1D69 /* RTSAnalyticsNetmetrixTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsNetmetrixTracker.h; sourceTree = "<group>"; };
+		C28CE3E31B907AF600BA1D69 /* RTSAnalyticsComScoreTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsComScoreTracker.h; sourceTree = "<group>"; };
+		C28CE3E51B908B1C00BA1D69 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		C28CE3E71B908CF700BA1D69 /* Pods-SRGAnalytics.debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics.debug.xcconfig"; sourceTree = "<group>"; };
+		C28CE3E81B908CF700BA1D69 /* Pods-SRGAnalytics.release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics.release.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics.release.xcconfig"; sourceTree = "<group>"; };
+		C28CE3E91B908CF700BA1D69 /* Pods-SRGAnalytics.test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics.test.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics.test.xcconfig"; sourceTree = "<group>"; };
 		E6F023791B328F59001B6F0B /* RTSAnalyticsVersion_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsVersion_private.h; sourceTree = "<group>"; };
 		E6F0237A1B328F59001B6F0B /* RTSAnalyticsVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsVersion.m; sourceTree = "<group>"; };
 		E6F471911B5D2C9200A566B3 /* RTSMediaPlayerControllerTrackingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSMediaPlayerControllerTrackingInfo.h; sourceTree = "<group>"; };
 		E6F471921B5D2C9200A566B3 /* RTSMediaPlayerControllerTrackingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSMediaPlayerControllerTrackingInfo.m; sourceTree = "<group>"; };
-		FFFE1559FD6648948E474778 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +122,7 @@
 			files = (
 				9F1519241AC422B800AE051D /* Foundation.framework in Frameworks */,
 				9F1519221AC422AE00AE051D /* UIKit.framework in Frameworks */,
-				96DDCBAE6082E690E197CAB6 /* libPods.a in Frameworks */,
+				14C56BC2F292F2DBCF8943C9 /* libPods-SRGAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,9 +143,9 @@
 		672CEE20A4903FABD91AD0BD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8B6779BB2E463446A576E682 /* Pods.debug.xcconfig */,
-				753A47FB6E7AD7FBA4482B54 /* Pods.test.xcconfig */,
-				FFFE1559FD6648948E474778 /* Pods.release.xcconfig */,
+				C28CE3E71B908CF700BA1D69 /* Pods-SRGAnalytics.debug.xcconfig */,
+				C28CE3E81B908CF700BA1D69 /* Pods-SRGAnalytics.release.xcconfig */,
+				C28CE3E91B908CF700BA1D69 /* Pods-SRGAnalytics.test.xcconfig */,
 				18BFADC8E5A38BC54D9672E0 /* Pods-SRGAnalyticsTests.debug.xcconfig */,
 				0AC9040CB6772AEB63FCDE39 /* Pods-SRGAnalyticsTests.test.xcconfig */,
 				1AF1EE5C2B9C9B206B5A019D /* Pods-SRGAnalyticsTests.release.xcconfig */,
@@ -222,12 +228,14 @@
 		AC99606425BE818BA71D7E4D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C28CE3E51B908B1C00BA1D69 /* libPods.a */,
 				9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */,
 				9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */,
 				9F1519231AC422B800AE051D /* Foundation.framework */,
 				9F1519211AC422AE00AE051D /* UIKit.framework */,
 				3BDB9122CCBE15E6075B5D31 /* libPods.a */,
 				0B866E4F23445891E99E0F7D /* libPods-SRGAnalyticsTests.a */,
+				9539421BE92A36DD263C8C38 /* libPods-SRGAnalytics.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -237,6 +245,8 @@
 			children = (
 				B64502AE1ADE81F9001021A8 /* RTSAnalyticsTracker.h */,
 				B64502AF1ADE81F9001021A8 /* RTSAnalyticsTracker.m */,
+				C28CE3E31B907AF600BA1D69 /* RTSAnalyticsComScoreTracker.h */,
+				C28CE3E11B906DA200BA1D69 /* RTSAnalyticsNetmetrixTracker.h */,
 				B64502AD1ADE81F9001021A8 /* RTSAnalyticsPageViewDataSource.h */,
 				9F4420F21B09DB2F00AD0613 /* UIViewController+RTSAnalytics.h */,
 				9F4420F31B09DB2F00AD0613 /* UIViewController+RTSAnalytics.m */,
@@ -288,6 +298,7 @@
 				9F2503E81B3ACBAA0044F44F /* SRGAnalytics.h in Headers */,
 				B645031E1ADFA753001021A8 /* RTSAnalyticsMediaPlayer.h in Headers */,
 				9F4420FA1B09DB2F00AD0613 /* UIViewController+RTSAnalytics.h in Headers */,
+				C28CE3E41B907AF600BA1D69 /* RTSAnalyticsComScoreTracker.h in Headers */,
 				9F4420F41B09DB2F00AD0613 /* CSRequest+RTSAnalytics_private.h in Headers */,
 				B64503191ADFA753001021A8 /* RTSAnalyticsMediaPlayerDataSource.h in Headers */,
 				E6F471931B5D2C9200A566B3 /* RTSMediaPlayerControllerTrackingInfo.h in Headers */,
@@ -297,6 +308,7 @@
 				B645031D1ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker_private.h in Headers */,
 				B64502BF1ADE81F9001021A8 /* RTSAnalyticsTracker+Logging_private.h in Headers */,
 				B64503931AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.h in Headers */,
+				C28CE3E21B906DA200BA1D69 /* RTSAnalyticsNetmetrixTracker.h in Headers */,
 				E6F0237B1B328F59001B6F0B /* RTSAnalyticsVersion_private.h in Headers */,
 				C2332DAA1B2880EB00AA21BB /* RTSAnalyticsLogger.h in Headers */,
 				B64502BD1ADE81F9001021A8 /* RTSAnalyticsTracker.h in Headers */,
@@ -421,7 +433,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B6EBEFF0C9DF9A6707EE001E /* Check Pods Manifest.lock */ = {
@@ -537,7 +549,7 @@
 		};
 		9F01791B1B440579005DA9E3 /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 753A47FB6E7AD7FBA4482B54 /* Pods.test.xcconfig */;
+			baseConfigurationReference = C28CE3E91B908CF700BA1D69 /* Pods-SRGAnalytics.test.xcconfig */;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -556,10 +568,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = RTSAnalyticsTests/Info.plist;
@@ -642,7 +650,7 @@
 		};
 		9F1518D01AC2F1CE00AE051D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8B6779BB2E463446A576E682 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = C28CE3E71B908CF700BA1D69 /* Pods-SRGAnalytics.debug.xcconfig */;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -655,7 +663,7 @@
 		};
 		9F1518D11AC2F1CE00AE051D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFFE1559FD6648948E474778 /* Pods.release.xcconfig */;
+			baseConfigurationReference = C28CE3E81B908CF700BA1D69 /* Pods-SRGAnalytics.release.xcconfig */;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -673,10 +681,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = RTSAnalyticsTests/Info.plist;

@@ -12,6 +12,7 @@
 
 #import "CSRequest+RTSAnalytics_private.h"
 #import "RTSAnalyticsLogger.h"
+#import "RTSAnalyticsComScoreTracker.h"
 
 @implementation RTSAnalyticsTracker (Logging)
 

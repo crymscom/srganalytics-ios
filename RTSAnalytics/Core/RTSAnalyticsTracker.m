@@ -157,6 +157,9 @@
 	[CSComScore setCustomerC2:@"6036016"];
 	[CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
 	[CSComScore enableAutoUpdate:60 foregroundOnly:NO]; //60 is the Comscore default interval value
+	NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+	if (appName)
+		[CSComScore setAutoStartLabels:@{ @"name": appName }];
 	[CSComScore setLabels:[self comscoreGlobalLabels]];
 	
 	[self startLoggingInternalComScoreTasks];
