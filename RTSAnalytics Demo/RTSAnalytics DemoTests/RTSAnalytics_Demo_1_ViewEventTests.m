@@ -1,9 +1,7 @@
 //
-//  RTSAnalytics_DemoTests.m
-//  RTSAnalytics DemoTests
+//  Copyright (c) RTS. All rights reserved.
 //
-//  Created by Frédéric Humbert-Droz on 17/04/15.
-//  Copyright (c) 2015 RTS. All rights reserved.
+//  Licence information is available from the LICENCE file.
 //
 
 #import <UIKit/UIKit.h>

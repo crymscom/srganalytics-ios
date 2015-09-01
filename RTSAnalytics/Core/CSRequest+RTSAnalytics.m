@@ -1,9 +1,7 @@
 //
-//  CSRequest+RTSNotification.m
-//  RTSMobileKit
+//  Copyright (c) RTS. All rights reserved.
 //
-//  Created by Cédric Luthi on 26.08.14.
-//  Copyright (c) 2014 RTS. All rights reserved.
+//  Licence information is available from the LICENCE file.
 //
 
 #import "CSRequest+RTSAnalytics_private.h"
