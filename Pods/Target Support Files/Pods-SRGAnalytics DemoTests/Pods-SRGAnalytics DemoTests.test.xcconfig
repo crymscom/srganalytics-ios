@@ -1,0 +1,7 @@
+FRAMEWORK_SEARCH_PATHS = $(PLATFORM_DIR)/Developer/Library/Frameworks $(inherited) "$(SDKROOT)/Developer/Library/Frameworks" "$(PLATFORM_DIR)/Developer/Library/Frameworks" $(PLATFORM_DIR)/Developer/Library/Frameworks $(inherited) "$(SDKROOT)/Developer/Library/Frameworks" "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/KIF" "${PODS_ROOT}/Headers/Public/OCMock" "${PODS_ROOT}/Headers/Public/SRGAnalytics" "${PODS_ROOT}/Headers/Public/SRGMediaPlayer" "${PODS_ROOT}/Headers/Public/TransitionKit" "${PODS_ROOT}/Headers/Public/comScore-iOS-SDK-RTS" "${PODS_ROOT}/Headers/Public/libextobjc"
+LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/comScore-iOS-SDK-RTS/comScore"
+OTHER_CFLAGS = -DKIF_XCTEST $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/KIF" -isystem "${PODS_ROOT}/Headers/Public/OCMock" -isystem "${PODS_ROOT}/Headers/Public/SRGAnalytics" -isystem "${PODS_ROOT}/Headers/Public/SRGMediaPlayer" -isystem "${PODS_ROOT}/Headers/Public/TransitionKit" -isystem "${PODS_ROOT}/Headers/Public/comScore-iOS-SDK-RTS" -isystem "${PODS_ROOT}/Headers/Public/libextobjc"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"KIF" -l"SRGMediaPlayer" -l"TransitionKit" -l"comScore" -l"libextobjc" -framework "AVFoundation" -framework "CoreGraphics" -framework "CoreMedia" -framework "Foundation" -framework "IOKit" -framework "MediaPlayer" -framework "SystemConfiguration" -framework "XCTest"
+PODS_ROOT = ${SRCROOT}/../Pods

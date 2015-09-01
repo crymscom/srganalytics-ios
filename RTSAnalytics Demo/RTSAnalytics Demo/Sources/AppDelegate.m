@@ -1,0 +1,70 @@
+//
+//  Copyright (c) RTS. All rights reserved.
+//
+//  Licence information is available from the LICENCE file.
+//
+
+#import <SRGAnalytics/SRGAnalytics.h>
+#import "AppDelegate.h"
+#import "Segment.h"
+#import "ViewController.h"
+
+@interface AppDelegate () <RTSAnalyticsMediaPlayerDataSource>
+
+@end
+
+@implementation AppDelegate
+
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+	// Tracker
+	RTSAnalyticsTracker *analyticsTracker = [RTSAnalyticsTracker sharedTracker];
+	[analyticsTracker setComscoreVSite:@"rts-app-test-v"];
+	[analyticsTracker setNetmetrixAppId:@"test"];
+	
+	[analyticsTracker setProduction:NO];
+	
+	[analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS mediaDataSource:self];
+
+	return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+	NSLog(@"didReceiveLocalNotification %@", notification.userInfo);
+	
+	[self openViewControllerFromNotification];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler
+{
+	NSLog(@"didReceiveRemoteNotification %@", userInfo);
+	
+	[self openViewControllerFromNotification];
+}
+
+- (void) openViewControllerFromNotification
+{
+	UINavigationController *navigationController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"PushNavigationController"];
+	ViewController *controller = (ViewController *)navigationController.topViewController;
+	controller.pageViewFromPushNotification = YES;
+	[self.window.rootViewController presentViewController:navigationController animated:YES completion:^{
+		controller.pageViewFromPushNotification = NO;
+	}];
+}
+
+#pragma mark - RTSAnalyticsMediaPlayerDataSource
+
+- (NSDictionary *)streamSensePlaylistMetadataForIdentifier:(NSString *)identifier
+{
+    return nil;
+}
+
+- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(Segment *)segment
+{
+    // Add a clip_type custom field to check whether we are in a segment or in the full-length in tests
+    return @{ @"clip_type" : segment ? segment.name : @"full_length" };
+}
+
+@end

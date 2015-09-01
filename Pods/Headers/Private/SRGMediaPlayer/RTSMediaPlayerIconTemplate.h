@@ -1,0 +1,1 @@
+../../../SRGMediaPlayer/RTSMediaPlayer/RTSMediaPlayerIconTemplate.h
