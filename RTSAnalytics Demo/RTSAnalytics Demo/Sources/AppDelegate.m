@@ -7,6 +7,7 @@
 #import <SRGAnalytics/SRGAnalytics.h>
 #import "AppDelegate.h"
 #import "Segment.h"
+#import "ViewController.h"
 
 @interface AppDelegate () <RTSAnalyticsMediaPlayerDataSource>
 
@@ -26,7 +27,7 @@
 	
 	[analyticsTracker setProduction:NO];
 	
-	[analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS launchOptions:launchOptions mediaDataSource:self];
+	[analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS mediaDataSource:self];
 
 	return YES;
 }
@@ -35,7 +36,6 @@
 {
 	NSLog(@"didReceiveLocalNotification %@", notification.userInfo);
 	
-	[[RTSAnalyticsTracker sharedTracker] trackPushNotificationReceived];
 	[self openViewControllerFromNotification];
 }
 
@@ -43,14 +43,17 @@
 {
 	NSLog(@"didReceiveRemoteNotification %@", userInfo);
 	
-	[[RTSAnalyticsTracker sharedTracker] trackPushNotificationReceived];
 	[self openViewControllerFromNotification];
 }
 
 - (void) openViewControllerFromNotification
 {
-	UIViewController *controller = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"PushNavigationController"];
-	[self.window.rootViewController presentViewController:controller animated:YES completion:NULL];
+	UINavigationController *navigationController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"PushNavigationController"];
+	ViewController *controller = (ViewController *)navigationController.topViewController;
+	controller.pageViewFromPushNotification = YES;
+	[self.window.rootViewController presentViewController:navigationController animated:YES completion:^{
+		controller.pageViewFromPushNotification = NO;
+	}];
 }
 
 #pragma mark - RTSAnalyticsMediaPlayerDataSource
