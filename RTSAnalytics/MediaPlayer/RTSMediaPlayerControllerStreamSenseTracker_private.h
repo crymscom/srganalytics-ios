@@ -55,7 +55,15 @@
  *  This method will update Streamsense persistent and custom labels by calling methods defined in `RTSAnalyticsMediaPlayerDataSource` protocol.
  *
  *  @param playerEvent the event type corresponding to the media player controller playback state.
+ *  @param segment the segment information to use (nil for the full-length)
  */
 - (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment;
+
+/**
+ *  Update labels for a given segment. Is automatically performed when calling -notify:withSegment:
+ *
+ *  @param segment the segment information to use (nil for the full-length)
+ */
+- (void)updateLabelsWithSegment:(id<RTSMediaSegment>)segment;
 
 @end

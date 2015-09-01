@@ -1,8 +1,11 @@
-![SRG Media Player logo](https://bitbucket.org/rtsmb/srganalytics-ios/raw/develop/README-images/logo.png)
+![SRG Media Player logo](README-images/logo.png)
 
 ## About
 
-The SRG Analytics library for iOS provides a simple way to provide all necessary SRG SSR app analytics. It automatically sends comScore, viewCount and netMetrix events. When using a SRG MediaPlayer, it also tracks all the streamSense events.
+The SRG Analytics library for iOS is the easiest way to fulfill SRG application analytics needs:
+
+* The library automatically sends comScore, view counts and NET-Metrix events
+* When using the [SRG Media Player library](https://bitbucket.org/rtsmb/srgmediaplayer-ios), it also tracks all associated Stream Sense events
 
 ## Compatibility
 
@@ -26,37 +29,73 @@ The library can be added to a project through [CocoaPods](http://cocoapods.org/)
     pod 'SRGAnalytics', '<version>'
 ```
 
-* To add the SRGMediaPlayer support:
+* To add optional support for the [SRG Media Player library](https://bitbucket.org/rtsmb/srgmediaplayer-ios):
 
 ```
 #!ruby
     pod 'SRGAnalytics/MediaPlayer'
 ```
 
-It is preferable to not provide a version number for the sub-spec SRGMediaPlayer.
+It is preferable not to provide a version number for the `SRGMediaPlayer` subspec.
 
 Then run `pod install` to update the dependencies.
 
 For more information about CocoaPods and the `Podfile`, please refer to the [official documentation](http://guides.cocoapods.org/).
 
-
 ## Usage
 
-In your app delegate, in the method `- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions`, simply add:
+The following discusses how the library can be integrated for most applications:
 
+### Initalization
+
+In the method `-application:didFinishLaunchingWithOptions:` method of your application delegate, simply call:
 
 ```
 #!objective-c
-    [[RTSAnalyticsTracker sharedTracker] startTrackingForBusinessUnit:<put here one of the SRG SSR business unit>
-                                                        launchOptions:launchOptions
-                                                      mediaDataSource:<put here the instance of your data provider>];
+    [[RTSAnalyticsTracker sharedTracker] startTrackingForBusinessUnit:businessUnit];
 
 ```
 
-Moreover, your app *Info.plist* file must contains a dictionary section called 'RTSAnalytics' (this will soon be made compatible with 'SRGAnalytics' naming as well), containing values for the following keys: '**ComscoreVirtualSite**', '**NetmetrixAppID**', '**StreamsenseVirtualSite**'. By using custom build settings variables, it is possible to provide different values for different configurations (Debug, Beta, Release etc...)
+where `businessUnit` is one of the SRG business units as declared by the `SSRBusinessUnit` enum. If you have include support for the SRG Media Player library, call instead:
 
-**Important Note:** By default, the flag 'production' is set to 'NO' to avoid sending useless statistics. It means that none of the statistics will be sent in such state. If you want to test your app in 'beta' stage, set this flag to 'YES' and provide dedicated 'site' values to the keys above.
+```
+#!objective-c
+    [[RTSAnalyticsTracker sharedTracker] startTrackingForBusinessUnit:businessUnit
+                                                      mediaDataSource:dataSource];
 
+```
+
+providing a `dataSource` conforming to the `RTSAnalyticsMediaPlayerDataSource` protocol. This data source lets you further customize which labels are sent to Stream Sense. Please refer to the `RTSAnalyticsMediaPlayerDataSource` protocol documentation for more information.
+
+### Configuration
+
+Your app `Info.plist` file must contains a dictionary section called `RTSAnalytics` containing the following key-value pairs: 
+
+* `ComscoreVirtualSite`: comScore virtual site
+* `NetmetrixAppID`: NET-Metrix application identifier
+* `StreamsenseVirtualSite`: Stream Sense virtual site
+
+By using custom build settings variables, it is possible to provide different values for different configurations (Debug, Beta, Release, etc.) with a single `Info.plist` file.
+
+**Important:** By default, the flag `production` is set to `NO`. In this state no statistics are sent to the respective services to avoif polluting statistics. You should therefore configure your project differently depending on the build flavor:
+
+* In development: Set `production` to `NO`
+* In beta: Set `production` to `YES` and use virtual sites dedicated for statistics retrieval during the beta phase
+* In production: Set `production` to `YES` and use virtual sites dedicated for production
+
+### Tracking view counts for view controllers
+
+For each view controller which requires tracking, have it explicitly conform to the `RTSAnalyticsPageViewDataSource` protocol, and implement the associated required method. This is all you need to do, view events will then automatically be sent when your view controller is presented.
+
+You can provide further optional information, please have a look at the `RTSAnalyticsPageViewDataSource` documentation for more information.
+
+### Tracking media players
+
+By default, all media players are tracked, and associated Stream Sense events sent. You can disable this behavior by having the view controller presenting the media player conform to the `RTSAnalyticsMediaPlayerDelegate` protocol, and implement the `-shouldTrackMediaWithIdentifier:` protocol to return `NO` for identifiers which must not be tracked (simply return `NO` if you want to disable tracking entirely for this presenting view controller).
+
+### Push notifications
+
+To track view controllers opened through push notifications, implement the optional `-pageViewFromPushNotification` method of the `RTSAnalyticsPageViewDataSource` protocol and return `YES` iff opened from a push notification.
 
 ## License
 
