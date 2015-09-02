@@ -1,6 +1,7 @@
 //
-//  Created by Cédric Luthi on 26.08.14.
-//  Copyright (c) 2014 RTS. All rights reserved.
+//  Copyright (c) SRG. All rights reserved.
+//
+//  License information is available from the LICENSE file.
 //
 
 #import <Foundation/Foundation.h>

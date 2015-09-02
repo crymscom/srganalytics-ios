@@ -1,6 +1,7 @@
 //
-//  Created by Frédéric Humbert-Droz on 10/04/15.
-//  Copyright (c) 2015 RTS. All rights reserved.
+//  Copyright (c) SRG. All rights reserved.
+//
+//  License information is available from the LICENSE file.
 //
 
 #import <Foundation/Foundation.h>
