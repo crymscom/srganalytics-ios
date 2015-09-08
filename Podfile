@@ -1,5 +1,5 @@
-source 'ssh://git@bitbucket.org/rtsmb/srgpodspecs.git'
 source 'https://github.com/CocoaPods/Specs.git'
+source 'ssh://git@bitbucket.org/rtsmb/srgpodspecs.git'
 
 inhibit_all_warnings!
 platform :ios, '7.0'

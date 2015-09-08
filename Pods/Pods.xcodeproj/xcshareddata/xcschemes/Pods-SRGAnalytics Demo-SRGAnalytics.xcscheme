@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CE1B5DF1096201EE6AC26379"
+               BlueprintIdentifier = "C6E1135994B0546C3C5CFF4F"
                BuildableName = "libPods-SRGAnalytics Demo-SRGAnalytics.a"
                BlueprintName = "Pods-SRGAnalytics Demo-SRGAnalytics"
                ReferencedContainer = "container:Pods.xcodeproj">
