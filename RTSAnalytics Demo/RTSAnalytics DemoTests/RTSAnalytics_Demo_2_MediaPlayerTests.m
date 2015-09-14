@@ -198,9 +198,7 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
                 XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
-                
-                // Seeking is rarely precise. Check with a sufficient tolerance
-                AssertIsWithin20Seconds(labels[@"srg_timeshift"], 0.);
+                AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
                 return YES;
             }
             else
