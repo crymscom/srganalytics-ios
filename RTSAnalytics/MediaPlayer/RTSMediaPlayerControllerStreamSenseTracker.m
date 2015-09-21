@@ -107,32 +107,20 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     if (dimensions) {
 		[[self clip] setLabel:@"ns_st_cs" value:dimensions];
     }
-    else {
-        [[[self clip] labels] removeObjectForKey:@"ns_st_cs"];
-    }
 	
 	NSString *duration = [self duration];
     if (duration) {
 		[[self clip] setLabel:@"ns_st_cl" value:duration];
-    }
-    else {
-        [[[self clip] labels] removeObjectForKey:@"ns_st_cl"];
     }
 	
 	NSString *liveStream = [self liveStream];
     if (liveStream) {
 		[[self clip] setLabel:@"ns_st_li" value:liveStream];
     }
-    else {
-        [[[self clip] labels] removeObjectForKey:@"ns_st_li"];
-    }
 	
 	NSString *srg_enc = [self srg_enc];
     if (srg_enc) {
 		[[self clip] setLabel:@"srg_enc" value:srg_enc];
-    }
-    else {
-        [[[self clip] labels] removeObjectForKey:@"srg_enc"];
     }
 	
 	// Playlist
@@ -248,7 +236,15 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 // As requested by Markus Gubler, do not even send a "0" when it is not live stream.
 - (NSString *)liveStream
 {
-    return self.mediaPlayerController.live ? @"1" : nil;
+    if (!self.mediaPlayerController.player.currentItem) {
+		return nil;
+    }
+		
+    if (CMTimeCompare(self.mediaPlayerController.player.currentItem.duration, kCMTimeIndefinite) == 0) {
+        return @"1";
+    }
+    
+    return nil;
 }
 
 - (NSString *) dimensions
