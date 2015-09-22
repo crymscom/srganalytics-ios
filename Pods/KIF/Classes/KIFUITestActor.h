@@ -39,6 +39,17 @@ typedef NS_ENUM(NSUInteger, KIFPickerType) {
     KIFUIDatePicker
 };
 
+/*!
+ @enum KIFStepperDirection
+ @abstract Direction in which to increment or decrement the stepper.
+ @constant KIFStepperDirectionIncrement Increment the stepper
+ @constant KIFUIDatePicker Decrement the stepper
+ */
+typedef NS_ENUM(NSUInteger, KIFStepperDirection) {
+	KIFStepperDirectionIncrement,
+	KIFStepperDirectionDecrement
+};
+
 #define kKIFMajorSwipeDisplacement 200
 #define kKIFMinorSwipeDisplacement 5
 
@@ -221,6 +232,14 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param view The view containing the accessibility element.
  */
 - (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view;
+
+/*!
+ @abstract Taps the increment|decrement button of a UIStepper view in the view heirarchy.
+ @discussion Unlike the -tapViewWithAccessibilityLabel: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
+ @param element The accessibility element to tap.
+ @param view The view containing the accessibility element.
+ */
+- (void)tapStepperWithAccessibilityElement:(UIAccessibilityElement *)element increment: (KIFStepperDirection) stepperDirection inView:(UIView *)view;
 
 /*!
  @abstract Taps the screen at a particular point.
@@ -406,12 +425,20 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  */
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier;
 
+/*!
+ @abstract Taps a stepper to either increment or decrement the stepper. Presumed that - (minus) to decrement is on the left.
+ @discussion This will locate the left or right half of the stepper and perform a calculated click.
+ @param label The accessibility identifier of the view to interact with.
+ @param stepperDirection The direction in which to change the value of the stepper (KIFStepperDirectionIncrement | KIFStepperDirectionDecrement)
+ */
+-(void) tapStepperWithAccessibilityLabel: (NSString *)accessibilityLabel increment: (KIFStepperDirection) stepperDirection;
+
 #if TARGET_IPHONE_SIMULATOR
 /*!
- @abstract If present, dismisses a system alert with the last button, usually 'Allow'.
+ @abstract If present, dismisses a system alert with the last button, usually 'Allow'. Returns YES if a dialog was dismissed, NO otherwise.
  @discussion Use this to dissmiss a location services authorization dialog or a photos access dialog by tapping the 'Allow' button. No action is taken if no alert is present.
  */
-- (void)acknowledgeSystemAlert;
+- (BOOL)acknowledgeSystemAlert;
 #endif
 
 /*!
@@ -440,6 +467,14 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param direction The direction in which to swipe.
  */
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits inDirection:(KIFSwipeDirection)direction;
+
+/*!
+ @abstract Swipes a particular view in the view heirarchy.
+ @discussion Unlike the -swipeViewWithAccessibilityLabel: family of methods, this method allows you to swipe an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
+ @param element The accessibility element to tap.
+ @param viewToSwipe The view containing the accessibility element.
+ */
+- (void)swipeAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction;
 
 /*!
  @abstract Scrolls a particular view in the view hierarchy by an amount indicated as a fraction of its size.
@@ -515,4 +550,20 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param identifier Accessibility identifier of the table view.
  */
 - (void)moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier;
+
+/*!
+ @abstract Swipes the row at indexPath in the given direction.
+ 
+ @param indexPath Index path of the row to swipe.
+ @param tableView Table view to operate on.
+ @param direction Direction of the swipe.
+ */
+- (void)swipeRowAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView inDirection:(KIFSwipeDirection)direction;
+
+/*!
+ @abstract Backgrounds app using UIAutomation command, simulating pressing the Home button
+ @param duration Amount of time for a background event before the app becomes active again
+ */
+- (void)deactivateAppForDuration:(NSTimeInterval)duration;
+
 @end

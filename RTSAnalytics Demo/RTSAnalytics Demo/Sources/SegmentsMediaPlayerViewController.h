@@ -9,6 +9,6 @@
 
 @interface SegmentsMediaPlayerViewController : UIViewController
 
-- (instancetype) initWithContentIdentifier:(NSString *)identifier dataSource:(id<RTSMediaPlayerControllerDataSource, RTSMediaSegmentsDataSource>)dataSource NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithContentIdentifier:(NSString *)identifier dataSource:(id<RTSMediaPlayerControllerDataSource, RTSMediaSegmentsDataSource>)dataSource NS_DESIGNATED_INITIALIZER;
 
 @end

@@ -20,10 +20,10 @@
 
 #pragma mark - Object lifecycle
 
-- (instancetype) initWithContentIdentifier:(NSString *)identifier dataSource:(id<RTSMediaPlayerControllerDataSource, RTSMediaSegmentsDataSource>)dataSource
+- (instancetype)initWithContentIdentifier:(NSString *)identifier dataSource:(id<RTSMediaPlayerControllerDataSource, RTSMediaSegmentsDataSource>)dataSource
 {
-    if (self = [super init])
-    {
+    self = [super init];
+    if (self) {
         self.identifier = identifier;
         self.dataSource = dataSource;
     }

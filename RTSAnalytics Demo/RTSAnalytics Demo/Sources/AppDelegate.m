@@ -22,10 +22,7 @@
 	RTSAnalyticsTracker *analyticsTracker = [RTSAnalyticsTracker sharedTracker];
 	[analyticsTracker setComscoreVSite:@"rts-app-test-v"];
 	[analyticsTracker setNetmetrixAppId:@"test"];
-	
-	[analyticsTracker setProduction:NO];
-	
-	[analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS mediaDataSource:self];
+	[analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS mediaDataSource:self forProduction:NO];
 
 	return YES;
 }

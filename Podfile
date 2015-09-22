@@ -10,11 +10,13 @@ pod 'SRGMediaPlayer', '~> 1.2.1'
 
 xcodeproj 'SRGAnalytics', 'Test' => :debug
 
-target :'SRGAnalyticsTests', :exclusive => true do
+target :'SRGAnalyticsTests' do
+    pod 'SRGAnalytics', :path => '.'
+    pod 'SRGAnalytics/MediaPlayer', :path => '.'
     pod 'OCMock', '~> 3.1.2'
 end
 
-### Demo project
+#### Demo project
 
 target 'SRGAnalytics Demo', :exclusive => true do
 	xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo', 'Test' => :debug
@@ -25,7 +27,7 @@ end
 
 target 'SRGAnalytics DemoTests', :exclusive => true do
 	xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo', 'Test' => :debug
-	pod 'KIF', '3.2.1'
+	pod 'KIF', '3.3'
 end
 
 ### Workaround to make sure to have iPad xibs compiled as well.
@@ -37,7 +39,6 @@ post_install do |installer|
     pods_project.targets.each do |target|
         target.build_configurations.each do |config|
             config.build_settings['TARGETED_DEVICE_FAMILY'] = '1,2' # iPhone, iPad
-#            config.build_settings['TARGETED_DEVICE_FAMILY'] = '2'
         end
     end
     

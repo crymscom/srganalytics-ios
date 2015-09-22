@@ -7,10 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		010372C8F9A331F7663BF0B6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDB9122CCBE15E6075B5D31 /* libPods.a */; };
-		14C56BC2F292F2DBCF8943C9 /* libPods-SRGAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9539421BE92A36DD263C8C38 /* libPods-SRGAnalytics.a */; };
-		6392DB23932134FCAC0D95E8 /* libPods-SRGAnalyticsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B866E4F23445891E99E0F7D /* libPods-SRGAnalyticsTests.a */; };
-		9F1518C71AC2F1CE00AE051D /* libSRGAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1518BB1AC2F1CE00AE051D /* libSRGAnalytics.a */; };
+		471246B62965E4BFEE35A320 /* libPods-SRGAnalyticsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B866E4F23445891E99E0F7D /* libPods-SRGAnalyticsTests.a */; };
 		9F1519221AC422AE00AE051D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1519211AC422AE00AE051D /* UIKit.framework */; };
 		9F1519241AC422B800AE051D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1519231AC422B800AE051D /* Foundation.framework */; };
 		9F2503E81B3ACBAA0044F44F /* SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = B64502681ADE56F5001021A8 /* SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -43,6 +40,7 @@
 		B64503941AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503921AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m */; };
 		C2332DAA1B2880EB00AA21BB /* RTSAnalyticsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger.h */; };
 		C2332DAB1B2880EB00AA21BB /* RTSAnalyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */; };
+		C24388D9837487EE3E64A11E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDB9122CCBE15E6075B5D31 /* libPods.a */; };
 		C28CE3E21B906DA200BA1D69 /* RTSAnalyticsNetmetrixTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = C28CE3E11B906DA200BA1D69 /* RTSAnalyticsNetmetrixTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C28CE3E41B907AF600BA1D69 /* RTSAnalyticsComScoreTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = C28CE3E31B907AF600BA1D69 /* RTSAnalyticsComScoreTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6F0237B1B328F59001B6F0B /* RTSAnalyticsVersion_private.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F023791B328F59001B6F0B /* RTSAnalyticsVersion_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -126,8 +124,7 @@
 			files = (
 				9F1519241AC422B800AE051D /* Foundation.framework in Frameworks */,
 				9F1519221AC422AE00AE051D /* UIKit.framework in Frameworks */,
-				14C56BC2F292F2DBCF8943C9 /* libPods-SRGAnalytics.a in Frameworks */,
-				010372C8F9A331F7663BF0B6 /* libPods.a in Frameworks */,
+				C24388D9837487EE3E64A11E /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,8 +134,7 @@
 			files = (
 				9FD74D431ACC2DF900A2D86A /* SystemConfiguration.framework in Frameworks */,
 				9FD74D411ACC2DDC00A2D86A /* CFNetwork.framework in Frameworks */,
-				9F1518C71AC2F1CE00AE051D /* libSRGAnalytics.a in Frameworks */,
-				6392DB23932134FCAC0D95E8 /* libPods-SRGAnalyticsTests.a in Frameworks */,
+				471246B62965E4BFEE35A320 /* libPods-SRGAnalyticsTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,7 +371,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = RTS;
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = SRG;
 				TargetAttributes = {
 					9F1518BA1AC2F1CE00AE051D = {
@@ -575,12 +571,9 @@
 			baseConfigurationReference = 0AC9040CB6772AEB63FCDE39 /* Pods-SRGAnalyticsTests.test.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = RTSAnalyticsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.rts.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SRGAnalyticsTests;
 			};
 			name = Test;
@@ -604,6 +597,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -688,12 +682,9 @@
 			baseConfigurationReference = 18BFADC8E5A38BC54D9672E0 /* Pods-SRGAnalyticsTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = RTSAnalyticsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.rts.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SRGAnalyticsTests;
 			};
 			name = Debug;
@@ -702,12 +693,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1AF1EE5C2B9C9B206B5A019D /* Pods-SRGAnalyticsTests.release.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = RTSAnalyticsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.rts.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SRGAnalyticsTests;
 			};
 			name = Release;

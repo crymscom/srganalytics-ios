@@ -264,7 +264,7 @@
 		B64503201AE0F14E001021A8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = RTS;
 				TargetAttributes = {
 					B64503271AE0F14E001021A8 = {
@@ -497,6 +497,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.rts.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "SRGAnalytics Demo";
 			};
 			name = Test;
@@ -505,13 +506,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A9E6161C998DD756846C556D /* Pods-SRGAnalytics DemoTests.test.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = "RTSAnalytics DemoTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.rts.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "SRGAnalytics DemoTests";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SRGAnalytics Demo.app/SRGAnalytics Demo";
 			};
@@ -537,6 +535,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -616,6 +615,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.rts.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "SRGAnalytics Demo";
 			};
 			name = Debug;
@@ -641,6 +641,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.rts.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "SRGAnalytics Demo";
 			};
 			name = Release;
@@ -649,13 +650,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 71EB874B5A995DD7E6CD1C7D /* Pods-SRGAnalytics DemoTests.debug.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = "RTSAnalytics DemoTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.rts.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "SRGAnalytics DemoTests";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SRGAnalytics Demo.app/SRGAnalytics Demo";
 			};
@@ -665,13 +663,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A331EF87AFFC8427127D1B70 /* Pods-SRGAnalytics DemoTests.release.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = "RTSAnalytics DemoTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.rts.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "SRGAnalytics DemoTests";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SRGAnalytics Demo.app/SRGAnalytics Demo";
 			};
