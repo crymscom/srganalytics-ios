@@ -32,7 +32,9 @@ end
 
 post_install do |installer|
     
-    installer.project.targets.each do |target|
+    pods_project = installer.respond_to?(:pods_project) ? installer.pods_project : installer.project # Prepare for CocoaPods 0.38.2
+
+    pods_project.targets.each do |target|
         target.build_configurations.each do |config|
             config.build_settings['TARGETED_DEVICE_FAMILY'] = '1,2' # iPhone, iPad
 #            config.build_settings['TARGETED_DEVICE_FAMILY'] = '2'
