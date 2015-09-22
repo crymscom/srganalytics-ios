@@ -85,6 +85,7 @@ typedef enum {
  *
  *  @param businessUnit  the SRG/SSR business unit for statistics measurements
  *  @param dataSource    the data source to be provided for stream tracking. This parameter is mandatory if using the `RTSAnalytics\MediaPlayer` submodule
+ *  @param prod          the value to inform the library that the stats must be sent for production measurement.
  *
  *  @discussion the tracker uses values set in application Info.plist to track Comscore, Streamsense and Netmetrix measurement.
  *  Add an Info.plist dictionary named `RTSAnalytics` with 2 keypairs :
@@ -94,9 +95,12 @@ typedef enum {
  *  The application MUST call `-startTrackingForBusinessUnit:...` methods ONLY in `-application:didFinishLaunchingWithOptions:`.
  */
 #ifdef RTSAnalyticsMediaPlayerIncluded
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL2;
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
+                     mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+                       forProduction:(BOOL)prod OS_NONNULL2;
 #else
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit;
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
+                       forProduction:(BOOL)prod;
 #endif
 
 /**
@@ -116,9 +120,8 @@ typedef enum {
 @property (nonatomic, strong) NSString *netmetrixAppId;
 
 /**
- *  The value to specify weither analytics must be sent to real servers and virtual sites. Default is NO.
+ *  The value that specify whether analytics must be sent to real servers and virtual sites.
  *
- *  @discussion Set this value to inform the library that the stats must be sent for production measurement.
  *  If set to "NO" :
  *   - ComScore Virtual Site :     value will be "rts-app-test-v"
  *   - StreamSense Virtual Site :  value will be "rts-app-test-v"
@@ -128,7 +131,7 @@ typedef enum {
  *   - ComScore Virtual Site :     value will be equal to `comscoreVSite` provided property
  *   - StreamSense Virtual Site :  value will be set to "{businessUnit}-v"
  */
-@property (nonatomic, assign) BOOL production;
+@property (nonatomic, assign, readonly) BOOL production;
 
 /**
  *  Return the business unit identifier

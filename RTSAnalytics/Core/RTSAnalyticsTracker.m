@@ -25,6 +25,7 @@
 @property (nonatomic, strong) RTSAnalyticsNetmetrixTracker *netmetrixTracker;
 @property (nonatomic, weak) id<RTSAnalyticsPageViewDataSource> lastPageViewDataSource;
 @property (nonatomic, assign) SSRBusinessUnit businessUnit;
+@property (nonatomic, assign) BOOL production;
 @end
 
 @implementation RTSAnalyticsTracker
@@ -44,7 +45,10 @@
     self = [super init];
     if (self) {
 		self.production = NO;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationWillEnterForeground:)
+                                                     name:UIApplicationWillEnterForegroundNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -110,10 +114,12 @@
 #pragma mark - PageView tracking
 
 #ifdef RTSAnalyticsMediaPlayerIncluded
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
+                     mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+                       forProduction:(BOOL)prod
+
 {
-	[self startTrackingForBusinessUnit:businessUnit];
-	
+	[self startTrackingForBusinessUnit:businessUnit forProduction:prod];
 	NSString *businessUnitIdentifier = [self businessUnitIdentifier:self.businessUnit];
 	NSString *streamSenseVirtualSite = self.production ? [NSString stringWithFormat:@"%@-v", businessUnitIdentifier] : @"rts-app-test-v";
 	[[RTSMediaPlayerControllerTracker sharedTracker] startStreamMeasurementForVirtualSite:streamSenseVirtualSite mediaDataSource:dataSource];
@@ -121,11 +127,11 @@
 #endif
 
 
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit forProduction:(BOOL)prod
 {
 	_businessUnit = businessUnit;
+    _production = prod;
 	
-	//Start View event Trackers
 	[self startComscoreTracker];
 	[self startNetmetrixTracker];
 }
@@ -140,8 +146,9 @@
 	[CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
 	[CSComScore enableAutoUpdate:60 foregroundOnly:NO]; //60 is the Comscore default interval value
 	NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-	if (appName)
+    if (appName) {
 		[CSComScore setAutoStartLabels:@{ @"name": appName }];
+    }
 	[CSComScore setLabels:[self comscoreGlobalLabels]];
 	
 	[self startLoggingInternalComScoreTasks];
