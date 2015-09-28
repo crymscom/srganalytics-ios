@@ -11,8 +11,7 @@
 #import <SRGMediaPlayer/RTSMediaSegment.h>
 #import <SRGMediaPlayer/RTSMediaPlayerController.h>
 
-#import <comScore-iOS-SDK-RTS/CSStreamSensePlugin.h>
-#import <comScore-iOS-SDK-RTS/CSStreamSensePluginProtocol.h>
+#import <comScore-iOS-SDK-RTS/CSStreamSense.h>
 
 /**
  *  The `RTSMediaPlayerControllerStreamSenseTracker` is a plugin for `RTSMediaPlayerController` which takes care of populating persistent labels, 
@@ -22,7 +21,7 @@
  *
  *  @discussion  Due to Comscore SDK implementation, Streamsense measurements are not sent when media player playback state changes to buffering.
  */
-@interface RTSMediaPlayerControllerStreamSenseTracker : CSStreamSensePlugin
+@interface RTSMediaPlayerControllerStreamSenseTracker : CSStreamSense
 
 /**
  *  ----------------------------------------------------
