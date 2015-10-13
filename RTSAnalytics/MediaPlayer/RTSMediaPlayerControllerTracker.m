@@ -185,12 +185,15 @@
         return;
     }
     
+    RTSMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
+    if (!trackingInfo) {
+        return;
+    }
+    
     NSInteger value = [notification.userInfo[RTSMediaPlaybackSegmentChangeValueInfoKey] integerValue];
     BOOL wasUserSelected = [notification.userInfo[RTSMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
     
-    RTSMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
     id<RTSMediaSegment> previousSegment = trackingInfo.currentSegment;
-    
     id<RTSMediaSegment> segment = notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey];
     trackingInfo.currentSegment = (wasUserSelected ? segment : nil);
     
@@ -256,6 +259,10 @@
 
 - (RTSMediaPlayerControllerTrackingInfo *)trackingInfoForMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
 {
+    if (!mediaPlayerController) {
+        return nil;
+    }
+    
     RTSMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[mediaPlayerController.identifier];
     if (!trackingInfo) {
         trackingInfo = [RTSMediaPlayerControllerTrackingInfo new];
