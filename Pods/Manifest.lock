@@ -1,5 +1,5 @@
 PODS:
-  - comScore-iOS-SDK-RTS (3.1504.30)
+  - comScore-iOS-SDK-RTS (3.1509.15)
   - KIF (3.3.0):
     - KIF/Core (= 3.3.0)
   - KIF/Core (3.3.0)
@@ -7,40 +7,40 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - OCMock (3.1.5)
-  - SRGAnalytics (1.1.3):
-    - SRGAnalytics/Core (= 1.1.3)
-  - SRGAnalytics/Core (1.1.3):
-    - comScore-iOS-SDK-RTS (= 3.1504.30)
-    - SRGAnalytics/Core/Version (= 1.1.3)
-  - SRGAnalytics/Core/Version (1.1.3):
-    - comScore-iOS-SDK-RTS (= 3.1504.30)
-  - SRGAnalytics/MediaPlayer (1.1.3):
+  - SRGAnalytics (1.2.0):
+    - SRGAnalytics/Core (= 1.2.0)
+  - SRGAnalytics/Core (1.2.0):
+    - comScore-iOS-SDK-RTS (= 3.1509.15)
+    - SRGAnalytics/Core/Version (= 1.2.0)
+  - SRGAnalytics/Core/Version (1.2.0):
+    - comScore-iOS-SDK-RTS (= 3.1509.15)
+  - SRGAnalytics/MediaPlayer (1.2.0):
     - SRGAnalytics/Core
-    - SRGMediaPlayer (~> 1.2.1)
-  - SRGMediaPlayer (1.2.1):
+    - SRGMediaPlayer (~> 1.2.3)
+  - SRGMediaPlayer (1.2.3):
     - libextobjc/EXTScope (~> 0.4.1)
     - TransitionKit (~> 2.2.0)
   - TransitionKit (2.2.1)
 
 DEPENDENCIES:
-  - comScore-iOS-SDK-RTS (= 3.1504.30)
+  - comScore-iOS-SDK-RTS (= 3.1509.15)
   - KIF (= 3.3)
   - OCMock (~> 3.1.2)
   - SRGAnalytics (from `.`)
   - SRGAnalytics/MediaPlayer (from `.`)
-  - SRGMediaPlayer (~> 1.2.1)
+  - SRGMediaPlayer (~> 1.2.3)
 
 EXTERNAL SOURCES:
   SRGAnalytics:
     :path: .
 
 SPEC CHECKSUMS:
-  comScore-iOS-SDK-RTS: fba80241be3d1770a28304d7ff5a131ecd8c4ad6
+  comScore-iOS-SDK-RTS: 71d28252778ba9bb06a1c5589046e96c057674f1
   KIF: 0a82046d06f3648799cac522d2d0f7934214caac
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: 4c2925291f80407c3738dd1db14d21d0cc278864
-  SRGAnalytics: bcd072b274ecedbc8056739bc24241b1c281cd59
-  SRGMediaPlayer: 681bfe713b658e797e30ec891e19e22411394775
+  SRGAnalytics: 20a3ef6831da06904373c727c0a93c7a797e83ab
+  SRGMediaPlayer: 83455219f3f1213cc5fb60d556d35bfe370c070b
   TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250
 
 COCOAPODS: 0.38.2

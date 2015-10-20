@@ -5,8 +5,8 @@ inhibit_all_warnings!
 platform :ios, '7.0'
 workspace 'SRGAnalytics.xcworkspace'
 
-pod 'comScore-iOS-SDK-RTS', '3.1504.30'
-pod 'SRGMediaPlayer', '~> 1.2.1'
+pod 'comScore-iOS-SDK-RTS', '3.1509.15'
+pod 'SRGMediaPlayer', '~> 1.2.3'
 
 xcodeproj 'SRGAnalytics', 'Test' => :debug
 
@@ -22,7 +22,7 @@ target 'SRGAnalytics Demo', :exclusive => true do
 	xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo', 'Test' => :debug
 	pod 'SRGAnalytics',               { :path => '.' }
 	pod 'SRGAnalytics/MediaPlayer',   { :path => '.' }
-	pod 'SRGMediaPlayer',             '~> 1.2.1'
+	pod 'SRGMediaPlayer',             '~> 1.2.3'
 end
 
 target 'SRGAnalytics DemoTests', :exclusive => true do

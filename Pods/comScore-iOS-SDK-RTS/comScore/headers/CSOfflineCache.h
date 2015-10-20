@@ -12,7 +12,6 @@
 
     int _maxBatchSize;
 
-    NSURLConnection *_connection;
     NSMutableArray *_arrayOfCacheFiles;
     NSURLRequest *_request;
     NSString *_url;

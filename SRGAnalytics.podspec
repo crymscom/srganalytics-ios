@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
     co.exclude_files        = "RTSAnalytics/Core/RTSAnalyticsVersion.m"
     co.private_header_files = "RTSAnalytics/Core/*_private.h"
     co.frameworks           = "AVFoundation", "CoreMedia", "Foundation", "MediaPlayer", "UIKit"
-    co.dependency             "comScore-iOS-SDK-RTS", "3.1504.30"
+    co.dependency             "comScore-iOS-SDK-RTS", "3.1509.15"
 
     co.subspec 'Version' do |ve|
       ve.source_files = "RTSAnalytics/Core/RTSAnalyticsVersion.m","RTSAnalytics/Core/RTSAnalyticsVersion_private.h"
@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
     sm.source_files         = "RTSAnalytics/RTSAnalyticsMediaPlayer.h", "RTSAnalytics/MediaPlayer/*.{h,m}"
     sm.private_header_files = "RTSAnalytics/MediaPlayer/*_private.h"
     sm.dependency             "SRGAnalytics/Core"
-    sm.dependency             "SRGMediaPlayer", "~> 1.2.1"
+    sm.dependency             "SRGMediaPlayer", "~> 1.2.3"
   end
 
 end
