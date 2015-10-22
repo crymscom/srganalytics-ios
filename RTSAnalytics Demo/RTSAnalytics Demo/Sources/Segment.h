@@ -11,5 +11,6 @@
 - (instancetype) initWithTimeRange:(CMTimeRange)timeRange name:(NSString *)name blocked:(BOOL)blocked;
 
 @property (nonatomic, readonly, copy) NSString *name;
+@property (nonatomic, weak) id<RTSMediaSegment> parent;
 
 @end

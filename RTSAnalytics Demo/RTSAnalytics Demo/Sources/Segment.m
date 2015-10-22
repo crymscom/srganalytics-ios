@@ -31,6 +31,11 @@
 
 #pragma mark - RTSMediaSegment protocol
 
+- (NSString *)segmentIdentifier
+{
+    return self.name;
+}
+
 - (BOOL)isVisible
 {
     return YES;

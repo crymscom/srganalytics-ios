@@ -65,7 +65,7 @@
 	else if ([cell.reuseIdentifier isEqualToString:@"PushNotificationCell"])
 	{
 		UIApplication *application = [UIApplication sharedApplication];
-		[(AppDelegate *)application.delegate application:application didReceiveRemoteNotification:nil fetchCompletionHandler:nil];
+        [(AppDelegate *)application.delegate application:application didReceiveRemoteNotification:@{} fetchCompletionHandler:^(UIBackgroundFetchResult result) {}];
 	}
 }
 
@@ -114,20 +114,24 @@
         
         CMTimeRange timeRange1 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment1StartTime, 1.), CMTimeMakeWithSeconds(segment1Duration, 1.));
         Segment *segment1 = [[Segment alloc] initWithTimeRange:timeRange1 name:@"segment1" blocked:NO];
+        segment1.parent = fullLengthSegment;
         
         CMTimeRange timeRange2 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment2StartTime, 1.), CMTimeMakeWithSeconds(segment2Duration, 1.));
         Segment *segment2 = [[Segment alloc] initWithTimeRange:timeRange2 name:@"segment2" blocked:NO];
+        segment2.parent = fullLengthSegment;
         
         CMTimeRange timeRange3 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment3StartTime, 1.), CMTimeMakeWithSeconds(segment3Duration, 1.));
         Segment *segment3 = [[Segment alloc] initWithTimeRange:timeRange3 name:@"segment3" blocked:YES];
+        segment3.parent = fullLengthSegment;
         
-        completionHandler(fullLengthSegment, @[segment1, segment2, segment3], nil);
+        completionHandler(@[segment1, segment2, segment3], nil);
     }
     else
     {
         CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(15., 1.));
         Segment *segment = [[Segment alloc] initWithTimeRange:timeRange name:@"segment" blocked:NO];
-        completionHandler(fullLengthSegment, @[segment], nil);
+        segment.parent = fullLengthSegment;
+        completionHandler(@[segment], nil);
     }
 }
 
