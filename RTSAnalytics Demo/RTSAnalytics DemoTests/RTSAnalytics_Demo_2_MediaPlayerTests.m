@@ -12,7 +12,6 @@
 // Need some flexibility when testing times as they might not be exact. Introduce several arbitrary tolerance levels which can
 // be used depending on the precision available
 #define AssertIsWithin1Second(expression1, expression2) XCTAssertTrue(fabs([expression1 doubleValue] - expression2) < 1000.)
-#define AssertIsWithin6Seconds(expression1, expression2) XCTAssertTrue(fabs([expression1 doubleValue] - expression2) < 6000.)
 #define AssertIsWithin20Seconds(expression1, expression2) XCTAssertTrue(fabs([expression1 doubleValue] - expression2) < 20000.)
 
 @interface RTSAnalytics_Demo_2_MediaPlayerTests : KIFTestCase
@@ -820,7 +819,6 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-                AssertIsWithin6Seconds(labels[@"ns_st_po"], time * 1000.);        // difficult to test, will resume at the nearest chunk (can be a few seconds)
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 return YES;
             }
