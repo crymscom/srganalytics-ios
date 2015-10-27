@@ -51,12 +51,15 @@
 
 - (IBAction) playFirstSegment:(id)sender
 {
-    // FIXME: [self.segmentsController playVisibleSegmentAtIndex:0];
+    id<RTSMediaSegment> segment = self.segmentsController.visibleSegments.firstObject;
+    [self.segmentsController playAtTime:segment.timeRange.start];
 }
 
 - (IBAction) playSecondSegment:(id)sender
 {
-    // FIXME: [self.segmentsController playVisibleSegmentAtIndex:1];
+    NSAssert(self.segmentsController.visibleSegments.count > 1, @"Expect two visible segments at least");
+    id<RTSMediaSegment> segment = [self.segmentsController.visibleSegments objectAtIndex:1];
+    [self.segmentsController playAtTime:segment.timeRange.start];
 }
 
 - (IBAction) dismiss:(id)sender
