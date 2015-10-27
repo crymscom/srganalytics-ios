@@ -99,7 +99,7 @@
 
 - (void) segmentsController:(RTSMediaSegmentsController *)controller segmentsForIdentifier:(NSString *)identifier withCompletionHandler:(RTSMediaSegmentsCompletionHandler)completionHandler
 {
-    Segment *fullLengthSegment = [[Segment alloc] initWithTimeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.)) name:@"full" blocked:NO];
+    Segment *fullLengthSegment = [[Segment alloc] initWithIdentifier:identifier name:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
     fullLengthSegment.fullLength = YES;
     fullLengthSegment.visible = NO;
     
@@ -115,20 +115,21 @@
         const NSTimeInterval segment3Duration = 30.;
         
         CMTimeRange timeRange1 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment1StartTime, 1.), CMTimeMakeWithSeconds(segment1Duration, 1.));
-        Segment *segment1 = [[Segment alloc] initWithTimeRange:timeRange1 name:@"segment1" blocked:NO];
+        Segment *segment1 = [[Segment alloc] initWithIdentifier:identifier name:@"segment1" timeRange:timeRange1];
         
         CMTimeRange timeRange2 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment2StartTime, 1.), CMTimeMakeWithSeconds(segment2Duration, 1.));
-        Segment *segment2 = [[Segment alloc] initWithTimeRange:timeRange2 name:@"segment2" blocked:NO];
+        Segment *segment2 = [[Segment alloc] initWithIdentifier:identifier name:@"segment2" timeRange:timeRange2];
         
         CMTimeRange timeRange3 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment3StartTime, 1.), CMTimeMakeWithSeconds(segment3Duration, 1.));
-        Segment *segment3 = [[Segment alloc] initWithTimeRange:timeRange3 name:@"segment3" blocked:YES];
+        Segment *segment3 = [[Segment alloc] initWithIdentifier:identifier name:@"segment3" timeRange:timeRange3];
+        segment3.blocked = YES;
         
         completionHandler(@[fullLengthSegment, segment1, segment2, segment3], nil);
     }
     else
     {
         CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(15., 1.));
-        Segment *segment = [[Segment alloc] initWithTimeRange:timeRange name:@"segment" blocked:NO];
+        Segment *segment = [[Segment alloc] initWithIdentifier:identifier name:@"segment" timeRange:timeRange];
         completionHandler(@[fullLengthSegment, segment], nil);
     }
 }
