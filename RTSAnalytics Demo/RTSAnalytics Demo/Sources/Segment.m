@@ -25,6 +25,7 @@
         self.timeRange = timeRange;
         self.name = name;
         self.blocked = blocked;
+        self.visible = YES;
     }
     return self;
 }
@@ -34,11 +35,6 @@
 - (NSString *)segmentIdentifier
 {
     return self.name;
-}
-
-- (BOOL)isVisible
-{
-    return YES;
 }
 
 @end

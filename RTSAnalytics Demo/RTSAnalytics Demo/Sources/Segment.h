@@ -11,6 +11,12 @@
 - (instancetype) initWithTimeRange:(CMTimeRange)timeRange name:(NSString *)name blocked:(BOOL)blocked;
 
 @property (nonatomic, readonly, copy) NSString *name;
-@property (nonatomic, weak) id<RTSMediaSegment> parent;
+
+// Default is NO
+@property (nonatomic, getter=isFullLength) BOOL fullLength;
+
+// Default is YES
+@property (nonatomic, getter=isVisible) BOOL visible;
+
 
 @end
