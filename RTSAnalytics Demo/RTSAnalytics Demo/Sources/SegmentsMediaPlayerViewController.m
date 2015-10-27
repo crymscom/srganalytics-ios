@@ -57,7 +57,10 @@
 
 - (IBAction) playSecondSegment:(id)sender
 {
-    NSAssert(self.segmentsController.visibleSegments.count > 1, @"Expect two visible segments at least");
+    if (self.segmentsController.visibleSegments.count <= 2) {
+        return;
+    }
+    
     id<RTSMediaSegment> segment = [self.segmentsController.visibleSegments objectAtIndex:1];
     [self.segmentsController playSegment:segment];
 }
