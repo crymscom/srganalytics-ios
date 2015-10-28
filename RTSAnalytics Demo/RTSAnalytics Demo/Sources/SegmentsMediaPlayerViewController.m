@@ -51,12 +51,18 @@
 
 - (IBAction) playFirstSegment:(id)sender
 {
-    [self.segmentsController playVisibleSegmentAtIndex:0];
+    id<RTSMediaSegment> segment = self.segmentsController.visibleSegments.firstObject;
+    [self.segmentsController playSegment:segment];
 }
 
 - (IBAction) playSecondSegment:(id)sender
 {
-    [self.segmentsController playVisibleSegmentAtIndex:1];
+    if (self.segmentsController.visibleSegments.count <= 2) {
+        return;
+    }
+    
+    id<RTSMediaSegment> segment = [self.segmentsController.visibleSegments objectAtIndex:1];
+    [self.segmentsController playSegment:segment];
 }
 
 - (IBAction) dismiss:(id)sender
