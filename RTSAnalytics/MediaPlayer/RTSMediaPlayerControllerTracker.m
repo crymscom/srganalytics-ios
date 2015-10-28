@@ -118,6 +118,8 @@
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
     RTSMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
     
+    RTSAnalyticsLogDebug(@"---> Playback status changed: %@", @(mediaPlayerController.playbackState));
+    
 	if ([self shouldTrackMediaPlayerController:mediaPlayerController]) {
 		switch (mediaPlayerController.playbackState) {
 			case RTSMediaPlaybackStatePreparing:
@@ -196,6 +198,8 @@
     id<RTSMediaSegment> previousSegment = trackingInfo.currentSegment;
     id<RTSMediaSegment> segment = notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey];
     trackingInfo.currentSegment = (wasUserSelected ? segment : nil);
+    
+    RTSAnalyticsLogDebug(@"---> Segment changed: %@ (prev = %@, next = %@, selected = %@)", @(value), previousSegment, segment, wasUserSelected ? @"YES" : @"NO");
     
     // According to its implementation, Comscore only sends an event if different from the previously sent one. We
     // are therefore required to send a pause followed by a play when a segment end is detected (in which case
