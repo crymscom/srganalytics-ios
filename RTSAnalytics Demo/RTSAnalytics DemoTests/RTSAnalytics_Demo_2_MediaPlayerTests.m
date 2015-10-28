@@ -26,7 +26,8 @@
     [KIFSystemTestActor setDefaultTimeout:30.0];
 }
 
-- (void)testOpenDefaultMediaPlayerAndPlayLiveStreamThenClose
+#warning Disabled because of missing stream
+- (void)disabled_testOpenDefaultMediaPlayerAndPlayLiveStreamThenClose
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
