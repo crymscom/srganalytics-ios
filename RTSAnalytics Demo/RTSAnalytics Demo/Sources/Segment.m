@@ -8,37 +8,23 @@
 
 @interface Segment ()
 
-@property (nonatomic) CMTimeRange timeRange;
+@property (nonatomic, copy) NSString *segmentIdentifier;
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, getter=isBlocked) BOOL blocked;
+@property (nonatomic) CMTimeRange timeRange;
 
 @end
 
 @implementation Segment
 
-#pragma mark - Object lifecycle
-
-- (instancetype) initWithTimeRange:(CMTimeRange)timeRange name:(NSString *)name blocked:(BOOL)blocked
+- (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name timeRange:(CMTimeRange)timeRange
 {
-    if (self = [super init])
-    {
-        self.timeRange = timeRange;
+    if (self = [super init]) {
         self.name = name;
-        self.blocked = blocked;
+        self.segmentIdentifier = identifier;
+        self.timeRange = timeRange;
+        self.visible = YES;
     }
     return self;
-}
-
-#pragma mark - RTSMediaSegment protocol
-
-- (NSString *)segmentIdentifier
-{
-    return self.name;
-}
-
-- (BOOL)isVisible
-{
-    return YES;
 }
 
 @end
