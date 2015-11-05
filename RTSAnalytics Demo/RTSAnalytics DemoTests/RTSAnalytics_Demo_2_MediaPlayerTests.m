@@ -26,38 +26,38 @@
     [KIFSystemTestActor setDefaultTimeout:30.0];
 }
 
-#warning Disabled because of missing stream
-- (void)disabled_testOpenDefaultMediaPlayerAndPlayLiveStreamThenClose
-{
-	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
-	
-    {
-        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
-        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
-        AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
-        XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
-        AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
-        
-        [tester waitForTimeInterval:2.0f];
-    }
-    
-    {
-        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
-            [tester tapViewWithAccessibilityLabel:@"Done"];
-        }];
-        
-        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
-        AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
-        XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
-        AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
-        
-        [tester waitForTimeInterval:2.0f];
-    }
-}
+//#warning Disabled because of missing stream
+//- (void)disabled_testOpenDefaultMediaPlayerAndPlayLiveStreamThenClose
+//{
+//	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+//	
+//    {
+//        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+//        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+//        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+//        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+//        AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
+//        XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
+//        AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
+//        
+//        [tester waitForTimeInterval:2.0f];
+//    }
+//    
+//    {
+//        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
+//            [tester tapViewWithAccessibilityLabel:@"Done"];
+//        }];
+//        
+//        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+//        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+//        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+//        AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
+//        XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
+//        AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
+//        
+//        [tester waitForTimeInterval:2.0f];
+//    }
+//}
 
 - (void)testOpenDefaultMediaPlayerAndPlayVODStreamThenClose
 {
