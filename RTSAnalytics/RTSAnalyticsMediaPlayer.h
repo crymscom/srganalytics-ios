@@ -5,6 +5,6 @@
 //
 
 #import "RTSAnalyticsMediaPlayerDataSource.h"
-#import "RTSAnalyticsMediaPlayerDelegate.h"
 
+#import "RTSMediaPlayerController+RTSAnalytics.h"
 #import "UIViewController+RTSAnalyticsMediaPlayer.h"

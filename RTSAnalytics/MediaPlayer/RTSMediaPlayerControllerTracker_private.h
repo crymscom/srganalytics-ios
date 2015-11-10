@@ -6,7 +6,6 @@
 
 #import <Foundation/Foundation.h>
 #import "RTSAnalyticsMediaPlayerDataSource.h"
-#import "RTSAnalyticsMediaPlayerDelegate.h"
 
 @interface RTSMediaPlayerControllerTracker : NSObject
 
@@ -36,13 +35,6 @@
  *  @param dataSource  the datasource which provides labels/playlist/clip for Streamsense tracker. (Mandatory)
  */
 - (void)startStreamMeasurementForVirtualSite:(NSString *)virtualSite mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL_ALL;
-
-/**
- *  Keep a reference of the mediaPlayerDelegate. Called automatically by `UIViewController+RTSAnalyticsMediaPlayer.h` swizzled method.
- *
- *  @param mediPlayerDelegate the stream tracker delegate conforming to `RTSAnalyticsMediaPlayerDelegate`
- */
-- (void)trackMediaPlayerFromPresentingViewController:(id<RTSAnalyticsMediaPlayerDelegate>)mediaPlayerDelegate;
 
 /**
  *  Force tracking a media. Create a new `RTSMediaPlayerControllerStreamSenseTracker` instance and sends a "start" event type.

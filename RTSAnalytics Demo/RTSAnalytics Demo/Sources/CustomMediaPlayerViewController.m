@@ -7,10 +7,6 @@
 #import <SRGAnalytics/SRGAnalytics.h>
 #import "CustomMediaPlayerViewController.h"
 
-@interface CustomMediaPlayerViewController () <RTSAnalyticsMediaPlayerDelegate>
-
-@end
-
 @implementation CustomMediaPlayerViewController
 
 #pragma mark - RTSAnalyticsMediaPlayerDelegate
@@ -23,11 +19,6 @@
     UISlider *slider = [self valueForKey:@"timeSlider"];
     NSAssert(slider, @"Expect slider called timeSlider. Update to match internal implementation details");
     slider.accessibilityLabel = @"slider";
-}
-
-- (BOOL) shouldTrackMediaWithIdentifier:(NSString *)identifier
-{
-	return [identifier hasSuffix:@"VODCell"] || [identifier hasSuffix:@"DVRCell"];
 }
 
 @end
