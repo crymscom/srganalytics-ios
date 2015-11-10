@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		0AA218FFBA02C69AF0714143 /* libPods-SRGAnalytics Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A98F327A3E18DD244CE189 /* libPods-SRGAnalytics Demo.a */; };
 		70E7AB8C155258EEADAB902A /* libPods-SRGAnalytics DemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C23567C9F5604E511D87D9 /* libPods-SRGAnalytics DemoTests.a */; };
-		B64503481AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m */; };
+		9F6A647F1BEB62E400F6948C /* RTSAnalytics_Demo_2_MediaPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B645037A1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m */; };
+		9F6A64801BEB62EF00F6948C /* RTSAnalytics_Demo_1_ViewEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m */; };
 		B64503661AE10567001021A8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503611AE10567001021A8 /* AppDelegate.m */; };
 		B64503671AE10567001021A8 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503631AE10567001021A8 /* TableViewController.m */; };
 		B64503681AE10567001021A8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503651AE10567001021A8 /* ViewController.m */; };
@@ -17,7 +18,6 @@
 		B64503761AE1059B001021A8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B64503711AE1059B001021A8 /* LaunchScreen.xib */; };
 		B64503771AE1059B001021A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B64503731AE1059B001021A8 /* Main.storyboard */; };
 		B64503791AE12C7B001021A8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B64503781AE12C7B001021A8 /* Images.xcassets */; };
-		B645037B1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B645037A1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m */; };
 		B645037D1AE13B6F001021A8 /* RTSAnalytics_Demo_3_PushNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B645037C1AE13B6F001021A8 /* RTSAnalytics_Demo_3_PushNotificationTests.m */; };
 		B64503901AE3DCA5001021A8 /* CustomMediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B645038F1AE3DCA5001021A8 /* CustomMediaPlayerViewController.m */; };
 		E687CE731B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E687CE721B2ADE5B009EC495 /* SegmentsMediaPlayerViewController.m */; };
@@ -399,8 +399,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B645037D1AE13B6F001021A8 /* RTSAnalytics_Demo_3_PushNotificationTests.m in Sources */,
-				B645037B1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m in Sources */,
-				B64503481AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m in Sources */,
+				9F6A647F1BEB62E400F6948C /* RTSAnalytics_Demo_2_MediaPlayerTests.m in Sources */,
+				9F6A64801BEB62EF00F6948C /* RTSAnalytics_Demo_1_ViewEventTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

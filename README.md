@@ -91,7 +91,9 @@ You can provide further optional information, please have a look at the `RTSAnal
 
 ### Tracking media players
 
-By default, all media players are tracked, and associated Stream Sense events sent. You can disable this behavior by having the view controller presenting the media player conform to the `RTSAnalyticsMediaPlayerDelegate` protocol, and implement the `-shouldTrackMediaWithIdentifier:` protocol to return `NO` for identifiers which must not be tracked (simply return `NO` if you want to disable tracking entirely for this presenting view controller).
+By default, all media players are tracked, and associated Stream Sense events sent. You can disable this behavior by setting the `tracked` property of a media player controller to `NO`. 
+
+Note that `RTSMediaPlayerViewController` instances are automatically tracked. Since the underlying controller is currently not publicly exposed, you cannot change this default behavior at the moment.
 
 ### Push notifications
 

@@ -8,6 +8,7 @@
 #import "RTSMediaPlayerControllerTracker_private.h"
 #import "RTSAnalyticsLogger.h"
 #import "RTSMediaPlayerControllerTrackingInfo.h"
+#import "RTSMediaPlayerController+RTSAnalytics.h"
 
 #import <SRGMediaPlayer/RTSMediaPlayerController.h>
 #import <SRGMediaPlayer/RTSMediaSegmentsController.h>
@@ -18,7 +19,6 @@
 @interface RTSMediaPlayerControllerTracker ()
 
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
-@property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDelegate> mediaPlayerDelegate;
 
 @property (nonatomic, strong) NSMutableDictionary *trackingInfos;
 
@@ -96,16 +96,6 @@
     _virtualSite = virtualSite;
 }
 
-- (BOOL)shouldTrackMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
-{
-	BOOL track = YES;
-    if ([self.mediaPlayerDelegate respondsToSelector:@selector(shouldTrackMediaWithIdentifier:)]) {
-		track = [self.mediaPlayerDelegate shouldTrackMediaWithIdentifier:mediaPlayerController.identifier];
-    }
-	return track;
-}
-
-
 #pragma mark - Notifications
 
 - (void)mediaPlayerPlaybackStateDidChange:(NSNotification *)notification
@@ -120,7 +110,7 @@
     
     RTSAnalyticsLogDebug(@"---> Playback status changed: %@", @(mediaPlayerController.playbackState));
     
-	if ([self shouldTrackMediaPlayerController:mediaPlayerController]) {
+	if (mediaPlayerController.tracked) {
 		switch (mediaPlayerController.playbackState) {
 			case RTSMediaPlaybackStatePreparing:
 				[self notifyStreamTrackerEvent:CSStreamSenseBuffer
@@ -183,7 +173,7 @@
 {
     RTSMediaSegmentsController *segmentsController = notification.object;
     RTSMediaPlayerController *mediaPlayerController = segmentsController.playerController;
-    if (![self shouldTrackMediaPlayerController:mediaPlayerController]) {
+    if (!mediaPlayerController.tracked) {
         return;
     }
     
@@ -254,7 +244,7 @@
 - (void)mediaPlayerPlaybackDidFail:(NSNotification *)notification
 {
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
-    if ([self shouldTrackMediaPlayerController:mediaPlayerController]) {
+    if (mediaPlayerController.tracked) {
 		[self stopTrackingMediaPlayerController:mediaPlayerController];
     }
 }
@@ -282,11 +272,6 @@
 
 
 #pragma mark - Stream tracking
-
-- (void)trackMediaPlayerFromPresentingViewController:(id<RTSAnalyticsMediaPlayerDelegate>)mediaPlayerDelegate
-{
-	_mediaPlayerDelegate = mediaPlayerDelegate;
-}
 
 - (void)startTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
 {

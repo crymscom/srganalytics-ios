@@ -40,25 +40,25 @@ static NSDictionary *startLabels = nil;
 }
 
 // Making sure with AAAAA that this method is called first.
-#warning This test is subject to severe race condition issues. Disable temporarily
-- (void)disabled_testAAAAAApplicationStartsAndStartMeasurementAndFirstPageViewEventAreSend
-{
-	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
-	XCTAssertEqualObjects(startLabels[@"ns_ap_an"], @"SRGAnalytics Demo iOS");
-	XCTAssertEqualObjects(startLabels[@"ns_site"], @"mainsite");
-	XCTAssertEqualObjects(startLabels[@"ns_vsite"], @"rts-app-test-v");
-	XCTAssertEqualObjects(startLabels[@"srg_unit"], @"RTS");
-	
-	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-	XCTAssertEqualObjects(labels[@"name"], @"app.mainpagetitle");
-	XCTAssertEqualObjects(labels[@"category"], @"app");
-	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
-	XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
-	XCTAssertEqualObjects(labels[@"srg_title"], @"MainPageTitle");
-	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
-    
-    [tester waitForTimeInterval:2.0f];
-}
+//#warning This test is subject to severe race condition issues. Disable temporarily
+//- (void)disabled_testAAAAAApplicationStartsAndStartMeasurementAndFirstPageViewEventAreSend
+//{
+//	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+//	XCTAssertEqualObjects(startLabels[@"ns_ap_an"], @"SRGAnalytics Demo iOS");
+//	XCTAssertEqualObjects(startLabels[@"ns_site"], @"mainsite");
+//	XCTAssertEqualObjects(startLabels[@"ns_vsite"], @"rts-app-test-v");
+//	XCTAssertEqualObjects(startLabels[@"srg_unit"], @"RTS");
+//	
+//	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+//	XCTAssertEqualObjects(labels[@"name"], @"app.mainpagetitle");
+//	XCTAssertEqualObjects(labels[@"category"], @"app");
+//	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+//	XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
+//	XCTAssertEqualObjects(labels[@"srg_title"], @"MainPageTitle");
+//	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
+//    
+//    [tester waitForTimeInterval:2.0f];
+//}
 
 - (void)testPresentViewControllerWithNoTitleSendsViewEvent
 {
