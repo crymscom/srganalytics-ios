@@ -76,8 +76,6 @@
 		B64503161ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSMediaPlayerControllerStreamSenseTracker.m; sourceTree = "<group>"; };
 		B64503171ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSMediaPlayerControllerStreamSenseTracker_private.h; sourceTree = "<group>"; };
 		B64503181ADFA753001021A8 /* RTSAnalyticsMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTSAnalyticsMediaPlayer.h; path = ../RTSAnalyticsMediaPlayer.h; sourceTree = "<group>"; };
-		B64503911AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RTSAnalyticsMediaPlayer.h"; sourceTree = "<group>"; };
-		B64503921AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RTSAnalyticsMediaPlayer.m"; sourceTree = "<group>"; };
 		C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsLogger.h; sourceTree = "<group>"; };
 		C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsLogger.m; sourceTree = "<group>"; };
 		C28CE3E11B906DA200BA1D69 /* RTSAnalyticsNetmetrixTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsNetmetrixTracker.h; sourceTree = "<group>"; };
@@ -270,8 +268,6 @@
 				B64503131ADFA753001021A8 /* RTSAnalyticsMediaPlayerDataSource.h */,
 				E67165121BF1FD4000A07776 /* RTSMediaPlayerController+RTSAnalytics.h */,
 				E67165131BF1FD4000A07776 /* RTSMediaPlayerController+RTSAnalytics.m */,
-				B64503911AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.h */,
-				B64503921AE3E033001021A8 /* UIViewController+RTSAnalyticsMediaPlayer.m */,
 				9FA2200C1B53E34C00886FB2 /* Private */,
 			);
 			path = MediaPlayer;

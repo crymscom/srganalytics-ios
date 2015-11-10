@@ -7,4 +7,3 @@
 #import "RTSAnalyticsMediaPlayerDataSource.h"
 
 #import "RTSMediaPlayerController+RTSAnalytics.h"
-#import "UIViewController+RTSAnalyticsMediaPlayer.h"
