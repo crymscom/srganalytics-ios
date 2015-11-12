@@ -4,8 +4,9 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <SRGMediaPlayer/RTSMediaSegment.h>
 #import <Foundation/Foundation.h>
+
+@protocol RTSMediaSegment;
 
 /**
  *  Collect data related to a media player controller being tracked

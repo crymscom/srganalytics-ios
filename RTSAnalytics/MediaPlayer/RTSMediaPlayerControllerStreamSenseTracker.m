@@ -9,6 +9,7 @@
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 #import "RTSAnalyticsLogger.h"
 #import "RTSAnalyticsVersion_private.h"
+#import "RTSMediaSegment.h"
 
 #import <comScore-iOS-SDK-RTS/CSStreamSense.h>
 #import <comScore-iOS-SDK-RTS/CSStreamSensePlaylist.h>

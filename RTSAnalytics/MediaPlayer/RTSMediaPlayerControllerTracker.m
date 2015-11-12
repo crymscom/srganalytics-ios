@@ -7,6 +7,7 @@
 #import "RTSAnalyticsTracker.h"
 #import "RTSMediaPlayerControllerTracker_private.h"
 #import "RTSAnalyticsLogger.h"
+#import "RTSAnalyticsMediaPlayerDataSource.h"
 #import "RTSMediaPlayerControllerTrackingInfo.h"
 #import "RTSMediaPlayerController+RTSAnalytics.h"
 

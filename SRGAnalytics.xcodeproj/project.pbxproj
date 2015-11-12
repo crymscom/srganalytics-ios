@@ -137,7 +137,6 @@
 				B64502971ADE7DC7001021A8 /* SRGAnalytics.podspec */,
 				9F1518BD1AC2F1CE00AE051D /* SRGAnalytics */,
 				9F1518CA1AC2F1CE00AE051D /* RTSAnalyticsTests */,
-				9F4DA22A1BEB609100C6FA25 /* SRGAnalytics */,
 				9F1518BC1AC2F1CE00AE051D /* Products */,
 				672CEE20A4903FABD91AD0BD /* Pods */,
 				AC99606425BE818BA71D7E4D /* Frameworks */,
@@ -180,13 +179,6 @@
 				9F1518CC1AC2F1CE00AE051D /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		9F4DA22A1BEB609100C6FA25 /* SRGAnalytics */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SRGAnalytics;
 			sourceTree = "<group>";
 		};
 		9FA2200B1B53E34300886FB2 /* Private */ = {

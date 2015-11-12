@@ -5,7 +5,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <SRGMediaPlayer/RTSMediaSegment.h>
+
+@protocol RTSMediaSegment;
 
 /**
  *  The `RTSAnalyticsMediaPlayerDataSource` groups methods that are used for Streamsense measurement when using the SRG Media Player
