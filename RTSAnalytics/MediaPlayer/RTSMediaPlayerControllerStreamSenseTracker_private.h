@@ -5,13 +5,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#import "RTSAnalyticsMediaPlayerDataSource.h"
-
-#import <SRGMediaPlayer/RTSMediaSegment.h>
-#import <SRGMediaPlayer/RTSMediaPlayerController.h>
-
 #import <comScore-iOS-SDK-RTS/CSStreamSense.h>
+
+@class RTSMediaPlayerController;
+@protocol RTSMediaSegment;
+@protocol RTSAnalyticsMediaPlayerDataSource;
 
 /**
  *  The `RTSMediaPlayerControllerStreamSenseTracker` is a plugin for `RTSMediaPlayerController` which takes care of populating persistent labels, 

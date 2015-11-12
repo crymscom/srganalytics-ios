@@ -6,11 +6,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "RTSAnalyticsPageViewDataSource.h"
+@protocol RTSAnalyticsPageViewDataSource;
 
 #if __has_include("RTSAnalyticsMediaPlayer.h")
 #define RTSAnalyticsMediaPlayerIncluded
-#import "RTSAnalyticsMediaPlayer.h"
+@protocol RTSAnalyticsMediaPlayerDataSource;
 #endif
 
 /**
@@ -140,7 +140,7 @@ typedef enum {
  *
  *  @return the corresponding identifier
  */
-- (NSString *) businessUnitIdentifier:(SSRBusinessUnit)businessUnit;
+- (NSString *)businessUnitIdentifier:(SSRBusinessUnit)businessUnit;
 
 /**
  *  Returns the business unit depending on its identifier
@@ -149,7 +149,7 @@ typedef enum {
  *
  *  @return the corresponding business unit
  */
-- (SSRBusinessUnit) businessUnitForIdentifier:(NSString *)buIdentifier;
+- (SSRBusinessUnit)businessUnitForIdentifier:(NSString *)buIdentifier;
 
 /**
  *  -------------------

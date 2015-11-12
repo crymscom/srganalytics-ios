@@ -5,7 +5,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RTSAnalyticsMediaPlayerDataSource.h"
+
+@class RTSMediaPlayerController;
+@protocol RTSAnalyticsMediaPlayerDataSource;
 
 @interface RTSMediaPlayerControllerTracker : NSObject
 

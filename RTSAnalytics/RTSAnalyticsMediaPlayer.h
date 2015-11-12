@@ -5,5 +5,4 @@
 //
 
 #import "RTSAnalyticsMediaPlayerDataSource.h"
-
 #import "RTSMediaPlayerController+RTSAnalytics.h"

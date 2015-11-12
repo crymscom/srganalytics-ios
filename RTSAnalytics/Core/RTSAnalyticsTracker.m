@@ -12,6 +12,7 @@
 #import "NSDictionary+RTSAnalytics.h"
 #import "RTSAnalyticsTracker+Logging_private.h"
 #import "RTSAnalyticsLogger.h"
+#import "RTSAnalyticsPageViewDataSource.h"
 
 #import <comScore-iOS-SDK-RTS/CSComScore.h>
 
