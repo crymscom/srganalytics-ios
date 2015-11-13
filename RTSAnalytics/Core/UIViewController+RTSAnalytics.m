@@ -19,7 +19,13 @@ static void AnalyticsViewDidAppear(UIViewController *self, SEL _cmd, BOOL animat
 static void AnalyticsViewDidAppear(UIViewController *self, SEL _cmd, BOOL animated)
 {
 	viewDidAppearIMP(self, _cmd, animated);
-	[self trackPageView];
+    
+    if ([self conformsToProtocol:@protocol(RTSAnalyticsPageViewDataSource)]) {
+        id<RTSAnalyticsPageViewDataSource> dataSource = (id<RTSAnalyticsPageViewDataSource>)self;
+        if (![dataSource respondsToSelector:@selector(isTrackedAutomatically)] || [dataSource isTrackedAutomatically]) {
+            [self trackPageView];
+        }
+    }
 }
 
 - (void)trackPageView
