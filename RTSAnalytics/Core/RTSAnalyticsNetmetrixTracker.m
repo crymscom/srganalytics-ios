@@ -19,20 +19,18 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 
 @property (nonatomic, strong) NSString *appID;
 @property (nonatomic, assign) SSRBusinessUnit businessUnit;
-@property (nonatomic, assign) BOOL production;
 
 @end
 
 @implementation RTSAnalyticsNetmetrixTracker
 
-- (instancetype) initWithAppID:(NSString *)appID businessUnit:(SSRBusinessUnit)businessUnit production:(BOOL)production
+- (instancetype) initWithAppID:(NSString *)appID businessUnit:(SSRBusinessUnit)businessUnit
 {
 	if (!(self = [super init]))
 		return nil;
 	
 	_appID = appID;
 	_businessUnit = businessUnit;
-	_production = production;
 	
 	RTSAnalyticsLogDebug(@"%@ initialization\nAppID: %@\nDomain: %@", LoggerDomainAnalyticsNetmetrix, appID, self.netmetrixDomain);
 
@@ -67,7 +65,7 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 	{
 		RTSAnalyticsLogWarning(@"%@ response will be fake due to testing flag or xctest bundle presence", LoggerDomainAnalyticsNetmetrix);
 	}
-	else if (self.production)
+	else
 	{
 		RTSAnalyticsLogVerbose(@"%@ : will send view event:\nurl        = %@\nuser-agent = %@", LoggerDomainAnalyticsNetmetrix, netmetrixURLString, userAgent);
 		[NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {

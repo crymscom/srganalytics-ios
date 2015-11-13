@@ -71,6 +71,7 @@
         AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
         XCTAssertNil(labels[@"srg_enc"]);
         XCTAssertNil(labels[@"srg_timeshift"], @"The parameter srg_timeshift must only sent for live streams");
+        XCTAssertNil(labels[@"srg_test"]);
         
         [tester waitForTimeInterval:2.0f];
     }

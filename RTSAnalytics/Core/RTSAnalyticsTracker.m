@@ -22,11 +22,13 @@
 #import "RTSMediaPlayerControllerTracker_private.h"
 #endif
 
-@interface RTSAnalyticsTracker ()
+@interface RTSAnalyticsTracker () {
+@private
+    BOOL _debugMode;
+}
 @property (nonatomic, strong) RTSAnalyticsNetmetrixTracker *netmetrixTracker;
 @property (nonatomic, weak) id<RTSAnalyticsPageViewDataSource> lastPageViewDataSource;
 @property (nonatomic, assign) SSRBusinessUnit businessUnit;
-@property (nonatomic, assign) BOOL production;
 @end
 
 @implementation RTSAnalyticsTracker
@@ -45,7 +47,6 @@
 {
     self = [super init];
     if (self) {
-		self.production = NO;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(applicationWillEnterForeground:)
                                                      name:UIApplicationWillEnterForegroundNotification
@@ -87,23 +88,12 @@
 
 - (NSString *) comscoreVSite
 {
-	if (_comscoreVSite.length == 0)
-		_comscoreVSite = [self infoDictionaryValueForKey:@"ComscoreVirtualSite"];
-	
-	return _comscoreVSite;
+	return [self infoDictionaryValueForKey:@"ComscoreVirtualSite"];
 }
 
 - (NSString *) netmetrixAppId
 {
-	if (_netmetrixAppId.length == 0)
-		_netmetrixAppId = [self infoDictionaryValueForKey:@"NetmetrixAppID"];
-	
-	return _netmetrixAppId;
-}
-
-- (BOOL) production
-{
-	return _production;
+	return [self infoDictionaryValueForKey:@"NetmetrixAppID"];
 }
 
 - (NSString *)infoDictionaryValueForKey:(NSString *)key
@@ -115,28 +105,39 @@
 #pragma mark - PageView tracking
 
 #ifdef RTSAnalyticsMediaPlayerIncluded
+
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
                      mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
-                       forProduction:(BOOL)prod
 
 {
-	[self startTrackingForBusinessUnit:businessUnit forProduction:prod];
-	NSString *businessUnitIdentifier = [self businessUnitIdentifier:self.businessUnit];
-	NSString *streamSenseVirtualSite = self.production ? [NSString stringWithFormat:@"%@-v", businessUnitIdentifier] : @"rts-app-test-v";
-	[[RTSMediaPlayerControllerTracker sharedTracker] startStreamMeasurementForVirtualSite:streamSenseVirtualSite mediaDataSource:dataSource];
+    [self startTrackingForBusinessUnit:businessUnit mediaDataSource:dataSource inDebugMode:NO];
 }
+
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
+                     mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+                         inDebugMode:(BOOL)debugMode
+{
+    [self startTrackingForBusinessUnit:businessUnit inDebugMode:debugMode];
+    NSString *businessUnitIdentifier = [self businessUnitIdentifier:self.businessUnit];
+    NSString *streamSenseVirtualSite = [NSString stringWithFormat:@"%@-v", businessUnitIdentifier];
+    [[RTSMediaPlayerControllerTracker sharedTracker] startStreamMeasurementForVirtualSite:streamSenseVirtualSite mediaDataSource:dataSource];
+}
+
 #endif
 
-
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit forProduction:(BOOL)prod
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
 {
-	_businessUnit = businessUnit;
-    _production = prod;
-	
-	[self startComscoreTracker];
-	[self startNetmetrixTracker];
+    [self startTrackingForBusinessUnit:businessUnit inDebugMode:NO];
 }
 
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit inDebugMode:(BOOL)debugMode
+{
+    _businessUnit = businessUnit;
+    _debugMode = debugMode;
+    
+    [self startComscoreTracker];
+    [self startNetmetrixTracker];
+}
 
 - (void)startComscoreTracker
 {
@@ -161,23 +162,32 @@
 	
 	NSString *appName = [[mainBundle objectForInfoDictionaryKey:@"CFBundleExecutable"] stringByAppendingString:@" iOS"];
 	NSString *appLanguage = [[mainBundle preferredLocalizations] firstObject] ?: @"fr";
-	NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-
-	NSString *ns_vsite = self.production ? self.comscoreVSite : @"rts-app-test-v";
+    NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     
-	return @{ @"ns_ap_an": appName,
-			  @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
-			  @"ns_ap_ver": appVersion,
-			  @"srg_unit": [self businessUnitIdentifier:self.businessUnit].uppercaseString,
-			  @"srg_ap_push": @"0",
-			  @"ns_site": @"mainsite",
-			  @"ns_vsite": ns_vsite};
+    NSMutableDictionary *globalLabels = [@{ @"ns_ap_an": appName,
+                                            @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
+                                            @"ns_ap_ver": appVersion,
+                                            @"srg_unit": [self businessUnitIdentifier:self.businessUnit].uppercaseString,
+                                            @"srg_ap_push": @"0",
+                                            @"ns_site": @"mainsite",
+                                            @"ns_vsite": self.comscoreVSite} mutableCopy];
+    if (_debugMode) {
+        static NSString *debugTimestamp;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd'@'HH:mm"];
+            debugTimestamp = [dateFormatter stringFromDate:[NSDate date]];
+        });
+        globalLabels[@"srg_test"] = debugTimestamp;
+    }
+    return [globalLabels copy];
 }
 
 - (void)startNetmetrixTracker
 {
 	NSAssert(self.netmetrixAppId.length > 0, @"You MUST set `netmetrixAppId` property or define `RTSAnalytics>NetmetrixAppID` key in your app Info.plist");
-	self.netmetrixTracker = [[RTSAnalyticsNetmetrixTracker alloc] initWithAppID:self.netmetrixAppId businessUnit:self.businessUnit production:self.production];
+	self.netmetrixTracker = [[RTSAnalyticsNetmetrixTracker alloc] initWithAppID:self.netmetrixAppId businessUnit:self.businessUnit];
 }
 
 #pragma mark - PageView tracking
