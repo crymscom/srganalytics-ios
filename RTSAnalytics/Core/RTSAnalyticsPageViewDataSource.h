@@ -9,7 +9,9 @@
 /**
  *  The `RTSAnalyticsPageViewDataSource` groups methods that are used for view event measurement.
  * 
- *  If the view controller conforms to this protocol, the tracker will send a view event to Comscore and Netmetrix at each `-viewDidAppear:`.
+ *  If the view controller conforms to this protocol, the tracker will send a view event to Comscore and Netmetrix at each `-viewDidAppear:`,
+ *  except if the optional -isTrackedAutomatically method is implemented and returns NO
+ *
  *  This protocol can also be used to add custom labels to the view event
  */
 @protocol RTSAnalyticsPageViewDataSource <NSObject>
@@ -24,6 +26,17 @@
 - (NSString *)pageViewTitle;
 
 @optional
+
+/**
+ * If this method is implemented and returns NO, automatic tracking in `-viewDidAppear:` will be disabled. In this case, call
+ * `-[UIViewController trackPageView]` manually. This is e.g. useful if the data source information is incomplete when
+ * `-viewDidAppear:` is called.
+ *
+ * If this method is not implemented, the behavior defaults to automatic tracking.
+ *
+ * @return YES iff automatic tracking must be enabled, NO otherwise
+ */
+- (BOOL)isTrackedAutomatically;
 
 /**
  *  Returns the levels to be sent for view event measurement. Each level will be added as `srg_n...` label. The tracker will also add a label named `category`
