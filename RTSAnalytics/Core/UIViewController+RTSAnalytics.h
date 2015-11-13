@@ -7,7 +7,7 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  The implementation swizzles `viewDidAppear:` for automatic analytics
+ *  The implementation swizzles `viewDidAppear:` for automatic analytics (can be opt-out, see `RTSAnalyticsPageViewDataSource` protocol)
  */
 @interface UIViewController (RTSAnalytics)
 
