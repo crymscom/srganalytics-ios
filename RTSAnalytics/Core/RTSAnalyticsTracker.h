@@ -85,6 +85,9 @@ typedef enum {
  *
  *  @param businessUnit  the SRG/SSR business unit for statistics measurements
  *  @param dataSource    the data source to be provided for stream tracking. This parameter is mandatory if using the `RTSAnalytics\MediaPlayer` submodule
+ *  @param debugMode     if set to YES, an `srg_test` field is added to the labels with a timestamp (yyyy-MM-dd@HH:mm) as value. This value does not
+ *                       change while the application is running and can therefore be used to identify requests belonging to the same session.
+ *                       Methods without this parameter are equivalent to debugMode = NO
  *
  *  @discussion the tracker uses values set in application Info.plist to track Comscore, Streamsense and Netmetrix measurement.
  *  Add an Info.plist dictionary named `RTSAnalytics` with 2 keypairs :
@@ -96,8 +99,13 @@ typedef enum {
 #ifdef RTSAnalyticsMediaPlayerIncluded
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
                      mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource;
+
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
+                     mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+                         inDebugMode:(BOOL)debugMode;
 #else
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit;
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit inDebugMode:(BOOL)debugMode;
 #endif
 
 /**

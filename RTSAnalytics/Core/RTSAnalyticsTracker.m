@@ -22,7 +22,10 @@
 #import "RTSMediaPlayerControllerTracker_private.h"
 #endif
 
-@interface RTSAnalyticsTracker ()
+@interface RTSAnalyticsTracker () {
+@private
+    BOOL _debugMode;
+}
 @property (nonatomic, strong) RTSAnalyticsNetmetrixTracker *netmetrixTracker;
 @property (nonatomic, weak) id<RTSAnalyticsPageViewDataSource> lastPageViewDataSource;
 @property (nonatomic, assign) SSRBusinessUnit businessUnit;
@@ -102,26 +105,39 @@
 #pragma mark - PageView tracking
 
 #ifdef RTSAnalyticsMediaPlayerIncluded
+
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
                      mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
 
 {
-	[self startTrackingForBusinessUnit:businessUnit];
-	NSString *businessUnitIdentifier = [self businessUnitIdentifier:self.businessUnit];
-	NSString *streamSenseVirtualSite = [NSString stringWithFormat:@"%@-v", businessUnitIdentifier];
-	[[RTSMediaPlayerControllerTracker sharedTracker] startStreamMeasurementForVirtualSite:streamSenseVirtualSite mediaDataSource:dataSource];
+    [self startTrackingForBusinessUnit:businessUnit mediaDataSource:dataSource inDebugMode:NO];
 }
-#endif
 
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
+                     mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+                         inDebugMode:(BOOL)debugMode
+{
+    [self startTrackingForBusinessUnit:businessUnit inDebugMode:debugMode];
+    NSString *businessUnitIdentifier = [self businessUnitIdentifier:self.businessUnit];
+    NSString *streamSenseVirtualSite = [NSString stringWithFormat:@"%@-v", businessUnitIdentifier];
+    [[RTSMediaPlayerControllerTracker sharedTracker] startStreamMeasurementForVirtualSite:streamSenseVirtualSite mediaDataSource:dataSource];
+}
+
+#endif
 
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
 {
-	_businessUnit = businessUnit;
-	
-	[self startComscoreTracker];
-	[self startNetmetrixTracker];
+    [self startTrackingForBusinessUnit:businessUnit inDebugMode:NO];
 }
 
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit inDebugMode:(BOOL)debugMode
+{
+    _businessUnit = businessUnit;
+    _debugMode = debugMode;
+    
+    [self startComscoreTracker];
+    [self startNetmetrixTracker];
+}
 
 - (void)startComscoreTracker
 {
@@ -148,13 +164,24 @@
 	NSString *appLanguage = [[mainBundle preferredLocalizations] firstObject] ?: @"fr";
     NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     
-	return @{ @"ns_ap_an": appName,
-			  @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
-			  @"ns_ap_ver": appVersion,
-			  @"srg_unit": [self businessUnitIdentifier:self.businessUnit].uppercaseString,
-			  @"srg_ap_push": @"0",
-			  @"ns_site": @"mainsite",
-			  @"ns_vsite": self.comscoreVSite};
+    NSMutableDictionary *globalLabels = [@{ @"ns_ap_an": appName,
+                                            @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
+                                            @"ns_ap_ver": appVersion,
+                                            @"srg_unit": [self businessUnitIdentifier:self.businessUnit].uppercaseString,
+                                            @"srg_ap_push": @"0",
+                                            @"ns_site": @"mainsite",
+                                            @"ns_vsite": self.comscoreVSite} mutableCopy];
+    if (_debugMode) {
+        static NSString *debugTimestamp;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd'@'HH:mm"];
+            debugTimestamp = [dateFormatter stringFromDate:[NSDate date]];
+        });
+        globalLabels[@"srg_test"] = debugTimestamp;
+    }
+    return [globalLabels copy];
 }
 
 - (void)startNetmetrixTracker

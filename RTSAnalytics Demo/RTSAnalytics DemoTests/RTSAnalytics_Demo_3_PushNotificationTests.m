@@ -27,6 +27,7 @@
 	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
+    XCTAssertNil(labels[@"srg_test"]);
 	
 	[tester tapViewWithAccessibilityLabel:@"Done"];
     [tester waitForTimeInterval:2.0f];
@@ -39,6 +40,7 @@
 	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+    XCTAssertNil(labels[@"srg_test"]);
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
     
