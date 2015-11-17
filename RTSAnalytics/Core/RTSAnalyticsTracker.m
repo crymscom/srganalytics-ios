@@ -176,7 +176,7 @@
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd'@'HH:mm"];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd'@'HH:mm:ss"];
             debugTimestamp = [dateFormatter stringFromDate:[NSDate date]];
         });
         globalLabels[@"srg_test"] = debugTimestamp;
