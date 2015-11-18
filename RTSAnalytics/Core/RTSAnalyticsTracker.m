@@ -169,8 +169,10 @@
                                             @"ns_ap_ver": appVersion,
                                             @"srg_unit": [self businessUnitIdentifier:self.businessUnit].uppercaseString,
                                             @"srg_ap_push": @"0",
-                                            @"ns_site": @"mainsite",
-                                            @"ns_vsite": self.comscoreVSite} mutableCopy];
+                                            @"ns_site": @"mainsite", // MGubler 17-Nov-2015: This 'mainsite' is a constant value. If wrong, everything is screwed.
+                                            @"ns_vsite": self.comscoreVSite} mutableCopy]; // MGubler 17-Nov-2015: 'vsite' is associated with the app. It is created by comScore itself.
+                                                                                           // Even if it is 'easy' to create a new one (for new/easier reports, or fixing wrong values),
+                                                                                           // this must never change for the given app.
     if (_debugMode) {
         static NSString *debugTimestamp;
         static dispatch_once_t onceToken;
