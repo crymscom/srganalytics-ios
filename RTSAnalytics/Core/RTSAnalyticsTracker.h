@@ -190,4 +190,20 @@ typedef enum {
  */
 - (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels customLabels:(NSDictionary *)customLabels fromPushNotification:(BOOL)fromPush;
 
+/**
+ *  Track a (hidden) event identified by its title
+ *
+ *  @param title        The event title.
+ *                      An empty or nil title will be replaced with `Untitled` value.
+ */
+- (void)trackHiddenEventWithTitle:(NSString *)title;
+
+/**
+ *  Track a (hidden) event identified by its title
+ *
+ *  @param title        The event title.
+ *                      An empty or nil title will be replaced with `Untitled` value.
+ */
+- (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels;
+
 @end
