@@ -141,7 +141,7 @@
 
 - (void)startComscoreTracker
 {
-	NSAssert(self.comscoreVSite.length > 0, @"You MUST set `comscoreVSite` property, or define `RTSAnalytics>ComscoreVirtualSite` key in your app Info.plist");
+	NSAssert(self.comscoreVSite.length > 0, @"You MUST define `RTSAnalytics>ComscoreVirtualSite` key in your app Info.plist");
 	
 	[CSComScore setAppContext];
 	[CSComScore setCustomerC2:@"6036016"];
@@ -188,7 +188,7 @@
 
 - (void)startNetmetrixTracker
 {
-	NSAssert(self.netmetrixAppId.length > 0, @"You MUST set `netmetrixAppId` property or define `RTSAnalytics>NetmetrixAppID` key in your app Info.plist");
+	NSAssert(self.netmetrixAppId.length > 0, @"You MUST define `RTSAnalytics>NetmetrixAppID` key in your app Info.plist");
 	self.netmetrixTracker = [[RTSAnalyticsNetmetrixTracker alloc] initWithAppID:self.netmetrixAppId businessUnit:self.businessUnit];
 }
 

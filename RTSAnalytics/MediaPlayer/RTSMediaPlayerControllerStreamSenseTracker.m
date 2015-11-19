@@ -16,7 +16,7 @@
 #import <comScore-iOS-SDK-RTS/CSStreamSenseClip.h>
 
 #import <SRGMediaPlayer/RTSMediaPlayerView.h>
-#import <SRGMediaPlayer/NSBundle+RTSMediaPlayer.h>
+#import <SRGMediaPlayer/RTSMediaPlayerVersion.h>
 
 static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
@@ -49,11 +49,9 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	_mediaPlayerController = mediaPlayerController;
 	_dataSource = dataSource;
 	
-	NSBundle *mediaPlayerBundle = [NSBundle RTSMediaPlayerBundle];
-	
-	[self setLabel:@"ns_st_mp" value:[mediaPlayerBundle objectForInfoDictionaryKey:@"CFBundleName"]];
+	[self setLabel:@"ns_st_mp" value:@"RTSMediaPlayer"];
 	[self setLabel:@"ns_st_pu" value:RTSAnalyticsVersion()];
-	[self setLabel:@"ns_st_mv" value:[mediaPlayerBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+	[self setLabel:@"ns_st_mv" value:RTSMediaPlayerVersion()];
 	[self setLabel:@"ns_st_it" value:@"c"];
 	
 	[self setLabel:@"ns_vsite" value:virtualSite];
