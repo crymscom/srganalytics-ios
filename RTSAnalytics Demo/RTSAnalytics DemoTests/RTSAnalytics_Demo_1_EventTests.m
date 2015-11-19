@@ -9,11 +9,11 @@
 #import <KIF/KIF.h>
 #import <SRGAnalytics/SRGAnalytics.h>
 
-@interface RTSAnalytics_Demo_1_ViewEventTests : KIFTestCase
+@interface RTSAnalytics_Demo_1_EventTests : KIFTestCase
 
 @end
 
-@implementation RTSAnalytics_Demo_1_ViewEventTests
+@implementation RTSAnalytics_Demo_1_EventTests
 
 static NSDictionary *startLabels = nil;
 
@@ -136,6 +136,46 @@ static NSDictionary *startLabels = nil;
 	XCTAssertEqualObjects(labels[@"srg_ap_cu"], @"custom");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
+    
+    [tester waitForTimeInterval:2.0f];
+}
+
+- (void) testHiddenEventWithNoTitle
+{
+    NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+    }];
+    
+    NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+    XCTAssertEqualObjects(labels[@"srg_title"], @"untitled");
+    XCTAssertEqualObjects(labels[@"ns_type"], @"hidden");
+    
+    [tester waitForTimeInterval:2.0f];
+}
+
+- (void) testHiddenEventWithTitle
+{
+    NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+    }];
+    
+    NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+    XCTAssertEqualObjects(labels[@"srg_title"], @"Title");
+    XCTAssertEqualObjects(labels[@"ns_type"], @"hidden");
+    
+    [tester waitForTimeInterval:2.0f];
+}
+
+- (void) testHiddenEventWithTitleAndCustomLabels
+{
+    NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+    }];
+    
+    NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+    XCTAssertEqualObjects(labels[@"srg_title"], @"Title");
+    XCTAssertEqualObjects(labels[@"ns_type"], @"hidden");
+    XCTAssertEqualObjects(labels[@"srg_ap_cu"], @"custom");
     
     [tester waitForTimeInterval:2.0f];
 }
