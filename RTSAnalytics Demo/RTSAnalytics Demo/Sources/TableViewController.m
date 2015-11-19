@@ -26,12 +26,15 @@
 	ViewController *controller = [segue destinationViewController];
 	if ([segue.identifier isEqualToString:@"ViewWithNoTitle"]) {
 		controller.title = nil;
-	}else if ([segue.identifier isEqualToString:@"ViewWithTitle"]) {
+	}
+    else if ([segue.identifier isEqualToString:@"ViewWithTitle"]) {
 		controller.title = @"C'est un titre pour l'événement !";
-	}else if ([segue.identifier isEqualToString:@"ViewWithTitleAndLevels"]) {
+	}
+    else if ([segue.identifier isEqualToString:@"ViewWithTitleAndLevels"]) {
 		controller.title = @"Title";
 		controller.levels = @[ @"TV", @"D'autres niveaux.plus loin"];
-	}else if ([segue.identifier isEqualToString:@"ViewWithTitleLevelsAndCustomLabels"]) {
+	}
+    else if ([segue.identifier isEqualToString:@"ViewWithTitleLevelsAndCustomLabels"]) {
 		controller.title = @"Title";
 		controller.levels = @[ @"TV", @"n1", @"n2"];
 		controller.customLabels = @{ @"srg_ap_cu" : @"custom" };
@@ -43,6 +46,8 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 	NSLog(@"Did Select indexPath at row %ld", (long)indexPath.row);
 	
 	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -67,6 +72,15 @@
 		UIApplication *application = [UIApplication sharedApplication];
         [(AppDelegate *)application.delegate application:application didReceiveRemoteNotification:@{} fetchCompletionHandler:^(UIBackgroundFetchResult result) {}];
 	}
+    else if ([cell.reuseIdentifier isEqualToString:@"HiddenEventWithNoTitleCell"]) {
+        [[RTSAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:nil];
+    }
+    else if ([cell.reuseIdentifier isEqualToString:@"HiddenEventWithTitleCell"]) {
+        [[RTSAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Title"];
+    }
+    else if ([cell.reuseIdentifier isEqualToString:@"HiddenEventWithTitleAndCustomLabelsCell"]) {
+        [[RTSAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Title" customLabels:@{ @"srg_ap_cu" : @"custom" }];
+    }
 }
 
 

@@ -270,4 +270,23 @@
 	[self.netmetrixTracker trackView];
 }
 
+- (void)trackHiddenEventWithTitle:(NSString *)title
+{
+    [self trackHiddenEventWithTitle:title customLabels:nil];
+}
+
+- (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels
+{
+    NSMutableDictionary *labels = [NSMutableDictionary dictionary];
+    
+    title = title.length > 0 ? [title comScoreTitleFormattedString] : @"untitled";
+    [labels safeSetValue:title forKey:@"srg_title"];
+    
+    [customLabels enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [labels safeSetValue:[obj description] forKey:[key description]];
+    }];
+    
+    [CSComScore hiddenWithLabels:labels];
+}
+
 @end

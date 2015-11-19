@@ -22,7 +22,7 @@
 
 - (void)testViewControllerPresentedFromPushSendsViewEventWithValidTag
 {
-	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
+	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
 	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
