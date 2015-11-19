@@ -10,8 +10,7 @@
 
 /**
  *  The `RTSAnalyticsMediaPlayerDataSource` groups methods that are used for Streamsense measurement when using the SRG Media Player
- *  library controllers (`RTSMediaPlayerController` and `RTSMediaSegmentsController`). It can be used to customize the labels
- *  which are sent
+ *  library controller `RTSMediaPlayerController`. It can be used to customize the labels which are sent
  * 
  *  Each method is called when playback changes or at each Comscore SDK heartbeat, so the default labels, playlist labels and clip 
  *  labels are updated before sending measurement to Comscore/Streamsense. If a segments controller is used, additional events will 
