@@ -48,5 +48,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>RTSAnalytics</key>
+	<dict>
+		<key>ComscoreVirtualSite</key>
+		<string>rts-app-test-v</string>
+		<key>NetmetrixAppID</key>
+		<string>test</string>
+	</dict>
 </dict>
 </plist>

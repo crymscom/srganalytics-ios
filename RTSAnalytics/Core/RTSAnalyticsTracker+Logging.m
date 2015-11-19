@@ -86,7 +86,7 @@
 		RTSAnalyticsLogError(@"ERROR sending %@ > %@", event, name);
 	}
 	
-	RTSAnalyticsLogDebug(@"Comscore view event sent:\n%@", dictionaryRepresentation);
+	RTSAnalyticsLogDebug(@"Comscore %@ event sent:\n%@", labels[@"ns_type"], dictionaryRepresentation);
 }
 
 @end

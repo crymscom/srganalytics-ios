@@ -29,7 +29,7 @@
 //#warning Disabled because of missing stream
 //- (void)disabled_testOpenDefaultMediaPlayerAndPlayLiveStreamThenClose
 //{
-//	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+//	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
 //	
 //    {
 //        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
@@ -61,7 +61,7 @@
 
 - (void)testOpenDefaultMediaPlayerAndPlayVODStreamThenClose
 {
-	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
 
     {
         NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
@@ -71,6 +71,7 @@
         AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
         XCTAssertNil(labels[@"srg_enc"]);
         XCTAssertNil(labels[@"srg_timeshift"], @"The parameter srg_timeshift must only sent for live streams");
+        XCTAssertNil(labels[@"srg_test"]);
         
         [tester waitForTimeInterval:2.0f];
     }
@@ -110,7 +111,7 @@
             return YES;
         }];
         
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -246,7 +247,7 @@
             return YES;
         }];
         
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -390,7 +391,7 @@
             return YES;
         }];
         
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:7 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:7 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -508,7 +509,7 @@
             return YES;
         }];
         
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:7 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:7 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -628,7 +629,7 @@
             return YES;
         }];
         
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:7 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:7 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -747,7 +748,7 @@
             return YES;
         }];
         
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -872,7 +873,7 @@
             return YES;
         }];
         
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -962,7 +963,7 @@
             return YES;
         }];
         
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:7 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:7 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -1017,7 +1018,7 @@
             return YES;
         }];
         
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -1072,7 +1073,7 @@
             return YES;
         }];
         
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }

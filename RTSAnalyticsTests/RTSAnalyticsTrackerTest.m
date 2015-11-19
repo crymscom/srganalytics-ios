@@ -40,8 +40,7 @@
     
     // Also check that when we have multiple trackers, the setup is done only once for comScore.
 	[[RTSAnalyticsTracker sharedTracker] startTrackingForBusinessUnit:SSRBusinessUnitRTS
-                                                      mediaDataSource:self.dataSourceMock
-                                                        forProduction:NO];
+                                                      mediaDataSource:self.dataSourceMock];
 	
     OCMVerify([comScoreClassMock setCustomerC2:[OCMArg isNotNil]]);
     OCMVerify([comScoreClassMock setPublisherSecret:[OCMArg isNotNil]]);

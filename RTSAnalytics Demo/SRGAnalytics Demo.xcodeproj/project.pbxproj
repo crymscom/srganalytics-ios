@@ -10,7 +10,7 @@
 		0AA218FFBA02C69AF0714143 /* libPods-SRGAnalytics Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A98F327A3E18DD244CE189 /* libPods-SRGAnalytics Demo.a */; };
 		70E7AB8C155258EEADAB902A /* libPods-SRGAnalytics DemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C23567C9F5604E511D87D9 /* libPods-SRGAnalytics DemoTests.a */; };
 		9F6A647F1BEB62E400F6948C /* RTSAnalytics_Demo_2_MediaPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B645037A1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m */; };
-		9F6A64801BEB62EF00F6948C /* RTSAnalytics_Demo_1_ViewEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m */; };
+		9F6A64801BEB62EF00F6948C /* RTSAnalytics_Demo_1_EventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_EventTests.m */; };
 		B64503661AE10567001021A8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503611AE10567001021A8 /* AppDelegate.m */; };
 		B64503671AE10567001021A8 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503631AE10567001021A8 /* TableViewController.m */; };
 		B64503681AE10567001021A8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503651AE10567001021A8 /* ViewController.m */; };
@@ -49,7 +49,7 @@
 		B64503281AE0F14E001021A8 /* SRGAnalytics Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SRGAnalytics Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B64503411AE0F14E001021A8 /* SRGAnalytics DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SRGAnalytics DemoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B64503461AE0F14E001021A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RTSAnalytics_Demo_1_ViewEventTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_EventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RTSAnalytics_Demo_1_EventTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B64503601AE10567001021A8 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B64503611AE10567001021A8 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		B64503621AE10567001021A8 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 		B64503441AE0F14E001021A8 /* RTSAnalytics DemoTests */ = {
 			isa = PBXGroup;
 			children = (
-				B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_ViewEventTests.m */,
+				B64503471AE0F14E001021A8 /* RTSAnalytics_Demo_1_EventTests.m */,
 				B645037A1AE13B52001021A8 /* RTSAnalytics_Demo_2_MediaPlayerTests.m */,
 				B645037C1AE13B6F001021A8 /* RTSAnalytics_Demo_3_PushNotificationTests.m */,
 				B64503451AE0F14E001021A8 /* Supporting Files */,
@@ -400,7 +400,7 @@
 			files = (
 				B645037D1AE13B6F001021A8 /* RTSAnalytics_Demo_3_PushNotificationTests.m in Sources */,
 				9F6A647F1BEB62E400F6948C /* RTSAnalytics_Demo_2_MediaPlayerTests.m in Sources */,
-				9F6A64801BEB62EF00F6948C /* RTSAnalytics_Demo_1_ViewEventTests.m in Sources */,
+				9F6A64801BEB62EF00F6948C /* RTSAnalytics_Demo_1_EventTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -77,12 +77,6 @@ Your app `Info.plist` file must contains a dictionary section called `RTSAnalyti
 
 By using custom build settings variables, it is possible to provide different values for different configurations (Debug, Beta, Release, etc.) with a single `Info.plist` file.
 
-**Important:** By default, the flag `production` is set to `NO`. In this state no statistics are sent to the respective services to avoif polluting statistics. You should therefore configure your project differently depending on the build flavor:
-
-* In development: Set `production` to `NO`
-* In beta: Set `production` to `YES` and use virtual sites dedicated for statistics retrieval during the beta phase
-* In production: Set `production` to `YES` and use virtual sites dedicated for production
-
 ### Tracking view counts for view controllers
 
 For each view controller which requires tracking, have it explicitly conform to the `RTSAnalyticsPageViewDataSource` protocol, and implement the associated required method. This is all you need to do, view events will then automatically be sent when your view controller is presented.

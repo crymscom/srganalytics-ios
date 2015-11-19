@@ -22,11 +22,12 @@
 
 - (void)testViewControllerPresentedFromPushSendsViewEventWithValidTag
 {
-	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
+	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
 	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
+    XCTAssertNil(labels[@"srg_test"]);
 	
 	[tester tapViewWithAccessibilityLabel:@"Done"];
     [tester waitForTimeInterval:2.0f];
@@ -39,6 +40,7 @@
 	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+    XCTAssertNil(labels[@"srg_test"]);
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
     

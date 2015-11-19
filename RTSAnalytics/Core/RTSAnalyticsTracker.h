@@ -85,7 +85,9 @@ typedef enum {
  *
  *  @param businessUnit  the SRG/SSR business unit for statistics measurements
  *  @param dataSource    the data source to be provided for stream tracking. This parameter is mandatory if using the `RTSAnalytics\MediaPlayer` submodule
- *  @param prod          the value to inform the library that the stats must be sent for production measurement.
+ *  @param debugMode     if set to YES, an `srg_test` field is added to the labels with a timestamp (yyyy-MM-dd@HH:mm) as value. This value does not
+ *                       change while the application is running and can therefore be used to identify requests belonging to the same session.
+ *                       Methods without this parameter are equivalent to debugMode = NO
  *
  *  @discussion the tracker uses values set in application Info.plist to track Comscore, Streamsense and Netmetrix measurement.
  *  Add an Info.plist dictionary named `RTSAnalytics` with 2 keypairs :
@@ -96,11 +98,14 @@ typedef enum {
  */
 #ifdef RTSAnalyticsMediaPlayerIncluded
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
-                     mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
-                       forProduction:(BOOL)prod OS_NONNULL2;
-#else
+                     mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource;
+
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
-                       forProduction:(BOOL)prod;
+                     mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+                         inDebugMode:(BOOL)debugMode;
+#else
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit;
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit inDebugMode:(BOOL)debugMode;
 #endif
 
 /**
@@ -112,26 +117,12 @@ typedef enum {
 /**
  *  The ComScore virtual site to be used for sending stats.
  */
-@property (nonatomic, strong) NSString *comscoreVSite;
+@property (nonatomic, readonly, strong) NSString *comscoreVSite;
 
 /**
  *  The NetMetrix application name to be used for view event tracking.
  */
-@property (nonatomic, strong) NSString *netmetrixAppId;
-
-/**
- *  The value that specify whether analytics must be sent to real servers and virtual sites.
- *
- *  If set to "NO" :
- *   - ComScore Virtual Site :     value will be "rts-app-test-v"
- *   - StreamSense Virtual Site :  value will be "rts-app-test-v"
- *   - NetMetrix :                 Netmetrix view events will NOT be sent !
- *
- *  If set to "YES :
- *   - ComScore Virtual Site :     value will be equal to `comscoreVSite` provided property
- *   - StreamSense Virtual Site :  value will be set to "{businessUnit}-v"
- */
-@property (nonatomic, assign, readonly) BOOL production;
+@property (nonatomic, readonly, strong) NSString *netmetrixAppId;
 
 /**
  *  Return the business unit identifier
@@ -198,5 +189,21 @@ typedef enum {
  *  Each level value is "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+RTSAnalyticsUtils` category.
  */
 - (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels customLabels:(NSDictionary *)customLabels fromPushNotification:(BOOL)fromPush;
+
+/**
+ *  Track a (hidden) event identified by its title
+ *
+ *  @param title        The event title.
+ *                      An empty or nil title will be replaced with `Untitled` value.
+ */
+- (void)trackHiddenEventWithTitle:(NSString *)title;
+
+/**
+ *  Track a (hidden) event identified by its title
+ *
+ *  @param title        The event title.
+ *                      An empty or nil title will be replaced with `Untitled` value.
+ */
+- (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels;
 
 @end

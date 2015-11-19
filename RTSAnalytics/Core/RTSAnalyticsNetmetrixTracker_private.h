@@ -25,11 +25,9 @@
  *  @param appID  a unique id identifying Netmetrics application (e.g. rts-info, rts-sport, srg-player, ...)
  *  @param domain the nexmetrics domain used  (e.g. rts, srg, ...)
  *
- *  @discussion The AppID and Netmetrix domain MUST be set ONLY when application is in production !
- *
  *  @return a Netmetrix tracker
  */
-- (instancetype) initWithAppID:(NSString *)appID businessUnit:(SSRBusinessUnit)businessUnit production:(BOOL)production;
+- (instancetype) initWithAppID:(NSString *)appID businessUnit:(SSRBusinessUnit)businessUnit;
 
 /**
  *  -------------------

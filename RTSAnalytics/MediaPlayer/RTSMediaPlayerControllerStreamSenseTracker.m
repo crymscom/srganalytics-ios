@@ -144,6 +144,16 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     else {
         [[[self clip] labels] removeObjectForKey:@"srg_timeshift"];
     }
+    
+    if (self.mediaPlayerController.pictureInPictureController.pictureInPictureActive) {
+        [[self clip] setLabel:@"srg_screen_type" value:@"pip"];
+    }
+    else if (self.mediaPlayerController.player.isExternalPlaybackActive) {
+        [[self clip] setLabel:@"srg_screen_type" value:@"airplay"];
+    }
+    else {
+        [[self clip] setLabel:@"srg_screen_type" value:@"default"];
+    }
 	
 	// Playlist
 	if ([self.dataSource respondsToSelector:@selector(streamSensePlaylistMetadataForIdentifier:)]) {
