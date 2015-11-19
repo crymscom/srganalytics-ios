@@ -9,6 +9,7 @@
 #import <libextobjc/EXTScope.h>
 
 #import "RTSMediaPlayerController.h"
+#import "RTSMediaPlayerControllerDataSource.h"
 
 #import "RTSMediaPlayerError.h"
 #import "RTSMediaPlayerView.h"
@@ -90,6 +91,7 @@ NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey = @"Bloc
 @synthesize view = _view;
 @synthesize pictureInPictureController = _pictureInPictureController;
 @synthesize overlayViews = _overlayViews;
+@synthesize overlayViewsHidingDelay = _overlayViewsHidingDelay;
 @synthesize activityGestureRecognizer = _activityGestureRecognizer;
 @synthesize playbackState = _playbackState;
 @synthesize stateMachine = _stateMachine;
@@ -137,8 +139,11 @@ NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey = @"Bloc
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self.stateTransitionObserver];
 	
-	[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
-	[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeDefault error:nil];
+// Leave the two lines with AVAudioSession below COMMENTED.
+// This "reset" behavior is good in theory. But it breaks use cases with multiple players sharing the same audio session.
+// As a general rule, do NOT reset the audio session, but rather change to your needs at the point you need it.
+//	[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+//	[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeDefault error:nil];
 	
 	[_view removeFromSuperview];
 	[_activityView removeGestureRecognizer:_activityGestureRecognizer];
@@ -287,10 +292,12 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 			[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
 			[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeDefault error:nil];
 		}
-		else {
-			[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
-			[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeDefault error:nil];
-		}
+// As a general rule, do NOT reset the audio session, but rather change to your needs at the point you need it (as above).
+// See also -dealloc method on why the lines below must remain commented.
+//		else {
+//			[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+//			[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeDefault error:nil];
+//		}
 	}];
 	
 	[playing setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
@@ -1048,6 +1055,21 @@ static void LogProperties(id object)
 	int64_t delayInNanoseconds = ((self.overlayViewsHidingDelay > 0.0) ? self.overlayViewsHidingDelay : RTSMediaPlayerOverlayHidingDelay) * NSEC_PER_SEC;
 	int64_t toleranceInNanoseconds = 0.1 * NSEC_PER_SEC;
 	dispatch_source_set_timer(self.idleTimer, dispatch_time(DISPATCH_TIME_NOW, delayInNanoseconds), DISPATCH_TIME_FOREVER, toleranceInNanoseconds);
+}
+
+- (NSTimeInterval)overlayViewsHidingDelay
+{
+    return _overlayViewsHidingDelay;
+}
+
+- (void)setOverlayViewsHidingDelay:(NSTimeInterval)flag
+{
+	if (_overlayViewsHidingDelay != flag) {
+		[self willChangeValueForKey:@"overlayViewsHidingDelay"];
+		_overlayViewsHidingDelay = flag;
+		[self didChangeValueForKey:@"overlayViewsHidingDelay"];
+		[self resetIdleTimer];
+	}
 }
 
 #pragma mark - Notifications
