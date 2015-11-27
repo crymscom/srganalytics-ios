@@ -195,15 +195,8 @@
     id<RTSMediaSegment> previousSegment = trackingInfo.currentSegment;
     id<RTSMediaSegment> segment = notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey];
     
-    NSUInteger previousSegmentIndex = NSNotFound;
-    if (previousSegment) {
-        previousSegmentIndex = [segmentsController.segments indexOfObject:previousSegment];
-    }
-    
-    NSUInteger segmentIndex = NSNotFound;
-    if (segment) {
-        segmentIndex = [segmentsController.segments indexOfObject:segment];
-    }
+    NSUInteger previousSegmentIndex = [segmentsController indexForSegment:previousSegment];
+    NSUInteger segmentIndex = [segmentsController indexForSegment:segment];
     
     trackingInfo.currentSegment = (wasUserSelected ? segment : nil);
     if (trackingInfo.currentSegment) {

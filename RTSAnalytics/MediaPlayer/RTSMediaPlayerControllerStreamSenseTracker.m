@@ -127,6 +127,13 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
         [[[self clip] labels] removeObjectForKey:@"ns_st_li"];
     }
     
+    if (segmentIndex != NSNotFound) {
+        [[self clip] setLabel:@"ns_st_pn" value:@(segmentIndex + 1).stringValue];
+    }
+    else {
+        [[self clip] setLabel:@"ns_st_pn" value:@"1"];
+    }
+    
 	NSString *srg_enc = [self srg_enc];
     if (srg_enc) {
 		[[self clip] setLabel:@"srg_enc" value:srg_enc];
