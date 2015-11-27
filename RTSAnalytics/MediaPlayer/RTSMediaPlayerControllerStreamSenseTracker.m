@@ -62,9 +62,9 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return self;
 }
 
-- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment
+- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment atIndex:(NSUInteger)segmentIndex
 {
-    [self updateLabelsWithSegment:segment];
+    [self updateLabelsWithSegment:segment atIndex:segmentIndex];
     
     if (segment && playerEvent == CSStreamSensePlay) {
         [self notify:playerEvent position:CMTimeGetSeconds(segment.timeRange.start) * 1000. labels:nil];
@@ -87,7 +87,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 #pragma mark - Private Labels methods
 
-- (void)updateLabelsWithSegment:(id<RTSMediaSegment>)segment
+- (void)updateLabelsWithSegment:(id<RTSMediaSegment>)segment atIndex:(NSUInteger)segmentIndex
 {
 	// Labels
 	[self setLabel:@"ns_st_br" value:[self bitRate]];
@@ -126,7 +126,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     else {
         [[[self clip] labels] removeObjectForKey:@"ns_st_li"];
     }
-	
+    
 	NSString *srg_enc = [self srg_enc];
     if (srg_enc) {
 		[[self clip] setLabel:@"srg_enc" value:srg_enc];
