@@ -53,14 +53,16 @@
  *
  *  @param playerEvent the event type corresponding to the media player controller playback state.
  *  @param segment the segment information to use (nil for the full-length)
+ *  @param segmentIndex the index of the segment (use NSNotFound if none)
  */
-- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment;
+- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment atIndex:(NSUInteger)segmentIndex;
 
 /**
  *  Update labels for a given segment. Is automatically performed when calling -notify:withSegment:
  *
  *  @param segment the segment information to use (nil for the full-length)
+ *  @param segmentIndex the index of the segment (use NSNotFound if none)
  */
-- (void)updateLabelsWithSegment:(id<RTSMediaSegment>)segment;
+- (void)updateLabelsWithSegment:(id<RTSMediaSegment>)segment atIndex:(NSUInteger)segmentIndex;
 
 @end
