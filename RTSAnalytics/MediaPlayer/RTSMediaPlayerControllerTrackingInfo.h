@@ -11,17 +11,17 @@
 /**
  *  Collect data related to a media player controller being tracked
  */
-@interface RTSMediaPlayerControllerTrackingInfo : NSObject
+@interface RTSMediaPlayerControllerTrackingInfo : NSObject <NSCopying>
 
 /**
  *  The current segment played by the controller, nil if none
  */
-@property (nonatomic) id<RTSMediaSegment> currentSegment;
+@property (nonatomic) id<RTSMediaSegment> segment;
 
 /**
- * The index of the segment being tracked, NSNotFound if none
+ * Custom labels to be sent as well (optional)
  */
-@property (nonatomic) NSUInteger currentSegmentIndex;
+@property (nonatomic) NSDictionary *customLabels;
 
 /**
  *  Set to YES iff the next play / pause events must be skipped
