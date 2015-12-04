@@ -53,7 +53,7 @@
     // Extract information from the segments controller when available
     if (segment) {
         if ([RTSMediaSegmentsController isFullLengthSegment:segment]) {
-            NSInteger duration = CMTimeGetSeconds(segment.timeRange.duration);
+            NSInteger duration = CMTimeGetSeconds(segment.timeRange.duration) * 1000;
             NSArray *childSegments = [segmentsController childSegmentsForSegment:segment];
             
             return @{ @"ns_st_cl" : @(duration).stringValue,
@@ -65,8 +65,10 @@
             id<RTSMediaSegment> fullLengthSegment = [segmentsController parentSegmentForSegment:segment];
             NSArray *siblingSegments = [segmentsController siblingSegmentsForSegment:segment];
             
-            return @{ @"ns_st_cl" : @((NSInteger)CMTimeGetSeconds(segment.timeRange.duration)).stringValue,
-                      @"ns_st_sl" : @((NSInteger)CMTimeGetSeconds(fullLengthSegment.timeRange.duration)).stringValue,
+            NSInteger segmentDuration = (NSInteger)(CMTimeGetSeconds(segment.timeRange.duration) * 1000);
+            NSInteger fullLengthDuration = (NSInteger)(CMTimeGetSeconds(fullLengthSegment.timeRange.duration) * 1000);
+            return @{ @"ns_st_cl" : @(fullLengthDuration).stringValue,
+                      @"ns_st_sl" : @(segmentDuration).stringValue,
                       @"ns_st_pn" : @([siblingSegments indexOfObject:segment] + 1).stringValue,
                       @"ns_st_tp" : @(siblingSegments.count).stringValue };
         }
