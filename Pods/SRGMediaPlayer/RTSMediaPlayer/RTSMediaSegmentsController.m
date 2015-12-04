@@ -8,6 +8,7 @@
 #import <libextobjc/EXTScope.h>
 
 #import "RTSMediaPlayerController.h"
+#import "RTSMediaPlayerController+Private.h"
 #import "RTSMediaSegment.h"
 #import "RTSMediaSegmentsController.h"
 #import "RTSMediaPlayerLogger.h"
@@ -38,24 +39,18 @@ NSString * const RTSMediaPlaybackSegmentChangeUserSelectInfoKey = @"RTSMediaPlay
         return segments;
     }
     
-    NSMutableArray *sanitizedSegments = [NSMutableArray arrayWithArray:segments];
+    NSMutableArray *sanitizedSegments = [segments mutableCopy];
     
     NSArray *segmentIdentifiers = [segments valueForKeyPath:@"@distinctUnionOfObjects.segmentIdentifier"];
     for (NSString *identifier in segmentIdentifiers) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"segmentIdentifier == %@", identifier];
         NSArray *segmentsForIdentifier = [segments filteredArrayUsingPredicate:predicate];
         
-        // The full length is the longest available segment (might not start at 0)
+        // The full length is the longest available segment (might not start at 0). Always exists by construction
         id<RTSMediaSegment> fullLengthSegment = [segmentsForIdentifier sortedArrayUsingComparator:^NSComparisonResult(id<RTSMediaSegment> _Nonnull segment1, id<RTSMediaSegment> _Nonnull segment2) {
             return CMTimeCompare(segment1.timeRange.duration, segment2.timeRange.duration);
         }].lastObject;
-        
-        // No full length found. Remove the segment family
-        if (!fullLengthSegment) {
-            RTSMediaPlayerLogError(@"The segments %@ do not contain any full length and were thus discarded", segmentsForIdentifier);
-            [sanitizedSegments removeObjectsInArray:segmentsForIdentifier];
-            continue;
-        }
+        NSAssert(fullLengthSegment != nil, @"Expect a full-length by construction");
         [self markFullLengthSegment:fullLengthSegment];
         
         // Discard those segments which are not contained within the full length
@@ -71,7 +66,21 @@ NSString * const RTSMediaPlaybackSegmentChangeUserSelectInfoKey = @"RTSMediaPlay
         }
     }
     
-    return [sanitizedSegments copy];
+    // Preserve the initial ordering
+    return [sanitizedSegments sortedArrayUsingComparator:^NSComparisonResult(id<RTSMediaSegment>  _Nonnull segment1, id<RTSMediaSegment>  _Nonnull segment2) {
+        NSUInteger index1 = [segments indexOfObject:segment1];
+        NSUInteger index2 = [segments indexOfObject:segment2];
+        
+        if (index1 == index2) {
+            return NSOrderedSame;
+        }
+        else if (index1 < index2) {
+            return NSOrderedAscending;
+        }
+        else {
+            return NSOrderedDescending;
+        }
+    }];
 }
 
 + (void)markFullLengthSegment:(id<RTSMediaSegment>)segment
@@ -82,6 +91,13 @@ NSString * const RTSMediaPlaybackSegmentChangeUserSelectInfoKey = @"RTSMediaPlay
 + (BOOL)isFullLengthSegment:(id<RTSMediaSegment>)segment
 {
     return [objc_getAssociatedObject(segment, RTSMediaSegmentFullLengthKey) boolValue];
+}
+
+- (void)setPlayerController:(RTSMediaPlayerController *)playerController
+{
+    _playerController = playerController;
+    
+    playerController.segmentsController = self;
 }
 
 - (void)reloadSegmentsForIdentifier:(NSString *)identifier completionHandler:(void (^)(NSError *error))completionHandler
@@ -257,5 +273,56 @@ NSString * const RTSMediaPlaybackSegmentChangeUserSelectInfoKey = @"RTSMediaPlay
         [self.playerController playIdentifier:segment.segmentIdentifier];
     }
 }
+
+- (id<RTSMediaSegment>)parentSegmentForSegment:(id<RTSMediaSegment>)segment
+{
+    if (!segment || [RTSMediaSegmentsController isFullLengthSegment:segment]) {
+        return nil;
+    }
+    
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id<RTSMediaSegment>  _Nonnull otherSegment, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [RTSMediaSegmentsController isFullLengthSegment:otherSegment] && [segment.segmentIdentifier isEqualToString:otherSegment.segmentIdentifier];
+    }];
+    return [self.segments filteredArrayUsingPredicate:predicate].firstObject;
+}
+
+- (NSArray *)childSegmentsForSegment:(id<RTSMediaSegment>)segment
+{
+    if (!segment || ![RTSMediaSegmentsController isFullLengthSegment:segment]) {
+        return nil;
+    }
+    
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id<RTSMediaSegment>  _Nonnull otherSegment, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return ![RTSMediaSegmentsController isFullLengthSegment:otherSegment] && [segment.segmentIdentifier isEqualToString:otherSegment.segmentIdentifier];
+    }];
+    return [self.segments filteredArrayUsingPredicate:predicate];
+}
+
+- (NSArray *)siblingSegmentsForSegment:(id<RTSMediaSegment>)segment;
+{
+    if (!segment || [RTSMediaSegmentsController isFullLengthSegment:segment]) {
+        return nil;
+    }
+    
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id<RTSMediaSegment>  _Nonnull otherSegment, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return ![RTSMediaSegmentsController isFullLengthSegment:otherSegment] && [segment.segmentIdentifier isEqualToString:otherSegment.segmentIdentifier];
+    }];
+    return [self.segments filteredArrayUsingPredicate:predicate];
+}
+
+- (NSUInteger)indexForSegment:(id<RTSMediaSegment>)segment
+{
+    if (! segment || [RTSMediaSegmentsController isFullLengthSegment:segment]) {
+        return NSNotFound;
+    }
+    
+    return [[self siblingSegmentsForSegment:segment] indexOfObject:segment];
+}
+
+@end
+
+@implementation RTSMediaPlayerController (RTSMediaSegmentsController)
+
+@dynamic segmentsController;
 
 @end

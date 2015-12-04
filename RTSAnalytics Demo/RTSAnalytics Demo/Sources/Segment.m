@@ -27,4 +27,15 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p; name: %@; segmentIdentifier: %@; start: %@; duration: %@>",
+            [self class],
+            self,
+            self.name,
+            self.segmentIdentifier,
+            @(CMTimeGetSeconds(self.timeRange.start)).stringValue,
+            @(CMTimeGetSeconds(self.timeRange.duration)).stringValue];
+}
+
 @end

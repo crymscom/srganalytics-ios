@@ -116,7 +116,7 @@
 			case RTSMediaPlaybackStatePreparing:
 				[self notifyStreamTrackerEvent:CSStreamSenseBuffer
                                    mediaPlayer:mediaPlayerController
-                                       segment:trackingInfo.currentSegment];
+                                  trackingInfo:trackingInfo];
 				break;
 				
 			case RTSMediaPlaybackStateReady:
@@ -126,38 +126,38 @@
 			case RTSMediaPlaybackStateStalled:
 				[self notifyStreamTrackerEvent:CSStreamSenseBuffer
                                    mediaPlayer:mediaPlayerController
-                                       segment:trackingInfo.currentSegment];
+                                  trackingInfo:trackingInfo];
 				break;
 				
 			case RTSMediaPlaybackStatePlaying:
-                if (! trackingInfo.currentSegment || ! trackingInfo.skippingNextEvents) {
+                if (!trackingInfo.segment || !trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePlay
                                        mediaPlayer:mediaPlayerController
-                                           segment:trackingInfo.currentSegment];
+                                      trackingInfo:trackingInfo];
                 }
                 trackingInfo.skippingNextEvents = NO;
 				break;
                 
             case RTSMediaPlaybackStateSeeking:
-                if (! trackingInfo.currentSegment) {
+                if (!trackingInfo.segment) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
                                        mediaPlayer:mediaPlayerController
-                                           segment:nil];
+                                      trackingInfo:trackingInfo];
                 }
                 break;
                 
 			case RTSMediaPlaybackStatePaused:
-                if (! trackingInfo.skippingNextEvents) {
+                if (!trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
                                        mediaPlayer:mediaPlayerController
-                                           segment:trackingInfo.currentSegment];
+                                      trackingInfo:trackingInfo];
                 }
 				break;
 				
 			case RTSMediaPlaybackStateEnded:
 				[self notifyStreamTrackerEvent:CSStreamSenseEnd
                                    mediaPlayer:mediaPlayerController
-                                       segment:trackingInfo.currentSegment];
+                                  trackingInfo:trackingInfo];
 				break;
 				
 			case RTSMediaPlaybackStateIdle:
@@ -183,29 +183,30 @@
         return;
     }
     
+    // Backup previous values first
+    RTSMediaPlayerControllerTrackingInfo *previousTrackingInfo = [trackingInfo copy];
+    
+    // Update tracking information
     NSInteger value = [notification.userInfo[RTSMediaPlaybackSegmentChangeValueInfoKey] integerValue];
     BOOL wasUserSelected = [notification.userInfo[RTSMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
+    trackingInfo.segment = wasUserSelected ? notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey] : nil;
     
-    id<RTSMediaSegment> previousSegment = trackingInfo.currentSegment;
-    id<RTSMediaSegment> segment = notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey];
-    trackingInfo.currentSegment = (wasUserSelected ? segment : nil);
-    
-    RTSAnalyticsLogDebug(@"---> Segment changed: %@ (prev = %@, next = %@, selected = %@)", @(value), previousSegment, segment, wasUserSelected ? @"YES" : @"NO");
+    RTSAnalyticsLogDebug(@"---> Segment changed: %@ (prev = %@, next = %@, selected = %@)", @(value), previousTrackingInfo.segment,
+                         trackingInfo.segment, wasUserSelected ? @"YES" : @"NO");
     
     // According to its implementation, Comscore only sends an event if different from the previously sent one. We
-    // are therefore required to send a pause followed by a play when a segment end is detected (in which case
+    // are therefore required to send an end followed by a play when a segment end is detected (in which case
     // playback continues with another segment or with the full-length). Segment information is sent only if the
     // segment was selected by the user
     switch (value) {
         case RTSMediaPlaybackSegmentStart: {
             if (wasUserSelected) {
-                [self notifyStreamTrackerEvent:CSStreamSensePause
+                [self notifyStreamTrackerEvent:CSStreamSenseEnd
                                    mediaPlayer:segmentsController.playerController
-                                       segment:previousSegment];
+                                  trackingInfo:previousTrackingInfo];
                 [self notifyStreamTrackerEvent:CSStreamSensePlay
                                    mediaPlayer:segmentsController.playerController
-                                       segment:segment];
-                
+                                  trackingInfo:trackingInfo];
                 
                 trackingInfo.skippingNextEvents = YES;
             }
@@ -213,25 +214,25 @@
         }
             
         case RTSMediaPlaybackSegmentSwitch: {
-            if (wasUserSelected || previousSegment) {
-                [self notifyStreamTrackerEvent:CSStreamSensePause
+            if (wasUserSelected || previousTrackingInfo.segment) {
+                [self notifyStreamTrackerEvent:CSStreamSenseEnd
                                    mediaPlayer:segmentsController.playerController
-                                       segment:previousSegment];
+                                  trackingInfo:previousTrackingInfo];
                 [self notifyStreamTrackerEvent:CSStreamSensePlay
                                    mediaPlayer:segmentsController.playerController
-                                       segment:(wasUserSelected ? segment : nil)];
+                                  trackingInfo:trackingInfo];
             }
             break;
         }
             
         case RTSMediaPlaybackSegmentEnd: {
-            if (previousSegment) {
-                [self notifyStreamTrackerEvent:CSStreamSensePause
+            if (previousTrackingInfo.segment) {
+                [self notifyStreamTrackerEvent:CSStreamSenseEnd
                                    mediaPlayer:segmentsController.playerController
-                                       segment:previousSegment];
+                                  trackingInfo:previousTrackingInfo];
                 [self notifyStreamTrackerEvent:CSStreamSensePlay
                                    mediaPlayer:segmentsController.playerController
-                                       segment:nil];
+                                  trackingInfo:trackingInfo];
             }
             break;
         }
@@ -260,7 +261,7 @@
     
     RTSMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[mediaPlayerController.identifier];
     if (!trackingInfo) {
-        trackingInfo = [RTSMediaPlayerControllerTrackingInfo new];
+        trackingInfo = [[RTSMediaPlayerControllerTrackingInfo alloc] initWithMediaPlayerController:mediaPlayerController];
         self.trackingInfos[mediaPlayerController.identifier] = trackingInfo;
     }
     return trackingInfo;
@@ -278,7 +279,7 @@
 {
 	[self notifyStreamTrackerEvent:CSStreamSensePlay
                        mediaPlayer:mediaPlayerController
-                           segment:nil];
+                      trackingInfo:nil];
 }
 
 - (void)stopTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
@@ -286,11 +287,12 @@
     if (![self.streamsenseTrackers.allKeys containsObject:mediaPlayerController.identifier]) {
 		return;
     }
-	
-    [self discardTrackingInfoForMediaPlayerController:mediaPlayerController];
-	[self notifyStreamTrackerEvent:CSStreamSenseEnd
+
+    RTSMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
+    [self notifyStreamTrackerEvent:CSStreamSenseEnd
                        mediaPlayer:mediaPlayerController
-                           segment:nil];
+                      trackingInfo:trackingInfo];
+    [self discardTrackingInfoForMediaPlayerController:mediaPlayerController];
     
 	[CSComScore onUxInactive];
     
@@ -300,7 +302,7 @@
 
 - (void)notifyStreamTrackerEvent:(CSStreamSenseEventType)eventType
                      mediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
-                         segment:(id<RTSMediaSegment>)segment
+                    trackingInfo:(RTSMediaPlayerControllerTrackingInfo *)trackingInfo
 {
 	RTSMediaPlayerControllerStreamSenseTracker *tracker = self.streamsenseTrackers[mediaPlayerController.identifier];
 	if (!tracker) {
@@ -315,7 +317,7 @@
 	}
 	
     RTSAnalyticsLogVerbose(@"Notify stream tracker event %@ for media identifier `%@`", @(eventType), mediaPlayerController.identifier);
-    [tracker notify:eventType withSegment:segment];
+    [tracker notify:eventType withSegment:trackingInfo.segment customLabels:trackingInfo.labels];
 }
 
 - (void)notifyComScoreOfReadyToPlayEvent:(RTSMediaPlayerController *)mediaPlayerController
@@ -340,7 +342,7 @@
         }
         
         RTSMediaPlayerControllerStreamSenseTracker *tracker = self.streamsenseTrackers[key];
-        [tracker updateLabelsWithSegment:trackingInfo.currentSegment];
+        [tracker updateLabelsWithSegment:trackingInfo.segment customLabels:trackingInfo.labels];
     }
 }
 

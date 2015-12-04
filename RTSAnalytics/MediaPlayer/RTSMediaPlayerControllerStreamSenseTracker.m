@@ -62,9 +62,9 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return self;
 }
 
-- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment
+- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment customLabels:(NSDictionary *)customLabels
 {
-    [self updateLabelsWithSegment:segment];
+    [self updateLabelsWithSegment:segment customLabels:customLabels];
     
     if (segment && playerEvent == CSStreamSensePlay) {
         [self notify:playerEvent position:CMTimeGetSeconds(segment.timeRange.start) * 1000. labels:nil];
@@ -87,7 +87,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 #pragma mark - Private Labels methods
 
-- (void)updateLabelsWithSegment:(id<RTSMediaSegment>)segment
+- (void)updateLabelsWithSegment:(id<RTSMediaSegment>)segment customLabels:(NSDictionary *)customLabels
 {
 	// Labels
 	[self setLabel:@"ns_st_br" value:[self bitRate]];
@@ -110,15 +110,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     else {
         [[[self clip] labels] removeObjectForKey:@"ns_st_cs"];
     }
-	
-	NSString *duration = [self duration];
-    if (duration) {
-		[[self clip] setLabel:@"ns_st_cl" value:duration];
-    }
-    else {
-        [[[self clip] labels] removeObjectForKey:@"ns_st_cl"];
-    }
-	
+		
 	NSString *liveStream = [self liveStream];
     if (liveStream) {
 		[[self clip] setLabel:@"ns_st_li" value:liveStream];
@@ -126,7 +118,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     else {
         [[[self clip] labels] removeObjectForKey:@"ns_st_li"];
     }
-	
+    
 	NSString *srg_enc = [self srg_enc];
     if (srg_enc) {
 		[[self clip] setLabel:@"srg_enc" value:srg_enc];
@@ -170,6 +162,10 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 			[[self clip] setLabel:key value:obj];
 		}];
 	}
+    
+    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull label, NSString *  _Nonnull value, BOOL * _Nonnull stop) {
+        [[self clip] setLabel:label value:value];
+    }];
 }
 
 #pragma mark - Private helper methods
@@ -277,16 +273,6 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	
 	CGSize size = playerLayer.videoRect.size;
 	return [NSString stringWithFormat:@"%0.0fx%0.0f", size.width, size.height];
-}
-
-- (NSString *) duration
-{
-	if ([self.mediaPlayerController.player currentItem]) {
-		if ([self.mediaPlayerController.player status] == AVPlayerItemStatusReadyToPlay) {
-			return [NSString stringWithFormat:@"%ld", (long) CMTimeGetSeconds(self.mediaPlayerController.player.currentItem.asset.duration) * 1000];
-		}
-	}
-	return nil;
 }
 
 - (NSString *)timeshiftFromLiveInMilliseconds
