@@ -35,6 +35,10 @@
 //        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 //        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 //        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+//        XCTAssertNil(labels[@"ns_st_cl"]);
+//        XCTAssertNil(labels[@"ns_st_sl"]);
+//        XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+//        XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
 //        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
 //        AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
 //        XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
@@ -50,6 +54,10 @@
 //        
 //        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 //        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+//        XCTAssertNil(labels[@"ns_st_cl"]);
+//        XCTAssertNil(labels[@"ns_st_sl"]);
+//        XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+//        XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
 //        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
 //        AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
 //        XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
