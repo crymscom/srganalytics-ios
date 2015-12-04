@@ -189,20 +189,7 @@
     // Update tracking information
     NSInteger value = [notification.userInfo[RTSMediaPlaybackSegmentChangeValueInfoKey] integerValue];
     BOOL wasUserSelected = [notification.userInfo[RTSMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
-    
-    id<RTSMediaSegment> segment = wasUserSelected ? notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey] : nil;
-    if (segment) {
-        NSUInteger segmentIndex = [segmentsController indexForSegment:segment];
-        
-        trackingInfo.segment = segment;
-        trackingInfo.customLabels = @{ @"ns_st_pn" : (segmentIndex != NSNotFound) ? @(segmentIndex + 1).stringValue : @"1",
-                                       @"ns_st_tp" : @"1" };        // TODO
-    }
-    else {
-        trackingInfo.segment = nil;
-        trackingInfo.customLabels = @{ @"ns_st_pn" : @"1",
-                                       @"ns_st_tp" : @"1" };        // TODO
-    }
+    trackingInfo.segment = wasUserSelected ? notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey] : nil;
     
     RTSAnalyticsLogDebug(@"---> Segment changed: %@ (prev = %@, next = %@, selected = %@)", @(value), previousTrackingInfo.segment,
                          trackingInfo.segment, wasUserSelected ? @"YES" : @"NO");
@@ -274,7 +261,7 @@
     
     RTSMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[mediaPlayerController.identifier];
     if (!trackingInfo) {
-        trackingInfo = [RTSMediaPlayerControllerTrackingInfo new];
+        trackingInfo = [[RTSMediaPlayerControllerTrackingInfo alloc] initWithMediaPlayerController:mediaPlayerController];
         self.trackingInfos[mediaPlayerController.identifier] = trackingInfo;
     }
     return trackingInfo;
@@ -290,7 +277,6 @@
 
 - (void)startTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
 {
-    // TODO: Tracking info?
 	[self notifyStreamTrackerEvent:CSStreamSensePlay
                        mediaPlayer:mediaPlayerController
                       trackingInfo:nil];
@@ -302,7 +288,6 @@
 		return;
     }
 	
-    // TODO: Tracking info?
     [self discardTrackingInfoForMediaPlayerController:mediaPlayerController];
 	[self notifyStreamTrackerEvent:CSStreamSenseEnd
                        mediaPlayer:mediaPlayerController

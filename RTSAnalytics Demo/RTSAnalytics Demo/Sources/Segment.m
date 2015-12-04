@@ -27,4 +27,13 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p; name: %@; segmentIdentifier: %@>",
+            [self class],
+            self,
+            self.name,
+            self.segmentIdentifier];
+}
+
 @end
