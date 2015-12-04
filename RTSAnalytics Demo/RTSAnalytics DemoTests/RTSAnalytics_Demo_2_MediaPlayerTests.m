@@ -35,6 +35,10 @@
 //        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
 //        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 //        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+//        XCTAssertNil(labels[@"ns_st_cl"]);
+//        XCTAssertNil(labels[@"ns_st_sl"]);
+//        XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+//        XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
 //        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
 //        AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
 //        XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
@@ -50,6 +54,10 @@
 //        
 //        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
 //        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+//        XCTAssertNil(labels[@"ns_st_cl"]);
+//        XCTAssertNil(labels[@"ns_st_sl"]);
+//        XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+//        XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
 //        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
 //        AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
 //        XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
@@ -68,8 +76,11 @@
         NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
+        XCTAssertNotNil(labels[@"ns_st_cl"]);
+        XCTAssertNotNil(labels[@"ns_st_sl"]);
         XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
         XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+        XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
         AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
         XCTAssertNil(labels[@"srg_enc"]);
         XCTAssertNil(labels[@"srg_timeshift"], @"The parameter srg_timeshift must only sent for live streams");
@@ -86,8 +97,11 @@
         NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
         XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
+        XCTAssertNotNil(labels[@"ns_st_cl"]);
+        XCTAssertNotNil(labels[@"ns_st_sl"]);
         XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
         XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+        XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
         AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
         XCTAssertNil(labels[@"srg_enc"]);
         XCTAssertNil(labels[@"srg_timeshift"], @"The parameter srg_timeshift must only sent for live streams");
@@ -111,8 +125,11 @@
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
             XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+            XCTAssertNotNil(labels[@"ns_st_cl"]);
+            XCTAssertNotNil(labels[@"ns_st_sl"]);
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
             AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
             return YES;
         }];
@@ -143,8 +160,11 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
                 XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                XCTAssertNotNil(labels[@"ns_st_cl"]);
+                XCTAssertNotNil(labels[@"ns_st_sl"]);
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
                 
                 // Not finished yet
@@ -155,8 +175,11 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
                 XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                XCTAssertNotNil(labels[@"ns_st_cl"]);
+                XCTAssertNotNil(labels[@"ns_st_sl"]);
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 
                 // It is difficult to test this value since the DVR window varies with this test stream. Only check
                 // that the value is large enough, the probability is small that the test fails because the available
@@ -195,8 +218,11 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
                 XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                XCTAssertNotNil(labels[@"ns_st_cl"]);
+                XCTAssertNotNil(labels[@"ns_st_sl"]);
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 
                 // It is difficult to test this value since the DVR window varies with this test stream. Only check
                 // that the value is large enough, the probability is small that the test fails because the available
@@ -211,8 +237,11 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
                 XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                XCTAssertNotNil(labels[@"ns_st_cl"]);
+                XCTAssertNotNil(labels[@"ns_st_sl"]);
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
                 return YES;
             }
@@ -256,8 +285,11 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
             AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
@@ -288,8 +320,11 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
                 
                 // Not finished yet
@@ -300,8 +335,11 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
                 return YES;
             }
@@ -337,8 +375,11 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 17000.);
                 
                 // Not finished yet
@@ -349,8 +390,11 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 17000.);
                 return YES;
             }
@@ -410,8 +454,11 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
             AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
@@ -440,8 +487,11 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 
@@ -452,8 +502,11 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
                 return YES;
@@ -488,8 +541,11 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 5000.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
                 
@@ -500,8 +556,11 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 5000.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 return YES;
@@ -538,8 +597,11 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
             AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
@@ -568,8 +630,11 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 
@@ -580,8 +645,11 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
                 return YES;
@@ -615,8 +683,11 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
                 
@@ -627,8 +698,11 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"5000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"2");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 5000.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment2");
                 return YES;
@@ -668,8 +742,11 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
             AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
@@ -698,8 +775,11 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 
@@ -710,8 +790,11 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
                 return YES;
@@ -745,8 +828,11 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
                 
@@ -757,8 +843,11 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
                 return YES;
@@ -797,8 +886,11 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
             AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
@@ -827,8 +919,11 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 
                 // Not finished yet
@@ -838,8 +933,11 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
                 return YES;
             }
@@ -872,8 +970,11 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
                 
                 // Not finished yet
@@ -883,8 +984,11 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 return YES;
             }
@@ -917,8 +1021,7 @@
     [self openMediaPlayerAndPlaySegmentBeforeSeekingAtTime:3.];
 }
 
-// Expected behavior: When closing the player while a segment is being played, no end event is expected for the segment, only for the
-// full-length
+// Expected behavior: When closing the player while a full-length is being played, an end event is expected for the full-length
 - (void)testOpenMediaPlayerAndPlaySegmentWhileClosingThePlayer
 {
     // Initial full-length play when opening
@@ -933,8 +1036,70 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Close the player. Only an end event is expected for the full-length
+    {
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapViewWithAccessibilityLabel:@"Done"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    [tester waitForTimeInterval:2.0f];
+}
+
+// Expected behavior: When closing the player while a segment is being played, the end event is expected for the segment, not
+// the full-length, so that the play is balanced with an end
+- (void)testOpenMediaPlayerAndPlayFullLengthWhileClosingThePlayer
+{
+    // Initial full-length play when opening
+    {
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
         }];
@@ -962,8 +1127,11 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 
                 // Not finished yet
@@ -973,8 +1141,11 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
                 return YES;
             }
@@ -1001,9 +1172,12 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
-            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
             return YES;
         }];
         
@@ -1030,8 +1204,11 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
             AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
@@ -1054,8 +1231,11 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
             AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
@@ -1089,8 +1269,11 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
             AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
@@ -1113,8 +1296,11 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
             AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
@@ -1148,8 +1334,11 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
             AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
             XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
             return YES;
@@ -1178,8 +1367,11 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
                 
@@ -1190,8 +1382,11 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
                 return YES;
@@ -1219,8 +1414,11 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
             XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
             return YES;
         }];
