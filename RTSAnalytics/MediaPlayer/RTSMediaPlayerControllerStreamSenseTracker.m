@@ -163,9 +163,9 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 		}];
 	}
     
-    if (customLabels) {
-        [[self clip] setLabels:customLabels];
-    }
+    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull label, NSString *  _Nonnull value, BOOL * _Nonnull stop) {
+        [[self clip] setLabel:label value:value];
+    }];
 }
 
 #pragma mark - Private helper methods
