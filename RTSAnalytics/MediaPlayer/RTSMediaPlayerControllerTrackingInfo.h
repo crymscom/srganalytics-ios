@@ -31,9 +31,9 @@
 @property (nonatomic) id<RTSMediaSegment> segment;
 
 /**
- * Custom labels to be sent as well
+ * Labels which should be sent as well
  */
-@property (nonatomic, readonly) NSDictionary *customLabels;
+@property (nonatomic, readonly) NSDictionary *labels;
 
 /**
  *  Set to YES iff the next play / pause events must be skipped

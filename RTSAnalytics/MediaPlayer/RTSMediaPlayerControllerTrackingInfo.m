@@ -30,7 +30,7 @@
 
 #pragma mark Labels
 
-- (NSDictionary *)customLabels
+- (NSDictionary *)labels
 {
     RTSMediaSegmentsController *segmentsController = self.mediaPlayerController.segmentsController;
     
@@ -96,12 +96,12 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p; mediaPlayerController: %@; segment: %@; customLabels: %@; skippingNextEvents: %@>",
+    return [NSString stringWithFormat:@"<%@: %p; mediaPlayerController: %@; segment: %@; labels: %@; skippingNextEvents: %@>",
             [self class],
             self,
             self.mediaPlayerController,
             self.segment,
-            self.customLabels,
+            self.labels,
             self.skippingNextEvents ? @"YES" : @"NO"];
 }
 

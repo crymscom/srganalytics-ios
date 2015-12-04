@@ -316,7 +316,7 @@
 	}
 	
     RTSAnalyticsLogVerbose(@"Notify stream tracker event %@ for media identifier `%@`", @(eventType), mediaPlayerController.identifier);
-    [tracker notify:eventType withSegment:trackingInfo.segment customLabels:trackingInfo.customLabels];
+    [tracker notify:eventType withSegment:trackingInfo.segment customLabels:trackingInfo.labels];
 }
 
 - (void)notifyComScoreOfReadyToPlayEvent:(RTSMediaPlayerController *)mediaPlayerController
@@ -341,7 +341,7 @@
         }
         
         RTSMediaPlayerControllerStreamSenseTracker *tracker = self.streamsenseTrackers[key];
-        [tracker updateLabelsWithSegment:trackingInfo.segment customLabels:trackingInfo.customLabels];
+        [tracker updateLabelsWithSegment:trackingInfo.segment customLabels:trackingInfo.labels];
     }
 }
 
