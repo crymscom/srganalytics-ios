@@ -75,11 +75,20 @@
     }
     // Otherwise extract information from the player controller
     else {
-        NSInteger duration = CMTimeGetSeconds(self.mediaPlayerController.player.currentItem.asset.duration) * 1000;
-        return @{ @"ns_st_cl" : @(duration).stringValue,
-                  @"ns_st_sl" : @(duration).stringValue,
-                  @"ns_st_pn" : @"1",
-                  @"ns_st_tp" : @"1" };
+        NSMutableDictionary *labels = [NSMutableDictionary dictionary];
+        
+        // The player time might be invalid. Check first
+        CMTime durationTime = self.mediaPlayerController.player.currentItem.asset.duration;
+        if (CMTIME_IS_VALID(durationTime)) {
+            NSInteger duration = CMTimeGetSeconds(durationTime) * 1000;
+            labels[@"ns_st_cl"] = @(duration).stringValue;
+            labels[@"ns_st_sl"] = @(duration).stringValue;
+        }
+        
+        labels[@"ns_st_pn"] = @"1";
+        labels[@"ns_st_tp"] = @"1";
+        
+        return [labels copy];
     }
 }
 
