@@ -49,7 +49,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	_mediaPlayerController = mediaPlayerController;
 	_dataSource = dataSource;
 	
-	[self setLabel:@"ns_st_mp" value:@"RTSMediaPlayer"];
+	[self setLabel:@"ns_st_mp" value:@"SRGMediaPlayer"];
 	[self setLabel:@"ns_st_pu" value:RTSAnalyticsVersion()];
 	[self setLabel:@"ns_st_mv" value:RTSMediaPlayerVersion()];
 	[self setLabel:@"ns_st_it" value:@"c"];
