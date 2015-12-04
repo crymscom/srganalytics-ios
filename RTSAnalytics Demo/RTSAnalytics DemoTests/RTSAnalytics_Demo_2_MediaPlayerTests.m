@@ -1013,9 +1013,67 @@
     [self openMediaPlayerAndPlaySegmentBeforeSeekingAtTime:3.];
 }
 
-// Expected behavior: When closing the player while a segment is being played, no end event is expected for the segment, only for the
-// full-length
+// Expected behavior: When closing the player while a full-length is being played, an end event is expected for the full-length
 - (void)testOpenMediaPlayerAndPlaySegmentWhileClosingThePlayer
+{
+    // Initial full-length play when opening
+    {
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Close the player. Only an end event is expected for the full-length
+    {
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapViewWithAccessibilityLabel:@"Done"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    [tester waitForTimeInterval:2.0f];
+}
+
+// Expected behavior: When closing the player while a segment is being played, the end event is expected for the segment, not
+// the full-length, so that the play is balanced with an end
+- (void)testOpenMediaPlayerAndPlayFullLengthWhileClosingThePlayer
 {
     // Initial full-length play when opening
     {
@@ -1107,11 +1165,11 @@
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
             XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
-            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
-            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
             return YES;
         }];
         

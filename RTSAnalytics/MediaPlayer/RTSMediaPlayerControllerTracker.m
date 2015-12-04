@@ -287,11 +287,12 @@
     if (![self.streamsenseTrackers.allKeys containsObject:mediaPlayerController.identifier]) {
 		return;
     }
-	
-    [self discardTrackingInfoForMediaPlayerController:mediaPlayerController];
-	[self notifyStreamTrackerEvent:CSStreamSenseEnd
+
+    RTSMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
+    [self notifyStreamTrackerEvent:CSStreamSenseEnd
                        mediaPlayer:mediaPlayerController
-                      trackingInfo:nil];
+                      trackingInfo:trackingInfo];
+    [self discardTrackingInfoForMediaPlayerController:mediaPlayerController];
     
 	[CSComScore onUxInactive];
     
