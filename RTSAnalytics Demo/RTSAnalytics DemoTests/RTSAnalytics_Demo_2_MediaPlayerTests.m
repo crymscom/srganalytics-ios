@@ -68,6 +68,8 @@
         NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
+        XCTAssertNotNil(labels[@"ns_st_cl"]);
+        XCTAssertNotNil(labels[@"ns_st_sl"]);
         XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
         XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
         XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -87,6 +89,8 @@
         NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
         XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
+        XCTAssertNotNil(labels[@"ns_st_cl"]);
+        XCTAssertNotNil(labels[@"ns_st_sl"]);
         XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
         XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
         XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -113,6 +117,8 @@
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
             XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+            XCTAssertNotNil(labels[@"ns_st_cl"]);
+            XCTAssertNotNil(labels[@"ns_st_sl"]);
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -146,6 +152,8 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
                 XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                XCTAssertNotNil(labels[@"ns_st_cl"]);
+                XCTAssertNotNil(labels[@"ns_st_sl"]);
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -159,6 +167,8 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
                 XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                XCTAssertNotNil(labels[@"ns_st_cl"]);
+                XCTAssertNotNil(labels[@"ns_st_sl"]);
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -200,6 +210,8 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
                 XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                XCTAssertNotNil(labels[@"ns_st_cl"]);
+                XCTAssertNotNil(labels[@"ns_st_sl"]);
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -217,6 +229,8 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
                 XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+                XCTAssertNotNil(labels[@"ns_st_cl"]);
+                XCTAssertNotNil(labels[@"ns_st_sl"]);
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -263,6 +277,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -296,6 +312,8 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -309,6 +327,8 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -347,6 +367,8 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -360,6 +382,8 @@
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
                 XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -422,6 +446,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -453,6 +479,8 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -466,6 +494,8 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -503,6 +533,8 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -516,6 +548,8 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -555,6 +589,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -586,6 +622,8 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -599,6 +637,8 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -635,6 +675,8 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -648,6 +690,8 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"5000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"2");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -690,6 +734,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -721,6 +767,8 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -734,6 +782,8 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -770,6 +820,8 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -783,6 +835,8 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -824,6 +878,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -855,6 +911,8 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -867,6 +925,8 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -902,6 +962,8 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -914,6 +976,8 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -965,6 +1029,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -995,6 +1061,8 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -1007,6 +1075,8 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -1036,6 +1106,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -1066,6 +1138,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -1091,6 +1165,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"3");
@@ -1127,6 +1203,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -1152,6 +1230,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -1188,6 +1268,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -1219,6 +1301,8 @@
             if (numberOfNotificationsReceived == 1)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -1232,6 +1316,8 @@
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
                 XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
@@ -1262,6 +1348,8 @@
             }
             
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
             XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
             XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
