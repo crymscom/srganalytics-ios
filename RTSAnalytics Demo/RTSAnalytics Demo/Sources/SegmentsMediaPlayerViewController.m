@@ -57,7 +57,7 @@
 
 - (IBAction) playSecondSegment:(id)sender
 {
-    if (self.segmentsController.visibleSegments.count <= 2) {
+    if (self.segmentsController.visibleSegments.count < 2) {
         return;
     }
     
