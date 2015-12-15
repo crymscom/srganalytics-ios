@@ -5,7 +5,6 @@
 //
 
 #import "RTSMediaPlayerController+RTSAnalytics.h"
-
 #import "RTSMediaPlayerControllerTracker_private.h"
 #import <objc/runtime.h>
 

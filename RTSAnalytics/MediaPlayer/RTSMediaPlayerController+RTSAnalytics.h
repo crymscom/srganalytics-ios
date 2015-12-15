@@ -4,7 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "RTSMediaPlayerController.h"
+#import <SRGMediaPlayer/RTSMediaPlayerController.h>
 
 @interface RTSMediaPlayerController (RTSAnalytics)
 
