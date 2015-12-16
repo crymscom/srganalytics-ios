@@ -6,6 +6,9 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_include(<CocoaLumberjack/CocoaLumberjack.h>)
+#import <CocoaLumberjack/CocoaLumberjack.h>
+#else
 // From CocoaLumberjack's DDLog.h
 typedef NS_OPTIONS(NSUInteger, DDLogFlag) {
 	DDLogFlagError      = (1 << 0), // 0...00001
@@ -14,6 +17,7 @@ typedef NS_OPTIONS(NSUInteger, DDLogFlag) {
 	DDLogFlagDebug      = (1 << 3), // 0...01000
 	DDLogFlagVerbose    = (1 << 4), // 0...10000
 };
+#endif
 
 @interface RTSAnalyticsLogger : NSObject
 // Compatible with CocoaLumberjack's DDLog interface
