@@ -47,8 +47,8 @@
     
     // ns_st_cl: current length
     // ns_st_sl: segment length (same as ns_st_cl for a full-length)
-    // ns_st_pn: segment index, starting at 1 (send 1 for the full)
-    // ns_st_tp: number of segments (1 if no segments)
+    // ns_st_pn: segment index, starting at 1 and +1 for accounting the fullLength. (send 1 for the full)
+    // ns_st_tp: number of segments +1 for accounting the fullLength. (1 if no segments)
     
     // Extract information from the segments controller when available
     if (segment) {
@@ -59,7 +59,7 @@
             return @{ @"ns_st_cl" : @(duration).stringValue,
                       @"ns_st_sl" : @(duration).stringValue,
                       @"ns_st_pn" : @"1",
-                      @"ns_st_tp" : @(childSegments.count).stringValue };
+                      @"ns_st_tp" : @(childSegments.count + 1).stringValue };
         }
         else {
             id<RTSMediaSegment> fullLengthSegment = [segmentsController parentSegmentForSegment:segment];
@@ -67,10 +67,10 @@
             
             NSInteger segmentDuration = (NSInteger)(CMTimeGetSeconds(segment.timeRange.duration) * 1000);
             NSInteger fullLengthDuration = (NSInteger)(CMTimeGetSeconds(fullLengthSegment.timeRange.duration) * 1000);
-            return @{ @"ns_st_cl" : @(fullLengthDuration).stringValue,
+            return @{ @"ns_st_cl" : @(segmentDuration).stringValue, // This is insanely identical to the next line... See SPA-2162 (2015-12-15).
                       @"ns_st_sl" : @(segmentDuration).stringValue,
-                      @"ns_st_pn" : @([siblingSegments indexOfObject:segment] + 1).stringValue,
-                      @"ns_st_tp" : @(siblingSegments.count).stringValue };
+                      @"ns_st_pn" : @([siblingSegments indexOfObject:segment] + 1 + 1).stringValue,
+                      @"ns_st_tp" : @(siblingSegments.count + 1).stringValue };
         }
     }
     // Otherwise extract information from the player controller

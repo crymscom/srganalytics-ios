@@ -78,11 +78,16 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (long)currentPositionInMilliseconds
 {
-	CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
-    if (CMTIME_IS_INDEFINITE(currentTime)) {
-        return 0.0;
+    if (self.mediaPlayerController.isLive) {
+        return 0.0; // Unfortunately we cannot rely on the currentItem's currentTime for live streams to get 0.
     }
-	return (long) floor(CMTimeGetSeconds(currentTime) * 1000);
+    else {
+        CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
+        if (CMTIME_IS_INDEFINITE(currentTime)) {
+            return 0.0;
+        }
+        return (long) floor(CMTimeGetSeconds(currentTime) * 1000);
+    }
 }
 
 #pragma mark - Private Labels methods
