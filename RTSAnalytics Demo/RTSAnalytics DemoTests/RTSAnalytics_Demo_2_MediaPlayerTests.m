@@ -1436,4 +1436,93 @@
     [tester waitForTimeInterval:2.0f];
 }
 
+- (void)testOpenMediaPlayerAndManuallyPlaySecondPhysicalSegment
+{
+    // Initial full-length play when opening
+    {
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+            AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:8 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Go to 1st segment. Expect full-length end immediately followed by segment play
+    {
+        __block NSInteger numberOfNotificationsReceived = 0;
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            numberOfNotificationsReceived++;
+            
+            // End for the full-length
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+                
+                // Not finished yet
+                return NO;
+            }
+            // Play for the first segment
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"1200000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"1200000");
+                XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"0");
+                AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment2");
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }];
+        
+        [tester tapViewWithAccessibilityLabel:@"Segment #2"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Close
+    {
+        [tester tapViewWithAccessibilityLabel:@"Done"];
+    }
+    
+    [tester waitForTimeInterval:2.0f];
+}
+
 @end
