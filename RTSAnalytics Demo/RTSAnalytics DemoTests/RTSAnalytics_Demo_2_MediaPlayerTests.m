@@ -726,8 +726,7 @@
     [tester waitForTimeInterval:2.0f];
 }
 
-// Expected behavior: When playing a segment, selecting the same segment generates a end for the segment, followed by a play
-// for the same segment
+// Expected behavior: When playing a segment, selecting the same segment generates only a seek
 - (void)testOpenMediaPlayerAndSwitchToTheSameSegment
 {
     // Initial full-length play when opening
@@ -810,7 +809,7 @@
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
-    // Manually switch to the same segment. Expect segment end and play for the same segment
+    // Manually switch to the same segment. Expect pause and play for the same segment
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
@@ -824,10 +823,10 @@
             
             numberOfNotificationsReceived++;
             
-            // End for the first segment
+            // Pause for the segment
             if (numberOfNotificationsReceived == 1)
             {
-                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
                 XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
@@ -839,7 +838,7 @@
                 // Not finished yet
                 return NO;
             }
-            // Play for the full-length (even if there is a segment, it was not selected by the user)
+            // Play play for the segment
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
@@ -871,8 +870,8 @@
     [tester waitForTimeInterval:2.0f];
 }
 
-// Expected behavior: When playing a segment, seeking anywhere must emit a end event for the segment, followed by a play for the full-length
-- (void)openMediaPlayerAndPlaySegmentBeforeSeekingAtTime:(NSTimeInterval)time
+// Expected behavior: When playing a segment, seeking anywhere outside it must emit an end event for the segment, followed by a play for the full-length
+- (void)testOpenMediaPlayerAndPlaySegmentBeforeSeekingOutsideIt
 {
     // Initial full-length play when opening
     {
@@ -952,7 +951,58 @@
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
-    // Seek outside the segment. Expect segment end followed by full-length play
+    // Seek outside the segment. Expect segment pause followed by segment play (because of the seek)
+    {
+        __block NSInteger numberOfNotificationsReceived = 0;
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            numberOfNotificationsReceived++;
+            
+            // End for the segment
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
+                XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
+                
+                // Not finished yet
+                return NO;
+            }
+            // Play for the segment
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
+                XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }];
+        
+        [tester setValue:40. forSliderWithAccessibilityLabel:@"slider"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Now outside the segment. Expect segment end followed by full-length play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
@@ -980,7 +1030,7 @@
                 // Not finished yet
                 return NO;
             }
-            // Play for the full-length
+            // Play for the segment
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
@@ -998,8 +1048,8 @@
             }
         }];
         
-        [tester setValue:time forSliderWithAccessibilityLabel:@"slider"];
-                
+        [tester setValue:40. forSliderWithAccessibilityLabel:@"slider"];
+        
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
@@ -1011,14 +1061,144 @@
     [tester waitForTimeInterval:2.0f];
 }
 
-- (void)testOpenMediaPlayerAndPlaySegmentBeforeSeekingOutsideIt
-{
-    [self openMediaPlayerAndPlaySegmentBeforeSeekingAtTime:40.];
-}
-
+// Expected behavior: When playing a segment, seeking anywhere inside it must emit a pause / play event pair for the segment
 - (void)testOpenMediaPlayerAndPlaySegmentBeforeSeekingInsideIt
 {
-    [self openMediaPlayerAndPlaySegmentBeforeSeekingAtTime:3.];
+    // Initial full-length play when opening
+    {
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Only consider relevant events
+            if (!labels[@"clip_type"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
+            XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+            XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+            AssertIsWithin1Second(labels[@"ns_st_po"], 0.);
+            XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+            return YES;
+        }];
+        
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Go to the segment. Expect full-length end immediately followed by segment play
+    {
+        __block NSInteger numberOfNotificationsReceived = 0;
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            numberOfNotificationsReceived++;
+            
+            // End for the full-length
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"full_length");
+                
+                // Not finished yet
+                return NO;
+            }
+            // Play for the first segment
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
+                XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }];
+        
+        [tester tapViewWithAccessibilityLabel:@"Segment #1"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Seek inside the segment. Expect segment pause followed by segment play
+    {
+        __block NSInteger numberOfNotificationsReceived = 0;
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            numberOfNotificationsReceived++;
+            
+            // End for the segment
+            if (numberOfNotificationsReceived == 1)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
+                XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
+                
+                // Not finished yet
+                return NO;
+            }
+            // Play for the full-length
+            else if (numberOfNotificationsReceived == 2)
+            {
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+                XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
+                XCTAssertEqualObjects(labels[@"ns_st_sl"], @"15000");
+                XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_pn"], @"1");
+                XCTAssertEqualObjects(labels[@"ns_st_tp"], @"1");
+                XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }];
+        
+        [tester setValue:4. forSliderWithAccessibilityLabel:@"slider"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
+    
+    // Close
+    {
+        [tester tapViewWithAccessibilityLabel:@"Done"];
+    }
+    
+    [tester waitForTimeInterval:2.0f];
 }
 
 // Expected behavior: When closing the player while a full-length is being played, an end event is expected for the full-length
