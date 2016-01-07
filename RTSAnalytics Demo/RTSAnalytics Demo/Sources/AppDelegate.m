@@ -58,8 +58,7 @@
 
 - (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(Segment *)segment
 {
-    // Add a clip_type custom field to check whether we are in a segment or in the full-length in tests
-    return @{ @"clip_type" : segment ? segment.name : @"full_length" };
+    return @{ @"clip_name" : segment ? segment.name : @"no_name" };
 }
 
 @end

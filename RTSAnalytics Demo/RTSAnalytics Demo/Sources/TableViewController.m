@@ -102,11 +102,11 @@
     {
         urlString = @"http://srgssruni22ach-lh.akamaihd.net/i/enc22auni_ch@195192/master.m3u8";
     }
-    else if ([identifier hasSuffix:@"AODCell"])
+    else if ([identifier hasSuffix:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
     {
         urlString = @"http://srfaodorigin-vh.akamaihd.net/i/world/echo-der-zeit/7ea975b2-fafe-487b-a6a5-9b7d2461ff05.,q10,q20,.mp4.csmil/master.m3u8";
     }
-    else if ([identifier hasSuffix:@"AODS1Cell"])
+    else if ([identifier hasSuffix:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell_2"])
     {
         urlString = @"http://srfaodorigin-vh.akamaihd.net/i/world/echo-der-zeit/5cc0475c-0f87-4c62-85d3-c43857094543.,q10,q20,.mp4.csmil/master.m3u8";
     }
@@ -121,12 +121,12 @@
 
 - (void) segmentsController:(RTSMediaSegmentsController *)controller segmentsForIdentifier:(NSString *)identifier withCompletionHandler:(RTSMediaSegmentsCompletionHandler)completionHandler
 {
-    Segment *fullLengthSegment = [[Segment alloc] initWithIdentifier:identifier name:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-    fullLengthSegment.fullLength = YES;
-    fullLengthSegment.visible = NO;
-    
     if ([identifier rangeOfString:@"MultipleSegments"].length != 0)
     {
+        Segment *fullLengthSegment = [[Segment alloc] initWithIdentifier:identifier name:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
+        fullLengthSegment.fullLength = YES;
+        fullLengthSegment.visible = NO;
+        
         const NSTimeInterval segment1StartTime = 2.;
         const NSTimeInterval segment1Duration = 3.;
         
@@ -148,19 +148,18 @@
         
         completionHandler(@[fullLengthSegment, segment1, segment2, segment3], nil);
     }
-    else if ([identifier containsString:@"AOD"] && ([identifier rangeOfString:@"MultiplePhysicalSegments"].length != 0))
+    else if ([identifier isEqualToString:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
     {
-        fullLengthSegment = [[Segment alloc] initWithIdentifier:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell" name:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-        fullLengthSegment.fullLength = YES;
-        fullLengthSegment.visible = NO;
-        
-        Segment *segment1 = [[Segment alloc] initWithIdentifier:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell" name:@"segment1" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-        Segment *segment2 = [[Segment alloc] initWithIdentifier:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODS1Cell" name:@"segment2" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(1200., 1.))];
-        
-        completionHandler(@[fullLengthSegment, segment1, segment2], nil);
+        Segment *fullLength1 = [[Segment alloc] initWithIdentifier:identifier name:@"full_length1" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
+        Segment *fullLength2 = [[Segment alloc] initWithIdentifier:[identifier stringByAppendingString:@"_2"] name:@"full_length2" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(1200., 1.))];
+        completionHandler(@[fullLength1, fullLength2], nil);
     }
     else
     {
+        Segment *fullLengthSegment = [[Segment alloc] initWithIdentifier:identifier name:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
+        fullLengthSegment.fullLength = YES;
+        fullLengthSegment.visible = NO;
+        
         CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(15., 1.));
         Segment *segment = [[Segment alloc] initWithIdentifier:identifier name:@"segment" timeRange:timeRange];
         completionHandler(@[fullLengthSegment, segment], nil);
