@@ -130,7 +130,7 @@
 				break;
 				
 			case RTSMediaPlaybackStatePlaying:
-                if (!trackingInfo.segment || !trackingInfo.skippingNextEvents) {
+                if (!trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePlay
                                        mediaPlayer:mediaPlayerController
                                       trackingInfo:trackingInfo];
@@ -139,7 +139,7 @@
 				break;
                 
             case RTSMediaPlaybackStateSeeking:
-                if (!trackingInfo.segment) {
+                if (!trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
                                        mediaPlayer:mediaPlayerController
                                       trackingInfo:trackingInfo];
