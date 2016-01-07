@@ -130,7 +130,7 @@
 				break;
 				
 			case RTSMediaPlaybackStatePlaying:
-                if (!trackingInfo.skippingNextEvents) {
+                if (!trackingInfo.segment || !trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePlay
                                        mediaPlayer:mediaPlayerController
                                       trackingInfo:trackingInfo];
@@ -139,7 +139,7 @@
 				break;
                 
             case RTSMediaPlaybackStateSeeking:
-                if (!trackingInfo.skippingNextEvents) {
+                if (!trackingInfo.segment) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
                                        mediaPlayer:mediaPlayerController
                                       trackingInfo:trackingInfo];
@@ -214,9 +214,7 @@
         }
             
         case RTSMediaPlaybackSegmentSwitch: {
-            // Do not send any end / play event pair if switching to the segment currently being played
-            if ((wasUserSelected || previousTrackingInfo.segment)
-                    && trackingInfo.segment != previousTrackingInfo.segment) {
+            if (wasUserSelected || previousTrackingInfo.segment) {
                 [self notifyStreamTrackerEvent:CSStreamSenseEnd
                                    mediaPlayer:segmentsController.playerController
                                   trackingInfo:previousTrackingInfo];
