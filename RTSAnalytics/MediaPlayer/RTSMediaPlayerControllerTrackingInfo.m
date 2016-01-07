@@ -32,25 +32,15 @@
 
 - (NSDictionary *)labels
 {
-    RTSMediaSegmentsController *segmentsController = self.mediaPlayerController.segmentsController;
-    
-    // If no segment has been provided, find the full-length currently being played (if a segment controller is available)
-    id<RTSMediaSegment> segment = self.segment;
-    if (!segment && segmentsController) {
-        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id<RTSMediaSegment>  _Nonnull segment, NSDictionary<NSString *,id> * _Nullable bindings) {
-            return [self.mediaPlayerController.identifier isEqualToString:segment.segmentIdentifier]
-            && [RTSMediaSegmentsController isFullLengthSegment:segment]
-            && CMTimeRangeContainsTime(segment.timeRange, self.mediaPlayerController.player.currentTime);
-        }];
-        segment = [segmentsController.segments filteredArrayUsingPredicate:predicate].firstObject;
-    }
-    
     // ns_st_pn: segment index, starting at 1 (send 1 for the full)
     // ns_st_tp: number of segments (1 if no segments)
     // Do not set ns_st_cl and ns_st_sl as it was the case in the past! It is the responsability of the IL Data Provider, as in Android.
     
     // Extract information from the segments controller when available
+    id<RTSMediaSegment> segment = self.segment;
     if (segment) {
+        RTSMediaSegmentsController *segmentsController = self.mediaPlayerController.segmentsController;
+        
         if ([RTSMediaSegmentsController isFullLengthSegment:segment]) {
             NSArray *childSegments = [segmentsController childSegmentsForSegment:segment];
             return @{ @"ns_st_pn" : @"1",
@@ -68,6 +58,28 @@
         labels[@"ns_st_pn"] = @"1";
         labels[@"ns_st_tp"] = @"1";
         return [labels copy];
+    }
+}
+
+- (id<RTSMediaSegment>)segment
+{
+    if (_segment) {
+        return _segment;
+    }
+    else {
+        // If no segment has been provided, find the full-length currently being played (if a segment controller is available)
+        RTSMediaSegmentsController *segmentsController = self.mediaPlayerController.segmentsController;
+        if (segmentsController) {
+            NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id<RTSMediaSegment>  _Nonnull segment, NSDictionary<NSString *,id> * _Nullable bindings) {
+                return [self.mediaPlayerController.identifier isEqualToString:segment.segmentIdentifier]
+                && [RTSMediaSegmentsController isFullLengthSegment:segment]
+                && CMTimeRangeContainsTime(segment.timeRange, self.mediaPlayerController.player.currentTime);
+            }];
+            return [segmentsController.segments filteredArrayUsingPredicate:predicate].firstObject;
+        }
+        else {
+            return nil;
+        }
     }
 }
 
