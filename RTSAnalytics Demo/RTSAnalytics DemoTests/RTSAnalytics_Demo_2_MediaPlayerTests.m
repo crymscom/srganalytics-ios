@@ -726,8 +726,7 @@
     [tester waitForTimeInterval:2.0f];
 }
 
-// Expected behavior: When playing a segment, selecting the same segment generates a end for the segment, followed by a play
-// for the same segment
+// Expected behavior: When playing a segment, selecting the same segment generates only a seek
 - (void)testOpenMediaPlayerAndSwitchToTheSameSegment
 {
     // Initial full-length play when opening
@@ -810,7 +809,7 @@
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
-    // Manually switch to the same segment. Expect segment end and play for the same segment
+    // Manually switch to the same segment. Expect pause and play for the same segment
     {
         __block NSInteger numberOfNotificationsReceived = 0;
         [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
@@ -824,10 +823,10 @@
             
             numberOfNotificationsReceived++;
             
-            // End for the first segment
+            // Pause for the segment
             if (numberOfNotificationsReceived == 1)
             {
-                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
                 XCTAssertEqualObjects(labels[@"ns_st_cl"], @"3600000");
                 XCTAssertEqualObjects(labels[@"ns_st_sl"], @"3000");
                 XCTAssertEqualObjects(labels[@"ns_st_cn"], @"1");
@@ -839,7 +838,7 @@
                 // Not finished yet
                 return NO;
             }
-            // Play for the full-length (even if there is a segment, it was not selected by the user)
+            // Play play for the segment
             else if (numberOfNotificationsReceived == 2)
             {
                 XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
@@ -870,7 +869,6 @@
     
     [tester waitForTimeInterval:2.0f];
 }
-
 
 // Expected behavior: When playing a segment, seeking anywhere outside it must emit an end event for the segment, followed by a play for the full-length
 - (void)testOpenMediaPlayerAndPlaySegmentBeforeSeekingOutsideIt
