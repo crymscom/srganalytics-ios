@@ -23,4 +23,9 @@
  */
 @property (nonatomic, getter=isSkippingNextEvents) BOOL skippingNextEvents;
 
+/**
+ *  Set to YES iff the user has selected a segment
+ */
+@property (nonatomic, getter=isUserSelected) BOOL userSelected;
+
 @end

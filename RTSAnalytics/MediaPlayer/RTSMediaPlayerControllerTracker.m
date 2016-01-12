@@ -135,14 +135,18 @@
                                        mediaPlayer:mediaPlayerController
                                            segment:trackingInfo.currentSegment];
                 }
+                
+                // Reset event inhibition flags when playback resumes
                 trackingInfo.skippingNextEvents = NO;
+                trackingInfo.userSelected = NO;
 				break;
                 
             case RTSMediaPlaybackStateSeeking:
-                if (! trackingInfo.currentSegment) {
+                // Skip seeks because of the user actively selecting a segment 
+                if (! trackingInfo.userSelected) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
                                        mediaPlayer:mediaPlayerController
-                                           segment:nil];
+                                           segment:trackingInfo.currentSegment];
                 }
                 break;
                 
@@ -189,6 +193,7 @@
     id<RTSMediaSegment> previousSegment = trackingInfo.currentSegment;
     id<RTSMediaSegment> segment = notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey];
     trackingInfo.currentSegment = (wasUserSelected ? segment : nil);
+    trackingInfo.userSelected = wasUserSelected;
     
     RTSAnalyticsLogDebug(@"---> Segment changed: %@ (prev = %@, next = %@, selected = %@)", @(value), previousSegment, segment, wasUserSelected ? @"YES" : @"NO");
     
@@ -205,7 +210,6 @@
                 [self notifyStreamTrackerEvent:CSStreamSensePlay
                                    mediaPlayer:segmentsController.playerController
                                        segment:segment];
-                
                 
                 trackingInfo.skippingNextEvents = YES;
             }
