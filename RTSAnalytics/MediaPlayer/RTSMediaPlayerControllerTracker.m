@@ -193,13 +193,13 @@
     RTSAnalyticsLogDebug(@"---> Segment changed: %@ (prev = %@, next = %@, selected = %@)", @(value), previousSegment, segment, wasUserSelected ? @"YES" : @"NO");
     
     // According to its implementation, Comscore only sends an event if different from the previously sent one. We
-    // are therefore required to send a pause followed by a play when a segment end is detected (in which case
+    // are therefore required to send an end followed by a play when a segment end is detected (in which case
     // playback continues with another segment or with the full-length). Segment information is sent only if the
     // segment was selected by the user
     switch (value) {
         case RTSMediaPlaybackSegmentStart: {
             if (wasUserSelected) {
-                [self notifyStreamTrackerEvent:CSStreamSensePause
+                [self notifyStreamTrackerEvent:CSStreamSenseEnd
                                    mediaPlayer:segmentsController.playerController
                                        segment:previousSegment];
                 [self notifyStreamTrackerEvent:CSStreamSensePlay
@@ -214,7 +214,7 @@
             
         case RTSMediaPlaybackSegmentSwitch: {
             if (wasUserSelected || previousSegment) {
-                [self notifyStreamTrackerEvent:CSStreamSensePause
+                [self notifyStreamTrackerEvent:CSStreamSenseEnd
                                    mediaPlayer:segmentsController.playerController
                                        segment:previousSegment];
                 [self notifyStreamTrackerEvent:CSStreamSensePlay
@@ -226,7 +226,7 @@
             
         case RTSMediaPlaybackSegmentEnd: {
             if (previousSegment) {
-                [self notifyStreamTrackerEvent:CSStreamSensePause
+                [self notifyStreamTrackerEvent:CSStreamSenseEnd
                                    mediaPlayer:segmentsController.playerController
                                        segment:previousSegment];
                 [self notifyStreamTrackerEvent:CSStreamSensePlay
