@@ -150,9 +150,9 @@
     }
     else if ([identifier isEqualToString:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
     {
-        Segment *fullLength1 = [[Segment alloc] initWithIdentifier:identifier name:@"full_length1" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-        Segment *fullLength2 = [[Segment alloc] initWithIdentifier:[identifier stringByAppendingString:@"_2"] name:@"full_length2" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(1200., 1.))];
-        completionHandler(@[fullLength1, fullLength2], nil);
+        Segment *physicalSegment1 = [[Segment alloc] initWithIdentifier:identifier name:@"physical_segment1" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
+        Segment *physicalSegment2 = [[Segment alloc] initWithIdentifier:[identifier stringByAppendingString:@"_2"] name:@"physical_segment2" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(1200., 1.))];
+        completionHandler(@[physicalSegment1, physicalSegment2], nil);
     }
     else
     {
