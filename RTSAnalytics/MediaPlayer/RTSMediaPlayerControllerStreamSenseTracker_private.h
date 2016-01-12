@@ -53,16 +53,14 @@
  *
  *  @param playerEvent the event type corresponding to the media player controller playback state.
  *  @param segment the segment information to use (nil for the full-length)
- *  @param customLabels any additional labels (will override existing labels)
  */
-- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment customLabels:(NSDictionary *)customLabels;
+- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment;
 
 /**
  *  Update labels for a given segment. Is automatically performed when calling -notify:withSegment:
  *
  *  @param segment the segment information to use (nil for the full-length)
- *  @param customLabels any additional labels (will override existing labels)
  */
-- (void)updateLabelsWithSegment:(id<RTSMediaSegment>)segment customLabels:(NSDictionary *)customLabels;
+- (void)updateLabelsWithSegment:(id<RTSMediaSegment>)segment;
 
 @end

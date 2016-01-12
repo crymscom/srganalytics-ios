@@ -6,38 +6,37 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol RTSMediaSegment;
 @class RTSMediaPlayerController;
+@protocol RTSMediaSegment;
 
 /**
  *  Collect data related to a media player controller being tracked
  */
-@interface RTSMediaPlayerControllerTrackingInfo : NSObject <NSCopying>
+@interface RTSMediaPlayerControllerTrackingInfo : NSObject
 
 /**
- *  Create an instance for the specified player controller (mandatory)
+ *  Create a tracking info instance bound to the specified media player controller
  */
-- (instancetype)initWithMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController;
 
 /**
- *  The media player which the tracking info is related to
+ *  The media player controller to which the information is related to
  */
 @property (nonatomic, readonly, weak) RTSMediaPlayerController *mediaPlayerController;
 
 /**
- *  The current segment played by the controller. Might be set to nil, in which case the currently playing full-length
- *  is considered instead
+ *  The current segment played by the controller, nil if none
  */
-@property (nonatomic) id<RTSMediaSegment> segment;
-
-/**
- * Labels which should be sent as well
- */
-@property (nonatomic, readonly) NSDictionary *labels;
+@property (nonatomic) id<RTSMediaSegment> currentSegment;
 
 /**
  *  Set to YES iff the next play / pause events must be skipped
  */
 @property (nonatomic, getter=isSkippingNextEvents) BOOL skippingNextEvents;
+
+/**
+ *  Set to YES iff the user has selected a segment
+ */
+@property (nonatomic, getter=isUserSelected) BOOL userSelected;
 
 @end
