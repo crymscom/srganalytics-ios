@@ -43,8 +43,8 @@
         
         if ([RTSMediaSegmentsController isFullLengthSegment:segment]) {
             NSArray *childSegments = [segmentsController childSegmentsForSegment:segment];
-            return @{ @"ns_st_pn" : @"1", // starts at 1 anyway
-                      @"ns_st_tp" : @(childSegments.count + 1).stringValue }; // starts at 1 anyway
+            return @{ @"ns_st_pn" : @"1", // starts at 1 because 'segment' is fullLength
+                      @"ns_st_tp" : @(childSegments.count + 1).stringValue }; // starts at 1 because 'segment' is fullLength
         }
         else {
             NSUInteger fullLengthIncrement = ([segmentsController parentSegmentForSegment:segment] != nil) ? 1 : 0;
