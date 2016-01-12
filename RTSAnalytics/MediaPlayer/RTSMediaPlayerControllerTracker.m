@@ -13,6 +13,7 @@
 
 #import <SRGMediaPlayer/RTSMediaPlayerController.h>
 #import <SRGMediaPlayer/RTSMediaSegmentsController.h>
+#import <SRGMediaPlayer/RTSMediaSegment.h>
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 
 #import <comScore-iOS-SDK-RTS/CSComScore.h>
@@ -264,7 +265,7 @@
     
     RTSMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[mediaPlayerController.identifier];
     if (!trackingInfo) {
-        trackingInfo = [RTSMediaPlayerControllerTrackingInfo new];
+        trackingInfo = [[RTSMediaPlayerControllerTrackingInfo alloc] initWithMediaPlayerController:mediaPlayerController];
         self.trackingInfos[mediaPlayerController.identifier] = trackingInfo;
     }
     return trackingInfo;
@@ -275,6 +276,14 @@
     [self.trackingInfos removeObjectForKey:mediaPlayerController.identifier];
 }
 
++ (id<RTSMediaSegment>)fullLengthSegmentForMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+{
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id<RTSMediaSegment>  _Nonnull segment, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [mediaPlayerController.identifier isEqualToString:segment.segmentIdentifier]
+            && [RTSMediaSegmentsController isFullLengthSegment:segment];
+    }];
+    return [mediaPlayerController.segmentsController.segments filteredArrayUsingPredicate:predicate].firstObject;
+}
 
 #pragma mark - Stream tracking
 
@@ -320,6 +329,11 @@
 	}
 	
     RTSAnalyticsLogVerbose(@"Notify stream tracker event %@ for media identifier `%@`", @(eventType), mediaPlayerController.identifier);
+
+    // If no segment has been provided, send full-length information
+    if (!segment) {
+        segment = [RTSMediaPlayerControllerTracker fullLengthSegmentForMediaPlayerController:mediaPlayerController];
+    }
     [tracker notify:eventType withSegment:segment];
 }
 
@@ -344,8 +358,9 @@
             continue;
         }
         
+        id<RTSMediaSegment> segment = trackingInfo.currentSegment ?: [RTSMediaPlayerControllerTracker fullLengthSegmentForMediaPlayerController:trackingInfo.mediaPlayerController];
         RTSMediaPlayerControllerStreamSenseTracker *tracker = self.streamsenseTrackers[key];
-        [tracker updateLabelsWithSegment:trackingInfo.currentSegment];
+        [tracker updateLabelsWithSegment:segment];
     }
 }
 
