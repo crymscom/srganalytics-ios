@@ -287,10 +287,11 @@
 		return;
     }
 	
-    [self discardTrackingInfoForMediaPlayerController:mediaPlayerController];
+    RTSMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[mediaPlayerController.identifier];
 	[self notifyStreamTrackerEvent:CSStreamSenseEnd
                        mediaPlayer:mediaPlayerController
-                           segment:nil];
+                           segment:trackingInfo.currentSegment];
+    [self discardTrackingInfoForMediaPlayerController:mediaPlayerController];
     
 	[CSComScore onUxInactive];
     

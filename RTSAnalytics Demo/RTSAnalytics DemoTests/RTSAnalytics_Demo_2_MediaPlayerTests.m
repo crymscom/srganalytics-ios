@@ -695,7 +695,7 @@
             // Pause for the first segment
             if (numberOfNotificationsReceived == 1)
             {
-                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
                 AssertIsWithin1Second(labels[@"ns_st_po"], 2000.);
                 XCTAssertEqualObjects(labels[@"clip_type"], @"segment1");
                 
@@ -808,24 +808,6 @@
             
             numberOfNotificationsReceived++;
             
-            // Pause for the segment
-            if (numberOfNotificationsReceived == 1)
-            {
-                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-                XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
-                
-                // Not finished yet
-                return NO;
-            }
-            // Play for the segment
-            else if (numberOfNotificationsReceived == 2)
-            {
-                XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-                XCTAssertEqualObjects(labels[@"clip_type"], @"segment");
-                
-                // Not finished yet
-                return NO;
-            }
             // End for the segment
             if (numberOfNotificationsReceived == 3)
             {
@@ -977,7 +959,7 @@
 
 // Expected behavior: When closing the player while a segment is being played, no end event is expected for the segment, only for the
 // full-length
-- (void)testOpenMediaPlayerAndPlaySegmentWhileClosingThePlayer
+- (void)testOpenMediaPlayerAndPlayFullLengthWhileClosingThePlayer
 {
     // Initial full-length play when opening
     {
@@ -1023,9 +1005,9 @@
     [tester waitForTimeInterval:2.0f];
 }
 
-// Expected behavior: When closing the player while a segment is being played, the end event is expected for the segment, not
-// the full-length, so that the play is balanced with an end
-- (void)testOpenMediaPlayerAndPlayFullLengthWhileClosingThePlayer
+// Expected behavior: When closing the player while a segment is being played, no end event is expected for the segment, only for the
+// full-length
+- (void)testOpenMediaPlayerAndPlaySegmentWhileClosingThePlayer
 {
     // Initial full-length play when opening
     {
