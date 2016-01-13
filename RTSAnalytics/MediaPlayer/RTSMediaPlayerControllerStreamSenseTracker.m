@@ -9,14 +9,13 @@
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 #import "RTSAnalyticsLogger.h"
 #import "RTSAnalyticsVersion_private.h"
-#import "RTSMediaSegment.h"
 
 #import <comScore-iOS-SDK-RTS/CSStreamSense.h>
 #import <comScore-iOS-SDK-RTS/CSStreamSensePlaylist.h>
 #import <comScore-iOS-SDK-RTS/CSStreamSenseClip.h>
 
 #import <SRGMediaPlayer/RTSMediaPlayerView.h>
-#import <SRGMediaPlayer/RTSMediaPlayerVersion.h>
+#import <SRGMediaPlayer/SRGMediaPlayer.h>
 
 static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
@@ -66,7 +65,8 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 {
     [self updateLabelsWithSegment:segment];
     
-    if (segment && playerEvent == CSStreamSensePlay) {
+    // Logical segment: Return the segment beginning
+    if (playerEvent == CSStreamSensePlay && segment && ![RTSMediaSegmentsController isFullLengthSegment:segment]) {
         [self notify:playerEvent position:CMTimeGetSeconds(segment.timeRange.start) * 1000. labels:nil];
     }
     else {
