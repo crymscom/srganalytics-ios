@@ -279,8 +279,7 @@
 + (id<RTSMediaSegment>)fullLengthSegmentForMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
 {
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id<RTSMediaSegment>  _Nonnull segment, NSDictionary<NSString *,id> * _Nullable bindings) {
-        return [mediaPlayerController.identifier isEqualToString:segment.segmentIdentifier]
-            && [RTSMediaSegmentsController isFullLengthSegment:segment];
+        return [mediaPlayerController.identifier isEqualToString:segment.segmentIdentifier] && !segment.logical;
     }];
     return [mediaPlayerController.segmentsController.segments filteredArrayUsingPredicate:predicate].firstObject;
 }

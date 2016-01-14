@@ -66,7 +66,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     [self updateLabelsWithSegment:segment];
     
     // Logical segment: Return the segment beginning
-    if (playerEvent == CSStreamSensePlay && segment && ![RTSMediaSegmentsController isFullLengthSegment:segment]) {
+    if (playerEvent == CSStreamSensePlay && segment && segment.logical) {
         [self notify:playerEvent position:CMTimeGetSeconds(segment.timeRange.start) * 1000. labels:nil];
     }
     else {

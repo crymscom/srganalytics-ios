@@ -6,7 +6,7 @@ platform :ios, '7.0'
 workspace 'SRGAnalytics.xcworkspace'
 
 pod 'comScore-iOS-SDK-RTS', '3.1509.15'
-pod 'SRGMediaPlayer', '~> 1.5.18'
+pod 'SRGMediaPlayer', '~> 1.6'
 
 xcodeproj 'SRGAnalytics', 'Test' => :debug
 
@@ -22,12 +22,12 @@ target 'SRGAnalytics Demo', :exclusive => true do
 	xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo', 'Test' => :debug
 	pod 'SRGAnalytics',               { :path => '.' }
 	pod 'SRGAnalytics/MediaPlayer',   { :path => '.' }
-	pod 'SRGMediaPlayer',             '~> 1.5.18'
+	pod 'SRGMediaPlayer',             '~> 1.6'
 end
 
 target 'SRGAnalytics DemoTests', :exclusive => true do
 	xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo', 'Test' => :debug
-	pod 'KIF', '3.3'
+	pod 'KIF', '3.3.1'
 end
 
 ### Workaround to make sure to have iPad xibs compiled as well.
