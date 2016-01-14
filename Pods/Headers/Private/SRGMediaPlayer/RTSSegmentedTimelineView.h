@@ -1,1 +1,1 @@
-../../../../../srgmediaplayer-ios/RTSMediaPlayer/RTSSegmentedTimelineView.h
+../../../SRGMediaPlayer/RTSMediaPlayer/RTSSegmentedTimelineView.h

@@ -1,1 +1,1 @@
-../../../../../srgmediaplayer-ios/RTSMediaPlayer/RTSPeriodicTimeObserver.h
+../../../SRGMediaPlayer/RTSMediaPlayer/RTSPeriodicTimeObserver.h

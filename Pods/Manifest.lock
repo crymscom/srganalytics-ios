@@ -1,8 +1,8 @@
 PODS:
   - comScore-iOS-SDK-RTS (3.1509.15)
-  - KIF (3.3.0):
-    - KIF/Core (= 3.3.0)
-  - KIF/Core (3.3.0)
+  - KIF (3.3.1):
+    - KIF/Core (= 3.3.1)
+  - KIF/Core (3.3.1)
   - libextobjc/EXTScope (0.4.1):
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
@@ -16,37 +16,35 @@ PODS:
     - comScore-iOS-SDK-RTS (= 3.1509.15)
   - SRGAnalytics/MediaPlayer (1.4.7):
     - SRGAnalytics/Core
-    - SRGMediaPlayer
-  - SRGMediaPlayer (1.5.19):
+    - SRGMediaPlayer (~> 1.6)
+  - SRGMediaPlayer (1.6):
     - libextobjc/EXTScope (~> 0.4.1)
-    - SRGMediaPlayer/Version (= 1.5.19)
+    - SRGMediaPlayer/Version (= 1.6)
     - TransitionKit (~> 2.2.0)
-  - SRGMediaPlayer/Version (1.5.19):
+  - SRGMediaPlayer/Version (1.6):
     - libextobjc/EXTScope (~> 0.4.1)
     - TransitionKit (~> 2.2.0)
   - TransitionKit (2.2.1)
 
 DEPENDENCIES:
   - comScore-iOS-SDK-RTS (= 3.1509.15)
-  - KIF (= 3.3)
+  - KIF (= 3.3.1)
   - OCMock (~> 3.1.2)
   - SRGAnalytics (from `.`)
   - SRGAnalytics/MediaPlayer (from `.`)
-  - SRGMediaPlayer (from `../srgmediaplayer-ios`)
+  - SRGMediaPlayer (~> 1.6)
 
 EXTERNAL SOURCES:
   SRGAnalytics:
     :path: .
-  SRGMediaPlayer:
-    :path: ../srgmediaplayer-ios
 
 SPEC CHECKSUMS:
   comScore-iOS-SDK-RTS: 71d28252778ba9bb06a1c5589046e96c057674f1
-  KIF: 0a82046d06f3648799cac522d2d0f7934214caac
+  KIF: ff9f0e585503871bcd096937cc760081d770c5e2
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: 4c2925291f80407c3738dd1db14d21d0cc278864
-  SRGAnalytics: 1bd2e0ca1905bec46e14c90eb4b12bf67abe0580
-  SRGMediaPlayer: bbc480f879ce182e9c61cd364b08cdd0dc00ee05
+  SRGAnalytics: bdbc109ef23cce944ed05306ccfbb99e795504f0
+  SRGMediaPlayer: 5889979748319689b44bfe54de80cdb756900353
   TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0

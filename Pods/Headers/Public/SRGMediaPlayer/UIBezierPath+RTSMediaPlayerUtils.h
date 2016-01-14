@@ -1,1 +1,1 @@
-../../../../../srgmediaplayer-ios/RTSMediaPlayer/UIBezierPath+RTSMediaPlayerUtils.h
+../../../SRGMediaPlayer/RTSMediaPlayer/UIBezierPath+RTSMediaPlayerUtils.h
