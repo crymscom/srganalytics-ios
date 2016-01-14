@@ -1,1 +1,1 @@
-../../../SRGMediaPlayer/RTSMediaPlayer/RTSMediaPlayerVersion.h
+../../../../../srgmediaplayer-ios/RTSMediaPlayer/RTSMediaPlayerVersion.h

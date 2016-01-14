@@ -1,1 +1,1 @@
-../../../SRGMediaPlayer/RTSMediaPlayer/RTSPictureInPictureButton.h
+../../../../../srgmediaplayer-ios/RTSMediaPlayer/RTSPictureInPictureButton.h

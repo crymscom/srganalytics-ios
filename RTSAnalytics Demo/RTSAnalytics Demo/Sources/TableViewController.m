@@ -124,7 +124,6 @@
     if ([identifier rangeOfString:@"MultipleSegments"].length != 0)
     {
         Segment *fullLengthSegment = [[Segment alloc] initWithIdentifier:identifier name:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-        fullLengthSegment.fullLength = YES;
         fullLengthSegment.visible = NO;
         
         const NSTimeInterval segment1StartTime = 2.;
@@ -138,12 +137,15 @@
         
         CMTimeRange timeRange1 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment1StartTime, 1.), CMTimeMakeWithSeconds(segment1Duration, 1.));
         Segment *segment1 = [[Segment alloc] initWithIdentifier:identifier name:@"segment1" timeRange:timeRange1];
+        segment1.logical = YES;
         
         CMTimeRange timeRange2 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment2StartTime, 1.), CMTimeMakeWithSeconds(segment2Duration, 1.));
         Segment *segment2 = [[Segment alloc] initWithIdentifier:identifier name:@"segment2" timeRange:timeRange2];
+        segment2.logical = YES;
         
         CMTimeRange timeRange3 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment3StartTime, 1.), CMTimeMakeWithSeconds(segment3Duration, 1.));
         Segment *segment3 = [[Segment alloc] initWithIdentifier:identifier name:@"segment3" timeRange:timeRange3];
+        segment3.logical = YES;
         segment3.blocked = YES;
         
         completionHandler(@[fullLengthSegment, segment1, segment2, segment3], nil);
@@ -157,11 +159,11 @@
     else
     {
         Segment *fullLengthSegment = [[Segment alloc] initWithIdentifier:identifier name:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-        fullLengthSegment.fullLength = YES;
         fullLengthSegment.visible = NO;
         
         CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(15., 1.));
         Segment *segment = [[Segment alloc] initWithIdentifier:identifier name:@"segment" timeRange:timeRange];
+        segment.logical = YES;
         completionHandler(@[fullLengthSegment, segment], nil);
     }
 }
