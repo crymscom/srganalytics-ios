@@ -71,7 +71,6 @@
 		3A8E3A4E0BFEE5CAC65E8659D9FE2818 /* OCClassMockObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EFE11D326CA87D41CE6E396206CF00 /* OCClassMockObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		3D5A5022C411AACBF45C12D81702FAF5 /* Pods-SRGAnalyticsTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 58AE6DC6283362FB54DF94D5AB3C9BAC /* Pods-SRGAnalyticsTests-dummy.m */; };
 		3FDFCF6309784D0E973F9E1409B3FBE5 /* KIFTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = D8488BC5182FCEFD2B3EF9C39E00646F /* KIFTestActor.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		4025EFEDA7665188D1AA0851BE2E23A4 /* RTSAnalyticsVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = C93F7C467A4A33FA56EBA91ED0649C45 /* RTSAnalyticsVersion.m */; settings = {COMPILER_FLAGS = "-DRTS_ANALYTICS_VERSION=1.4.7 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		40AA010FBE0CF464D9267CF6351CBB38 /* UIEvent+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 33B1DA0658A38E556DF0D6DFE4611630 /* UIEvent+KIFAdditions.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		421E72811828B099958BAFF7F86B8015 /* OCMFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7875CB4FF8D0A459DF2BF2E60C26D8 /* OCMFunctions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		4234105B3819DB46D8EA636EA6C4AA2A /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5068684BFF45E2C58F689817BA5D86 /* Pods-dummy.m */; };
@@ -92,6 +91,7 @@
 		519AFABBBAA7F1BBA80B963D67291664 /* RTSMediaPlayerVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 778B5E5C0FEA95BA1CB26C2CDB9319FE /* RTSMediaPlayerVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52B3C643275D14B024038746C282A0B6 /* OCObserverMockObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A94F23838494158F50DFFCC18E345DF3 /* OCObserverMockObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		5376EFA9F262E0D79E24832E5C9220B7 /* RTSAnalyticsTracker+Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E76D29B4E63F79364F214EA58FCA22F /* RTSAnalyticsTracker+Logging.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		53C2AE978642CDB74855D127269BC494 /* RTSAnalyticsVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = C93F7C467A4A33FA56EBA91ED0649C45 /* RTSAnalyticsVersion.m */; settings = {COMPILER_FLAGS = "-DRTS_ANALYTICS_VERSION=1.4.8 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		54D992872A8198552562807D8921DC10 /* RTSTimelineSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = C0A76E9DFFF9EE00DAE063FD6B8B3743 /* RTSTimelineSlider.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		559632D2C9E71EC98743A5795BC9745A /* RTSPeriodicTimeObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 87993009AC608D6E5749CE4D510D725C /* RTSPeriodicTimeObserver.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		580F204EDBC093B01B6716AC809AD30D /* TKState.h in Headers */ = {isa = PBXBuildFile; fileRef = 31908459EB39B5F8FC3E690493644B21 /* TKState.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1853,7 +1853,7 @@
 				21353E8AA21E603640D5CB6DB7D33615 /* RTSAnalyticsNetmetrixTracker.m in Sources */,
 				5376EFA9F262E0D79E24832E5C9220B7 /* RTSAnalyticsTracker+Logging.m in Sources */,
 				0DED6C67E1AD0DDC0C0D2C49A54F02E6 /* RTSAnalyticsTracker.m in Sources */,
-				4025EFEDA7665188D1AA0851BE2E23A4 /* RTSAnalyticsVersion.m in Sources */,
+				53C2AE978642CDB74855D127269BC494 /* RTSAnalyticsVersion.m in Sources */,
 				A5AABC8D423CB18FD61C9864C600D9B7 /* RTSMediaPlayerController+RTSAnalytics.m in Sources */,
 				7EECA1FB3FCB5439D3FE96FE7AF0B4D6 /* RTSMediaPlayerControllerStreamSenseTracker.m in Sources */,
 				93FE16DAD10C9D85900047C27EC62DFB /* RTSMediaPlayerControllerTracker.m in Sources */,

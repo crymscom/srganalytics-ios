@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '3E0C469428094F1847AC9B44'
+               BlueprintIdentifier = 'E314C85F861472470934F766'
                BlueprintName = 'SRGAnalytics'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libSRGAnalytics.a'>
