@@ -6,7 +6,7 @@ platform :ios, '7.0'
 workspace 'SRGAnalytics.xcworkspace'
 
 pod 'comScore-iOS-SDK-RTS', '3.1509.15'
-pod 'SRGMediaPlayer', '~> 1.6'
+pod 'SRGMediaPlayer', '~> 1.6.1'
 
 xcodeproj 'SRGAnalytics', 'Test' => :debug
 
@@ -22,7 +22,7 @@ target 'SRGAnalytics Demo', :exclusive => true do
 	xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo', 'Test' => :debug
 	pod 'SRGAnalytics',               { :path => '.' }
 	pod 'SRGAnalytics/MediaPlayer',   { :path => '.' }
-	pod 'SRGMediaPlayer',             '~> 1.6'
+	pod 'SRGMediaPlayer',             '~> 1.6.1'
 end
 
 target 'SRGAnalytics DemoTests', :exclusive => true do
