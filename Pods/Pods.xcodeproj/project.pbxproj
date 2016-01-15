@@ -26,6 +26,7 @@
 		128A3F636582C40D0E1F080122F64154 /* UIBezierPath+RTSMediaPlayerUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9EE2273E01F068AFF1E603C00C4926 /* UIBezierPath+RTSMediaPlayerUtils.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		12B438BDFC96509D7F0620618E813101 /* RTSVolumeView.h in Headers */ = {isa = PBXBuildFile; fileRef = EBBA461C004D278F44DFD796DAA37214 /* RTSVolumeView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		137562C4690CF2BE95DEDFC331146D11 /* KIFSystemTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = 704BE977F235ABDB60907C46F16BD22B /* KIFSystemTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		13EFB3E9AEC2F7E4C226E0BBBF0867D7 /* RTSMediaPlayerVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE1ED43CEC1289D301C4CC2EDBC9E15 /* RTSMediaPlayerVersion.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks -DRTS_MEDIA_PLAYER_VERSION=1.6.1 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		15E4700EC40D5B7393DD74871921329B /* RTSMediaPlayerController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = D5B726B95C5850FFB5225A4F9B1C9271 /* RTSMediaPlayerController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		165490C77171FACFD7DFDDC54A0AC889 /* OCMRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF3336760A57584EE0DCC53C9C8282C /* OCMRecorder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		17722372F4F12F055BF4D7D6CCFE3D67 /* NSDictionary+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDFFD08251502A5016B4C1D21033438 /* NSDictionary+RTSAnalytics.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -198,7 +199,6 @@
 		BC512CC3EE66F04D4794695A76232DF2 /* RTSVolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5577D09FB08D10FBF6836A9F16799 /* RTSVolumeView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		BD3A492EA363E779D5B4217962B76FAB /* OCMBoxedReturnValueProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = FE29CDA86EAA11A5CA30AED06EF9BFAB /* OCMBoxedReturnValueProvider.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		BE75E7593BD1A4E3F12ADA3465248AA5 /* TKTransition.h in Headers */ = {isa = PBXBuildFile; fileRef = 0FA838EED526B9A74FC3222C32FFED66 /* TKTransition.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BE8EE71832BE59ABFF6AA28F90A15CA0 /* RTSMediaPlayerVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE1ED43CEC1289D301C4CC2EDBC9E15 /* RTSMediaPlayerVersion.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks -DRTS_MEDIA_PLAYER_VERSION=1.6 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		C003E5F1900172318CB5EC4A61B65D8C /* RTSMediaPlayerControllerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 333E4357F3A45FA5C3E98300C4395A11 /* RTSMediaPlayerControllerDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C0F1AE3B285B9533EE3B43225E4A0D0F /* RTSAnalyticsVersion_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8169ABD92AFC0AA8764911B56C16721A /* RTSAnalyticsVersion_private.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C11C24388B9080A488D8400CC0F9030B /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C64DC811A148683128144AC149E17E59 /* NSFileManager-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1904,7 +1904,7 @@
 				1F97E4C9A15A15E328285EFF4278CEAC /* RTSMediaPlayerLogger.m in Sources */,
 				BB6CCF09D6692484616222764C4336B2 /* RTSMediaPlayerPlaybackButton.m in Sources */,
 				D46D615CDE311B29319AEA5CBC9231A6 /* RTSMediaPlayerSharedController.m in Sources */,
-				BE8EE71832BE59ABFF6AA28F90A15CA0 /* RTSMediaPlayerVersion.m in Sources */,
+				13EFB3E9AEC2F7E4C226E0BBBF0867D7 /* RTSMediaPlayerVersion.m in Sources */,
 				1B83D433B8E0129DC5295DBB6F6A0586 /* RTSMediaPlayerView.m in Sources */,
 				F0357B04419498D8816F039E8D9948B4 /* RTSMediaPlayerViewController.m in Sources */,
 				31376A1DA7396EA9335B7C89D5380F11 /* RTSMediaSegmentsController.m in Sources */,
