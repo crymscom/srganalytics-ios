@@ -259,7 +259,7 @@
 
 - (RTSMediaPlayerControllerTrackingInfo *)trackingInfoForMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
 {
-    if (!mediaPlayerController) {
+    if (!mediaPlayerController || !mediaPlayerController.identifier) {
         return nil;
     }
     

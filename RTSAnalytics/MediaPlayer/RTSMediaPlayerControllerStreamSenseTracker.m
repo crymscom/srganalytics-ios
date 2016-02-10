@@ -197,14 +197,8 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     if (self.mediaPlayerController.player && self.mediaPlayerController.player.isMuted) {
 		return @"0";
     }
-	
-    if (![[AVAudioSession sharedInstance] respondsToSelector:@selector(outputVolume)]) {
-		return @"0";
-    }
-	
-	id instance = [AVAudioSession sharedInstance];
-	IMP outputVolumeImp = [instance methodForSelector:@selector(outputVolume)];
-	float volume = ((float (*) (id,SEL))outputVolumeImp)(instance,@selector(outputVolume));
+    
+    float volume = [AVAudioSession sharedInstance].outputVolume;
 	return [NSString stringWithFormat:@"%d", (int) (volume * 100)];
 }
 
