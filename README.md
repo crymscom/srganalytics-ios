@@ -56,7 +56,7 @@ In the method `-application:didFinishLaunchingWithOptions:` method of your appli
 
 ```
 
-where `businessUnit` is one of the SRG business units as declared by the `SSRBusinessUnit` enum. If you have include support for the SRG Media Player library, call instead:
+where `businessUnit` is one of the SRG business units as declared by the `SSRBusinessUnit` enum. If you have included support for the SRG Media Player library, call instead:
 
 ```
 #!objective-c
@@ -73,7 +73,6 @@ Your app `Info.plist` file must contains a dictionary section called `RTSAnalyti
 
 * `ComscoreVirtualSite`: comScore virtual site
 * `NetmetrixAppID`: NET-Metrix application identifier
-* `StreamsenseVirtualSite`: Stream Sense virtual site
 
 By using custom build settings variables, it is possible to provide different values for different configurations (Debug, Beta, Release, etc.) with a single `Info.plist` file.
 
