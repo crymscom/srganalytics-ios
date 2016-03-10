@@ -11,10 +11,10 @@
 		0483FCC90337B7091FF305E8899B607C /* OCMRealObjectForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = 51FD26AA1183E5E32EF2FA0CABD600C0 /* OCMRealObjectForwarder.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		05807480B537A430CB7D7BF801E0F0CE /* RTSAnalyticsComScoreTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E971AC749873798D6D85F5FF94BD3742 /* RTSAnalyticsComScoreTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		05F79E9D3B0C0F6A7682AA4E883C60CF /* UIScrollView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C10E06974CB40F6BE77D38815DE2FC2 /* UIScrollView-KIFAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		0622A42362887A84B94DCD496699A2DA /* RTSMediaPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 813F828D124F8C4D03CD9BD7CCD6FE18 /* RTSMediaPlayerViewController.xib */; };
 		063E979F38C29B83EB0BD2F62D7DCDE7 /* KIFUITestActor-ConditionalTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A7EE598AB94E967BB9CC380A10152A8 /* KIFUITestActor-ConditionalTests.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0AB2DC186AB254263982126DCB345B13 /* OCMExpectationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6242DC3574810AF7FA8CF793A0C88737 /* OCMExpectationRecorder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		0C4992164383FD69FB1D8F6DFE8B15DF /* RTSSegmentedTimelineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 06F193672C251CB91A83785D5B4FD887 /* RTSSegmentedTimelineView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0C4992164383FD69FB1D8F6DFE8B15DF /* RTSSegmentedTimelineView.h in Headers */ = {isa = PBXBuildFile; fileRef = D2365220C9C2D8AD3E06EBA591DAB848 /* RTSSegmentedTimelineView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D3A86C9B7592BE10389AE71863C1857 /* RTSMediaPlayerVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA6B3D83F5294E8F6619441CC68A225 /* RTSMediaPlayerVersion.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks -DRTS_MEDIA_PLAYER_VERSION=1.6.3 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		0DBDD41D4FCDEE86F933101C90FB09B2 /* NSInvocation+OCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98180BF9CE114995D594EB5ABEE2BC4C /* NSInvocation+OCMAdditions.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		0DED6C67E1AD0DDC0C0D2C49A54F02E6 /* RTSAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CE1FBF8054C338E309434FD3D17E59 /* RTSAnalyticsTracker.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		0EA127AF65FFA4C029AC438C1AA680C0 /* NSDictionary+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = F98744B022598DFFAAB7F1802E4C344F /* NSDictionary+RTSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -23,33 +23,31 @@
 		10A32A5F99407D3FC2EF46E29BE86DCE /* OCMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C3C77A4B87E20B260204A8A6390107B /* OCMock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		112ECC971D92799694306DB198C5FD74 /* OCMockObject.h in Headers */ = {isa = PBXBuildFile; fileRef = DB68C7D028F560D6075720FA84A4E616 /* OCMockObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		11D0CBF2A69246766A2D23D3E30421CB /* OCProtocolMockObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C1EBC92E7F096F2320BEC7F692B814 /* OCProtocolMockObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		128A3F636582C40D0E1F080122F64154 /* UIBezierPath+RTSMediaPlayerUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9EE2273E01F068AFF1E603C00C4926 /* UIBezierPath+RTSMediaPlayerUtils.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		12B438BDFC96509D7F0620618E813101 /* RTSVolumeView.h in Headers */ = {isa = PBXBuildFile; fileRef = EBBA461C004D278F44DFD796DAA37214 /* RTSVolumeView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		128A3F636582C40D0E1F080122F64154 /* UIBezierPath+RTSMediaPlayerUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B01E7B820307782E64D0DBDFEE5CA8 /* UIBezierPath+RTSMediaPlayerUtils.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		12B438BDFC96509D7F0620618E813101 /* RTSVolumeView.h in Headers */ = {isa = PBXBuildFile; fileRef = FBEE87214B59C17CA792A05D6C91654A /* RTSVolumeView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		137562C4690CF2BE95DEDFC331146D11 /* KIFSystemTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = 704BE977F235ABDB60907C46F16BD22B /* KIFSystemTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		15E4700EC40D5B7393DD74871921329B /* RTSMediaPlayerController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = D5B726B95C5850FFB5225A4F9B1C9271 /* RTSMediaPlayerController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		15E4700EC40D5B7393DD74871921329B /* RTSMediaPlayerController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B15DB9A772663774D2F96F4909E9515 /* RTSMediaPlayerController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		165490C77171FACFD7DFDDC54A0AC889 /* OCMRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF3336760A57584EE0DCC53C9C8282C /* OCMRecorder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		17722372F4F12F055BF4D7D6CCFE3D67 /* NSDictionary+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDFFD08251502A5016B4C1D21033438 /* NSDictionary+RTSAnalytics.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		19CECDF9EF6CDDFBFB834F827141F3CC /* UIApplication-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CCE2C0508441C5F742D364BDF059FC8 /* UIApplication-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		19CFFF4683157DD10EF2712C7F717518 /* CSRequest+RTSAnalytics_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 31401B3948663BB4B3484BDAD3D7F7E2 /* CSRequest+RTSAnalytics_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B83D433B8E0129DC5295DBB6F6A0586 /* RTSMediaPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6617D7A93CF462ABC5241A2C9823CE /* RTSMediaPlayerView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		1B83D433B8E0129DC5295DBB6F6A0586 /* RTSMediaPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97448356D639F26567AF1BBD9518A619 /* RTSMediaPlayerView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		1CC5288763E824192370FCC8D699EABC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3D08878C259ECBADDA534B8AEF8105 /* Foundation.framework */; };
 		1F0B04EDCD286D7B65C23E1940EC3B7C /* KIFUITestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A909E4BBCB3B4EB64C5D351E1FEB13 /* KIFUITestActor.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		1F7D4D93FCD3346316F16836D7E91145 /* UIAccessibilityElement-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1332044C57EB46BF5B2C7AD50E2AC9FB /* UIAccessibilityElement-KIFAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		1F97E4C9A15A15E328285EFF4278CEAC /* RTSMediaPlayerLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 718DB2AE4762711AC2B8A94AD09F3713 /* RTSMediaPlayerLogger.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		1F97E4C9A15A15E328285EFF4278CEAC /* RTSMediaPlayerLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A060EEB47541D018E2F7E37BCD2AB9 /* RTSMediaPlayerLogger.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		2037BA6D45105A0121475D01B0A594F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3D08878C259ECBADDA534B8AEF8105 /* Foundation.framework */; };
 		20D11FC0409723F46C2FD6737A3094C6 /* UIView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A9A693F7505F01FE62B95ED2DB72A70 /* UIView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		21353E8AA21E603640D5CB6DB7D33615 /* RTSAnalyticsNetmetrixTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F068FEC317C422625D414B7755CC6BD /* RTSAnalyticsNetmetrixTracker.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		21B43F45492EC86F79EBE8D56921ACBF /* SRGMediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 99B41A542022BEC0FEB2015952F93809 /* SRGMediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		221292AC2FEC0B19BFBEF949E1E98AE6 /* RTSAnalyticsVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = C93F7C467A4A33FA56EBA91ED0649C45 /* RTSAnalyticsVersion.m */; settings = {COMPILER_FLAGS = "-DRTS_ANALYTICS_VERSION=1.4.10 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		21B43F45492EC86F79EBE8D56921ACBF /* SRGMediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F9E4D69B4A7EA52A5591F607D1CC07 /* SRGMediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		223CFABD367D28C21F1FD7235AC95014 /* KIFTypist.h in Headers */ = {isa = PBXBuildFile; fileRef = D13E45A93FEBB68E778563E4DFDD5B5C /* KIFTypist.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2392A821FD24BFE2DA49D6C2EA514280 /* RTSActivityGestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 454AB75C3C5D7946197B7E5706836FCE /* RTSActivityGestureRecognizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2392A821FD24BFE2DA49D6C2EA514280 /* RTSActivityGestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B4AE1E941889A97F672A19D6E3FDE1 /* RTSActivityGestureRecognizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		23E5A38E43057317C35B5A46D67B94EF /* fr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = BDA55B4EEDFC51655C8280845D9E482A /* fr.lproj */; };
 		23EF381B1366132A2A98412B3C3CE9BE /* NSMethodSignature+OCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C85C8DC780A3CB14A2F5C065C152DF91 /* NSMethodSignature+OCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		245F1E766E5F9907682276C22E52643B /* picture_in_picture_stop_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FCC595EDE3C8976DB427D2ABC0AEAD7 /* picture_in_picture_stop_button@2x.png */; };
 		24A00B774F68BAFB3493C203EA5F663F /* KIFTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = 86DA70C6C666B8EDBBECB97786BDDAF6 /* KIFTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2506D050C53BFE9ED49942372A33B94D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 108E496177D3C8B0A5F3D3F8BBB666B6 /* CoreGraphics.framework */; };
 		263A23E00A370534B90A93AD6CBFE9F5 /* UIView-Debugging.h in Headers */ = {isa = PBXBuildFile; fileRef = 754D7FB191C2667D8B7F8D9139F13CCA /* UIView-Debugging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		26DB9190533AF89FDBC8AEAB4FE7C49A /* TKEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EA63169FC1932E352B385512B6B9442 /* TKEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2718A28CBCA1DE13CD9D501AB5908224 /* picture_in_picture_start_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 10D2E05EEED7E83FECD047B9ADDA2AEB /* picture_in_picture_start_button.png */; };
 		2756968BC86AB53011F50348A790FCCF /* OCMObserverRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F8E78FB981E919E8BFF0D87553AB23 /* OCMObserverRecorder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		277DDF56A8AB63F30E69F9BC31A87974 /* TKEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 27538C6D74586D23D66A9D2BE9DEB4C7 /* TKEvent.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		27C9CB1E93C358D94027A44C68F926EA /* NSObject+OCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F253543F8C5704156DCF97307C9CD13 /* NSObject+OCMAdditions.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -57,13 +55,12 @@
 		28CCA0DD37849681B2BE68F7F7C0F4B9 /* OCMBlockCaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 57624272C649F2FF75A7417FA2A76577 /* OCMBlockCaller.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		298CEF3B344A1A34BDD88986B7F575F9 /* KIFUITestActor-ConditionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D71BED6379EE534F6E126A873A78B8 /* KIFUITestActor-ConditionalTests.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		2A9D86BE7931B365C75EE85D5C875062 /* LoadableCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 54148E7AB05EA8B6C4ECEBF84FDEECD5 /* LoadableCategory.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		2C138649FD859066A5932A1E78028D28 /* picture_in_picture_start_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A80BFF09A9553BB9C33DB7AAC6D823 /* picture_in_picture_start_button@2x.png */; };
 		2CFC3E09288C326D6F19840BCB26B209 /* EXTRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F1108949F59A590CDF2F7068A228E1CC /* EXTRuntimeExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2F9CFE4E64418616830FC4861599E0B7 /* RTSSegmentedTimelineView+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FC5029C1BC378E938DF533143380342 /* RTSSegmentedTimelineView+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F9CFE4E64418616830FC4861599E0B7 /* RTSSegmentedTimelineView+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4602F0F0EC2E2401E5105381A946C6A5 /* RTSSegmentedTimelineView+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2FBF9628D9967F44F4A2D7C10E660E14 /* thumb_timeline_slider.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2B430C585F3CAE02C672C44DF014A1 /* thumb_timeline_slider.png */; };
 		3062DB25EB76F786EFEF1ECF88BB6420 /* KIFSystemTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A03275DF07820333D5E307E52489E7 /* KIFSystemTestActor.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		30A999FFD3DF2D98FC23A95833781E62 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91E78B4EF341399C0CFDBB83F3CD998 /* IOKit.framework */; };
-		31376A1DA7396EA9335B7C89D5380F11 /* RTSMediaSegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4111CB5EF4635CEA307A6D71EC6DE44E /* RTSMediaSegmentsController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		31F4D2D4F1C96CAFB2590254A39AB15D /* thumb_timeline_slider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5177C6C9EFBBFC0C492797A67614E17E /* thumb_timeline_slider@2x.png */; };
+		31376A1DA7396EA9335B7C89D5380F11 /* RTSMediaSegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4691F975B2D2B6C6464331F09AF518D7 /* RTSMediaSegmentsController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		32C16BB52352EF4D31DE19D9AF70CAD2 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93EF000F3C99BF58AAABC0DD55AD76C1 /* AVFoundation.framework */; };
 		35699FFA315CADD0C10543F661C2C90F /* OCMInvocationExpectation.h in Headers */ = {isa = PBXBuildFile; fileRef = A0A54E2FC5DAA91A71439D49E9177731 /* OCMInvocationExpectation.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		388DE084B6A4FCC0CD8053A5AB9A11DD /* OCMConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D7A106D1AFBAA7062EBF264F63D3FFB /* OCMConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -89,18 +86,16 @@
 		4FA2D588EE8FAB254A82CFDE7E36B729 /* RTSMediaPlayerControllerStreamSenseTracker_private.h in Headers */ = {isa = PBXBuildFile; fileRef = F8A5634B73F0330913AAB97C9043E291 /* RTSMediaPlayerControllerStreamSenseTracker_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		50C1A7ECBDB7541C0A3A1DAC305B579B /* IOHIDEvent+KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 7966D1C8939063E4AC970D3567B8D6C5 /* IOHIDEvent+KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		518AB8EAA741D8817863267B9A3D7ADB /* UIView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 75C0AA202E1B67536A1423CDFE136437 /* UIView-KIFAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		519AFABBBAA7F1BBA80B963D67291664 /* RTSMediaPlayerVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 778B5E5C0FEA95BA1CB26C2CDB9319FE /* RTSMediaPlayerVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		519AFABBBAA7F1BBA80B963D67291664 /* RTSMediaPlayerVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 19483CAF25D655346782A584D3E5C451 /* RTSMediaPlayerVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52B3C643275D14B024038746C282A0B6 /* OCObserverMockObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A94F23838494158F50DFFCC18E345DF3 /* OCObserverMockObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		5376EFA9F262E0D79E24832E5C9220B7 /* RTSAnalyticsTracker+Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E76D29B4E63F79364F214EA58FCA22F /* RTSAnalyticsTracker+Logging.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		54D992872A8198552562807D8921DC10 /* RTSTimelineSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = C0A76E9DFFF9EE00DAE063FD6B8B3743 /* RTSTimelineSlider.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		559632D2C9E71EC98743A5795BC9745A /* RTSPeriodicTimeObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 87993009AC608D6E5749CE4D510D725C /* RTSPeriodicTimeObserver.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		54D992872A8198552562807D8921DC10 /* RTSTimelineSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = C64A3962F725652FDD8EFD8EDB795EC4 /* RTSTimelineSlider.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		559632D2C9E71EC98743A5795BC9745A /* RTSPeriodicTimeObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 15EC999580559B63427D840F937708CB /* RTSPeriodicTimeObserver.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		580F204EDBC093B01B6716AC809AD30D /* TKState.h in Headers */ = {isa = PBXBuildFile; fileRef = 31908459EB39B5F8FC3E690493644B21 /* TKState.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		585C9052B730D9F3DFB40FA9D9E2D994 /* thumb_timeline_slider.png in Resources */ = {isa = PBXBuildFile; fileRef = 4108A76900FAF43B38E4E714B0421158 /* thumb_timeline_slider.png */; };
-		5883841DFDD537AF9CCA9319BB1D7BBC /* RTSMediaPlayerPlaybackButton.h in Headers */ = {isa = PBXBuildFile; fileRef = FA02426D70CC4FBCD1A5394DE51F980B /* RTSMediaPlayerPlaybackButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5883841DFDD537AF9CCA9319BB1D7BBC /* RTSMediaPlayerPlaybackButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A9E588C8FE85934D843260C191C50ED6 /* RTSMediaPlayerPlaybackButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		59AF15ED4946B9E087762163B6E26208 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3D08878C259ECBADDA534B8AEF8105 /* Foundation.framework */; };
 		5B1309104D63E21119BA9BE988D930C0 /* UITableView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 659AFE322F74C4F0E4810D7C1C67E675 /* UITableView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5B9F2FA0EF66C1ED5F5C0B8B1B76D9B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3D08878C259ECBADDA534B8AEF8105 /* Foundation.framework */; };
-		5D2FAAADE377CAE6192D20AA1D5605DF /* picture_in_picture_stop_button.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DDBF76ECA8296AD9E0A19298A7932A /* picture_in_picture_stop_button.png */; };
 		5D9A7BE4D801473C5DE7432A514079F9 /* NSInvocation+OCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6315EF631F37DEADA6FD8E734784EC9 /* NSInvocation+OCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		5E0A120594E5EEC6EF8813B438ECCA35 /* OCMExceptionReturnValueProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A450F3C6CE164077EFD0B996173FB53 /* OCMExceptionReturnValueProvider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		5F8283C6BB5CF198158F31BF9F5A89A0 /* OCObserverMockObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E3BC2D087CEC7DB7F824A176B4F938 /* OCObserverMockObject.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -108,14 +103,14 @@
 		60118CD703726643FD55AFFFDC6DA3F1 /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = 54272E2AA8B22AB62D289A4F80B66E84 /* EXTScope.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		60C5BD63233891C63BF1F3A02E01259D /* NSError-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 24FAF6D207B25DF1BB17221D2D58B46E /* NSError-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		61509918EEB61F1C98DBA377DDC41907 /* CGGeometry-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8437B9DD7FD163198DD74CA2265C3B27 /* CGGeometry-KIFAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		62B3C6E1AE011F907B7ED88498D3AB86 /* NSBundle+RTSMediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C08C5858D81843088AE9357B6AF2B92B /* NSBundle+RTSMediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		62B3C6E1AE011F907B7ED88498D3AB86 /* NSBundle+RTSMediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AEC8EF3CB87C1496A43BEFD5BC070FB /* NSBundle+RTSMediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		63A678639E485C90C59AB561802A0DB2 /* NSBundle-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 693083841A9300581B0B7DD311F01926 /* NSBundle-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		641799834F5BD727E7627FC0E8FFC45B /* XCTestCase-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C404D3D561DA1F882CF5886D52FA3BB2 /* XCTestCase-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		64759F64A199BAD2979C602ED8DED82D /* RTSAnalyticsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAD7EFCFA8057AA8189215523BBFB24 /* RTSAnalyticsLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		671A6C86B73A1CB8284E0822E3AE3074 /* UIApplication-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C56F90A042F01650735EBB1CF4643A /* UIApplication-KIFAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		6860F155FA982C3F5BB313A8181318A3 /* NSBundle+RTSMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4175A6698EF0182466B4C8396B6623 /* NSBundle+RTSMediaPlayer.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		6860F155FA982C3F5BB313A8181318A3 /* NSBundle+RTSMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F48BD25A512BCB33875AF51CFCE85FE /* NSBundle+RTSMediaPlayer.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		6973E52D6E5CC466458AF54BEC78B72C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3D08878C259ECBADDA534B8AEF8105 /* Foundation.framework */; };
-		6B0EEF0F3C16A7F975607BFFEB37BDDF /* RTSMediaPlayerIconTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 812158348619994B60AFB1ADF90F2548 /* RTSMediaPlayerIconTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6B0EEF0F3C16A7F975607BFFEB37BDDF /* RTSMediaPlayerIconTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = CE52BAB533165C90C0FCBB1E03189F83 /* RTSMediaPlayerIconTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6C054D28ED413401BF2883D39A0F5C26 /* OCMArg.m in Sources */ = {isa = PBXBuildFile; fileRef = 2712A79FA4D371C9B0939E0EEB96F1B1 /* OCMArg.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		6CB3593DE3177936A4976B92C1642713 /* OCMExceptionReturnValueProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B960429A3F9EA2C2EF35174B75AE314 /* OCMExceptionReturnValueProvider.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		6EF004A12C2DF03493CBAB4B2102186F /* RTSAnalyticsPageViewDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = F9B2F3A8D455D83746F4F36DA7305BB1 /* RTSAnalyticsPageViewDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -124,94 +119,100 @@
 		711E21BAAA6ADAF9FE63533D67DCADCB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3D08878C259ECBADDA534B8AEF8105 /* Foundation.framework */; };
 		72B0C41F3D74A2AA8C6FD338B6F0BCDE /* OCMReturnValueProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = CDE22C930D82825F3DE3B7A121412652 /* OCMReturnValueProvider.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		74A48F643D780657F96E83EBB0AA2750 /* RTSAnalyticsMediaPlayerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 5099FE2B77E71EF84CDA4F164558F646 /* RTSAnalyticsMediaPlayerDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		79D125876B404EEB4FFE43BBB6D4A536 /* SRGMediaPlayer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D471A8B73E06A97212C26A71C8F38FE3 /* SRGMediaPlayer-dummy.m */; };
+		79D125876B404EEB4FFE43BBB6D4A536 /* SRGMediaPlayer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = ACF3E69CA69C71F9AED76A3C36668B77 /* SRGMediaPlayer-dummy.m */; };
 		7BDE46EA97EF3808BC7674FB36B03D92 /* OCMPassByRefSetter.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3A24EE17516B9E1CB055F16D71C0A1 /* OCMPassByRefSetter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		7CC48411FCA520F20616178DF7AAB87B /* RTSMediaSegmentsDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 38965BFB485BD1E29B115F7F9D382F59 /* RTSMediaSegmentsDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7CFA9CAB9BA2C70476A9A5FA82C64553 /* RTSMediaPlayerLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE119F8C1EEC4E44185AD0EF791A3095 /* RTSMediaPlayerLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CC48411FCA520F20616178DF7AAB87B /* RTSMediaSegmentsDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = C7FF23FF62C83F71B5E6D2BB35CFEFCB /* RTSMediaSegmentsDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CFA9CAB9BA2C70476A9A5FA82C64553 /* RTSMediaPlayerLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 257735E5FACC9343C8584A616B36034A /* RTSMediaPlayerLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7EDC46570F70B1EAD0B23A687E62C2B4 /* picture_in_picture_start_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36743E99C452545A3490A6BDFEA1DE98 /* picture_in_picture_start_button@2x.png */; };
 		7EECA1FB3FCB5439D3FE96FE7AF0B4D6 /* RTSMediaPlayerControllerStreamSenseTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 671F863740BF45DEF11625F8D3A630AD /* RTSMediaPlayerControllerStreamSenseTracker.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		7F8A21DA614D7E3815F91D9309466BBE /* TransitionKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AD9FC93006F618452B3F9D831ADE3627 /* TransitionKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8003F74E29F58E99D3C792046B985EB4 /* RTSMediaPlayerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 07589A710C86E496D522527929982C4D /* RTSMediaPlayerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		80C4F6F88BBA7A175357FAD8CA562279 /* RTSMediaPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEB3CCA3415EEF1E9C131D51AFDD13C /* RTSMediaPlayerController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		8003F74E29F58E99D3C792046B985EB4 /* RTSMediaPlayerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 050154C6CB860F0C73DC19A1FA8E4681 /* RTSMediaPlayerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		80C4F6F88BBA7A175357FAD8CA562279 /* RTSMediaPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF659CB2A11E385181245AC5293B101 /* RTSMediaPlayerController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		80C91927E9453D0FD13826F7397BCFD9 /* OCMock-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA86D68CA28F7399BAB812D4368154F /* OCMock-dummy.m */; };
 		80F7E2DA5F3FB2ADC1F08C9F93EC9F09 /* OCMArg.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C77E4C6CFB091FA939A24A4AAB8AC6C /* OCMArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8352FD0C821B67B80D8DB04686EC56EC /* RTSMediaPlayerController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 50291010FACCBCB07991E2FD88B7D256 /* RTSMediaPlayerController+Private.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		8352FD0C821B67B80D8DB04686EC56EC /* RTSMediaPlayerController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 245A0997E1DEF22C1903818AFD0CCA6D /* RTSMediaPlayerController+Private.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		83A6D6259DD37EE0598C2469115237B9 /* OCMMacroState.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F08552C327F20CBF0DED770928DFF36 /* OCMMacroState.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8407CDB02A0F642F018E2FFA41DDE5B2 /* picture_in_picture_stop_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AFB80E701DBFA15FF60C082D4130128 /* picture_in_picture_stop_button.png */; };
 		87AF5AEDF20A6D0EEC6AA229E6056379 /* KIFTestCase.h in Headers */ = {isa = PBXBuildFile; fileRef = A899A6555B625A6917ABF49E451DCE07 /* KIFTestCase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		87F5CA33B48C1094BD75DD6F9D73C68E /* RTSActivityGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = EA49684A26ACFCA71CCFB6978057C49B /* RTSActivityGestureRecognizer.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		87F5CA33B48C1094BD75DD6F9D73C68E /* RTSActivityGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 463940CA78B701CF70E9CAB58FC9AEE9 /* RTSActivityGestureRecognizer.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		88E839F8E9A0E12B7D0990356D4B9F14 /* TransitionKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6C8923C7E3F9718DBBA5C4A3F68175 /* TransitionKit-dummy.m */; };
+		89E0E5EF6C11E20ABDBB692C90C27B41 /* picture_in_picture_stop_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22E4E94BF545FE3D3956F83D2DD009FB /* picture_in_picture_stop_button@2x.png */; };
 		8A162CDE2EF96ED7BB5379504C478B1A /* OCMNotificationPoster.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D5F62D4A10576F2AEAB9A77CD148ED /* OCMNotificationPoster.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		8A8640D040374199C4637C75D5A144AA /* UITouch-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 807ACA923C25437754103AB30C54CD18 /* UITouch-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8AC6237F7CFC19C33149E6A933EC875D /* RTSPictureInPictureButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F03699B6A8854448764F9E82576700EA /* RTSPictureInPictureButton.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		8B6408734286324A7FAF0C63AAAD71E3 /* RTSAirplayOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95EB295EC93998C3BF92590AA35A9035 /* RTSAirplayOverlayView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		8C4EEBDE20A669D8E0B5B3C1C6DB4B91 /* RTSMediaPlayerError.h in Headers */ = {isa = PBXBuildFile; fileRef = 3401BA24F93579709A7222C10EB46486 /* RTSMediaPlayerError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8AC6237F7CFC19C33149E6A933EC875D /* RTSPictureInPictureButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B880810B08BB9C6B44EDC8C9C0F5A /* RTSPictureInPictureButton.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		8B6408734286324A7FAF0C63AAAD71E3 /* RTSAirplayOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D530BDBE28FFEF2EA8668326A842BF /* RTSAirplayOverlayView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		8C4EEBDE20A669D8E0B5B3C1C6DB4B91 /* RTSMediaPlayerError.h in Headers */ = {isa = PBXBuildFile; fileRef = E5433F368CBAFE158B2DEEC783281486 /* RTSMediaPlayerError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8C96A20D5CC749482BE2D4AE71940339 /* SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D95B72C35D671C0927B27DEAA05F79A /* SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8D691B42A0DA53D87BD9C540D5B53AA2 /* RTSMediaFailureOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = A86032EB0DC8A6778FD529AE5AA91FEC /* RTSMediaFailureOverlayView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8D691B42A0DA53D87BD9C540D5B53AA2 /* RTSMediaFailureOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = CD0FA3C9B6747D818D1DCFF0100F3886 /* RTSMediaFailureOverlayView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DC64576D678CCA419E0CF832690F092 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 49874275DDD43CE9B4DABAEE7DB2FBEB /* metamacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8EEA1B757F07639DE82A3676B7908935 /* OCMRealObjectForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = BB817A5A0338CF775BEE353CAF527582 /* OCMRealObjectForwarder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		8FAF1E321BBAA3F1525A63071ADE7BFE /* RTSMediaPlayerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E313D490E312886679F1AE5D18ACEAC /* RTSMediaPlayerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8FAF1E321BBAA3F1525A63071ADE7BFE /* RTSMediaPlayerController.h in Headers */ = {isa = PBXBuildFile; fileRef = EF58172ECD1436872AEC1054D2C621FE /* RTSMediaPlayerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9146482D70CFD77C03D4C1FC5A5258A1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3D08878C259ECBADDA534B8AEF8105 /* Foundation.framework */; };
-		92C1A7B22142F71BAC23409DECB422BC /* RTSMediaFailureOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE72394002DC2A5CEB417E6F67B717C7 /* RTSMediaFailureOverlayView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		92C1A7B22142F71BAC23409DECB422BC /* RTSMediaFailureOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBD8597694ADFB75A5ABE99483259B2 /* RTSMediaFailureOverlayView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		931EF817C2E52B986A174792DDE10809 /* OCMReturnValueProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A4D23E70CAE2B36D6C1222A593E27F /* OCMReturnValueProvider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		93B3B612D20BA5AD0AD2EDC9C73D4788 /* RTSPlaybackActivityIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F6B6FA111F10DC14A0CDC7C1C5BE677 /* RTSPlaybackActivityIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93B3B612D20BA5AD0AD2EDC9C73D4788 /* RTSPlaybackActivityIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CC17B93056EBD4BADF2B1613D7549D5 /* RTSPlaybackActivityIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93FE16DAD10C9D85900047C27EC62DFB /* RTSMediaPlayerControllerTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F591E27A61A012EE21972F73B61C9F5 /* RTSMediaPlayerControllerTracker.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		942C8E8FEADE9E662F1110B4E0FC4E7D /* OCMInvocationExpectation.m in Sources */ = {isa = PBXBuildFile; fileRef = E9FD142C8E1E1CDBF1ABDBAE55C23C84 /* OCMInvocationExpectation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		9433BE24BD99ECAA4BFAF22510C6B594 /* OCMObserverRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63C5CB2CB784F56804BAA0CE9374C657 /* OCMObserverRecorder.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		94CAA1E5FC4C17FD93DBCF7EE3B2D0F3 /* RTSMediaPlayerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = CED0BCB4D0FCE8C1EE4786589255E9A9 /* RTSMediaPlayerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		94CAA1E5FC4C17FD93DBCF7EE3B2D0F3 /* RTSMediaPlayerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A1029D66C116FA28E6FDEADC827BF49 /* RTSMediaPlayerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		954913F13108BE472371B0965693D960 /* KIFTestStepValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = CFCD6B86D2CD62CCE070C6E8E9C94494 /* KIFTestStepValidation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9783940925388196C03CDD113646A0D2 /* NSValue+OCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8EC6C6B20F106848D6DFA639C4B293 /* NSValue+OCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		98A374551E4A4671003988352EF3F539 /* Pods-SRGAnalytics DemoTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E63E48B5D4269917ED5683A87E1179D /* Pods-SRGAnalytics DemoTests-dummy.m */; };
 		98AD98F74C1E6A159F4CBB38154F6003 /* NSBundle-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DB927523A6811760C2324E311D55F715 /* NSBundle-KIFAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		9B1734BFEF3F69639BDD6F4AB18A44A7 /* RTSMediaPlayerControllerTrackingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0399972CA84F43ACEC21C1FA77E358 /* RTSMediaPlayerControllerTrackingInfo.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		9B77F995A1C4B470A343C7EEFDE77FA9 /* KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = E0073C629B9A2D451FACB12E919D2513 /* KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9BCA875F3F35EE09DC282A0504711043 /* RTSTimeSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 46B80C8CB327207C26304BE6546C200B /* RTSTimeSlider.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9DAA1BBDA6E58A80ABA04876B938EE77 /* RTSSegmentedTimelineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C81F3ABBE3D0E8510BECC3A3F5276A2 /* RTSSegmentedTimelineView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		9BCA875F3F35EE09DC282A0504711043 /* RTSTimeSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = EFF12655DEEACA0DCF7811F46506C683 /* RTSTimeSlider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9DAA1BBDA6E58A80ABA04876B938EE77 /* RTSSegmentedTimelineView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8B0553B4EA84387E0D162603CB029C /* RTSSegmentedTimelineView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		9F310DC2A8532B1C45071A050F9FC497 /* KIFTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 946B5F150DC893351DA95EA93FDFC084 /* KIFTestCase.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		A0A14CB7F943A3A6D2A86AC9297B0B3F /* OCMockObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D1903096EE77520D7481E571ED695EA2 /* OCMockObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		A12844052BBC1B7E0E38F6CD31AE340E /* OCMLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2E793FF3C2433168852E7D84AE4D99 /* OCMLocation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		A147ED86CE6FEB9F87A27C5FB6996320 /* thumb_timeline_slider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AEE78CFF7B76F85C0B11F399574C3366 /* thumb_timeline_slider@2x.png */; };
 		A1830DEC733D6CFC7C9D21CFB1502D7D /* KIF-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DFBA827741BB3459C84DC6DD1008721A /* KIF-dummy.m */; };
-		A1C1D803CB82AEED881C43E4F82D5869 /* RTSMediaPlayerVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE1ED43CEC1289D301C4CC2EDBC9E15 /* RTSMediaPlayerVersion.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks -DRTS_MEDIA_PLAYER_VERSION=1.6.2 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		A20A8AAFD6D1E88DAA4602B8FD83B3B8 /* NSMethodSignature+OCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 295C058BBB2DE0430B3FCD9B6CE3145D /* NSMethodSignature+OCMAdditions.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		A280AD7F9D8B01FD9F3CD00E0FDF25A5 /* RTSPeriodicTimeObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F5C19F7B93312D92F03E325814272AF /* RTSPeriodicTimeObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A3AF90B38D6DE48DED43304C0EA7E4C7 /* RTSMediaPlayerSharedController.h in Headers */ = {isa = PBXBuildFile; fileRef = 552B547C18D34CB2DC0BEDB6A1585B08 /* RTSMediaPlayerSharedController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A280AD7F9D8B01FD9F3CD00E0FDF25A5 /* RTSPeriodicTimeObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = DEA721AEA54A8ABDF25F5F1D5C71FEE9 /* RTSPeriodicTimeObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A3AF90B38D6DE48DED43304C0EA7E4C7 /* RTSMediaPlayerSharedController.h in Headers */ = {isa = PBXBuildFile; fileRef = 98A65775EC7628AAB8992990AC5C6DF5 /* RTSMediaPlayerSharedController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4A1F46B539B94F546794FD7D8513107 /* RTSMediaPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 451C2F1EE9259F57C9996DB03D720EAC /* RTSMediaPlayerViewController.xib */; };
 		A5AABC8D423CB18FD61C9864C600D9B7 /* RTSMediaPlayerController+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 443AAED202F6202BCA615C247176DA48 /* RTSMediaPlayerController+RTSAnalytics.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		A607CF6C0C7056F82B69CE66A88CECC9 /* NSObject+OCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAACA8F674C73E34DCCA6C14604B8E43 /* NSObject+OCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		A6EAF1802EAA6BC510459F7D63C1AB7C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3D08878C259ECBADDA534B8AEF8105 /* Foundation.framework */; };
 		A766928A05D3397F1DE91FC7554B5340 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 658A89F2BF3F8E870EA78FDCBAC73CEB /* UIKit.framework */; };
 		A8F0FC65A7CB3B915FC3317B6784FA74 /* TKStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A48D5A3EB9677FDD4F3B45E9740C698 /* TKStateMachine.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		AB3EA7039FB80D44FDC028C0EA713076 /* UIBezierPath+RTSMediaPlayerUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E244EA8B867073FA4EDCEB70D474C5A /* UIBezierPath+RTSMediaPlayerUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AB3EA7039FB80D44FDC028C0EA713076 /* UIBezierPath+RTSMediaPlayerUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDEB5D3B3AC75B5E57B45F230D2739A /* UIBezierPath+RTSMediaPlayerUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB766DB06AF653C5077636F0FBE07642 /* KIFTypist.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E617BA904858E6576186AEC186EF481 /* KIFTypist.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		AC14F4EB60DDBADAB3455CB08E856EE1 /* OCMIndirectReturnValueProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = F5446D24D0855CC1231946B0341BC96F /* OCMIndirectReturnValueProvider.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		ADA95510473BEDD9DDC5B22970F638C5 /* NSValue+OCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D05F6982D6C7A518AC1BA14DC83B5FE /* NSValue+OCMAdditions.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		AFDC0AC2CD8ABE82B16615FF62E0306C /* RTSAnalyticsNetmetrixTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = A91574E150091BAC2383E2AD68B9DDD6 /* RTSAnalyticsNetmetrixTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B000550DEC1202E601A1AD9906A42941 /* UIView-Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 73610535A479960EAE9CB6AA3978E8FC /* UIView-Debugging.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		B01FC58F8893A13C9A65C281317306C6 /* RTSTimelineSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 379FFF935CAC15775D3C4DDF59330CB6 /* RTSTimelineSlider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B01FC58F8893A13C9A65C281317306C6 /* RTSTimelineSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 13707CA2E8DF3B8BCA8BB88A31906BCA /* RTSTimelineSlider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B0D75683738166CAB411F5E605ED4C18 /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF8060D3E99F1CA9FCB97F6D608D53 /* NSFileManager-KIFAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		B1422F428002B48280073DA74F86E95B /* RTSPictureInPictureButton.h in Headers */ = {isa = PBXBuildFile; fileRef = BBBDE2F5EC408B8FA14625530F1195EB /* RTSPictureInPictureButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B1422F428002B48280073DA74F86E95B /* RTSPictureInPictureButton.h in Headers */ = {isa = PBXBuildFile; fileRef = F945A68CE30A2C89244C452B9BF25A9C /* RTSPictureInPictureButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B170E939C0D9C80CE97072E9200C8E65 /* RTSAnalyticsVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = C93F7C467A4A33FA56EBA91ED0649C45 /* RTSAnalyticsVersion.m */; settings = {COMPILER_FLAGS = "-DRTS_ANALYTICS_VERSION=1.4.11 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B4A61429AF1D9BEB333A4F0F9321302B /* TKState.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D7DEDD4D4806D44A15BA23AA7B8381 /* TKState.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B5CBEC63A51FE8AFEDBBFC1684C6C604 /* UIViewController+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3B36026FE1DFFFAC10AD088DCDB057 /* UIViewController+RTSAnalytics.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B7BB9CFA7A3847A9645693EA781673A8 /* RTSMediaPlayerControllerTracker_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A3E7A425ED78DE9A99E6F5CD2BC7FBA /* RTSMediaPlayerControllerTracker_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B97B5A9609566D4602629C8107F556E1 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BA65FEEA0DF7A3379D5307AE4D3FC91 /* XCTest.framework */; };
 		BA061F70FDAF14B3061F60BF13DA7D09 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3D08878C259ECBADDA534B8AEF8105 /* Foundation.framework */; };
 		BAFB0580B3FCC16C35FE1368B960BF7B /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D63979990D072709376612A0EE708F1 /* CoreMedia.framework */; };
-		BB2657E9240738D02C98A08002B5BEE3 /* RTSPlaybackActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02364DAE8EC5CA63F675605D049C082D /* RTSPlaybackActivityIndicatorView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		BB6CCF09D6692484616222764C4336B2 /* RTSMediaPlayerPlaybackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CA9FB43407CC685A49E7C3593F3E5985 /* RTSMediaPlayerPlaybackButton.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		BB2657E9240738D02C98A08002B5BEE3 /* RTSPlaybackActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F9B060B8A6E65F81F5CBC6DEA68F72 /* RTSPlaybackActivityIndicatorView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		BB6CCF09D6692484616222764C4336B2 /* RTSMediaPlayerPlaybackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 13AD1B1D765DE8F71A0A3A13DF96FC07 /* RTSMediaPlayerPlaybackButton.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		BC3436C4CC328004DA4FAF15B452952D /* OCMMacroState.m in Sources */ = {isa = PBXBuildFile; fileRef = 877681CBE28960B74C31779AA3010E9E /* OCMMacroState.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		BC512CC3EE66F04D4794695A76232DF2 /* RTSVolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5577D09FB08D10FBF6836A9F16799 /* RTSVolumeView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		BC512CC3EE66F04D4794695A76232DF2 /* RTSVolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD70D5B3D1200E94886B3DA488BE21CE /* RTSVolumeView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		BCD0687B829D66729F736A0B7EF7E291 /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A8EB2033BD7A992AB7CF202C212ABC66 /* de.lproj */; };
 		BD3A492EA363E779D5B4217962B76FAB /* OCMBoxedReturnValueProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = FE29CDA86EAA11A5CA30AED06EF9BFAB /* OCMBoxedReturnValueProvider.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		BE75E7593BD1A4E3F12ADA3465248AA5 /* TKTransition.h in Headers */ = {isa = PBXBuildFile; fileRef = 0FA838EED526B9A74FC3222C32FFED66 /* TKTransition.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C003E5F1900172318CB5EC4A61B65D8C /* RTSMediaPlayerControllerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 333E4357F3A45FA5C3E98300C4395A11 /* RTSMediaPlayerControllerDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C003E5F1900172318CB5EC4A61B65D8C /* RTSMediaPlayerControllerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 117D507E28A5E7847A62D05EEA4D040D /* RTSMediaPlayerControllerDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C0F1AE3B285B9533EE3B43225E4A0D0F /* RTSAnalyticsVersion_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8169ABD92AFC0AA8764911B56C16721A /* RTSAnalyticsVersion_private.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C11C24388B9080A488D8400CC0F9030B /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C64DC811A148683128144AC149E17E59 /* NSFileManager-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C1E645DEBBA17BAE74F0BA461CFB241D /* OCMStubRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E2BB8575361F1DF7C943DDA3FCCDC01 /* OCMStubRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C2994C789D02D9B03D1CED67C67092D9 /* RTSAnalyticsTracker+Logging_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 2117E22B7331374A0719A6994ACABA3F /* RTSAnalyticsTracker+Logging_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C32EFDB5FF28C469BD6C0051932346D7 /* RTSMediaPlayerIconTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B451388C1F476E6ED82DAECB9E0A6F /* RTSMediaPlayerIconTemplate.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		C36205851026D991299F0AA040A13C7E /* RTSAirplayOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = A101E1093257F6569AC5B89385FD061E /* RTSAirplayOverlayView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C32EFDB5FF28C469BD6C0051932346D7 /* RTSMediaPlayerIconTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B39585C572BC57C9D4B6B95AF4532A0 /* RTSMediaPlayerIconTemplate.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		C36205851026D991299F0AA040A13C7E /* RTSAirplayOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = 53CE143CC0782334E79062B1D381A3F5 /* RTSAirplayOverlayView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8391B1005E67D32DC60094EB4CDBA3A /* NSNotificationCenter+OCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ABE951B906980FAE66B1EA1E4CBDB338 /* NSNotificationCenter+OCMAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CB698DA34A9E06F0EFBD412A3FC7031E /* RTSMediaPlayerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F9D9728C03F4CD15F1E9C1C8732D6BA /* RTSMediaPlayerViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CB698DA34A9E06F0EFBD412A3FC7031E /* RTSMediaPlayerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C0F86F226CED6AEB4BFFD1003ABD7D0 /* RTSMediaPlayerViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CB7FF0423972317F68848F92AED15BAA /* RTSMediaPlayerController+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EFC13A217FF8F68089F1558D7AC0B16 /* RTSMediaPlayerController+RTSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CC97A19B664979A1369125A9FEE604D8 /* OCProtocolMockObject.h in Headers */ = {isa = PBXBuildFile; fileRef = BA212A858C71D94E4C06324CA972DD35 /* OCProtocolMockObject.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		CE51DFCC849458D7F3E6A082EA67700A /* RTSMediaPlayerControllerTrackingInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 20E7AC29A86E7273702D506FFBC45DF5 /* RTSMediaPlayerControllerTrackingInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CED3CE73889D2B5C8895D2C48EB3FB41 /* RTSMediaSegment.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B0EB08A2860BE2E209429C1DB1BDAF7 /* RTSMediaSegment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CED3CE73889D2B5C8895D2C48EB3FB41 /* RTSMediaSegment.h in Headers */ = {isa = PBXBuildFile; fileRef = 33AD764C859558DD2366F23FE941724F /* RTSMediaSegment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D1873B9180CD5AEE6DA2B0A143B25B3C /* UIScrollView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82068B328C45D7463514FA00F647E83C /* UIScrollView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D1A02BB1FA415171BDAE5F613B6938DA /* KIFAccessibilityEnabler.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C8BF0B9CA377D3A92DEB9795AA9205 /* KIFAccessibilityEnabler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D257262421F59D76A7BD77A2E9724561 /* OCMConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = FB3B8DECF6CEB3EFC6C5137D6D17EC49 /* OCMConstraint.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -219,12 +220,14 @@
 		D26A8A6C57575E598D5BF9A686114E69 /* Pods-SRGAnalytics Demo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE9755F06024761F3A86F7F40C32764 /* Pods-SRGAnalytics Demo-dummy.m */; };
 		D26AA5E321EE477C7A86E5003128BB28 /* OCMStubRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B3C833A4E06CBB6E5646FAE8C7E657 /* OCMStubRecorder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		D28DAE87BE8BD87203F59EF405FCC889 /* OCMInvocationMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B94ED245C49B21AAD7FF8630891ABEE /* OCMInvocationMatcher.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		D46D615CDE311B29319AEA5CBC9231A6 /* RTSMediaPlayerSharedController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C2DCF9F41552FD3FBF5BDC72DD42D4 /* RTSMediaPlayerSharedController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		D46D615CDE311B29319AEA5CBC9231A6 /* RTSMediaPlayerSharedController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBFF2EC4C200C40EE8CB5B72D404B447 /* RTSMediaPlayerSharedController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		D50B579C121B2A6EE6C67C0739F53027 /* OCMInvocationStub.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BFDD949055CB24981C3F9ACAEB5B320 /* OCMInvocationStub.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		D5912F8973ABCFD5B5F7D40F3CAAA56D /* picture_in_picture_start_button.png in Resources */ = {isa = PBXBuildFile; fileRef = D4627C71123EFAB65975546149180B35 /* picture_in_picture_start_button.png */; };
 		D6D4B4777E22192807FE19B6B4A99086 /* NSError-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 585BEA023B38F23FA8B5D6B070906B1F /* NSError-KIFAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		D6EBA749D829E7162F34408CC862C882 /* NSString+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = EF81EAEFA6E0E8EC629ED9EF989171E1 /* NSString+RTSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D90FA216DFCF408854AD30DB0A5A11A0 /* TKTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = E42EDD02A17CC4061E4C981DEE86F4D9 /* TKTransition.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		D94A3D1E044C6301848BFEAD2758C19F /* OCClassMockObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 86D8449708387F3B8C0AABB55308CCA0 /* OCClassMockObject.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		D9A19048732A8975D68F88332F4C816C /* rm.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 1DE69FD904EFD2020E1AB1DAD846BF97 /* rm.lproj */; };
 		D9B1DD6EAD21541DBB8831DA925D384E /* NSException-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 706FE4EBC795D62359AE63FC4DB5379A /* NSException-KIFAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		DEA17BB6D6AC30E5883F484C27EBADD0 /* OCMVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CF22480FF03374DDF8BBC4B32E9859 /* OCMVerifier.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		DEE0D9A8C433461DBF132359BCABA828 /* RTSAnalyticsTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 642E7C0D7D13F4E6C01CC96813977B9F /* RTSAnalyticsTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -233,21 +236,23 @@
 		E5560608E3AD02324DD4F8D358526CDA /* OCMBoxedReturnValueProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D172AC46C636CB9BC218CD8DC18E2DA6 /* OCMBoxedReturnValueProvider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		E5AD52781947364D8295878392ACC76D /* CGGeometry-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E93285D18F65D4C7EFBB2FCE0866E18 /* CGGeometry-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8AFA81579DB97D18F6295F1AADF8C62 /* OCPartialMockObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 017E2791A38A5A254EC1E432A7E83C9C /* OCPartialMockObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		E9E3ECA19594F9FE8BF8F2BD19FC88A3 /* RTSMediaSegmentsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 024D71670CE7F261F7D92C85469176B6 /* RTSMediaSegmentsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9E3ECA19594F9FE8BF8F2BD19FC88A3 /* RTSMediaSegmentsController.h in Headers */ = {isa = PBXBuildFile; fileRef = B408E8D776CF5435C7AB2C358FB90CE9 /* RTSMediaSegmentsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EA87325D41490A60D7C26A25FD888FAB /* OCMFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 20428C4B46C882653809D63FFEC4748F /* OCMFunctions.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		EC0A68D0D1ACA84356AF4ECB3CE9E45F /* KIFTestStepValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AF313E520352A0DB0C759E209EB811 /* KIFTestStepValidation.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		EEBD74667043713F53D62E648ADEC023 /* RTSAnalyticsNetmetrixTracker_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7049575D761B371A5349BE21970662A5 /* RTSAnalyticsNetmetrixTracker_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		EFC842414F8B68D8257C890A9BF65D4D /* NSNotificationCenter+OCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B41FD4A790C47B29BBBC9AA7215F7A /* NSNotificationCenter+OCMAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		F0357B04419498D8816F039E8D9948B4 /* RTSMediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C79D91775C6BB824D5E64EED6D3C31 /* RTSMediaPlayerViewController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		F0357B04419498D8816F039E8D9948B4 /* RTSMediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96465515BD283A73B7C393711103E967 /* RTSMediaPlayerViewController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F05B9CE70355E5B045A7A61D33C63333 /* CSRequest+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6E7A3BD1BD8F973CE441F556FF5202 /* CSRequest+RTSAnalytics.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F0F946295DD627C1274273F63D3EC723 /* UIAutomationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2514EFBF389A96C50D6BF94F8B7FE2EF /* UIAutomationHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3BDFBEC205A9F4B5DFDD9FFD6FAD2E8 /* OCMRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 928BD12F7A50FDF2596D8AD08143A288 /* OCMRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F4827C54BA953BB8DEFE54D03370A557 /* KIFAccessibilityEnabler.m in Sources */ = {isa = PBXBuildFile; fileRef = BC240302E5E964A7FA99324041954C77 /* KIFAccessibilityEnabler.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		F59345F0716A6B57F983B91F61D0F998 /* RTSTimeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B6ECC3B6A8AA5023FC73E0C78E859C1F /* RTSTimeSlider.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		F59345F0716A6B57F983B91F61D0F998 /* RTSTimeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF19D2B8B6C27914890ECA0D0FBBA3B /* RTSTimeSlider.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F6C85C9AF8E2246A8965B824E2479D1E /* OCMExpectationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 235799FC094DB8B78B5D3EDCAEFFDA84 /* OCMExpectationRecorder.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		F8E40DC1AB87C34AF56941F14249CDC9 /* UIViewController+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 7606D103FC70C0530960E9DEF8595812 /* UIViewController+RTSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FB2ACB3E61739BDCEE1E84DCEB60DE69 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7CA49FC81B0B265745232DD367E885E /* MediaPlayer.framework */; };
 		FB8065A311F61D93870620CE7317704E /* UIEvent+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BD66E01600C9DCC0AE2311C1BF03A821 /* UIEvent+KIFAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		FBCC3129A867107067D56779C20CF70E /* it.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 827CDDB117473BFEF6DFFFCB403B510C /* it.lproj */; };
+		FC6D4647C3B091801AB356506259FE1E /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 0399CB7B1A343279E75FD487B0E9E848 /* en.lproj */; };
 		FCD5AF9B76D40D0489663A0F9BBB7AF4 /* RTSAnalyticsMediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = FB60193CBA5BF1098C4C42BFF4E70C05 /* RTSAnalyticsMediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FE4B3450E07FAC7DC6E5314DA378410D /* OCMBlockCaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DD667740FC55A623C9E628CFF1F7753 /* OCMBlockCaller.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		FE5509807E505D2CEB60561DA840FF19 /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1072483C128F89B192ACF3151EDADF1 /* EXTRuntimeExtensions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -378,50 +383,57 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00D530BDBE28FFEF2EA8668326A842BF /* RTSAirplayOverlayView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSAirplayOverlayView.m; path = RTSMediaPlayer/RTSAirplayOverlayView.m; sourceTree = "<group>"; };
 		017E2791A38A5A254EC1E432A7E83C9C /* OCPartialMockObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCPartialMockObject.m; path = Source/OCMock/OCPartialMockObject.m; sourceTree = "<group>"; };
-		02364DAE8EC5CA63F675605D049C082D /* RTSPlaybackActivityIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSPlaybackActivityIndicatorView.m; path = RTSMediaPlayer/RTSPlaybackActivityIndicatorView.m; sourceTree = "<group>"; };
-		024D71670CE7F261F7D92C85469176B6 /* RTSMediaSegmentsController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaSegmentsController.h; path = RTSMediaPlayer/RTSMediaSegmentsController.h; sourceTree = "<group>"; };
 		02BF9B6AEF5287CBD84BBDA67EF11855 /* libSRGAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSRGAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0399CB7B1A343279E75FD487B0E9E848 /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = en.lproj; path = RTSMediaPlayer/en.lproj; sourceTree = "<group>"; };
+		050154C6CB860F0C73DC19A1FA8E4681 /* RTSMediaPlayerView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerView.h; path = RTSMediaPlayer/RTSMediaPlayerView.h; sourceTree = "<group>"; };
 		0643915A725D1252810D71AC38A48280 /* XCTestCase-KIFAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "XCTestCase-KIFAdditions.m"; path = "Additions/XCTestCase-KIFAdditions.m"; sourceTree = "<group>"; };
 		0670DD2F67CFEB5799359CFC7F08EED5 /* NSString+RTSAnalytics.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSString+RTSAnalytics.m"; sourceTree = "<group>"; };
-		06F193672C251CB91A83785D5B4FD887 /* RTSSegmentedTimelineView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSSegmentedTimelineView.h; path = RTSMediaPlayer/RTSSegmentedTimelineView.h; sourceTree = "<group>"; };
-		07589A710C86E496D522527929982C4D /* RTSMediaPlayerView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerView.h; path = RTSMediaPlayer/RTSMediaPlayerView.h; sourceTree = "<group>"; };
 		0915AC5417D107773A9FE2585AE6EAF4 /* KIF.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KIF.xcconfig; sourceTree = "<group>"; };
 		09DAB97945A90CE36E41B2A66C4A8927 /* libKIF.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libKIF.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B9F35065958DBD0B3A1AE483CCB5F95 /* CSCensus.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSCensus.h; path = comScore/headers/CSCensus.h; sourceTree = "<group>"; };
+		0C0F86F226CED6AEB4BFFD1003ABD7D0 /* RTSMediaPlayerViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerViewController.h; path = RTSMediaPlayer/RTSMediaPlayerViewController.h; sourceTree = "<group>"; };
+		0CC17B93056EBD4BADF2B1613D7549D5 /* RTSPlaybackActivityIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSPlaybackActivityIndicatorView.h; path = RTSMediaPlayer/RTSPlaybackActivityIndicatorView.h; sourceTree = "<group>"; };
 		0DD667740FC55A623C9E628CFF1F7753 /* OCMBlockCaller.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMBlockCaller.m; path = Source/OCMock/OCMBlockCaller.m; sourceTree = "<group>"; };
 		0E93285D18F65D4C7EFBB2FCE0866E18 /* CGGeometry-KIFAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "CGGeometry-KIFAdditions.h"; path = "Additions/CGGeometry-KIFAdditions.h"; sourceTree = "<group>"; };
 		0FA838EED526B9A74FC3222C32FFED66 /* TKTransition.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TKTransition.h; path = Code/TKTransition.h; sourceTree = "<group>"; };
+		0FF659CB2A11E385181245AC5293B101 /* RTSMediaPlayerController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerController.m; path = RTSMediaPlayer/RTSMediaPlayerController.m; sourceTree = "<group>"; };
 		108E496177D3C8B0A5F3D3F8BBB666B6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
-		10D2E05EEED7E83FECD047B9ADDA2AEB /* picture_in_picture_start_button.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = picture_in_picture_start_button.png; path = RTSMediaPlayer/picture_in_picture_start_button.png; sourceTree = "<group>"; };
+		117D507E28A5E7847A62D05EEA4D040D /* RTSMediaPlayerControllerDataSource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerControllerDataSource.h; path = RTSMediaPlayer/RTSMediaPlayerControllerDataSource.h; sourceTree = "<group>"; };
 		1332044C57EB46BF5B2C7AD50E2AC9FB /* UIAccessibilityElement-KIFAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIAccessibilityElement-KIFAdditions.m"; path = "Additions/UIAccessibilityElement-KIFAdditions.m"; sourceTree = "<group>"; };
+		13707CA2E8DF3B8BCA8BB88A31906BCA /* RTSTimelineSlider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSTimelineSlider.h; path = RTSMediaPlayer/RTSTimelineSlider.h; sourceTree = "<group>"; };
+		13AD1B1D765DE8F71A0A3A13DF96FC07 /* RTSMediaPlayerPlaybackButton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerPlaybackButton.m; path = RTSMediaPlayer/RTSMediaPlayerPlaybackButton.m; sourceTree = "<group>"; };
 		1432F9860835DB6E63F4F05EE8E207CB /* libOCMock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOCMock.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B97FBF23140B0A818837CEA8D11222 /* KIFUITestActor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KIFUITestActor.h; path = Classes/KIFUITestActor.h; sourceTree = "<group>"; };
 		15CF22480FF03374DDF8BBC4B32E9859 /* OCMVerifier.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMVerifier.m; path = Source/OCMock/OCMVerifier.m; sourceTree = "<group>"; };
+		15EC999580559B63427D840F937708CB /* RTSPeriodicTimeObserver.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSPeriodicTimeObserver.m; path = RTSMediaPlayer/RTSPeriodicTimeObserver.m; sourceTree = "<group>"; };
 		182F8FB065CEA9EFF46D43A15EB98B8E /* libextobjc-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "libextobjc-prefix.pch"; sourceTree = "<group>"; };
-		1A6617D7A93CF462ABC5241A2C9823CE /* RTSMediaPlayerView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerView.m; path = RTSMediaPlayer/RTSMediaPlayerView.m; sourceTree = "<group>"; };
+		19483CAF25D655346782A584D3E5C451 /* RTSMediaPlayerVersion.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerVersion.h; path = RTSMediaPlayer/RTSMediaPlayerVersion.h; sourceTree = "<group>"; };
+		1B15DB9A772663774D2F96F4909E9515 /* RTSMediaPlayerController+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "RTSMediaPlayerController+Private.h"; path = "RTSMediaPlayer/RTSMediaPlayerController+Private.h"; sourceTree = "<group>"; };
 		1C3C77A4B87E20B260204A8A6390107B /* OCMock.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMock.h; path = Source/OCMock/OCMock.h; sourceTree = "<group>"; };
 		1D63979990D072709376612A0EE708F1 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		1D7A106D1AFBAA7062EBF264F63D3FFB /* OCMConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMConstraint.h; path = Source/OCMock/OCMConstraint.h; sourceTree = "<group>"; };
 		1DA52CF0D630F8D82C85574EF7623E63 /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
-		1E313D490E312886679F1AE5D18ACEAC /* RTSMediaPlayerController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerController.h; path = RTSMediaPlayer/RTSMediaPlayerController.h; sourceTree = "<group>"; };
+		1DE69FD904EFD2020E1AB1DAD846BF97 /* rm.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = rm.lproj; path = RTSMediaPlayer/rm.lproj; sourceTree = "<group>"; };
 		1E63E48B5D4269917ED5683A87E1179D /* Pods-SRGAnalytics DemoTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SRGAnalytics DemoTests-dummy.m"; sourceTree = "<group>"; };
 		1F08552C327F20CBF0DED770928DFF36 /* OCMMacroState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMMacroState.h; path = Source/OCMock/OCMMacroState.h; sourceTree = "<group>"; };
-		1FB5577D09FB08D10FBF6836A9F16799 /* RTSVolumeView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSVolumeView.m; path = RTSMediaPlayer/RTSVolumeView.m; sourceTree = "<group>"; };
 		20428C4B46C882653809D63FFEC4748F /* OCMFunctions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMFunctions.h; path = Source/OCMock/OCMFunctions.h; sourceTree = "<group>"; };
 		20E7AC29A86E7273702D506FFBC45DF5 /* RTSMediaPlayerControllerTrackingInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RTSMediaPlayerControllerTrackingInfo.h; sourceTree = "<group>"; };
 		2117E22B7331374A0719A6994ACABA3F /* RTSAnalyticsTracker+Logging_private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RTSAnalyticsTracker+Logging_private.h"; sourceTree = "<group>"; };
 		21F9D59B147556986B5BA783069483EA /* libPods-SRGAnalytics Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalytics Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2250878CA6D9481C4B71B674C3A115A8 /* TransitionKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TransitionKit.xcconfig; sourceTree = "<group>"; };
+		22E4E94BF545FE3D3956F83D2DD009FB /* picture_in_picture_stop_button@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "picture_in_picture_stop_button@2x.png"; path = "RTSMediaPlayer/picture_in_picture_stop_button@2x.png"; sourceTree = "<group>"; };
 		235799FC094DB8B78B5D3EDCAEFFDA84 /* OCMExpectationRecorder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMExpectationRecorder.h; path = Source/OCMock/OCMExpectationRecorder.h; sourceTree = "<group>"; };
+		245A0997E1DEF22C1903818AFD0CCA6D /* RTSMediaPlayerController+Private.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "RTSMediaPlayerController+Private.m"; path = "RTSMediaPlayer/RTSMediaPlayerController+Private.m"; sourceTree = "<group>"; };
 		24FAF6D207B25DF1BB17221D2D58B46E /* NSError-KIFAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSError-KIFAdditions.h"; path = "Additions/NSError-KIFAdditions.h"; sourceTree = "<group>"; };
 		2514EFBF389A96C50D6BF94F8B7FE2EF /* UIAutomationHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UIAutomationHelper.h; path = Classes/UIAutomationHelper.h; sourceTree = "<group>"; };
+		257735E5FACC9343C8584A616B36034A /* RTSMediaPlayerLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerLogger.h; path = RTSMediaPlayer/RTSMediaPlayerLogger.h; sourceTree = "<group>"; };
 		2712A79FA4D371C9B0939E0EEB96F1B1 /* OCMArg.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMArg.m; path = Source/OCMock/OCMArg.m; sourceTree = "<group>"; };
 		27538C6D74586D23D66A9D2BE9DEB4C7 /* TKEvent.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TKEvent.m; path = Code/TKEvent.m; sourceTree = "<group>"; };
 		27C8B5EBBFAE96227BC8BA5A0A0D3486 /* UITouch-KIFAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UITouch-KIFAdditions.m"; path = "Additions/UITouch-KIFAdditions.m"; sourceTree = "<group>"; };
 		295C058BBB2DE0430B3FCD9B6CE3145D /* NSMethodSignature+OCMAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSMethodSignature+OCMAdditions.h"; path = "Source/OCMock/NSMethodSignature+OCMAdditions.h"; sourceTree = "<group>"; };
 		2A6BC435F199F662D6AFB0676BA8EC90 /* Pods-SRGAnalytics Demo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SRGAnalytics Demo-acknowledgements.plist"; sourceTree = "<group>"; };
-		2B0EB08A2860BE2E209429C1DB1BDAF7 /* RTSMediaSegment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaSegment.h; path = RTSMediaPlayer/RTSMediaSegment.h; sourceTree = "<group>"; };
 		2B62F6A9CC2D31E6679D1307029D56E0 /* Pods-SRGAnalyticsTests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalyticsTests.test.xcconfig"; sourceTree = "<group>"; };
 		2B960429A3F9EA2C2EF35174B75AE314 /* OCMExceptionReturnValueProvider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMExceptionReturnValueProvider.h; path = Source/OCMock/OCMExceptionReturnValueProvider.h; sourceTree = "<group>"; };
 		2C6C8923C7E3F9718DBBA5C4A3F68175 /* TransitionKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TransitionKit-dummy.m"; sourceTree = "<group>"; };
@@ -432,61 +444,56 @@
 		31908459EB39B5F8FC3E690493644B21 /* TKState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TKState.h; path = Code/TKState.h; sourceTree = "<group>"; };
 		31AF313E520352A0DB0C759E209EB811 /* KIFTestStepValidation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KIFTestStepValidation.m; path = Classes/KIFTestStepValidation.m; sourceTree = "<group>"; };
 		329814AE293E4B310D23BB54D14C0AD8 /* OCMPassByRefSetter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMPassByRefSetter.h; path = Source/OCMock/OCMPassByRefSetter.h; sourceTree = "<group>"; };
-		333E4357F3A45FA5C3E98300C4395A11 /* RTSMediaPlayerControllerDataSource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerControllerDataSource.h; path = RTSMediaPlayer/RTSMediaPlayerControllerDataSource.h; sourceTree = "<group>"; };
+		33AD764C859558DD2366F23FE941724F /* RTSMediaSegment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaSegment.h; path = RTSMediaPlayer/RTSMediaSegment.h; sourceTree = "<group>"; };
 		33B1DA0658A38E556DF0D6DFE4611630 /* UIEvent+KIFAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIEvent+KIFAdditions.h"; path = "Additions/UIEvent+KIFAdditions.h"; sourceTree = "<group>"; };
 		33C86A5B1C968DCB0F671A6753CB7B42 /* NSException-KIFAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSException-KIFAdditions.h"; path = "Additions/NSException-KIFAdditions.h"; sourceTree = "<group>"; };
 		33ECD2B0DC48E33E34D1DA80B58E492C /* SRGAnalytics-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SRGAnalytics-prefix.pch"; sourceTree = "<group>"; };
-		3401BA24F93579709A7222C10EB46486 /* RTSMediaPlayerError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerError.h; path = RTSMediaPlayer/RTSMediaPlayerError.h; sourceTree = "<group>"; };
 		3568E779EDECBF0CC362805548B1EA0C /* Pods-SRGAnalytics DemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics DemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		35D5F62D4A10576F2AEAB9A77CD148ED /* OCMNotificationPoster.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMNotificationPoster.m; path = Source/OCMock/OCMNotificationPoster.m; sourceTree = "<group>"; };
-		379FFF935CAC15775D3C4DDF59330CB6 /* RTSTimelineSlider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSTimelineSlider.h; path = RTSMediaPlayer/RTSTimelineSlider.h; sourceTree = "<group>"; };
-		38965BFB485BD1E29B115F7F9D382F59 /* RTSMediaSegmentsDataSource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaSegmentsDataSource.h; path = RTSMediaPlayer/RTSMediaSegmentsDataSource.h; sourceTree = "<group>"; };
+		36743E99C452545A3490A6BDFEA1DE98 /* picture_in_picture_start_button@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "picture_in_picture_start_button@2x.png"; path = "RTSMediaPlayer/picture_in_picture_start_button@2x.png"; sourceTree = "<group>"; };
 		3A7EE598AB94E967BB9CC380A10152A8 /* KIFUITestActor-ConditionalTests.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "KIFUITestActor-ConditionalTests.h"; path = "Classes/KIFUITestActor-ConditionalTests.h"; sourceTree = "<group>"; };
 		3A92A52F85A14EBDDF52C011E3CF6B04 /* CSCacheFlusher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSCacheFlusher.h; path = comScore/headers/CSCacheFlusher.h; sourceTree = "<group>"; };
+		3AEC8EF3CB87C1496A43BEFD5BC070FB /* NSBundle+RTSMediaPlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSBundle+RTSMediaPlayer.h"; path = "RTSMediaPlayer/NSBundle+RTSMediaPlayer.h"; sourceTree = "<group>"; };
 		3B3D74E20B241C651CABB4B712E41E22 /* RTSAnalyticsLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsLogger.m; sourceTree = "<group>"; };
 		3C238B566DE51955500F05A1720CA7A2 /* Pods-SRGAnalytics Demo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SRGAnalytics Demo-acknowledgements.markdown"; sourceTree = "<group>"; };
 		3D05F6982D6C7A518AC1BA14DC83B5FE /* NSValue+OCMAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSValue+OCMAdditions.h"; path = "Source/OCMock/NSValue+OCMAdditions.h"; sourceTree = "<group>"; };
 		3DD65CE184CA32B4A424FE7774CADCA2 /* EXTScope.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = EXTScope.m; path = extobjc/EXTScope.m; sourceTree = "<group>"; };
+		3F48BD25A512BCB33875AF51CFCE85FE /* NSBundle+RTSMediaPlayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+RTSMediaPlayer.m"; path = "RTSMediaPlayer/NSBundle+RTSMediaPlayer.m"; sourceTree = "<group>"; };
 		40C8BF0B9CA377D3A92DEB9795AA9205 /* KIFAccessibilityEnabler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KIFAccessibilityEnabler.h; path = Classes/KIFAccessibilityEnabler.h; sourceTree = "<group>"; };
-		4108A76900FAF43B38E4E714B0421158 /* thumb_timeline_slider.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = thumb_timeline_slider.png; path = RTSMediaPlayer/thumb_timeline_slider.png; sourceTree = "<group>"; };
-		4111CB5EF4635CEA307A6D71EC6DE44E /* RTSMediaSegmentsController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaSegmentsController.m; path = RTSMediaPlayer/RTSMediaSegmentsController.m; sourceTree = "<group>"; };
-		42B451388C1F476E6ED82DAECB9E0A6F /* RTSMediaPlayerIconTemplate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerIconTemplate.m; path = RTSMediaPlayer/RTSMediaPlayerIconTemplate.m; sourceTree = "<group>"; };
 		443AAED202F6202BCA615C247176DA48 /* RTSMediaPlayerController+RTSAnalytics.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RTSMediaPlayerController+RTSAnalytics.m"; sourceTree = "<group>"; };
-		454AB75C3C5D7946197B7E5706836FCE /* RTSActivityGestureRecognizer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSActivityGestureRecognizer.h; path = RTSMediaPlayer/RTSActivityGestureRecognizer.h; sourceTree = "<group>"; };
+		451C2F1EE9259F57C9996DB03D720EAC /* RTSMediaPlayerViewController.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = RTSMediaPlayerViewController.xib; path = RTSMediaPlayer/RTSMediaPlayerViewController.xib; sourceTree = "<group>"; };
 		45E1CA852D7289EFA201C167E24AFBCC /* SRGAnalytics-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SRGAnalytics-dummy.m"; sourceTree = "<group>"; };
-		46B80C8CB327207C26304BE6546C200B /* RTSTimeSlider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSTimeSlider.h; path = RTSMediaPlayer/RTSTimeSlider.h; sourceTree = "<group>"; };
+		4602F0F0EC2E2401E5105381A946C6A5 /* RTSSegmentedTimelineView+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "RTSSegmentedTimelineView+Private.h"; path = "RTSMediaPlayer/RTSSegmentedTimelineView+Private.h"; sourceTree = "<group>"; };
+		463940CA78B701CF70E9CAB58FC9AEE9 /* RTSActivityGestureRecognizer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSActivityGestureRecognizer.m; path = RTSMediaPlayer/RTSActivityGestureRecognizer.m; sourceTree = "<group>"; };
+		4691F975B2D2B6C6464331F09AF518D7 /* RTSMediaSegmentsController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaSegmentsController.m; path = RTSMediaPlayer/RTSMediaSegmentsController.m; sourceTree = "<group>"; };
 		47B9960A1F623ADD38BA18F73CEEAE43 /* UIAutomationHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = UIAutomationHelper.m; path = Classes/UIAutomationHelper.m; sourceTree = "<group>"; };
 		483CA08A7FCACD82412136FD81F344A7 /* SRGMediaPlayer.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SRGMediaPlayer.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		49874275DDD43CE9B4DABAEE7DB2FBEB /* metamacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = metamacros.h; path = extobjc/metamacros.h; sourceTree = "<group>"; };
 		49C1EBC92E7F096F2320BEC7F692B814 /* OCProtocolMockObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCProtocolMockObject.m; path = Source/OCMock/OCProtocolMockObject.m; sourceTree = "<group>"; };
-		49C2DCF9F41552FD3FBF5BDC72DD42D4 /* RTSMediaPlayerSharedController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerSharedController.m; path = RTSMediaPlayer/RTSMediaPlayerSharedController.m; sourceTree = "<group>"; };
 		4A2E793FF3C2433168852E7D84AE4D99 /* OCMLocation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMLocation.m; path = Source/OCMock/OCMLocation.m; sourceTree = "<group>"; };
 		4A3F5AA816D077B98BE71649F831501E /* OCMInvocationMatcher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMInvocationMatcher.m; path = Source/OCMock/OCMInvocationMatcher.m; sourceTree = "<group>"; };
+		4AFB80E701DBFA15FF60C082D4130128 /* picture_in_picture_stop_button.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = picture_in_picture_stop_button.png; path = RTSMediaPlayer/picture_in_picture_stop_button.png; sourceTree = "<group>"; };
 		4C3D08878C259ECBADDA534B8AEF8105 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		4C81F3ABBE3D0E8510BECC3A3F5276A2 /* RTSSegmentedTimelineView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSSegmentedTimelineView.m; path = RTSMediaPlayer/RTSSegmentedTimelineView.m; sourceTree = "<group>"; };
-		4CE1ED43CEC1289D301C4CC2EDBC9E15 /* RTSMediaPlayerVersion.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerVersion.m; path = RTSMediaPlayer/RTSMediaPlayerVersion.m; sourceTree = "<group>"; };
+		4CBD8597694ADFB75A5ABE99483259B2 /* RTSMediaFailureOverlayView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaFailureOverlayView.m; path = RTSMediaPlayer/RTSMediaFailureOverlayView.m; sourceTree = "<group>"; };
 		4D7E93A652D6168B5640371A96747935 /* CSCore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSCore.h; path = comScore/headers/CSCore.h; sourceTree = "<group>"; };
 		4D95B72C35D671C0927B27DEAA05F79A /* SRGAnalytics.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = SRGAnalytics.h; sourceTree = "<group>"; };
-		4E244EA8B867073FA4EDCEB70D474C5A /* UIBezierPath+RTSMediaPlayerUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIBezierPath+RTSMediaPlayerUtils.h"; path = "RTSMediaPlayer/UIBezierPath+RTSMediaPlayerUtils.h"; sourceTree = "<group>"; };
+		4EA6B3D83F5294E8F6619441CC68A225 /* RTSMediaPlayerVersion.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerVersion.m; path = RTSMediaPlayer/RTSMediaPlayerVersion.m; sourceTree = "<group>"; };
 		4EAE70F1722923245DFFF2044947F086 /* Pods-SRGAnalytics DemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics DemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		4FDAA2F8040C0536AA87D35E081CDBE7 /* IOHIDEvent+KIF.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "IOHIDEvent+KIF.m"; path = "Classes/IOHIDEvent+KIF.m"; sourceTree = "<group>"; };
-		50291010FACCBCB07991E2FD88B7D256 /* RTSMediaPlayerController+Private.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "RTSMediaPlayerController+Private.m"; path = "RTSMediaPlayer/RTSMediaPlayerController+Private.m"; sourceTree = "<group>"; };
 		5099FE2B77E71EF84CDA4F164558F646 /* RTSAnalyticsMediaPlayerDataSource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsMediaPlayerDataSource.h; sourceTree = "<group>"; };
-		5177C6C9EFBBFC0C492797A67614E17E /* thumb_timeline_slider@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "thumb_timeline_slider@2x.png"; path = "RTSMediaPlayer/thumb_timeline_slider@2x.png"; sourceTree = "<group>"; };
 		51FD26AA1183E5E32EF2FA0CABD600C0 /* OCMRealObjectForwarder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMRealObjectForwarder.h; path = Source/OCMock/OCMRealObjectForwarder.h; sourceTree = "<group>"; };
+		53CE143CC0782334E79062B1D381A3F5 /* RTSAirplayOverlayView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSAirplayOverlayView.h; path = RTSMediaPlayer/RTSAirplayOverlayView.h; sourceTree = "<group>"; };
 		54148E7AB05EA8B6C4ECEBF84FDEECD5 /* LoadableCategory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LoadableCategory.h; path = Additions/LoadableCategory.h; sourceTree = "<group>"; };
 		54272E2AA8B22AB62D289A4F80B66E84 /* EXTScope.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXTScope.h; path = extobjc/EXTScope.h; sourceTree = "<group>"; };
-		552B547C18D34CB2DC0BEDB6A1585B08 /* RTSMediaPlayerSharedController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerSharedController.h; path = RTSMediaPlayer/RTSMediaPlayerSharedController.h; sourceTree = "<group>"; };
 		55A909E4BBCB3B4EB64C5D351E1FEB13 /* KIFUITestActor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KIFUITestActor.m; path = Classes/KIFUITestActor.m; sourceTree = "<group>"; };
 		56B41FD4A790C47B29BBBC9AA7215F7A /* NSNotificationCenter+OCMAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSNotificationCenter+OCMAdditions.m"; path = "Source/OCMock/NSNotificationCenter+OCMAdditions.m"; sourceTree = "<group>"; };
 		57624272C649F2FF75A7417FA2A76577 /* OCMBlockCaller.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMBlockCaller.h; path = Source/OCMock/OCMBlockCaller.h; sourceTree = "<group>"; };
 		585BEA023B38F23FA8B5D6B070906B1F /* NSError-KIFAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSError-KIFAdditions.m"; path = "Additions/NSError-KIFAdditions.m"; sourceTree = "<group>"; };
 		58AE6DC6283362FB54DF94D5AB3C9BAC /* Pods-SRGAnalyticsTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SRGAnalyticsTests-dummy.m"; sourceTree = "<group>"; };
+		5A1029D66C116FA28E6FDEADC827BF49 /* RTSMediaPlayerConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerConstants.h; path = RTSMediaPlayer/RTSMediaPlayerConstants.h; sourceTree = "<group>"; };
 		5A450F3C6CE164077EFD0B996173FB53 /* OCMExceptionReturnValueProvider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMExceptionReturnValueProvider.m; path = Source/OCMock/OCMExceptionReturnValueProvider.m; sourceTree = "<group>"; };
 		5D0399972CA84F43ACEC21C1FA77E358 /* RTSMediaPlayerControllerTrackingInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RTSMediaPlayerControllerTrackingInfo.m; sourceTree = "<group>"; };
-		5DEB3CCA3415EEF1E9C131D51AFDD13C /* RTSMediaPlayerController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerController.m; path = RTSMediaPlayer/RTSMediaPlayerController.m; sourceTree = "<group>"; };
 		5E86E714AB61095093275DA36D2543B8 /* CSStreamSensePlugin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSensePlugin.h; path = comScore/headers/CSStreamSensePlugin.h; sourceTree = "<group>"; };
-		5F5C19F7B93312D92F03E325814272AF /* RTSPeriodicTimeObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSPeriodicTimeObserver.h; path = RTSMediaPlayer/RTSPeriodicTimeObserver.h; sourceTree = "<group>"; };
 		5FE11802F47734552222EF3579964371 /* Pods-SRGAnalytics Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics Demo.release.xcconfig"; sourceTree = "<group>"; };
 		60B3C833A4E06CBB6E5646FAE8C7E657 /* OCMStubRecorder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMStubRecorder.m; path = Source/OCMock/OCMStubRecorder.m; sourceTree = "<group>"; };
 		6242DC3574810AF7FA8CF793A0C88737 /* OCMExpectationRecorder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMExpectationRecorder.m; path = Source/OCMock/OCMExpectationRecorder.m; sourceTree = "<group>"; };
@@ -515,12 +522,9 @@
 		7049575D761B371A5349BE21970662A5 /* RTSAnalyticsNetmetrixTracker_private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsNetmetrixTracker_private.h; sourceTree = "<group>"; };
 		704BE977F235ABDB60907C46F16BD22B /* KIFSystemTestActor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KIFSystemTestActor.h; path = Classes/KIFSystemTestActor.h; sourceTree = "<group>"; };
 		706FE4EBC795D62359AE63FC4DB5379A /* NSException-KIFAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSException-KIFAdditions.m"; path = "Additions/NSException-KIFAdditions.m"; sourceTree = "<group>"; };
-		718DB2AE4762711AC2B8A94AD09F3713 /* RTSMediaPlayerLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerLogger.m; path = RTSMediaPlayer/RTSMediaPlayerLogger.m; sourceTree = "<group>"; };
-		71C79D91775C6BB824D5E64EED6D3C31 /* RTSMediaPlayerViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerViewController.m; path = RTSMediaPlayer/RTSMediaPlayerViewController.m; sourceTree = "<group>"; };
 		720691AC2093806BB23DC7EFFFB4FA5D /* Pods-SRGAnalyticsTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SRGAnalyticsTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		72E4C569DEAA75B58A48F7A034556077 /* OCMVerifier.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMVerifier.h; path = Source/OCMock/OCMVerifier.h; sourceTree = "<group>"; };
 		73610535A479960EAE9CB6AA3978E8FC /* UIView-Debugging.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView-Debugging.m"; path = "Additions/UIView-Debugging.m"; sourceTree = "<group>"; };
-		73A80BFF09A9553BB9C33DB7AAC6D823 /* picture_in_picture_start_button@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "picture_in_picture_start_button@2x.png"; path = "RTSMediaPlayer/picture_in_picture_start_button@2x.png"; sourceTree = "<group>"; };
 		73E80702BD2C31A5EAE494A400A4AA27 /* CSStorage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStorage.h; path = comScore/headers/CSStorage.h; sourceTree = "<group>"; };
 		742F1395BEA5AA120E99F1943055275F /* CSStreamSensePluginProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSensePluginProtocol.h; path = comScore/headers/CSStreamSensePluginProtocol.h; sourceTree = "<group>"; };
 		74A4D23E70CAE2B36D6C1222A593E27F /* OCMReturnValueProvider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMReturnValueProvider.m; path = Source/OCMock/OCMReturnValueProvider.m; sourceTree = "<group>"; };
@@ -529,21 +533,21 @@
 		7606D103FC70C0530960E9DEF8595812 /* UIViewController+RTSAnalytics.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RTSAnalytics.h"; sourceTree = "<group>"; };
 		77412B0A39B612990BE34A15D01A80C5 /* UIWindow-KIFAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIWindow-KIFAdditions.m"; path = "Additions/UIWindow-KIFAdditions.m"; sourceTree = "<group>"; };
 		7771B42404D4E3F98873CF5BDA9D52A5 /* OCMock-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OCMock-prefix.pch"; sourceTree = "<group>"; };
-		778B5E5C0FEA95BA1CB26C2CDB9319FE /* RTSMediaPlayerVersion.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerVersion.h; path = RTSMediaPlayer/RTSMediaPlayerVersion.h; sourceTree = "<group>"; };
 		7966D1C8939063E4AC970D3567B8D6C5 /* IOHIDEvent+KIF.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "IOHIDEvent+KIF.h"; path = "Classes/IOHIDEvent+KIF.h"; sourceTree = "<group>"; };
 		79947FF442044D712B1A7BFBEF84FBD6 /* OCMIndirectReturnValueProvider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMIndirectReturnValueProvider.m; path = Source/OCMock/OCMIndirectReturnValueProvider.m; sourceTree = "<group>"; };
 		7A3E7A425ED78DE9A99E6F5CD2BC7FBA /* RTSMediaPlayerControllerTracker_private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RTSMediaPlayerControllerTracker_private.h; sourceTree = "<group>"; };
 		7AC6F7A0C1F487F7E6826DE4C1C8F5DF /* CSTransmissionMode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSTransmissionMode.h; path = comScore/headers/CSTransmissionMode.h; sourceTree = "<group>"; };
+		7B39585C572BC57C9D4B6B95AF4532A0 /* RTSMediaPlayerIconTemplate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerIconTemplate.m; path = RTSMediaPlayer/RTSMediaPlayerIconTemplate.m; sourceTree = "<group>"; };
 		7C77E4C6CFB091FA939A24A4AAB8AC6C /* OCMArg.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMArg.h; path = Source/OCMock/OCMArg.h; sourceTree = "<group>"; };
 		7EFC13A217FF8F68089F1558D7AC0B16 /* RTSMediaPlayerController+RTSAnalytics.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RTSMediaPlayerController+RTSAnalytics.h"; sourceTree = "<group>"; };
 		7F253543F8C5704156DCF97307C9CD13 /* NSObject+OCMAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSObject+OCMAdditions.h"; path = "Source/OCMock/NSObject+OCMAdditions.h"; sourceTree = "<group>"; };
 		807ACA923C25437754103AB30C54CD18 /* UITouch-KIFAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UITouch-KIFAdditions.h"; path = "Additions/UITouch-KIFAdditions.h"; sourceTree = "<group>"; };
 		80EE8CA6722B2E63C61BB377151911DA /* CSApplicationState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSApplicationState.h; path = comScore/headers/CSApplicationState.h; sourceTree = "<group>"; };
-		812158348619994B60AFB1ADF90F2548 /* RTSMediaPlayerIconTemplate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerIconTemplate.h; path = RTSMediaPlayer/RTSMediaPlayerIconTemplate.h; sourceTree = "<group>"; };
-		813F828D124F8C4D03CD9BD7CCD6FE18 /* RTSMediaPlayerViewController.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = RTSMediaPlayerViewController.xib; path = RTSMediaPlayer/RTSMediaPlayerViewController.xib; sourceTree = "<group>"; };
 		8169ABD92AFC0AA8764911B56C16721A /* RTSAnalyticsVersion_private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsVersion_private.h; sourceTree = "<group>"; };
 		82068B328C45D7463514FA00F647E83C /* UIScrollView-KIFAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIScrollView-KIFAdditions.h"; path = "Additions/UIScrollView-KIFAdditions.h"; sourceTree = "<group>"; };
+		827CDDB117473BFEF6DFFFCB403B510C /* it.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = it.lproj; path = RTSMediaPlayer/it.lproj; sourceTree = "<group>"; };
 		829392E7897CDE4E4905BF53E680F07C /* libSRGMediaPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSRGMediaPlayer.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82F9B060B8A6E65F81F5CBC6DEA68F72 /* RTSPlaybackActivityIndicatorView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSPlaybackActivityIndicatorView.m; path = RTSMediaPlayer/RTSPlaybackActivityIndicatorView.m; sourceTree = "<group>"; };
 		8355ECF8E2079BF6C51BACC3828B0B79 /* OCPartialMockObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCPartialMockObject.h; path = Source/OCMock/OCPartialMockObject.h; sourceTree = "<group>"; };
 		840197BFA53CD2538C6DB494448EAE19 /* Pods-SRGAnalytics Demo-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SRGAnalytics Demo-resources.sh"; sourceTree = "<group>"; };
 		8437B9DD7FD163198DD74CA2265C3B27 /* CGGeometry-KIFAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "CGGeometry-KIFAdditions.m"; path = "Additions/CGGeometry-KIFAdditions.m"; sourceTree = "<group>"; };
@@ -552,27 +556,27 @@
 		86DA70C6C666B8EDBBECB97786BDDAF6 /* KIFTestActor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KIFTestActor.h; path = Classes/KIFTestActor.h; sourceTree = "<group>"; };
 		877681CBE28960B74C31779AA3010E9E /* OCMMacroState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMMacroState.m; path = Source/OCMock/OCMMacroState.m; sourceTree = "<group>"; };
 		877F8FD3F012AED349839A5022FD3B87 /* CSEventType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSEventType.h; path = comScore/headers/CSEventType.h; sourceTree = "<group>"; };
-		87993009AC608D6E5749CE4D510D725C /* RTSPeriodicTimeObserver.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSPeriodicTimeObserver.m; path = RTSMediaPlayer/RTSPeriodicTimeObserver.m; sourceTree = "<group>"; };
 		88B3ED2198B5F24D4368E895FCDD3CE8 /* Pods-SRGAnalytics DemoTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SRGAnalytics DemoTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		88B581915AAA8E248C8775393F604D63 /* CSMeasurementDispatcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSMeasurementDispatcher.h; path = comScore/headers/CSMeasurementDispatcher.h; sourceTree = "<group>"; };
+		89A060EEB47541D018E2F7E37BCD2AB9 /* RTSMediaPlayerLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerLogger.m; path = RTSMediaPlayer/RTSMediaPlayerLogger.m; sourceTree = "<group>"; };
 		8AA73889C3EA2DED3A0EC0E5378A47F5 /* OCMLocation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMLocation.h; path = Source/OCMock/OCMLocation.h; sourceTree = "<group>"; };
 		8C10E06974CB40F6BE77D38815DE2FC2 /* UIScrollView-KIFAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView-KIFAdditions.m"; path = "Additions/UIScrollView-KIFAdditions.m"; sourceTree = "<group>"; };
 		8E5F86035344D209E98DE6E76C54B8E9 /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
-		8ED9D4B49892F52AA06B1AB10330C455 /* SRGMediaPlayer.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SRGMediaPlayer.xcconfig; sourceTree = "<group>"; };
-		8F6B6FA111F10DC14A0CDC7C1C5BE677 /* RTSPlaybackActivityIndicatorView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSPlaybackActivityIndicatorView.h; path = RTSMediaPlayer/RTSPlaybackActivityIndicatorView.h; sourceTree = "<group>"; };
-		8FC5029C1BC378E938DF533143380342 /* RTSSegmentedTimelineView+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "RTSSegmentedTimelineView+Private.h"; path = "RTSMediaPlayer/RTSSegmentedTimelineView+Private.h"; sourceTree = "<group>"; };
 		8FE9755F06024761F3A86F7F40C32764 /* Pods-SRGAnalytics Demo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SRGAnalytics Demo-dummy.m"; sourceTree = "<group>"; };
 		90C189C61AA8A2A822948EF525597145 /* CSComScore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSComScore.h; path = comScore/headers/CSComScore.h; sourceTree = "<group>"; };
 		91A8B987F4314D7F94F10C7BC27A3376 /* CSStreamSensePlaylist.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSensePlaylist.h; path = comScore/headers/CSStreamSensePlaylist.h; sourceTree = "<group>"; };
 		928BD12F7A50FDF2596D8AD08143A288 /* OCMRecorder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMRecorder.h; path = Source/OCMock/OCMRecorder.h; sourceTree = "<group>"; };
 		93EF000F3C99BF58AAABC0DD55AD76C1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		946B5F150DC893351DA95EA93FDFC084 /* KIFTestCase.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KIFTestCase.m; path = Classes/KIFTestCase.m; sourceTree = "<group>"; };
-		95EB295EC93998C3BF92590AA35A9035 /* RTSAirplayOverlayView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSAirplayOverlayView.m; path = RTSMediaPlayer/RTSAirplayOverlayView.m; sourceTree = "<group>"; };
+		94B01E7B820307782E64D0DBDFEE5CA8 /* UIBezierPath+RTSMediaPlayerUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIBezierPath+RTSMediaPlayerUtils.m"; path = "RTSMediaPlayer/UIBezierPath+RTSMediaPlayerUtils.m"; sourceTree = "<group>"; };
+		96465515BD283A73B7C393711103E967 /* RTSMediaPlayerViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerViewController.m; path = RTSMediaPlayer/RTSMediaPlayerViewController.m; sourceTree = "<group>"; };
 		96A35C6AB6A2BDD82D4C275E7B86290E /* Pods-SRGAnalytics DemoTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SRGAnalytics DemoTests-resources.sh"; sourceTree = "<group>"; };
+		97448356D639F26567AF1BBD9518A619 /* RTSMediaPlayerView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerView.m; path = RTSMediaPlayer/RTSMediaPlayerView.m; sourceTree = "<group>"; };
+		975B880810B08BB9C6B44EDC8C9C0F5A /* RTSPictureInPictureButton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSPictureInPictureButton.m; path = RTSMediaPlayer/RTSPictureInPictureButton.m; sourceTree = "<group>"; };
 		97C3E943715FB59C86FC6F36E40FAF4D /* TransitionKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TransitionKit-prefix.pch"; sourceTree = "<group>"; };
 		98180BF9CE114995D594EB5ABEE2BC4C /* NSInvocation+OCMAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSInvocation+OCMAdditions.h"; path = "Source/OCMock/NSInvocation+OCMAdditions.h"; sourceTree = "<group>"; };
+		98A65775EC7628AAB8992990AC5C6DF5 /* RTSMediaPlayerSharedController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerSharedController.h; path = RTSMediaPlayer/RTSMediaPlayerSharedController.h; sourceTree = "<group>"; };
 		9954F52E10A4450BAA413F6A0D70CBAB /* Pods-SRGAnalytics Demo.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics Demo.test.xcconfig"; sourceTree = "<group>"; };
-		99B41A542022BEC0FEB2015952F93809 /* SRGMediaPlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SRGMediaPlayer.h; path = RTSMediaPlayer/SRGMediaPlayer.h; sourceTree = "<group>"; };
 		9A3B36026FE1DFFFAC10AD088DCDB057 /* UIViewController+RTSAnalytics.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RTSAnalytics.m"; sourceTree = "<group>"; };
 		9A48D5A3EB9677FDD4F3B45E9740C698 /* TKStateMachine.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TKStateMachine.m; path = Code/TKStateMachine.m; sourceTree = "<group>"; };
 		9A9A693F7505F01FE62B95ED2DB72A70 /* UIView-KIFAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView-KIFAdditions.h"; path = "Additions/UIView-KIFAdditions.h"; sourceTree = "<group>"; };
@@ -581,65 +585,70 @@
 		9DBBF2D0F2D97041513C20026E1DF412 /* UIWindow-KIFAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIWindow-KIFAdditions.h"; path = "Additions/UIWindow-KIFAdditions.h"; sourceTree = "<group>"; };
 		9E2BB8575361F1DF7C943DDA3FCCDC01 /* OCMStubRecorder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMStubRecorder.h; path = Source/OCMock/OCMStubRecorder.h; sourceTree = "<group>"; };
 		9E617BA904858E6576186AEC186EF481 /* KIFTypist.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KIFTypist.m; path = Classes/KIFTypist.m; sourceTree = "<group>"; };
-		9F9D9728C03F4CD15F1E9C1C8732D6BA /* RTSMediaPlayerViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerViewController.h; path = RTSMediaPlayer/RTSMediaPlayerViewController.h; sourceTree = "<group>"; };
-		9FCC595EDE3C8976DB427D2ABC0AEAD7 /* picture_in_picture_stop_button@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "picture_in_picture_stop_button@2x.png"; path = "RTSMediaPlayer/picture_in_picture_stop_button@2x.png"; sourceTree = "<group>"; };
 		A0A54E2FC5DAA91A71439D49E9177731 /* OCMInvocationExpectation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMInvocationExpectation.h; path = Source/OCMock/OCMInvocationExpectation.h; sourceTree = "<group>"; };
-		A101E1093257F6569AC5B89385FD061E /* RTSAirplayOverlayView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSAirplayOverlayView.h; path = RTSMediaPlayer/RTSAirplayOverlayView.h; sourceTree = "<group>"; };
+		A39E675D3375E4CD37EEBEC22CB355F8 /* SRGMediaPlayer-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SRGMediaPlayer-prefix.pch"; sourceTree = "<group>"; };
 		A50E92952D629A6B17D4210B4B57FBA0 /* libextobjc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = libextobjc.xcconfig; sourceTree = "<group>"; };
 		A5D71BED6379EE534F6E126A873A78B8 /* KIFUITestActor-ConditionalTests.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "KIFUITestActor-ConditionalTests.m"; path = "Classes/KIFUITestActor-ConditionalTests.m"; sourceTree = "<group>"; };
 		A7CA49FC81B0B265745232DD367E885E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
-		A86032EB0DC8A6778FD529AE5AA91FEC /* RTSMediaFailureOverlayView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaFailureOverlayView.h; path = RTSMediaPlayer/RTSMediaFailureOverlayView.h; sourceTree = "<group>"; };
 		A899A6555B625A6917ABF49E451DCE07 /* KIFTestCase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KIFTestCase.h; path = Classes/KIFTestCase.h; sourceTree = "<group>"; };
+		A8EB2033BD7A992AB7CF202C212ABC66 /* de.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = de.lproj; path = RTSMediaPlayer/de.lproj; sourceTree = "<group>"; };
 		A91574E150091BAC2383E2AD68B9DDD6 /* RTSAnalyticsNetmetrixTracker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsNetmetrixTracker.h; sourceTree = "<group>"; };
 		A91BEB933F72A90C0C15264C88B0C086 /* TKStateMachine.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TKStateMachine.h; path = Code/TKStateMachine.h; sourceTree = "<group>"; };
 		A94F23838494158F50DFFCC18E345DF3 /* OCObserverMockObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCObserverMockObject.m; path = Source/OCMock/OCObserverMockObject.m; sourceTree = "<group>"; };
+		A9B4AE1E941889A97F672A19D6E3FDE1 /* RTSActivityGestureRecognizer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSActivityGestureRecognizer.h; path = RTSMediaPlayer/RTSActivityGestureRecognizer.h; sourceTree = "<group>"; };
+		A9E588C8FE85934D843260C191C50ED6 /* RTSMediaPlayerPlaybackButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerPlaybackButton.h; path = RTSMediaPlayer/RTSMediaPlayerPlaybackButton.h; sourceTree = "<group>"; };
 		AAAD7EFCFA8057AA8189215523BBFB24 /* RTSAnalyticsLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsLogger.h; sourceTree = "<group>"; };
 		AB7807A4D0F0C5679F786BC72CC9A57B /* CSTaskExecutor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSTaskExecutor.h; path = comScore/headers/CSTaskExecutor.h; sourceTree = "<group>"; };
 		ABE951B906980FAE66B1EA1E4CBDB338 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSNotificationCenter+OCMAdditions.h"; path = "Source/OCMock/NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
 		ACD4BCBA0BEE943F7FEE171B7438448C /* libPods-SRGAnalyticsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalyticsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACF3E69CA69C71F9AED76A3C36668B77 /* SRGMediaPlayer-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SRGMediaPlayer-dummy.m"; sourceTree = "<group>"; };
+		AD2B430C585F3CAE02C672C44DF014A1 /* thumb_timeline_slider.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = thumb_timeline_slider.png; path = RTSMediaPlayer/thumb_timeline_slider.png; sourceTree = "<group>"; };
 		AD9FC93006F618452B3F9D831ADE3627 /* TransitionKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TransitionKit.h; path = Code/TransitionKit.h; sourceTree = "<group>"; };
+		AEE78CFF7B76F85C0B11F399574C3366 /* thumb_timeline_slider@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "thumb_timeline_slider@2x.png"; path = "RTSMediaPlayer/thumb_timeline_slider@2x.png"; sourceTree = "<group>"; };
 		AEEE2A91EEF372446E4F50ADEF72D17C /* Pods-SRGAnalyticsTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SRGAnalyticsTests-frameworks.sh"; sourceTree = "<group>"; };
 		B0D46CD395DD5401129CB029E210C6EA /* KIF-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KIF-prefix.pch"; sourceTree = "<group>"; };
+		B408E8D776CF5435C7AB2C358FB90CE9 /* RTSMediaSegmentsController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaSegmentsController.h; path = RTSMediaPlayer/RTSMediaSegmentsController.h; sourceTree = "<group>"; };
 		B5F456D0932B31CF71D9AE092D4BBD70 /* Pods-SRGAnalytics Demo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SRGAnalytics Demo-frameworks.sh"; sourceTree = "<group>"; };
-		B6ECC3B6A8AA5023FC73E0C78E859C1F /* RTSTimeSlider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSTimeSlider.m; path = RTSMediaPlayer/RTSTimeSlider.m; sourceTree = "<group>"; };
 		BA212A858C71D94E4C06324CA972DD35 /* OCProtocolMockObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCProtocolMockObject.h; path = Source/OCMock/OCProtocolMockObject.h; sourceTree = "<group>"; };
 		BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		BB817A5A0338CF775BEE353CAF527582 /* OCMRealObjectForwarder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMRealObjectForwarder.m; path = Source/OCMock/OCMRealObjectForwarder.m; sourceTree = "<group>"; };
-		BBBDE2F5EC408B8FA14625530F1195EB /* RTSPictureInPictureButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSPictureInPictureButton.h; path = RTSMediaPlayer/RTSPictureInPictureButton.h; sourceTree = "<group>"; };
 		BBCF13456D434736E53AD8A46A29C65A /* UIAccessibilityElement-KIFAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIAccessibilityElement-KIFAdditions.h"; path = "Additions/UIAccessibilityElement-KIFAdditions.h"; sourceTree = "<group>"; };
+		BBFF2EC4C200C40EE8CB5B72D404B447 /* RTSMediaPlayerSharedController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerSharedController.m; path = RTSMediaPlayer/RTSMediaPlayerSharedController.m; sourceTree = "<group>"; };
 		BC240302E5E964A7FA99324041954C77 /* KIFAccessibilityEnabler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KIFAccessibilityEnabler.m; path = Classes/KIFAccessibilityEnabler.m; sourceTree = "<group>"; };
 		BC3A24EE17516B9E1CB055F16D71C0A1 /* OCMPassByRefSetter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMPassByRefSetter.m; path = Source/OCMock/OCMPassByRefSetter.m; sourceTree = "<group>"; };
 		BC717732926C56597300259969448FC9 /* Pods-SRGAnalyticsTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SRGAnalyticsTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		BD08C72D1C95EB363B8E86A8BE173092 /* OCMInvocationStub.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMInvocationStub.m; path = Source/OCMock/OCMInvocationStub.m; sourceTree = "<group>"; };
 		BD66E01600C9DCC0AE2311C1BF03A821 /* UIEvent+KIFAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIEvent+KIFAdditions.m"; path = "Additions/UIEvent+KIFAdditions.m"; sourceTree = "<group>"; };
+		BDA55B4EEDFC51655C8280845D9E482A /* fr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = fr.lproj; path = RTSMediaPlayer/fr.lproj; sourceTree = "<group>"; };
 		BE7BCFDD1B5D782513E0C73E8D82C2A0 /* CSNotificationsObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSNotificationsObserver.h; path = comScore/headers/CSNotificationsObserver.h; sourceTree = "<group>"; };
-		C08C5858D81843088AE9357B6AF2B92B /* NSBundle+RTSMediaPlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSBundle+RTSMediaPlayer.h"; path = "RTSMediaPlayer/NSBundle+RTSMediaPlayer.h"; sourceTree = "<group>"; };
-		C0A76E9DFFF9EE00DAE063FD6B8B3743 /* RTSTimelineSlider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSTimelineSlider.m; path = RTSMediaPlayer/RTSTimelineSlider.m; sourceTree = "<group>"; };
+		BFD490951280065774EA7EE7B084B265 /* SRGMediaPlayer.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SRGMediaPlayer.xcconfig; sourceTree = "<group>"; };
 		C29D4EC4C9DCF8986614F9DE5B66A032 /* Pods-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-frameworks.sh"; sourceTree = "<group>"; };
 		C2DFEDA2DF8E9BB1D3EEE1EF942CD4B1 /* CSKeepAlive.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSKeepAlive.h; path = comScore/headers/CSKeepAlive.h; sourceTree = "<group>"; };
+		C2F9E4D69B4A7EA52A5591F607D1CC07 /* SRGMediaPlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SRGMediaPlayer.h; path = RTSMediaPlayer/SRGMediaPlayer.h; sourceTree = "<group>"; };
 		C404D3D561DA1F882CF5886D52FA3BB2 /* XCTestCase-KIFAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "XCTestCase-KIFAdditions.h"; path = "Additions/XCTestCase-KIFAdditions.h"; sourceTree = "<group>"; };
 		C6315EF631F37DEADA6FD8E734784EC9 /* NSInvocation+OCMAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSInvocation+OCMAdditions.m"; path = "Source/OCMock/NSInvocation+OCMAdditions.m"; sourceTree = "<group>"; };
+		C64A3962F725652FDD8EFD8EDB795EC4 /* RTSTimelineSlider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSTimelineSlider.m; path = RTSMediaPlayer/RTSTimelineSlider.m; sourceTree = "<group>"; };
 		C64DC811A148683128144AC149E17E59 /* NSFileManager-KIFAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSFileManager-KIFAdditions.h"; path = "Additions/NSFileManager-KIFAdditions.h"; sourceTree = "<group>"; };
 		C7E3BC2D087CEC7DB7F824A176B4F938 /* OCObserverMockObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCObserverMockObject.h; path = Source/OCMock/OCObserverMockObject.h; sourceTree = "<group>"; };
+		C7FF23FF62C83F71B5E6D2BB35CFEFCB /* RTSMediaSegmentsDataSource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaSegmentsDataSource.h; path = RTSMediaPlayer/RTSMediaSegmentsDataSource.h; sourceTree = "<group>"; };
 		C85C8DC780A3CB14A2F5C065C152DF91 /* NSMethodSignature+OCMAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSMethodSignature+OCMAdditions.m"; path = "Source/OCMock/NSMethodSignature+OCMAdditions.m"; sourceTree = "<group>"; };
 		C93F7C467A4A33FA56EBA91ED0649C45 /* RTSAnalyticsVersion.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsVersion.m; sourceTree = "<group>"; };
-		CA9FB43407CC685A49E7C3593F3E5985 /* RTSMediaPlayerPlaybackButton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaPlayerPlaybackButton.m; path = RTSMediaPlayer/RTSMediaPlayerPlaybackButton.m; sourceTree = "<group>"; };
 		CAF3336760A57584EE0DCC53C9C8282C /* OCMRecorder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMRecorder.m; path = Source/OCMock/OCMRecorder.m; sourceTree = "<group>"; };
 		CAF4B17CE1B4C1450688885C9DC98C2E /* CSStreamingTag.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamingTag.h; path = comScore/headers/CSStreamingTag.h; sourceTree = "<group>"; };
 		CB323E7496A141F6558FF0400882A6D8 /* Pods-SRGAnalyticsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalyticsTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB9B9A369BEDCFDFC8DFCB8D11665F14 /* CSStreamSenseClip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseClip.h; path = comScore/headers/CSStreamSenseClip.h; sourceTree = "<group>"; };
+		CC8B0553B4EA84387E0D162603CB029C /* RTSSegmentedTimelineView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSSegmentedTimelineView.m; path = RTSMediaPlayer/RTSSegmentedTimelineView.m; sourceTree = "<group>"; };
+		CD0FA3C9B6747D818D1DCFF0100F3886 /* RTSMediaFailureOverlayView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaFailureOverlayView.h; path = RTSMediaPlayer/RTSMediaFailureOverlayView.h; sourceTree = "<group>"; };
 		CDE22C930D82825F3DE3B7A121412652 /* OCMReturnValueProvider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMReturnValueProvider.h; path = Source/OCMock/OCMReturnValueProvider.h; sourceTree = "<group>"; };
-		CE119F8C1EEC4E44185AD0EF791A3095 /* RTSMediaPlayerLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerLogger.h; path = RTSMediaPlayer/RTSMediaPlayerLogger.h; sourceTree = "<group>"; };
-		CED0BCB4D0FCE8C1EE4786589255E9A9 /* RTSMediaPlayerConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerConstants.h; path = RTSMediaPlayer/RTSMediaPlayerConstants.h; sourceTree = "<group>"; };
+		CE52BAB533165C90C0FCBB1E03189F83 /* RTSMediaPlayerIconTemplate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerIconTemplate.h; path = RTSMediaPlayer/RTSMediaPlayerIconTemplate.h; sourceTree = "<group>"; };
 		CFCD6B86D2CD62CCE070C6E8E9C94494 /* KIFTestStepValidation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KIFTestStepValidation.h; path = Classes/KIFTestStepValidation.h; sourceTree = "<group>"; };
 		CFDFFD08251502A5016B4C1D21033438 /* NSDictionary+RTSAnalytics.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+RTSAnalytics.m"; sourceTree = "<group>"; };
 		D08A33691CE2AC11F574A250CF344D35 /* Pods-SRGAnalytics Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		D13E45A93FEBB68E778563E4DFDD5B5C /* KIFTypist.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KIFTypist.h; path = Classes/KIFTypist.h; sourceTree = "<group>"; };
 		D172AC46C636CB9BC218CD8DC18E2DA6 /* OCMBoxedReturnValueProvider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMBoxedReturnValueProvider.m; path = Source/OCMock/OCMBoxedReturnValueProvider.m; sourceTree = "<group>"; };
 		D1903096EE77520D7481E571ED695EA2 /* OCMockObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMockObject.m; path = Source/OCMock/OCMockObject.m; sourceTree = "<group>"; };
-		D471A8B73E06A97212C26A71C8F38FE3 /* SRGMediaPlayer-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SRGMediaPlayer-dummy.m"; sourceTree = "<group>"; };
-		D4DDBF76ECA8296AD9E0A19298A7932A /* picture_in_picture_stop_button.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = picture_in_picture_stop_button.png; path = RTSMediaPlayer/picture_in_picture_stop_button.png; sourceTree = "<group>"; };
-		D5B726B95C5850FFB5225A4F9B1C9271 /* RTSMediaPlayerController+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "RTSMediaPlayerController+Private.h"; path = "RTSMediaPlayer/RTSMediaPlayerController+Private.h"; sourceTree = "<group>"; };
+		D2365220C9C2D8AD3E06EBA591DAB848 /* RTSSegmentedTimelineView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSSegmentedTimelineView.h; path = RTSMediaPlayer/RTSSegmentedTimelineView.h; sourceTree = "<group>"; };
+		D4627C71123EFAB65975546149180B35 /* picture_in_picture_start_button.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = picture_in_picture_start_button.png; path = RTSMediaPlayer/picture_in_picture_start_button.png; sourceTree = "<group>"; };
 		D6021D731D7E8CFF26A1DCDD46B99F94 /* liblibextobjc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibextobjc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8488BC5182FCEFD2B3EF9C39E00646F /* KIFTestActor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KIFTestActor.m; path = Classes/KIFTestActor.m; sourceTree = "<group>"; };
 		D9F8E78FB981E919E8BFF0D87553AB23 /* OCMObserverRecorder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMObserverRecorder.m; path = Source/OCMock/OCMObserverRecorder.m; sourceTree = "<group>"; };
@@ -649,10 +658,13 @@
 		DB7BBDF33EBC8451B172F84DC2E2910A /* CSStreamSenseState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseState.h; path = comScore/headers/CSStreamSenseState.h; sourceTree = "<group>"; };
 		DB8E0FA4AE9D0CEE803548BEDDF41F43 /* libPods-SRGAnalytics DemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalytics DemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB927523A6811760C2324E311D55F715 /* NSBundle-KIFAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSBundle-KIFAdditions.m"; path = "Additions/NSBundle-KIFAdditions.m"; sourceTree = "<group>"; };
+		DBF19D2B8B6C27914890ECA0D0FBBA3B /* RTSTimeSlider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSTimeSlider.m; path = RTSMediaPlayer/RTSTimeSlider.m; sourceTree = "<group>"; };
 		DC2B627373725591FB8AB03E8BF5E07A /* CSStreamSenseDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseDelegate.h; path = comScore/headers/CSStreamSenseDelegate.h; sourceTree = "<group>"; };
 		DC6723FF7E1AEEE9B807B797AC8B1007 /* libextobjc-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "libextobjc-dummy.m"; sourceTree = "<group>"; };
+		DD70D5B3D1200E94886B3DA488BE21CE /* RTSVolumeView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSVolumeView.m; path = RTSMediaPlayer/RTSVolumeView.m; sourceTree = "<group>"; };
 		DD8EC6C6B20F106848D6DFA639C4B293 /* NSValue+OCMAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSValue+OCMAdditions.m"; path = "Source/OCMock/NSValue+OCMAdditions.m"; sourceTree = "<group>"; };
 		DE6E7A3BD1BD8F973CE441F556FF5202 /* CSRequest+RTSAnalytics.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "CSRequest+RTSAnalytics.m"; sourceTree = "<group>"; };
+		DEA721AEA54A8ABDF25F5F1D5C71FEE9 /* RTSPeriodicTimeObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSPeriodicTimeObserver.h; path = RTSMediaPlayer/RTSPeriodicTimeObserver.h; sourceTree = "<group>"; };
 		DFBA827741BB3459C84DC6DD1008721A /* KIF-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KIF-dummy.m"; sourceTree = "<group>"; };
 		E0073C629B9A2D451FACB12E919D2513 /* KIF.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KIF.h; path = Classes/KIF.h; sourceTree = "<group>"; };
 		E2AB1D532986BA9E98341D1C6F37204A /* Pods-SRGAnalytics DemoTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SRGAnalytics DemoTests-frameworks.sh"; sourceTree = "<group>"; };
@@ -660,35 +672,33 @@
 		E4C56F90A042F01650735EBB1CF4643A /* UIApplication-KIFAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIApplication-KIFAdditions.m"; path = "Additions/UIApplication-KIFAdditions.m"; sourceTree = "<group>"; };
 		E4D7DEDD4D4806D44A15BA23AA7B8381 /* TKState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TKState.m; path = Code/TKState.m; sourceTree = "<group>"; };
 		E516F9B47DA131A80B735C3634A06A78 /* CSStreamSenseDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseDefines.h; path = comScore/headers/CSStreamSenseDefines.h; sourceTree = "<group>"; };
+		E5433F368CBAFE158B2DEEC783281486 /* RTSMediaPlayerError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerError.h; path = RTSMediaPlayer/RTSMediaPlayerError.h; sourceTree = "<group>"; };
 		E790D9148EB0457CF153792A7690B5C0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
 		E971AC749873798D6D85F5FF94BD3742 /* RTSAnalyticsComScoreTracker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsComScoreTracker.h; sourceTree = "<group>"; };
 		E9FD142C8E1E1CDBF1ABDBAE55C23C84 /* OCMInvocationExpectation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMInvocationExpectation.m; path = Source/OCMock/OCMInvocationExpectation.m; sourceTree = "<group>"; };
-		EA49684A26ACFCA71CCFB6978057C49B /* RTSActivityGestureRecognizer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSActivityGestureRecognizer.m; path = RTSMediaPlayer/RTSActivityGestureRecognizer.m; sourceTree = "<group>"; };
-		EBBA461C004D278F44DFD796DAA37214 /* RTSVolumeView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSVolumeView.h; path = RTSMediaPlayer/RTSVolumeView.h; sourceTree = "<group>"; };
 		EC2152B881B00D0ACCCBAFD1301329F5 /* Pods-SRGAnalytics DemoTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SRGAnalytics DemoTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		EC5CBF4F063A434A7FE5F255C7250BA7 /* CSOfflineCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSOfflineCache.h; path = comScore/headers/CSOfflineCache.h; sourceTree = "<group>"; };
-		EC9EE2273E01F068AFF1E603C00C4926 /* UIBezierPath+RTSMediaPlayerUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIBezierPath+RTSMediaPlayerUtils.m"; path = "RTSMediaPlayer/UIBezierPath+RTSMediaPlayerUtils.m"; sourceTree = "<group>"; };
-		EE72394002DC2A5CEB417E6F67B717C7 /* RTSMediaFailureOverlayView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSMediaFailureOverlayView.m; path = RTSMediaPlayer/RTSMediaFailureOverlayView.m; sourceTree = "<group>"; };
 		EE7875CB4FF8D0A459DF2BF2E60C26D8 /* OCMFunctions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMFunctions.m; path = Source/OCMock/OCMFunctions.m; sourceTree = "<group>"; };
+		EF58172ECD1436872AEC1054D2C621FE /* RTSMediaPlayerController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerController.h; path = RTSMediaPlayer/RTSMediaPlayerController.h; sourceTree = "<group>"; };
 		EF81EAEFA6E0E8EC629ED9EF989171E1 /* NSString+RTSAnalytics.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSString+RTSAnalytics.h"; sourceTree = "<group>"; };
-		F03699B6A8854448764F9E82576700EA /* RTSPictureInPictureButton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RTSPictureInPictureButton.m; path = RTSMediaPlayer/RTSPictureInPictureButton.m; sourceTree = "<group>"; };
+		EFF12655DEEACA0DCF7811F46506C683 /* RTSTimeSlider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSTimeSlider.h; path = RTSMediaPlayer/RTSTimeSlider.h; sourceTree = "<group>"; };
 		F1072483C128F89B192ACF3151EDADF1 /* EXTRuntimeExtensions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = EXTRuntimeExtensions.m; path = extobjc/EXTRuntimeExtensions.m; sourceTree = "<group>"; };
 		F1108949F59A590CDF2F7068A228E1CC /* EXTRuntimeExtensions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXTRuntimeExtensions.h; path = extobjc/EXTRuntimeExtensions.h; sourceTree = "<group>"; };
 		F1FACC2E0CD1712D280C446747308936 /* CSSessionState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSSessionState.h; path = comScore/headers/CSSessionState.h; sourceTree = "<group>"; };
 		F25CC926A0A409213612CE1F2F0A7CAB /* Pods-SRGAnalyticsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalyticsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F5446D24D0855CC1231946B0341BC96F /* OCMIndirectReturnValueProvider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMIndirectReturnValueProvider.h; path = Source/OCMock/OCMIndirectReturnValueProvider.h; sourceTree = "<group>"; };
-		F6CE883DA6F7FDF6117ED9E5593B688C /* SRGMediaPlayer-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SRGMediaPlayer-prefix.pch"; sourceTree = "<group>"; };
 		F8A5634B73F0330913AAB97C9043E291 /* RTSMediaPlayerControllerStreamSenseTracker_private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RTSMediaPlayerControllerStreamSenseTracker_private.h; sourceTree = "<group>"; };
 		F91E78B4EF341399C0CFDBB83F3CD998 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
+		F945A68CE30A2C89244C452B9BF25A9C /* RTSPictureInPictureButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSPictureInPictureButton.h; path = RTSMediaPlayer/RTSPictureInPictureButton.h; sourceTree = "<group>"; };
 		F98744B022598DFFAAB7F1802E4C344F /* NSDictionary+RTSAnalytics.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+RTSAnalytics.h"; sourceTree = "<group>"; };
 		F9B2F3A8D455D83746F4F36DA7305BB1 /* RTSAnalyticsPageViewDataSource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsPageViewDataSource.h; sourceTree = "<group>"; };
-		FA02426D70CC4FBCD1A5394DE51F980B /* RTSMediaPlayerPlaybackButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSMediaPlayerPlaybackButton.h; path = RTSMediaPlayer/RTSMediaPlayerPlaybackButton.h; sourceTree = "<group>"; };
 		FAACA8F674C73E34DCCA6C14604B8E43 /* NSObject+OCMAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSObject+OCMAdditions.m"; path = "Source/OCMock/NSObject+OCMAdditions.m"; sourceTree = "<group>"; };
 		FB3B8DECF6CEB3EFC6C5137D6D17EC49 /* OCMConstraint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCMConstraint.m; path = Source/OCMock/OCMConstraint.m; sourceTree = "<group>"; };
-		FB4175A6698EF0182466B4C8396B6623 /* NSBundle+RTSMediaPlayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+RTSMediaPlayer.m"; path = "RTSMediaPlayer/NSBundle+RTSMediaPlayer.m"; sourceTree = "<group>"; };
 		FB60193CBA5BF1098C4C42BFF4E70C05 /* RTSAnalyticsMediaPlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsMediaPlayer.h; sourceTree = "<group>"; };
 		FB899250AF078AEF86235A79073354E4 /* OCMock.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OCMock.xcconfig; sourceTree = "<group>"; };
 		FBBE8387D2E522F3DF1FB4BB6189EBA9 /* Pods.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.test.xcconfig; sourceTree = "<group>"; };
+		FBEE87214B59C17CA792A05D6C91654A /* RTSVolumeView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTSVolumeView.h; path = RTSMediaPlayer/RTSVolumeView.h; sourceTree = "<group>"; };
+		FCDEB5D3B3AC75B5E57B45F230D2739A /* UIBezierPath+RTSMediaPlayerUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIBezierPath+RTSMediaPlayerUtils.h"; path = "RTSMediaPlayer/UIBezierPath+RTSMediaPlayerUtils.h"; sourceTree = "<group>"; };
 		FE29CDA86EAA11A5CA30AED06EF9BFAB /* OCMBoxedReturnValueProvider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMBoxedReturnValueProvider.h; path = Source/OCMock/OCMBoxedReturnValueProvider.h; sourceTree = "<group>"; };
 		FFA86D68CA28F7399BAB812D4368154F /* OCMock-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "OCMock-dummy.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -965,6 +975,17 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		3A1425CFFF33B1E1786B7538F63D3D5C /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				BFD490951280065774EA7EE7B084B265 /* SRGMediaPlayer.xcconfig */,
+				ACF3E69CA69C71F9AED76A3C36668B77 /* SRGMediaPlayer-dummy.m */,
+				A39E675D3375E4CD37EEBEC22CB355F8 /* SRGMediaPlayer-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SRGMediaPlayer";
+			sourceTree = "<group>";
+		};
 		3A8497080E36BA4A147144A28CB87F39 /* RuntimeExtensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -990,7 +1011,7 @@
 				F753D49091DFAF292E7A0A1BBFCEC559 /* KIF */,
 				0808524D391003098C5C419B41548303 /* libextobjc */,
 				CF66F751B018DB62F9C4F6EA4D332C16 /* OCMock */,
-				56F2604ABF32CC6CE1834AA1EEB775DF /* SRGMediaPlayer */,
+				E700BDA2F85A402A07C19235F8009FD9 /* SRGMediaPlayer */,
 				308A0FA8A6E3F6CCABE71CD224E0FBE4 /* TransitionKit */,
 			);
 			name = Pods;
@@ -1051,79 +1072,30 @@
 			path = "comScore-iOS-SDK-RTS";
 			sourceTree = "<group>";
 		};
-		56F2604ABF32CC6CE1834AA1EEB775DF /* SRGMediaPlayer */ = {
+		553A4ED12A6501F4A0B7E47049B5421C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C08C5858D81843088AE9357B6AF2B92B /* NSBundle+RTSMediaPlayer.h */,
-				FB4175A6698EF0182466B4C8396B6623 /* NSBundle+RTSMediaPlayer.m */,
-				454AB75C3C5D7946197B7E5706836FCE /* RTSActivityGestureRecognizer.h */,
-				EA49684A26ACFCA71CCFB6978057C49B /* RTSActivityGestureRecognizer.m */,
-				A101E1093257F6569AC5B89385FD061E /* RTSAirplayOverlayView.h */,
-				95EB295EC93998C3BF92590AA35A9035 /* RTSAirplayOverlayView.m */,
-				A86032EB0DC8A6778FD529AE5AA91FEC /* RTSMediaFailureOverlayView.h */,
-				EE72394002DC2A5CEB417E6F67B717C7 /* RTSMediaFailureOverlayView.m */,
-				CED0BCB4D0FCE8C1EE4786589255E9A9 /* RTSMediaPlayerConstants.h */,
-				1E313D490E312886679F1AE5D18ACEAC /* RTSMediaPlayerController.h */,
-				5DEB3CCA3415EEF1E9C131D51AFDD13C /* RTSMediaPlayerController.m */,
-				D5B726B95C5850FFB5225A4F9B1C9271 /* RTSMediaPlayerController+Private.h */,
-				50291010FACCBCB07991E2FD88B7D256 /* RTSMediaPlayerController+Private.m */,
-				333E4357F3A45FA5C3E98300C4395A11 /* RTSMediaPlayerControllerDataSource.h */,
-				3401BA24F93579709A7222C10EB46486 /* RTSMediaPlayerError.h */,
-				812158348619994B60AFB1ADF90F2548 /* RTSMediaPlayerIconTemplate.h */,
-				42B451388C1F476E6ED82DAECB9E0A6F /* RTSMediaPlayerIconTemplate.m */,
-				CE119F8C1EEC4E44185AD0EF791A3095 /* RTSMediaPlayerLogger.h */,
-				718DB2AE4762711AC2B8A94AD09F3713 /* RTSMediaPlayerLogger.m */,
-				FA02426D70CC4FBCD1A5394DE51F980B /* RTSMediaPlayerPlaybackButton.h */,
-				CA9FB43407CC685A49E7C3593F3E5985 /* RTSMediaPlayerPlaybackButton.m */,
-				552B547C18D34CB2DC0BEDB6A1585B08 /* RTSMediaPlayerSharedController.h */,
-				49C2DCF9F41552FD3FBF5BDC72DD42D4 /* RTSMediaPlayerSharedController.m */,
-				778B5E5C0FEA95BA1CB26C2CDB9319FE /* RTSMediaPlayerVersion.h */,
-				4CE1ED43CEC1289D301C4CC2EDBC9E15 /* RTSMediaPlayerVersion.m */,
-				07589A710C86E496D522527929982C4D /* RTSMediaPlayerView.h */,
-				1A6617D7A93CF462ABC5241A2C9823CE /* RTSMediaPlayerView.m */,
-				9F9D9728C03F4CD15F1E9C1C8732D6BA /* RTSMediaPlayerViewController.h */,
-				71C79D91775C6BB824D5E64EED6D3C31 /* RTSMediaPlayerViewController.m */,
-				2B0EB08A2860BE2E209429C1DB1BDAF7 /* RTSMediaSegment.h */,
-				024D71670CE7F261F7D92C85469176B6 /* RTSMediaSegmentsController.h */,
-				4111CB5EF4635CEA307A6D71EC6DE44E /* RTSMediaSegmentsController.m */,
-				38965BFB485BD1E29B115F7F9D382F59 /* RTSMediaSegmentsDataSource.h */,
-				5F5C19F7B93312D92F03E325814272AF /* RTSPeriodicTimeObserver.h */,
-				87993009AC608D6E5749CE4D510D725C /* RTSPeriodicTimeObserver.m */,
-				BBBDE2F5EC408B8FA14625530F1195EB /* RTSPictureInPictureButton.h */,
-				F03699B6A8854448764F9E82576700EA /* RTSPictureInPictureButton.m */,
-				8F6B6FA111F10DC14A0CDC7C1C5BE677 /* RTSPlaybackActivityIndicatorView.h */,
-				02364DAE8EC5CA63F675605D049C082D /* RTSPlaybackActivityIndicatorView.m */,
-				06F193672C251CB91A83785D5B4FD887 /* RTSSegmentedTimelineView.h */,
-				4C81F3ABBE3D0E8510BECC3A3F5276A2 /* RTSSegmentedTimelineView.m */,
-				8FC5029C1BC378E938DF533143380342 /* RTSSegmentedTimelineView+Private.h */,
-				379FFF935CAC15775D3C4DDF59330CB6 /* RTSTimelineSlider.h */,
-				C0A76E9DFFF9EE00DAE063FD6B8B3743 /* RTSTimelineSlider.m */,
-				46B80C8CB327207C26304BE6546C200B /* RTSTimeSlider.h */,
-				B6ECC3B6A8AA5023FC73E0C78E859C1F /* RTSTimeSlider.m */,
-				EBBA461C004D278F44DFD796DAA37214 /* RTSVolumeView.h */,
-				1FB5577D09FB08D10FBF6836A9F16799 /* RTSVolumeView.m */,
-				99B41A542022BEC0FEB2015952F93809 /* SRGMediaPlayer.h */,
-				4E244EA8B867073FA4EDCEB70D474C5A /* UIBezierPath+RTSMediaPlayerUtils.h */,
-				EC9EE2273E01F068AFF1E603C00C4926 /* UIBezierPath+RTSMediaPlayerUtils.m */,
-				659F145BA7C89E4DE880B8405CDBDE27 /* Resources */,
-				798FCC88C6FE2CCE07D66AF49C820EA2 /* Support Files */,
-				89B9A9BB1F991B5341AB2D0D31D4A2DC /* Version */,
-			);
-			path = SRGMediaPlayer;
-			sourceTree = "<group>";
-		};
-		659F145BA7C89E4DE880B8405CDBDE27 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				10D2E05EEED7E83FECD047B9ADDA2AEB /* picture_in_picture_start_button.png */,
-				73A80BFF09A9553BB9C33DB7AAC6D823 /* picture_in_picture_start_button@2x.png */,
-				D4DDBF76ECA8296AD9E0A19298A7932A /* picture_in_picture_stop_button.png */,
-				9FCC595EDE3C8976DB427D2ABC0AEAD7 /* picture_in_picture_stop_button@2x.png */,
-				813F828D124F8C4D03CD9BD7CCD6FE18 /* RTSMediaPlayerViewController.xib */,
-				4108A76900FAF43B38E4E714B0421158 /* thumb_timeline_slider.png */,
-				5177C6C9EFBBFC0C492797A67614E17E /* thumb_timeline_slider@2x.png */,
+				A8EB2033BD7A992AB7CF202C212ABC66 /* de.lproj */,
+				0399CB7B1A343279E75FD487B0E9E848 /* en.lproj */,
+				BDA55B4EEDFC51655C8280845D9E482A /* fr.lproj */,
+				827CDDB117473BFEF6DFFFCB403B510C /* it.lproj */,
+				D4627C71123EFAB65975546149180B35 /* picture_in_picture_start_button.png */,
+				36743E99C452545A3490A6BDFEA1DE98 /* picture_in_picture_start_button@2x.png */,
+				4AFB80E701DBFA15FF60C082D4130128 /* picture_in_picture_stop_button.png */,
+				22E4E94BF545FE3D3956F83D2DD009FB /* picture_in_picture_stop_button@2x.png */,
+				1DE69FD904EFD2020E1AB1DAD846BF97 /* rm.lproj */,
+				451C2F1EE9259F57C9996DB03D720EAC /* RTSMediaPlayerViewController.xib */,
+				AD2B430C585F3CAE02C672C44DF014A1 /* thumb_timeline_slider.png */,
+				AEE78CFF7B76F85C0B11F399574C3366 /* thumb_timeline_slider@2x.png */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		5C7166ECB733FDFE5F213CABFBA3414E /* Version */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Version;
 			sourceTree = "<group>";
 		};
 		6A97121A947101E657090B721C91EE42 /* Pods */ = {
@@ -1172,17 +1144,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		798FCC88C6FE2CCE07D66AF49C820EA2 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				8ED9D4B49892F52AA06B1AB10330C455 /* SRGMediaPlayer.xcconfig */,
-				D471A8B73E06A97212C26A71C8F38FE3 /* SRGMediaPlayer-dummy.m */,
-				F6CE883DA6F7FDF6117ED9E5593B688C /* SRGMediaPlayer-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/SRGMediaPlayer";
-			sourceTree = "<group>";
-		};
 		7BABC68F94FCF597F19064B07E1EE3AE /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -1204,13 +1165,6 @@
 				096AB8EB5026210A846BEE4AE04B9A6B /* Products */,
 				0C94B9A3EFA54C653724C84161AFE40A /* Targets Support Files */,
 			);
-			sourceTree = "<group>";
-		};
-		89B9A9BB1F991B5341AB2D0D31D4A2DC /* Version */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Version;
 			sourceTree = "<group>";
 		};
 		8FE98A88404B5AE4BF35FC2E4BBB1BBF /* Pods-SRGAnalytics DemoTests */ = {
@@ -1362,6 +1316,67 @@
 			);
 			name = "Support Files";
 			path = "../Target Support Files/TransitionKit";
+			sourceTree = "<group>";
+		};
+		E700BDA2F85A402A07C19235F8009FD9 /* SRGMediaPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				3AEC8EF3CB87C1496A43BEFD5BC070FB /* NSBundle+RTSMediaPlayer.h */,
+				3F48BD25A512BCB33875AF51CFCE85FE /* NSBundle+RTSMediaPlayer.m */,
+				A9B4AE1E941889A97F672A19D6E3FDE1 /* RTSActivityGestureRecognizer.h */,
+				463940CA78B701CF70E9CAB58FC9AEE9 /* RTSActivityGestureRecognizer.m */,
+				53CE143CC0782334E79062B1D381A3F5 /* RTSAirplayOverlayView.h */,
+				00D530BDBE28FFEF2EA8668326A842BF /* RTSAirplayOverlayView.m */,
+				CD0FA3C9B6747D818D1DCFF0100F3886 /* RTSMediaFailureOverlayView.h */,
+				4CBD8597694ADFB75A5ABE99483259B2 /* RTSMediaFailureOverlayView.m */,
+				5A1029D66C116FA28E6FDEADC827BF49 /* RTSMediaPlayerConstants.h */,
+				EF58172ECD1436872AEC1054D2C621FE /* RTSMediaPlayerController.h */,
+				0FF659CB2A11E385181245AC5293B101 /* RTSMediaPlayerController.m */,
+				1B15DB9A772663774D2F96F4909E9515 /* RTSMediaPlayerController+Private.h */,
+				245A0997E1DEF22C1903818AFD0CCA6D /* RTSMediaPlayerController+Private.m */,
+				117D507E28A5E7847A62D05EEA4D040D /* RTSMediaPlayerControllerDataSource.h */,
+				E5433F368CBAFE158B2DEEC783281486 /* RTSMediaPlayerError.h */,
+				CE52BAB533165C90C0FCBB1E03189F83 /* RTSMediaPlayerIconTemplate.h */,
+				7B39585C572BC57C9D4B6B95AF4532A0 /* RTSMediaPlayerIconTemplate.m */,
+				257735E5FACC9343C8584A616B36034A /* RTSMediaPlayerLogger.h */,
+				89A060EEB47541D018E2F7E37BCD2AB9 /* RTSMediaPlayerLogger.m */,
+				A9E588C8FE85934D843260C191C50ED6 /* RTSMediaPlayerPlaybackButton.h */,
+				13AD1B1D765DE8F71A0A3A13DF96FC07 /* RTSMediaPlayerPlaybackButton.m */,
+				98A65775EC7628AAB8992990AC5C6DF5 /* RTSMediaPlayerSharedController.h */,
+				BBFF2EC4C200C40EE8CB5B72D404B447 /* RTSMediaPlayerSharedController.m */,
+				19483CAF25D655346782A584D3E5C451 /* RTSMediaPlayerVersion.h */,
+				4EA6B3D83F5294E8F6619441CC68A225 /* RTSMediaPlayerVersion.m */,
+				050154C6CB860F0C73DC19A1FA8E4681 /* RTSMediaPlayerView.h */,
+				97448356D639F26567AF1BBD9518A619 /* RTSMediaPlayerView.m */,
+				0C0F86F226CED6AEB4BFFD1003ABD7D0 /* RTSMediaPlayerViewController.h */,
+				96465515BD283A73B7C393711103E967 /* RTSMediaPlayerViewController.m */,
+				33AD764C859558DD2366F23FE941724F /* RTSMediaSegment.h */,
+				B408E8D776CF5435C7AB2C358FB90CE9 /* RTSMediaSegmentsController.h */,
+				4691F975B2D2B6C6464331F09AF518D7 /* RTSMediaSegmentsController.m */,
+				C7FF23FF62C83F71B5E6D2BB35CFEFCB /* RTSMediaSegmentsDataSource.h */,
+				DEA721AEA54A8ABDF25F5F1D5C71FEE9 /* RTSPeriodicTimeObserver.h */,
+				15EC999580559B63427D840F937708CB /* RTSPeriodicTimeObserver.m */,
+				F945A68CE30A2C89244C452B9BF25A9C /* RTSPictureInPictureButton.h */,
+				975B880810B08BB9C6B44EDC8C9C0F5A /* RTSPictureInPictureButton.m */,
+				0CC17B93056EBD4BADF2B1613D7549D5 /* RTSPlaybackActivityIndicatorView.h */,
+				82F9B060B8A6E65F81F5CBC6DEA68F72 /* RTSPlaybackActivityIndicatorView.m */,
+				D2365220C9C2D8AD3E06EBA591DAB848 /* RTSSegmentedTimelineView.h */,
+				CC8B0553B4EA84387E0D162603CB029C /* RTSSegmentedTimelineView.m */,
+				4602F0F0EC2E2401E5105381A946C6A5 /* RTSSegmentedTimelineView+Private.h */,
+				13707CA2E8DF3B8BCA8BB88A31906BCA /* RTSTimelineSlider.h */,
+				C64A3962F725652FDD8EFD8EDB795EC4 /* RTSTimelineSlider.m */,
+				EFF12655DEEACA0DCF7811F46506C683 /* RTSTimeSlider.h */,
+				DBF19D2B8B6C27914890ECA0D0FBBA3B /* RTSTimeSlider.m */,
+				FBEE87214B59C17CA792A05D6C91654A /* RTSVolumeView.h */,
+				DD70D5B3D1200E94886B3DA488BE21CE /* RTSVolumeView.m */,
+				C2F9E4D69B4A7EA52A5591F607D1CC07 /* SRGMediaPlayer.h */,
+				FCDEB5D3B3AC75B5E57B45F230D2739A /* UIBezierPath+RTSMediaPlayerUtils.h */,
+				94B01E7B820307782E64D0DBDFEE5CA8 /* UIBezierPath+RTSMediaPlayerUtils.m */,
+				553A4ED12A6501F4A0B7E47049B5421C /* Resources */,
+				3A1425CFFF33B1E1786B7538F63D3D5C /* Support Files */,
+				5C7166ECB733FDFE5F213CABFBA3414E /* Version */,
+			);
+			path = SRGMediaPlayer;
 			sourceTree = "<group>";
 		};
 		EC79C4699AECE4F1D5016EFDD3FAC41A /* Pods-SRGAnalyticsTests */ = {
@@ -1724,7 +1739,7 @@
 			buildPhases = (
 				64CAFA33A13408C1579260C18676AB85 /* Sources */,
 				4C302C3AB00AA94B9E6636A60A51130A /* Frameworks */,
-				14759D00286DC6543D628E3564DC2375 /* Resources */,
+				D58603EBFB496B02EBB92544495E0676 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -1825,17 +1840,22 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		14759D00286DC6543D628E3564DC2375 /* Resources */ = {
+		D58603EBFB496B02EBB92544495E0676 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2718A28CBCA1DE13CD9D501AB5908224 /* picture_in_picture_start_button.png in Resources */,
-				2C138649FD859066A5932A1E78028D28 /* picture_in_picture_start_button@2x.png in Resources */,
-				5D2FAAADE377CAE6192D20AA1D5605DF /* picture_in_picture_stop_button.png in Resources */,
-				245F1E766E5F9907682276C22E52643B /* picture_in_picture_stop_button@2x.png in Resources */,
-				0622A42362887A84B94DCD496699A2DA /* RTSMediaPlayerViewController.xib in Resources */,
-				585C9052B730D9F3DFB40FA9D9E2D994 /* thumb_timeline_slider.png in Resources */,
-				31F4D2D4F1C96CAFB2590254A39AB15D /* thumb_timeline_slider@2x.png in Resources */,
+				BCD0687B829D66729F736A0B7EF7E291 /* de.lproj in Resources */,
+				FC6D4647C3B091801AB356506259FE1E /* en.lproj in Resources */,
+				23E5A38E43057317C35B5A46D67B94EF /* fr.lproj in Resources */,
+				FBCC3129A867107067D56779C20CF70E /* it.lproj in Resources */,
+				D5912F8973ABCFD5B5F7D40F3CAAA56D /* picture_in_picture_start_button.png in Resources */,
+				7EDC46570F70B1EAD0B23A687E62C2B4 /* picture_in_picture_start_button@2x.png in Resources */,
+				8407CDB02A0F642F018E2FFA41DDE5B2 /* picture_in_picture_stop_button.png in Resources */,
+				89E0E5EF6C11E20ABDBB692C90C27B41 /* picture_in_picture_stop_button@2x.png in Resources */,
+				D9A19048732A8975D68F88332F4C816C /* rm.lproj in Resources */,
+				A4A1F46B539B94F546794FD7D8513107 /* RTSMediaPlayerViewController.xib in Resources */,
+				2FBF9628D9967F44F4A2D7C10E660E14 /* thumb_timeline_slider.png in Resources */,
+				A147ED86CE6FEB9F87A27C5FB6996320 /* thumb_timeline_slider@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1853,7 +1873,7 @@
 				21353E8AA21E603640D5CB6DB7D33615 /* RTSAnalyticsNetmetrixTracker.m in Sources */,
 				5376EFA9F262E0D79E24832E5C9220B7 /* RTSAnalyticsTracker+Logging.m in Sources */,
 				0DED6C67E1AD0DDC0C0D2C49A54F02E6 /* RTSAnalyticsTracker.m in Sources */,
-				221292AC2FEC0B19BFBEF949E1E98AE6 /* RTSAnalyticsVersion.m in Sources */,
+				B170E939C0D9C80CE97072E9200C8E65 /* RTSAnalyticsVersion.m in Sources */,
 				A5AABC8D423CB18FD61C9864C600D9B7 /* RTSMediaPlayerController+RTSAnalytics.m in Sources */,
 				7EECA1FB3FCB5439D3FE96FE7AF0B4D6 /* RTSMediaPlayerControllerStreamSenseTracker.m in Sources */,
 				93FE16DAD10C9D85900047C27EC62DFB /* RTSMediaPlayerControllerTracker.m in Sources */,
@@ -1904,7 +1924,7 @@
 				1F97E4C9A15A15E328285EFF4278CEAC /* RTSMediaPlayerLogger.m in Sources */,
 				BB6CCF09D6692484616222764C4336B2 /* RTSMediaPlayerPlaybackButton.m in Sources */,
 				D46D615CDE311B29319AEA5CBC9231A6 /* RTSMediaPlayerSharedController.m in Sources */,
-				A1C1D803CB82AEED881C43E4F82D5869 /* RTSMediaPlayerVersion.m in Sources */,
+				0D3A86C9B7592BE10389AE71863C1857 /* RTSMediaPlayerVersion.m in Sources */,
 				1B83D433B8E0129DC5295DBB6F6A0586 /* RTSMediaPlayerView.m in Sources */,
 				F0357B04419498D8816F039E8D9948B4 /* RTSMediaPlayerViewController.m in Sources */,
 				31376A1DA7396EA9335B7C89D5380F11 /* RTSMediaSegmentsController.m in Sources */,
@@ -2226,7 +2246,7 @@
 		};
 		10163945D45E9835D7671D419FF0A20E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8ED9D4B49892F52AA06B1AB10330C455 /* SRGMediaPlayer.xcconfig */;
+			baseConfigurationReference = BFD490951280065774EA7EE7B084B265 /* SRGMediaPlayer.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				PRODUCT_NAME = SRGMediaPlayer;
@@ -2334,7 +2354,7 @@
 		};
 		29482BE5EA1882A9FA798CBC14D05713 /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8ED9D4B49892F52AA06B1AB10330C455 /* SRGMediaPlayer.xcconfig */;
+			baseConfigurationReference = BFD490951280065774EA7EE7B084B265 /* SRGMediaPlayer.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/SRGMediaPlayer/SRGMediaPlayer-prefix.pch";
@@ -2502,7 +2522,7 @@
 		};
 		55A92CCFFB754885A3A3E389B580D9AC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8ED9D4B49892F52AA06B1AB10330C455 /* SRGMediaPlayer.xcconfig */;
+			baseConfigurationReference = BFD490951280065774EA7EE7B084B265 /* SRGMediaPlayer.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/SRGMediaPlayer/SRGMediaPlayer-prefix.pch";
@@ -2650,7 +2670,7 @@
 		};
 		7E947F8983E680D395ACF533F71D3A58 /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8ED9D4B49892F52AA06B1AB10330C455 /* SRGMediaPlayer.xcconfig */;
+			baseConfigurationReference = BFD490951280065774EA7EE7B084B265 /* SRGMediaPlayer.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -2778,7 +2798,7 @@
 		};
 		B733A5F90D022EB5B6AE584AEAE44546 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8ED9D4B49892F52AA06B1AB10330C455 /* SRGMediaPlayer.xcconfig */;
+			baseConfigurationReference = BFD490951280065774EA7EE7B084B265 /* SRGMediaPlayer.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/SRGMediaPlayer/SRGMediaPlayer-prefix.pch";
@@ -2834,7 +2854,7 @@
 		};
 		F65A5D94A0BFE3FDA480641ACD7468C4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8ED9D4B49892F52AA06B1AB10330C455 /* SRGMediaPlayer.xcconfig */;
+			baseConfigurationReference = BFD490951280065774EA7EE7B084B265 /* SRGMediaPlayer.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				PRODUCT_NAME = SRGMediaPlayer;

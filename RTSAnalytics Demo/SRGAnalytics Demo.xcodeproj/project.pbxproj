@@ -538,6 +538,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A9E6161C998DD756846C556D /* Pods-SRGAnalytics DemoTests.test.xcconfig */;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"TEST=1",
+				);
 				INFOPLIST_FILE = "RTSAnalytics DemoTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -682,6 +687,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 71EB874B5A995DD7E6CD1C7D /* Pods-SRGAnalytics DemoTests.debug.xcconfig */;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"TEST=1",
+				);
 				INFOPLIST_FILE = "RTSAnalytics DemoTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -695,6 +705,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A331EF87AFFC8427127D1B70 /* Pods-SRGAnalytics DemoTests.release.xcconfig */;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"TEST=1",
+				);
 				INFOPLIST_FILE = "RTSAnalytics DemoTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
