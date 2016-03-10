@@ -16,7 +16,7 @@
 /**
  * SRG/SSR Business units
  */
-typedef enum {
+typedef NS_ENUM(NSInteger, SSRBusinessUnit) {
 	/**
 	 *  Business unit for Schweizer Radio und Fernsehen (SRF)
 	 *
@@ -57,7 +57,7 @@ typedef enum {
 	 */
 	SSRBusinessUnitSWI
 	
-} SSRBusinessUnit;
+};
 
 
 /**
