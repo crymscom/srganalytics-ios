@@ -503,6 +503,11 @@
 			baseConfigurationReference = 0AC9040CB6772AEB63FCDE39 /* Pods-SRGAnalyticsTests.test.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"TEST=1",
+				);
 				INFOPLIST_FILE = RTSAnalyticsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.rts.$(PRODUCT_NAME:rfc1034identifier)";
@@ -588,6 +593,11 @@
 			baseConfigurationReference = 18BFADC8E5A38BC54D9672E0 /* Pods-SRGAnalyticsTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"TEST=1",
+				);
 				INFOPLIST_FILE = RTSAnalyticsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.rts.$(PRODUCT_NAME:rfc1034identifier)";
@@ -599,6 +609,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1AF1EE5C2B9C9B206B5A019D /* Pods-SRGAnalyticsTests.release.xcconfig */;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"TEST=1",
+				);
 				INFOPLIST_FILE = RTSAnalyticsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.rts.$(PRODUCT_NAME:rfc1034identifier)";
