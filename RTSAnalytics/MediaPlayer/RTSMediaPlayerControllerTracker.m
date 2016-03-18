@@ -108,6 +108,10 @@
 	}
 	
 	RTSMediaPlayerController *mediaPlayerController = notification.object;
+    if (!mediaPlayerController.identifier) {
+        return;
+    }
+    
     RTSMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
     
     RTSAnalyticsLogDebug(@"---> Playback status changed: %@", @(mediaPlayerController.playbackState));
@@ -179,7 +183,7 @@
 {
     RTSMediaSegmentsController *segmentsController = notification.object;
     RTSMediaPlayerController *mediaPlayerController = segmentsController.playerController;
-    if (!mediaPlayerController.tracked) {
+    if (!mediaPlayerController.tracked || !mediaPlayerController.identifier) {
         return;
     }
     
@@ -259,9 +263,7 @@
 
 - (RTSMediaPlayerControllerTrackingInfo *)trackingInfoForMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
 {
-    if (!mediaPlayerController || !mediaPlayerController.identifier) {
-        return nil;
-    }
+    NSParameterAssert(mediaPlayerController.identifier);
     
     RTSMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[mediaPlayerController.identifier];
     if (!trackingInfo) {
