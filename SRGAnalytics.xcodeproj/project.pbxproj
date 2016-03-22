@@ -15,6 +15,19 @@
 		E6C7A7741CA134670011D9BF /* CSStreamSenseClip+RTSFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E6C7A7711CA134670011D9BF /* CSStreamSenseClip+RTSFixes.m */; };
 		E6C7A7791CA134B80011D9BF /* CSStreamSense+RTSFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E6C7A7761CA134B80011D9BF /* CSStreamSense+RTSFixes.m */; };
 		E6C7A77B1CA134B80011D9BF /* CSStreamSensePlaylist+RTSFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E6C7A7781CA134B80011D9BF /* CSStreamSensePlaylist+RTSFixes.m */; };
+		E6C7A77C1CA143660011D9BF /* RTSAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B64502AF1ADE81F9001021A8 /* RTSAnalyticsTracker.m */; };
+		E6C7A77D1CA1436C0011D9BF /* UIViewController+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4420F31B09DB2F00AD0613 /* UIViewController+RTSAnalytics.m */; };
+		E6C7A77E1CA143760011D9BF /* RTSAnalyticsNetmetrixTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B64502A91ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker.m */; };
+		E6C7A77F1CA1437A0011D9BF /* RTSMediaPlayerControllerStreamSenseTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503161ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker.m */; };
+		E6C7A7801CA1437C0011D9BF /* RTSMediaPlayerControllerTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B64503141ADFA753001021A8 /* RTSMediaPlayerControllerTracker.m */; };
+		E6C7A7811CA1437F0011D9BF /* RTSMediaPlayerControllerTrackingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F471921B5D2C9200A566B3 /* RTSMediaPlayerControllerTrackingInfo.m */; };
+		E6C7A7821CA143820011D9BF /* RTSAnalyticsVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F0237A1B328F59001B6F0B /* RTSAnalyticsVersion.m */; };
+		E6C7A7831CA143850011D9BF /* RTSAnalyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */; };
+		E6C7A7841CA1438A0011D9BF /* RTSAnalyticsTracker+Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = B64502B11ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.m */; };
+		E6C7A7851CA1438A0011D9BF /* CSRequest+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4420ED1B09DB2F00AD0613 /* CSRequest+RTSAnalytics.m */; };
+		E6C7A7861CA1438A0011D9BF /* NSDictionary+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4420EF1B09DB2F00AD0613 /* NSDictionary+RTSAnalytics.m */; };
+		E6C7A7871CA1438A0011D9BF /* NSString+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4420F11B09DB2F00AD0613 /* NSString+RTSAnalytics.m */; };
+		E6C7A7881CA145D60011D9BF /* RTSMediaPlayerController+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E67165131BF1FD4000A07776 /* RTSMediaPlayerController+RTSAnalytics.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -455,7 +468,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6C7A7741CA134670011D9BF /* CSStreamSenseClip+RTSFixes.m in Sources */,
+				E6C7A7831CA143850011D9BF /* RTSAnalyticsLogger.m in Sources */,
+				E6C7A7821CA143820011D9BF /* RTSAnalyticsVersion.m in Sources */,
+				E6C7A77C1CA143660011D9BF /* RTSAnalyticsTracker.m in Sources */,
+				E6C7A77D1CA1436C0011D9BF /* UIViewController+RTSAnalytics.m in Sources */,
 				E6C7A7791CA134B80011D9BF /* CSStreamSense+RTSFixes.m in Sources */,
+				E6C7A77F1CA1437A0011D9BF /* RTSMediaPlayerControllerStreamSenseTracker.m in Sources */,
+				E6C7A7841CA1438A0011D9BF /* RTSAnalyticsTracker+Logging.m in Sources */,
+				E6C7A7881CA145D60011D9BF /* RTSMediaPlayerController+RTSAnalytics.m in Sources */,
+				E6C7A7871CA1438A0011D9BF /* NSString+RTSAnalytics.m in Sources */,
+				E6C7A7851CA1438A0011D9BF /* CSRequest+RTSAnalytics.m in Sources */,
+				E6C7A77E1CA143760011D9BF /* RTSAnalyticsNetmetrixTracker.m in Sources */,
+				E6C7A7811CA1437F0011D9BF /* RTSMediaPlayerControllerTrackingInfo.m in Sources */,
+				E6C7A7861CA1438A0011D9BF /* NSDictionary+RTSAnalytics.m in Sources */,
+				E6C7A7801CA1437C0011D9BF /* RTSMediaPlayerControllerTracker.m in Sources */,
 				E6C7A77B1CA134B80011D9BF /* CSStreamSensePlaylist+RTSFixes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -653,6 +679,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"TEST=1",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
