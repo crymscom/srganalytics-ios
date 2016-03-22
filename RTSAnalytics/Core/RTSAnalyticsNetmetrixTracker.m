@@ -8,6 +8,8 @@
 #import "RTSAnalyticsNetmetrixTracker_private.h"
 #import "RTSAnalyticsLogger.h"
 
+#import <UIKit/UIKit.h>
+
 static NSString * const LoggerDomainAnalyticsNetmetrix = @"Netmetrix";
 
 NSString * const RTSAnalyticsNetmetrixRequestDidFinishNotification = @"RTSAnalyticsNetmetrixRequestDidFinish";
