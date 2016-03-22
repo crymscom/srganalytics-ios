@@ -1,8 +1,8 @@
 PODS:
   - comScore-iOS-SDK-RTS (3.1509.15)
-  - KIF (3.3.1):
-    - KIF/Core (= 3.3.1)
-  - KIF/Core (3.3.1)
+  - KIF (3.4.1):
+    - KIF/Core (= 3.4.1)
+  - KIF/Core (3.4.1)
   - libextobjc/EXTScope (0.4.1):
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
@@ -28,7 +28,7 @@ PODS:
 
 DEPENDENCIES:
   - comScore-iOS-SDK-RTS (= 3.1509.15)
-  - KIF (= 3.3.1)
+  - KIF (= 3.4.1)
   - OCMock (~> 3.1.2)
   - SRGAnalytics (from `.`)
   - SRGAnalytics/MediaPlayer (from `.`)
@@ -40,7 +40,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   comScore-iOS-SDK-RTS: 71d28252778ba9bb06a1c5589046e96c057674f1
-  KIF: ff9f0e585503871bcd096937cc760081d770c5e2
+  KIF: 2275c6d59c77e5e56f660f006b99d73780130540
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: 4c2925291f80407c3738dd1db14d21d0cc278864
   SRGAnalytics: d74805ea0a7a60b1014fff753617f5581b26ab15

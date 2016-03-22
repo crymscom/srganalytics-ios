@@ -27,7 +27,7 @@ end
 
 target 'SRGAnalytics DemoTests', :exclusive => true do
 	xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo', 'Test' => :debug
-	pod 'KIF', '3.3.1'
+	pod 'KIF', '3.4.1'
 end
 
 ### Workaround to make sure to have iPad xibs compiled as well.
