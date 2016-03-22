@@ -203,6 +203,7 @@
         // Add a tolerance to avoid trying to set a value larger than the slider max, which leads to a KIF exception
         static const float kSliderTolerance = 4.f;
         [tester setValue:position - kPastPosition - kSliderTolerance  forSliderWithAccessibilityLabel:@"slider"];
+        [tester waitForTimeInterval:2.0f];          // Must wait a little bit after setting a slider value, otherwise issues might arise when executing a test afterwards
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -802,6 +803,7 @@
         }];
         
         [tester setValue:40. forSliderWithAccessibilityLabel:@"slider"];
+        [tester waitForTimeInterval:2.0f];          // Must wait a little bit after setting a slider value, otherwise issues might arise when executing a test afterwards
                 
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -915,6 +917,7 @@
         }];
         
         [tester setValue:3. forSliderWithAccessibilityLabel:@"slider"];
+        [tester waitForTimeInterval:2.0f];          // Must wait a little bit after setting a slider value, otherwise issues might arise when executing a test afterwards
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -1106,6 +1109,7 @@
         }];
         
         [tester setValue:43. forSliderWithAccessibilityLabel:@"slider"];
+        [tester waitForTimeInterval:2.0f];          // Must wait a little bit after setting a slider value, otherwise issues might arise when executing a test afterwards
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
