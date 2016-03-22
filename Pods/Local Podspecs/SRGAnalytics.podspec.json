@@ -41,6 +41,9 @@
       "dependencies": {
         "comScore-iOS-SDK-RTS": [
           "3.1509.15"
+        ],
+        "JRSwizzle": [
+          "1.0"
         ]
       },
       "subspecs": [

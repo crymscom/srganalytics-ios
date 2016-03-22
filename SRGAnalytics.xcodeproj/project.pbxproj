@@ -12,6 +12,9 @@
 		9FD74D3F1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD74D3E1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m */; };
 		9FD74D411ACC2DDC00A2D86A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */; };
 		9FD74D431ACC2DF900A2D86A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */; };
+		E6C7A7741CA134670011D9BF /* CSStreamSenseClip+RTSFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E6C7A7711CA134670011D9BF /* CSStreamSenseClip+RTSFixes.m */; };
+		E6C7A7791CA134B80011D9BF /* CSStreamSense+RTSFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E6C7A7761CA134B80011D9BF /* CSStreamSense+RTSFixes.m */; };
+		E6C7A77B1CA134B80011D9BF /* CSStreamSensePlaylist+RTSFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E6C7A7781CA134B80011D9BF /* CSStreamSensePlaylist+RTSFixes.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +89,9 @@
 		C28CE3E91B908CF700BA1D69 /* Pods-SRGAnalytics.test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics.test.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics.test.xcconfig"; sourceTree = "<group>"; };
 		E67165121BF1FD4000A07776 /* RTSMediaPlayerController+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RTSMediaPlayerController+RTSAnalytics.h"; sourceTree = "<group>"; };
 		E67165131BF1FD4000A07776 /* RTSMediaPlayerController+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RTSMediaPlayerController+RTSAnalytics.m"; sourceTree = "<group>"; };
+		E6C7A7711CA134670011D9BF /* CSStreamSenseClip+RTSFixes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSStreamSenseClip+RTSFixes.m"; sourceTree = "<group>"; };
+		E6C7A7761CA134B80011D9BF /* CSStreamSense+RTSFixes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSStreamSense+RTSFixes.m"; sourceTree = "<group>"; };
+		E6C7A7781CA134B80011D9BF /* CSStreamSensePlaylist+RTSFixes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSStreamSensePlaylist+RTSFixes.m"; sourceTree = "<group>"; };
 		E6F023791B328F59001B6F0B /* RTSAnalyticsVersion_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsVersion_private.h; sourceTree = "<group>"; };
 		E6F0237A1B328F59001B6F0B /* RTSAnalyticsVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsVersion.m; sourceTree = "<group>"; };
 		E6F471911B5D2C9200A566B3 /* RTSMediaPlayerControllerTrackingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSMediaPlayerControllerTrackingInfo.h; sourceTree = "<group>"; };
@@ -184,6 +190,9 @@
 		9FA2200B1B53E34300886FB2 /* Private */ = {
 			isa = PBXGroup;
 			children = (
+				E6C7A7761CA134B80011D9BF /* CSStreamSense+RTSFixes.m */,
+				E6C7A7781CA134B80011D9BF /* CSStreamSensePlaylist+RTSFixes.m */,
+				E6C7A7711CA134670011D9BF /* CSStreamSenseClip+RTSFixes.m */,
 				B64502AA1ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker_private.h */,
 				B64502A91ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker.m */,
 			);
@@ -316,7 +325,7 @@
 			attributes = {
 				CLASSPREFIX = RTS;
 				LastUpgradeCheck = 0700;
-				ORGANIZATIONNAME = SRG;
+				ORGANIZATIONNAME = "SRG SSR";
 				TargetAttributes = {
 					9F1518C51AC2F1CE00AE051D = {
 						CreatedOnToolsVersion = 6.2;
@@ -445,6 +454,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6C7A7741CA134670011D9BF /* CSStreamSenseClip+RTSFixes.m in Sources */,
+				E6C7A7791CA134B80011D9BF /* CSStreamSense+RTSFixes.m in Sources */,
+				E6C7A77B1CA134B80011D9BF /* CSStreamSensePlaylist+RTSFixes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

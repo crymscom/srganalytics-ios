@@ -267,7 +267,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0700;
-				ORGANIZATIONNAME = RTS;
+				ORGANIZATIONNAME = "SRG SSR";
 				TargetAttributes = {
 					B64503271AE0F14E001021A8 = {
 						CreatedOnToolsVersion = 6.2;
