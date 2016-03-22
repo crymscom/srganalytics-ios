@@ -1,5 +1,5 @@
 //
-//  Copyright (c) SRG. All rights reserved.
+//  Copyright (c) SRG SSR. All rights reserved.
 //
 //  License information is available from the LICENSE file.
 //
@@ -23,36 +23,33 @@
     [KIFSystemTestActor setDefaultTimeout:30.0];
 }
 
-//#warning Disabled because of missing stream
-//- (void)disabled_testOpenDefaultMediaPlayerAndPlayLiveStreamThenClose
-//{
-//	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
-//	
-//    {
-//        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
-//        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-//        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-//        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
-//        XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
-//        AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
-//        
-//        [tester waitForTimeInterval:2.0f];
-//    }
-//    
-//    {
-//        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
-//            [tester tapViewWithAccessibilityLabel:@"Done"];
-//        }];
-//        
-//        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-//        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-//        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
-//        XCTAssertEqualObjects(labels[@"srg_enc"], @"9");
-//        AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
-//        
-//        [tester waitForTimeInterval:2.0f];
-//    }
-//}
+- (void)testOpenDefaultMediaPlayerAndPlayLiveStreamThenClose
+{
+	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
+	
+    {
+        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
+        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+        AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
+        
+        [tester waitForTimeInterval:2.0f];
+    }
+    
+    {
+        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
+            [tester tapViewWithAccessibilityLabel:@"Done"];
+        }];
+        
+        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+        AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
+        
+        [tester waitForTimeInterval:2.0f];
+    }
+}
 
 - (void)testOpenDefaultMediaPlayerAndPlayVODStreamThenClose
 {
@@ -206,6 +203,7 @@
         // Add a tolerance to avoid trying to set a value larger than the slider max, which leads to a KIF exception
         static const float kSliderTolerance = 4.f;
         [tester setValue:position - kPastPosition - kSliderTolerance  forSliderWithAccessibilityLabel:@"slider"];
+        [tester waitForTimeInterval:2.0f];          // Must wait a little bit after setting a slider value, otherwise issues might arise when executing a test afterwards
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -805,6 +803,7 @@
         }];
         
         [tester setValue:40. forSliderWithAccessibilityLabel:@"slider"];
+        [tester waitForTimeInterval:2.0f];          // Must wait a little bit after setting a slider value, otherwise issues might arise when executing a test afterwards
                 
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -918,6 +917,7 @@
         }];
         
         [tester setValue:3. forSliderWithAccessibilityLabel:@"slider"];
+        [tester waitForTimeInterval:2.0f];          // Must wait a little bit after setting a slider value, otherwise issues might arise when executing a test afterwards
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }
@@ -1109,6 +1109,7 @@
         }];
         
         [tester setValue:43. forSliderWithAccessibilityLabel:@"slider"];
+        [tester waitForTimeInterval:2.0f];          // Must wait a little bit after setting a slider value, otherwise issues might arise when executing a test afterwards
         
         [self waitForExpectationsWithTimeout:20. handler:nil];
     }

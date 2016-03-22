@@ -1,5 +1,5 @@
 //
-//  Copyright (c) SRG. All rights reserved.
+//  Copyright (c) SRG SSR. All rights reserved.
 //
 //  License information is available from the LICENSE file.
 //
@@ -92,7 +92,7 @@
 	NSString *urlString = nil;
 	if ([identifier hasSuffix:@"LiveCell"])
 	{
-		urlString = @"https://srgssruni9ch-lh.akamaihd.net/i/enc9uni_ch@191320/master.m3u8";
+		urlString = @"http://esioslive6-i.akamaihd.net/hls/live/202892/AL_P_ESP1_FR_FRA/playlist.m3u8";
 	}
 	else if ([identifier hasSuffix:@"VODCell"] || [identifier hasSuffix:@"SegmentsCell"])
 	{
@@ -100,7 +100,7 @@
 	}
     else if ([identifier hasSuffix:@"DVRCell"])
     {
-        urlString = @"http://srgssruni22ach-lh.akamaihd.net/i/enc22auni_ch@195192/master.m3u8";
+        urlString = @"https://missing";
     }
     else if ([identifier hasSuffix:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
     {

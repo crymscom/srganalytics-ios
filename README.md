@@ -78,9 +78,9 @@ By using custom build settings variables, it is possible to provide different va
 
 ### Tracking view counts for view controllers
 
-For each view controller which requires tracking, have it explicitly conform to the `RTSAnalyticsPageViewDataSource` protocol, and implement the associated required method. This is all you need to do, view events will then automatically be sent when your view controller is presented.
+For each view controller which requires tracking, like a page view event, you have it explicitly conform to the `RTSAnalyticsPageViewDataSource` protocol, and implement the associated required method. This is all you need to do, view events will then automatically be sent when your view controller is presented.
 
-You can provide further optional information, please have a look at the `RTSAnalyticsPageViewDataSource` documentation for more information.
+You can provide further optional information, please have a look at the `RTSAnalyticsPageViewDataSource` header file.
 
 ### Tracking media players
 

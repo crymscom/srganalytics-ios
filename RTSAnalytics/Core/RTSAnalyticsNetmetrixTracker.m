@@ -1,5 +1,5 @@
 //
-//  Copyright (c) SRG. All rights reserved.
+//  Copyright (c) SRG SSR. All rights reserved.
 //
 //  License information is available from the LICENSE file.
 //
@@ -7,6 +7,8 @@
 #import "RTSAnalyticsTracker.h"
 #import "RTSAnalyticsNetmetrixTracker_private.h"
 #import "RTSAnalyticsLogger.h"
+
+#import <UIKit/UIKit.h>
 
 static NSString * const LoggerDomainAnalyticsNetmetrix = @"Netmetrix";
 
