@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Foundation/Foundation.h>
-#import <comScore-iOS-SDK-RTS/CSStreamSense.h>
+#import <ComScore-iOS/CSStreamSense.h>
 #import <JRSwizzle/JRSwizzle.h>
 
 // Attempt to fix comScore internal crashes by having dictionary sometimes incorrectly accessed from several threads

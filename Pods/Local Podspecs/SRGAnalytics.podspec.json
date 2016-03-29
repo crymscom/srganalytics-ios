@@ -39,8 +39,8 @@
         "UIKit"
       ],
       "dependencies": {
-        "comScore-iOS-SDK-RTS": [
-          "3.1509.15"
+        "ComScore-iOS": [
+          "3.1510.23.1"
         ],
         "JRSwizzle": [
           "1.0"

@@ -14,7 +14,7 @@
 #import "RTSAnalyticsLogger.h"
 #import "RTSAnalyticsPageViewDataSource.h"
 
-#import <comScore-iOS-SDK-RTS/CSComScore.h>
+#import <ComScore-iOS/CSComScore.h>
 
 #if __has_include("RTSAnalyticsMediaPlayer.h")
 #define RTSAnalyticsMediaPlayerIncluded

@@ -5,7 +5,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <comScore-iOS-SDK-RTS/CSStreamSenseClip.h>
+#import <ComScore-iOS/CSStreamSenseClip.h>
 #import <JRSwizzle/JRSwizzle.h>
 
 // See CSStreamSense+SRGFixes.m
