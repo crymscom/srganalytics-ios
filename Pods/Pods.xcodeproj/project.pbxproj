@@ -694,6 +694,18 @@
 				</array>
 			</dict>
 		</dict>
+		<key>1087D81DECEE30B29E0AF0BA32A52972</key>
+		<dict>
+			<key>fileRef</key>
+			<string>C93F7C467A4A33FA56EBA91ED0649C45</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-DRTS_ANALYTICS_VERSION=1.4.13 -w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
+		</dict>
 		<key>109EA45CAE579833FB8035B40BAA5BCE</key>
 		<dict>
 			<key>fileRef</key>
@@ -11355,7 +11367,7 @@
 				<string>E13774899E553788D60AC55FED4C0C56</string>
 				<string>D825BDF644A0983007EB0D34711E1C66</string>
 				<string>C2A1DBA6B4D18B10D6E630C6B870B823</string>
-				<string>EFD8C85E32E3B7D55A5565CE5DFDB98F</string>
+				<string>1087D81DECEE30B29E0AF0BA32A52972</string>
 				<string>CD162C627B7822BE5FD09727C7DB761B</string>
 				<string>8C40AD8487F43071FC654F9BB6884858</string>
 				<string>7BCDF4DFD67684C2A6FDCE8D5E779F36</string>
@@ -12142,18 +12154,6 @@
 			<dict>
 				<key>COMPILER_FLAGS</key>
 				<string>-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
-		</dict>
-		<key>EFD8C85E32E3B7D55A5565CE5DFDB98F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C93F7C467A4A33FA56EBA91ED0649C45</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-DRTS_ANALYTICS_VERSION=1.4.12 -w -Xanalyzer -analyzer-disable-all-checks</string>
 			</dict>
 		</dict>
 		<key>F0262A9736E94E4A8CF476C2A2D5D29E</key>
