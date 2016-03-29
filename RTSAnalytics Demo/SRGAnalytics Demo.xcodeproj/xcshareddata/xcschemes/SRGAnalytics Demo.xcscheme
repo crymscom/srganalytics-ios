@@ -72,6 +72,13 @@
             ReferencedContainer = "container:SRGAnalytics Demo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "RTSAnalyticsLogLevel"
+            value = "-1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
