@@ -1,6 +1,11 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
+## ComScore-iOS
+
+Copyright (c) 2016 comScore, Inc.
+FOR MORE INFORMATION, PLEASE VISIT DIRECT.COMSCORE.COM
+
 ## SRGMediaPlayer
 
 The MIT License (MIT)

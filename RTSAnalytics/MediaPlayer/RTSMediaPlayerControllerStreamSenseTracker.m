@@ -10,9 +10,9 @@
 #import "RTSAnalyticsLogger.h"
 #import "RTSAnalyticsVersion_private.h"
 
-#import <comScore-iOS-SDK-RTS/CSStreamSense.h>
-#import <comScore-iOS-SDK-RTS/CSStreamSensePlaylist.h>
-#import <comScore-iOS-SDK-RTS/CSStreamSenseClip.h>
+#import <ComScore-iOS/CSStreamSense.h>
+#import <ComScore-iOS/CSStreamSensePlaylist.h>
+#import <ComScore-iOS/CSStreamSenseClip.h>
 
 #import <SRGMediaPlayer/RTSMediaPlayerView.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
