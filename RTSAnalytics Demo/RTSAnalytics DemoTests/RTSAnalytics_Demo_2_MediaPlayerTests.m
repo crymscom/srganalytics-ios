@@ -25,60 +25,94 @@
 
 - (void)testOpenDefaultMediaPlayerAndPlayLiveStreamThenClose
 {
-	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
-	
     {
-        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
-        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
-        AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Only consider relevant events
+            if (!labels[@"clip_name"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+            AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
+            return YES;
+        }];
         
-        [tester waitForTimeInterval:2.0f];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     {
-        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
-            [tester tapViewWithAccessibilityLabel:@"Done"];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+            XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
+            AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
+            return YES;
         }];
         
-        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertEqualObjects(labels[@"ns_st_li"], @"1");
-        AssertIsWithin1Second(labels[@"srg_timeshift"], 0.);
+        [tester tapViewWithAccessibilityLabel:@"Done"];
         
-        [tester waitForTimeInterval:2.0f];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
 }
 
 - (void)testOpenDefaultMediaPlayerAndPlayVODStreamThenClose
 {
-	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
-
     {
-        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
-        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
-        XCTAssertNil(labels[@"srg_enc"]);
-        XCTAssertNil(labels[@"srg_timeshift"], @"The parameter srg_timeshift must only sent for live streams");
-        XCTAssertNil(labels[@"srg_test"]);
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Only consider relevant events
+            if (!labels[@"clip_name"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+            XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
+            XCTAssertNil(labels[@"srg_enc"]);
+            XCTAssertNil(labels[@"srg_timeshift"], @"The parameter srg_timeshift must only sent for live streams");
+            XCTAssertNil(labels[@"srg_test"]);
+            return YES;
+        }];
         
-        [tester waitForTimeInterval:2.0f];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     
     {
-        NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
-            [tester tapViewWithAccessibilityLabel:@"Done"];
+        [self expectationForNotification:@"RTSAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+            
+            // Skip heartbeats
+            if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
+            {
+                return NO;
+            }
+            
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+            XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
+            XCTAssertNil(labels[@"srg_enc"]);
+            XCTAssertNil(labels[@"srg_timeshift"], @"The parameter srg_timeshift must only sent for live streams");
+            return YES;
         }];
         
-        NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertNil(labels[@"ns_st_li"], @"The parameter ns_st_li must only sent for live streams");
-        XCTAssertNil(labels[@"srg_enc"]);
-        XCTAssertNil(labels[@"srg_timeshift"], @"The parameter srg_timeshift must only sent for live streams");
+        [tester tapViewWithAccessibilityLabel:@"Done"];
         
-        [tester waitForTimeInterval:2.0f];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
 }
 
