@@ -117,8 +117,6 @@
 }
 
 // DVR streams should start at the end, i.e. live
-// FIXME: Disabled until we find a DVR test streawm
-#if 0
 - (void)testOpenDefaultMediaPlayerPlayDVRStreamAndSeekToNonLiveThenClose
 {
     {
@@ -249,7 +247,6 @@
     
     [tester waitForTimeInterval:2.0f];
 }
-#endif
 
 // Expected behavior: When playing the full-length, we receive full-length labels. When a segment has been selected by the user, we
 // receive segment labels. After the segment has been played through, we receive full-length labels again
