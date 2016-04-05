@@ -3937,18 +3937,6 @@
 				</array>
 			</dict>
 		</dict>
-		<key>497F7498EE208B09AF3908A50B6CA8CC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>3FB2E6F74EEFD1203DE884598E981654</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks -DRTS_MEDIA_PLAYER_VERSION=1.6.3 -w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
-		</dict>
 		<key>49E1B61C56391552AD7090D28415F928</key>
 		<dict>
 			<key>fileRef</key>
@@ -4259,6 +4247,18 @@
 			<string>RTSMediaPlayer/RTSMediaPlayerVersion.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4FD8ECA9EC1DBFADA0565233469CD88D</key>
+		<dict>
+			<key>fileRef</key>
+			<string>3FB2E6F74EEFD1203DE884598E981654</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks -DRTS_MEDIA_PLAYER_VERSION=1.6.5 -w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
 		</dict>
 		<key>4FDF6C32DC8D794C1C77D57B8862BCD4</key>
 		<dict>
@@ -8433,7 +8433,7 @@
 				<string>D30CAEA8215021324356659313ED7625</string>
 				<string>A36EEF3447D62B55D93ADD25FC68549C</string>
 				<string>9EF6C8015FD6D5FF84151AB59B674776</string>
-				<string>497F7498EE208B09AF3908A50B6CA8CC</string>
+				<string>4FD8ECA9EC1DBFADA0565233469CD88D</string>
 				<string>DB92F678FCAFA2371FF673B39C2D36FD</string>
 				<string>1C0904A1688FD2758EBD4C1EA92944A0</string>
 				<string>71E80CEB0968C488982BB48513133381</string>
