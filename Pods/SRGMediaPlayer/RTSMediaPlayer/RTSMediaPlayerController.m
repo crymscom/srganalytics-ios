@@ -274,10 +274,7 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	[ready setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
 		@strongify(self)
 		
-		if (self.startTimeValue) {
-			[self.player play];
-		}
-		else if (self.player.rate == 0) {
+		if (self.player.rate == 0) {
 			[self fireEvent:self.pauseEvent userInfo:nil];
 		}
 	}];
@@ -427,9 +424,9 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	[self.player pause];
 }
 
-- (void)mute:(BOOL)flag
+- (void)setMuted:(BOOL)muted
 {
-	self.player.muted = flag;
+	self.player.muted = muted;
 }
 
 - (BOOL)isMuted
@@ -455,6 +452,10 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 
 - (void)seekToTime:(CMTime)time completionHandler:(void (^)(BOOL finished))completionHandler
 {
+	if (CMTIME_IS_INVALID(time)) {
+		return;
+	}
+	
 	if (self.stateMachine.currentState != self.seekingState) {
 		[self fireEvent:self.seekEvent userInfo:nil];
 	}
@@ -462,18 +463,17 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	RTSMediaPlayerLogDebug(@"Seeking to %.2f sec.", CMTimeGetSeconds(time));
 	
 	[self.player seekToTime:time
-			toleranceBefore:kCMTimeZero
-			 toleranceAfter:kCMTimeZero
 		  completionHandler:completionHandler];
 }
 
 - (void)playAtTime:(CMTime)time
 {
-	[self seekToTime:time completionHandler:^(BOOL finished) {
-		if (finished) {
-			[self play];
-		}
-	}];
+	if ([self.stateMachine.currentState isEqual:self.idleState]) {
+		[self loadPlayerAndAutoStartAtTime:[NSValue valueWithCMTime:time]];
+	}
+	else {
+		[self seekToTime:time completionHandler:nil];
+	}
 }
 
 - (AVPlayerItem *)playerItem
@@ -768,18 +768,13 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 		AVPlayerItem *playerItem = player.currentItem;
 		switch (playerItem.status) {
 			case AVPlayerItemStatusReadyToPlay:
-				if (self.player.rate != 0 &&
-					![self.stateMachine.currentState isEqual:self.readyState] &&
-					![self.stateMachine.currentState isEqual:self.seekingState])
-				{
+				if (![self.stateMachine.currentState isEqual:self.playingState]) {
 					if (!self.startTimeValue || CMTIME_COMPARE_INLINE([self.startTimeValue CMTimeValue], ==, kCMTimeZero)) {
 						[self play];
 					}
 					else {
 						// Not using [self seek...] to avoid triggering undesirable state events.
 						[self.player seekToTime:[self.startTimeValue CMTimeValue]
-								toleranceBefore:kCMTimeZero
-								 toleranceAfter:kCMTimeZero
 							  completionHandler:^(BOOL finished) {
 								  if (finished) {
 									  [self play];

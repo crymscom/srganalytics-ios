@@ -100,7 +100,7 @@
 	}
     else if ([identifier hasSuffix:@"DVRCell"])
     {
-        urlString = @"https://missing";
+        urlString = @"http://vevoplaylist-live.hls.adaptive.level3.net/vevo/ch1/appleman.m3u8";
     }
     else if ([identifier hasSuffix:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
     {

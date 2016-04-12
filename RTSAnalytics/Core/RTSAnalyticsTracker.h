@@ -120,6 +120,11 @@ typedef NS_ENUM(NSInteger, SSRBusinessUnit) {
 @property (nonatomic, readonly, strong) NSString *comscoreVSite;
 
 /**
+ *  The virtual site to be used for sending StreamSense stats.
+ */
+@property (nonatomic, readonly, strong) NSString *streamSenseVSite;
+
+/**
  *  The NetMetrix application name to be used for view event tracking.
  */
 @property (nonatomic, readonly, strong) NSString *netmetrixAppId;

@@ -71,8 +71,9 @@ providing a `dataSource` conforming to the `RTSAnalyticsMediaPlayerDataSource` p
 
 Your app `Info.plist` file must contains a dictionary section called `RTSAnalytics` containing the following key-value pairs: 
 
-* `ComscoreVirtualSite`: comScore virtual site
-* `NetmetrixAppID`: NET-Metrix application identifier
+* `ComscoreVirtualSite` (mandatory): virtual site where comScore view and hidden events will be sent
+* `StreamSenseVirtualSite` (optional): virtual site where streamSense events will be sent. If not set, uses `ComscoreVirtualSite`
+* `NetmetrixAppID` (mandatory): NET-Metrix application identifier
 
 By using custom build settings variables, it is possible to provide different values for different configurations (Debug, Beta, Release, etc.) with a single `Info.plist` file.
 

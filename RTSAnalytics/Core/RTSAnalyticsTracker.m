@@ -100,6 +100,11 @@
 	return [self infoDictionaryValueForKey:@"ComscoreVirtualSite"];
 }
 
+- (NSString *) streamSenseVSite
+{
+    return [self infoDictionaryValueForKey:@"StreamSenseVirtualSite"] ?: self.comscoreVSite;
+}
+
 - (NSString *) netmetrixAppId
 {
 	return [self infoDictionaryValueForKey:@"NetmetrixAppID"];
@@ -127,9 +132,9 @@
                          inDebugMode:(BOOL)debugMode
 {
     [self startTrackingForBusinessUnit:businessUnit inDebugMode:debugMode];
-    NSString *businessUnitIdentifier = [self businessUnitIdentifier:self.businessUnit];
-    NSString *streamSenseVirtualSite = [NSString stringWithFormat:@"%@-v", businessUnitIdentifier];
-    [[RTSMediaPlayerControllerTracker sharedTracker] startStreamMeasurementForVirtualSite:streamSenseVirtualSite mediaDataSource:dataSource];
+    
+    NSAssert(self.streamSenseVSite.length > 0, @"You MUST define `RTSAnalytics>ComscoreVirtualSite` key in your app Info.plist, optionally overridden with `RTSAnalytics>StreamSenseVirtualSite`");
+    [[RTSMediaPlayerControllerTracker sharedTracker] startStreamMeasurementForVirtualSite:self.streamSenseVSite mediaDataSource:dataSource];
 }
 
 #endif
