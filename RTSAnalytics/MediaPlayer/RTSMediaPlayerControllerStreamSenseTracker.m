@@ -277,7 +277,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
         NSInteger timeShiftInSeconds = (NSInteger)fabs(CMTimeGetSeconds(timeShift));
         
         // Consider offsets smaller than the tolerance to be equivalent to live conditions, sending 0 instead of the real offset
-        if (timeShiftInSeconds <= RTSMediaLiveTolerance) {
+        if (timeShiftInSeconds <= self.mediaPlayerController.liveTolerance) {
             return @"0";
         }
         else {
