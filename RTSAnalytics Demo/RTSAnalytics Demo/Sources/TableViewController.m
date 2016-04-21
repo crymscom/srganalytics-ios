@@ -87,7 +87,7 @@
 
 #pragma mark - RTSMediaPlayerControllerDataSource
 
-- (void) mediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController contentURLForIdentifier:(NSString *)identifier completionHandler:(void (^)(NSURL *, NSError *))completionHandler
+- (id) mediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController contentURLForIdentifier:(NSString *)identifier completionHandler:(void (^)(NSString *, NSURL *, NSError *))completionHandler
 {
 	NSString *urlString = nil;
 	if ([identifier hasSuffix:@"LiveCell"])
@@ -112,14 +112,16 @@
     }
 	
 	NSURL *URL = [NSURL URLWithString:urlString];
-	completionHandler(URL, nil);
+	completionHandler(identifier, URL, nil);
+    return nil;
 }
 
-
+- (void)cancelContentURLRequest:(id)request
+{}
 
 #pragma mark - RTSMediaSegmentsDataSource
 
-- (void) segmentsController:(RTSMediaSegmentsController *)controller segmentsForIdentifier:(NSString *)identifier withCompletionHandler:(RTSMediaSegmentsCompletionHandler)completionHandler
+- (id) segmentsController:(RTSMediaSegmentsController *)controller segmentsForIdentifier:(NSString *)identifier withCompletionHandler:(RTSMediaSegmentsCompletionHandler)completionHandler
 {
     if ([identifier rangeOfString:@"MultipleSegments"].length != 0)
     {
@@ -148,13 +150,13 @@
         segment3.logical = YES;
         segment3.blocked = YES;
         
-        completionHandler(@[fullLengthSegment, segment1, segment2, segment3], nil);
+        completionHandler(identifier, @[fullLengthSegment, segment1, segment2, segment3], nil);
     }
     else if ([identifier isEqualToString:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
     {
         Segment *physicalSegment1 = [[Segment alloc] initWithIdentifier:identifier name:@"physical_segment1" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
         Segment *physicalSegment2 = [[Segment alloc] initWithIdentifier:[identifier stringByAppendingString:@"_2"] name:@"physical_segment2" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(1200., 1.))];
-        completionHandler(@[physicalSegment1, physicalSegment2], nil);
+        completionHandler(identifier, @[physicalSegment1, physicalSegment2], nil);
     }
     else
     {
@@ -164,10 +166,13 @@
         CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(15., 1.));
         Segment *segment = [[Segment alloc] initWithIdentifier:identifier name:@"segment" timeRange:timeRange];
         segment.logical = YES;
-        completionHandler(@[fullLengthSegment, segment], nil);
+        completionHandler(identifier, @[fullLengthSegment, segment], nil);
     }
+    return nil;
 }
 
+- (void)cancelSegmentsRequest:(id)request
+{}
 
 #pragma mark - RTSAnalyticsPageViewDataSource
 
