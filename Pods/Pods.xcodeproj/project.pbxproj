@@ -159,18 +159,6 @@
 				</array>
 			</dict>
 		</dict>
-		<key>0222DE83341B2E959A41B74484A6C344</key>
-		<dict>
-			<key>fileRef</key>
-			<string>3FB2E6F74EEFD1203DE884598E981654</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks -DRTS_MEDIA_PLAYER_VERSION=1.8.0 -w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
-		</dict>
 		<key>02747E74FD529C9D74A3BC6B022A2AAB</key>
 		<dict>
 			<key>fileRef</key>
@@ -7419,6 +7407,18 @@
 				</array>
 			</dict>
 		</dict>
+		<key>8F420D6958619B6E4477A45F22F4115A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>3FB2E6F74EEFD1203DE884598E981654</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks -DRTS_MEDIA_PLAYER_VERSION=1.8.2 -w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
+		</dict>
 		<key>8F6A218FB0C7A73AC5A1597D390D244C</key>
 		<dict>
 			<key>fileRef</key>
@@ -8273,18 +8273,6 @@
 				<string>-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks</string>
 			</dict>
 		</dict>
-		<key>A1C83D669EB8A9E2AF93FAD2235B4DC9</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C93F7C467A4A33FA56EBA91ED0649C45</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-DRTS_ANALYTICS_VERSION=1.4.16 -w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
-		</dict>
 		<key>A20A8AAFD6D1E88DAA4602B8FD83B3B8</key>
 		<dict>
 			<key>fileRef</key>
@@ -8433,7 +8421,7 @@
 				<string>D30CAEA8215021324356659313ED7625</string>
 				<string>A36EEF3447D62B55D93ADD25FC68549C</string>
 				<string>9EF6C8015FD6D5FF84151AB59B674776</string>
-				<string>0222DE83341B2E959A41B74484A6C344</string>
+				<string>8F420D6958619B6E4477A45F22F4115A</string>
 				<string>DB92F678FCAFA2371FF673B39C2D36FD</string>
 				<string>1C0904A1688FD2758EBD4C1EA92944A0</string>
 				<string>71E80CEB0968C488982BB48513133381</string>
@@ -11367,7 +11355,7 @@
 				<string>E13774899E553788D60AC55FED4C0C56</string>
 				<string>D825BDF644A0983007EB0D34711E1C66</string>
 				<string>C2A1DBA6B4D18B10D6E630C6B870B823</string>
-				<string>A1C83D669EB8A9E2AF93FAD2235B4DC9</string>
+				<string>E67C35ED26DA39F3C1407D74D8D3DC02</string>
 				<string>CD162C627B7822BE5FD09727C7DB761B</string>
 				<string>8C40AD8487F43071FC654F9BB6884858</string>
 				<string>7BCDF4DFD67684C2A6FDCE8D5E779F36</string>
@@ -11756,6 +11744,18 @@
 			<string>comScore/headers/CSStreamSenseClip.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>E67C35ED26DA39F3C1407D74D8D3DC02</key>
+		<dict>
+			<key>fileRef</key>
+			<string>C93F7C467A4A33FA56EBA91ED0649C45</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-DRTS_ANALYTICS_VERSION=1.4.17 -w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
 		</dict>
 		<key>E790D9148EB0457CF153792A7690B5C0</key>
 		<dict>
