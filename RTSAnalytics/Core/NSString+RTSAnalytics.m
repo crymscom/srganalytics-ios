@@ -40,4 +40,14 @@
     return self;
 }
 
+- (NSString *)percentEncodedStringWithEncoding:(NSStringEncoding)encoding
+{
+    CFStringEncoding cfEncoding = CFStringConvertNSStringEncodingToEncoding(encoding);
+    return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                     (__bridge CFStringRef)self,
+                                                                     NULL,
+                                                                     CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                                     cfEncoding));
+}
+
 @end
