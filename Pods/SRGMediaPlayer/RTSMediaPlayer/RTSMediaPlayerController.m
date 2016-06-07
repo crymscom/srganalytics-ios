@@ -55,6 +55,7 @@ NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey = @"Bloc
 @property (readwrite) TKState *playingState;
 @property (readwrite) TKState *seekingState;
 @property (readwrite) TKState *stalledState;
+@property (readwrite) TKState *endedState;
 
 @property (readwrite) TKEvent *loadEvent;
 @property (readwrite) TKEvent *loadSuccessEvent;
@@ -87,6 +88,9 @@ NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey = @"Bloc
 @property (nonatomic, weak) RTSMediaSegmentsController *segmentsController;
 
 @property (nonatomic) id contentURLRequestHandle;
+
+@property (nonatomic, assign) BOOL playScheduled;
+@property (nonatomic, assign) BOOL pauseScheduled;
 
 @end
 
@@ -147,12 +151,6 @@ NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey = @"Bloc
 		
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self.stateTransitionObserver];
-	
-// Leave the two lines with AVAudioSession below COMMENTED.
-// This "reset" behavior is good in theory. But it breaks use cases with multiple players sharing the same audio session.
-// As a general rule, do NOT reset the audio session, but rather change to your needs at the point you need it.
-//	[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
-//	[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeDefault error:nil];
 	
 	[_view removeFromSuperview];
 	[_activityView removeGestureRecognizer:_activityGestureRecognizer];
@@ -297,30 +295,12 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	[ready setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
 		@strongify(self)
 		
-		if (self.player.rate == 0) {
-			[self fireEvent:self.pauseEvent userInfo:nil];
+		// Preparing to play, but starting paused
+		if (self.player.rate == 0 && !self.startTimeValue) {
+			// Ugly trick. We do not want to emit pause events before the player is ready to play, so we schedule the pause
+			// to be sent when the player is really ready to play
+			self.pauseScheduled = YES;
 		}
-	}];
-	
-	[playing setWillEnterStateBlock:^(TKState *state, TKTransition *transition) {
-		@strongify(self)
-		
-		// See https://developer.apple.com/library/ios/qa/qa1668/_index.html
-		RTSMediaType mediaType = [self mediaType];
-		if (mediaType == RTSMediaTypeVideo) {
-			[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-			[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeMoviePlayback error:nil];
-		}
-		else if (mediaType == RTSMediaTypeAudio) {
-			[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-			[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeDefault error:nil];
-		}
-// As a general rule, do NOT reset the audio session, but rather change to your needs at the point you need it (as above).
-// See also -dealloc method on why the lines below must remain commented.
-//		else {
-//			[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
-//			[[AVAudioSession sharedInstance] setMode:AVAudioSessionModeDefault error:nil];
-//		}
 	}];
 	
 	[playing setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
@@ -357,6 +337,7 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	self.playingState = playing;
 	self.stalledState = stalled;
 	self.seekingState = seeking;
+	self.endedState = ended;
 	
 	self.loadEvent = load;
 	self.loadSuccessEvent = loadSuccess;
@@ -411,6 +392,14 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 
 - (void)play
 {
+	if(!self.identifier) {
+		return;
+	}
+	
+	if ([self.stateMachine.currentState isEqual:self.endedState]) {
+		[self reset];
+	}
+	
 	if ([self.stateMachine.currentState isEqual:self.idleState]) {
 		[self loadPlayerAndAutoStartAtTime:[NSValue valueWithCMTime:kCMTimeZero]];
 	}
@@ -505,11 +494,16 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 
 - (void)playAtTime:(CMTime)time
 {
+	[self playAtTime:time completionHandler:nil];
+}
+
+- (void)playAtTime:(CMTime)time completionHandler:(void (^)(BOOL finished))completionHandler;
+{
 	if ([self.stateMachine.currentState isEqual:self.idleState]) {
 		[self loadPlayerAndAutoStartAtTime:[NSValue valueWithCMTime:time]];
 	}
 	else {
-		[self seekToTime:time completionHandler:nil];
+		[self seekToTime:time completionHandler:completionHandler];
 	}
 }
 
@@ -563,7 +557,15 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 		return kCMTimeRangeInvalid;
 	}
 	
-	return CMTimeRangeFromTimeToTime(firstSeekableTimeRange.start, CMTimeRangeGetEnd(lastSeekableTimeRange));
+	CMTimeRange timeRange = CMTimeRangeFromTimeToTime(firstSeekableTimeRange.start, CMTimeRangeGetEnd(lastSeekableTimeRange));
+    
+    // DVR window size too small. Check that we the stream is not an on-demand one first, of course
+	if (CMTIME_IS_INDEFINITE(self.playerItem.duration) && CMTimeGetSeconds(timeRange.duration) < self.minimumDVRWindowLength) {
+        return CMTimeRangeMake(timeRange.start, kCMTimeZero);
+    }
+    else {
+        return timeRange;
+    }
 }
 
 - (RTSMediaType)mediaType
@@ -583,10 +585,12 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 
 - (RTSMediaStreamType)streamType
 {
-	if (CMTIMERANGE_IS_INVALID(self.timeRange)) {
+    CMTimeRange timeRange = self.timeRange;
+    
+	if (CMTIMERANGE_IS_INVALID(timeRange)) {
 		return RTSMediaStreamTypeUnknown;
 	}
-	else if (CMTIMERANGE_IS_EMPTY(self.timeRange)) {
+	else if (CMTIMERANGE_IS_EMPTY(timeRange)) {
 		return RTSMediaStreamTypeLive;
 	}
 	else if (CMTIME_IS_INDEFINITE(self.playerItem.duration)) {
@@ -595,6 +599,17 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 	else {
 		return RTSMediaStreamTypeOnDemand;
 	}
+}
+
+- (void)setMinimumDVRWindowLength:(NSTimeInterval)minimumDVRWindowLength
+{
+    if (minimumDVRWindowLength < 0.) {
+        RTSMediaPlayerLogWarning(@"The minimum DVR window length cannot be negative. Set to 0");
+        _minimumDVRWindowLength = 0.;
+    }
+    else {
+        _minimumDVRWindowLength = minimumDVRWindowLength;
+    }
 }
 
 - (void)setLiveTolerance:(NSTimeInterval)liveTolerance
@@ -634,6 +649,8 @@ static const void * const AVPlayerRateContext = &AVPlayerRateContext;
 static const void * const AVPlayerItemPlaybackLikelyToKeepUpContext = &AVPlayerItemPlaybackLikelyToKeepUpContext;
 static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoadedTimeRangesContext;
 
+static const void * const AVPlayerItemBufferEmptyContext = &AVPlayerItemBufferEmptyContext;
+
 - (AVPlayer *)player
 {
 	@synchronized(self)
@@ -656,6 +673,7 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 		[_player removeObserver:self forKeyPath:@"rate" context:(void *)AVPlayerRateContext];
 		[_player removeObserver:self forKeyPath:@"currentItem.playbackLikelyToKeepUp" context:(void *)AVPlayerItemPlaybackLikelyToKeepUpContext];
 		[_player removeObserver:self forKeyPath:@"currentItem.loadedTimeRanges" context:(void *)AVPlayerItemLoadedTimeRangesContext];
+        [_player removeObserver:self forKeyPath:@"currentItem.playbackBufferEmpty" context:(void *)AVPlayerItemBufferEmptyContext];
 		
 		[defaultCenter removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
 		[defaultCenter removeObserver:self name:AVPlayerItemFailedToPlayToEndTimeNotification object:_player.currentItem];
@@ -684,6 +702,7 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 			[player addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:(void *)AVPlayerRateContext];
 			[player addObserver:self forKeyPath:@"currentItem.playbackLikelyToKeepUp" options:0 context:(void *)AVPlayerItemPlaybackLikelyToKeepUpContext];
 			[player addObserver:self forKeyPath:@"currentItem.loadedTimeRanges" options:NSKeyValueObservingOptionNew context:(void *)AVPlayerItemLoadedTimeRangesContext];
+            [player addObserver:self forKeyPath:@"currentItem.playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:(void *)AVPlayerItemBufferEmptyContext];
 			
 			[defaultCenter addObserver:self selector:@selector(playerItemDidPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:playerItem];
 			[defaultCenter addObserver:self selector:@selector(playerItemFailedToPlayToEndTime:) name:AVPlayerItemFailedToPlayToEndTimeNotification object:playerItem];
@@ -713,7 +732,7 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 	@weakify(self)
 	self.playbackStartObserver = [self.player addBoundaryTimeObserverForTimes:@[[NSValue valueWithCMTime:resultTime]] queue:NULL usingBlock:^{
 		@strongify(self)
-		if (![self.stateMachine.currentState isEqual:self.playingState]) {
+		if (![self.stateMachine.currentState isEqual:self.playingState] && ![self.stateMachine.currentState isEqual:self.endedState]) {
 			[self fireEvent:self.playEvent userInfo:nil];
 		}
 		[self.player removeTimeObserver:self.playbackStartObserver];
@@ -736,11 +755,13 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 			return;
 		}
 		
-		if (!CMTIME_IS_VALID(self.previousPlaybackTime)) {
-			return;
+		if ((self.player.rate == 1) && [self.stateMachine.currentState isEqual:self.pausedState]) {
+			[self fireEvent:self.playEvent userInfo:nil];
 		}
 		
-		if (CMTimeGetSeconds(self.previousPlaybackTime) > CMTimeGetSeconds(playbackTime)) {
+		if (CMTIME_IS_VALID(self.previousPlaybackTime) &&
+			(CMTIME_COMPARE_INLINE(self.previousPlaybackTime, >, playbackTime)))
+		{
 			if (![self.stateMachine.currentState isEqual:self.playingState]) {
 				[self fireEvent:self.playEvent userInfo:nil];
 			}
@@ -816,8 +837,13 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 		AVPlayerItem *playerItem = player.currentItem;
 		switch (playerItem.status) {
 			case AVPlayerItemStatusReadyToPlay:
+                if (self.playScheduled) {
+                    self.playScheduled = NO;
+                    [self fireEvent:self.playEvent userInfo:nil];
+                }
+                
 				if (![self.stateMachine.currentState isEqual:self.playingState] && self.startTimeValue) {
-					if (CMTIME_COMPARE_INLINE([self.startTimeValue CMTimeValue], ==, kCMTimeZero)) {
+					if (CMTIME_COMPARE_INLINE([self.startTimeValue CMTimeValue], ==, kCMTimeZero) || CMTIME_IS_INVALID([self.startTimeValue CMTimeValue])) {
 						[self play];
 					}
 					else {
@@ -855,8 +881,12 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 		CMTimeRange timerange = [timeRanges.firstObject CMTimeRangeValue]; // Yes, subscripting with [0] may lead to a crash??
 		if (CMTimeGetSeconds(timerange.duration) >= bufferMinDuration && self.player.rate == 0) {
 			[self.player prerollAtRate:0.0 completionHandler:^(BOOL finished) {
-				if (![self.stateMachine.currentState isEqual:self.pausedState] &&
-					![self.stateMachine.currentState isEqual:self.seekingState])
+				if (self.pauseScheduled) {
+					self.pauseScheduled = NO;
+					[self fireEvent:self.pauseEvent userInfo:nil];
+				}
+				else if (![self.stateMachine.currentState isEqual:self.pausedState] &&
+						 ![self.stateMachine.currentState isEqual:self.seekingState])
 				{
 					[self play];
 				}
@@ -885,7 +915,9 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 			[self fireEvent:self.pauseEvent userInfo:nil];
 		}
 		else if (newRate == 1 && oldRate == 0 && self.stateMachine.currentState != self.playingState) {
-			[self fireEvent:self.playEvent userInfo:nil];
+			// Ugly trick. We do not want to emit play events before the player is ready to play, so we schedule the play
+			// to be sent when the player is really ready to play
+            self.playScheduled = YES;
 		}
 	}
 	else if (context == AVPlayerItemPlaybackLikelyToKeepUpContext) {
@@ -902,6 +934,9 @@ static const void * const AVPlayerItemLoadedTimeRangesContext = &AVPlayerItemLoa
 			[player play];
 		}
 	}
+    else if (context == AVPlayerItemBufferEmptyContext) {
+        [self fireEvent:self.stallEvent userInfo:nil];
+    }
 	else if (context == RTSMediaPlayerPictureInPicturePossibleContext || context == RTSMediaPlayerPictureInPictureActiveContext) {
 		[self postNotificationName:RTSMediaPlayerPictureInPictureStateChangeNotification userInfo:nil];
         

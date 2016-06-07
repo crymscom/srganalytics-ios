@@ -40,6 +40,12 @@
 	[self refreshButton];
 }
 
+- (BOOL)hasStopButton
+{
+    return (self.behavior == RTSMediaPlayerPlaybackButtonBehaviorStopForLiveOnly && self.mediaPlayerController.streamType == RTSMediaStreamTypeLive)
+        || self.behavior == RTSMediaPlayerPlaybackButtonBehaviorStopForAll;
+}
+
 - (void)play
 {
 	[self.mediaPlayerController play];
@@ -48,7 +54,12 @@
 
 - (void)pause
 {
-	[self.mediaPlayerController pause];
+	if ([self hasStopButton]) {
+		[self.mediaPlayerController reset];
+	}
+	else {
+		[self.mediaPlayerController pause];
+	}
 	[self refreshButton];
 }
 
@@ -63,15 +74,39 @@
 	UIImage *normalImage = nil;
 	UIImage *highlightedImage = nil;
 	if (isPlaying) {
-		normalImage = [RTSMediaPlayerIconTemplate pauseImageWithSize:self.bounds.size color:self.normalColor];
-		highlightedImage = [RTSMediaPlayerIconTemplate pauseImageWithSize:self.bounds.size color:self.hightlightColor];
+		if ([self hasStopButton]) {
+            normalImage = self.stopImage ?: [RTSMediaPlayerIconTemplate stopImageWithSize:self.bounds.size color:self.normalColor];
+            highlightedImage = self.stopImage ?: [RTSMediaPlayerIconTemplate stopImageWithSize:self.bounds.size color:self.hightlightColor];
+		}
+		else {
+            normalImage = self.pauseImage ?: [RTSMediaPlayerIconTemplate pauseImageWithSize:self.bounds.size color:self.normalColor];
+            highlightedImage = self.pauseImage ?: [RTSMediaPlayerIconTemplate pauseImageWithSize:self.bounds.size color:self.hightlightColor];
+		}
 	}
 	else {
-		normalImage = [RTSMediaPlayerIconTemplate playImageWithSize:self.bounds.size color:self.normalColor];
-		highlightedImage = [RTSMediaPlayerIconTemplate playImageWithSize:self.bounds.size color:self.hightlightColor];
+        normalImage = self.playImage ?: [RTSMediaPlayerIconTemplate playImageWithSize:self.bounds.size color:self.normalColor];
+        highlightedImage = self.playImage ?: [RTSMediaPlayerIconTemplate playImageWithSize:self.bounds.size color:self.hightlightColor];
 	}
 	[self setImage:normalImage forState:UIControlStateNormal];
 	[self setImage:highlightedImage forState:UIControlStateHighlighted];
+}
+
+- (void)setPlayImage:(UIImage *)playImage
+{
+    _playImage = playImage;
+    [self refreshButton];
+}
+
+- (void)setPauseImage:(UIImage *)pauseImage
+{
+    _pauseImage = pauseImage;
+    [self refreshButton];
+}
+
+- (void)setStopImage:(UIImage *)stopImage
+{
+    _stopImage = stopImage;
+    [self refreshButton];
 }
 
 - (void)setBounds:(CGRect)bounds
