@@ -45,7 +45,7 @@
 
 + (NSBundle *)bundle
 {
-#ifdef TEST
+#if defined(TEST) || defined(POD_CONFIGURATION_TEST)
     return [NSBundle bundleForClass:[self class]];
 #else
     return [NSBundle mainBundle];
