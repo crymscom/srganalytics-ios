@@ -13,7 +13,7 @@ The library is suitable for applications running on iOS 7 and above.
 
 ## Installation
 
-The library can be added to a project through [CocoaPods](http://cocoapods.org/). Create a `Podfile` with the following contents:
+The library can be added to a project through [CocoaPods](http://cocoapods.org/) version 1.0 or above. Create a `Podfile` with the following contents:
 
 * The SRG specification repository:
     
