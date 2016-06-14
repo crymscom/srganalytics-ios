@@ -16,7 +16,7 @@
 #import <SRGMediaPlayer/RTSMediaSegment.h>
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 
-#import <ComScore-iOS/CSComScore.h>
+#import <ComScore/CSComScore.h>
 
 @interface RTSMediaPlayerControllerTracker ()
 
