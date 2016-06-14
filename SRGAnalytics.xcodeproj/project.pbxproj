@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		42F3BB39E93D020AA81D96EC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDB9122CCBE15E6075B5D31 /* libPods.a */; };
-		471246B62965E4BFEE35A320 /* libPods-SRGAnalyticsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B866E4F23445891E99E0F7D /* libPods-SRGAnalyticsTests.a */; };
 		9FD74D3F1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD74D3E1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m */; };
 		9FD74D411ACC2DDC00A2D86A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */; };
 		9FD74D431ACC2DF900A2D86A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */; };
+		BE01E81D6872B76DC37D16CE /* libPods-SRGAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE4FDAD89AA57F771ED6D80 /* libPods-SRGAnalytics.a */; };
+		DD5EC8398BB64100B4EDBE24 /* libPods-SRGAnalyticsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32958D0E53FCE9FFF8C4269A /* libPods-SRGAnalyticsTests.a */; };
 		E6C7A7741CA134670011D9BF /* CSStreamSenseClip+RTSFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E6C7A7711CA134670011D9BF /* CSStreamSenseClip+RTSFixes.m */; };
 		E6C7A7791CA134B80011D9BF /* CSStreamSense+RTSFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E6C7A7761CA134B80011D9BF /* CSStreamSense+RTSFixes.m */; };
 		E6C7A77B1CA134B80011D9BF /* CSStreamSensePlaylist+RTSFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E6C7A7781CA134B80011D9BF /* CSStreamSensePlaylist+RTSFixes.m */; };
@@ -53,14 +53,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		00E940F1DBFE89341CFC31F3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		0AC9040CB6772AEB63FCDE39 /* Pods-SRGAnalyticsTests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.test.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.test.xcconfig"; sourceTree = "<group>"; };
-		0B866E4F23445891E99E0F7D /* libPods-SRGAnalyticsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalyticsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		18BFADC8E5A38BC54D9672E0 /* Pods-SRGAnalyticsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		1AF1EE5C2B9C9B206B5A019D /* Pods-SRGAnalyticsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.release.xcconfig"; sourceTree = "<group>"; };
-		3BDB9122CCBE15E6075B5D31 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		528299838CFA7D8AE68D6E08 /* Pods.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.test.xcconfig; path = "Pods/Target Support Files/Pods/Pods.test.xcconfig"; sourceTree = "<group>"; };
-		9539421BE92A36DD263C8C38 /* libPods-SRGAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalytics.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		32958D0E53FCE9FFF8C4269A /* libPods-SRGAnalyticsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalyticsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DE4FDAD89AA57F771ED6D80 /* libPods-SRGAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalytics.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5ECF9264728529B828939D61 /* Pods-SRGAnalytics.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics.release.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics.release.xcconfig"; sourceTree = "<group>"; };
+		6649695D19ABE4BA922528A7 /* Pods-SRGAnalyticsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.release.xcconfig"; sourceTree = "<group>"; };
+		7935F999ED64CE1691E22C28 /* Pods-SRGAnalytics.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics.debug.xcconfig"; sourceTree = "<group>"; };
 		9F1518C61AC2F1CE00AE051D /* SRGAnalyticsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SRGAnalyticsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1518CC1AC2F1CE00AE051D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F1519211AC422AE00AE051D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -77,6 +74,7 @@
 		9FD74D3E1ACC2BEC00A2D86A /* RTSAnalyticsTrackerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTrackerTest.m; sourceTree = "<group>"; };
 		9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A453D907F21345EDCA26CB83 /* Pods-SRGAnalytics.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics.test.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics.test.xcconfig"; sourceTree = "<group>"; };
 		B64502681ADE56F5001021A8 /* SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalytics.h; sourceTree = "<group>"; };
 		B64502971ADE7DC7001021A8 /* SRGAnalytics.podspec */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = text; path = SRGAnalytics.podspec; sourceTree = "<group>"; usesTabs = 0; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		B64502A91ADE81F9001021A8 /* RTSAnalyticsNetmetrixTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsNetmetrixTracker.m; sourceTree = "<group>"; };
@@ -92,14 +90,12 @@
 		B64503161ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSMediaPlayerControllerStreamSenseTracker.m; sourceTree = "<group>"; };
 		B64503171ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSMediaPlayerControllerStreamSenseTracker_private.h; sourceTree = "<group>"; };
 		B64503181ADFA753001021A8 /* RTSAnalyticsMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTSAnalyticsMediaPlayer.h; path = ../RTSAnalyticsMediaPlayer.h; sourceTree = "<group>"; };
-		C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsLogger.h; sourceTree = "<group>"; };
+		B6C669DE9C1F9FC56DE5B18F /* Pods-SRGAnalyticsTests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.test.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.test.xcconfig"; sourceTree = "<group>"; };
+		C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsLogger_private.h; sourceTree = "<group>"; };
 		C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsLogger.m; sourceTree = "<group>"; };
 		C28CE3E11B906DA200BA1D69 /* RTSAnalyticsNetmetrixTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsNetmetrixTracker.h; sourceTree = "<group>"; };
 		C28CE3E31B907AF600BA1D69 /* RTSAnalyticsComScoreTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsComScoreTracker.h; sourceTree = "<group>"; };
 		C28CE3E51B908B1C00BA1D69 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
-		C28CE3E71B908CF700BA1D69 /* Pods-SRGAnalytics.debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics.debug.xcconfig"; sourceTree = "<group>"; };
-		C28CE3E81B908CF700BA1D69 /* Pods-SRGAnalytics.release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics.release.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics.release.xcconfig"; sourceTree = "<group>"; };
-		C28CE3E91B908CF700BA1D69 /* Pods-SRGAnalytics.test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics.test.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics.test.xcconfig"; sourceTree = "<group>"; };
 		E67165121BF1FD4000A07776 /* RTSMediaPlayerController+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RTSMediaPlayerController+RTSAnalytics.h"; sourceTree = "<group>"; };
 		E67165131BF1FD4000A07776 /* RTSMediaPlayerController+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RTSMediaPlayerController+RTSAnalytics.m"; sourceTree = "<group>"; };
 		E6C7A7711CA134670011D9BF /* CSStreamSenseClip+RTSFixes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSStreamSenseClip+RTSFixes.m"; sourceTree = "<group>"; };
@@ -109,7 +105,7 @@
 		E6F0237A1B328F59001B6F0B /* RTSAnalyticsVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsVersion.m; sourceTree = "<group>"; };
 		E6F471911B5D2C9200A566B3 /* RTSMediaPlayerControllerTrackingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSMediaPlayerControllerTrackingInfo.h; sourceTree = "<group>"; };
 		E6F471921B5D2C9200A566B3 /* RTSMediaPlayerControllerTrackingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSMediaPlayerControllerTrackingInfo.m; sourceTree = "<group>"; };
-		E8D262EA67108CCC347F52E4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		FA0265BACF3092D8C9897357 /* Pods-SRGAnalyticsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +115,7 @@
 			files = (
 				9FD74D431ACC2DF900A2D86A /* SystemConfiguration.framework in Frameworks */,
 				9FD74D411ACC2DDC00A2D86A /* CFNetwork.framework in Frameworks */,
-				471246B62965E4BFEE35A320 /* libPods-SRGAnalyticsTests.a in Frameworks */,
+				DD5EC8398BB64100B4EDBE24 /* libPods-SRGAnalyticsTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,25 +123,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42F3BB39E93D020AA81D96EC /* libPods.a in Frameworks */,
+				BE01E81D6872B76DC37D16CE /* libPods-SRGAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		672CEE20A4903FABD91AD0BD /* Pods */ = {
+		35CE998B24D1C86C9D7FCC1E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C28CE3E71B908CF700BA1D69 /* Pods-SRGAnalytics.debug.xcconfig */,
-				C28CE3E81B908CF700BA1D69 /* Pods-SRGAnalytics.release.xcconfig */,
-				C28CE3E91B908CF700BA1D69 /* Pods-SRGAnalytics.test.xcconfig */,
-				18BFADC8E5A38BC54D9672E0 /* Pods-SRGAnalyticsTests.debug.xcconfig */,
-				0AC9040CB6772AEB63FCDE39 /* Pods-SRGAnalyticsTests.test.xcconfig */,
-				1AF1EE5C2B9C9B206B5A019D /* Pods-SRGAnalyticsTests.release.xcconfig */,
-				E8D262EA67108CCC347F52E4 /* Pods.debug.xcconfig */,
-				528299838CFA7D8AE68D6E08 /* Pods.test.xcconfig */,
-				00E940F1DBFE89341CFC31F3 /* Pods.release.xcconfig */,
+				7935F999ED64CE1691E22C28 /* Pods-SRGAnalytics.debug.xcconfig */,
+				A453D907F21345EDCA26CB83 /* Pods-SRGAnalytics.test.xcconfig */,
+				5ECF9264728529B828939D61 /* Pods-SRGAnalytics.release.xcconfig */,
+				FA0265BACF3092D8C9897357 /* Pods-SRGAnalyticsTests.debug.xcconfig */,
+				B6C669DE9C1F9FC56DE5B18F /* Pods-SRGAnalyticsTests.test.xcconfig */,
+				6649695D19ABE4BA922528A7 /* Pods-SRGAnalyticsTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -157,8 +150,8 @@
 				9F1518BD1AC2F1CE00AE051D /* SRGAnalytics */,
 				9F1518CA1AC2F1CE00AE051D /* RTSAnalyticsTests */,
 				9F1518BC1AC2F1CE00AE051D /* Products */,
-				672CEE20A4903FABD91AD0BD /* Pods */,
 				AC99606425BE818BA71D7E4D /* Frameworks */,
+				35CE998B24D1C86C9D7FCC1E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -233,9 +226,8 @@
 				9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */,
 				9F1519231AC422B800AE051D /* Foundation.framework */,
 				9F1519211AC422AE00AE051D /* UIKit.framework */,
-				3BDB9122CCBE15E6075B5D31 /* libPods.a */,
-				0B866E4F23445891E99E0F7D /* libPods-SRGAnalyticsTests.a */,
-				9539421BE92A36DD263C8C38 /* libPods-SRGAnalytics.a */,
+				4DE4FDAD89AA57F771ED6D80 /* libPods-SRGAnalytics.a */,
+				32958D0E53FCE9FFF8C4269A /* libPods-SRGAnalyticsTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -260,7 +252,7 @@
 			children = (
 				E6F023791B328F59001B6F0B /* RTSAnalyticsVersion_private.h */,
 				E6F0237A1B328F59001B6F0B /* RTSAnalyticsVersion.m */,
-				C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger.h */,
+				C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger_private.h */,
 				C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */,
 				B64502B01ADE81F9001021A8 /* RTSAnalyticsTracker+Logging_private.h */,
 				B64502B11ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.m */,
@@ -294,12 +286,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9F1518D21AC2F1CE00AE051D /* Build configuration list for PBXNativeTarget "SRGAnalyticsTests" */;
 			buildPhases = (
-				B6EBEFF0C9DF9A6707EE001E /* Check Pods Manifest.lock */,
+				969EF9783DA027850E980047 /* [CP] Check Pods Manifest.lock */,
 				9F1518C21AC2F1CE00AE051D /* Sources */,
 				9F1518C31AC2F1CE00AE051D /* Frameworks */,
 				9F1518C41AC2F1CE00AE051D /* Resources */,
-				F43E35ED449D9104757E6530 /* Copy Pods Resources */,
-				379C096CD41A914734881293 /* Embed Pods Frameworks */,
+				98E258D80D574708619FC8B3 /* [CP] Embed Pods Frameworks */,
+				8084F17C1B42B9868F6DA63F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -315,11 +307,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9F4DA22F1BEB609100C6FA25 /* Build configuration list for PBXNativeTarget "SRGAnalytics" */;
 			buildPhases = (
-				FED9F2A6438C2D81F73FF76C /* Check Pods Manifest.lock */,
+				AD4EE0ADC4C81D77A68F58CD /* [CP] Check Pods Manifest.lock */,
 				9F4DA2251BEB609100C6FA25 /* Sources */,
 				9F4DA2261BEB609100C6FA25 /* Frameworks */,
 				9F4DA2271BEB609100C6FA25 /* CopyFiles */,
-				3391687DF2830C9C3B620865 /* Copy Pods Resources */,
+				DD57D13715440AABE79C1316 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -377,59 +369,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3391687DF2830C9C3B620865 /* Copy Pods Resources */ = {
+		8084F17C1B42B9868F6DA63F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		379C096CD41A914734881293 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B6EBEFF0C9DF9A6707EE001E /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		F43E35ED449D9104757E6530 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -437,19 +384,64 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FED9F2A6438C2D81F73FF76C /* Check Pods Manifest.lock */ = {
+		969EF9783DA027850E980047 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		98E258D80D574708619FC8B3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AD4EE0ADC4C81D77A68F58CD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DD57D13715440AABE79C1316 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -538,7 +530,7 @@
 		};
 		9F01791C1B440579005DA9E3 /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0AC9040CB6772AEB63FCDE39 /* Pods-SRGAnalyticsTests.test.xcconfig */;
+			baseConfigurationReference = B6C669DE9C1F9FC56DE5B18F /* Pods-SRGAnalyticsTests.test.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -628,7 +620,7 @@
 		};
 		9F1518D31AC2F1CE00AE051D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 18BFADC8E5A38BC54D9672E0 /* Pods-SRGAnalyticsTests.debug.xcconfig */;
+			baseConfigurationReference = FA0265BACF3092D8C9897357 /* Pods-SRGAnalyticsTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -645,7 +637,7 @@
 		};
 		9F1518D41AC2F1CE00AE051D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1AF1EE5C2B9C9B206B5A019D /* Pods-SRGAnalyticsTests.release.xcconfig */;
+			baseConfigurationReference = 6649695D19ABE4BA922528A7 /* Pods-SRGAnalyticsTests.release.xcconfig */;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -661,7 +653,7 @@
 		};
 		9F4DA2301BEB609100C6FA25 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8D262EA67108CCC347F52E4 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 7935F999ED64CE1691E22C28 /* Pods-SRGAnalytics.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -674,7 +666,7 @@
 		};
 		9F4DA2311BEB609100C6FA25 /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 528299838CFA7D8AE68D6E08 /* Pods.test.xcconfig */;
+			baseConfigurationReference = A453D907F21345EDCA26CB83 /* Pods-SRGAnalytics.test.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -692,7 +684,7 @@
 		};
 		9F4DA2321BEB609100C6FA25 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 00E940F1DBFE89341CFC31F3 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 5ECF9264728529B828939D61 /* Pods-SRGAnalytics.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

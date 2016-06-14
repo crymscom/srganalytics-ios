@@ -1,45 +1,41 @@
 source 'https://github.com/CocoaPods/Specs.git'
 source 'ssh://git@bitbucket.org/rtsmb/srgpodspecs.git'
 
-inhibit_all_warnings!
 platform :ios, '7.0'
-workspace 'SRGAnalytics.xcworkspace'
+inhibit_all_warnings!
 
-pod 'ComScore-iOS', '3.1510.23.1'
-pod 'SRGMediaPlayer', '~> 1.8.0'
+workspace 'SRGAnalytics'
 
-xcodeproj 'SRGAnalytics', 'Test' => :debug
+# Will be inherited by all targets below
+pod 'SRGAnalytics', :path => '.'
 
-target :'SRGAnalyticsTests' do
-    pod 'SRGAnalytics', :path => '.'
-    pod 'SRGAnalytics/MediaPlayer', :path => '.'
+target 'SRGAnalytics' do
+  target 'SRGAnalyticsTests' do
+    # Test target, inherit search paths only, not linking
+    # For more information, see http://blog.cocoapods.org/CocoaPods-1.0-Migration-Guide/
+    inherit! :search_paths
+
+    # Repeat SRGAnalytics podspec dependencies
+    pod 'ComScore-iOS'
+
+    # Target-specific dependencies
     pod 'OCMock', '~> 3.1.2'
+    pod 'SRGAnalytics/MediaPlayer', :path => '.'
+  end
+
+  xcodeproj 'SRGAnalytics.xcodeproj', 'Test' => :debug
 end
 
-#### Demo project
+target 'SRGAnalytics Demo' do
+  pod 'SRGAnalytics/MediaPlayer', :path => '.'
 
-target 'SRGAnalytics Demo', :exclusive => true do
-	xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo', 'Test' => :debug
-	pod 'SRGAnalytics',               { :path => '.' }
-	pod 'SRGAnalytics/MediaPlayer',   { :path => '.' }
-	pod 'SRGMediaPlayer',             '~> 1.8.0'
-end
+  target 'SRGAnalytics DemoTests' do
+    # See above
+    inherit! :search_paths
 
-target 'SRGAnalytics DemoTests', :exclusive => true do
-	xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo', 'Test' => :debug
-	pod 'KIF', '3.4.1'
-end
+    # Target-specific dependencies
+    pod 'KIF', '3.4.1'
+  end
 
-### Workaround to make sure to have iPad xibs compiled as well.
-
-post_install do |installer|
-    
-    pods_project = installer.respond_to?(:pods_project) ? installer.pods_project : installer.project # Prepare for CocoaPods 0.38.2
-
-    pods_project.targets.each do |target|
-        target.build_configurations.each do |config|
-            config.build_settings['TARGETED_DEVICE_FAMILY'] = '1,2' # iPhone, iPad
-        end
-    end
-    
+  xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo', 'Test' => :debug
 end

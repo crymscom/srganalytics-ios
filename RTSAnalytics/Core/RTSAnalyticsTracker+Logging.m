@@ -6,12 +6,12 @@
 
 #import "RTSAnalyticsTracker+Logging_private.h"
 
-#import <ComScore-iOS/CSCore.h>
-#import <ComScore-iOS/CSComScore.h>
-#import <ComScore-iOS/CSTaskExecutor.h>
+#import <ComScore/CSCore.h>
+#import <ComScore/CSComScore.h>
+#import <ComScore/CSTaskExecutor.h>
 
 #import "CSRequest+RTSAnalytics_private.h"
-#import "RTSAnalyticsLogger.h"
+#import "RTSAnalyticsLogger_private.h"
 #import "RTSAnalyticsComScoreTracker.h"
 
 @implementation RTSAnalyticsTracker (Logging)

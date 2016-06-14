@@ -11,7 +11,7 @@
 #import "RTSMediaPlayerController+Private.h"
 #import "RTSMediaSegment.h"
 #import "RTSMediaSegmentsController.h"
-#import "RTSMediaPlayerLogger.h"
+#import "RTSMediaPlayerLogger+Private.h"
 #import "RTSMediaSegmentsDataSource.h"
 
 NSTimeInterval const RTSMediaPlaybackTickInterval = 0.1;
@@ -211,11 +211,7 @@ NSString * const RTSMediaPlaybackSegmentChangeUserSelectInfoKey = @"RTSMediaPlay
     }
     
     if ([self.playerController.identifier isEqualToString:segment.segmentIdentifier]) {
-        [self.playerController seekToTime:segment.timeRange.start completionHandler:^(BOOL finished) {
-            if (finished) {
-                [self.playerController play];
-            }
-        }];
+        [self.playerController playAtTime:segment.timeRange.start];
     }
     else {
         [self.playerController playIdentifier:segment.segmentIdentifier];

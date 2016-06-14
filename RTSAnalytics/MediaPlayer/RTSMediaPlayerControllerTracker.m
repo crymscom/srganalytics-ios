@@ -6,7 +6,7 @@
 
 #import "RTSAnalyticsTracker.h"
 #import "RTSMediaPlayerControllerTracker_private.h"
-#import "RTSAnalyticsLogger.h"
+#import "RTSAnalyticsLogger_private.h"
 #import "RTSAnalyticsMediaPlayerDataSource.h"
 #import "RTSMediaPlayerControllerTrackingInfo.h"
 #import "RTSMediaPlayerController+RTSAnalytics.h"
@@ -16,7 +16,7 @@
 #import <SRGMediaPlayer/RTSMediaSegment.h>
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 
-#import <ComScore-iOS/CSComScore.h>
+#import <ComScore/CSComScore.h>
 
 @interface RTSMediaPlayerControllerTracker ()
 

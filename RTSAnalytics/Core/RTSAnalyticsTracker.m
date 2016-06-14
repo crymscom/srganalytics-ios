@@ -11,10 +11,10 @@
 #import "NSString+RTSAnalytics.h"
 #import "NSDictionary+RTSAnalytics.h"
 #import "RTSAnalyticsTracker+Logging_private.h"
-#import "RTSAnalyticsLogger.h"
+#import "RTSAnalyticsLogger_private.h"
 #import "RTSAnalyticsPageViewDataSource.h"
 
-#import <ComScore-iOS/CSComScore.h>
+#import <ComScore/CSComScore.h>
 
 #if __has_include("RTSAnalyticsMediaPlayer.h")
 #define RTSAnalyticsMediaPlayerIncluded
@@ -45,7 +45,7 @@
 
 + (NSBundle *)bundle
 {
-#ifdef TEST
+#if defined(TEST) || defined(POD_CONFIGURATION_TEST)
     return [NSBundle bundleForClass:[self class]];
 #else
     return [NSBundle mainBundle];

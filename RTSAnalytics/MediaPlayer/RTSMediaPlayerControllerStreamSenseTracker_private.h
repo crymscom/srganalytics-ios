@@ -5,7 +5,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ComScore-iOS/CSStreamSense.h>
+#import <ComScore/CSStreamSense.h>
 
 @class RTSMediaPlayerController;
 @protocol RTSMediaSegment;

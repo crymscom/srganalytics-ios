@@ -7,6 +7,16 @@
 #import <CoreMedia/CoreMedia.h>
 #import <UIKit/UIKit.h>
 
+/**
+ *  The slider knob position when a live stream is played (the knob itself cannot be moved). The default value is left,
+ *  as for the standard iOS playback controller
+ */
+typedef NS_ENUM(NSInteger, RTSTimeSliderLiveKnobPosition) {
+	RTSTimeSliderLiveKnobPositionDefault = 0,
+	RTSTimeSliderLiveKnobPositionLeft = RTSTimeSliderLiveKnobPositionDefault,
+	RTSTimeSliderLiveKnobPositionRight
+};
+
 // Forward declarations
 @class RTSMediaPlayerController;
 @protocol RTSTimeSliderDelegate;
@@ -68,6 +78,20 @@
  *              The slider live property namely reflects the current slider knob status, not the controller status
  */
 @property (nonatomic, readonly, getter=isLive) BOOL live;
+
+/**
+ *  Set to YES to have the player seek when the slider knob is moved, or to NO if seeking must be performed only
+ *  after the knob was released
+ *
+ *  Defaults to YES
+ */
+@property (nonatomic, assign, getter=isSeekingDuringTracking) BOOL seekingDuringTracking;
+
+/**
+ *  The position of the slider knob when playing a live stream. Defaults to RTSTimeSliderLiveKnobPositionDefault (left
+ *  position)
+ */
+@property (nonatomic, assign) RTSTimeSliderLiveKnobPosition knobLivePosition;
 
 @end
 

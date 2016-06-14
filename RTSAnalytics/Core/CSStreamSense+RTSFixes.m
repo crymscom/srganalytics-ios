@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Foundation/Foundation.h>
-#import <ComScore-iOS/CSStreamSense.h>
+#import <ComScore/CSStreamSense.h>
 #import <JRSwizzle/JRSwizzle.h>
 
 #import "NSString+RTSAnalytics.h"

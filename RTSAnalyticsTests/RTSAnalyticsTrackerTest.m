@@ -9,7 +9,7 @@
 #import <OCMock/OCMock.h>
 
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
-#import <ComScore-iOS/CSComScore.h>
+#import <ComScore/CSComScore.h>
 
 #import "RTSAnalyticsTracker.h"
 #import "RTSAnalyticsMediaPlayerDataSource.h"

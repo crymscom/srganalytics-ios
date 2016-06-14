@@ -1,6 +1,9 @@
 FRAMEWORK_SEARCH_PATHS = $(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks "$(PLATFORM_DIR)/Developer/Library/Frameworks"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/ComScore-iOS" "${PODS_ROOT}/Headers/Public/JRSwizzle" "${PODS_ROOT}/Headers/Public/KIF" "${PODS_ROOT}/Headers/Public/OCMock" "${PODS_ROOT}/Headers/Public/SRGAnalytics" "${PODS_ROOT}/Headers/Public/SRGMediaPlayer" "${PODS_ROOT}/Headers/Public/TransitionKit" "${PODS_ROOT}/Headers/Public/libextobjc"
+LIBRARY_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/KIF" "$PODS_CONFIGURATION_BUILD_DIR/ComScore-iOS" "$PODS_CONFIGURATION_BUILD_DIR/JRSwizzle" "$PODS_CONFIGURATION_BUILD_DIR/SRGAnalytics.default-Core_Version-MediaPlayer" "$PODS_CONFIGURATION_BUILD_DIR/SRGMediaPlayer" "$PODS_CONFIGURATION_BUILD_DIR/TransitionKit" "$PODS_CONFIGURATION_BUILD_DIR/libextobjc"
 OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/ComScore-iOS" -isystem "${PODS_ROOT}/Headers/Public/JRSwizzle" -isystem "${PODS_ROOT}/Headers/Public/KIF" -isystem "${PODS_ROOT}/Headers/Public/OCMock" -isystem "${PODS_ROOT}/Headers/Public/SRGAnalytics" -isystem "${PODS_ROOT}/Headers/Public/SRGMediaPlayer" -isystem "${PODS_ROOT}/Headers/Public/TransitionKit" -isystem "${PODS_ROOT}/Headers/Public/libextobjc"
 OTHER_LDFLAGS = $(inherited) -ObjC -l"KIF" -framework "CoreGraphics" -framework "IOKit" -framework "QuartzCore" -framework "XCTest"
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_ROOT = ${SRCROOT}/../Pods
