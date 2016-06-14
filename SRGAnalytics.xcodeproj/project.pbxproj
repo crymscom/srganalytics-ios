@@ -91,7 +91,7 @@
 		B64503171ADFA753001021A8 /* RTSMediaPlayerControllerStreamSenseTracker_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSMediaPlayerControllerStreamSenseTracker_private.h; sourceTree = "<group>"; };
 		B64503181ADFA753001021A8 /* RTSAnalyticsMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTSAnalyticsMediaPlayer.h; path = ../RTSAnalyticsMediaPlayer.h; sourceTree = "<group>"; };
 		B6C669DE9C1F9FC56DE5B18F /* Pods-SRGAnalyticsTests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.test.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.test.xcconfig"; sourceTree = "<group>"; };
-		C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsLogger.h; sourceTree = "<group>"; };
+		C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsLogger_private.h; sourceTree = "<group>"; };
 		C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsLogger.m; sourceTree = "<group>"; };
 		C28CE3E11B906DA200BA1D69 /* RTSAnalyticsNetmetrixTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsNetmetrixTracker.h; sourceTree = "<group>"; };
 		C28CE3E31B907AF600BA1D69 /* RTSAnalyticsComScoreTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsComScoreTracker.h; sourceTree = "<group>"; };
@@ -252,7 +252,7 @@
 			children = (
 				E6F023791B328F59001B6F0B /* RTSAnalyticsVersion_private.h */,
 				E6F0237A1B328F59001B6F0B /* RTSAnalyticsVersion.m */,
-				C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger.h */,
+				C2332DA81B2880EB00AA21BB /* RTSAnalyticsLogger_private.h */,
 				C2332DA91B2880EB00AA21BB /* RTSAnalyticsLogger.m */,
 				B64502B01ADE81F9001021A8 /* RTSAnalyticsTracker+Logging_private.h */,
 				B64502B11ADE81F9001021A8 /* RTSAnalyticsTracker+Logging.m */,

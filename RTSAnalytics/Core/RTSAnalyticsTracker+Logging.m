@@ -11,7 +11,7 @@
 #import <ComScore/CSTaskExecutor.h>
 
 #import "CSRequest+RTSAnalytics_private.h"
-#import "RTSAnalyticsLogger.h"
+#import "RTSAnalyticsLogger_private.h"
 #import "RTSAnalyticsComScoreTracker.h"
 
 @implementation RTSAnalyticsTracker (Logging)

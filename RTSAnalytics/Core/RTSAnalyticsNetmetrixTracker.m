@@ -6,7 +6,7 @@
 
 #import "RTSAnalyticsTracker.h"
 #import "RTSAnalyticsNetmetrixTracker_private.h"
-#import "RTSAnalyticsLogger.h"
+#import "RTSAnalyticsLogger_private.h"
 
 #import <UIKit/UIKit.h>
 

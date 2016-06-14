@@ -7,7 +7,7 @@
 #import "SRGAnalytics.h"
 
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
-#import "RTSAnalyticsLogger.h"
+#import "RTSAnalyticsLogger_private.h"
 #import "RTSAnalyticsVersion_private.h"
 
 #import <ComScore/CSStreamSense.h>
