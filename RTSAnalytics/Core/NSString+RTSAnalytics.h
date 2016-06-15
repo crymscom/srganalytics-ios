@@ -24,9 +24,4 @@
  */
 - (NSString *)truncateAndAddEllipsis:(int)maxLength;
 
-/**
- * The usual -stringByAddingPercentEscapesUsingEncoding:
- */
-- (NSString *)percentEncodedStringWithEncoding:(NSStringEncoding)encoding;
-
 @end
