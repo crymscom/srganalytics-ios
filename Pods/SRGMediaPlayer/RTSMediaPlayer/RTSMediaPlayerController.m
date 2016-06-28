@@ -133,11 +133,6 @@ NSString * const RTSMediaPlayerPlaybackSeekingUponBlockingReasonInfoKey = @"Bloc
 	self.overlayViewsHidingDelay = RTSMediaPlayerOverlayHidingDelay;
 	self.periodicTimeObservers = [NSMutableDictionary dictionary];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(applicationWillResignActive:)
-												 name:UIApplicationWillResignActiveNotification
-											   object:nil];
-	
 	[self.stateMachine activate];
 
 	self.liveTolerance = RTSMediaLiveDefaultTolerance;
@@ -392,6 +387,8 @@ static NSDictionary * ErrorUserInfo(NSError *error, NSString *failureReason)
 
 - (void)play
 {
+    self.playScheduled = NO;
+    
 	if(!self.identifier) {
 		return;
 	}
@@ -832,13 +829,15 @@ static const void * const AVPlayerItemBufferEmptyContext = &AVPlayerItemBufferEm
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+    BOOL playScheduled = self.playScheduled;
+    self.playScheduled = NO;
+    
 	if (context == AVPlayerItemStatusContext) {
 		AVPlayer *player = object;
 		AVPlayerItem *playerItem = player.currentItem;
 		switch (playerItem.status) {
 			case AVPlayerItemStatusReadyToPlay:
-                if (self.playScheduled) {
-                    self.playScheduled = NO;
+                if (playScheduled) {
                     [self fireEvent:self.playEvent userInfo:nil];
 					[self play];
                 }
@@ -859,7 +858,7 @@ static const void * const AVPlayerItemBufferEmptyContext = &AVPlayerItemBufferEm
 					}
 				}
                 else if ([self.stateMachine.currentState isEqual:self.seekingState]) {
-                    [self.player play];
+                    [self play];
                 }
 				break;
 			case AVPlayerItemStatusFailed:
@@ -931,7 +930,7 @@ static const void * const AVPlayerItemBufferEmptyContext = &AVPlayerItemBufferEm
 		}
 		
 		if ([self.stateMachine.currentState isEqual:self.stalledState]) {
-			[player play];
+			[self play];
 		}
 	}
     else if (context == AVPlayerItemBufferEmptyContext) {
@@ -1157,16 +1156,6 @@ static void LogProperties(id object)
 		_overlayViewsHidingDelay = flag;
 		[self didChangeValueForKey:@"overlayViewsHidingDelay"];
 		[self resetIdleTimer];
-	}
-}
-
-#pragma mark - Notifications
-
-- (void)applicationWillResignActive:(NSNotification *)notification
-{
-	if ([self mediaType] == RTSMediaTypeVideo && !self.pictureInPictureController.isPictureInPictureActive) {
-        [self.player pause];
-        [self fireEvent:self.pauseEvent userInfo:nil];
 	}
 }
 

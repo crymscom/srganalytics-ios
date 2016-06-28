@@ -1,7 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 source 'ssh://git@bitbucket.org/rtsmb/srgpodspecs.git'
 
-platform :ios, '7.0'
+platform :ios, '8.0'
 inhibit_all_warnings!
 
 workspace 'SRGAnalytics'
@@ -19,7 +19,7 @@ target 'SRGAnalytics' do
     pod 'ComScore-iOS'
 
     # Target-specific dependencies
-    pod 'OCMock', '~> 3.1.2'
+    pod 'OCMock', '~> 3.3.0'
     pod 'SRGAnalytics/MediaPlayer', :path => '.'
   end
 
@@ -34,7 +34,7 @@ target 'SRGAnalytics Demo' do
     inherit! :search_paths
 
     # Target-specific dependencies
-    pod 'KIF', '3.4.1'
+    pod 'KIF', '~> 3.4.0'
   end
 
   xcodeproj 'RTSAnalytics Demo/SRGAnalytics Demo', 'Test' => :debug

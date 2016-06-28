@@ -20,7 +20,7 @@
   },
   "requires_arc": true,
   "platforms": {
-    "ios": "7.0"
+    "ios": "8.0"
   },
   "default_subspecs": "Core",
   "subspecs": [
@@ -41,7 +41,7 @@
       ],
       "dependencies": {
         "ComScore-iOS": [
-          "3.1510.231.1"
+          "3.1510.232"
         ],
         "JRSwizzle": [
           "1.0"

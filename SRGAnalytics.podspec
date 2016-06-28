@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   # Platform setup
   s.requires_arc = true
-  s.ios.deployment_target = "7.0"
+  s.ios.deployment_target = "8.0"
 
   # Exclude optional Stream Measurement modules
   s.default_subspec = 'Core'
@@ -25,8 +25,8 @@ Pod::Spec.new do |s|
 
     # Special version of the podspec. The code is the one on github, but the podspec was updated to fix issues with use_frameworks!
     # A pull request has been made to comScore to update the public spec
-    co.dependency             "ComScore-iOS", "3.1510.231.1"
-
+    co.dependency             "ComScore-iOS", "3.1510.232"
+    
     co.dependency             "JRSwizzle", "1.0"
 
     co.subspec 'Version' do |ve|
