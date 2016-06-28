@@ -22,11 +22,7 @@ Pod::Spec.new do |s|
     co.exclude_files        = "RTSAnalytics/Core/RTSAnalyticsVersion.m"
     co.private_header_files = "RTSAnalytics/Core/*_private.h"
     co.frameworks           = "AVFoundation", "CoreMedia", "Foundation", "MediaPlayer", "UIKit"
-
-    # Special version of the podspec. The code is the one on github, but the podspec was updated to fix issues with use_frameworks!
-    # A pull request has been made to comScore to update the public spec
     co.dependency             "ComScore-iOS", "3.1510.232"
-    
     co.dependency             "JRSwizzle", "1.0"
 
     co.subspec 'Version' do |ve|
