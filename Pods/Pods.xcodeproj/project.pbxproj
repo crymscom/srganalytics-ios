@@ -334,6 +334,7 @@
 		DAC1AA69570734F99334F8A9C8003DF3 /* OCPartialMockObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F219996AE36FEEE41692410926D9CF76 /* OCPartialMockObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		DADCFEBD20BAF07974A1FA42E2D1AEC9 /* RTSAnalyticsNetmetrixTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = D4016E9455EEC0D77DE9EED89703067A /* RTSAnalyticsNetmetrixTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DADF592599465955F529472F5BB2D4DE /* KIFTypist.h in Headers */ = {isa = PBXBuildFile; fileRef = BB48036650CEEC08942C16113B2CD7BE /* KIFTypist.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC25A87BDB18EFD1202E5E07400E22C9 /* RTSMediaPlayerVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = C0840AAEAB45521E02A647831A632240 /* RTSMediaPlayerVersion.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks -DRTS_MEDIA_PLAYER_VERSION=1.9.6 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		DCAFA0F102CFAFAE41CED24104C2F6F4 /* OCMRealObjectForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE9E7161C8DBBABF4CF31452ED6AFBE /* OCMRealObjectForwarder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		DCC343E648C52291A44F648DC35F3D6A /* KIFTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7105495744487023BA60E2C344EC0679 /* KIFTestCase.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		DCC3C3345CD8B847D2C04CDA79E7852E /* NSNotificationCenter+OCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 27DCFB5C15ABF59577438A9F332EC121 /* NSNotificationCenter+OCMAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -355,7 +356,6 @@
 		E69E4E50F1794BB9F1C8E1C3950A5D97 /* RTSAnalyticsTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = B557844845FE8C30157019F0D62BDA4D /* RTSAnalyticsTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E882CA4B2F11210B99F80912C244C882 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55038F3BD6F3165557643F1FE7362A8F /* Foundation.framework */; };
 		E9522B354B7202B583ABCB7D5551C183 /* RTSAirplayOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = C5C93DEA7D5E9250BA9F3730D9318FD7 /* RTSAirplayOverlayView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E9A467F64D8C34A6A6C6EF2373D54394 /* RTSMediaPlayerVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = C0840AAEAB45521E02A647831A632240 /* RTSMediaPlayerVersion.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks -DRTS_MEDIA_PLAYER_VERSION=1.9.5 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		EA00254906C0FCD3A1BCBC1689270CAD /* UIView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CBAC0513BA66292F9E1ADAAE9A967962 /* UIView-KIFAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		EAF2D19ECD82CAFEB215FCBA4B150AA6 /* RTSMediaPlayerLogger+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = D7D81B309C2BB5A2F06C750B54BA5A5D /* RTSMediaPlayerLogger+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		EBC157E83A57D85A02CBEED604416C14 /* OCObserverMockObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F6619175F9524712E1143A91003609C1 /* OCObserverMockObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -2445,7 +2445,7 @@
 				5F5D41EE871F19C2A2243BA0FBF89BA5 /* RTSMediaPlayerLogger.m in Sources */,
 				CF001E0600F8C51E13BC0AB3B55732BE /* RTSMediaPlayerPlaybackButton.m in Sources */,
 				63C106CA139100680985B6D4892AD055 /* RTSMediaPlayerSharedController.m in Sources */,
-				E9A467F64D8C34A6A6C6EF2373D54394 /* RTSMediaPlayerVersion.m in Sources */,
+				DC25A87BDB18EFD1202E5E07400E22C9 /* RTSMediaPlayerVersion.m in Sources */,
 				8B89952CF6AC255A8F2CA5FEB8C77B6E /* RTSMediaPlayerView.m in Sources */,
 				FE2599A2C5046CC97083D68B8C78E034 /* RTSMediaPlayerViewController.m in Sources */,
 				F2AC18143B622DA4AAE6D3314E97599B /* RTSMediaSegmentsController.m in Sources */,
@@ -2928,6 +2928,23 @@
 			};
 			name = Release;
 		};
+		10840650889F976820261CEBCB59CD6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 160825386726C8A667D6CE371671BEA7 /* SRGMediaPlayer.xcconfig */;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/SRGMediaPlayer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/SRGMediaPlayer/ResourceBundle-SRGMediaPlayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = SRGMediaPlayer;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 		154FBAECC0B47D17D0D0676F90AD7E35 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0E4EBA0606CE5884DAB1E6907D32109C /* OCMock.xcconfig */;
@@ -3011,23 +3028,6 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Test;
-		};
-		1F8C809AA2C5239EACF0A67B460E352A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 160825386726C8A667D6CE371671BEA7 /* SRGMediaPlayer.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/SRGMediaPlayer";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/SRGMediaPlayer/ResourceBundle-SRGMediaPlayer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = SRGMediaPlayer;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
 		};
 		235E5F5B7ADCF34208B41B6A49DF0A56 /* Test */ = {
 			isa = XCBuildConfiguration;
@@ -3133,25 +3133,6 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
-		};
-		3B368BE1303033DFA522220F2367B6DF /* Test */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 160825386726C8A667D6CE371671BEA7 /* SRGMediaPlayer.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/SRGMediaPlayer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/SRGMediaPlayer/ResourceBundle-SRGMediaPlayer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = SRGMediaPlayer;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Test;
 		};
 		3C0460D5E0D6E4833B34CA2D0BDF2A01 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3279,27 +3260,6 @@
 			};
 			name = Debug;
 		};
-		5400D831AF50EF09C26B6A5416B7640A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 160825386726C8A667D6CE371671BEA7 /* SRGMediaPlayer.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SRGMediaPlayer/SRGMediaPlayer-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
 		5B24C1B52F26DC2F735BA78901FA99AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 050F906F96047F5788AAA64D382A36FD /* Pods-SRGAnalytics DemoTests.debug.xcconfig */;
@@ -3384,6 +3344,27 @@
 			};
 			name = Release;
 		};
+		7923B052AEFE788792E36013A0427C79 /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 160825386726C8A667D6CE371671BEA7 /* SRGMediaPlayer.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SRGMediaPlayer/SRGMediaPlayer-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Test;
+		};
 		7FDCE8B939CAFBE72E846E9FA1F82F16 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F9406062A4E97FB43B24A14801F7864F /* Pods-SRGAnalytics Demo.release.xcconfig */;
@@ -3405,28 +3386,26 @@
 			};
 			name = Release;
 		};
-		85022BA3CC2D8087CA58942F23089730 /* Test */ = {
+		93BE68A9EFB3A305A8E9D0478BBEE4C7 /* Test */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 160825386726C8A667D6CE371671BEA7 /* SRGMediaPlayer.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/SRGMediaPlayer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SRGMediaPlayer/SRGMediaPlayer-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				INFOPLIST_FILE = "Target Support Files/SRGMediaPlayer/ResourceBundle-SRGMediaPlayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = SRGMediaPlayer;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Test;
 		};
-		91CB54FE70F5CC883927A00846873349 /* Release */ = {
+		971F1061B6351A6310C9EAE91745B493 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 160825386726C8A667D6CE371671BEA7 /* SRGMediaPlayer.xcconfig */;
 			buildSettings = {
@@ -3435,7 +3414,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/SRGMediaPlayer/SRGMediaPlayer-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -3652,6 +3631,27 @@
 			};
 			name = Test;
 		};
+		BBE46A7F163822FDE6486122F718AF9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 160825386726C8A667D6CE371671BEA7 /* SRGMediaPlayer.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SRGMediaPlayer/SRGMediaPlayer-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
 		BCB64D33462AE9653296854ECCEBCF5D /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BACD4698B9420C9D71DA4D3585F5F938 /* SRGAnalytics-Core-Core_Version-MediaPlayer.xcconfig */;
@@ -3754,6 +3754,23 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D0B7E24F1D00D58EC56079907976AB61 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 160825386726C8A667D6CE371671BEA7 /* SRGMediaPlayer.xcconfig */;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/SRGMediaPlayer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/SRGMediaPlayer/ResourceBundle-SRGMediaPlayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = SRGMediaPlayer;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
 		};
@@ -3883,23 +3900,6 @@
 			};
 			name = Test;
 		};
-		FDD45C164EE15D0008524CD6DCCF0F9B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 160825386726C8A667D6CE371671BEA7 /* SRGMediaPlayer.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/SRGMediaPlayer";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/SRGMediaPlayer/ResourceBundle-SRGMediaPlayer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = SRGMediaPlayer;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 		FF487ABE796E87711CD917C3C89A909E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 919F78FD4F8827873A60D6DA77E4F5C0 /* TransitionKit.xcconfig */;
@@ -4008,9 +4008,9 @@
 		452445E18366E7DF5549304622E9C567 /* Build configuration list for PBXNativeTarget "SRGMediaPlayer-SRGMediaPlayer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1F8C809AA2C5239EACF0A67B460E352A /* Debug */,
-				FDD45C164EE15D0008524CD6DCCF0F9B /* Release */,
-				3B368BE1303033DFA522220F2367B6DF /* Test */,
+				D0B7E24F1D00D58EC56079907976AB61 /* Debug */,
+				10840650889F976820261CEBCB59CD6F /* Release */,
+				93BE68A9EFB3A305A8E9D0478BBEE4C7 /* Test */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -4048,9 +4048,9 @@
 		683F740D69E1F69BF764622F7157BBF0 /* Build configuration list for PBXNativeTarget "SRGMediaPlayer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5400D831AF50EF09C26B6A5416B7640A /* Debug */,
-				91CB54FE70F5CC883927A00846873349 /* Release */,
-				85022BA3CC2D8087CA58942F23089730 /* Test */,
+				BBE46A7F163822FDE6486122F718AF9D /* Debug */,
+				971F1061B6351A6310C9EAE91745B493 /* Release */,
+				7923B052AEFE788792E36013A0427C79 /* Test */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

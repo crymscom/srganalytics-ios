@@ -20,11 +20,11 @@ PODS:
   - SRGAnalytics/MediaPlayer (1.5.1):
     - SRGAnalytics/Core
     - SRGMediaPlayer (~> 1.9.0)
-  - SRGMediaPlayer (1.9.5):
+  - SRGMediaPlayer (1.9.6):
     - libextobjc/EXTScope (~> 0.4.1)
-    - SRGMediaPlayer/Version (= 1.9.5)
+    - SRGMediaPlayer/Version (= 1.9.6)
     - TransitionKit (~> 2.2.0)
-  - SRGMediaPlayer/Version (1.9.5):
+  - SRGMediaPlayer/Version (1.9.6):
     - libextobjc/EXTScope (~> 0.4.1)
     - TransitionKit (~> 2.2.0)
   - TransitionKit (2.2.1)
@@ -47,7 +47,7 @@ SPEC CHECKSUMS:
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: d68685bde31f69cb61d518dcb39269080c78b5ed
   SRGAnalytics: c52d626fb570e3bb4efc7f5a8714d0c38ee562da
-  SRGMediaPlayer: a02d7a3dd3f246524f32355728360e31efbd2ebb
+  SRGMediaPlayer: a48df6a27ab749988b6eb7808d3fafb69790849b
   TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250
 
 PODFILE CHECKSUM: 7ccf85c5db0c7073ec4bc0aabc14aa7892fffc49
