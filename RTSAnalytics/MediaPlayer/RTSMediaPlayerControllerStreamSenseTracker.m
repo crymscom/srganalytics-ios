@@ -47,6 +47,9 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	
 	_mediaPlayerController = mediaPlayerController;
 	_dataSource = dataSource;
+    
+    // Too long default keep-alive time interval of 20 minutes. Set it to 9 minutes
+    [self setKeepAliveInterval:9 * 60];
 	
 	[self setLabel:@"ns_st_mp" value:@"SRGMediaPlayer"];
 	[self setLabel:@"ns_st_pu" value:RTSAnalyticsVersion()];
