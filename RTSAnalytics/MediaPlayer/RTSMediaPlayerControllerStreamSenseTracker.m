@@ -81,8 +81,9 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (long)currentPositionInMilliseconds
 {
-    if (self.mediaPlayerController.isLive) {
-        return 0.0; // Unfortunately we cannot rely on the currentItem's currentTime for live streams to get 0.
+    // Live stream: Playhead position must be always 0
+    if (self.mediaPlayerController.streamType == RTSMediaStreamTypeLive || self.mediaPlayerController.streamType == RTSMediaStreamTypeDVR) {
+        return 0.0;
     }
     else {
         CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
