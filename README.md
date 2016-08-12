@@ -29,7 +29,7 @@ The library can be added to a project through [CocoaPods](http://cocoapods.org/)
     pod 'SRGAnalytics', '<version>'
 ```
 
-* To add optional support for the [SRG Media Player library](https://bitbucket.org/rtsmb/srgmediaplayer-ios):
+* To add optional support for the [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS):
 
 ```
 #!ruby
