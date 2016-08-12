@@ -27,8 +27,6 @@
 @property (nonatomic, strong) NSMutableDictionary *streamsenseTrackers;
 @property (nonatomic, strong) NSString *virtualSite;
 
-@property (nonatomic, strong) NSTimer *timer;
-
 @end
 
 @implementation RTSMediaPlayerControllerTracker
@@ -51,26 +49,12 @@
 	_streamsenseTrackers = [NSMutableDictionary new];
     _trackingInfos = [NSMutableDictionary new];
     
-    // Periodically update labels so that heartbeats get correct timestamps during playback
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1. target:self selector:@selector(updateLabels:) userInfo:nil repeats:YES];
-	
 	return self;
 }
 
 - (void)dealloc
 {
-    self.timer = nil;
-    
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)setTimer:(NSTimer *)timer
-{
-    if (_timer) {
-        [_timer invalidate];
-    }
-    
-    _timer = timer;
 }
 
 - (void)startStreamMeasurementForVirtualSite:(NSString *)virtualSite mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
@@ -346,22 +330,6 @@
             RTSAnalyticsLogVerbose(@"Notify comScore view event for media identifier `%@`", mediaPlayerController.identifier);
             [CSComScore viewWithLabels:labels];
         }
-    }
-}
-
-#pragma mark - Timer
-
-- (void)updateLabels:(NSTimer *)timer
-{
-    for (NSValue *key in [self.streamsenseTrackers allKeys]) {
-        RTSMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[key];
-        if (!trackingInfo) {
-            continue;
-        }
-        
-        id<RTSMediaSegment> segment = trackingInfo.currentSegment ?: [RTSMediaPlayerControllerTracker fullLengthSegmentForMediaPlayerController:trackingInfo.mediaPlayerController];
-        RTSMediaPlayerControllerStreamSenseTracker *tracker = self.streamsenseTrackers[key];
-        [tracker updateLabelsWithSegment:segment];
     }
 }
 
