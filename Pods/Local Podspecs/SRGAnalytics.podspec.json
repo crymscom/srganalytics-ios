@@ -1,9 +1,9 @@
 {
   "name": "SRGAnalytics",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "summary": "Analytics for SRG mobile applications",
   "description": "Analytics for SRG mobile applications",
-  "homepage": "https://bitbucket.org/rtsmb/srganalytics-ios",
+  "homepage": "https://github.com/SRGSSR/srganalytics-ios",
   "license": {
     "type": "N/A"
   },
@@ -15,8 +15,8 @@
     "Pierre-Yves Bertholon": "py.bertholon@gmail.com"
   },
   "source": {
-    "git": "git@bitbucket.org:rtsmb/srganalytics-ios.git",
-    "tag": "1.5.4"
+    "git": "git@github.com:SRGSSR/srganalytics-ios.git",
+    "tag": "1.5.5"
   },
   "requires_arc": true,
   "platforms": {
@@ -54,7 +54,7 @@
             "RTSAnalytics/Core/RTSAnalyticsVersion.m",
             "RTSAnalytics/Core/RTSAnalyticsVersion_private.h"
           ],
-          "compiler_flags": "-DRTS_ANALYTICS_VERSION=1.5.4"
+          "compiler_flags": "-DRTS_ANALYTICS_VERSION=1.5.5"
         }
       ]
     },
