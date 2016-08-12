@@ -5,7 +5,7 @@
 The SRG Analytics library for iOS is the easiest way to fulfill SRG application analytics needs:
 
 * The library automatically sends comScore, view counts and NET-Metrix events
-* When using the [SRG Media Player library](https://bitbucket.org/rtsmb/srgmediaplayer-ios), it also tracks all associated Stream Sense events
+* When using the [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS), it also tracks all associated Stream Sense events
 
 ## Compatibility
 
@@ -19,7 +19,7 @@ The library can be added to a project through [CocoaPods](http://cocoapods.org/)
     
 ```
 #!ruby
-    source 'ssh://git@bitbucket.org/rtsmb/srgpodspecs.git'
+    source 'https://github.com/SRGSSR/srgpodspecs-ios.git'
 ```
     
 * The `SRGAnalytics` dependency:

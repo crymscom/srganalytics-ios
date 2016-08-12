@@ -1,1 +1,1 @@
-pod lib lint --verbose --allow-warnings SRGAnalytics.podspec --sources="ssh://git@bitbucket.org/rtsmb/srgpodspecs.git,https://github.com/CocoaPods/Specs.git" --use-libraries
+pod lib lint --verbose --allow-warnings SRGAnalytics.podspec --sources="ssh://git@github.com:SRGSSR/srganalytics-ios.git,https://github.com/CocoaPods/Specs.git" --use-libraries

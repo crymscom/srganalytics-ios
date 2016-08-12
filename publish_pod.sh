@@ -1,2 +1,2 @@
-pod repo push bitbucket-srgpodspecs --allow-warnings --use-libraries
+pod repo push github-srgpodspecs --allow-warnings --use-libraries
 
