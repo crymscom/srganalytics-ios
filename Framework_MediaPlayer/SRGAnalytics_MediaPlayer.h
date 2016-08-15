@@ -13,4 +13,5 @@ FOUNDATION_EXPORT double SRGAnalytics_MediaPlayerVersionNumber;
 FOUNDATION_EXPORT const unsigned char SRGAnalytics_MediaPlayerVersionString[];
 
 #import "RTSAnalyticsMediaPlayerDataSource.h"
+#import "RTSAnalyticsTracker+MediaPlayer.h"
 #import "RTSMediaPlayerController+RTSAnalytics.h"

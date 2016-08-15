@@ -60,6 +60,8 @@
 		E6FC7F271D61FA4700A55085 /* SegmentsMediaPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E6FC7F171D61FA4700A55085 /* SegmentsMediaPlayerViewController.xib */; };
 		E6FC7F281D61FA4700A55085 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F191D61FA4700A55085 /* TableViewController.m */; };
 		E6FC7F291D61FA4700A55085 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F1B1D61FA4700A55085 /* ViewController.m */; };
+		E6FC7F2B1D61FC6E00A55085 /* RTSAnalyticsTracker+MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E6FC7F2A1D61FC6E00A55085 /* RTSAnalyticsTracker+MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6FC7F2D1D61FCBC00A55085 /* RTSAnalyticsTracker+MediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F2C1D61FCBC00A55085 /* RTSAnalyticsTracker+MediaPlayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +169,8 @@
 		E6FC7F191D61FA4700A55085 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		E6FC7F1A1D61FA4700A55085 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		E6FC7F1B1D61FA4700A55085 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		E6FC7F2A1D61FC6E00A55085 /* RTSAnalyticsTracker+MediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RTSAnalyticsTracker+MediaPlayer.h"; sourceTree = "<group>"; };
+		E6FC7F2C1D61FCBC00A55085 /* RTSAnalyticsTracker+MediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RTSAnalyticsTracker+MediaPlayer.m"; sourceTree = "<group>"; };
 		FA0265BACF3092D8C9897357 /* Pods-SRGAnalyticsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -267,12 +271,14 @@
 			isa = PBXGroup;
 			children = (
 				E61C0D611D61EFD200AEAE6D /* RTSAnalyticsMediaPlayerDataSource.h */,
+				E6FC7F2A1D61FC6E00A55085 /* RTSAnalyticsTracker+MediaPlayer.h */,
+				E6FC7F2C1D61FCBC00A55085 /* RTSAnalyticsTracker+MediaPlayer.m */,
 				E61C0D621D61EFD200AEAE6D /* RTSMediaPlayerController+RTSAnalytics.h */,
 				E61C0D631D61EFD200AEAE6D /* RTSMediaPlayerController+RTSAnalytics.m */,
-				E61C0D641D61EFD200AEAE6D /* RTSMediaPlayerControllerStreamSenseTracker.m */,
 				E61C0D651D61EFD200AEAE6D /* RTSMediaPlayerControllerStreamSenseTracker_private.h */,
-				E61C0D661D61EFD200AEAE6D /* RTSMediaPlayerControllerTracker.m */,
+				E61C0D641D61EFD200AEAE6D /* RTSMediaPlayerControllerStreamSenseTracker.m */,
 				E61C0D671D61EFD200AEAE6D /* RTSMediaPlayerControllerTracker_private.h */,
+				E61C0D661D61EFD200AEAE6D /* RTSMediaPlayerControllerTracker.m */,
 				E61C0D681D61EFD200AEAE6D /* RTSMediaPlayerControllerTrackingInfo.h */,
 				E61C0D691D61EFD200AEAE6D /* RTSMediaPlayerControllerTrackingInfo.m */,
 			);
@@ -370,6 +376,7 @@
 				E61C0D701D61EFD200AEAE6D /* RTSMediaPlayerControllerStreamSenseTracker_private.h in Headers */,
 				E61C0D6D1D61EFD200AEAE6D /* RTSMediaPlayerController+RTSAnalytics.h in Headers */,
 				E61C0D721D61EFD200AEAE6D /* RTSMediaPlayerControllerTracker_private.h in Headers */,
+				E6FC7F2B1D61FC6E00A55085 /* RTSAnalyticsTracker+MediaPlayer.h in Headers */,
 				E61C0D751D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h in Headers */,
 				E61C0D731D61EFD200AEAE6D /* RTSMediaPlayerControllerTrackingInfo.h in Headers */,
 			);
@@ -595,6 +602,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E61C0D6E1D61EFD200AEAE6D /* RTSMediaPlayerController+RTSAnalytics.m in Sources */,
+				E6FC7F2D1D61FCBC00A55085 /* RTSAnalyticsTracker+MediaPlayer.m in Sources */,
 				E61C0D711D61EFD200AEAE6D /* RTSMediaPlayerControllerTracker.m in Sources */,
 				E61C0D741D61EFD200AEAE6D /* RTSMediaPlayerControllerTrackingInfo.m in Sources */,
 				E61C0D6F1D61EFD200AEAE6D /* RTSMediaPlayerControllerStreamSenseTracker.m in Sources */,

@@ -8,11 +8,6 @@
 
 @protocol RTSAnalyticsPageViewDataSource;
 
-#if __has_include("RTSAnalyticsMediaPlayer.h")
-#define RTSAnalyticsMediaPlayerIncluded
-@protocol RTSAnalyticsMediaPlayerDataSource;
-#endif
-
 /**
  * SRG/SSR Business units
  */
@@ -96,17 +91,8 @@ typedef NS_ENUM(NSInteger, SSRBusinessUnit) {
  *
  *  The application MUST call `-startTrackingForBusinessUnit:...` methods ONLY in `-application:didFinishLaunchingWithOptions:`.
  */
-#ifdef RTSAnalyticsMediaPlayerIncluded
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
-                     mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource;
-
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
-                     mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
-                         inDebugMode:(BOOL)debugMode;
-#else
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit;
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit inDebugMode:(BOOL)debugMode;
-#endif
 
 /**
  *  --------------------
