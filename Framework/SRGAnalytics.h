@@ -12,8 +12,8 @@ FOUNDATION_EXPORT double SRGAnalyticsVersionNumber;
 //! Project version string for SRGAnalytics.
 FOUNDATION_EXPORT const unsigned char SRGAnalyticsVersionString[];
 
-#import <SRGAnalytics/RTSAnalyticsTracker.h>
-#import <SRGAnalytics/RTSAnalyticsComScoreTracker.h>
-#import <SRGAnalytics/RTSAnalyticsNetmetrixTracker.h>
-#import <SRGAnalytics/RTSAnalyticsPageViewDataSource.h>
-#import <SRGAnalytics/UIViewController+RTSAnalytics.h>
+#import "RTSAnalyticsTracker.h"
+#import "RTSAnalyticsComScoreTracker.h"
+#import "RTSAnalyticsNetmetrixTracker.h"
+#import "RTSAnalyticsPageViewDataSource.h"
+#import "UIViewController+RTSAnalytics.h"
