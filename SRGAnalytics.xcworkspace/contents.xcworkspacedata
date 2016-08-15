@@ -5,9 +5,6 @@
       location = "group:SRGAnalytics.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:RTSAnalytics Demo/SRGAnalytics Demo.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

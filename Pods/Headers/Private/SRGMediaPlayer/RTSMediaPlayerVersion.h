@@ -1,1 +1,0 @@
-../../../SRGMediaPlayer/RTSMediaPlayer/RTSMediaPlayerVersion.h
