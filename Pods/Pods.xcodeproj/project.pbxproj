@@ -19,6 +19,7 @@
 		4D7E648B25BB92DC25DFD95F35A741CC /* CSEventType.h in Headers */ = {isa = PBXBuildFile; fileRef = E16941CEC6C593BF0A79325767091182 /* CSEventType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		515569ECF5F127E6962215A577B2C854 /* ComScore-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 98CD5936C46B67FA3B02977595627A1B /* ComScore-dummy.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		5B8A2C8AAF9F32F8ACCBD36CC5531308 /* ComScore.h in Headers */ = {isa = PBXBuildFile; fileRef = 12DC6266DA9A1F70DDF4CCD4DA698DD0 /* ComScore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		62C7FA190174F132E61798B151699BB2 /* Pods-SRGAnalytics_MediaPlayer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B3CDE73E03667AAC6C1C9D4D01C400 /* Pods-SRGAnalytics_MediaPlayer-dummy.m */; };
 		6EB8D8A79952621B9DFCA0BC84204B56 /* CSOfflineCache.h in Headers */ = {isa = PBXBuildFile; fileRef = FF29291E3ABB01A762E4BC8EC1D34C37 /* CSOfflineCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72A3DD3AD73D3444C413ADF360A5D6A3 /* CSStreamingTag.h in Headers */ = {isa = PBXBuildFile; fileRef = BEB576B7C6B0DAD401A0813C255BAB3C /* CSStreamingTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88916F2B448927E0404FD7A7DD8AF1E6 /* CSApplicationState.h in Headers */ = {isa = PBXBuildFile; fileRef = 295A294B3388E69EAD7FBFB139524656 /* CSApplicationState.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -26,8 +27,9 @@
 		90832B140D2A5C3967A67B62E0625D43 /* CSMeasurementDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 067086F8B29880FB8A53D0694568C466 /* CSMeasurementDispatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		97DC5D119925986A67193350B4F43360 /* CSCore.h in Headers */ = {isa = PBXBuildFile; fileRef = C3996FD0995B0C41853F2CCEAA8B04E8 /* CSCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9BD4BE52E2D417C2C460B979DB4504B2 /* CSStreamSenseClip.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A40943AE8D58550D2862F9563F46623 /* CSStreamSenseClip.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9CFDD7C181175E340A38F9179DCE0A49 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6EB1E32D6B3FA82EBEAC09987FEA9B /* Foundation.framework */; };
 		A2CAEDD65A524B401028520FBEE0EE18 /* CSStreamSenseDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D2C50CBAF6A75062370C9B8774B8768 /* CSStreamSenseDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A4973F07AF3182F1EDC018B82FD52229 /* Pods-SRGAnalytics-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0850F91A4E455D070B9441638AC78884 /* Pods-SRGAnalytics-dummy.m */; };
+		A4973F07AF3182F1EDC018B82FD52229 /* Pods-SRGAnalytics-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E48A29B2E4E7A4646F845F2AFDAE9638 /* Pods-SRGAnalytics-dummy.m */; };
 		A8CD0DB36C9D4A5B6AA07908ED7DE24D /* CSCensus.h in Headers */ = {isa = PBXBuildFile; fileRef = BFDA345F549AC381E7E08CC3D89D472A /* CSCensus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ACEBC245BD532A6D5055BDDE2CC7B942 /* CSStreamSenseDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 571EEAF19329DF7113ADC4AE687A1335 /* CSStreamSenseDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B0CAA5979C77024B992F092759870A96 /* CSStreamSensePluginProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 137D64C1A3D11A3D71DCB90BEAD83A4E /* CSStreamSensePluginProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -45,6 +47,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		340D43234C176D872147302E9261D50B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E9960CFD027A9FF832A230C75A76EF00;
+			remoteInfo = "ComScore-iOS";
+		};
 		5DB78ED5EA89CA9419AD80A1ABD62B6F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
@@ -63,57 +72,74 @@
 
 /* Begin PBXFileReference section */
 		067086F8B29880FB8A53D0694568C466 /* CSMeasurementDispatcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSMeasurementDispatcher.h; path = comScore/headers/CSMeasurementDispatcher.h; sourceTree = "<group>"; };
-		0850F91A4E455D070B9441638AC78884 /* Pods-SRGAnalytics-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SRGAnalytics-dummy.m"; sourceTree = "<group>"; };
-		1242CF322C3890640127EF5A46EE63DF /* Pods-SRGAnalytics-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SRGAnalytics-acknowledgements.plist"; sourceTree = "<group>"; };
+		0E52EA19E54B119CE84F25EC1695AA1C /* libJRSwizzle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJRSwizzle.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		12DC6266DA9A1F70DDF4CCD4DA698DD0 /* ComScore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ComScore.h; path = comScore/ComScore.h; sourceTree = "<group>"; };
 		137D64C1A3D11A3D71DCB90BEAD83A4E /* CSStreamSensePluginProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSensePluginProtocol.h; path = comScore/headers/CSStreamSensePluginProtocol.h; sourceTree = "<group>"; };
+		14D8F0E95EB8905D854709849CA8C5B1 /* Pods-SRGAnalytics.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics.debug.xcconfig"; sourceTree = "<group>"; };
 		1882148355D9EB046835F60C0B5C226E /* ComScore-iOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "ComScore-iOS.xcconfig"; sourceTree = "<group>"; };
+		1A6CDE41B1A588BD29703A7984F06907 /* Pods-SRGAnalytics_MediaPlayer-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SRGAnalytics_MediaPlayer-acknowledgements.plist"; sourceTree = "<group>"; };
 		26A6CBE93E78C382D4401E70A9D73715 /* CSStreamSense.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSense.h; path = comScore/headers/CSStreamSense.h; sourceTree = "<group>"; };
 		295A294B3388E69EAD7FBFB139524656 /* CSApplicationState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSApplicationState.h; path = comScore/headers/CSApplicationState.h; sourceTree = "<group>"; };
 		2A4242B95684E141BD28690B8619F3FE /* JRSwizzle-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JRSwizzle-dummy.m"; sourceTree = "<group>"; };
-		2A9AC467D3C6E6870D86C8CD7CBD5986 /* libPods-SRGAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalytics.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2ACBA9716C4A8157BBF4526805C94D8D /* Pods-SRGAnalytics.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics.test.xcconfig"; sourceTree = "<group>"; };
 		398F34B7B236FF8538DD6D052926F89D /* CSStreamSensePlaylist.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSensePlaylist.h; path = comScore/headers/CSStreamSensePlaylist.h; sourceTree = "<group>"; };
 		3BBB10AD1340C3F6F8C78C32928D7DE5 /* CSTaskExecutor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSTaskExecutor.h; path = comScore/headers/CSTaskExecutor.h; sourceTree = "<group>"; };
 		3D2C50CBAF6A75062370C9B8774B8768 /* CSStreamSenseDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseDefines.h; path = comScore/headers/CSStreamSenseDefines.h; sourceTree = "<group>"; };
+		41F8AD61CC9F2324E92AA006EB960265 /* Pods-SRGAnalytics_MediaPlayer-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SRGAnalytics_MediaPlayer-acknowledgements.markdown"; sourceTree = "<group>"; };
 		4485777E6A80978161B4AB49CC99452E /* CSCacheFlusher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSCacheFlusher.h; path = comScore/headers/CSCacheFlusher.h; sourceTree = "<group>"; };
 		48E0CB82826DD5417C8B2FB774B3EB97 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		49ED826FFD7AE13874203B3D3ED03B62 /* CSSessionState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSSessionState.h; path = comScore/headers/CSSessionState.h; sourceTree = "<group>"; };
+		527E1BE169483B000D1563F9308FC918 /* Pods-SRGAnalytics-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SRGAnalytics-acknowledgements.plist"; sourceTree = "<group>"; };
 		571EEAF19329DF7113ADC4AE687A1335 /* CSStreamSenseDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseDelegate.h; path = comScore/headers/CSStreamSenseDelegate.h; sourceTree = "<group>"; };
+		57F2E74D58C04395A28789DB0DB4E032 /* Pods-SRGAnalytics-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SRGAnalytics-acknowledgements.markdown"; sourceTree = "<group>"; };
 		5A40943AE8D58550D2862F9563F46623 /* CSStreamSenseClip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseClip.h; path = comScore/headers/CSStreamSenseClip.h; sourceTree = "<group>"; };
+		5F7DAC1F1E29AEBDE632377C3735FC67 /* Pods-SRGAnalytics_MediaPlayer.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics_MediaPlayer.test.xcconfig"; sourceTree = "<group>"; };
+		655236B3C6E7D3977347A2580DD516CF /* Pods-SRGAnalytics-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SRGAnalytics-frameworks.sh"; sourceTree = "<group>"; };
 		74586F9829E7374010653FA191123350 /* libcomScore.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libcomScore.a; path = comScore/libcomScore.a; sourceTree = "<group>"; };
-		7A8186B79656D31D6941BD9DF0744AAA /* Pods-SRGAnalytics-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SRGAnalytics-frameworks.sh"; sourceTree = "<group>"; };
+		74EFB7336C9AA4D4B7212256E3303C75 /* Pods-SRGAnalytics-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SRGAnalytics-resources.sh"; sourceTree = "<group>"; };
 		7BCF9299A47F973285D1B83C57F67DF4 /* CSStreamSenseState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSenseState.h; path = comScore/headers/CSStreamSenseState.h; sourceTree = "<group>"; };
-		7CF6E3D94A52FD0AC58BE692120C9A9B /* Pods-SRGAnalytics.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics.release.xcconfig"; sourceTree = "<group>"; };
 		7D708D9EB1F713E13AC7782BABDF7209 /* JRSwizzle-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JRSwizzle-prefix.pch"; sourceTree = "<group>"; };
-		833CCF84987EF23B6416369473692F4A /* libComScore-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libComScore-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		86F5E2639B85EEE762399D2050AAEF6B /* CSStreamSensePlugin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamSensePlugin.h; path = comScore/headers/CSStreamSensePlugin.h; sourceTree = "<group>"; };
 		8D45D999A38A4CD4928604CC8CB43465 /* JRSwizzle.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
-		8D60D34439159C05748653645C5F9D78 /* Pods-SRGAnalytics-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SRGAnalytics-resources.sh"; sourceTree = "<group>"; };
 		8D9A2015F60C815BC42A0583D1098C5F /* CSKeepAlive.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSKeepAlive.h; path = comScore/headers/CSKeepAlive.h; sourceTree = "<group>"; };
 		8E7295709C3C9B7AA3ED31E5F773B8A3 /* ComScore-iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ComScore-iOS-dummy.m"; sourceTree = "<group>"; };
+		9083933DAEB69E27907BD0134F9B28BE /* libPods-SRGAnalytics_MediaPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalytics_MediaPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		98B3CDE73E03667AAC6C1C9D4D01C400 /* Pods-SRGAnalytics_MediaPlayer-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SRGAnalytics_MediaPlayer-dummy.m"; sourceTree = "<group>"; };
 		98CD5936C46B67FA3B02977595627A1B /* ComScore-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "ComScore-dummy.m"; path = "comScore/ComScore-dummy.m"; sourceTree = "<group>"; };
 		9DE15A81B91DEF40DC2B4D13159CDF36 /* JRSwizzle.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JRSwizzle.m; sourceTree = "<group>"; };
 		A2B00CFC705BA343D1DE2FFB9090DFA3 /* ComScore-iOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ComScore-iOS-prefix.pch"; sourceTree = "<group>"; };
+		A4354C5BFAD4F23E2434CD69974AFFD0 /* Pods-SRGAnalytics_MediaPlayer-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SRGAnalytics_MediaPlayer-resources.sh"; sourceTree = "<group>"; };
+		A867737C08E982077BD957D4E71D28DF /* Pods-SRGAnalytics_MediaPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics_MediaPlayer.release.xcconfig"; sourceTree = "<group>"; };
 		AD6EB1E32D6B3FA82EBEAC09987FEA9B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		B04F76069CBF879780A61E9ED2DEA39A /* CSStorage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStorage.h; path = comScore/headers/CSStorage.h; sourceTree = "<group>"; };
-		B44B924D7FAF1B49A17115BDE03E2CFC /* Pods-SRGAnalytics.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics.debug.xcconfig"; sourceTree = "<group>"; };
 		BBFCD913C493D145B4356189710DF930 /* CSComScore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSComScore.h; path = comScore/headers/CSComScore.h; sourceTree = "<group>"; };
 		BEB576B7C6B0DAD401A0813C255BAB3C /* CSStreamingTag.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSStreamingTag.h; path = comScore/headers/CSStreamingTag.h; sourceTree = "<group>"; };
 		BFDA345F549AC381E7E08CC3D89D472A /* CSCensus.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSCensus.h; path = comScore/headers/CSCensus.h; sourceTree = "<group>"; };
 		C3996FD0995B0C41853F2CCEAA8B04E8 /* CSCore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSCore.h; path = comScore/headers/CSCore.h; sourceTree = "<group>"; };
-		C83E3A6EACD8EC9431A87997DAA2B3EC /* Pods-SRGAnalytics.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics.test.xcconfig"; sourceTree = "<group>"; };
+		C42F55D9B4F31FD85E7811A9678062D9 /* libComScore-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libComScore-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA20A84AD869BC50779D2C91AD4454EB /* libPods-SRGAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalytics.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3F41B61169566859CB475DE9351E3DB /* JRSwizzle.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = JRSwizzle.xcconfig; sourceTree = "<group>"; };
+		D42B8F059084B8610924030156F9339F /* Pods-SRGAnalytics_MediaPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics_MediaPlayer.debug.xcconfig"; sourceTree = "<group>"; };
+		DB13905DC4137781A105C4EE02F4D779 /* Pods-SRGAnalytics.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SRGAnalytics.release.xcconfig"; sourceTree = "<group>"; };
 		E106CF1301BAEB7FB436679A9D5587FE /* CSNotificationsObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSNotificationsObserver.h; path = comScore/headers/CSNotificationsObserver.h; sourceTree = "<group>"; };
 		E16941CEC6C593BF0A79325767091182 /* CSEventType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSEventType.h; path = comScore/headers/CSEventType.h; sourceTree = "<group>"; };
 		E2834F4A51D7FFB25B5657D907A30412 /* CSTransmissionMode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSTransmissionMode.h; path = comScore/headers/CSTransmissionMode.h; sourceTree = "<group>"; };
-		E6E77879F8D3A5B8E25C9569E96CA1CE /* Pods-SRGAnalytics-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SRGAnalytics-acknowledgements.markdown"; sourceTree = "<group>"; };
-		FB258F9E022FA43714D933CB09144511 /* libJRSwizzle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJRSwizzle.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E48A29B2E4E7A4646F845F2AFDAE9638 /* Pods-SRGAnalytics-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SRGAnalytics-dummy.m"; sourceTree = "<group>"; };
 		FE4EFC8CBCEB711C13A44435D8912E0E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		FEE905AC4DFF5E05CA8666E24908D189 /* Pods-SRGAnalytics_MediaPlayer-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SRGAnalytics_MediaPlayer-frameworks.sh"; sourceTree = "<group>"; };
 		FF29291E3ABB01A762E4BC8EC1D34C37 /* CSOfflineCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CSOfflineCache.h; path = comScore/headers/CSOfflineCache.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2E06EB5B332B3E76907BEE7FC60D107A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9CFDD7C181175E340A38F9179DCE0A49 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		43444B783E286A10EC5D195B9EF0D8A0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -151,38 +177,40 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		217DA219378F7550C6A747CCFD309048 /* Pods-SRGAnalytics */ = {
+		12D20208818E1350833BA610FAF9DCB7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E6E77879F8D3A5B8E25C9569E96CA1CE /* Pods-SRGAnalytics-acknowledgements.markdown */,
-				1242CF322C3890640127EF5A46EE63DF /* Pods-SRGAnalytics-acknowledgements.plist */,
-				0850F91A4E455D070B9441638AC78884 /* Pods-SRGAnalytics-dummy.m */,
-				7A8186B79656D31D6941BD9DF0744AAA /* Pods-SRGAnalytics-frameworks.sh */,
-				8D60D34439159C05748653645C5F9D78 /* Pods-SRGAnalytics-resources.sh */,
-				B44B924D7FAF1B49A17115BDE03E2CFC /* Pods-SRGAnalytics.debug.xcconfig */,
-				7CF6E3D94A52FD0AC58BE692120C9A9B /* Pods-SRGAnalytics.release.xcconfig */,
-				C83E3A6EACD8EC9431A87997DAA2B3EC /* Pods-SRGAnalytics.test.xcconfig */,
-			);
-			name = "Pods-SRGAnalytics";
-			path = "Target Support Files/Pods-SRGAnalytics";
-			sourceTree = "<group>";
-		};
-		44FE49DAFF48D337C944558F1F1BF477 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				833CCF84987EF23B6416369473692F4A /* libComScore-iOS.a */,
-				FB258F9E022FA43714D933CB09144511 /* libJRSwizzle.a */,
-				2A9AC467D3C6E6870D86C8CD7CBD5986 /* libPods-SRGAnalytics.a */,
+				C42F55D9B4F31FD85E7811A9678062D9 /* libComScore-iOS.a */,
+				0E52EA19E54B119CE84F25EC1695AA1C /* libJRSwizzle.a */,
+				CA20A84AD869BC50779D2C91AD4454EB /* libPods-SRGAnalytics.a */,
+				9083933DAEB69E27907BD0134F9B28BE /* libPods-SRGAnalytics_MediaPlayer.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4F253646394AD71D44A5022747860D51 /* Targets Support Files */ = {
+		51BD4AA162E44E187F5D8528BA478006 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				217DA219378F7550C6A747CCFD309048 /* Pods-SRGAnalytics */,
+				F1BAA83A5B66A93DDC08F34196414CA1 /* Pods-SRGAnalytics */,
+				59A59A33E12E2A95CC89A51A03BB9DB9 /* Pods-SRGAnalytics_MediaPlayer */,
 			);
 			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		59A59A33E12E2A95CC89A51A03BB9DB9 /* Pods-SRGAnalytics_MediaPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				41F8AD61CC9F2324E92AA006EB960265 /* Pods-SRGAnalytics_MediaPlayer-acknowledgements.markdown */,
+				1A6CDE41B1A588BD29703A7984F06907 /* Pods-SRGAnalytics_MediaPlayer-acknowledgements.plist */,
+				98B3CDE73E03667AAC6C1C9D4D01C400 /* Pods-SRGAnalytics_MediaPlayer-dummy.m */,
+				FEE905AC4DFF5E05CA8666E24908D189 /* Pods-SRGAnalytics_MediaPlayer-frameworks.sh */,
+				A4354C5BFAD4F23E2434CD69974AFFD0 /* Pods-SRGAnalytics_MediaPlayer-resources.sh */,
+				D42B8F059084B8610924030156F9339F /* Pods-SRGAnalytics_MediaPlayer.debug.xcconfig */,
+				A867737C08E982077BD957D4E71D28DF /* Pods-SRGAnalytics_MediaPlayer.release.xcconfig */,
+				5F7DAC1F1E29AEBDE632377C3735FC67 /* Pods-SRGAnalytics_MediaPlayer.test.xcconfig */,
+			);
+			name = "Pods-SRGAnalytics_MediaPlayer";
+			path = "Target Support Files/Pods-SRGAnalytics_MediaPlayer";
 			sourceTree = "<group>";
 		};
 		5B251F6D2A1D55CD1795085136F9A0FA /* Support Files */ = {
@@ -202,8 +230,8 @@
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				122DA2E5084A4393C29BE363C764795C /* Frameworks */,
 				BCAFDFB278D618C444665FC85E958CE8 /* Pods */,
-				44FE49DAFF48D337C944558F1F1BF477 /* Products */,
-				4F253646394AD71D44A5022747860D51 /* Targets Support Files */,
+				12D20208818E1350833BA610FAF9DCB7 /* Products */,
+				51BD4AA162E44E187F5D8528BA478006 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -281,6 +309,22 @@
 			path = JRSwizzle;
 			sourceTree = "<group>";
 		};
+		F1BAA83A5B66A93DDC08F34196414CA1 /* Pods-SRGAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				57F2E74D58C04395A28789DB0DB4E032 /* Pods-SRGAnalytics-acknowledgements.markdown */,
+				527E1BE169483B000D1563F9308FC918 /* Pods-SRGAnalytics-acknowledgements.plist */,
+				E48A29B2E4E7A4646F845F2AFDAE9638 /* Pods-SRGAnalytics-dummy.m */,
+				655236B3C6E7D3977347A2580DD516CF /* Pods-SRGAnalytics-frameworks.sh */,
+				74EFB7336C9AA4D4B7212256E3303C75 /* Pods-SRGAnalytics-resources.sh */,
+				14D8F0E95EB8905D854709849CA8C5B1 /* Pods-SRGAnalytics.debug.xcconfig */,
+				DB13905DC4137781A105C4EE02F4D779 /* Pods-SRGAnalytics.release.xcconfig */,
+				2ACBA9716C4A8157BBF4526805C94D8D /* Pods-SRGAnalytics.test.xcconfig */,
+			);
+			name = "Pods-SRGAnalytics";
+			path = "Target Support Files/Pods-SRGAnalytics";
+			sourceTree = "<group>";
+		};
 		FFA31BCC0583262E61012E4CE19E02D9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -348,7 +392,7 @@
 			);
 			name = JRSwizzle;
 			productName = JRSwizzle;
-			productReference = FB258F9E022FA43714D933CB09144511 /* libJRSwizzle.a */;
+			productReference = 0E52EA19E54B119CE84F25EC1695AA1C /* libJRSwizzle.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		5ACE6BC9F9C8406821E3584996D8A36D /* Pods-SRGAnalytics */ = {
@@ -366,7 +410,24 @@
 			);
 			name = "Pods-SRGAnalytics";
 			productName = "Pods-SRGAnalytics";
-			productReference = 2A9AC467D3C6E6870D86C8CD7CBD5986 /* libPods-SRGAnalytics.a */;
+			productReference = CA20A84AD869BC50779D2C91AD4454EB /* libPods-SRGAnalytics.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		BE60830D8EB815F67BE2D3C365B47C42 /* Pods-SRGAnalytics_MediaPlayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1E75BA71BB1EAE3E612D1AE64214A115 /* Build configuration list for PBXNativeTarget "Pods-SRGAnalytics_MediaPlayer" */;
+			buildPhases = (
+				B45C1BEAED7C781E4291B85FCE96D4D5 /* Sources */,
+				2E06EB5B332B3E76907BEE7FC60D107A /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F3A204000628576E081EEC5992DCCF37 /* PBXTargetDependency */,
+			);
+			name = "Pods-SRGAnalytics_MediaPlayer";
+			productName = "Pods-SRGAnalytics_MediaPlayer";
+			productReference = 9083933DAEB69E27907BD0134F9B28BE /* libPods-SRGAnalytics_MediaPlayer.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		E9960CFD027A9FF832A230C75A76EF00 /* ComScore-iOS */ = {
@@ -383,7 +444,7 @@
 			);
 			name = "ComScore-iOS";
 			productName = "ComScore-iOS";
-			productReference = 833CCF84987EF23B6416369473692F4A /* libComScore-iOS.a */;
+			productReference = C42F55D9B4F31FD85E7811A9678062D9 /* libComScore-iOS.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -403,13 +464,14 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 44FE49DAFF48D337C944558F1F1BF477 /* Products */;
+			productRefGroup = 12D20208818E1350833BA610FAF9DCB7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				E9960CFD027A9FF832A230C75A76EF00 /* ComScore-iOS */,
 				11F2546F067B27B02A065E442FD3B2F4 /* JRSwizzle */,
 				5ACE6BC9F9C8406821E3584996D8A36D /* Pods-SRGAnalytics */,
+				BE60830D8EB815F67BE2D3C365B47C42 /* Pods-SRGAnalytics_MediaPlayer */,
 			);
 		};
 /* End PBXProject section */
@@ -429,6 +491,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4973F07AF3182F1EDC018B82FD52229 /* Pods-SRGAnalytics-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B45C1BEAED7C781E4291B85FCE96D4D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62C7FA190174F132E61798B151699BB2 /* Pods-SRGAnalytics_MediaPlayer-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,12 +526,18 @@
 			target = 11F2546F067B27B02A065E442FD3B2F4 /* JRSwizzle */;
 			targetProxy = 5DB78ED5EA89CA9419AD80A1ABD62B6F /* PBXContainerItemProxy */;
 		};
+		F3A204000628576E081EEC5992DCCF37 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ComScore-iOS";
+			target = E9960CFD027A9FF832A230C75A76EF00 /* ComScore-iOS */;
+			targetProxy = 340D43234C176D872147302E9261D50B /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0389ECA434C12812991DEF5D5EAA728D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7CF6E3D94A52FD0AC58BE692120C9A9B /* Pods-SRGAnalytics.release.xcconfig */;
+			baseConfigurationReference = DB13905DC4137781A105C4EE02F4D779 /* Pods-SRGAnalytics.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -563,6 +639,27 @@
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
+		};
+		6F16A2FCEE9EA197391A6D7E58C9EFB2 /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F7DAC1F1E29AEBDE632377C3735FC67 /* Pods-SRGAnalytics_MediaPlayer.test.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Test;
 		};
 		809B409FDEBBF060F02BB52974F3D56E /* Test */ = {
 			isa = XCBuildConfiguration;
@@ -683,7 +780,7 @@
 		};
 		B4713D4ED2B620637FB2C722A70BFD3C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B44B924D7FAF1B49A17115BDE03E2CFC /* Pods-SRGAnalytics.debug.xcconfig */;
+			baseConfigurationReference = 14D8F0E95EB8905D854709849CA8C5B1 /* Pods-SRGAnalytics.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -723,6 +820,27 @@
 			};
 			name = Release;
 		};
+		D8D799CE1FDA107E5D074297CE7F2820 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D42B8F059084B8610924030156F9339F /* Pods-SRGAnalytics_MediaPlayer.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
 		DE8471545564DF34345F813B658F4864 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1882148355D9EB046835F60C0B5C226E /* ComScore-iOS.xcconfig */;
@@ -744,9 +862,30 @@
 			};
 			name = Debug;
 		};
+		E0AE02ABC4A4035CC7DFABF5E1DAB2B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A867737C08E982077BD957D4E71D28DF /* Pods-SRGAnalytics_MediaPlayer.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		FEAF9586DD5D83B96F2DA2A3878EDA46 /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C83E3A6EACD8EC9431A87997DAA2B3EC /* Pods-SRGAnalytics.test.xcconfig */;
+			baseConfigurationReference = 2ACBA9716C4A8157BBF4526805C94D8D /* Pods-SRGAnalytics.test.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -768,6 +907,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1E75BA71BB1EAE3E612D1AE64214A115 /* Build configuration list for PBXNativeTarget "Pods-SRGAnalytics_MediaPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8D799CE1FDA107E5D074297CE7F2820 /* Debug */,
+				E0AE02ABC4A4035CC7DFABF5E1DAB2B3 /* Release */,
+				6F16A2FCEE9EA197391A6D7E58C9EFB2 /* Test */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		24381A97514337C4B1BBAC90A39520D0 /* Build configuration list for PBXNativeTarget "Pods-SRGAnalytics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

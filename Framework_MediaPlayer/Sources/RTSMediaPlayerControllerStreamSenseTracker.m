@@ -4,15 +4,15 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGAnalytics.h"
-
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 #import "RTSAnalyticsLogger_private.h"
+#import "RTSAnalyticsMediaPlayerDataSource.h"
 
 #import <ComScore/CSStreamSense.h>
 #import <ComScore/CSStreamSensePlaylist.h>
 #import <ComScore/CSStreamSenseClip.h>
 
+#import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
 static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
@@ -50,8 +50,8 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     [self setKeepAliveInterval:9 * 60];
 	
 	[self setLabel:@"ns_st_mp" value:@"SRGMediaPlayer"];
-	[self setLabel:@"ns_st_pu" value:RTSAnalyticsVersion()];
-	[self setLabel:@"ns_st_mv" value:RTSMediaPlayerVersion()];
+	[self setLabel:@"ns_st_pu" value:[NSString stringWithUTF8String:(const char *)SRGAnalyticsVersionString]];
+    [self setLabel:@"ns_st_mv" value:[NSString stringWithUTF8String:(const char *)SRGMediaPlayerVersionString]];
 	[self setLabel:@"ns_st_it" value:@"c"];
 	
 	[self setLabel:@"ns_vsite" value:virtualSite];

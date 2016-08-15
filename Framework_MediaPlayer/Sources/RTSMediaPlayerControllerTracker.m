@@ -4,13 +4,13 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "RTSAnalyticsTracker.h"
 #import "RTSMediaPlayerControllerTracker_private.h"
 #import "RTSAnalyticsLogger_private.h"
 #import "RTSAnalyticsMediaPlayerDataSource.h"
 #import "RTSMediaPlayerControllerTrackingInfo.h"
 #import "RTSMediaPlayerController+RTSAnalytics.h"
 
+#import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGMediaPlayer/RTSMediaPlayerController.h>
 #import <SRGMediaPlayer/RTSMediaSegmentsController.h>
 #import <SRGMediaPlayer/RTSMediaSegment.h>
