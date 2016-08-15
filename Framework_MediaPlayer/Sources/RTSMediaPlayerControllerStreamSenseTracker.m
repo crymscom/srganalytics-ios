@@ -50,8 +50,8 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     [self setKeepAliveInterval:9 * 60];
 	
 	[self setLabel:@"ns_st_mp" value:@"SRGMediaPlayer"];
-	[self setLabel:@"ns_st_pu" value:[NSString stringWithUTF8String:(const char *)SRGAnalyticsVersionString]];
-    [self setLabel:@"ns_st_mv" value:[NSString stringWithUTF8String:(const char *)SRGMediaPlayerVersionString]];
+	[self setLabel:@"ns_st_pu" value:@"0.1"     /* FIXME */];
+    [self setLabel:@"ns_st_mv" value:@"0.1"     /* FIXME */];
 	[self setLabel:@"ns_st_it" value:@"c"];
 	
 	[self setLabel:@"ns_vsite" value:virtualSite];
