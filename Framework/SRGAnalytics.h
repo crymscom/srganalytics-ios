@@ -6,11 +6,10 @@
 
 #import <Foundation/Foundation.h>
 
-//! Project version number for SRGAnalytics.
 FOUNDATION_EXPORT double SRGAnalyticsVersionNumber;
-
-//! Project version string for SRGAnalytics.
 FOUNDATION_EXPORT const unsigned char SRGAnalyticsVersionString[];
+
+FOUNDATION_EXPORT NSString * SRGAnalyticsMarketingVersion(void);
 
 #import "RTSAnalyticsTracker.h"
 #import "RTSAnalyticsComScoreTracker.h"

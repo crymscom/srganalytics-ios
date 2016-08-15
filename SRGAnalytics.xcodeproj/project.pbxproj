@@ -62,6 +62,9 @@
 		E6FC7F291D61FA4700A55085 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F1B1D61FA4700A55085 /* ViewController.m */; };
 		E6FC7F2B1D61FC6E00A55085 /* RTSAnalyticsTracker+MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E6FC7F2A1D61FC6E00A55085 /* RTSAnalyticsTracker+MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6FC7F2D1D61FCBC00A55085 /* RTSAnalyticsTracker+MediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F2C1D61FCBC00A55085 /* RTSAnalyticsTracker+MediaPlayer.m */; };
+		E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */; };
+		E6FC7FA41D620B6F00A55085 /* NSBundle+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E6FC7FA21D620B6F00A55085 /* NSBundle+RTSAnalytics.h */; };
+		E6FC7FA51D620B6F00A55085 /* NSBundle+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7FA31D620B6F00A55085 /* NSBundle+RTSAnalytics.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +174,9 @@
 		E6FC7F1B1D61FA4700A55085 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		E6FC7F2A1D61FC6E00A55085 /* RTSAnalyticsTracker+MediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RTSAnalyticsTracker+MediaPlayer.h"; sourceTree = "<group>"; };
 		E6FC7F2C1D61FCBC00A55085 /* RTSAnalyticsTracker+MediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RTSAnalyticsTracker+MediaPlayer.m"; sourceTree = "<group>"; };
+		E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalytics.m; sourceTree = "<group>"; };
+		E6FC7FA21D620B6F00A55085 /* NSBundle+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+RTSAnalytics.h"; sourceTree = "<group>"; };
+		E6FC7FA31D620B6F00A55085 /* NSBundle+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+RTSAnalytics.m"; sourceTree = "<group>"; };
 		FA0265BACF3092D8C9897357 /* Pods-SRGAnalyticsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalyticsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalyticsTests/Pods-SRGAnalyticsTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -291,6 +297,7 @@
 				E69A202F1D61E5E80064E6C1 /* Sources */,
 				E69A202E1D61E5E80064E6C1 /* Info.plist */,
 				E69A20481D61E5E80064E6C1 /* SRGAnalytics.h */,
+				E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -298,26 +305,28 @@
 		E69A202F1D61E5E80064E6C1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				E69A20301D61E5E80064E6C1 /* CSRequest+RTSAnalytics.m */,
 				E69A20311D61E5E80064E6C1 /* CSRequest+RTSAnalytics_private.h */,
+				E69A20301D61E5E80064E6C1 /* CSRequest+RTSAnalytics.m */,
 				E69A20321D61E5E80064E6C1 /* CSStreamSense+RTSFixes.m */,
 				E69A20331D61E5E80064E6C1 /* CSStreamSenseClip+RTSFixes.m */,
 				E69A20341D61E5E80064E6C1 /* CSStreamSensePlaylist+RTSFixes.m */,
+				E6FC7FA21D620B6F00A55085 /* NSBundle+RTSAnalytics.h */,
+				E6FC7FA31D620B6F00A55085 /* NSBundle+RTSAnalytics.m */,
 				E69A20351D61E5E80064E6C1 /* NSDictionary+RTSAnalytics.h */,
 				E69A20361D61E5E80064E6C1 /* NSDictionary+RTSAnalytics.m */,
 				E69A20371D61E5E80064E6C1 /* NSString+RTSAnalytics.h */,
 				E69A20381D61E5E80064E6C1 /* NSString+RTSAnalytics.m */,
 				E69A20391D61E5E80064E6C1 /* RTSAnalyticsComScoreTracker.h */,
-				E69A203A1D61E5E80064E6C1 /* RTSAnalyticsLogger.m */,
 				E69A203B1D61E5E80064E6C1 /* RTSAnalyticsLogger_private.h */,
+				E69A203A1D61E5E80064E6C1 /* RTSAnalyticsLogger.m */,
+				E69A203E1D61E5E80064E6C1 /* RTSAnalyticsNetmetrixTracker_private.h */,
 				E69A203C1D61E5E80064E6C1 /* RTSAnalyticsNetmetrixTracker.h */,
 				E69A203D1D61E5E80064E6C1 /* RTSAnalyticsNetmetrixTracker.m */,
-				E69A203E1D61E5E80064E6C1 /* RTSAnalyticsNetmetrixTracker_private.h */,
 				E69A203F1D61E5E80064E6C1 /* RTSAnalyticsPageViewDataSource.h */,
-				E69A20401D61E5E80064E6C1 /* RTSAnalyticsTracker+Logging.m */,
-				E69A20411D61E5E80064E6C1 /* RTSAnalyticsTracker+Logging_private.h */,
 				E69A20421D61E5E80064E6C1 /* RTSAnalyticsTracker.h */,
 				E69A20431D61E5E80064E6C1 /* RTSAnalyticsTracker.m */,
+				E69A20411D61E5E80064E6C1 /* RTSAnalyticsTracker+Logging_private.h */,
+				E69A20401D61E5E80064E6C1 /* RTSAnalyticsTracker+Logging.m */,
 				E69A20461D61E5E80064E6C1 /* UIViewController+RTSAnalytics.h */,
 				E69A20471D61E5E80064E6C1 /* UIViewController+RTSAnalytics.m */,
 			);
@@ -394,6 +403,7 @@
 				E69A204B1D61E5E80064E6C1 /* CSRequest+RTSAnalytics_private.h in Headers */,
 				E69A20561D61E5E80064E6C1 /* RTSAnalyticsNetmetrixTracker.h in Headers */,
 				E69A20591D61E5E80064E6C1 /* RTSAnalyticsPageViewDataSource.h in Headers */,
+				E6FC7FA41D620B6F00A55085 /* NSBundle+RTSAnalytics.h in Headers */,
 				E69A20511D61E5E80064E6C1 /* NSString+RTSAnalytics.h in Headers */,
 				E69A20581D61E5E80064E6C1 /* RTSAnalyticsNetmetrixTracker_private.h in Headers */,
 				E69A20531D61E5E80064E6C1 /* RTSAnalyticsComScoreTracker.h in Headers */,
@@ -618,9 +628,11 @@
 				E69A20501D61E5E80064E6C1 /* NSDictionary+RTSAnalytics.m in Sources */,
 				E69A20521D61E5E80064E6C1 /* NSString+RTSAnalytics.m in Sources */,
 				E69A205A1D61E5E80064E6C1 /* RTSAnalyticsTracker+Logging.m in Sources */,
+				E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */,
 				E69A204C1D61E5E80064E6C1 /* CSStreamSense+RTSFixes.m in Sources */,
 				E69A204A1D61E5E80064E6C1 /* CSRequest+RTSAnalytics.m in Sources */,
 				E69A205D1D61E5E80064E6C1 /* RTSAnalyticsTracker.m in Sources */,
+				E6FC7FA51D620B6F00A55085 /* NSBundle+RTSAnalytics.m in Sources */,
 				E69A20571D61E5E80064E6C1 /* RTSAnalyticsNetmetrixTracker.m in Sources */,
 				E69A204D1D61E5E80064E6C1 /* CSStreamSenseClip+RTSFixes.m in Sources */,
 				E69A20611D61E5E80064E6C1 /* UIViewController+RTSAnalytics.m in Sources */,
@@ -710,6 +722,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MARKETING_VERSION = 1.6;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -751,6 +764,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MARKETING_VERSION = 1.6;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -785,6 +799,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MARKETING_VERSION = 1.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
