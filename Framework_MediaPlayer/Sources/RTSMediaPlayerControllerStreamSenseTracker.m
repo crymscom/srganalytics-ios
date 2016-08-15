@@ -8,13 +8,11 @@
 
 #import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
 #import "RTSAnalyticsLogger_private.h"
-#import "RTSAnalyticsVersion_private.h"
 
 #import <ComScore/CSStreamSense.h>
 #import <ComScore/CSStreamSensePlaylist.h>
 #import <ComScore/CSStreamSenseClip.h>
 
-#import <SRGMediaPlayer/RTSMediaPlayerView.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
 static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
@@ -190,7 +188,11 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (NSString *)windowState
 {
-	AVPlayerLayer *playerLayer = [(RTSMediaPlayerView *)self.mediaPlayerController.view playerLayer];
+    if (![self.mediaPlayerController.view.layer isKindOfClass:[AVPlayerLayer class]]) {
+        return nil;
+    }
+    
+	AVPlayerLayer *playerLayer = (AVPlayerLayer *)self.mediaPlayerController.view.layer;
 	CGSize size = playerLayer.videoRect.size;
 	CGRect screenRect = [[UIScreen mainScreen] bounds];
 	return round(size.width) == round(screenRect.size.width) && round(size.height) == round(screenRect.size.height)  ? @"full" : @"norm";
@@ -208,7 +210,11 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (NSString *)scalingMode
 {
-	AVPlayerLayer *playerLayer = [(RTSMediaPlayerView *)self.mediaPlayerController.view playerLayer];
+    if (![self.mediaPlayerController.view.layer isKindOfClass:[AVPlayerLayer class]]) {
+        return nil;
+    }
+    
+	AVPlayerLayer *playerLayer = (AVPlayerLayer *)self.mediaPlayerController.view.layer;
 	
 	NSString *result = @"no";
 	if (playerLayer) {
@@ -266,10 +272,11 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (NSString *) dimensions
 {
-	AVPlayerLayer *playerLayer = [(RTSMediaPlayerView *)self.mediaPlayerController.view playerLayer];
-	if (!playerLayer)
-		return nil;
-	
+    if (![self.mediaPlayerController.view.layer isKindOfClass:[AVPlayerLayer class]]) {
+        return nil;
+    }
+    
+	AVPlayerLayer *playerLayer = (AVPlayerLayer *)self.mediaPlayerController.view.layer;
 	CGSize size = playerLayer.videoRect.size;
 	return [NSString stringWithFormat:@"%0.0fx%0.0f", size.width, size.height];
 }
