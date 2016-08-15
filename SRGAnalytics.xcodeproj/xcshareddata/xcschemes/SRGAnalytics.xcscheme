@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E61C0D541D61E9CD00AEAE6D"
-               BuildableName = "SRGMediaPlayerAnalytics.framework"
-               BlueprintName = "SRGMediaPlayerAnalytics"
+               BuildableName = "SRGAnalytics_MediaPlayer.framework"
+               BlueprintName = "SRGAnalytics_MediaPlayer"
                ReferencedContainer = "container:SRGAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

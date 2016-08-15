@@ -17,7 +17,3 @@ FOUNDATION_EXPORT const unsigned char SRGAnalyticsVersionString[];
 #import <SRGAnalytics/RTSAnalyticsNetmetrixTracker.h>
 #import <SRGAnalytics/RTSAnalyticsPageViewDataSource.h>
 #import <SRGAnalytics/UIViewController+RTSAnalytics.h>
-
-#if __has_include("RTSAnalyticsMediaPlayer.h")
-#import <SRGAnalytics/RTSAnalyticsMediaPlayer.h>
-#endif
