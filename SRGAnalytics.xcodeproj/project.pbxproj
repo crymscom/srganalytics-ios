@@ -29,8 +29,6 @@
 		E69A205B1D61E5E80064E6C1 /* RTSAnalyticsTracker+Logging_private.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20411D61E5E80064E6C1 /* RTSAnalyticsTracker+Logging_private.h */; };
 		E69A205C1D61E5E80064E6C1 /* RTSAnalyticsTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20421D61E5E80064E6C1 /* RTSAnalyticsTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E69A205D1D61E5E80064E6C1 /* RTSAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20431D61E5E80064E6C1 /* RTSAnalyticsTracker.m */; };
-		E69A205E1D61E5E80064E6C1 /* RTSAnalyticsVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20441D61E5E80064E6C1 /* RTSAnalyticsVersion.m */; };
-		E69A205F1D61E5E80064E6C1 /* RTSAnalyticsVersion_private.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20451D61E5E80064E6C1 /* RTSAnalyticsVersion_private.h */; };
 		E69A20601D61E5E80064E6C1 /* UIViewController+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20461D61E5E80064E6C1 /* UIViewController+RTSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E69A20611D61E5E80064E6C1 /* UIViewController+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20471D61E5E80064E6C1 /* UIViewController+RTSAnalytics.m */; };
 		E69A20621D61E5E80064E6C1 /* SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20481D61E5E80064E6C1 /* SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -72,8 +70,6 @@
 		E69A20411D61E5E80064E6C1 /* RTSAnalyticsTracker+Logging_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RTSAnalyticsTracker+Logging_private.h"; sourceTree = "<group>"; };
 		E69A20421D61E5E80064E6C1 /* RTSAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsTracker.h; sourceTree = "<group>"; };
 		E69A20431D61E5E80064E6C1 /* RTSAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTracker.m; sourceTree = "<group>"; };
-		E69A20441D61E5E80064E6C1 /* RTSAnalyticsVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsVersion.m; sourceTree = "<group>"; };
-		E69A20451D61E5E80064E6C1 /* RTSAnalyticsVersion_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsVersion_private.h; sourceTree = "<group>"; };
 		E69A20461D61E5E80064E6C1 /* UIViewController+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RTSAnalytics.h"; sourceTree = "<group>"; };
 		E69A20471D61E5E80064E6C1 /* UIViewController+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RTSAnalytics.m"; sourceTree = "<group>"; };
 		E69A20481D61E5E80064E6C1 /* SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalytics.h; sourceTree = "<group>"; };
@@ -186,8 +182,6 @@
 				E69A20411D61E5E80064E6C1 /* RTSAnalyticsTracker+Logging_private.h */,
 				E69A20421D61E5E80064E6C1 /* RTSAnalyticsTracker.h */,
 				E69A20431D61E5E80064E6C1 /* RTSAnalyticsTracker.m */,
-				E69A20441D61E5E80064E6C1 /* RTSAnalyticsVersion.m */,
-				E69A20451D61E5E80064E6C1 /* RTSAnalyticsVersion_private.h */,
 				E69A20461D61E5E80064E6C1 /* UIViewController+RTSAnalytics.h */,
 				E69A20471D61E5E80064E6C1 /* UIViewController+RTSAnalytics.m */,
 			);
@@ -214,7 +208,6 @@
 				E69A20551D61E5E80064E6C1 /* RTSAnalyticsLogger_private.h in Headers */,
 				E69A20601D61E5E80064E6C1 /* UIViewController+RTSAnalytics.h in Headers */,
 				E69A205C1D61E5E80064E6C1 /* RTSAnalyticsTracker.h in Headers */,
-				E69A205F1D61E5E80064E6C1 /* RTSAnalyticsVersion_private.h in Headers */,
 				E69A204B1D61E5E80064E6C1 /* CSRequest+RTSAnalytics_private.h in Headers */,
 				E69A20561D61E5E80064E6C1 /* RTSAnalyticsNetmetrixTracker.h in Headers */,
 				E69A20591D61E5E80064E6C1 /* RTSAnalyticsPageViewDataSource.h in Headers */,
@@ -365,7 +358,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E69A20541D61E5E80064E6C1 /* RTSAnalyticsLogger.m in Sources */,
-				E69A205E1D61E5E80064E6C1 /* RTSAnalyticsVersion.m in Sources */,
 				E69A204E1D61E5E80064E6C1 /* CSStreamSensePlaylist+RTSFixes.m in Sources */,
 				E69A20501D61E5E80064E6C1 /* NSDictionary+RTSAnalytics.m in Sources */,
 				E69A20521D61E5E80064E6C1 /* NSString+RTSAnalytics.m in Sources */,
