@@ -4,8 +4,11 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <SRGAnalytics/SRGAnalytics.h>
 #import "AppDelegate.h"
+
+#import <SRGAnalytics/SRGAnalytics.h>
+#import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
+
 #import "Segment.h"
 #import "ViewController.h"
 
