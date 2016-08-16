@@ -1,5 +1,0 @@
-#import <Foundation/Foundation.h>
-@interface PodsDummy_Pods_SRGAnalytics_MediaPlayer : NSObject
-@end
-@implementation PodsDummy_Pods_SRGAnalytics_MediaPlayer
-@end

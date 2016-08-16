@@ -4,10 +4,11 @@
 //  License information is available from the LICENSE file.
 //
 
+#import "SRGAnalytics_JRSwizzle.h"
+
 #import <Foundation/Foundation.h>
 #import <Foundation/Foundation.h>
 #import <ComScore/CSStreamSense.h>
-#import <JRSwizzle/JRSwizzle.h>
 
 // Attempt to fix comScore internal crashes by having dictionary sometimes incorrectly accessed from several threads
 // at the same time. The fix below assumes that the crash always occurred because of a concurrent access from the *main*
@@ -23,7 +24,7 @@
 
 + (void)load
 {
-    [self jr_swizzleMethod:@selector(createMeasurementLabels:initialLabels:) withMethod:@selector(swizzled_createMeasurementLabels:initialLabels:) error:NULL];
+    [self srg_analytics_jr_swizzleMethod:@selector(createMeasurementLabels:initialLabels:) withMethod:@selector(swizzled_createMeasurementLabels:initialLabels:) error:NULL];
 }
 
 - (NSMutableDictionary *)swizzled_createMeasurementLabels:(CSStreamSenseEventType)eventType initialLabels:(NSDictionary *)initialLabels

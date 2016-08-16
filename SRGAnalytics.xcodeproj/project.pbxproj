@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		81C8798605BF40D1F3429552 /* libPods-SRGAnalytics_MediaPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BF6747759F2EE1EB8601056 /* libPods-SRGAnalytics_MediaPlayer.a */; };
-		88847C2D5761232836EF9704 /* libPods-SRGAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 276C25F91AAE315B56EF1848 /* libPods-SRGAnalytics.a */; };
+		E601782E1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = E601782B1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h */; };
+		E601782F1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = E601782C1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m */; };
 		E61C0D6C1D61EFD200AEAE6D /* RTSAnalyticsMediaPlayerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D611D61EFD200AEAE6D /* RTSAnalyticsMediaPlayerDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C0D6D1D61EFD200AEAE6D /* RTSMediaPlayerController+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D621D61EFD200AEAE6D /* RTSMediaPlayerController+RTSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C0D6E1D61EFD200AEAE6D /* RTSMediaPlayerController+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61C0D631D61EFD200AEAE6D /* RTSMediaPlayerController+RTSAnalytics.m */; };
@@ -118,16 +118,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		276C25F91AAE315B56EF1848 /* libPods-SRGAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalytics.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D7BB06E60030BAF23DB10AE /* Pods-SRGAnalytics_MediaPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics_MediaPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics_MediaPlayer/Pods-SRGAnalytics_MediaPlayer.release.xcconfig"; sourceTree = "<group>"; };
-		30C70A0420FC9078615C98B3 /* Pods-SRGAnalytics_MediaPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics_MediaPlayer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics_MediaPlayer/Pods-SRGAnalytics_MediaPlayer.debug.xcconfig"; sourceTree = "<group>"; };
-		5ECF9264728529B828939D61 /* Pods-SRGAnalytics.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics.release.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics.release.xcconfig"; sourceTree = "<group>"; };
-		7935F999ED64CE1691E22C28 /* Pods-SRGAnalytics.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRGAnalytics.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics.debug.xcconfig"; sourceTree = "<group>"; };
-		7BF6747759F2EE1EB8601056 /* libPods-SRGAnalytics_MediaPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SRGAnalytics_MediaPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1519211AC422AE00AE051D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F1519231AC422B800AE051D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E60178291D6359BE0000362E /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.markdown; sourceTree = "<group>"; };
+		E601782B1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalytics_JRSwizzle.h; sourceTree = "<group>"; };
+		E601782C1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalytics_JRSwizzle.m; sourceTree = "<group>"; };
 		E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics_MediaPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61C0D5F1D61EFD200AEAE6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E61C0D611D61EFD200AEAE6D /* RTSAnalyticsMediaPlayerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSAnalyticsMediaPlayerDataSource.h; sourceTree = "<group>"; usesTabs = 0; };
@@ -205,7 +202,6 @@
 			files = (
 				E6FC7FC31D62D90800A55085 /* SRGAnalytics.framework in Frameworks */,
 				E61C0D861D61F16000AEAE6D /* SRGMediaPlayer.framework in Frameworks */,
-				81C8798605BF40D1F3429552 /* libPods-SRGAnalytics_MediaPlayer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +218,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E672EA471D62EE5D00CFB080 /* ComScore.framework in Frameworks */,
-				88847C2D5761232836EF9704 /* libPods-SRGAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,17 +235,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		35CE998B24D1C86C9D7FCC1E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				7935F999ED64CE1691E22C28 /* Pods-SRGAnalytics.debug.xcconfig */,
-				5ECF9264728529B828939D61 /* Pods-SRGAnalytics.release.xcconfig */,
-				30C70A0420FC9078615C98B3 /* Pods-SRGAnalytics_MediaPlayer.debug.xcconfig */,
-				2D7BB06E60030BAF23DB10AE /* Pods-SRGAnalytics_MediaPlayer.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		9F1518B21AC2F1CE00AE051D = {
 			isa = PBXGroup;
 			children = (
@@ -260,7 +244,6 @@
 				E66F8A701D62DC570004EB58 /* DemoTests */,
 				AC99606425BE818BA71D7E4D /* Frameworks */,
 				9F1518BC1AC2F1CE00AE051D /* Products */,
-				35CE998B24D1C86C9D7FCC1E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -282,13 +265,37 @@
 				9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */,
 				9F1519231AC422B800AE051D /* Foundation.framework */,
 				E66F8A831D62E2250004EB58 /* KIF.framework */,
-				7BF6747759F2EE1EB8601056 /* libPods-SRGAnalytics_MediaPlayer.a */,
-				276C25F91AAE315B56EF1848 /* libPods-SRGAnalytics.a */,
 				E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */,
 				9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */,
 				9F1519211AC422AE00AE051D /* UIKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E60178271D6359BE0000362E /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				E60178281D6359BE0000362E /* JRSwizzle */,
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
+		E60178281D6359BE0000362E /* JRSwizzle */ = {
+			isa = PBXGroup;
+			children = (
+				E60178291D6359BE0000362E /* README.markdown */,
+				E601782A1D6359BE0000362E /* Sources */,
+			);
+			path = JRSwizzle;
+			sourceTree = "<group>";
+		};
+		E601782A1D6359BE0000362E /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				E601782B1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h */,
+				E601782C1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m */,
+			);
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		E61C0D5E1D61EFD200AEAE6D /* Framework_MediaPlayer */ = {
@@ -333,6 +340,7 @@
 		E69A202D1D61E5E80064E6C1 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				E60178271D6359BE0000362E /* Externals */,
 				E69A202F1D61E5E80064E6C1 /* Sources */,
 				E69A202E1D61E5E80064E6C1 /* Info.plist */,
 				E69A20481D61E5E80064E6C1 /* SRGAnalytics.h */,
@@ -440,6 +448,7 @@
 				E69A205C1D61E5E80064E6C1 /* RTSAnalyticsTracker.h in Headers */,
 				E69A204B1D61E5E80064E6C1 /* CSRequest+RTSAnalytics.h in Headers */,
 				E69A20591D61E5E80064E6C1 /* RTSAnalyticsPageViewDataSource.h in Headers */,
+				E601782E1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h in Headers */,
 				E6FC7FA41D620B6F00A55085 /* NSBundle+RTSAnalytics.h in Headers */,
 				E69A20511D61E5E80064E6C1 /* NSString+RTSAnalytics.h in Headers */,
 				E69A20581D61E5E80064E6C1 /* RTSAnalyticsNetmetrixTracker.h in Headers */,
@@ -455,12 +464,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E61C0D5D1D61E9CD00AEAE6D /* Build configuration list for PBXNativeTarget "SRGAnalytics_MediaPlayer" */;
 			buildPhases = (
-				D6AC01BF089A4743C40F0E94 /* [CP] Check Pods Manifest.lock */,
 				E61C0D501D61E9CD00AEAE6D /* Sources */,
 				E61C0D511D61E9CD00AEAE6D /* Frameworks */,
 				E61C0D521D61E9CD00AEAE6D /* Headers */,
 				E61C0D531D61E9CD00AEAE6D /* Resources */,
-				242645D6F24EC047AF45B8C3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -493,12 +500,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E69A1FF81D61E2070064E6C1 /* Build configuration list for PBXNativeTarget "SRGAnalytics" */;
 			buildPhases = (
-				F77D352E41838672FF8BBF19 /* [CP] Check Pods Manifest.lock */,
 				E69A1FEE1D61E2070064E6C1 /* Sources */,
 				E69A1FEF1D61E2070064E6C1 /* Frameworks */,
 				E69A1FF01D61E2070064E6C1 /* Headers */,
 				E69A1FF11D61E2070064E6C1 /* Resources */,
-				4AA0FF6008AB0426D2849376 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -610,69 +615,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		242645D6F24EC047AF45B8C3 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SRGAnalytics_MediaPlayer/Pods-SRGAnalytics_MediaPlayer-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4AA0FF6008AB0426D2849376 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SRGAnalytics/Pods-SRGAnalytics-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D6AC01BF089A4743C40F0E94 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		F77D352E41838672FF8BBF19 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		E61C0D501D61E9CD00AEAE6D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -704,6 +646,7 @@
 				E69A204E1D61E5E80064E6C1 /* CSStreamSensePlaylist+RTSFixes.m in Sources */,
 				E69A20501D61E5E80064E6C1 /* NSDictionary+RTSAnalytics.m in Sources */,
 				E69A20521D61E5E80064E6C1 /* NSString+RTSAnalytics.m in Sources */,
+				E601782F1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m in Sources */,
 				E69A205A1D61E5E80064E6C1 /* RTSAnalyticsTracker+Logging.m in Sources */,
 				E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */,
 				E69A204C1D61E5E80064E6C1 /* CSStreamSense+RTSFixes.m in Sources */,
@@ -849,7 +792,6 @@
 		};
 		E61C0D5A1D61E9CD00AEAE6D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 30C70A0420FC9078615C98B3 /* Pods-SRGAnalytics_MediaPlayer.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -878,7 +820,6 @@
 		};
 		E61C0D5C1D61E9CD00AEAE6D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2D7BB06E60030BAF23DB10AE /* Pods-SRGAnalytics_MediaPlayer.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -949,7 +890,6 @@
 		};
 		E69A1FF91D61E2070064E6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7935F999ED64CE1691E22C28 /* Pods-SRGAnalytics.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -978,7 +918,6 @@
 		};
 		E69A1FFB1D61E2070064E6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5ECF9264728529B828939D61 /* Pods-SRGAnalytics.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

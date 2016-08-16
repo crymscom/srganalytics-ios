@@ -4,9 +4,10 @@
 //  License information is available from the LICENSE file.
 //
 
+#import "SRGAnalytics_JRSwizzle.h"
+
 #import <Foundation/Foundation.h>
 #import <ComScore/CSStreamSensePlaylist.h>
-#import <JRSwizzle/JRSwizzle.h>
 
 // See CSStreamSense+SRGFixes.m
 @interface CSStreamSensePlaylist (SRGFixes)
@@ -19,7 +20,7 @@
 
 + (void)load
 {
-    [self jr_swizzleMethod:@selector(createLabels:initialLabels:) withMethod:@selector(swizzled_createLabels:initialLabels:) error:NULL];
+    [self srg_analytics_jr_swizzleMethod:@selector(createLabels:initialLabels:) withMethod:@selector(swizzled_createLabels:initialLabels:) error:NULL];
 }
 
 - (NSMutableDictionary *)swizzled_createLabels:(CSStreamSenseEventType)eventType initialLabels:(NSDictionary *)initialLabels
