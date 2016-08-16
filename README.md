@@ -21,7 +21,7 @@ github "SRGSSR/srganalytics-ios"
 
 Then run `carthage update` to update the dependencies. You will need to manually add one or several of the `.framework`s generated in the `Carthage/Build/iOS` folder to your projet, depending on your needs:
 
-* Add `SRGAnalytics.framework`. If you only need view and hidden event tracking, this is the only framework required
+* Add `SRGAnalytics.framework` as well as `ComScore.framework`. If you only need view and hidden event tracking, these are the only frameworks required
 * If you need media player tracking, add `SRGAnalytics_MediaPlayer.framework` as well. Do not forget to add the `SRGMediaPlayer.framework` available from the same directory if your project wasn't already linking against it
 
 For more information about Carthage and its use, refer to the [official documentation](https://github.com/Carthage/Carthage).
