@@ -140,6 +140,8 @@ static NSDictionary *startLabels = nil;
     [tester waitForTimeInterval:2.0f];
 }
 
+// FIXME: Fix race condition with code in +load. This is the first test executed and it will fail because the start event is
+//        received here first
 - (void) testHiddenEventWithNoTitle
 {
     NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil whileExecutingBlock:^{
