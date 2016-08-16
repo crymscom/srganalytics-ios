@@ -7,7 +7,6 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import <KIF/KIF.h>
-#import <SRGMediaPlayer/RTSMediaSegmentsController.h>
 
 #define AssertIsWithin1Second(expression1, expression2) XCTAssertTrue(fabs([expression1 doubleValue] - expression2) < 1000.)
 

@@ -20,6 +20,12 @@
 		E61C0D741D61EFD200AEAE6D /* RTSMediaPlayerControllerTrackingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E61C0D691D61EFD200AEAE6D /* RTSMediaPlayerControllerTrackingInfo.m */; };
 		E61C0D751D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C0D861D61F16000AEAE6D /* SRGMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */; };
+		E66F8A761D62DC570004EB58 /* RTSAnalytics_Demo_1_EventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8A721D62DC570004EB58 /* RTSAnalytics_Demo_1_EventTests.m */; };
+		E66F8A771D62DC570004EB58 /* RTSAnalytics_Demo_2_MediaPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8A731D62DC570004EB58 /* RTSAnalytics_Demo_2_MediaPlayerTests.m */; };
+		E66F8A781D62DC570004EB58 /* RTSAnalytics_Demo_3_PushNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8A741D62DC570004EB58 /* RTSAnalytics_Demo_3_PushNotificationTests.m */; };
+		E66F8A841D62E2250004EB58 /* KIF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E66F8A831D62E2250004EB58 /* KIF.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		E66F8A851D62E2250004EB58 /* KIF.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E66F8A831D62E2250004EB58 /* KIF.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E66F8A861D62E2320004EB58 /* KIF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E66F8A831D62E2250004EB58 /* KIF.framework */; };
 		E69A204A1D61E5E80064E6C1 /* CSRequest+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20301D61E5E80064E6C1 /* CSRequest+RTSAnalytics.m */; };
 		E69A204B1D61E5E80064E6C1 /* CSRequest+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20311D61E5E80064E6C1 /* CSRequest+RTSAnalytics.h */; };
 		E69A204C1D61E5E80064E6C1 /* CSStreamSense+RTSFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20321D61E5E80064E6C1 /* CSStreamSense+RTSFixes.m */; };
@@ -42,7 +48,7 @@
 		E69A20601D61E5E80064E6C1 /* UIViewController+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20461D61E5E80064E6C1 /* UIViewController+RTSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E69A20611D61E5E80064E6C1 /* UIViewController+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20471D61E5E80064E6C1 /* UIViewController+RTSAnalytics.m */; };
 		E69A20621D61E5E80064E6C1 /* SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20481D61E5E80064E6C1 /* SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E6FC7EA01D61F97500A55085 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; };
+		E6FC7EA01D61F97500A55085 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E6FC7EA11D61F97500A55085 /* SRGAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E6FC7EA51D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */; };
 		E6FC7EA61D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -68,6 +74,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E66F8A6B1D62DC250004EB58 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9F1518B31AC2F1CE00AE051D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E6FC7E871D61F95C00A55085;
+			remoteInfo = "SRGAnalytics-demo";
+		};
 		E6FC7EA21D61F97500A55085 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9F1518B31AC2F1CE00AE051D /* Project object */;
@@ -94,6 +107,7 @@
 				E6FC7EAA1D61F99100A55085 /* SRGMediaPlayer.framework in Embed Frameworks */,
 				E6FC7EA61D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Embed Frameworks */,
 				E6FC7EA11D61F97500A55085 /* SRGAnalytics.framework in Embed Frameworks */,
+				E66F8A851D62E2250004EB58 /* KIF.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,6 +138,12 @@
 		E61C0D691D61EFD200AEAE6D /* RTSMediaPlayerControllerTrackingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSMediaPlayerControllerTrackingInfo.m; sourceTree = "<group>"; };
 		E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalytics_MediaPlayer.h; sourceTree = "<group>"; };
 		E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGMediaPlayer.framework; path = Carthage/Build/iOS/SRGMediaPlayer.framework; sourceTree = "<group>"; };
+		E66F8A661D62DC250004EB58 /* SRGAnalytics-demo-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SRGAnalytics-demo-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E66F8A711D62DC570004EB58 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E66F8A721D62DC570004EB58 /* RTSAnalytics_Demo_1_EventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalytics_Demo_1_EventTests.m; sourceTree = "<group>"; };
+		E66F8A731D62DC570004EB58 /* RTSAnalytics_Demo_2_MediaPlayerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalytics_Demo_2_MediaPlayerTests.m; sourceTree = "<group>"; };
+		E66F8A741D62DC570004EB58 /* RTSAnalytics_Demo_3_PushNotificationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalytics_Demo_3_PushNotificationTests.m; sourceTree = "<group>"; };
+		E66F8A831D62E2250004EB58 /* KIF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KIF.framework; path = Demo/Carthage/Build/iOS/KIF.framework; sourceTree = "<group>"; };
 		E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E69A202E1D61E5E80064E6C1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E69A20301D61E5E80064E6C1 /* CSRequest+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSRequest+RTSAnalytics.m"; sourceTree = "<group>"; };
@@ -172,7 +192,6 @@
 		E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalytics.m; sourceTree = "<group>"; };
 		E6FC7FA21D620B6F00A55085 /* NSBundle+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+RTSAnalytics.h"; sourceTree = "<group>"; };
 		E6FC7FA31D620B6F00A55085 /* NSBundle+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+RTSAnalytics.m"; sourceTree = "<group>"; };
-		E6FC7FC41D62D9DA00A55085 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = Tests/Carthage/Build/iOS/OCMock.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +202,14 @@
 				E6FC7FC31D62D90800A55085 /* SRGAnalytics.framework in Frameworks */,
 				E61C0D861D61F16000AEAE6D /* SRGMediaPlayer.framework in Frameworks */,
 				81C8798605BF40D1F3429552 /* libPods-SRGAnalytics_MediaPlayer.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E66F8A631D62DC250004EB58 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E66F8A861D62E2320004EB58 /* KIF.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +228,7 @@
 				E6FC7EA91D61F99100A55085 /* SRGMediaPlayer.framework in Frameworks */,
 				E6FC7EA51D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Frameworks */,
 				E6FC7EA01D61F97500A55085 /* SRGAnalytics.framework in Frameworks */,
+				E66F8A841D62E2250004EB58 /* KIF.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +252,7 @@
 				E69A202D1D61E5E80064E6C1 /* Framework */,
 				E61C0D5E1D61EFD200AEAE6D /* Framework_MediaPlayer */,
 				E6FC7F031D61FA4700A55085 /* Demo */,
+				E66F8A701D62DC570004EB58 /* DemoTests */,
 				AC99606425BE818BA71D7E4D /* Frameworks */,
 				9F1518BC1AC2F1CE00AE051D /* Products */,
 				35CE998B24D1C86C9D7FCC1E /* Pods */,
@@ -236,6 +265,7 @@
 				E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */,
 				E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */,
 				E6FC7E881D61F95C00A55085 /* SRGAnalytics-demo.app */,
+				E66F8A661D62DC250004EB58 /* SRGAnalytics-demo-tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -243,9 +273,9 @@
 		AC99606425BE818BA71D7E4D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E6FC7FC41D62D9DA00A55085 /* OCMock.framework */,
 				9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */,
 				9F1519231AC422B800AE051D /* Foundation.framework */,
+				E66F8A831D62E2250004EB58 /* KIF.framework */,
 				7BF6747759F2EE1EB8601056 /* libPods-SRGAnalytics_MediaPlayer.a */,
 				276C25F91AAE315B56EF1848 /* libPods-SRGAnalytics.a */,
 				E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */,
@@ -281,6 +311,17 @@
 				E61C0D691D61EFD200AEAE6D /* RTSMediaPlayerControllerTrackingInfo.m */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		E66F8A701D62DC570004EB58 /* DemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				E66F8A711D62DC570004EB58 /* Info.plist */,
+				E66F8A721D62DC570004EB58 /* RTSAnalytics_Demo_1_EventTests.m */,
+				E66F8A731D62DC570004EB58 /* RTSAnalytics_Demo_2_MediaPlayerTests.m */,
+				E66F8A741D62DC570004EB58 /* RTSAnalytics_Demo_3_PushNotificationTests.m */,
+			);
+			path = DemoTests;
 			sourceTree = "<group>";
 		};
 		E69A202D1D61E5E80064E6C1 /* Framework */ = {
@@ -424,6 +465,24 @@
 			productReference = E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		E66F8A651D62DC250004EB58 /* SRGAnalytics-demo-tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E66F8A6F1D62DC250004EB58 /* Build configuration list for PBXNativeTarget "SRGAnalytics-demo-tests" */;
+			buildPhases = (
+				E66F8A621D62DC250004EB58 /* Sources */,
+				E66F8A631D62DC250004EB58 /* Frameworks */,
+				E66F8A641D62DC250004EB58 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E66F8A6C1D62DC250004EB58 /* PBXTargetDependency */,
+			);
+			name = "SRGAnalytics-demo-tests";
+			productName = "SRGAnalytics-demo-tests";
+			productReference = E66F8A661D62DC250004EB58 /* SRGAnalytics-demo-tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		E69A1FF21D61E2070064E6C1 /* SRGAnalytics */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E69A1FF81D61E2070064E6C1 /* Build configuration list for PBXNativeTarget "SRGAnalytics" */;
@@ -477,6 +536,10 @@
 					E61C0D541D61E9CD00AEAE6D = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					E66F8A651D62DC250004EB58 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = E6FC7E871D61F95C00A55085;
+					};
 					E69A1FF21D61E2070064E6C1 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -501,12 +564,20 @@
 				E69A1FF21D61E2070064E6C1 /* SRGAnalytics */,
 				E61C0D541D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer */,
 				E6FC7E871D61F95C00A55085 /* SRGAnalytics-demo */,
+				E66F8A651D62DC250004EB58 /* SRGAnalytics-demo-tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		E61C0D531D61E9CD00AEAE6D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E66F8A641D62DC250004EB58 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -609,6 +680,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E66F8A621D62DC250004EB58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E66F8A781D62DC570004EB58 /* RTSAnalytics_Demo_3_PushNotificationTests.m in Sources */,
+				E66F8A771D62DC570004EB58 /* RTSAnalytics_Demo_2_MediaPlayerTests.m in Sources */,
+				E66F8A761D62DC570004EB58 /* RTSAnalytics_Demo_1_EventTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E69A1FEE1D61E2070064E6C1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -646,6 +727,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		E66F8A6C1D62DC250004EB58 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E6FC7E871D61F95C00A55085 /* SRGAnalytics-demo */;
+			targetProxy = E66F8A6B1D62DC250004EB58 /* PBXContainerItemProxy */;
+		};
 		E6FC7EA31D61F97500A55085 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E69A1FF21D61E2070064E6C1 /* SRGAnalytics */;
@@ -813,6 +899,50 @@
 			};
 			name = Release;
 		};
+		E66F8A6D1D62DC250004EB58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DemoTests/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Demo/Carthage/Build/iOS",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = DemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-demo-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SRGAnalytics-demo.app/SRGAnalytics-demo";
+			};
+			name = Debug;
+		};
+		E66F8A6E1D62DC250004EB58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DemoTests/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Demo/Carthage/Build/iOS",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = DemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-demo-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SRGAnalytics-demo.app/SRGAnalytics-demo";
+			};
+			name = Release;
+		};
 		E69A1FF91D61E2070064E6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7935F999ED64CE1691E22C28 /* Pods-SRGAnalytics.debug.xcconfig */;
@@ -881,6 +1011,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Demo/Carthage/Build/iOS",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Demo/Info.plist;
@@ -901,6 +1032,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Demo/Carthage/Build/iOS",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Demo/Info.plist;
@@ -931,6 +1063,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		E66F8A6F1D62DC250004EB58 /* Build configuration list for PBXNativeTarget "SRGAnalytics-demo-tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E66F8A6D1D62DC250004EB58 /* Debug */,
+				E66F8A6E1D62DC250004EB58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		E69A1FF81D61E2070064E6C1 /* Build configuration list for PBXNativeTarget "SRGAnalytics" */ = {
 			isa = XCConfigurationList;
