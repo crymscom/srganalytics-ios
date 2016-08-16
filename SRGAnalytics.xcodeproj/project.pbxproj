@@ -64,10 +64,6 @@
 		E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */; };
 		E6FC7FA41D620B6F00A55085 /* NSBundle+RTSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E6FC7FA21D620B6F00A55085 /* NSBundle+RTSAnalytics.h */; };
 		E6FC7FA51D620B6F00A55085 /* NSBundle+RTSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7FA31D620B6F00A55085 /* NSBundle+RTSAnalytics.m */; };
-		E6FC7FAF1D62CF2800A55085 /* SRGAnalytics_MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */; };
-		E6FC7FC01D62CFD100A55085 /* RTSAnalyticsTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7FBE1D62CFD100A55085 /* RTSAnalyticsTrackerTest.m */; };
-		E6FC7FC11D62CFFD00A55085 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; };
-		E6FC7FC21D62D08200A55085 /* SRGMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */; };
 		E6FC7FC31D62D90800A55085 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,13 +76,6 @@
 			remoteInfo = SRGAnalytics;
 		};
 		E6FC7EA71D61F97800A55085 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9F1518B31AC2F1CE00AE051D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E61C0D541D61E9CD00AEAE6D;
-			remoteInfo = SRGAnalytics_MediaPlayer;
-		};
-		E6FC7FB01D62CF2800A55085 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9F1518B31AC2F1CE00AE051D /* Project object */;
 			proxyType = 1;
@@ -183,9 +172,7 @@
 		E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalytics.m; sourceTree = "<group>"; };
 		E6FC7FA21D620B6F00A55085 /* NSBundle+RTSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+RTSAnalytics.h"; sourceTree = "<group>"; };
 		E6FC7FA31D620B6F00A55085 /* NSBundle+RTSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+RTSAnalytics.m"; sourceTree = "<group>"; };
-		E6FC7FAA1D62CF2800A55085 /* SRGAnalytics-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SRGAnalytics-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E6FC7FBC1D62CFD100A55085 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E6FC7FBE1D62CFD100A55085 /* RTSAnalyticsTrackerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSAnalyticsTrackerTest.m; sourceTree = "<group>"; };
+		E6FC7FC41D62D9DA00A55085 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = Tests/Carthage/Build/iOS/OCMock.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,16 +204,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E6FC7FA71D62CF2800A55085 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E6FC7FC21D62D08200A55085 /* SRGMediaPlayer.framework in Frameworks */,
-				E6FC7FC11D62CFFD00A55085 /* SRGAnalytics.framework in Frameworks */,
-				E6FC7FAF1D62CF2800A55085 /* SRGAnalytics_MediaPlayer.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -247,7 +224,6 @@
 				E69A202D1D61E5E80064E6C1 /* Framework */,
 				E61C0D5E1D61EFD200AEAE6D /* Framework_MediaPlayer */,
 				E6FC7F031D61FA4700A55085 /* Demo */,
-				E6FC7FBB1D62CFD100A55085 /* Tests */,
 				AC99606425BE818BA71D7E4D /* Frameworks */,
 				9F1518BC1AC2F1CE00AE051D /* Products */,
 				35CE998B24D1C86C9D7FCC1E /* Pods */,
@@ -260,7 +236,6 @@
 				E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */,
 				E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */,
 				E6FC7E881D61F95C00A55085 /* SRGAnalytics-demo.app */,
-				E6FC7FAA1D62CF2800A55085 /* SRGAnalytics-tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -268,6 +243,7 @@
 		AC99606425BE818BA71D7E4D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E6FC7FC41D62D9DA00A55085 /* OCMock.framework */,
 				9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */,
 				9F1519231AC422B800AE051D /* Foundation.framework */,
 				7BF6747759F2EE1EB8601056 /* libPods-SRGAnalytics_MediaPlayer.a */,
@@ -389,23 +365,6 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		E6FC7FBB1D62CFD100A55085 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				E6FC7FBD1D62CFD100A55085 /* Sources */,
-				E6FC7FBC1D62CFD100A55085 /* Info.plist */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		E6FC7FBD1D62CFD100A55085 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				E6FC7FBE1D62CFD100A55085 /* RTSAnalyticsTrackerTest.m */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -505,24 +464,6 @@
 			productReference = E6FC7E881D61F95C00A55085 /* SRGAnalytics-demo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E6FC7FA91D62CF2800A55085 /* SRGAnalytics-tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E6FC7FB21D62CF2800A55085 /* Build configuration list for PBXNativeTarget "SRGAnalytics-tests" */;
-			buildPhases = (
-				E6FC7FA61D62CF2800A55085 /* Sources */,
-				E6FC7FA71D62CF2800A55085 /* Frameworks */,
-				E6FC7FA81D62CF2800A55085 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E6FC7FB11D62CF2800A55085 /* PBXTargetDependency */,
-			);
-			name = "SRGAnalytics-tests";
-			productName = "SRGAnalytics-tests";
-			productReference = E6FC7FAA1D62CF2800A55085 /* SRGAnalytics-tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -540,9 +481,6 @@
 						CreatedOnToolsVersion = 7.3.1;
 					};
 					E6FC7E871D61F95C00A55085 = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
-					E6FC7FA91D62CF2800A55085 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
@@ -563,7 +501,6 @@
 				E69A1FF21D61E2070064E6C1 /* SRGAnalytics */,
 				E61C0D541D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer */,
 				E6FC7E871D61F95C00A55085 /* SRGAnalytics-demo */,
-				E6FC7FA91D62CF2800A55085 /* SRGAnalytics-tests */,
 			);
 		};
 /* End PBXProject section */
@@ -591,13 +528,6 @@
 				E6FC7F221D61FA4700A55085 /* Main.storyboard in Resources */,
 				E6FC7F1D1D61FA4700A55085 /* Images.xcassets in Resources */,
 				E6FC7F271D61FA4700A55085 /* SegmentsMediaPlayerViewController.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E6FC7FA81D62CF2800A55085 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,14 +643,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E6FC7FA61D62CF2800A55085 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E6FC7FC01D62CFD100A55085 /* RTSAnalyticsTrackerTest.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -733,11 +655,6 @@
 			isa = PBXTargetDependency;
 			target = E61C0D541D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer */;
 			targetProxy = E6FC7EA71D61F97800A55085 /* PBXContainerItemProxy */;
-		};
-		E6FC7FB11D62CF2800A55085 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E61C0D541D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer */;
-			targetProxy = E6FC7FB01D62CF2800A55085 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -994,44 +911,6 @@
 			};
 			name = Release;
 		};
-		E6FC7FB31D62CF2800A55085 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "SRGAnalytics-tests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		E6FC7FB51D62CF2800A55085 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "SRGAnalytics-tests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1067,15 +946,6 @@
 			buildConfigurations = (
 				E6FC7E9C1D61F95C00A55085 /* Debug */,
 				E6FC7E9E1D61F95C00A55085 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E6FC7FB21D62CF2800A55085 /* Build configuration list for PBXNativeTarget "SRGAnalytics-tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E6FC7FB31D62CF2800A55085 /* Debug */,
-				E6FC7FB51D62CF2800A55085 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
