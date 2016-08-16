@@ -5,17 +5,12 @@
 //
 
 #import "RTSAnalyticsTracker.h"
-#import "RTSAnalyticsNetmetrixTracker_private.h"
-#import "RTSAnalyticsLogger_private.h"
+#import "RTSAnalyticsNetmetrixTracker.h"
+#import "RTSAnalyticsLogger.h"
 
 #import <UIKit/UIKit.h>
 
 static NSString * const LoggerDomainAnalyticsNetmetrix = @"Netmetrix";
-
-NSString * const RTSAnalyticsNetmetrixRequestDidFinishNotification = @"RTSAnalyticsNetmetrixRequestDidFinish";
-NSString * const RTSAnalyticsNetmetrixRequestSuccessUserInfoKey = @"RTSAnalyticsNetmetrixSuccess";
-NSString * const RTSAnalyticsNetmetrixRequestErrorUserInfoKey = @"RTSAnalyticsNetmetrixError";
-NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalyticsNetmetrixResponse";
 
 @interface RTSAnalyticsNetmetrixTracker ()
 

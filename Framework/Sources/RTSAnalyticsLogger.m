@@ -4,7 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "RTSAnalyticsLogger_private.h"
+#import "RTSAnalyticsLogger.h"
 
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
 

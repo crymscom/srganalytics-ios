@@ -4,14 +4,14 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "RTSAnalyticsTracker+Logging_private.h"
+#import "RTSAnalyticsTracker+Logging.h"
 
 #import <ComScore/CSCore.h>
 #import <ComScore/CSComScore.h>
 #import <ComScore/CSTaskExecutor.h>
 
-#import "CSRequest+RTSAnalytics_private.h"
-#import "RTSAnalyticsLogger_private.h"
+#import "CSRequest+RTSAnalytics.h"
+#import "RTSAnalyticsLogger.h"
 #import "RTSAnalyticsComScoreTracker.h"
 
 @implementation RTSAnalyticsTracker (Logging)

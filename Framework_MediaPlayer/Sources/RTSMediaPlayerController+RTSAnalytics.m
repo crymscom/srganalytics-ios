@@ -5,7 +5,7 @@
 //
 
 #import "RTSMediaPlayerController+RTSAnalytics.h"
-#import "RTSMediaPlayerControllerTracker_private.h"
+#import "RTSMediaPlayerControllerTracker.h"
 #import <objc/runtime.h>
 
 static void *RTSAnalyticsTrackedKey = &RTSAnalyticsTrackedKey;

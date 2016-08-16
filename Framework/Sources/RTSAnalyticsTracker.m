@@ -6,16 +6,21 @@
 
 #import "RTSAnalyticsTracker.h"
 
-#import "RTSAnalyticsNetmetrixTracker_private.h"
+#import "RTSAnalyticsNetmetrixTracker.h"
 
 #import "NSString+RTSAnalytics.h"
 #import "NSDictionary+RTSAnalytics.h"
-#import "RTSAnalyticsTracker+Logging_private.h"
-#import "RTSAnalyticsLogger_private.h"
+#import "RTSAnalyticsTracker+Logging.h"
+#import "RTSAnalyticsLogger.h"
 #import "RTSAnalyticsPageViewDataSource.h"
 
 #import <ComScore/CSComScore.h>
 #import <UIKit/UIKit.h>
+
+NSString * const RTSAnalyticsNetmetrixRequestDidFinishNotification = @"RTSAnalyticsNetmetrixRequestDidFinish";
+NSString * const RTSAnalyticsNetmetrixRequestSuccessUserInfoKey = @"RTSAnalyticsNetmetrixSuccess";
+NSString * const RTSAnalyticsNetmetrixRequestErrorUserInfoKey = @"RTSAnalyticsNetmetrixError";
+NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalyticsNetmetrixResponse";
 
 @interface RTSAnalyticsTracker () {
 @private

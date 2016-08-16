@@ -4,8 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "RTSMediaPlayerControllerStreamSenseTracker_private.h"
-#import "RTSAnalyticsLogger_private.h"
+#import "RTSMediaPlayerControllerStreamSenseTracker.h"
 #import "RTSAnalyticsMediaPlayerDataSource.h"
 
 #import <ComScore/CSStreamSense.h>

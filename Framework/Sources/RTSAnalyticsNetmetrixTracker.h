@@ -4,30 +4,40 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <Foundation/Foundation.h>
+#import "RTSAnalyticsNetmetrixTracker.h"
+
+/**
+ *  `RTSAnalyticsNetmetrixTracker` is used to track view events for Netmetrix.
+ * 
+ *  The destination URL is specified by a domain and appID.
+ */
+@interface RTSAnalyticsNetmetrixTracker : NSObject
+
+/**
+ *  --------------------------------------
+ *  @name Initializing a Netmetrix Tracker
+ *  --------------------------------------
+ */
+
+/**
+ *  Returns a `RTSAnalyticsNetmetrixTracker` object initialized with the specified appID and Netmetrix domain.
+ *
+ *  @param appID  a unique id identifying Netmetrics application (e.g. rts-info, rts-sport, srg-player, ...)
+ *  @param domain the nexmetrics domain used  (e.g. rts, srg, ...)
+ *
+ *  @return a Netmetrix tracker
+ */
+- (instancetype) initWithAppID:(NSString *)appID businessUnit:(SSRBusinessUnit)businessUnit;
 
 /**
  *  -------------------
- *  @name Notifications
+ *  @name View Tracking
  *  -------------------
  */
 
 /**
- *  Posted when the request's response is received. The `object` of the notification is a NSURLRequest.
+ *  Send a view event for application specified by its AppID and domain.
  */
-FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestDidFinishNotification;
+- (void) trackView;
 
-/**
- * A NSNumber (boolean) indicating success in the user info dictionary of `RTSAnalyticsNetmetrixRequestDidFinishNotification`.
- */
-FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestSuccessUserInfoKey;
-
-/**
- *  A NSError in the user info dictionary of `RTSAnalyticsNetmetrixRequestDidFinishNotification`. This key is not present if the request succeeded.
- */
-FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestErrorUserInfoKey;
-
-/**
- *  A NSURLResponse in the user info dictionary of `RTSAnalyticsNetmetrixRequestDidFinishNotification`.
- */
-FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey;
+@end

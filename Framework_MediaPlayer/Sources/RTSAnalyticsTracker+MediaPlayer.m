@@ -6,7 +6,7 @@
 
 #import "RTSAnalyticsTracker+MediaPlayer.h"
 
-#import "RTSMediaPlayerControllerTracker_private.h"
+#import "RTSMediaPlayerControllerTracker.h"
 
 @implementation RTSAnalyticsTracker (MediaPlayer)
 

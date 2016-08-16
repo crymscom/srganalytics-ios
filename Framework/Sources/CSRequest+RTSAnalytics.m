@@ -4,7 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "CSRequest+RTSAnalytics_private.h"
+#import "CSRequest+RTSAnalytics.h"
 #import <objc/runtime.h>
 
 NSString * const RTSAnalyticsComScoreRequestDidFinishNotification = @"RTSAnalyticsComScoreRequestDidFinish";

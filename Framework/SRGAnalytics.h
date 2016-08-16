@@ -11,8 +11,8 @@ FOUNDATION_EXPORT const unsigned char SRGAnalyticsVersionString[];
 
 FOUNDATION_EXPORT NSString * SRGAnalyticsMarketingVersion(void);
 
+#import "RTSAnalyticsLogger.h"
 #import "RTSAnalyticsTracker.h"
 #import "RTSAnalyticsComScoreTracker.h"
-#import "RTSAnalyticsNetmetrixTracker.h"
 #import "RTSAnalyticsPageViewDataSource.h"
 #import "UIViewController+RTSAnalytics.h"
