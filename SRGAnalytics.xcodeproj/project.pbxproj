@@ -68,6 +68,7 @@
 		E6FC7FC01D62CFD100A55085 /* RTSAnalyticsTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7FBE1D62CFD100A55085 /* RTSAnalyticsTrackerTest.m */; };
 		E6FC7FC11D62CFFD00A55085 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; };
 		E6FC7FC21D62D08200A55085 /* SRGMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */; };
+		E6FC7FC31D62D90800A55085 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +193,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6FC7FC31D62D90800A55085 /* SRGAnalytics.framework in Frameworks */,
 				E61C0D861D61F16000AEAE6D /* SRGMediaPlayer.framework in Frameworks */,
 				81C8798605BF40D1F3429552 /* libPods-SRGAnalytics_MediaPlayer.a in Frameworks */,
 			);
