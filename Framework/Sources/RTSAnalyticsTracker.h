@@ -81,9 +81,7 @@ FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestErrorUserInfoKey;
 FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey;
 
 /**
- *  RTSAnalyticsTracker is used to track view events and stream measurements for SRG/SSR apps.
- *
- *  Analytics Tracker takes care of sending Comscore and Netmetrix page view events and Streamsense stream measurements.
+ *  RTSAnalyticsTracker is used to track view and hidden events for SRGSSR apps
  */
 @interface RTSAnalyticsTracker : NSObject
 
@@ -101,15 +99,15 @@ FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoK
 + (instancetype)sharedTracker;
 
 /**
- *  Start tracking page events and streams
+ *  Start tracking page events
  *
- *  @param businessUnit  the SRG/SSR business unit for statistics measurements
- *  @param dataSource    the data source to be provided for stream tracking. This parameter is mandatory if using the `RTSAnalytics\MediaPlayer` submodule
+ *  @param businessUnit  the SRGSSR business unit for statistics measurements
  *  @param debugMode     if set to YES, an `srg_test` field is added to the labels with a timestamp (yyyy-MM-dd@HH:mm) as value. This value does not
  *                       change while the application is running and can therefore be used to identify requests belonging to the same session.
  *                       Methods without this parameter are equivalent to debugMode = NO
  *
- *  @discussion the tracker uses values set in application Info.plist to track Comscore, Streamsense and Netmetrix measurement.
+ *  @discussion the tracker uses values set in application Info.plist to track Comscore and Netmetrix measurement.
+ *
  *  Add an Info.plist dictionary named `RTSAnalytics` with 2 keypairs :
  *              ComscoreVirtualSite    : string - mandatory
  *              NetmetrixAppID         : string - NetmetrixAppID MUST be set ONLY for application in production.
@@ -129,11 +127,6 @@ FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoK
  *  The ComScore virtual site to be used for sending stats.
  */
 @property (nonatomic, readonly, strong) NSString *comscoreVSite;
-
-/**
- *  The virtual site to be used for sending StreamSense stats.
- */
-@property (nonatomic, readonly, strong) NSString *streamSenseVSite;
 
 /**
  *  The NetMetrix application name to be used for view event tracking.

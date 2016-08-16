@@ -96,11 +96,6 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 	return [self infoDictionaryValueForKey:@"ComscoreVirtualSite"];
 }
 
-- (NSString *) streamSenseVSite
-{
-    return [self infoDictionaryValueForKey:@"StreamSenseVirtualSite"] ?: self.comscoreVSite;
-}
-
 - (NSString *) netmetrixAppId
 {
 	return [self infoDictionaryValueForKey:@"NetmetrixAppID"];
@@ -108,7 +103,7 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 
 - (NSString *)infoDictionaryValueForKey:(NSString *)key
 {
-	NSDictionary *analyticsInfoDictionary = [[RTSAnalyticsTracker bundle] objectForInfoDictionaryKey:@"RTSAnalytics"];
+	NSDictionary *analyticsInfoDictionary = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RTSAnalytics"];
 	return [analyticsInfoDictionary objectForKey:key];
 }
 
@@ -147,7 +142,7 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 
 - (NSDictionary *)comscoreGlobalLabels
 {
-	NSBundle *mainBundle = [RTSAnalyticsTracker bundle];
+	NSBundle *mainBundle = [NSBundle mainBundle];
 	
 	NSString *appName = [[mainBundle objectForInfoDictionaryKey:@"CFBundleExecutable"] stringByAppendingString:@" iOS"];
 	NSString *appLanguage = [[mainBundle preferredLocalizations] firstObject] ?: @"fr";

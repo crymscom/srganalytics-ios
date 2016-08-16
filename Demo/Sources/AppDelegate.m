@@ -18,13 +18,11 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	// Tracker
 	RTSAnalyticsTracker *analyticsTracker = [RTSAnalyticsTracker sharedTracker];
-	[analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS mediaDataSource:self];
-
+    [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS];
+    [analyticsTracker startStreamMeasurementWithMediaDataSource:self];
 	return YES;
 }
 

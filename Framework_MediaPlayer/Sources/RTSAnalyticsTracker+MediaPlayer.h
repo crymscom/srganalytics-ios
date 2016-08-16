@@ -11,17 +11,20 @@
 
 @interface RTSAnalyticsTracker (MediaPlayer)
 
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
-                     mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource;
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
-                     mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
-                         inDebugMode:(BOOL)debugMode;
+/**
+ *  Start media player stream measurement
+ *
+ *  @param dataSource The data source to be provided for stream tracking
+ *
+ *  @discussion By default, stream measurement uses the ComscoreVirtualSite vsite defined in the Info.plist `RTSAnalytics` dictionary
+ *              (see `-[RTSAnalyticsTracker startTrackingForBusinessUnit:] documentation`). This value can be optionally overridden
+ *              by adding a StreamSenseVirtualSite entry to the same `RTSAnalytics` dictionary
+ */
+- (void)startStreamMeasurementWithMediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource;
 
-@end
-
-@interface RTSAnalyticsTracker (MediaPlayerUnavailable)
-
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit NS_UNAVAILABLE;
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit inDebugMode:(BOOL)debugMode NS_UNAVAILABLE;
+/**
+ *  The virtual site to be used for sending StreamSense stats.
+ */
+@property (nonatomic, readonly, strong) NSString *streamSenseVSite;
 
 @end
