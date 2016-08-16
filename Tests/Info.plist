@@ -19,15 +19,6 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
-	<key>RTSAnalytics</key>
-	<dict>
-		<key>ComscoreVirtualSite</key>
-		<string>rts-app-test-v</string>
-		<key>NetmetrixAppID</key>
-		<string>null</string>
-		<key>StreamsenseVirtualSite</key>
-		<string>rts-app-test-v</string>
-	</dict>
+	<string>$(MARKETING_VERSION)</string>
 </dict>
 </plist>

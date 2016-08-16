@@ -11,6 +11,8 @@
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 #import <ComScore/CSComScore.h>
 
+#import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
+
 #import "RTSAnalyticsTracker.h"
 #import "RTSAnalyticsMediaPlayerDataSource.h"
 

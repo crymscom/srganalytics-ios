@@ -8,13 +8,10 @@
 #import "RTSAnalyticsMediaPlayerDataSource.h"
 #import "RTSMediaPlayerControllerTrackingInfo.h"
 #import "RTSMediaPlayerController+RTSAnalytics.h"
-
-#import <SRGAnalytics/SRGAnalytics.h>
-#import <SRGMediaPlayer/RTSMediaPlayerController.h>
-#import <SRGMediaPlayer/RTSMediaSegmentsController.h>
-#import <SRGMediaPlayer/RTSMediaSegment.h>
 #import "RTSMediaPlayerControllerStreamSenseTracker.h"
 
+#import <SRGAnalytics/SRGAnalytics.h>
+#import <SRGMediaPlayer/SRGMediaPlayer.h>
 #import <ComScore/CSComScore.h>
 
 @interface RTSMediaPlayerControllerTracker ()
