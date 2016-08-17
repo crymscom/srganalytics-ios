@@ -1,2 +1,2 @@
-github "SRGSSR/SRGMediaPlayer-iOS" "82134db367c419095b401dbd3166fc51eb76a5f5"
-github "defagos/ComScore-iOS-SDK" "be434d21b60073edf061339c9f00f2f10bd45f9d"
+github "SRGSSR/SRGMediaPlayer-iOS" "develop"
+github "defagos/ComScore-iOS-SDK" "carthage-support"
