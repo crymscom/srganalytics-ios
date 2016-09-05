@@ -4,18 +4,18 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "NSBundle+RTSAnalytics.h"
+#import "NSBundle+SRGAnalytics.h"
 
-#import "RTSAnalyticsTracker.h"
+#import "SRGAnalyticsTracker.h"
 
-@implementation NSBundle (RTSAnalytics)
+@implementation NSBundle (SRGAnalytics)
 
-+ (instancetype)RTSAnalyticsBundle
++ (instancetype)SRGAnalyticsBundle
 {
     static NSBundle *bundle;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-        bundle = [NSBundle bundleForClass:[RTSAnalyticsTracker class]];
+        bundle = [NSBundle bundleForClass:[SRGAnalyticsTracker class]];
     });
     return bundle;
 }

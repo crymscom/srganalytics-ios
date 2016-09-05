@@ -13,9 +13,10 @@
 #import "ViewController.h"
 #import "CustomMediaPlayerViewController.h"
 #import "Segment.h"
-#import "SegmentsMediaPlayerViewController.h"
+#import "SegmentsPlayerViewController.h"
+#import "SRGMediaPlayerController+SRGAnalytics.h"
 
-@interface TableViewController () <UITableViewDelegate, RTSAnalyticsPageViewDataSource, RTSMediaPlayerControllerDataSource, RTSMediaSegmentsDataSource>
+@interface TableViewController () <UITableViewDelegate, SRGAnalyticsPageViewDataSource>
 
 @end
 
@@ -54,17 +55,20 @@
 	
 	if ([cell.reuseIdentifier hasPrefix:@"MediaPlayer"])
 	{
-		RTSMediaPlayerViewController *playerViewController = [[RTSMediaPlayerViewController alloc] initWithContentIdentifier:cell.reuseIdentifier dataSource:self];
+        [SRGMediaPlayerController prepareToplayURL:[self contentURLForIdentifier:cell.reuseIdentifier] withIdentifier:cell.reuseIdentifier];
+        SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]];
 		[self presentViewController:playerViewController animated:YES completion:nil];
 	}
 	else if ([cell.reuseIdentifier hasPrefix:@"CustomMediaPlayer"])
 	{
-		CustomMediaPlayerViewController *playerViewController = [[CustomMediaPlayerViewController alloc] initWithContentIdentifier:cell.reuseIdentifier dataSource:self];
+        // TODO: Use CustomMediaPlayerViewController controller
+		SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]];
 		[self presentViewController:playerViewController animated:YES completion:nil];
 	}
     else if ([cell.reuseIdentifier hasPrefix:@"SegmentsMediaPlayer"])
     {
-        SegmentsMediaPlayerViewController *segmentsPlayerViewController = [[SegmentsMediaPlayerViewController alloc] initWithContentIdentifier:cell.reuseIdentifier dataSource:self];
+        SegmentsPlayerViewController *segmentsPlayerViewController = [[SegmentsPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
+                                                                                                                     segments:[self segmentsForIdentifier:cell.reuseIdentifier]];
         [self presentViewController:segmentsPlayerViewController animated:YES completion:nil];
     }
 	else if ([cell.reuseIdentifier isEqualToString:@"PushNotificationCell"])
@@ -73,21 +77,21 @@
         [(AppDelegate *)application.delegate application:application didReceiveRemoteNotification:@{} fetchCompletionHandler:^(UIBackgroundFetchResult result) {}];
 	}
     else if ([cell.reuseIdentifier isEqualToString:@"HiddenEventWithNoTitleCell"]) {
-        [[RTSAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:nil];
+        [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:nil];
     }
     else if ([cell.reuseIdentifier isEqualToString:@"HiddenEventWithTitleCell"]) {
-        [[RTSAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Title"];
+        [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Title"];
     }
     else if ([cell.reuseIdentifier isEqualToString:@"HiddenEventWithTitleAndCustomLabelsCell"]) {
-        [[RTSAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Title" customLabels:@{ @"srg_ap_cu" : @"custom" }];
+        [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Title" customLabels:@{ @"srg_ap_cu" : @"custom" }];
     }
 }
 
 
 
-#pragma mark - RTSMediaPlayerControllerDataSource
+#pragma mark - URLS and Segments
 
-- (id) mediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController contentURLForIdentifier:(NSString *)identifier completionHandler:(void (^)(NSString *, NSURL *, NSError *))completionHandler
+- (NSURL *)contentURLForIdentifier:(NSString *)identifier
 {
 	NSString *urlString = nil;
 	if ([identifier hasSuffix:@"LiveCell"])
@@ -96,7 +100,7 @@
 	}
 	else if ([identifier hasSuffix:@"VODCell"] || [identifier hasSuffix:@"SegmentsCell"])
 	{
-		urlString = @"http://stream-i.rts.ch/i/tp/1993/tp_10071993-,450,k.mp4.csmil/master.m3u8";
+		urlString = @"http://stream-i.SRG.ch/i/tp/1993/tp_10071993-,450,k.mp4.csmil/master.m3u8";
 	}
     else if ([identifier hasSuffix:@"DVRCell"])
     {
@@ -110,18 +114,11 @@
     {
         urlString = @"http://srfaodorigin-vh.akamaihd.net/i/world/echo-der-zeit/5cc0475c-0f87-4c62-85d3-c43857094543.,q10,q20,.mp4.csmil/master.m3u8";
     }
-	
-	NSURL *URL = [NSURL URLWithString:urlString];
-	completionHandler(identifier, URL, nil);
-    return nil;
+    
+	return [NSURL URLWithString:urlString];
 }
 
-- (void)cancelContentURLRequest:(id)request
-{}
-
-#pragma mark - RTSMediaSegmentsDataSource
-
-- (id) segmentsController:(RTSMediaSegmentsController *)controller segmentsForIdentifier:(NSString *)identifier withCompletionHandler:(RTSMediaSegmentsCompletionHandler)completionHandler
+- (NSArray<id<SRGSegment>> *)segmentsForIdentifier:(NSString *)identifier
 {
     if ([identifier rangeOfString:@"MultipleSegments"].length != 0)
     {
@@ -150,13 +147,13 @@
         segment3.logical = YES;
         segment3.blocked = YES;
         
-        completionHandler(identifier, @[fullLengthSegment, segment1, segment2, segment3], nil);
+        return @[fullLengthSegment, segment1, segment2, segment3];
     }
     else if ([identifier isEqualToString:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
     {
         Segment *physicalSegment1 = [[Segment alloc] initWithIdentifier:identifier name:@"physical_segment1" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
         Segment *physicalSegment2 = [[Segment alloc] initWithIdentifier:[identifier stringByAppendingString:@"_2"] name:@"physical_segment2" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(1200., 1.))];
-        completionHandler(identifier, @[physicalSegment1, physicalSegment2], nil);
+        return @[physicalSegment1, physicalSegment2];
     }
     else
     {
@@ -166,15 +163,12 @@
         CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(15., 1.));
         Segment *segment = [[Segment alloc] initWithIdentifier:identifier name:@"segment" timeRange:timeRange];
         segment.logical = YES;
-        completionHandler(identifier, @[fullLengthSegment, segment], nil);
+        return @[fullLengthSegment, segment];
     }
     return nil;
 }
 
-- (void)cancelSegmentsRequest:(id)request
-{}
-
-#pragma mark - RTSAnalyticsPageViewDataSource
+#pragma mark - SRGAnalyticsPageViewDataSource
 
 - (NSString *) pageViewTitle
 {

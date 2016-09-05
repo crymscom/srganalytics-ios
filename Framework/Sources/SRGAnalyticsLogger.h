@@ -19,17 +19,17 @@ typedef NS_OPTIONS(NSUInteger, DDLogFlag) {
 };
 #endif
 
-@interface RTSAnalyticsLogger : NSObject
+@interface SRGAnalyticsLogger : NSObject
 // Compatible with CocoaLumberjack's DDLog interface
 + (void) log:(BOOL)asynchronous level:(NSUInteger)level flag:(DDLogFlag)flag context:(NSInteger)context file:(const char *)file function:(const char *)function line:(NSUInteger)line tag:(id)tag format:(NSString *)format, ... NS_FORMAT_FUNCTION(9,10);
 @end
 
-extern Class RTSAnalyticsLogClass(void);
+extern Class SRGAnalyticsLogClass(void);
 
-#define RTSAnalyticsLog(_flag, _format, ...) [RTSAnalyticsLogClass() log:YES level:NSUIntegerMax flag:(_flag) context:0x52545361 file:__FILE__ function:__PRETTY_FUNCTION__ line:__LINE__ tag:nil format:(_format), ##__VA_ARGS__]
+#define SRGAnalyticsLog(_flag, _format, ...) [SRGAnalyticsLogClass() log:YES level:NSUIntegerMax flag:(_flag) context:0x52545361 file:__FILE__ function:__PRETTY_FUNCTION__ line:__LINE__ tag:nil format:(_format), ##__VA_ARGS__]
 
-#define RTSAnalyticsLogError(format, ...)   RTSAnalyticsLog(DDLogFlagError,   format, ##__VA_ARGS__)
-#define RTSAnalyticsLogWarning(format, ...) RTSAnalyticsLog(DDLogFlagWarning, format, ##__VA_ARGS__)
-#define RTSAnalyticsLogInfo(format, ...)    RTSAnalyticsLog(DDLogFlagInfo,    format, ##__VA_ARGS__)
-#define RTSAnalyticsLogDebug(format, ...)   RTSAnalyticsLog(DDLogFlagDebug,   format, ##__VA_ARGS__)
-#define RTSAnalyticsLogVerbose(format, ...) RTSAnalyticsLog(DDLogFlagVerbose, format, ##__VA_ARGS__)
+#define SRGAnalyticsLogError(format, ...)   SRGAnalyticsLog(DDLogFlagError,   format, ##__VA_ARGS__)
+#define SRGAnalyticsLogWarning(format, ...) SRGAnalyticsLog(DDLogFlagWarning, format, ##__VA_ARGS__)
+#define SRGAnalyticsLogInfo(format, ...)    SRGAnalyticsLog(DDLogFlagInfo,    format, ##__VA_ARGS__)
+#define SRGAnalyticsLogDebug(format, ...)   SRGAnalyticsLog(DDLogFlagDebug,   format, ##__VA_ARGS__)
+#define SRGAnalyticsLogVerbose(format, ...) SRGAnalyticsLog(DDLogFlagVerbose, format, ##__VA_ARGS__)

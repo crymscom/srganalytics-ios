@@ -22,17 +22,17 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>RTSAnalytics</key>
+	<key>SRGAnalytics</key>
 	<dict>
 		<key>ComscoreVirtualSite</key>
 		<string>rts-app-test-v</string>
 		<key>NetmetrixAppID</key>
 		<string>test</string>
+	</dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 	</dict>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

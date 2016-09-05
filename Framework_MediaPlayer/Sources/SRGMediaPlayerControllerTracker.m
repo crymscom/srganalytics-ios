@@ -5,9 +5,9 @@
 //
 
 #import "SRGMediaPlayerControllerTracker.h"
-#import "RTSAnalyticsMediaPlayerDataSource.h"
+#import "SRGAnalyticsMediaPlayerDataSource.h"
 #import "SRGMediaPlayerControllerTrackingInfo.h"
-#import "SRGMediaPlayerController+RTSAnalytics.h"
+#import "SRGMediaPlayerController+SRGAnalytics.h"
 #import "SRGMediaPlayerControllerStreamSenseTracker.h"
 
 #import <SRGAnalytics/SRGAnalytics.h>
@@ -16,7 +16,7 @@
 
 @interface SRGMediaPlayerControllerTracker ()
 
-@property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
+@property (nonatomic, weak) id<SRGAnalyticsMediaPlayerDataSource> dataSource;
 
 @property (nonatomic, strong) NSMutableDictionary *trackingInfos;
 
@@ -53,24 +53,24 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)startStreamMeasurementForVirtualSite:(NSString *)virtualSite mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+- (void)staSRGtreamMeasurementForVirtualSite:(NSString *)virtualSite mediaDataSource:(id<SRGAnalyticsMediaPlayerDataSource>)dataSource
 {
     NSParameterAssert(virtualSite && dataSource);
     
     if (!_dataSource && !_virtualSite) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(mediaPlayerPlaybackStateDidChange:)
-                                                     name:RTSMediaPlayerPlaybackStateDidChangeNotification
+                                                     name:SRGMediaPlayerPlaybackStateDidChangeNotification
                                                    object:nil];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(mediaPlayerPlaybackSegmentsDidChange:)
-                                                     name:RTSMediaPlaybackSegmentDidChangeNotification
-                                                   object:nil];
+// TODO: Old SRGMediaPlaybackSegmentDidChangeNotification
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(mediaPlayerPlaybackSegmentsDidChange:)
+//                                                     name:SRGMediaPlaybackSegmentDidChangeNotification
+//                                                   object:nil];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(mediaPlayerPlaybackDidFail:)
-                                                     name:RTSMediaPlayerPlaybackDidFailNotification
+                                                     name:SRGMediaPlayerPlaybackDidFailNotification
                                                    object:nil];
     }
     
@@ -94,27 +94,28 @@
     
     SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
     
-    RTSAnalyticsLogDebug(@"---> Playback status changed: %@", @(mediaPlayerController.playbackState));
+    SRGAnalyticsLogDebug(@"---> Playback status changed: %@", @(mediaPlayerController.playbackState));
     
 	if (mediaPlayerController.tracked) {
 		switch (mediaPlayerController.playbackState) {
-			case RTSMediaPlaybackStatePreparing:
+			case SRGMediaPlayerPlaybackStatePreparing:
+				[self notifyStreamTrackerEvent:CSStreamSenseBuffer
+                                   mediaPlayer:mediaPlayerController
+                                       segment:trackingInfo.currentSegment];
+				break;
+
+// TODO: SRGMediaPlaybackStateReady state
+//			case SRGMediaPlaybackStateReady:
+//                [self notifyComScoreOfReadyToPlayEvent:mediaPlayerController];
+//				break;
+				
+			case SRGMediaPlayerPlaybackStateStalled:
 				[self notifyStreamTrackerEvent:CSStreamSenseBuffer
                                    mediaPlayer:mediaPlayerController
                                        segment:trackingInfo.currentSegment];
 				break;
 				
-			case RTSMediaPlaybackStateReady:
-                [self notifyComScoreOfReadyToPlayEvent:mediaPlayerController];
-				break;
-				
-			case RTSMediaPlaybackStateStalled:
-				[self notifyStreamTrackerEvent:CSStreamSenseBuffer
-                                   mediaPlayer:mediaPlayerController
-                                       segment:trackingInfo.currentSegment];
-				break;
-				
-			case RTSMediaPlaybackStatePlaying:
+			case SRGMediaPlayerPlaybackStatePlaying:
                 if (! trackingInfo.currentSegment || ! trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePlay
                                        mediaPlayer:mediaPlayerController
@@ -126,7 +127,7 @@
                 trackingInfo.userSelected = NO;
 				break;
                 
-            case RTSMediaPlaybackStateSeeking:
+            case SRGMediaPlayerPlaybackStateSeeking:
                 // Skip seeks because of the user actively selecting a segment 
                 if (! trackingInfo.userSelected) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
@@ -135,7 +136,7 @@
                 }
                 break;
                 
-			case RTSMediaPlaybackStatePaused:
+			case SRGMediaPlayerPlaybackStatePaused:
                 if (! trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
                                        mediaPlayer:mediaPlayerController
@@ -143,13 +144,13 @@
                 }
 				break;
 				
-			case RTSMediaPlaybackStateEnded:
+			case SRGMediaPlayerPlaybackStateEnded:
 				[self notifyStreamTrackerEvent:CSStreamSenseEnd
                                    mediaPlayer:mediaPlayerController
                                        segment:trackingInfo.currentSegment];
 				break;
 				
-			case RTSMediaPlaybackStateIdle:
+			case SRGMediaPlayerPlaybackStateIdle:
 				[self stopTrackingMediaPlayerController:mediaPlayerController];
 				break;
 		}
@@ -161,73 +162,74 @@
 
 - (void)mediaPlayerPlaybackSegmentsDidChange:(NSNotification *)notification
 {
-    RTSMediaSegmentsController *segmentsController = notification.object;
-    SRGMediaPlayerController *mediaPlayerController = segmentsController.playerController;
-    if (!mediaPlayerController.tracked || !mediaPlayerController.identifier) {
-        return;
-    }
-    
-    SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
-    if (!trackingInfo) {
-        return;
-    }
-    
-    NSInteger value = [notification.userInfo[RTSMediaPlaybackSegmentChangeValueInfoKey] integerValue];
-    BOOL wasUserSelected = [notification.userInfo[RTSMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
-    
-    id<RTSMediaSegment> previousSegment = trackingInfo.currentSegment;
-    id<RTSMediaSegment> segment = notification.userInfo[RTSMediaPlaybackSegmentChangeSegmentInfoKey];
-    trackingInfo.currentSegment = (wasUserSelected ? segment : nil);
-    trackingInfo.userSelected = wasUserSelected;
-    
-    RTSAnalyticsLogDebug(@"---> Segment changed: %@ (prev = %@, next = %@, selected = %@)", @(value), previousSegment, segment, wasUserSelected ? @"YES" : @"NO");
-    
-    // According to its implementation, Comscore only sends an event if different from the previously sent one. We
-    // are therefore required to send an end followed by a play when a segment end is detected (in which case
-    // playback continues with another segment or with the full-length). Segment information is sent only if the
-    // segment was selected by the user
-    switch (value) {
-        case RTSMediaPlaybackSegmentStart: {
-            if (wasUserSelected) {
-                [self notifyStreamTrackerEvent:CSStreamSenseEnd
-                                   mediaPlayer:segmentsController.playerController
-                                       segment:previousSegment];
-                [self notifyStreamTrackerEvent:CSStreamSensePlay
-                                   mediaPlayer:segmentsController.playerController
-                                       segment:segment];
-                
-                trackingInfo.skippingNextEvents = YES;
-            }
-            break;
-        }
-            
-        case RTSMediaPlaybackSegmentSwitch: {
-            if (wasUserSelected || previousSegment) {
-                [self notifyStreamTrackerEvent:CSStreamSenseEnd
-                                   mediaPlayer:segmentsController.playerController
-                                       segment:previousSegment];
-                [self notifyStreamTrackerEvent:CSStreamSensePlay
-                                   mediaPlayer:segmentsController.playerController
-                                       segment:(wasUserSelected ? segment : nil)];
-            }
-            break;
-        }
-            
-        case RTSMediaPlaybackSegmentEnd: {
-            if (previousSegment) {
-                [self notifyStreamTrackerEvent:CSStreamSenseEnd
-                                   mediaPlayer:segmentsController.playerController
-                                       segment:previousSegment];
-                [self notifyStreamTrackerEvent:CSStreamSensePlay
-                                   mediaPlayer:segmentsController.playerController
-                                       segment:nil];
-            }
-            break;
-        }
-            
-        default:
-            break;
-    }
+// TODO: mediaPlayerPlaybackSegmentsDidChange notification
+//    SRGMediaSegmentsController *segmentsController = notification.object;
+//    SRGMediaPlayerController *mediaPlayerController = segmentsController.playerController;
+//    if (!mediaPlayerController.tracked || !mediaPlayerController.identifier) {
+//        return;
+//    }
+//    
+//    SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
+//    if (!trackingInfo) {
+//        return;
+//    }
+//    
+//    NSInteger value = [notification.userInfo[SRGMediaPlaybackSegmentChangeValueInfoKey] integerValue];
+//    BOOL wasUserSelected = [notification.userInfo[SRGMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
+//    
+//    id<SRGSegment> previousSegment = trackingInfo.currentSegment;
+//    id<SRGSegment> segment = notification.userInfo[SRGMediaPlaybackSegmentChangeSegmentInfoKey];
+//    trackingInfo.currentSegment = (wasUserSelected ? segment : nil);
+//    trackingInfo.userSelected = wasUserSelected;
+//    
+//    SRGAnalyticsLogDebug(@"---> Segment changed: %@ (prev = %@, next = %@, selected = %@)", @(value), previousSegment, segment, wasUserSelected ? @"YES" : @"NO");
+//    
+//    // According to its implementation, Comscore only sends an event if different from the previously sent one. We
+//    // are therefore required to send an end followed by a play when a segment end is detected (in which case
+//    // playback continues with another segment or with the full-length). Segment information is sent only if the
+//    // segment was selected by the user
+//    switch (value) {
+//        case SRGMediaPlaybackSegmentStart: {
+//            if (wasUserSelected) {
+//                [self notifyStreamTrackerEvent:CSStreamSenseEnd
+//                                   mediaPlayer:segmentsController.playerController
+//                                       segment:previousSegment];
+//                [self notifyStreamTrackerEvent:CSStreamSensePlay
+//                                   mediaPlayer:segmentsController.playerController
+//                                       segment:segment];
+//                
+//                trackingInfo.skippingNextEvents = YES;
+//            }
+//            break;
+//        }
+//            
+//        case SRGMediaPlaybackSegmentSwitch: {
+//            if (wasUserSelected || previousSegment) {
+//                [self notifyStreamTrackerEvent:CSStreamSenseEnd
+//                                   mediaPlayer:segmentsController.playerController
+//                                       segment:previousSegment];
+//                [self notifyStreamTrackerEvent:CSStreamSensePlay
+//                                   mediaPlayer:segmentsController.playerController
+//                                       segment:(wasUserSelected ? segment : nil)];
+//            }
+//            break;
+//        }
+//            
+//        case SRGMediaPlaybackSegmentEnd: {
+//            if (previousSegment) {
+//                [self notifyStreamTrackerEvent:CSStreamSenseEnd
+//                                   mediaPlayer:segmentsController.playerController
+//                                       segment:previousSegment];
+//                [self notifyStreamTrackerEvent:CSStreamSensePlay
+//                                   mediaPlayer:segmentsController.playerController
+//                                       segment:nil];
+//            }
+//            break;
+//        }
+//            
+//        default:
+//            break;
+//    }
 }
 
 
@@ -258,12 +260,14 @@
     [self.trackingInfos removeObjectForKey:mediaPlayerController.identifier];
 }
 
-+ (id<RTSMediaSegment>)fullLengthSegmentForMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
++ (id<SRGSegment>)fullLengthSegmentForMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
 {
-    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id<RTSMediaSegment>  _Nonnull segment, NSDictionary<NSString *,id> * _Nullable bindings) {
-        return [mediaPlayerController.identifier isEqualToString:segment.segmentIdentifier] && !segment.logical;
-    }];
-    return [mediaPlayerController.segmentsController.segments filteredArrayUsingPredicate:predicate].firstObject;
+// TODO: fullLengthSegmentForMediaPlayerController
+//    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id<SRGSegment>  _Nonnull segment, NSDictionary<NSString *,id> * _Nullable bindings) {
+//        return [self.dataSource.identifier isEqualToString:segment.segmentIdentifier];
+//    }];
+//    return [mediaPlayerController.segmentsController.segments filteredArrayUsingPredicate:predicate].firstObject;
+    return nil;
 }
 
 #pragma mark - Stream tracking
@@ -289,17 +293,17 @@
     
 	[CSComScore onUxInactive];
     
-	RTSAnalyticsLogVerbose(@"Delete stream tracker for media identifier `%@`", mediaPlayerController.identifier);
-	[self.streamsenseTrackers removeObjectForKey:mediaPlayerController.identifier];	
+	SRGAnalyticsLogVerbose(@"Delete stream tracker for media identifier `%@`", mediaPlayerController.identifier);
+	[self.streamsenseTrackers removeObjectForKey:mediaPlayerController.identifier];
 }
 
 - (void)notifyStreamTrackerEvent:(CSStreamSenseEventType)eventType
                      mediaPlayer:(SRGMediaPlayerController *)mediaPlayerController
-                         segment:(id<RTSMediaSegment>)segment
+                         segment:(id<SRGSegment>)segment
 {
 	SRGMediaPlayerControllerStreamSenseTracker *tracker = self.streamsenseTrackers[mediaPlayerController.identifier];
 	if (!tracker) {
-		RTSAnalyticsLogVerbose(@"Create a new stream tracker for media identifier `%@`", mediaPlayerController.identifier);
+		SRGAnalyticsLogVerbose(@"Create a new stream tracker for media identifier `%@`", mediaPlayerController.identifier);
 		
 		tracker = [[SRGMediaPlayerControllerStreamSenseTracker alloc] initWithPlayer:mediaPlayerController
                                                                           dataSource:self.dataSource
@@ -309,7 +313,7 @@
 		[CSComScore onUxActive];
 	}
 	
-    RTSAnalyticsLogVerbose(@"Notify stream tracker event %@ for media identifier `%@`", @(eventType), mediaPlayerController.identifier);
+    SRGAnalyticsLogVerbose(@"Notify stream tracker event %@ for media identifier `%@`", @(eventType), mediaPlayerController.identifier);
 
     // If no segment has been provided, send full-length information
     if (!segment) {
@@ -323,7 +327,7 @@
     if ([self.dataSource respondsToSelector:@selector(comScoreReadyToPlayLabelsForIdentifier:)]) {
         NSDictionary *labels = [self.dataSource comScoreReadyToPlayLabelsForIdentifier:mediaPlayerController.identifier];
         if (labels) {
-            RTSAnalyticsLogVerbose(@"Notify comScore view event for media identifier `%@`", mediaPlayerController.identifier);
+            SRGAnalyticsLogVerbose(@"Notify comScore view event for media identifier `%@`", mediaPlayerController.identifier);
             [CSComScore viewWithLabels:labels];
         }
     }

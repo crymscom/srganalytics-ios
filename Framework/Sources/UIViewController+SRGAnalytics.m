@@ -4,15 +4,15 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "UIViewController+RTSAnalytics.h"
+#import "UIViewController+SRGAnalytics.h"
 
 #import <objc/runtime.h>
 
-#import "RTSAnalyticsTracker.h"
-#import "NSString+RTSAnalytics.h"
-#import "RTSAnalyticsPageViewDataSource.h"
+#import "SRGAnalyticsTracker.h"
+#import "NSString+SRGAnalytics.h"
+#import "SRGAnalyticsPageViewDataSource.h"
 
-@implementation UIViewController (RTSAnalytics)
+@implementation UIViewController (SRGAnalytics)
 
 static void (*viewDidAppearIMP)(UIViewController *, SEL, BOOL);
 static void AnalyticsViewDidAppear(UIViewController *self, SEL _cmd, BOOL animated);
@@ -20,8 +20,8 @@ static void AnalyticsViewDidAppear(UIViewController *self, SEL _cmd, BOOL animat
 {
 	viewDidAppearIMP(self, _cmd, animated);
     
-    if ([self conformsToProtocol:@protocol(RTSAnalyticsPageViewDataSource)]) {
-        id<RTSAnalyticsPageViewDataSource> dataSource = (id<RTSAnalyticsPageViewDataSource>)self;
+    if ([self conformsToProtocol:@protocol(SRGAnalyticsPageViewDataSource)]) {
+        id<SRGAnalyticsPageViewDataSource> dataSource = (id<SRGAnalyticsPageViewDataSource>)self;
         if (![dataSource respondsToSelector:@selector(isTrackedAutomatically)] || [dataSource isTrackedAutomatically]) {
             [self trackPageView];
         }
@@ -30,8 +30,8 @@ static void AnalyticsViewDidAppear(UIViewController *self, SEL _cmd, BOOL animat
 
 - (void)trackPageView
 {
-	if ([self conformsToProtocol:@protocol(RTSAnalyticsPageViewDataSource)]) {
-		[[RTSAnalyticsTracker sharedTracker] trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)self];
+	if ([self conformsToProtocol:@protocol(SRGAnalyticsPageViewDataSource)]) {
+		[[SRGAnalyticsTracker sharedTracker] trackPageViewForDataSource:(id<SRGAnalyticsPageViewDataSource>)self];
 	}
 }
 

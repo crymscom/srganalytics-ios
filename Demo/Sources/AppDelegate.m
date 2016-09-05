@@ -12,7 +12,7 @@
 #import "Segment.h"
 #import "ViewController.h"
 
-@interface AppDelegate () <RTSAnalyticsMediaPlayerDataSource>
+@interface AppDelegate () <SRGAnalyticsMediaPlayerDataSource>
 
 @end
 
@@ -20,9 +20,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	RTSAnalyticsTracker *analyticsTracker = [RTSAnalyticsTracker sharedTracker];
-    [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS];
-    [analyticsTracker startStreamMeasurementWithMediaDataSource:self];
+	SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
+    [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitSRG];
+    [analyticsTracker staSRGtreamMeasurementWithMediaDataSource:self];
 	return YES;
 }
 
@@ -50,7 +50,7 @@
 	}];
 }
 
-#pragma mark - RTSAnalyticsMediaPlayerDataSource
+#pragma mark - SRGAnalyticsMediaPlayerDataSource
 
 - (NSDictionary *)streamSensePlaylistMetadataForIdentifier:(NSString *)identifier
 {

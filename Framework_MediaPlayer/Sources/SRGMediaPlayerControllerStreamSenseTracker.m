@@ -5,7 +5,8 @@
 //
 
 #import "SRGMediaPlayerControllerStreamSenseTracker.h"
-#import "RTSAnalyticsMediaPlayerDataSource.h"
+#import "SRGAnalyticsMediaPlayerDataSource.h"
+#import "SRGMediaPlayerController+SRGAnalytics.h"
 
 #import <ComScore/CSStreamSense.h>
 #import <ComScore/CSStreamSensePlaylist.h>
@@ -19,7 +20,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 @interface SRGMediaPlayerControllerStreamSenseTracker ()
 
 @property (nonatomic, strong) SRGMediaPlayerController *mediaPlayerController;
-@property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
+@property (nonatomic, weak) id<SRGAnalyticsMediaPlayerDataSource> dataSource;
 
 @end
 
@@ -31,7 +32,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 }
 
 - (id)initWithPlayer:(SRGMediaPlayerController *)mediaPlayerController
-          dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
+          dataSource:(id<SRGAnalyticsMediaPlayerDataSource>)dataSource
          virtualSite:(NSString *)virtualSite
 {
     NSParameterAssert(mediaPlayerController);
@@ -56,17 +57,17 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	[self setLabel:@"ns_vsite" value:virtualSite];
 	[self setLabel:@"srg_ptype" value:@"p_app_ios"];
 	
-	RTSAnalyticsLogVerbose(@"%@ : new Streamsense instance with ns_vsite = %@", LoggerDomainAnalyticsStreamSense, self.labels[@"ns_vsite"]);
+	SRGAnalyticsLogVerbose(@"%@ : new Streamsense instance with ns_vsite = %@", LoggerDomainAnalyticsStreamSense, self.labels[@"ns_vsite"]);
 
 	return self;
 }
 
-- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<RTSMediaSegment>)segment
+- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<SRGSegment>)segment
 {
     [self updateLabelsWithSegment:segment];
     
     // Logical segment: Return the segment beginning
-    if (playerEvent == CSStreamSensePlay && segment && segment.logical) {
+    if (playerEvent == CSStreamSensePlay && segment) {
         [self notify:playerEvent position:CMTimeGetSeconds(segment.timeRange.start) * 1000. labels:nil];
     }
     else {
@@ -79,7 +80,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 - (long)currentPositionInMilliseconds
 {
     // Live stream: Playhead position must be always 0
-    if (self.mediaPlayerController.streamType == RTSMediaStreamTypeLive || self.mediaPlayerController.streamType == RTSMediaStreamTypeDVR) {
+    if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
         return 0.0;
     }
     else {
@@ -93,7 +94,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 #pragma mark - Private Labels methods
 
-- (void)updateLabelsWithSegment:(id<RTSMediaSegment>)segment
+- (void)updateLabelsWithSegment:(id<SRGSegment>)segment
 {
 	// Labels
 	[self setLabel:@"ns_st_br" value:[self bitRate]];
@@ -160,9 +161,8 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	}
 	
 	// Clips
-	if ([self.dataSource respondsToSelector:@selector(streamSenseClipMetadataForIdentifier:withSegment:)]) {
-		NSDictionary *dataSourceClip = [self.dataSource streamSenseClipMetadataForIdentifier:self.mediaPlayerController.identifier
-                                                                                 withSegment:segment];
+    if ([self.dataSource respondsToSelector:@selector(streamSenseClipMetadataForIdentifier:withSegment:)]) {
+        NSDictionary *dataSourceClip = [self.dataSource streamSenseClipMetadataForIdentifier:self.mediaPlayerController.identifier withSegment:segment];
         
 		[dataSourceClip enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 			[[self clip] setLabel:key value:obj];
@@ -266,7 +266,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 // As requested by Markus Gubler, do not even send a "0" when it is not live stream.
 - (NSString *)liveStream
 {
-    return (self.mediaPlayerController.streamType == RTSMediaStreamTypeLive || self.mediaPlayerController.streamType == RTSMediaStreamTypeDVR) ? @"1" : nil;
+    return (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) ? @"1" : nil;
 }
 
 - (NSString *) dimensions
@@ -282,8 +282,8 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 - (NSString *)timeshiftFromLiveInMilliseconds
 {
-    if (self.mediaPlayerController.streamType == RTSMediaStreamTypeDVR) {
-        CMTime timeShift = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), self.mediaPlayerController.playerItem.currentTime);
+    if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
+        CMTime timeShift = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), self.mediaPlayerController.player.currentItem.currentTime);
         NSInteger timeShiftInSeconds = (NSInteger)fabs(CMTimeGetSeconds(timeShift));
         
         // Consider offsets smaller than the tolerance to be equivalent to live conditions, sending 0 instead of the real offset
@@ -294,7 +294,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
             return [NSString stringWithFormat:@"%@", @(timeShiftInSeconds * 1000)];
         }
     }
-    else if (self.mediaPlayerController.streamType == RTSMediaStreamTypeLive) {
+    else if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive) {
         return @"0";
     }
     return nil;

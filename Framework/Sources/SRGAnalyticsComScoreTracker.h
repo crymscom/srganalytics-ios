@@ -17,6 +17,6 @@
  *  The `userInfo` contains the `ComScoreRequestSuccessUserInfoKey` which is a BOOL NSNumber indicating if the request succeeded or failed.
  *  The `userInfo` also contains the `ComScoreRequestLabelsUserInfoKey` which is a NSDictionary representing all the labels.
  */
-FOUNDATION_EXTERN NSString * const RTSAnalyticsComScoreRequestDidFinishNotification;
-FOUNDATION_EXTERN NSString * const RTSAnalyticsComScoreRequestSuccessUserInfoKey;
-FOUNDATION_EXTERN NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey;
+FOUNDATION_EXTERN NSString * const SRGAnalyticsComScoreRequestDidFinishNotification;
+FOUNDATION_EXTERN NSString * const SRGAnalyticsComScoreRequestSuccessUserInfoKey;
+FOUNDATION_EXTERN NSString * const SRGAnalyticsComScoreRequestLabelsUserInfoKey;

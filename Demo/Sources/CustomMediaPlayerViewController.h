@@ -6,6 +6,6 @@
 
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
-@interface CustomMediaPlayerViewController : RTSMediaPlayerViewController
+@interface CustomMediaPlayerViewController : SRGMediaPlayerViewController
 
 @end

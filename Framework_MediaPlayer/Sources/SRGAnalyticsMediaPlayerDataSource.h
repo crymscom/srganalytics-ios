@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SRGMediaSegment;
+@protocol SRGSegment;
 
 /**
  *  The `SRGAnalyticsMediaPlayerDataSource` groups methods that are used for Streamsense measurement when using the SRG Media Player
@@ -45,6 +45,6 @@
  *
  *  @return a dictionary of clip labels.
  */
-- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(id<SRGMediaSegment>)segment;
+- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(id<SRGSegment>)segment;
 
 @end

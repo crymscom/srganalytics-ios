@@ -4,14 +4,14 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "CSRequest+RTSAnalytics.h"
+#import "CSRequest+SRGAnalytics.h"
 #import <objc/runtime.h>
 
-NSString * const RTSAnalyticsComScoreRequestDidFinishNotification = @"RTSAnalyticsComScoreRequestDidFinish";
-NSString * const RTSAnalyticsComScoreRequestSuccessUserInfoKey = @"RTSAnalyticsSuccess";
-NSString * const RTSAnalyticsComScoreRequestLabelsUserInfoKey = @"RTSAnalyticsLabels";
+NSString * const SRGAnalyticsComScoreRequestDidFinishNotification = @"SRGAnalyticsComScoreRequestDidFinish";
+NSString * const SRGAnalyticsComScoreRequestSuccessUserInfoKey = @"SRGAnalyticsSuccess";
+NSString * const SRGAnalyticsComScoreRequestLabelsUserInfoKey = @"SRGAnalyticsLabels";
 
-@implementation CSRequest (RTSNotification)
+@implementation CSRequest (SRGNotification)
 
 static BOOL (*sendIMP)(CSRequest *, SEL);
 
@@ -31,8 +31,8 @@ static BOOL NotificationSend(CSRequest *self, SEL _cmd)
         labels[name] = value;
     }
     
-	NSDictionary *userInfo = @{ RTSAnalyticsComScoreRequestSuccessUserInfoKey: @(success), RTSAnalyticsComScoreRequestLabelsUserInfoKey: [labels copy] };
-    [[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsComScoreRequestDidFinishNotification object:self userInfo:userInfo];
+	NSDictionary *userInfo = @{ SRGAnalyticsComScoreRequestSuccessUserInfoKey: @(success), SRGAnalyticsComScoreRequestLabelsUserInfoKey: [labels copy] };
+    [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestDidFinishNotification object:self userInfo:userInfo];
 	
 	return success;
 }

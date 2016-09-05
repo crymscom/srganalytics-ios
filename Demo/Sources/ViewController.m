@@ -7,7 +7,7 @@
 #import "ViewController.h"
 #import <SRGAnalytics/SRGAnalytics.h>
 
-@interface ViewController () <RTSAnalyticsPageViewDataSource>
+@interface ViewController () <SRGAnalyticsPageViewDataSource>
 
 @end
 
@@ -18,7 +18,7 @@
 	[self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-#pragma mark - RTSAnalyticsPageViewDataSource
+#pragma mark - SRGAnalyticsPageViewDataSource
 
 - (NSString *)pageViewTitle
 {

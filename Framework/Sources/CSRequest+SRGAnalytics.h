@@ -14,6 +14,6 @@
 - (BOOL)send;
 @end
 
-@interface CSRequest (RTSNotification)
+@interface CSRequest (SRGNotification)
 // The implementation swizzles `send` for posting the `ComScoreRequestDidFinishNotification` notification.
 @end

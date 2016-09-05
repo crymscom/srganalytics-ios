@@ -6,9 +6,9 @@
 
 #import "SRGAnalytics.h"
 
-#import "NSBundle+RTSAnalytics.h"
+#import "NSBundle+SRGAnalytics.h"
 
 NSString * SRGAnalyticsMarketingVersion(void)
 {
-    return [NSBundle RTSAnalyticsBundle].infoDictionary[@"CFBundleVersion"];
+    return [NSBundle SRGAnalyticsBundle].infoDictionary[@"CFBundleVersion"];
 }

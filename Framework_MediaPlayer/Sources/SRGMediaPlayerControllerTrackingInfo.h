@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 
 @class SRGMediaPlayerController;
-@protocol RTSMediaSegment;
+@protocol SRGSegment;
 
 /**
  *  Collect data related to a media player controller being tracked
@@ -27,7 +27,7 @@
 /**
  *  The current segment played by the controller, nil if none
  */
-@property (nonatomic) id<RTSMediaSegment> currentSegment;
+@property (nonatomic) id<SRGSegment> currentSegment;
 
 /**
  *  Set to YES iff the next play / pause events must be skipped

@@ -9,7 +9,10 @@
 
 @implementation CustomMediaPlayerViewController
 
-#pragma mark - RTSAnalyticsMediaPlayerDelegate
+- (instancetype)initWithContentURL:(NSURL *)contentURL
+{
+    return [super initWithContentURL:contentURL];
+}
 
 - (void)viewDidLoad
 {
