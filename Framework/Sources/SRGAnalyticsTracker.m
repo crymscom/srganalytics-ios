@@ -4,41 +4,41 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "RTSAnalyticsTracker.h"
+#import "SRGAnalyticsTracker.h"
 
-#import "RTSAnalyticsNetmetrixTracker.h"
+#import "SRGAnalyticsNetmetrixTracker.h"
 
-#import "NSString+RTSAnalytics.h"
-#import "NSDictionary+RTSAnalytics.h"
-#import "RTSAnalyticsTracker+Logging.h"
-#import "RTSAnalyticsLogger.h"
-#import "RTSAnalyticsPageViewDataSource.h"
+#import "NSString+SRGAnalytics.h"
+#import "NSDictionary+SRGAnalytics.h"
+#import "SRGAnalyticsTracker+Logging.h"
+#import "SRGAnalyticsLogger.h"
+#import "SRGAnalyticsPageViewDataSource.h"
 
 #import <ComScore/CSComScore.h>
 #import <UIKit/UIKit.h>
 
-NSString * const RTSAnalyticsNetmetrixRequestDidFinishNotification = @"RTSAnalyticsNetmetrixRequestDidFinish";
-NSString * const RTSAnalyticsNetmetrixRequestSuccessUserInfoKey = @"RTSAnalyticsNetmetrixSuccess";
-NSString * const RTSAnalyticsNetmetrixRequestErrorUserInfoKey = @"RTSAnalyticsNetmetrixError";
-NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalyticsNetmetrixResponse";
+NSString * const SRGAnalyticsNetmetrixRequestDidFinishNotification = @"SRGAnalyticsNetmetrixRequestDidFinish";
+NSString * const SRGAnalyticsNetmetrixRequestSuccessUserInfoKey = @"SRGAnalyticsNetmetrixSuccess";
+NSString * const SRGAnalyticsNetmetrixRequestErrorUserInfoKey = @"SRGAnalyticsNetmetrixError";
+NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalyticsNetmetrixResponse";
 
-@interface RTSAnalyticsTracker () {
+@interface SRGAnalyticsTracker () {
 @private
     BOOL _debugMode;
 }
-@property (nonatomic, strong) RTSAnalyticsNetmetrixTracker *netmetrixTracker;
-@property (nonatomic, weak) id<RTSAnalyticsPageViewDataSource> lastPageViewDataSource;
+@property (nonatomic, strong) SRGAnalyticsNetmetrixTracker *netmetrixTracker;
+@property (nonatomic, weak) id<SRGAnalyticsPageViewDataSource> lastPageViewDataSource;
 @property (nonatomic, assign) SSRBusinessUnit businessUnit;
 @end
 
-@implementation RTSAnalyticsTracker
+@implementation SRGAnalyticsTracker
 
 + (instancetype)sharedTracker
 {
-	static RTSAnalyticsTracker *sharedInstance = nil;
-	static dispatch_once_t RTSAnalyticsTracker_onceToken;
-	dispatch_once(&RTSAnalyticsTracker_onceToken, ^{
-		sharedInstance = [[[self class] alloc] init_custom_RTSAnalyticsTracker];
+	static SRGAnalyticsTracker *sharedInstance = nil;
+	static dispatch_once_t SRGAnalyticsTracker_onceToken;
+	dispatch_once(&SRGAnalyticsTracker_onceToken, ^{
+		sharedInstance = [[[self class] alloc] init_custom_SRGAnalyticsTracker];
 	});
 	return sharedInstance;
 }
@@ -48,7 +48,7 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
     return [NSBundle mainBundle];
 }
 
-- (id)init_custom_RTSAnalyticsTracker
+- (id)init_custom_SRGAnalyticsTracker
 {
     self = [super init];
     if (self) {
@@ -103,7 +103,7 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 
 - (NSString *)infoDictionaryValueForKey:(NSString *)key
 {
-	NSDictionary *analyticsInfoDictionary = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RTSAnalytics"];
+	NSDictionary *analyticsInfoDictionary = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SRGAnalytics"];
 	return [analyticsInfoDictionary objectForKey:key];
 }
 
@@ -125,7 +125,7 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 
 - (void)startComscoreTracker
 {
-	NSAssert(self.comscoreVSite.length > 0, @"You MUST define `RTSAnalytics>ComscoreVirtualSite` key in your app Info.plist");
+	NSAssert(self.comscoreVSite.length > 0, @"You MUST define `SRGAnalytics>ComscoreVirtualSite` key in your app Info.plist");
 	
 	[CSComScore setAppContext];
 	[CSComScore setCustomerC2:@"6036016"];
@@ -155,7 +155,7 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
                                             @"srg_ap_push": @"0",
                                             @"ns_site": @"mainsite", // MGubler 17-Nov-2015: This 'mainsite' is a constant value. If wrong, everything is screwed.
                                             @"ns_vsite": self.comscoreVSite} mutableCopy]; // MGubler 17-Nov-2015: 'vsite' is associated with the app. It is created by comScore itself.
-                                                                                           // Even if it is 'easy' to create a new one (for new/easier reports, or fixing wrong values),
+                                                                                           // Even if it is 'easy' to create a new one (for new/easier repoSRG, or fixing wrong values),
                                                                                            // this must never change for the given app.
     if (_debugMode) {
         static NSString *debugTimestamp;
@@ -172,13 +172,13 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 
 - (void)startNetmetrixTracker
 {
-	NSAssert(self.netmetrixAppId.length > 0, @"You MUST define `RTSAnalytics>NetmetrixAppID` key in your app Info.plist");
-	self.netmetrixTracker = [[RTSAnalyticsNetmetrixTracker alloc] initWithAppID:self.netmetrixAppId businessUnit:self.businessUnit];
+	NSAssert(self.netmetrixAppId.length > 0, @"You MUST define `SRGAnalytics>NetmetrixAppID` key in your app Info.plist");
+	self.netmetrixTracker = [[SRGAnalyticsNetmetrixTracker alloc] initWithAppID:self.netmetrixAppId businessUnit:self.businessUnit];
 }
 
 #pragma mark - PageView tracking
 
-- (void)trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)dataSource
+- (void)trackPageViewForDataSource:(id<SRGAnalyticsPageViewDataSource>)dataSource
 {
 	_lastPageViewDataSource = dataSource;
 	

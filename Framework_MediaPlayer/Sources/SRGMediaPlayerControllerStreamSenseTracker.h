@@ -7,19 +7,19 @@
 #import <Foundation/Foundation.h>
 #import <ComScore/CSStreamSense.h>
 
-@class RTSMediaPlayerController;
+@class SRGMediaPlayerController;
 @protocol RTSMediaSegment;
 @protocol RTSAnalyticsMediaPlayerDataSource;
 
 /**
- *  The `RTSMediaPlayerControllerStreamSenseTracker` is a plugin for `RTSMediaPlayerController` which takes care of populating persistent labels, 
+ *  The `SRGMediaPlayerControllerStreamSenseTracker` is a plugin for `SRGMediaPlayerController` which takes care of populating persistent labels, 
  *  playlist labels and clip labels.
  *
  *  To add custom labels, playlist and clip labels implements a dataSource responding to `RTSAnalyticsMediaPlayerDataSource` protocol.
  *
  *  @discussion  Due to Comscore SDK implementation, Streamsense measurements are not sent when media player playback state changes to buffering.
  */
-@interface RTSMediaPlayerControllerStreamSenseTracker : CSStreamSense
+@interface SRGMediaPlayerControllerStreamSenseTracker : CSStreamSense
 
 /**
  *  ----------------------------------------------------
@@ -36,7 +36,7 @@
  *
  *  @return a media player controller StreamSense tracker.
  */
-- (id)initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController
+- (id)initWithPlayer:(SRGMediaPlayerController *)mediaPlayerController
           dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
          virtualSite:(NSString *)virtualSite OS_NONNULL_ALL;
 

@@ -7,21 +7,21 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  The `RTSAnalyticsPageViewDataSource` groups methods that are used for view event measurement.
+ *  The `SRGAnalyticsPageViewDataSource` groups methods that are used for view event measurement.
  * 
  *  If the view controller conforms to this protocol, the tracker will send a view event to Comscore and Netmetrix at each `-viewDidAppear:`,
  *  except if the optional -isTrackedAutomatically method is implemented and returns NO
  *
  *  This protocol can also be used to add custom labels to the view event
  */
-@protocol RTSAnalyticsPageViewDataSource <NSObject>
+@protocol SRGAnalyticsPageViewDataSource <NSObject>
 
 /**
  *  Returns the page view title to be sent in `srg_title` label for view event measurement.
  *
  *  @return the page view title. Empty or nil value will be replaced by `Untitled` value.
  *
- *  @discussion The title will be "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+RTSAnalyticsUtils` category.
+ *  @discussion The title will be "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
  */
 - (NSString *)pageViewTitle;
 
@@ -47,7 +47,7 @@
  *
  *  @return an array of string.
  *
- *  @discussion Each level value will be "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+RTSAnalyticsUtils` category.
+ *  @discussion Each level value will be "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
  */
 - (NSArray *)pageViewLevels;
 

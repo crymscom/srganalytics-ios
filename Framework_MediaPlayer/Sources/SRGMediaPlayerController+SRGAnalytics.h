@@ -6,7 +6,7 @@
 
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
-@interface RTSMediaPlayerController (RTSAnalytics)
+@interface SRGMediaPlayerController (SRGAnalytics)
 
 /**
  *  Set whether a stream tracker must be created for the receiver. The default value is YES.

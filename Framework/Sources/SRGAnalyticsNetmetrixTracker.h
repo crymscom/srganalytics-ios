@@ -4,14 +4,14 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "RTSAnalyticsNetmetrixTracker.h"
+#import "SRGAnalyticsNetmetrixTracker.h"
 
 /**
- *  `RTSAnalyticsNetmetrixTracker` is used to track view events for Netmetrix.
+ *  `SRGAnalyticsNetmetrixTracker` is used to track view events for Netmetrix.
  * 
  *  The destination URL is specified by a domain and appID.
  */
-@interface RTSAnalyticsNetmetrixTracker : NSObject
+@interface SRGAnalyticsNetmetrixTracker : NSObject
 
 /**
  *  --------------------------------------
@@ -20,10 +20,10 @@
  */
 
 /**
- *  Returns a `RTSAnalyticsNetmetrixTracker` object initialized with the specified appID and Netmetrix domain.
+ *  Returns a `SRGAnalyticsNetmetrixTracker` object initialized with the specified appID and Netmetrix domain.
  *
- *  @param appID  a unique id identifying Netmetrics application (e.g. rts-info, rts-sport, srg-player, ...)
- *  @param domain the nexmetrics domain used  (e.g. rts, srg, ...)
+ *  @param appID  a unique id identifying Netmetrics application (e.g. SRG-info, SRG-sport, srg-player, ...)
+ *  @param domain the nexmetrics domain used  (e.g. SRG, srg, ...)
  *
  *  @return a Netmetrix tracker
  */

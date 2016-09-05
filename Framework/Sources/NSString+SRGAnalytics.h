@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (RTSAnalytics)
+@interface NSString (SRGAnalytics)
 
 /**
  *  Format the receiver in a standard way

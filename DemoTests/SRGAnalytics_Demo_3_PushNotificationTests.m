@@ -8,11 +8,11 @@
 #import <XCTest/XCTest.h>
 #import <KIF/KIF.h>
 
-@interface RTSAnalytics_Demo_3_PushNotificationTests : KIFTestCase
+@interface SRGAnalytics_Demo_3_PushNotificationTests : KIFTestCase
 
 @end
 
-@implementation RTSAnalytics_Demo_3_PushNotificationTests
+@implementation SRGAnalytics_Demo_3_PushNotificationTests
 
 - (void)setUp
 {
@@ -24,8 +24,8 @@
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
-	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+	NSNotification *notification = [system waitForNotificationName:@"SRGAnalyticsComScoreRequestDidFinish" object:nil];
+	NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
     XCTAssertNil(labels[@"srg_test"]);
 	
@@ -37,8 +37,8 @@
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:@"RTSAnalyticsComScoreRequestDidFinish" object:nil];
-	NSDictionary *labels = notification.userInfo[@"RTSAnalyticsLabels"];
+	NSNotification *notification = [system waitForNotificationName:@"SRGAnalyticsComScoreRequestDidFinish" object:nil];
+	NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
     XCTAssertNil(labels[@"srg_test"]);
 	

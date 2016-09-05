@@ -6,17 +6,17 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol RTSMediaSegment;
+@protocol SRGMediaSegment;
 
 /**
- *  The `RTSAnalyticsMediaPlayerDataSource` groups methods that are used for Streamsense measurement when using the SRG Media Player
- *  library controller `RTSMediaPlayerController`. It can be used to customize the labels which are sent
+ *  The `SRGAnalyticsMediaPlayerDataSource` groups methods that are used for Streamsense measurement when using the SRG Media Player
+ *  library controller `SRGMediaPlayerController`. It can be used to customize the labels which are sent
  * 
  *  Each method is called when playback changes or at each Comscore SDK heartbeat, so the default labels, playlist labels and clip 
  *  labels are updated before sending measurement to Comscore/Streamsense. If a segments controller is used, additional events will 
  *  be received when the user selects a segment, switches segments, or when a currently selected segment playback ends
  */
-@protocol RTSAnalyticsMediaPlayerDataSource <NSObject>
+@protocol SRGAnalyticsMediaPlayerDataSource <NSObject>
 
 @optional
 
@@ -45,6 +45,6 @@
  *
  *  @return a dictionary of clip labels.
  */
-- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(id<RTSMediaSegment>)segment;
+- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(id<SRGMediaSegment>)segment;
 
 @end

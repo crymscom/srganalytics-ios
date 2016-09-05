@@ -4,9 +4,9 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "NSString+RTSAnalytics.h"
+#import "NSString+SRGAnalytics.h"
 
-@implementation NSString (RTSAnalytics)
+@implementation NSString (SRGAnalytics)
 
 - (NSString *)comScoreTitleFormattedString
 {

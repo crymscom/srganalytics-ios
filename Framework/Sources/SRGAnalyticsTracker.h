@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol RTSAnalyticsPageViewDataSource;
+@protocol SRGAnalyticsPageViewDataSource;
 
 /**
  * SRG/SSR Business units
@@ -21,18 +21,18 @@ typedef NS_ENUM(NSInteger, SSRBusinessUnit) {
 	SSRBusinessUnitSRF,
 	
 	/**
-	 *  Business unit for Radio Télévision Suisse (RTS)
+	 *  Business unit for Radio Télévision Suisse (SRG)
 	 *
-	 *  - Comscore value   : "rts"
-	 *  - Netmetrix domain : "rts"
+	 *  - Comscore value   : "SRG"
+	 *  - Netmetrix domain : "SRG"
 	 */
-	SSRBusinessUnitRTS,
+	SSRBusinessUnitSRG,
 	
 	/**
 	 *  Business unit for Radiotelevisione svizzera (RSI)
 	 *
 	 *  - Comscore value   : "rsi"
-	 *  - Netmetrix domain : "rtsi"
+	 *  - Netmetrix domain : "SRGi"
 	 */
 	SSRBusinessUnitRSI,
 	
@@ -63,27 +63,27 @@ typedef NS_ENUM(NSInteger, SSRBusinessUnit) {
 /**
  *  Posted when the request's response is received. The `object` of the notification is a NSURLRequest.
  */
-FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestDidFinishNotification;
+FOUNDATION_EXTERN NSString * const SRGAnalyticsNetmetrixRequestDidFinishNotification;
 
 /**
- * A NSNumber (boolean) indicating success in the user info dictionary of `RTSAnalyticsNetmetrixRequestDidFinishNotification`.
+ * A NSNumber (boolean) indicating success in the user info dictionary of `SRGAnalyticsNetmetrixRequestDidFinishNotification`.
  */
-FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestSuccessUserInfoKey;
+FOUNDATION_EXTERN NSString * const SRGAnalyticsNetmetrixRequestSuccessUserInfoKey;
 
 /**
- *  A NSError in the user info dictionary of `RTSAnalyticsNetmetrixRequestDidFinishNotification`. This key is not present if the request succeeded.
+ *  A NSError in the user info dictionary of `SRGAnalyticsNetmetrixRequestDidFinishNotification`. This key is not present if the request succeeded.
  */
-FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestErrorUserInfoKey;
+FOUNDATION_EXTERN NSString * const SRGAnalyticsNetmetrixRequestErrorUserInfoKey;
 
 /**
- *  A NSURLResponse in the user info dictionary of `RTSAnalyticsNetmetrixRequestDidFinishNotification`.
+ *  A NSURLResponse in the user info dictionary of `SRGAnalyticsNetmetrixRequestDidFinishNotification`.
  */
-FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey;
+FOUNDATION_EXTERN NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey;
 
 /**
- *  RTSAnalyticsTracker is used to track view and hidden events for SRGSSR apps
+ *  SRGAnalyticsTracker is used to track view and hidden events for SRGSSR apps
  */
-@interface RTSAnalyticsTracker : NSObject
+@interface SRGAnalyticsTracker : NSObject
 
 /**
  *  ---------------------------------------
@@ -108,7 +108,7 @@ FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoK
  *
  *  @discussion the tracker uses values set in application Info.plist to track Comscore and Netmetrix measurement.
  *
- *  Add an Info.plist dictionary named `RTSAnalytics` with 2 keypairs :
+ *  Add an Info.plist dictionary named `SRGAnalytics` with 2 keypairs :
  *              ComscoreVirtualSite    : string - mandatory
  *              NetmetrixAppID         : string - NetmetrixAppID MUST be set ONLY for application in production.
  *
@@ -145,7 +145,7 @@ FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoK
 /**
  *  Returns the business unit depending on its identifier
  *
- *  @param buIdentifier the identifier string like 'srf', 'rts', 'rsi', 'rtr', 'swi'
+ *  @param buIdentifier the identifier string like 'srf', 'SRG', 'rsi', 'rtr', 'swi'
  *
  *  @return the corresponding business unit
  */
@@ -159,19 +159,19 @@ FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoK
 
 /**
  *  Track a view event with specified dataSource. 
- *  It will retrieve the page view labels dictionary from methods defined in `RTSAnalyticsPageViewDataSource` protocol.
+ *  It will retrieve the page view labels dictionary from methods defined in `SRGAnalyticsPageViewDataSource` protocol.
  *
- *  @param dataSource the dataSource implementing the `RTSAnalyticsPageViewDataSource` protocol. (Mandatory)
+ *  @param dataSource the dataSource implementing the `SRGAnalyticsPageViewDataSource` protocol. (Mandatory)
  *
- *  @discussion the method is automatically called by view controllers conforming the `RTSAnalyticsPageViewDataSource` protocol, 
- *  @see `RTSAnalyticsPageViewDataSource`. The method can be called manually to send view events when changing page content 
+ *  @discussion the method is automatically called by view controllers conforming the `SRGAnalyticsPageViewDataSource` protocol, 
+ *  @see `SRGAnalyticsPageViewDataSource`. The method can be called manually to send view events when changing page content 
  *  without presenting a new view controller:, e.g. when using UISegmentedControl, or when filtering data using the same view
  *  controller instance.
  *
  *  The methods is also automatically called when the app becomes active again. A reference of the last page view datasource is 
  *  kept by the tracker.
  */
-- (void)trackPageViewForDataSource:(id<RTSAnalyticsPageViewDataSource>)dataSource;
+- (void)trackPageViewForDataSource:(id<SRGAnalyticsPageViewDataSource>)dataSource;
 
 /**
  *  Track a view event identified by its title and levels labels. 
@@ -186,7 +186,7 @@ FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoK
  *  Track a view event identified by its title, levels labels and origin (user opening the page view from a push notification or not).
  *
  *  @param title        the page title tracked by Comscore (set as `srg_title` label). (Mandatory)
- *                      The title value is "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+RTSAnalyticsUtils` category.
+ *                      The title value is "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
  *                      An empty or nil title will be replaced with `Untitled` value.
  *  @param levels       a list of strings. Each level will be set as srg_nX (srg_n1, srg_n2, ...) label and will be concatenated in `category` 
  *                      label. (Optional)
@@ -195,7 +195,7 @@ FOUNDATION_EXTERN NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoK
  *  @param fromPush     YES, if the view controller has been opened from a push notification, NO otherwise.
  *
  *  @discussion if the levels array is nil or empty, then one level called `srg_n1` is added with default value `app`.
- *  Each level value is "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+RTSAnalyticsUtils` category.
+ *  Each level value is "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
  */
 - (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels customLabels:(NSDictionary *)customLabels fromPushNotification:(BOOL)fromPush;
 

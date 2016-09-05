@@ -4,22 +4,22 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "RTSAnalyticsTracker.h"
-#import "RTSAnalyticsNetmetrixTracker.h"
-#import "RTSAnalyticsLogger.h"
+#import "SRGAnalyticsTracker.h"
+#import "SRGAnalyticsNetmetrixTracker.h"
+#import "SRGAnalyticsLogger.h"
 
 #import <UIKit/UIKit.h>
 
 static NSString * const LoggerDomainAnalyticsNetmetrix = @"Netmetrix";
 
-@interface RTSAnalyticsNetmetrixTracker ()
+@interface SRGAnalyticsNetmetrixTracker ()
 
 @property (nonatomic, strong) NSString *appID;
 @property (nonatomic, assign) SSRBusinessUnit businessUnit;
 
 @end
 
-@implementation RTSAnalyticsNetmetrixTracker
+@implementation SRGAnalyticsNetmetrixTracker
 
 - (instancetype) initWithAppID:(NSString *)appID businessUnit:(SSRBusinessUnit)businessUnit
 {
@@ -29,14 +29,14 @@ static NSString * const LoggerDomainAnalyticsNetmetrix = @"Netmetrix";
 	_appID = appID;
 	_businessUnit = businessUnit;
 	
-	RTSAnalyticsLogDebug(@"%@ initialization\nAppID: %@\nDomain: %@", LoggerDomainAnalyticsNetmetrix, appID, self.netmetrixDomain);
+	SRGAnalyticsLogDebug(@"%@ initialization\nAppID: %@\nDomain: %@", LoggerDomainAnalyticsNetmetrix, appID, self.netmetrixDomain);
 
 	return self;
 }
 
 - (NSString *) netmetrixDomain
 {
-	NSArray *netmetrixDomains = @[ @"srf", @"rts", @"rtsi", @"rtr", @"swissinf" ];
+	NSArray *netmetrixDomains = @[ @"srf", @"SRG", @"SRGi", @"rtr", @"swissinf" ];
 	return netmetrixDomains[self.businessUnit];
 }
 
@@ -60,29 +60,29 @@ static NSString * const LoggerDomainAnalyticsNetmetrix = @"Netmetrix";
 	
 	if (testMode)
 	{
-		RTSAnalyticsLogWarning(@"%@ response will be fake due to testing flag or xctest bundle presence", LoggerDomainAnalyticsNetmetrix);
+		SRGAnalyticsLogWarning(@"%@ response will be fake due to testing flag or xctest bundle presence", LoggerDomainAnalyticsNetmetrix);
 	}
 	else
 	{
-		RTSAnalyticsLogVerbose(@"%@ : will send view event:\nurl        = %@\nuser-agent = %@", LoggerDomainAnalyticsNetmetrix, netmetrixURLString, userAgent);
+		SRGAnalyticsLogVerbose(@"%@ : will send view event:\nurl        = %@\nuser-agent = %@", LoggerDomainAnalyticsNetmetrix, netmetrixURLString, userAgent);
 		[NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
 			
 			BOOL succes = !connectionError;
 			if (succes) {
-				RTSAnalyticsLogInfo(@"%@ view > %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod);
+				SRGAnalyticsLogInfo(@"%@ view > %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod);
 			}else{
-				RTSAnalyticsLogError(@"%@ ERROR sending %@ view : %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod, connectionError.localizedDescription);
+				SRGAnalyticsLogError(@"%@ ERROR sending %@ view : %@", LoggerDomainAnalyticsNetmetrix, request.HTTPMethod, connectionError.localizedDescription);
 			}
 			
-			RTSAnalyticsLogDebug(@"%@ view event sent:\n%@", LoggerDomainAnalyticsNetmetrix, [(NSHTTPURLResponse *)response allHeaderFields]);
+			SRGAnalyticsLogDebug(@"%@ view event sent:\n%@", LoggerDomainAnalyticsNetmetrix, [(NSHTTPURLResponse *)response allHeaderFields]);
 			
-			NSMutableDictionary *userInfo = [@{ RTSAnalyticsNetmetrixRequestSuccessUserInfoKey: @(succes) } mutableCopy];
+			NSMutableDictionary *userInfo = [@{ SRGAnalyticsNetmetrixRequestSuccessUserInfoKey: @(succes) } mutableCopy];
 			if (response)
-				userInfo[RTSAnalyticsNetmetrixRequestResponseUserInfoKey] = response;
+				userInfo[SRGAnalyticsNetmetrixRequestResponseUserInfoKey] = response;
 			if (connectionError)
-				userInfo[RTSAnalyticsNetmetrixRequestErrorUserInfoKey] = connectionError;
+				userInfo[SRGAnalyticsNetmetrixRequestErrorUserInfoKey] = connectionError;
 			
-			[[NSNotificationCenter defaultCenter] postNotificationName:RTSAnalyticsNetmetrixRequestDidFinishNotification object:request userInfo:[userInfo copy]];
+			[[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsNetmetrixRequestDidFinishNotification object:request userInfo:[userInfo copy]];
 		}];
 	}
 }

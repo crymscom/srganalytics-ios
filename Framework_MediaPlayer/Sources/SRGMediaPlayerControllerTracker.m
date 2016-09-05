@@ -4,17 +4,17 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "RTSMediaPlayerControllerTracker.h"
+#import "SRGMediaPlayerControllerTracker.h"
 #import "RTSAnalyticsMediaPlayerDataSource.h"
-#import "RTSMediaPlayerControllerTrackingInfo.h"
-#import "RTSMediaPlayerController+RTSAnalytics.h"
-#import "RTSMediaPlayerControllerStreamSenseTracker.h"
+#import "SRGMediaPlayerControllerTrackingInfo.h"
+#import "SRGMediaPlayerController+RTSAnalytics.h"
+#import "SRGMediaPlayerControllerStreamSenseTracker.h"
 
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 #import <ComScore/CSComScore.h>
 
-@interface RTSMediaPlayerControllerTracker ()
+@interface SRGMediaPlayerControllerTracker ()
 
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
 
@@ -25,19 +25,19 @@
 
 @end
 
-@implementation RTSMediaPlayerControllerTracker
+@implementation SRGMediaPlayerControllerTracker
 
 + (instancetype) sharedTracker
 {
-	static RTSMediaPlayerControllerTracker *sharedInstance = nil;
+	static SRGMediaPlayerControllerTracker *sharedInstance = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		sharedInstance = [[[self class] alloc] init_custom_RTSMediaPlayerControllerTracker];
+		sharedInstance = [[[self class] alloc] init_custom_SRGMediaPlayerControllerTracker];
 	});
 	return sharedInstance;
 }
 
-- (id)init_custom_RTSMediaPlayerControllerTracker
+- (id)init_custom_SRGMediaPlayerControllerTracker
 {
 	if (!(self = [super init]))
 		return nil;
@@ -87,12 +87,12 @@
 		return;
 	}
 	
-	RTSMediaPlayerController *mediaPlayerController = notification.object;
+	SRGMediaPlayerController *mediaPlayerController = notification.object;
     if (!mediaPlayerController.identifier) {
         return;
     }
     
-    RTSMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
+    SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
     
     RTSAnalyticsLogDebug(@"---> Playback status changed: %@", @(mediaPlayerController.playbackState));
     
@@ -162,12 +162,12 @@
 - (void)mediaPlayerPlaybackSegmentsDidChange:(NSNotification *)notification
 {
     RTSMediaSegmentsController *segmentsController = notification.object;
-    RTSMediaPlayerController *mediaPlayerController = segmentsController.playerController;
+    SRGMediaPlayerController *mediaPlayerController = segmentsController.playerController;
     if (!mediaPlayerController.tracked || !mediaPlayerController.identifier) {
         return;
     }
     
-    RTSMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
+    SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
     if (!trackingInfo) {
         return;
     }
@@ -233,7 +233,7 @@
 
 - (void)mediaPlayerPlaybackDidFail:(NSNotification *)notification
 {
-	RTSMediaPlayerController *mediaPlayerController = notification.object;
+	SRGMediaPlayerController *mediaPlayerController = notification.object;
     if (mediaPlayerController.tracked) {
 		[self stopTrackingMediaPlayerController:mediaPlayerController];
     }
@@ -241,24 +241,24 @@
 
 #pragma mark - Tracking information
 
-- (RTSMediaPlayerControllerTrackingInfo *)trackingInfoForMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+- (SRGMediaPlayerControllerTrackingInfo *)trackingInfoForMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
 {
     NSParameterAssert(mediaPlayerController.identifier);
     
-    RTSMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[mediaPlayerController.identifier];
+    SRGMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[mediaPlayerController.identifier];
     if (!trackingInfo) {
-        trackingInfo = [[RTSMediaPlayerControllerTrackingInfo alloc] initWithMediaPlayerController:mediaPlayerController];
+        trackingInfo = [[SRGMediaPlayerControllerTrackingInfo alloc] initWithMediaPlayerController:mediaPlayerController];
         self.trackingInfos[mediaPlayerController.identifier] = trackingInfo;
     }
     return trackingInfo;
 }
 
-- (void)discardTrackingInfoForMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+- (void)discardTrackingInfoForMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
 {
     [self.trackingInfos removeObjectForKey:mediaPlayerController.identifier];
 }
 
-+ (id<RTSMediaSegment>)fullLengthSegmentForMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
++ (id<RTSMediaSegment>)fullLengthSegmentForMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
 {
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id<RTSMediaSegment>  _Nonnull segment, NSDictionary<NSString *,id> * _Nullable bindings) {
         return [mediaPlayerController.identifier isEqualToString:segment.segmentIdentifier] && !segment.logical;
@@ -268,20 +268,20 @@
 
 #pragma mark - Stream tracking
 
-- (void)startTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+- (void)startTrackingMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
 {
 	[self notifyStreamTrackerEvent:CSStreamSensePlay
                        mediaPlayer:mediaPlayerController
                            segment:nil];
 }
 
-- (void)stopTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController
+- (void)stopTrackingMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
 {
     if (![self.streamsenseTrackers.allKeys containsObject:mediaPlayerController.identifier]) {
 		return;
     }
 	
-    RTSMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[mediaPlayerController.identifier];
+    SRGMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[mediaPlayerController.identifier];
 	[self notifyStreamTrackerEvent:CSStreamSenseEnd
                        mediaPlayer:mediaPlayerController
                            segment:trackingInfo.currentSegment];
@@ -294,14 +294,14 @@
 }
 
 - (void)notifyStreamTrackerEvent:(CSStreamSenseEventType)eventType
-                     mediaPlayer:(RTSMediaPlayerController *)mediaPlayerController
+                     mediaPlayer:(SRGMediaPlayerController *)mediaPlayerController
                          segment:(id<RTSMediaSegment>)segment
 {
-	RTSMediaPlayerControllerStreamSenseTracker *tracker = self.streamsenseTrackers[mediaPlayerController.identifier];
+	SRGMediaPlayerControllerStreamSenseTracker *tracker = self.streamsenseTrackers[mediaPlayerController.identifier];
 	if (!tracker) {
 		RTSAnalyticsLogVerbose(@"Create a new stream tracker for media identifier `%@`", mediaPlayerController.identifier);
 		
-		tracker = [[RTSMediaPlayerControllerStreamSenseTracker alloc] initWithPlayer:mediaPlayerController
+		tracker = [[SRGMediaPlayerControllerStreamSenseTracker alloc] initWithPlayer:mediaPlayerController
                                                                           dataSource:self.dataSource
                                                                          virtualSite:self.virtualSite];
         
@@ -313,12 +313,12 @@
 
     // If no segment has been provided, send full-length information
     if (!segment) {
-        segment = [RTSMediaPlayerControllerTracker fullLengthSegmentForMediaPlayerController:mediaPlayerController];
+        segment = [SRGMediaPlayerControllerTracker fullLengthSegmentForMediaPlayerController:mediaPlayerController];
     }
     [tracker notify:eventType withSegment:segment];
 }
 
-- (void)notifyComScoreOfReadyToPlayEvent:(RTSMediaPlayerController *)mediaPlayerController
+- (void)notifyComScoreOfReadyToPlayEvent:(SRGMediaPlayerController *)mediaPlayerController
 {
     if ([self.dataSource respondsToSelector:@selector(comScoreReadyToPlayLabelsForIdentifier:)]) {
         NSDictionary *labels = [self.dataSource comScoreReadyToPlayLabelsForIdentifier:mediaPlayerController.identifier];

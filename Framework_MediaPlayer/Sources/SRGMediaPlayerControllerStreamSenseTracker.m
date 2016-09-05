@@ -4,7 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "RTSMediaPlayerControllerStreamSenseTracker.h"
+#import "SRGMediaPlayerControllerStreamSenseTracker.h"
 #import "RTSAnalyticsMediaPlayerDataSource.h"
 
 #import <ComScore/CSStreamSense.h>
@@ -16,21 +16,21 @@
 
 static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
-@interface RTSMediaPlayerControllerStreamSenseTracker ()
+@interface SRGMediaPlayerControllerStreamSenseTracker ()
 
-@property (nonatomic, strong) RTSMediaPlayerController *mediaPlayerController;
+@property (nonatomic, strong) SRGMediaPlayerController *mediaPlayerController;
 @property (nonatomic, weak) id<RTSAnalyticsMediaPlayerDataSource> dataSource;
 
 @end
 
-@implementation RTSMediaPlayerControllerStreamSenseTracker
+@implementation SRGMediaPlayerControllerStreamSenseTracker
 
 - (void)dealloc
 {
 	_mediaPlayerController = nil;
 }
 
-- (id)initWithPlayer:(RTSMediaPlayerController *)mediaPlayerController
+- (id)initWithPlayer:(SRGMediaPlayerController *)mediaPlayerController
           dataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource
          virtualSite:(NSString *)virtualSite
 {

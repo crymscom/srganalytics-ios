@@ -6,23 +6,23 @@
 
 #import <Foundation/Foundation.h>
 
-@class RTSMediaPlayerController;
+@class SRGMediaPlayerController;
 @protocol RTSMediaSegment;
 
 /**
  *  Collect data related to a media player controller being tracked
  */
-@interface RTSMediaPlayerControllerTrackingInfo : NSObject
+@interface SRGMediaPlayerControllerTrackingInfo : NSObject
 
 /**
  *  Create a tracking info instance bound to the specified media player controller
  */
-- (instancetype)initWithMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController;
+- (instancetype)initWithMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController;
 
 /**
  *  The media player controller to which the information is related to
  */
-@property (nonatomic, readonly, weak) RTSMediaPlayerController *mediaPlayerController;
+@property (nonatomic, readonly, weak) SRGMediaPlayerController *mediaPlayerController;
 
 /**
  *  The current segment played by the controller, nil if none

@@ -6,11 +6,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSDictionary (RTSAnalytics)
+@interface NSBundle (SRGAnalytics)
 
-/**
- *  Set value and key iff both are non-nil
- */
-- (void)safeSetValue:(id)value forKey:(NSString *)key;
++ (instancetype)SRGAnalyticsBundle;
 
 @end

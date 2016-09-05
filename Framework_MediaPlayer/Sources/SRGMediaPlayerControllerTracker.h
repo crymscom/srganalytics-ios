@@ -6,10 +6,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class RTSMediaPlayerController;
+@class SRGMediaPlayerController;
 @protocol RTSAnalyticsMediaPlayerDataSource;
 
-@interface RTSMediaPlayerControllerTracker : NSObject
+@interface SRGMediaPlayerControllerTracker : NSObject
 
 /**
  *  ---------------------------------------
@@ -39,17 +39,17 @@
 - (void)startStreamMeasurementForVirtualSite:(NSString *)virtualSite mediaDataSource:(id<RTSAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL_ALL;
 
 /**
- *  Force tracking a media. Create a new `RTSMediaPlayerControllerStreamSenseTracker` instance and sends a "start" event type.
+ *  Force tracking a media. Create a new `SRGMediaPlayerControllerStreamSenseTracker` instance and sends a "start" event type.
  *
  *  @param mediaPlayerController the media player controller instance to track
  */
-- (void)startTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController;
+- (void)startTrackingMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController;
 
 /**
- *  Force to stop tracking a media. Automatically sends an "end" event type and remove the `RTSMediaPlayerControllerStreamSenseTracker` instance.
+ *  Force to stop tracking a media. Automatically sends an "end" event type and remove the `SRGMediaPlayerControllerStreamSenseTracker` instance.
  *
  *  @param mediaPlayerController the media player controller instance to be removed from tracking
  */
-- (void)stopTrackingMediaPlayerController:(RTSMediaPlayerController *)mediaPlayerController;
+- (void)stopTrackingMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController;
 
 @end

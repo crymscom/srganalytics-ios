@@ -4,23 +4,23 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "RTSAnalyticsTracker+Logging.h"
+#import "SRGAnalyticsTracker+Logging.h"
 
 #import <ComScore/CSCore.h>
 #import <ComScore/CSComScore.h>
 #import <ComScore/CSTaskExecutor.h>
 
-#import "CSRequest+RTSAnalytics.h"
-#import "RTSAnalyticsLogger.h"
-#import "RTSAnalyticsComScoreTracker.h"
+#import "CSRequest+SRGAnalytics.h"
+#import "SRGAnalyticsLogger.h"
+#import "SRGAnalyticsComScoreTracker.h"
 
-@implementation RTSAnalyticsTracker (Logging)
+@implementation SRGAnalyticsTracker (Logging)
 
 - (void)startLoggingInternalComScoreTasks
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(comScoreRequestDidFinish:)
-                                                 name:RTSAnalyticsComScoreRequestDidFinishNotification
+                                                 name:SRGAnalyticsComScoreRequestDidFinishNotification
                                                object:nil];
 	
     // +[CSComScore setPixelURL:] is dispatched on an internal comScore queue, so calling +[CSComScore pixelURL]
@@ -42,7 +42,7 @@
 			 [message appendFormat:@"%@: %@\n", NSStringFromSelector(selector), [CSComScore performSelector:selector]];
 		 }
 		 [message deleteCharactersInRange:NSMakeRange(message.length - 1, 1)];
-		 RTSAnalyticsLogDebug(@"%@", message);
+		 SRGAnalyticsLogDebug(@"%@", message);
 		 
 	 } background:YES];
 }
@@ -51,7 +51,7 @@
 
 - (void)comScoreRequestDidFinish:(NSNotification *)notification
 {
-	NSDictionary *labels = notification.userInfo[RTSAnalyticsComScoreRequestLabelsUserInfoKey];
+	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreRequestLabelsUserInfoKey];
 	NSUInteger maxKeyLength = [[[labels allKeys] valueForKeyPath:@"@max.length"] unsignedIntegerValue];
 	
 	NSMutableString *dictionaryRepresentation = [NSMutableString new];
@@ -78,15 +78,15 @@
 	NSString *event = ns_st_ev ?  [typeSymbol stringByAppendingFormat:@" %@", ns_st_ev] : ns_ap_ev;
 	NSString *name = ns_st_ev ? [NSString stringWithFormat:@"%@ / %@", labels[@"ns_st_pl"], labels[@"ns_st_ep"]] : labels[@"name"];
 	
-	BOOL success = [notification.userInfo[RTSAnalyticsComScoreRequestSuccessUserInfoKey] boolValue];
+	BOOL success = [notification.userInfo[SRGAnalyticsComScoreRequestSuccessUserInfoKey] boolValue];
 	if (success) {
-		RTSAnalyticsLogInfo(@"%@ > %@", event, name);
+		SRGAnalyticsLogInfo(@"%@ > %@", event, name);
 	}
 	else {
-		RTSAnalyticsLogError(@"ERROR sending %@ > %@", event, name);
+		SRGAnalyticsLogError(@"ERROR sending %@ > %@", event, name);
 	}
 	
-	RTSAnalyticsLogDebug(@"Comscore %@ event sent:\n%@", labels[@"ns_type"], dictionaryRepresentation);
+	SRGAnalyticsLogDebug(@"Comscore %@ event sent:\n%@", labels[@"ns_type"], dictionaryRepresentation);
 }
 
 @end

@@ -4,9 +4,9 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "NSDictionary+RTSAnalytics.h"
+#import "NSDictionary+SRGAnalytics.h"
 
-@implementation NSDictionary (RTSAnalytics)
+@implementation NSDictionary (SRGAnalytics)
 
 - (void)safeSetValue:(id)value forKey:(NSString *)key
 {
