@@ -100,7 +100,7 @@
 	}
 	else if ([identifier hasSuffix:@"VODCell"] || [identifier hasSuffix:@"SegmentsCell"])
 	{
-		urlString = @"http://stream-i.SRG.ch/i/tp/1993/tp_10071993-,450,k.mp4.csmil/master.m3u8";
+		urlString = @"http://stream-i.rts.ch/i/tp/1993/tp_10071993-,450,k.mp4.csmil/master.m3u8";
 	}
     else if ([identifier hasSuffix:@"DVRCell"])
     {
