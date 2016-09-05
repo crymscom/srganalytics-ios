@@ -10,10 +10,10 @@
 
 @implementation SRGAnalyticsTracker (MediaPlayer)
 
-- (void)staSRGtreamMeasurementWithMediaDataSource:(id<SRGAnalyticsMediaPlayerDataSource>)dataSource;
+- (void)startStreamMeasurementWithMediaDataSource:(id<SRGAnalyticsMediaPlayerDataSource>)dataSource;
 {
     NSAssert(self.streamSenseVSite.length > 0, @"You MUST define `SRGAnalytics>ComscoreVirtualSite` key in your app Info.plist, optionally overridden with `SRGAnalytics>StreamSenseVirtualSite`");
-    [[SRGMediaPlayerControllerTracker sharedTracker] staSRGtreamMeasurementForVirtualSite:self.streamSenseVSite mediaDataSource:dataSource];
+    [[SRGMediaPlayerControllerTracker sharedTracker] startStreamMeasurementForVirtualSite:self.streamSenseVSite mediaDataSource:dataSource];
 }
 
 - (NSString *) streamSenseVSite

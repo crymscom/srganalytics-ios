@@ -20,7 +20,7 @@
  *              (see `-[SRGAnalyticsTracker startTrackingForBusinessUnit:] documentation`). This value can be optionally overridden
  *              by adding a StreamSenseVirtualSite entry to the same `SRGAnalytics` dictionary
  */
-- (void)staSRGtreamMeasurementWithMediaDataSource:(id<SRGAnalyticsMediaPlayerDataSource>)dataSource;
+- (void)startStreamMeasurementWithMediaDataSource:(id<SRGAnalyticsMediaPlayerDataSource>)dataSource;
 
 /**
  *  The virtual site to be used for sending StreamSense stats.

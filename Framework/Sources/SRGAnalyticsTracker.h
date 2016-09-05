@@ -21,12 +21,12 @@ typedef NS_ENUM(NSInteger, SSRBusinessUnit) {
 	SSRBusinessUnitSRF,
 	
 	/**
-	 *  Business unit for Radio Télévision Suisse (SRG)
+	 *  Business unit for Radio Télévision Suisse (RTS)
 	 *
-	 *  - Comscore value   : "SRG"
-	 *  - Netmetrix domain : "SRG"
+	 *  - Comscore value   : "rts"
+	 *  - Netmetrix domain : "rts"
 	 */
-	SSRBusinessUnitSRG,
+	SSRBusinessUnitRTS,
 	
 	/**
 	 *  Business unit for Radiotelevisione svizzera (RSI)

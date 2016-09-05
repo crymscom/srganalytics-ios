@@ -21,8 +21,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
-    [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitSRG];
-    [analyticsTracker staSRGtreamMeasurementWithMediaDataSource:self];
+    [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS];
+    [analyticsTracker startStreamMeasurementWithMediaDataSource:self];
 	return YES;
 }
 
