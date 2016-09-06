@@ -63,10 +63,15 @@
                                                      name:SRGMediaPlayerPlaybackStateDidChangeNotification
                                                    object:nil];
 // TODO: Old SRGMediaPlaybackSegmentDidChangeNotification
-//        [[NSNotificationCenter defaultCenter] addObserver:self
-//                                                 selector:@selector(mediaPlayerPlaybackSegmentsDidChange:)
-//                                                     name:SRGMediaPlaybackSegmentDidChangeNotification
-//                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(mediaPlayerPlaybackSegmentsDidChange:)
+                                                     name:SRGMediaPlayerSegmentDidStartNotification
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(mediaPlayerPlaybackSegmentsDidChange:)
+                                                     name:SRGMediaPlayerSegmentDidEndNotification
+                                                   object:nil];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(mediaPlayerPlaybackDidFail:)
@@ -162,74 +167,55 @@
 
 - (void)mediaPlayerPlaybackSegmentsDidChange:(NSNotification *)notification
 {
-// TODO: mediaPlayerPlaybackSegmentsDidChange notification
-//    SRGMediaSegmentsController *segmentsController = notification.object;
-//    SRGMediaPlayerController *mediaPlayerController = segmentsController.playerController;
-//    if (!mediaPlayerController.tracked || !mediaPlayerController.identifier) {
-//        return;
-//    }
-//    
-//    SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
-//    if (!trackingInfo) {
-//        return;
-//    }
-//    
-//    NSInteger value = [notification.userInfo[SRGMediaPlaybackSegmentChangeValueInfoKey] integerValue];
-//    BOOL wasUserSelected = [notification.userInfo[SRGMediaPlaybackSegmentChangeUserSelectInfoKey] boolValue];
-//    
-//    id<SRGSegment> previousSegment = trackingInfo.currentSegment;
-//    id<SRGSegment> segment = notification.userInfo[SRGMediaPlaybackSegmentChangeSegmentInfoKey];
-//    trackingInfo.currentSegment = (wasUserSelected ? segment : nil);
-//    trackingInfo.userSelected = wasUserSelected;
-//    
-//    SRGAnalyticsLogDebug(@"---> Segment changed: %@ (prev = %@, next = %@, selected = %@)", @(value), previousSegment, segment, wasUserSelected ? @"YES" : @"NO");
-//    
-//    // According to its implementation, Comscore only sends an event if different from the previously sent one. We
-//    // are therefore required to send an end followed by a play when a segment end is detected (in which case
-//    // playback continues with another segment or with the full-length). Segment information is sent only if the
-//    // segment was selected by the user
-//    switch (value) {
-//        case SRGMediaPlaybackSegmentStart: {
-//            if (wasUserSelected) {
-//                [self notifyStreamTrackerEvent:CSStreamSenseEnd
-//                                   mediaPlayer:segmentsController.playerController
-//                                       segment:previousSegment];
-//                [self notifyStreamTrackerEvent:CSStreamSensePlay
-//                                   mediaPlayer:segmentsController.playerController
-//                                       segment:segment];
-//                
-//                trackingInfo.skippingNextEvents = YES;
-//            }
-//            break;
-//        }
-//            
-//        case SRGMediaPlaybackSegmentSwitch: {
-//            if (wasUserSelected || previousSegment) {
-//                [self notifyStreamTrackerEvent:CSStreamSenseEnd
-//                                   mediaPlayer:segmentsController.playerController
-//                                       segment:previousSegment];
-//                [self notifyStreamTrackerEvent:CSStreamSensePlay
-//                                   mediaPlayer:segmentsController.playerController
-//                                       segment:(wasUserSelected ? segment : nil)];
-//            }
-//            break;
-//        }
-//            
-//        case SRGMediaPlaybackSegmentEnd: {
-//            if (previousSegment) {
-//                [self notifyStreamTrackerEvent:CSStreamSenseEnd
-//                                   mediaPlayer:segmentsController.playerController
-//                                       segment:previousSegment];
-//                [self notifyStreamTrackerEvent:CSStreamSensePlay
-//                                   mediaPlayer:segmentsController.playerController
-//                                       segment:nil];
-//            }
-//            break;
-//        }
-//            
-//        default:
-//            break;
-//    }
+    NSLog(@"%@", notification);
+    SRGMediaPlayerController *mediaPlayerController = notification.object;
+    if (!mediaPlayerController.tracked || !mediaPlayerController.identifier) {
+        return;
+    }
+
+    SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
+    if (!trackingInfo) {
+        return;
+    }
+
+    BOOL wasUserSelected = [notification.userInfo[SRGMediaPlayerSelectedKey] boolValue];
+    
+    id<SRGSegment> previousSegment = trackingInfo.currentSegment;
+    id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
+    trackingInfo.currentSegment = (wasUserSelected ? segment : nil);
+    trackingInfo.userSelected = wasUserSelected;
+    
+    SRGAnalyticsLogDebug(@"---> Segment changed: %@ (prev = %@, next = %@, selected = %@)", notification.name, previousSegment, segment, wasUserSelected ? @"YES" : @"NO");
+    
+    // According to its implementation, Comscore only sends an event if different from the previously sent one. We
+    // are therefore required to send an end followed by a play when a segment end is detected (in which case
+    // playback continues with another segment or with the full-length). Segment information is sent only if the
+    // segment was selected by the user
+    
+    if ([notification.name isEqualToString:SRGMediaPlayerSegmentDidStartNotification])
+    {
+        if (wasUserSelected) {
+            [self notifyStreamTrackerEvent:CSStreamSenseEnd
+                               mediaPlayer:mediaPlayerController
+                                   segment:previousSegment];
+            [self notifyStreamTrackerEvent:CSStreamSensePlay
+                               mediaPlayer:mediaPlayerController
+                                   segment:segment];
+            
+            trackingInfo.skippingNextEvents = YES;
+        }
+    }
+    else if ([notification.name isEqualToString:SRGMediaPlayerSegmentDidEndNotification])
+    {
+        if (previousSegment) {
+            [self notifyStreamTrackerEvent:CSStreamSenseEnd
+                               mediaPlayer:mediaPlayerController
+                                   segment:previousSegment];
+            [self notifyStreamTrackerEvent:CSStreamSensePlay
+                               mediaPlayer:mediaPlayerController
+                                   segment:nil];
+        }
+    }
 }
 
 

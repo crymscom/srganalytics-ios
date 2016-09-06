@@ -52,6 +52,7 @@
 	NSLog(@"Did Select indexPath at row %ld", (long)indexPath.row);
 	
 	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
 	
 	if ([cell.reuseIdentifier hasPrefix:@"MediaPlayer"])
 	{
@@ -62,11 +63,13 @@
 	else if ([cell.reuseIdentifier hasPrefix:@"CustomMediaPlayer"])
 	{
         // TODO: Use CustomMediaPlayerViewController controller
+        [SRGMediaPlayerController prepareToplayURL:[self contentURLForIdentifier:cell.reuseIdentifier] withIdentifier:cell.reuseIdentifier];
 		SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]];
 		[self presentViewController:playerViewController animated:YES completion:nil];
 	}
     else if ([cell.reuseIdentifier hasPrefix:@"SegmentsMediaPlayer"])
     {
+        [SRGMediaPlayerController prepareToplayURL:[self contentURLForIdentifier:cell.reuseIdentifier] withIdentifier:cell.reuseIdentifier];
         SegmentsPlayerViewController *segmentsPlayerViewController = [[SegmentsPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
                                                                                                                      segments:[self segmentsForIdentifier:cell.reuseIdentifier]];
         [self presentViewController:segmentsPlayerViewController animated:YES completion:nil];
@@ -123,7 +126,6 @@
     if ([identifier rangeOfString:@"MultipleSegments"].length != 0)
     {
         Segment *fullLengthSegment = [[Segment alloc] initWithIdentifier:identifier name:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-        fullLengthSegment.visible = NO;
         
         const NSTimeInterval segment1StartTime = 2.;
         const NSTimeInterval segment1Duration = 3.;
@@ -136,16 +138,12 @@
         
         CMTimeRange timeRange1 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment1StartTime, 1.), CMTimeMakeWithSeconds(segment1Duration, 1.));
         Segment *segment1 = [[Segment alloc] initWithIdentifier:identifier name:@"segment1" timeRange:timeRange1];
-        segment1.logical = YES;
         
         CMTimeRange timeRange2 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment2StartTime, 1.), CMTimeMakeWithSeconds(segment2Duration, 1.));
         Segment *segment2 = [[Segment alloc] initWithIdentifier:identifier name:@"segment2" timeRange:timeRange2];
-        segment2.logical = YES;
         
         CMTimeRange timeRange3 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment3StartTime, 1.), CMTimeMakeWithSeconds(segment3Duration, 1.));
         Segment *segment3 = [[Segment alloc] initWithIdentifier:identifier name:@"segment3" timeRange:timeRange3];
-        segment3.logical = YES;
-        segment3.blocked = YES;
         
         return @[fullLengthSegment, segment1, segment2, segment3];
     }
@@ -158,11 +156,9 @@
     else
     {
         Segment *fullLengthSegment = [[Segment alloc] initWithIdentifier:identifier name:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-        fullLengthSegment.visible = NO;
         
         CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(15., 1.));
         Segment *segment = [[Segment alloc] initWithIdentifier:identifier name:@"segment" timeRange:timeRange];
-        segment.logical = YES;
         return @[fullLengthSegment, segment];
     }
     return nil;
