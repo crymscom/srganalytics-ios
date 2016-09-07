@@ -10,16 +10,9 @@
 
 @implementation SRGAnalyticsTracker (MediaPlayer)
 
-- (void)startStreamMeasurement
+- (void)startStreamMeasurementWithVirtualSite:(NSString *)virtualSite
 {
-    NSAssert(self.streamSenseVSite.length > 0, @"You MUST define `SRGAnalytics>ComscoreVirtualSite` key in your app Info.plist, optionally overridden with `SRGAnalytics>StreamSenseVirtualSite`");
-    [[SRGMediaPlayerControllerTracker sharedTracker] startStreamMeasurementForVirtualSite:self.streamSenseVSite];
-}
-
-- (NSString *) streamSenseVSite
-{
-    NSDictionary *analyticsInfoDictionary = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SRGAnalytics"];
-    return analyticsInfoDictionary[@"StreamSenseVirtualSite"] ?: self.comscoreVSite;
+    [[SRGMediaPlayerControllerTracker sharedTracker] startStreamMeasurementForVirtualSite:virtualSite ?: self.comscoreVSite];
 }
 
 @end

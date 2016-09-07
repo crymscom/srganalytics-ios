@@ -8,6 +8,8 @@
 
 #import <SRGAnalytics/SRGAnalytics.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SRGAnalyticsTracker (MediaPlayer)
 
 /**
@@ -17,11 +19,8 @@
  *              (see `-[SRGAnalyticsTracker startTrackingForBusinessUnit:] documentation`). This value can be optionally overridden
  *              by adding a StreamSenseVirtualSite entry to the same `SRGAnalytics` dictionary
  */
-- (void)startStreamMeasurement;
-
-/**
- *  The virtual site to be used for sending StreamSense stats.
- */
-@property (nonatomic, readonly, strong) NSString *streamSenseVSite;
+- (void)startStreamMeasurementWithVirtualSite:(nullable NSString *)virtualSite;
 
 @end
+
+NS_ASSUME_NONNULL_END

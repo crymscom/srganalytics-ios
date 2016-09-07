@@ -16,9 +16,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
+    SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
     [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS];
-    [analyticsTracker startStreamMeasurement];
+    [analyticsTracker startStreamMeasurementWithVirtualSite:nil];
 	return YES;
 }
 
