@@ -11,7 +11,6 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "CustomMediaPlayerViewController.h"
 #import "Segment.h"
 #import "SegmentsPlayerViewController.h"
 #import "SRGMediaPlayerController+SRGAnalytics.h"
