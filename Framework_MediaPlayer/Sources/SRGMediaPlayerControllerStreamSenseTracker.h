@@ -37,7 +37,6 @@
  *  @return a media player controller StreamSense tracker.
  */
 - (id)initWithPlayer:(SRGMediaPlayerController *)mediaPlayerController
-          dataSource:(id<SRGAnalyticsMediaPlayerDataSource>)dataSource
          virtualSite:(NSString *)virtualSite OS_NONNULL_ALL;
 
 /**

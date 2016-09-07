@@ -5,7 +5,6 @@
 //
 
 #import "SRGMediaPlayerControllerStreamSenseTracker.h"
-#import "SRGAnalyticsMediaPlayerDataSource.h"
 #import "SRGMediaPlayerController+SRGAnalytics.h"
 
 #import <ComScore/CSStreamSense.h>
@@ -20,7 +19,6 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 @interface SRGMediaPlayerControllerStreamSenseTracker ()
 
 @property (nonatomic, strong) SRGMediaPlayerController *mediaPlayerController;
-@property (nonatomic, weak) id<SRGAnalyticsMediaPlayerDataSource> dataSource;
 
 @end
 
@@ -32,11 +30,9 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 }
 
 - (id)initWithPlayer:(SRGMediaPlayerController *)mediaPlayerController
-          dataSource:(id<SRGAnalyticsMediaPlayerDataSource>)dataSource
          virtualSite:(NSString *)virtualSite
 {
     NSParameterAssert(mediaPlayerController);
-    NSParameterAssert(dataSource);
     NSParameterAssert(virtualSite);
 
     if(!(self = [super init])) {
@@ -44,7 +40,6 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     }
 	
 	_mediaPlayerController = mediaPlayerController;
-	_dataSource = dataSource;
     
     // Too long default keep-alive time interval of 20 minutes. Set it to 9 minutes
     [self setKeepAliveInterval:9 * 60];
@@ -151,23 +146,8 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
     else {
         [[self clip] setLabel:@"srg_screen_type" value:@"default"];
     }
-	
-	// Playlist
-	if ([self.dataSource respondsToSelector:@selector(streamSensePlaylistMetadataForIdentifier:)]) {
-		NSDictionary *dataSourcePlaylist = [self.dataSource streamSensePlaylistMetadataForIdentifier:identifier];
-		[dataSourcePlaylist enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-			[[self playlist] setLabel:key value:obj];
-		}];
-	}
-	
-	// Clips
-    if ([self.dataSource respondsToSelector:@selector(streamSenseClipMetadataForIdentifier:withSegment:)]) {
-        NSDictionary *dataSourceClip = [self.dataSource streamSenseClipMetadataForIdentifier:identifier withSegment:segment];
-        
-		[dataSourceClip enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-			[[self clip] setLabel:key value:obj];
-		}];
-	}
+    
+// TODO: Add dictionnary from IL 2.0
 }
 
 #pragma mark - Private helper methods

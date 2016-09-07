@@ -12,17 +12,13 @@
 #import "Segment.h"
 #import "ViewController.h"
 
-@interface AppDelegate () <SRGAnalyticsMediaPlayerDataSource>
-
-@end
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
     [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS];
-    [analyticsTracker startStreamMeasurementWithMediaDataSource:self];
+    [analyticsTracker startStreamMeasurement];
 	return YES;
 }
 
@@ -48,18 +44,6 @@
 	[self.window.rootViewController presentViewController:navigationController animated:YES completion:^{
 		controller.pageViewFromPushNotification = NO;
 	}];
-}
-
-#pragma mark - SRGAnalyticsMediaPlayerDataSource
-
-- (NSDictionary *)streamSensePlaylistMetadataForIdentifier:(NSString *)identifier
-{
-    return nil;
-}
-
-- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(Segment *)segment
-{
-    return @{ @"clip_name" : segment ? segment.name : @"no_name" };
 }
 
 @end

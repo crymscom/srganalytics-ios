@@ -41,7 +41,7 @@ static NSDictionary *startLabels = nil;
 
 // Making sure with AAAAA that this method is called first.
 //#warning This test is subject to severe race condition issues. Disable temporarily
-//- (void)disabled_testAAAAAApplicationStaSRGAndStartMeasurementAndFirstPageViewEventAreSend
+//- (void)disabled_testAAAAAApplicationStartAndStartMeasurementAndFirstPageViewEventAreSend
 //{
 //	NSNotification *notification = [system waitForNotificationName:@"SRGAnalyticsComScoreRequestDidFinish" object:nil];
 //	XCTAssertEqualObjects(startLabels[@"ns_ap_an"], @"SRGAnalytics Demo iOS");

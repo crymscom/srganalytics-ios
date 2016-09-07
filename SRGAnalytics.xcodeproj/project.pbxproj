@@ -17,7 +17,6 @@
 		0811A8571D800C9A00A9863B /* libextobjc.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E601782E1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = E601782B1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h */; };
 		E601782F1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = E601782C1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m */; };
-		E61C0D6C1D61EFD200AEAE6D /* SRGAnalyticsMediaPlayerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D611D61EFD200AEAE6D /* SRGAnalyticsMediaPlayerDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C0D6D1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D621D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C0D6E1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61C0D631D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m */; };
 		E61C0D6F1D61EFD200AEAE6D /* SRGMediaPlayerControllerStreamSenseTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E61C0D641D61EFD200AEAE6D /* SRGMediaPlayerControllerStreamSenseTracker.m */; };
@@ -176,7 +175,6 @@
 		E601782C1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalytics_JRSwizzle.m; sourceTree = "<group>"; };
 		E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics_MediaPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61C0D5F1D61EFD200AEAE6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E61C0D611D61EFD200AEAE6D /* SRGAnalyticsMediaPlayerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsMediaPlayerDataSource.h; sourceTree = "<group>"; usesTabs = 0; };
 		E61C0D621D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGMediaPlayerController+SRGAnalytics.h"; sourceTree = "<group>"; usesTabs = 0; };
 		E61C0D631D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGMediaPlayerController+SRGAnalytics.m"; sourceTree = "<group>"; };
 		E61C0D641D61EFD200AEAE6D /* SRGMediaPlayerControllerStreamSenseTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGMediaPlayerControllerStreamSenseTracker.m; sourceTree = "<group>"; };
@@ -371,7 +369,6 @@
 		E61C0D601D61EFD200AEAE6D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				E61C0D611D61EFD200AEAE6D /* SRGAnalyticsMediaPlayerDataSource.h */,
 				E6FC7F2A1D61FC6E00A55085 /* SRGAnalyticsTracker+MediaPlayer.h */,
 				E6FC7F2C1D61FCBC00A55085 /* SRGAnalyticsTracker+MediaPlayer.m */,
 				E61C0D621D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h */,
@@ -505,7 +502,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E61C0D6C1D61EFD200AEAE6D /* SRGAnalyticsMediaPlayerDataSource.h in Headers */,
 				E61C0D701D61EFD200AEAE6D /* SRGMediaPlayerControllerStreamSenseTracker.h in Headers */,
 				E61C0D6D1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h in Headers */,
 				E61C0D721D61EFD200AEAE6D /* SRGMediaPlayerControllerTracker.h in Headers */,
@@ -1167,6 +1163,7 @@
 				E65490AA1D803C03007D96E7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E66F8A6F1D62DC250004EB58 /* Build configuration list for PBXNativeTarget "SRGAnalytics-demo-tests" */ = {
 			isa = XCConfigurationList;

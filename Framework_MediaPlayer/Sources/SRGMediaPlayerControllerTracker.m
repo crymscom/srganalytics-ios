@@ -5,7 +5,6 @@
 //
 
 #import "SRGMediaPlayerControllerTracker.h"
-#import "SRGAnalyticsMediaPlayerDataSource.h"
 #import "SRGMediaPlayerControllerTrackingInfo.h"
 #import "SRGMediaPlayerController+SRGAnalytics.h"
 #import "SRGMediaPlayerControllerStreamSenseTracker.h"
@@ -15,8 +14,6 @@
 #import <ComScore/CSComScore.h>
 
 @interface SRGMediaPlayerControllerTracker ()
-
-@property (nonatomic, weak) id<SRGAnalyticsMediaPlayerDataSource> dataSource;
 
 @property (nonatomic, strong) NSMutableDictionary *trackingInfos;
 
@@ -53,11 +50,11 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)startStreamMeasurementForVirtualSite:(NSString *)virtualSite mediaDataSource:(id<SRGAnalyticsMediaPlayerDataSource>)dataSource
+- (void)startStreamMeasurementForVirtualSite:(NSString *)virtualSite
 {
-    NSParameterAssert(virtualSite && dataSource);
+    NSParameterAssert(virtualSite);
     
-    if (!_dataSource && !_virtualSite) {
+    if (!_virtualSite) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(mediaPlayerPlaybackStateDidChange:)
                                                      name:SRGMediaPlayerPlaybackStateDidChangeNotification
@@ -79,7 +76,6 @@
                                                    object:nil];
     }
     
-    _dataSource = dataSource;
     _virtualSite = virtualSite;
 }
 
@@ -87,11 +83,6 @@
 
 - (void)mediaPlayerPlaybackStateDidChange:(NSNotification *)notification
 {
-	if (!_dataSource) {
-		// We haven't started yet.
-		return;
-	}
-	
 	SRGMediaPlayerController *mediaPlayerController = notification.object;
     NSString *identifier = mediaPlayerController.userInfo[SRGAnalyticsIdentifierInfoKey] ?: notification.userInfo[SRGMediaPlayerPreviousUserInfoKey][SRGAnalyticsIdentifierInfoKey];
     if (!identifier) {
@@ -119,10 +110,6 @@
 				break;
 				
 			case SRGMediaPlayerPlaybackStatePlaying:
-                if ([notification.userInfo[SRGMediaPlayerPreviousPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePreparing) {
-                    [self notifyComScoreOfReadyToPlayEventForIdentifier:identifier];
-                }
-                
                 if (! trackingInfo.currentSegment || ! trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePlay
                                        mediaPlayer:mediaPlayerController
@@ -146,10 +133,6 @@
                 break;
                 
 			case SRGMediaPlayerPlaybackStatePaused:
-                if ([notification.userInfo[SRGMediaPlayerPreviousPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePreparing) {
-                    [self notifyComScoreOfReadyToPlayEventForIdentifier:identifier];
-                }
-                
                 if (! trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
                                        mediaPlayer:mediaPlayerController
@@ -310,7 +293,6 @@
 		SRGAnalyticsLogVerbose(@"Create a new stream tracker for media identifier `%@`", identifier);
 		
 		tracker = [[SRGMediaPlayerControllerStreamSenseTracker alloc] initWithPlayer:mediaPlayerController
-                                                                          dataSource:self.dataSource
                                                                          virtualSite:self.virtualSite];
         
 		self.streamsenseTrackers[identifier] = tracker;
@@ -324,17 +306,6 @@
         segment = [SRGMediaPlayerControllerTracker fullLengthSegmentForMediaPlayerController:mediaPlayerController];
     }
     [tracker notify:eventType withSegment:segment forIdentifier:identifier];
-}
-
-- (void)notifyComScoreOfReadyToPlayEventForIdentifier:(NSString *)identifier
-{
-    if ([self.dataSource respondsToSelector:@selector(comScoreReadyToPlayLabelsForIdentifier:)]) {
-        NSDictionary *labels = [self.dataSource comScoreReadyToPlayLabelsForIdentifier:identifier];
-        if (labels) {
-            SRGAnalyticsLogVerbose(@"Notify comScore view event for media identifier `%@`", identifier);
-            [CSComScore viewWithLabels:labels];
-        }
-    }
 }
 
 @end

@@ -31,12 +31,11 @@
  */
 
 /**
- *  StaSRG the tracker for stream measurements.
+ *  Start the tracker for stream measurements.
  *
  *  @param virtualSite the comscore/streamsense virtual site for media measurement
- *  @param dataSource  the datasource which provides labels/playlist/clip for Streamsense tracker. (Mandatory)
  */
-- (void)startStreamMeasurementForVirtualSite:(NSString *)virtualSite mediaDataSource:(id<SRGAnalyticsMediaPlayerDataSource>)dataSource OS_NONNULL_ALL;
+- (void)startStreamMeasurementForVirtualSite:(NSString *)virtualSite OS_NONNULL_ALL;
 
 /**
  *  Force tracking a media. Create a new `SRGMediaPlayerControllerStreamSenseTracker` instance and sends a "start" event type.

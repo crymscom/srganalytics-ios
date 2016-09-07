@@ -13,6 +13,5 @@ FOUNDATION_EXPORT double SRGAnalytics_MediaPlayerVersionNumber;
 //! Project version string for SRGMediaPlayerAnalytics.
 FOUNDATION_EXPORT const unsigned char SRGAnalytics_MediaPlayerVersionString[];
 
-#import "SRGAnalyticsMediaPlayerDataSource.h"
 #import "SRGAnalyticsTracker+MediaPlayer.h"
 #import "SRGMediaPlayerController+SRGAnalytics.h"

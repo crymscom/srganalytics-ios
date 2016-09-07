@@ -4,7 +4,6 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGAnalyticsMediaPlayerDataSource.h"
 #import "SRGAnalyticsTracker+MediaPlayer.h"
 
 #import <SRGAnalytics/SRGAnalytics.h>
@@ -14,13 +13,11 @@
 /**
  *  Start media player stream measurement
  *
- *  @param dataSource The data source to be provided for stream tracking
- *
  *  @discussion By default, stream measurement uses the ComscoreVirtualSite vsite defined in the Info.plist `SRGAnalytics` dictionary
  *              (see `-[SRGAnalyticsTracker startTrackingForBusinessUnit:] documentation`). This value can be optionally overridden
  *              by adding a StreamSenseVirtualSite entry to the same `SRGAnalytics` dictionary
  */
-- (void)startStreamMeasurementWithMediaDataSource:(id<SRGAnalyticsMediaPlayerDataSource>)dataSource;
+- (void)startStreamMeasurement;
 
 /**
  *  The virtual site to be used for sending StreamSense stats.
