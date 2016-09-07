@@ -10,7 +10,6 @@
 
 static NSMutableDictionary *s_identifierForURL;
 
-static void *SRGAnalyticsIdentifierKey = &SRGAnalyticsIdentifierKey;
 static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 
 @implementation SRGMediaPlayerController (SRGAnalytics)
@@ -25,9 +24,7 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 
 - (NSString *)identifier
 {
-//    NSString *identifier = objc_getAssociatedObject(self, SRGAnalyticsIdentifierKey);
-//    return identifier;
-    return s_identifierForURL[self.contentURL];
+    return self.userInfo[SRGAnalyticsIdentifierInfoKey];
 }
 
 - (BOOL)isTracked
@@ -52,13 +49,5 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
         [[SRGMediaPlayerControllerTracker sharedTracker] stopTrackingMediaPlayerController:self];
     }
 }
-
-- (void)prepareToPlayIdentifier:(NSString *)identifier withURL:(NSURL *)URL atTime:(CMTime)startTime withSegments:(NSArray<id<SRGSegment>> *)segments completionHandler:(void (^)(void))completionHandler
-{
-//    [self reset];
-//    self.identifier = identifier;
-//    [self prepareToPlayURL:URL atTime:startTime withSegments:segments completionHandler:completionHandler];
-}
-
 
 @end

@@ -6,14 +6,17 @@
 
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
+static NSString * const SRGAnalyticsIdentifierInfoKey = @"SRGAnalyticsIdentifierInfoKey";
+
 @interface SRGMediaPlayerController (SRGAnalytics)
 
-+ (void)prepareToplayURL:(NSURL *)URL withIdentifier:(NSString *)identifier;
-
 /**
- *  Set an identifier, for analytic metrics
+ *  Get the identifier, for analytic metrics
  *
- *  @discussion Use convinience methods
+ *  Use the SRGAnalyticsIdentifierInfoKey object in the userInfo dictionnary.
+ #  @see `-prepareToPlayURL:atTime:withSegments:userInfo:completionHandler:` or @see `-playURL:atTime:withSegments:userInfo:completionHandler:`
+ *
+ *  @discussion Need to be set with the userInfo parameter.
  */
 @property (nonatomic, readonly) NSString *identifier;
 
@@ -24,9 +27,5 @@
  *              opened. Conversely, any open stream will automatically be closed when tracking is set to NO.
  */
 @property (nonatomic, getter=isTracked) BOOL tracked;
-
-- (void)prepareToPlayURL:(NSURL *)URL atTime:(CMTime)startTime withSegments:(NSArray<id<SRGSegment>> *)segments completionHandler:(void (^)(void))completionHandler NS_UNAVAILABLE;
-
-- (void)prepareToPlayIdentifier:(NSString *)identifier withURL:(NSURL *)URL atTime:(CMTime)startTime withSegments:(NSArray<id<SRGSegment>> *)segments completionHandler:(void (^)(void))completionHandler;
 
 @end

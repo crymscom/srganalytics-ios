@@ -11,7 +11,7 @@
 
 - (instancetype)initWithContentURL:(NSURL *)contentURL
 {
-    return [super initWithContentURL:contentURL];
+    return [super initWithContentURL:contentURL userInfo:nil];
 }
 
 - (void)viewDidLoad

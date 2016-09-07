@@ -5,12 +5,14 @@
 //
 
 #import "SegmentsPlayerViewController.h"
+#import "SRGMediaPlayerController+SRGAnalytics.h"
 
 #import "SegmentCollectionViewCell.h"
 
 @interface SegmentsPlayerViewController ()
 
 @property (nonatomic) NSURL *contentURL;
+@property (nonatomic) NSString *identifier;
 @property (nonatomic) NSArray<Segment *> *segments;
 @property (nonatomic, weak) Segment *selectedSegment;
 
@@ -30,11 +32,12 @@
 
 #pragma mark Object lifecycle
 
-- (instancetype)initWithContentURL:(NSURL *)contentURL segments:(NSArray<Segment *> *)segments
+- (instancetype)initWithContentURL:(NSURL *)contentURL identifier:(NSString *)identifier segments:(nullable NSArray<Segment *> *)segments
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:NSStringFromClass(self.class) bundle:nil];
     SegmentsPlayerViewController *viewController = [storyboard instantiateInitialViewController];
     viewController.contentURL = contentURL;
+    viewController.identifier = identifier;
     viewController.segments = segments;
     return viewController;
 }
@@ -87,7 +90,7 @@
     [super viewWillAppear:animated];
 
     if ([self isMovingToParentViewController] || [self isBeingPresented]) {
-        [self.mediaPlayerController playURL:self.contentURL withSegments:self.segments];
+        [self.mediaPlayerController playURL:self.contentURL atTime:kCMTimeZero withSegments:self.segments userInfo:@{SRGAnalyticsIdentifierInfoKey : self.identifier}];
     }
 }
 

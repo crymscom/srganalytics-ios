@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SegmentsPlayerViewController : UIViewController <SRGTimelineSliderDelegate, SRGTimelineViewDelegate, SRGTimeSliderDelegate>
 
-- (instancetype)initWithContentURL:(NSURL *)contentURL segments:(nullable NSArray<Segment *> *)segments;
+- (instancetype)initWithContentURL:(NSURL *)contentURL identifier:(NSString *)identifier segments:(nullable NSArray<Segment *> *)segments;
 
 @end
 

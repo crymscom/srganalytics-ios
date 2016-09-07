@@ -11,6 +11,9 @@
 		0811A84F1D7DA2CB00A9863B /* SegmentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0811A84A1D7DA2CB00A9863B /* SegmentCollectionViewCell.xib */; };
 		0811A8501D7DA2CB00A9863B /* SegmentsPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811A84C1D7DA2CB00A9863B /* SegmentsPlayerViewController.m */; };
 		0811A8511D7DA2CB00A9863B /* SegmentsPlayerViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0811A84D1D7DA2CB00A9863B /* SegmentsPlayerViewController.storyboard */; };
+		0811A8531D800BA000A9863B /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; };
+		0811A8541D800BBC00A9863B /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; };
+		0811A8551D800BBC00A9863B /* libextobjc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E601782E1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = E601782B1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h */; };
 		E601782F1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = E601782C1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m */; };
 		E61C0D6C1D61EFD200AEAE6D /* SRGAnalyticsMediaPlayerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D611D61EFD200AEAE6D /* SRGAnalyticsMediaPlayerDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -112,6 +115,7 @@
 				E672EA521D62F19E00CFB080 /* ComScore.framework in Embed Frameworks */,
 				E6FC7EA61D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Embed Frameworks */,
 				E6FC7EA11D61F97500A55085 /* SRGAnalytics.framework in Embed Frameworks */,
+				0811A8551D800BBC00A9863B /* libextobjc.framework in Embed Frameworks */,
 				E66F8A851D62E2250004EB58 /* KIF.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -126,6 +130,7 @@
 		0811A84B1D7DA2CB00A9863B /* SegmentsPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentsPlayerViewController.h; sourceTree = "<group>"; };
 		0811A84C1D7DA2CB00A9863B /* SegmentsPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentsPlayerViewController.m; sourceTree = "<group>"; };
 		0811A84D1D7DA2CB00A9863B /* SegmentsPlayerViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SegmentsPlayerViewController.storyboard; sourceTree = "<group>"; };
+		0811A8521D800BA000A9863B /* libextobjc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libextobjc.framework; path = Carthage/Build/iOS/libextobjc.framework; sourceTree = "<group>"; };
 		9F1519211AC422AE00AE051D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F1519231AC422B800AE051D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -205,6 +210,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0811A8531D800BA000A9863B /* libextobjc.framework in Frameworks */,
 				E6FC7FC31D62D90800A55085 /* SRGAnalytics.framework in Frameworks */,
 				E61C0D861D61F16000AEAE6D /* SRGMediaPlayer.framework in Frameworks */,
 			);
@@ -231,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6FC7EA91D61F99100A55085 /* SRGMediaPlayer.framework in Frameworks */,
+				0811A8541D800BBC00A9863B /* libextobjc.framework in Frameworks */,
 				E672EA511D62F19E00CFB080 /* ComScore.framework in Frameworks */,
 				E6FC7EA51D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Frameworks */,
 				E6FC7EA01D61F97500A55085 /* SRGAnalytics.framework in Frameworks */,
@@ -266,6 +273,7 @@
 		AC99606425BE818BA71D7E4D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0811A8521D800BA000A9863B /* libextobjc.framework */,
 				E672EA461D62EE5D00CFB080 /* ComScore.framework */,
 				9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */,
 				9F1519231AC422B800AE051D /* Foundation.framework */,

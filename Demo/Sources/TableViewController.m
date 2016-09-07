@@ -56,21 +56,21 @@
 	
 	if ([cell.reuseIdentifier hasPrefix:@"MediaPlayer"])
 	{
-        [SRGMediaPlayerController prepareToplayURL:[self contentURLForIdentifier:cell.reuseIdentifier] withIdentifier:cell.reuseIdentifier];
-        SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]];
+        SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
+                                                                                                             userInfo:@{SRGAnalyticsIdentifierInfoKey : cell.reuseIdentifier}];
 		[self presentViewController:playerViewController animated:YES completion:nil];
 	}
 	else if ([cell.reuseIdentifier hasPrefix:@"CustomMediaPlayer"])
-	{
+    {
         // TODO: Use CustomMediaPlayerViewController controller
-        [SRGMediaPlayerController prepareToplayURL:[self contentURLForIdentifier:cell.reuseIdentifier] withIdentifier:cell.reuseIdentifier];
-		SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]];
-		[self presentViewController:playerViewController animated:YES completion:nil];
-	}
+        SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
+                                                                                                             userInfo:@{SRGAnalyticsIdentifierInfoKey : cell.reuseIdentifier}];
+        [self presentViewController:playerViewController animated:YES completion:nil];
+    }
     else if ([cell.reuseIdentifier hasPrefix:@"SegmentsMediaPlayer"])
     {
-        [SRGMediaPlayerController prepareToplayURL:[self contentURLForIdentifier:cell.reuseIdentifier] withIdentifier:cell.reuseIdentifier];
         SegmentsPlayerViewController *segmentsPlayerViewController = [[SegmentsPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
+                                                                                                                   identifier:cell.reuseIdentifier
                                                                                                                      segments:[self segmentsForIdentifier:cell.reuseIdentifier]];
         [self presentViewController:segmentsPlayerViewController animated:YES completion:nil];
     }
