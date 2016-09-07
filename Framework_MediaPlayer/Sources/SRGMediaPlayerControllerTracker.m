@@ -109,12 +109,7 @@
                                    mediaPlayer:mediaPlayerController
                                        segment:trackingInfo.currentSegment];
 				break;
-
-// TODO: SRGMediaPlaybackStateReady state
-//			case SRGMediaPlaybackStateReady:
-//                [self notifyComScoreOfReadyToPlayEvent:mediaPlayerController];
-//				break;
-				
+                
 			case SRGMediaPlayerPlaybackStateStalled:
 				[self notifyStreamTrackerEvent:CSStreamSenseBuffer
                                    mediaPlayer:mediaPlayerController
@@ -122,7 +117,10 @@
 				break;
 				
 			case SRGMediaPlayerPlaybackStatePlaying:
-                if (! trackingInfo.currentSegment || ! trackingInfo.skippingNextEvents) {
+                if ([notification.userInfo[SRGMediaPlayerPreviousPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePreparing) {
+                    [self notifyComScoreOfReadyToPlayEvent:mediaPlayerController];
+                }
+                else if (! trackingInfo.currentSegment || ! trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePlay
                                        mediaPlayer:mediaPlayerController
                                            segment:trackingInfo.currentSegment];
@@ -143,7 +141,10 @@
                 break;
                 
 			case SRGMediaPlayerPlaybackStatePaused:
-                if (! trackingInfo.skippingNextEvents) {
+                if ([notification.userInfo[SRGMediaPlayerPreviousPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePreparing) {
+                    [self notifyComScoreOfReadyToPlayEvent:mediaPlayerController];
+                }
+                else if (! trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
                                        mediaPlayer:mediaPlayerController
                                            segment:trackingInfo.currentSegment];
