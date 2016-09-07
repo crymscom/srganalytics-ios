@@ -205,8 +205,7 @@
     // playback continues with another segment or with the full-length). Segment information is sent only if the
     // segment was selected by the user
     
-    if ([notification.name isEqualToString:SRGMediaPlayerSegmentDidStartNotification])
-    {
+    if ([notification.name isEqualToString:SRGMediaPlayerSegmentDidStartNotification]) {
         if (wasUserSelected) {
             [self notifyStreamTrackerEvent:CSStreamSenseEnd
                                mediaPlayer:mediaPlayerController
@@ -220,8 +219,7 @@
             trackingInfo.skippingNextEvents = YES;
         }
     }
-    else if ([notification.name isEqualToString:SRGMediaPlayerSegmentDidEndNotification])
-    {
+    else if ([notification.name isEqualToString:SRGMediaPlayerSegmentDidEndNotification]) {
         if (previousSegment) {
             [self notifyStreamTrackerEvent:CSStreamSenseEnd
                                mediaPlayer:mediaPlayerController
