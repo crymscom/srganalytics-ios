@@ -93,11 +93,12 @@
 	}
 	
 	SRGMediaPlayerController *mediaPlayerController = notification.object;
-    if (!mediaPlayerController.identifier) {
+    NSString *identifier = mediaPlayerController.identifier ?: notification.userInfo[SRGMediaPlayerPreviousUserInfoKey][SRGAnalyticsIdentifierInfoKey];
+    if (!identifier) {
         return;
     }
     
-    SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
+    SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController forIdentifier:identifier];
     
     SRGAnalyticsLogDebug(@"---> Playback status changed: %@", @(mediaPlayerController.playbackState));
     
@@ -160,7 +161,7 @@
 				break;
 		}
 	}
-	else if (self.streamsenseTrackers[mediaPlayerController.identifier]) {
+	else if (self.streamsenseTrackers[identifier]) {
 		[self stopTrackingMediaPlayerController:mediaPlayerController];
 	}
 }
@@ -173,7 +174,7 @@
         return;
     }
 
-    SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController];
+    SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController forIdentifier:mediaPlayerController.identifier];
     if (!trackingInfo) {
         return;
     }
@@ -229,14 +230,14 @@
 
 #pragma mark - Tracking information
 
-- (SRGMediaPlayerControllerTrackingInfo *)trackingInfoForMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
+- (SRGMediaPlayerControllerTrackingInfo *)trackingInfoForMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController forIdentifier:(NSString *)identifier
 {
-    NSParameterAssert(mediaPlayerController.identifier);
+    NSParameterAssert(identifier);
     
-    SRGMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[mediaPlayerController.identifier];
+    SRGMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[identifier];
     if (!trackingInfo) {
         trackingInfo = [[SRGMediaPlayerControllerTrackingInfo alloc] initWithMediaPlayerController:mediaPlayerController];
-        self.trackingInfos[mediaPlayerController.identifier] = trackingInfo;
+        self.trackingInfos[identifier] = trackingInfo;
     }
     return trackingInfo;
 }
