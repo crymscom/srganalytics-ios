@@ -93,7 +93,7 @@
 	}
 	
 	SRGMediaPlayerController *mediaPlayerController = notification.object;
-    NSString *identifier = mediaPlayerController.identifier ?: notification.userInfo[SRGMediaPlayerPreviousUserInfoKey][SRGAnalyticsIdentifierInfoKey];
+    NSString *identifier = mediaPlayerController.userInfo[SRGAnalyticsIdentifierInfoKey] ?: notification.userInfo[SRGMediaPlayerPreviousUserInfoKey][SRGAnalyticsIdentifierInfoKey];
     if (!identifier) {
         return;
     }
@@ -107,23 +107,27 @@
 			case SRGMediaPlayerPlaybackStatePreparing:
 				[self notifyStreamTrackerEvent:CSStreamSenseBuffer
                                    mediaPlayer:mediaPlayerController
-                                       segment:trackingInfo.currentSegment];
+                                       segment:trackingInfo.currentSegment
+                                 forIdentifier:identifier];
 				break;
                 
 			case SRGMediaPlayerPlaybackStateStalled:
 				[self notifyStreamTrackerEvent:CSStreamSenseBuffer
                                    mediaPlayer:mediaPlayerController
-                                       segment:trackingInfo.currentSegment];
+                                       segment:trackingInfo.currentSegment
+                                 forIdentifier:identifier];
 				break;
 				
 			case SRGMediaPlayerPlaybackStatePlaying:
                 if ([notification.userInfo[SRGMediaPlayerPreviousPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePreparing) {
-                    [self notifyComScoreOfReadyToPlayEvent:mediaPlayerController];
+                    [self notifyComScoreOfReadyToPlayEventForIdentifier:identifier];
                 }
-                else if (! trackingInfo.currentSegment || ! trackingInfo.skippingNextEvents) {
+                
+                if (! trackingInfo.currentSegment || ! trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePlay
                                        mediaPlayer:mediaPlayerController
-                                           segment:trackingInfo.currentSegment];
+                                           segment:trackingInfo.currentSegment
+                                     forIdentifier:identifier];
                 }
                 
                 // Reset event inhibition flags when playback resumes
@@ -136,46 +140,53 @@
                 if (! trackingInfo.userSelected) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
                                        mediaPlayer:mediaPlayerController
-                                           segment:trackingInfo.currentSegment];
+                                           segment:trackingInfo.currentSegment
+                                     forIdentifier:identifier];
                 }
                 break;
                 
 			case SRGMediaPlayerPlaybackStatePaused:
                 if ([notification.userInfo[SRGMediaPlayerPreviousPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePreparing) {
-                    [self notifyComScoreOfReadyToPlayEvent:mediaPlayerController];
+                    [self notifyComScoreOfReadyToPlayEventForIdentifier:identifier];
                 }
-                else if (! trackingInfo.skippingNextEvents) {
+                
+                if (! trackingInfo.skippingNextEvents) {
                     [self notifyStreamTrackerEvent:CSStreamSensePause
                                        mediaPlayer:mediaPlayerController
-                                           segment:trackingInfo.currentSegment];
+                                           segment:trackingInfo.currentSegment
+                                     forIdentifier:identifier];
                 }
 				break;
 				
 			case SRGMediaPlayerPlaybackStateEnded:
 				[self notifyStreamTrackerEvent:CSStreamSenseEnd
                                    mediaPlayer:mediaPlayerController
-                                       segment:trackingInfo.currentSegment];
+                                       segment:trackingInfo.currentSegment
+                                 forIdentifier:identifier];
 				break;
 				
 			case SRGMediaPlayerPlaybackStateIdle:
-				[self stopTrackingMediaPlayerController:mediaPlayerController];
+				[self stopTrackingMediaPlayerControllerForIdentifier:identifier];
 				break;
 		}
 	}
 	else if (self.streamsenseTrackers[identifier]) {
-		[self stopTrackingMediaPlayerController:mediaPlayerController];
+		[self stopTrackingMediaPlayerControllerForIdentifier:identifier];
 	}
 }
 
 - (void)mediaPlayerPlaybackSegmentsDidChange:(NSNotification *)notification
 {
     NSLog(@"%@", notification);
+    
     SRGMediaPlayerController *mediaPlayerController = notification.object;
-    if (!mediaPlayerController.tracked || !mediaPlayerController.identifier) {
+    
+    NSString *identifier = mediaPlayerController.userInfo[SRGAnalyticsIdentifierInfoKey];
+    if (!mediaPlayerController.tracked || !identifier) {
         return;
     }
 
-    SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController forIdentifier:mediaPlayerController.identifier];
+    SRGMediaPlayerControllerTrackingInfo *trackingInfo = [self trackingInfoForMediaPlayerController:mediaPlayerController forIdentifier:identifier];
     if (!trackingInfo) {
         return;
     }
@@ -199,10 +210,12 @@
         if (wasUserSelected) {
             [self notifyStreamTrackerEvent:CSStreamSenseEnd
                                mediaPlayer:mediaPlayerController
-                                   segment:previousSegment];
+                                   segment:previousSegment
+                             forIdentifier:identifier];
             [self notifyStreamTrackerEvent:CSStreamSensePlay
                                mediaPlayer:mediaPlayerController
-                                   segment:segment];
+                                   segment:segment
+                             forIdentifier:identifier];
             
             trackingInfo.skippingNextEvents = YES;
         }
@@ -212,10 +225,12 @@
         if (previousSegment) {
             [self notifyStreamTrackerEvent:CSStreamSenseEnd
                                mediaPlayer:mediaPlayerController
-                                   segment:previousSegment];
+                                   segment:previousSegment
+                             forIdentifier:identifier];
             [self notifyStreamTrackerEvent:CSStreamSensePlay
                                mediaPlayer:mediaPlayerController
-                                   segment:nil];
+                                   segment:nil
+                             forIdentifier:identifier];
         }
     }
 }
@@ -225,7 +240,7 @@
 {
 	SRGMediaPlayerController *mediaPlayerController = notification.object;
     if (mediaPlayerController.tracked) {
-		[self stopTrackingMediaPlayerController:mediaPlayerController];
+		[self stopTrackingMediaPlayerControllerForIdentifier:mediaPlayerController.userInfo[SRGAnalyticsIdentifierInfoKey]];
     }
 }
 
@@ -243,9 +258,9 @@
     return trackingInfo;
 }
 
-- (void)discardTrackingInfoForMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
+- (void)discardTrackingInfoForIdentifier:(NSString *)identifier
 {
-    [self.trackingInfos removeObjectForKey:mediaPlayerController.identifier];
+    [self.trackingInfos removeObjectForKey:identifier];
 }
 
 + (id<SRGSegment>)fullLengthSegmentForMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
@@ -260,62 +275,65 @@
 
 #pragma mark - Stream tracking
 
-- (void)startTrackingMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
+- (void)startTrackingMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController forIdentifier:(NSString *)identifier
 {
 	[self notifyStreamTrackerEvent:CSStreamSensePlay
                        mediaPlayer:mediaPlayerController
-                           segment:nil];
+                           segment:nil
+                     forIdentifier:identifier];
 }
 
-- (void)stopTrackingMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
+- (void)stopTrackingMediaPlayerControllerForIdentifier:(NSString *)identifier
 {
-    if (![self.streamsenseTrackers.allKeys containsObject:mediaPlayerController.identifier]) {
+    if (![self.streamsenseTrackers.allKeys containsObject:identifier]) {
 		return;
     }
 	
-    SRGMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[mediaPlayerController.identifier];
+    SRGMediaPlayerControllerTrackingInfo *trackingInfo = self.trackingInfos[identifier];
 	[self notifyStreamTrackerEvent:CSStreamSenseEnd
-                       mediaPlayer:mediaPlayerController
-                           segment:trackingInfo.currentSegment];
-    [self discardTrackingInfoForMediaPlayerController:mediaPlayerController];
+                       mediaPlayer:trackingInfo.mediaPlayerController
+                           segment:trackingInfo.currentSegment
+                     forIdentifier:identifier];
+    [self discardTrackingInfoForIdentifier:identifier];
     
 	[CSComScore onUxInactive];
     
-	SRGAnalyticsLogVerbose(@"Delete stream tracker for media identifier `%@`", mediaPlayerController.identifier);
-	[self.streamsenseTrackers removeObjectForKey:mediaPlayerController.identifier];
+	SRGAnalyticsLogVerbose(@"Delete stream tracker for media identifier `%@`", identifier);
+	[self.streamsenseTrackers removeObjectForKey:identifier];
 }
 
 - (void)notifyStreamTrackerEvent:(CSStreamSenseEventType)eventType
                      mediaPlayer:(SRGMediaPlayerController *)mediaPlayerController
                          segment:(id<SRGSegment>)segment
+                   forIdentifier:(NSString *)identifier
 {
-	SRGMediaPlayerControllerStreamSenseTracker *tracker = self.streamsenseTrackers[mediaPlayerController.identifier];
+	SRGMediaPlayerControllerStreamSenseTracker *tracker = self.streamsenseTrackers[identifier];
 	if (!tracker) {
-		SRGAnalyticsLogVerbose(@"Create a new stream tracker for media identifier `%@`", mediaPlayerController.identifier);
+		SRGAnalyticsLogVerbose(@"Create a new stream tracker for media identifier `%@`", identifier);
 		
 		tracker = [[SRGMediaPlayerControllerStreamSenseTracker alloc] initWithPlayer:mediaPlayerController
                                                                           dataSource:self.dataSource
                                                                          virtualSite:self.virtualSite];
         
-		self.streamsenseTrackers[mediaPlayerController.identifier] = tracker;
+		self.streamsenseTrackers[identifier] = tracker;
 		[CSComScore onUxActive];
 	}
 	
-    SRGAnalyticsLogVerbose(@"Notify stream tracker event %@ for media identifier `%@`", @(eventType), mediaPlayerController.identifier);
+    SRGAnalyticsLogVerbose(@"Notify stream tracker event %@ for media identifier `%@`", @(eventType), identifier);
 
     // If no segment has been provided, send full-length information
     if (!segment) {
         segment = [SRGMediaPlayerControllerTracker fullLengthSegmentForMediaPlayerController:mediaPlayerController];
     }
-    [tracker notify:eventType withSegment:segment];
+    [tracker notify:eventType withSegment:segment forIdentifier:identifier];
 }
 
-- (void)notifyComScoreOfReadyToPlayEvent:(SRGMediaPlayerController *)mediaPlayerController
+- (void)notifyComScoreOfReadyToPlayEventForIdentifier:(NSString *)identifier
 {
     if ([self.dataSource respondsToSelector:@selector(comScoreReadyToPlayLabelsForIdentifier:)]) {
-        NSDictionary *labels = [self.dataSource comScoreReadyToPlayLabelsForIdentifier:mediaPlayerController.identifier];
+        NSDictionary *labels = [self.dataSource comScoreReadyToPlayLabelsForIdentifier:identifier];
         if (labels) {
-            SRGAnalyticsLogVerbose(@"Notify comScore view event for media identifier `%@`", mediaPlayerController.identifier);
+            SRGAnalyticsLogVerbose(@"Notify comScore view event for media identifier `%@`", identifier);
             [CSComScore viewWithLabels:labels];
         }
     }

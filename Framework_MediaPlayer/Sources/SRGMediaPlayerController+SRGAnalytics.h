@@ -6,19 +6,9 @@
 
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
-static NSString * const SRGAnalyticsIdentifierInfoKey = @"SRGAnalyticsIdentifierInfoKey";
+OBJC_EXTERN NSString * const SRGAnalyticsIdentifierInfoKey;
 
 @interface SRGMediaPlayerController (SRGAnalytics)
-
-/**
- *  Get the identifier, for analytic metrics
- *
- *  Use the SRGAnalyticsIdentifierInfoKey object in the userInfo dictionnary.
- #  @see `-prepareToPlayURL:atTime:withSegments:userInfo:completionHandler:` or @see `-playURL:atTime:withSegments:userInfo:completionHandler:`
- *
- *  @discussion Need to be set with the userInfo parameter.
- */
-@property (nonatomic, readonly) NSString *identifier;
 
 /**
  *  Set whether a stream tracker must be created for the receiver. The default value is YES.

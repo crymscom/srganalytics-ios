@@ -43,13 +43,13 @@
  *
  *  @param mediaPlayerController the media player controller instance to track
  */
-- (void)startTrackingMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController;
+- (void)startTrackingMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController forIdentifier:(NSString *)identifier;
 
 /**
  *  Force to stop tracking a media. Automatically sends an "end" event type and remove the `SRGMediaPlayerControllerStreamSenseTracker` instance.
  *
  *  @param mediaPlayerController the media player controller instance to be removed from tracking
  */
-- (void)stopTrackingMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController;
+- (void)stopTrackingMediaPlayerControllerForIdentifier:(NSString *)identifier;
 
 @end

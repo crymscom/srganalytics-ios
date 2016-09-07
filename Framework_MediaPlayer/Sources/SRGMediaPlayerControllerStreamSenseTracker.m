@@ -62,9 +62,9 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	return self;
 }
 
-- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<SRGSegment>)segment
+- (void)notify:(CSStreamSenseEventType)playerEvent withSegment:(id<SRGSegment>)segment forIdentifier:(NSString *)identifier
 {
-    [self updateLabelsWithSegment:segment];
+    [self updateLabelsWithSegment:segment forIdentifier:identifier];
     
     // Logical segment: Return the segment beginning
     if (playerEvent == CSStreamSensePlay && segment) {
@@ -94,7 +94,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 
 #pragma mark - Private Labels methods
 
-- (void)updateLabelsWithSegment:(id<SRGSegment>)segment
+- (void)updateLabelsWithSegment:(id<SRGSegment>)segment forIdentifier:(NSString *)identifier
 {
 	// Labels
 	[self setLabel:@"ns_st_br" value:[self bitRate]];
@@ -154,7 +154,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	
 	// Playlist
 	if ([self.dataSource respondsToSelector:@selector(streamSensePlaylistMetadataForIdentifier:)]) {
-		NSDictionary *dataSourcePlaylist = [self.dataSource streamSensePlaylistMetadataForIdentifier:self.mediaPlayerController.identifier];
+		NSDictionary *dataSourcePlaylist = [self.dataSource streamSensePlaylistMetadataForIdentifier:identifier];
 		[dataSourcePlaylist enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 			[[self playlist] setLabel:key value:obj];
 		}];
@@ -162,7 +162,7 @@ static NSString * const LoggerDomainAnalyticsStreamSense = @"StreamSense";
 	
 	// Clips
     if ([self.dataSource respondsToSelector:@selector(streamSenseClipMetadataForIdentifier:withSegment:)]) {
-        NSDictionary *dataSourceClip = [self.dataSource streamSenseClipMetadataForIdentifier:self.mediaPlayerController.identifier withSegment:segment];
+        NSDictionary *dataSourceClip = [self.dataSource streamSenseClipMetadataForIdentifier:identifier withSegment:segment];
         
 		[dataSourceClip enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 			[[self clip] setLabel:key value:obj];

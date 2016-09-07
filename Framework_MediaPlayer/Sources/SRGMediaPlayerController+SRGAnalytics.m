@@ -5,27 +5,15 @@
 //
 
 #import "SRGMediaPlayerController+SRGAnalytics.h"
+
 #import "SRGMediaPlayerControllerTracker.h"
 #import <objc/runtime.h>
 
-static NSMutableDictionary *s_identifierForURL;
+NSString * const SRGAnalyticsIdentifierInfoKey = @"SRGAnalyticsIdentifierInfoKey";
 
 static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 
 @implementation SRGMediaPlayerController (SRGAnalytics)
-
-+ (void)prepareToplayURL:(NSURL *)URL withIdentifier:(NSString *)identifier
-{
-    if (!s_identifierForURL) {
-        s_identifierForURL = [NSMutableDictionary dictionary];
-    }
-    s_identifierForURL[URL] = identifier;
-}
-
-- (NSString *)identifier
-{
-    return self.userInfo[SRGAnalyticsIdentifierInfoKey];
-}
 
 - (BOOL)isTracked
 {
@@ -42,11 +30,12 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
     
     objc_setAssociatedObject(self, SRGAnalyticsTrackedKey, @(tracked), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
+    NSString *identifier = self.userInfo[SRGAnalyticsIdentifierInfoKey];
     if (tracked) {
-        [[SRGMediaPlayerControllerTracker sharedTracker] startTrackingMediaPlayerController:self];
+        [[SRGMediaPlayerControllerTracker sharedTracker] startTrackingMediaPlayerController:self forIdentifier:identifier];
     }
     else {
-        [[SRGMediaPlayerControllerTracker sharedTracker] stopTrackingMediaPlayerController:self];
+        [[SRGMediaPlayerControllerTracker sharedTracker] stopTrackingMediaPlayerControllerForIdentifier:identifier];
     }
 }
 
