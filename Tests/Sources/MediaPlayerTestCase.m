@@ -21,7 +21,7 @@ static NSURL *PlaybackTestURL(void)
 + (void)setUp
 {
     SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
-    [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS];
+    [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS withComScoreVirtualSite:@"rts-app-test-v" netMetrixIdentifier:@"test" debugMode:NO];
 }
 
 - (void)testMediaPlayback

@@ -29,6 +29,8 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
 @property (nonatomic, strong) SRGAnalyticsNetmetrixTracker *netmetrixTracker;
 @property (nonatomic, weak) id<SRGAnalyticsPageViewDataSource> lastPageViewDataSource;
 @property (nonatomic, assign) SSRBusinessUnit businessUnit;
+@property (nonatomic, strong) NSString *comScoreVirtualSite;
+@property (nonatomic, strong) NSString *netMetrixIdentifier;
 @end
 
 @implementation SRGAnalyticsTracker
@@ -91,33 +93,18 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
 	return (SSRBusinessUnit)index;
 }
 
-- (NSString *) comscoreVSite
-{
-	return [self infoDictionaryValueForKey:@"ComscoreVirtualSite"];
-}
-
-- (NSString *) netmetrixAppId
-{
-	return [self infoDictionaryValueForKey:@"NetmetrixAppID"];
-}
-
-- (NSString *)infoDictionaryValueForKey:(NSString *)key
-{
-	NSDictionary *analyticsInfoDictionary = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SRGAnalytics"];
-	return [analyticsInfoDictionary objectForKey:key];
-}
-
 #pragma mark - PageView tracking
 
 - (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
-{
-    [self startTrackingForBusinessUnit:businessUnit inDebugMode:NO];
-}
-
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit inDebugMode:(BOOL)debugMode
+             withComScoreVirtualSite:(NSString *)comScoreVirtualSite
+                 netMetrixIdentifier:(NSString *)netMetrixIdentifier
+                           debugMode:(BOOL)debugMode
 {
     _businessUnit = businessUnit;
     _debugMode = debugMode;
+    
+    self.comScoreVirtualSite = comScoreVirtualSite;
+    self.netMetrixIdentifier = netMetrixIdentifier;
     
     [self startComscoreTracker];
     [self startNetmetrixTracker];
@@ -125,8 +112,6 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
 
 - (void)startComscoreTracker
 {
-	NSAssert(self.comscoreVSite.length > 0, @"You MUST define `SRGAnalytics>ComscoreVirtualSite` key in your app Info.plist");
-	
 	[CSComScore setAppContext];
 	[CSComScore setCustomerC2:@"6036016"];
 	[CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
@@ -154,7 +139,7 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
                                             @"srg_unit": [self businessUnitIdentifier:self.businessUnit].uppercaseString,
                                             @"srg_ap_push": @"0",
                                             @"ns_site": @"mainsite", // MGubler 17-Nov-2015: This 'mainsite' is a constant value. If wrong, everything is screwed.
-                                            @"ns_vsite": self.comscoreVSite} mutableCopy]; // MGubler 17-Nov-2015: 'vsite' is associated with the app. It is created by comScore itself.
+                                            @"ns_vsite": self.comScoreVirtualSite} mutableCopy]; // MGubler 17-Nov-2015: 'vsite' is associated with the app. It is created by comScore itself.
                                                                                            // Even if it is 'easy' to create a new one (for new/easier repoSRG, or fixing wrong values),
                                                                                            // this must never change for the given app.
     if (_debugMode) {
@@ -172,8 +157,7 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
 
 - (void)startNetmetrixTracker
 {
-	NSAssert(self.netmetrixAppId.length > 0, @"You MUST define `SRGAnalytics>NetmetrixAppID` key in your app Info.plist");
-	self.netmetrixTracker = [[SRGAnalyticsNetmetrixTracker alloc] initWithAppID:self.netmetrixAppId businessUnit:self.businessUnit];
+	self.netmetrixTracker = [[SRGAnalyticsNetmetrixTracker alloc] initWithAppID:self.netMetrixIdentifier businessUnit:self.businessUnit];
 }
 
 #pragma mark - PageView tracking

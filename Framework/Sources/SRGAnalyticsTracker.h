@@ -114,8 +114,10 @@ FOUNDATION_EXTERN NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoK
  *
  *  The application MUST call `-startTrackingForBusinessUnit:...` methods ONLY in `-application:didFinishLaunchingWithOptions:`.
  */
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit;
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit inDebugMode:(BOOL)debugMode;
+- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
+             withComScoreVirtualSite:(NSString *)comScoreVirtualSite
+                 netMetrixIdentifier:(NSString *)netMetrixIdentifier
+                           debugMode:(BOOL)debugMode;
 
 /**
  *  --------------------
@@ -126,12 +128,12 @@ FOUNDATION_EXTERN NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoK
 /**
  *  The ComScore virtual site to be used for sending stats.
  */
-@property (nonatomic, readonly, strong) NSString *comscoreVSite;
+@property (nonatomic, readonly, strong) NSString *comScoreVirtualSite;
 
 /**
  *  The NetMetrix application name to be used for view event tracking.
  */
-@property (nonatomic, readonly, strong) NSString *netmetrixAppId;
+@property (nonatomic, readonly, strong) NSString *netMetrixIdentifier;
 
 /**
  *  Return the business unit identifier
