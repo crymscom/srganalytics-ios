@@ -14,7 +14,22 @@
 
 @implementation SRGMediaPlayerTracker
 
-#pragma mark
+#pragma mark Class methods
+
++ (void)initialize
+{
+    if (self != [SRGMediaPlayerTracker class]) {
+        return;
+    }
+    
+    // Observe state changes for all media player controllers to create and remove trackers on the fly
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playbackStateDidChange:)
+                                                 name:SRGMediaPlayerPlaybackStateDidChangeNotification
+                                               object:nil];
+}
+
+#pragma mark Object lifecycle
 
 - (id)initWithMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
 {
@@ -68,11 +83,69 @@
     }
 }
 
+#pragma mark Helpers
+
+- (long)currentPositionInMilliseconds
+{
+    // Live stream: Playhead position must be always 0
+    if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive
+            || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
+        return 0;
+    }
+    else {
+        CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
+        if (CMTIME_IS_INDEFINITE(currentTime)) {
+            return 0;
+        }
+        else {
+            return (long)floor(CMTimeGetSeconds(currentTime) * 1000);
+        }
+    }
+}
+
 #pragma mark Notifications
+
++ (void)playbackStateDidChange:(NSNotification *)notification
+{
+    SRGMediaPlayerController *mediaPlayerController = notification.object;
+    if (mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePreparing) {
+        // TODO: Attach tracker. Must send initial buffer event
+    }
+    else if (mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateIdle) {
+        // TODO: Detach tracker
+    }
+    
+     // TODO: Call onUxActive / onUxInactive when number of tracker changes from 0 -> 1 / 1 -> 0
+}
 
 - (void)playbackStateDidChange:(NSNotification *)notification
 {
-
+    switch (self.mediaPlayerController.playbackState) {
+        case SRGMediaPlayerPlaybackStatePlaying: {
+            [self notify:CSStreamSensePlay position:[self currentPositionInMilliseconds] labels:nil];
+            break;
+        }
+            
+        case SRGMediaPlayerPlaybackStateSeeking:
+        case SRGMediaPlayerPlaybackStatePaused: {
+            [self notify:CSStreamSensePause position:[self currentPositionInMilliseconds] labels:nil];
+            break;
+        }
+            
+        case SRGMediaPlayerPlaybackStateStalled: {
+            [self notify:CSStreamSenseBuffer position:[self currentPositionInMilliseconds] labels:nil];
+            break;
+        }
+            
+        case SRGMediaPlayerPlaybackStateEnded: {
+            [self notify:CSStreamSenseEnd position:[self currentPositionInMilliseconds] labels:nil];
+            break;
+        }
+            
+        default: {
+            break;
+        }
+    }
 }
 
 - (void)segmentDidStart:(NSNotification *)notification
