@@ -26,30 +26,46 @@ static NSURL *DVRTestURL(void)
 
 @interface MediaPlayerTestCase : AnalyticsTestCase
 
+@property (nonatomic) SRGMediaPlayerController *mediaPlayerController;
+
 @end
 
 @implementation MediaPlayerTestCase
 
-#pragma mark Setup
+#pragma mark Setup and teardown
 
 + (void)setUp
 {
+    // Setup analytics for all tests
     SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
     [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS withComScoreVirtualSite:@"rts-app-test-v" netMetrixIdentifier:@"test" debugMode:NO];
+}
+
+// Since the comScore request notifications we observe are emitted at the comScore level (i.e. we have lost the identity
+// of the player for which the request has been sent), we must properly ensure that notifications do not fall from one
+// test onto another one when several tests are run. To avoid such issues, we always properly reset the media player
+// at the end of each test (if it wasn't already)
+- (void)setUp
+{
+    self.mediaPlayerController = [[SRGMediaPlayerController alloc] init];
+}
+
+- (void)tearDown
+{
+    [self.mediaPlayerController reset];
+    self.mediaPlayerController = nil;
 }
 
 #pragma mark Tests
 
 - (void)testPrepareToPlay
 {
-    SRGMediaPlayerController *mediaPlayerController = [[SRGMediaPlayerController alloc] init];
-    
     // Prepare the player until it is paused. No event must be received
     id prepareObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when preparing a player");
     }];
     
-    [mediaPlayerController prepareToPlayURL:OnDemandTestURL() withCompletionHandler:^{
+    [self.mediaPlayerController prepareToPlayURL:OnDemandTestURL() withCompletionHandler:^{
         [[NSNotificationCenter defaultCenter] removeObserver:prepareObserver];
     }];
     
@@ -59,21 +75,28 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    [mediaPlayerController play];
+    [self.mediaPlayerController play];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 - (void)testPlayStop
 {
-    SRGMediaPlayerController *mediaPlayerController = [[SRGMediaPlayerController alloc] init];
-    
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         return YES;
     }];
     
-    [mediaPlayerController playURL:OnDemandTestURL()];
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -82,21 +105,19 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    [mediaPlayerController stop];
+    [self.mediaPlayerController stop];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 - (void)testPlayReset
 {
-    SRGMediaPlayerController *mediaPlayerController = [[SRGMediaPlayerController alloc] init];
-    
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         return YES;
     }];
     
-    [mediaPlayerController playURL:OnDemandTestURL()];
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -105,39 +126,44 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    [mediaPlayerController reset];
+    [self.mediaPlayerController reset];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 - (void)testConsecutiveMedia
 {
-    SRGMediaPlayerController *mediaPlayerController = [[SRGMediaPlayerController alloc] init];
-    
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         return YES;
     }];
     
-    [mediaPlayerController playURL:OnDemandTestURL()];
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        NSLog(@"1 labels: %@", labels);
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
         return YES;
     }];
     
-    [mediaPlayerController playURL:LiveTestURL()];
+    [self.mediaPlayerController playURL:LiveTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        NSLog(@"2 labels: %@", labels);
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         return YES;
     }];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
