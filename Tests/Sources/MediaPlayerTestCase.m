@@ -324,7 +324,29 @@ static NSURL *DVRTestURL(void)
 
 - (void)testVolumeLabel
 {
-
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"ns_st_vo"], @"0");
+        return YES;
+    }];
+    
+    self.mediaPlayerController.playerCreationBlock = ^(AVPlayer *player) {
+        player.muted = YES;
+    };
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        XCTAssertNotEqualObjects(labels[@"ns_st_vo"], @"0");
+        return YES;
+    }];
+    
+    self.mediaPlayerController.player.muted = NO;
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 @end
