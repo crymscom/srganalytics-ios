@@ -6,6 +6,9 @@
 
 #import "SRGMediaPlayerTracker.h"
 
+// FIXME: Due to internal comScore bugs, the object will never be properly released. This does not hurt in our implementaton,
+//        but this could be fixed
+
 static NSMutableDictionary *s_trackers = nil;
 
 @interface SRGMediaPlayerTracker ()
@@ -13,8 +16,6 @@ static NSMutableDictionary *s_trackers = nil;
 @property (nonatomic, weak) SRGMediaPlayerController *mediaPlayerController;
 
 @end
-
-__attribute__((constructor)) static void SRGMediaPlayerTrackerInit(void);
 
 @implementation SRGMediaPlayerTracker
 
@@ -39,32 +40,39 @@ __attribute__((constructor)) static void SRGMediaPlayerTrackerInit(void);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark Getters and setters
+#pragma mark Tracker management
 
-- (void)setMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
+- (void)start
 {
-    if (_mediaPlayerController) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:SRGMediaPlayerPlaybackStateDidChangeNotification object:_mediaPlayerController];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:SRGMediaPlayerSegmentDidStartNotification object:_mediaPlayerController];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:SRGMediaPlayerSegmentDidEndNotification object:_mediaPlayerController];
-    }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playbackStateDidChange:)
+                                                 name:SRGMediaPlayerPlaybackStateDidChangeNotification
+                                               object:self.mediaPlayerController];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(segmentDidStart:)
+                                                 name:SRGMediaPlayerSegmentDidStartNotification
+                                               object:self.mediaPlayerController];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(segmentDidEnd:)
+                                                 name:SRGMediaPlayerSegmentDidEndNotification
+                                               object:self.mediaPlayerController];
     
-    _mediaPlayerController = mediaPlayerController;
+    [self notify:CSStreamSenseBuffer position:[self currentPositionInMilliseconds] labels:nil];
+}
+
+- (void)stop
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:SRGMediaPlayerPlaybackStateDidChangeNotification
+                                                  object:self.mediaPlayerController];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:SRGMediaPlayerSegmentDidStartNotification
+                                                  object:self.mediaPlayerController];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:SRGMediaPlayerSegmentDidEndNotification
+                                                  object:self.mediaPlayerController];
     
-    if (mediaPlayerController) {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(playbackStateDidChange:)
-                                                     name:SRGMediaPlayerPlaybackStateDidChangeNotification
-                                                   object:mediaPlayerController];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(segmentDidStart:)
-                                                     name:SRGMediaPlayerSegmentDidStartNotification
-                                                   object:mediaPlayerController];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(segmentDidEnd:)
-                                                     name:SRGMediaPlayerSegmentDidEndNotification
-                                                   object:mediaPlayerController];
-    }
+    [self notify:CSStreamSenseEnd position:[self currentPositionInMilliseconds] labels:nil];
 }
 
 #pragma mark Helpers
@@ -96,21 +104,30 @@ __attribute__((constructor)) static void SRGMediaPlayerTrackerInit(void);
     NSValue *key = [NSValue valueWithNonretainedObject:mediaPlayerController];
     if (mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePreparing) {
         NSAssert(s_trackers[key] == nil, @"No tracker must exist");
-        s_trackers[key] = [[SRGMediaPlayerTracker alloc] initWithMediaPlayerController:mediaPlayerController];
+        SRGMediaPlayerTracker *tracker = [[SRGMediaPlayerTracker alloc] initWithMediaPlayerController:mediaPlayerController];
         
+        s_trackers[key] = tracker;
         if (s_trackers.count == 1) {
             [CSComScore onUxActive];
         }
+        
+        [tracker start];
     }
     else if (mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateIdle) {
-        NSAssert(s_trackers[key] != nil, @"A tracker must exist");
-        [s_trackers removeObjectForKey:key];
+        SRGMediaPlayerTracker *tracker = s_trackers[key];
+        NSAssert(tracker != nil, @"A tracker must exist");
+        [tracker stop];
         
+        [s_trackers removeObjectForKey:key];
         if (s_trackers.count == 0) {
             [CSComScore onUxInactive];
         }
     }
 }
+
+// TODO: Warning: Test label persistence. Previously, labels were set on the tracker and updated / removed. Could we
+//       avoid such issues by always using the -notify labels parameter (building the label dictionary with base labels
+//       and custom labels)?
 
 - (void)playbackStateDidChange:(NSNotification *)notification
 {
