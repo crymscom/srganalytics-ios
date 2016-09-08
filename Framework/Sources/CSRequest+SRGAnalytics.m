@@ -32,8 +32,9 @@ static BOOL NotificationSend(CSRequest *self, SEL _cmd)
     }
     
 	NSDictionary *userInfo = @{ SRGAnalyticsComScoreRequestSuccessUserInfoKey: @(success), SRGAnalyticsComScoreRequestLabelsUserInfoKey: [labels copy] };
-    [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestDidFinishNotification object:self userInfo:userInfo];
-	
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestDidFinishNotification object:self userInfo:userInfo];
+    });
 	return success;
 }
 
