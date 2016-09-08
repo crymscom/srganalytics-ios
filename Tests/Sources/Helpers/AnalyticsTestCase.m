@@ -22,6 +22,11 @@
             return NO;
         }
         
+        // Discard heartbeats (though hidden events, they are outside our control)
+        if ([labels[@"ns_st_ev"] isEqualToString:@"hb"]) {
+            return NO;
+        }
+        
         return handler(event, labels);
     }];
 }
