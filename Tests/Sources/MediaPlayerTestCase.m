@@ -63,7 +63,17 @@ static NSURL *DVRTestURL(void)
 
 - (void)tearDown
 {
-    [self.mediaPlayerController reset];
+    // Use expectations to wait for proper player reset if not idle
+    if (self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle) {
+        [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+            return YES;
+        }];
+        
+        [self.mediaPlayerController reset];
+        
+        [self waitForExpectationsWithTimeout:20. handler:nil];
+    }
     self.mediaPlayerController = nil;
 }
 
