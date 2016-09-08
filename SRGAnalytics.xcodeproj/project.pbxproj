@@ -29,6 +29,7 @@
 		E65490C11D81504C007D96E7 /* SRGAnalytics_MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */; };
 		E65490C21D815060007D96E7 /* SRGMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */; };
 		E65490C31D815069007D96E7 /* ComScore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E672EA461D62EE5D00CFB080 /* ComScore.framework */; };
+		E65490C61D815E34007D96E7 /* BundleFix.m in Sources */ = {isa = PBXBuildFile; fileRef = E65490C51D815E34007D96E7 /* BundleFix.m */; };
 		E66F8A761D62DC570004EB58 /* SRGAnalytics_Demo_1_EventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8A721D62DC570004EB58 /* SRGAnalytics_Demo_1_EventTests.m */; };
 		E66F8A771D62DC570004EB58 /* SRGAnalytics_Demo_2_MediaPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8A731D62DC570004EB58 /* SRGAnalytics_Demo_2_MediaPlayerTests.m */; };
 		E66F8A781D62DC570004EB58 /* SRGAnalytics_Demo_3_PushNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8A741D62DC570004EB58 /* SRGAnalytics_Demo_3_PushNotificationTests.m */; };
@@ -177,6 +178,7 @@
 		E65490B11D803CA2007D96E7 /* MediaPlayerTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaPlayerTestCase.m; sourceTree = "<group>"; };
 		E65490BD1D812BC8007D96E7 /* SRGMediaPlayerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGMediaPlayerTracker.h; sourceTree = "<group>"; };
 		E65490BE1D812BC8007D96E7 /* SRGMediaPlayerTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGMediaPlayerTracker.m; sourceTree = "<group>"; };
+		E65490C51D815E34007D96E7 /* BundleFix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BundleFix.m; sourceTree = "<group>"; };
 		E66F8A661D62DC250004EB58 /* SRGAnalytics-demo-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SRGAnalytics-demo-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66F8A711D62DC570004EB58 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E66F8A721D62DC570004EB58 /* SRGAnalytics_Demo_1_EventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalytics_Demo_1_EventTests.m; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 			isa = PBXGroup;
 			children = (
 				E65490B11D803CA2007D96E7 /* MediaPlayerTestCase.m */,
+				E65490C51D815E34007D96E7 /* BundleFix.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -687,6 +690,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E65490B21D803CA2007D96E7 /* MediaPlayerTestCase.m in Sources */,
+				E65490C61D815E34007D96E7 /* BundleFix.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

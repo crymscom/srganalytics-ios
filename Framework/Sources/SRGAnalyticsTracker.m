@@ -45,11 +45,6 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
 	return sharedInstance;
 }
 
-+ (NSBundle *)bundle
-{
-    return [NSBundle mainBundle];
-}
-
 - (id)init_custom_SRGAnalyticsTracker
 {
     self = [super init];
