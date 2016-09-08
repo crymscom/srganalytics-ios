@@ -26,6 +26,9 @@
 		E65490BC1D803D66007D96E7 /* SRGMediaPlayer.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E65490BF1D812BC8007D96E7 /* SRGMediaPlayerTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E65490BD1D812BC8007D96E7 /* SRGMediaPlayerTracker.h */; };
 		E65490C01D812BC8007D96E7 /* SRGMediaPlayerTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E65490BE1D812BC8007D96E7 /* SRGMediaPlayerTracker.m */; };
+		E65490C11D81504C007D96E7 /* SRGAnalytics_MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */; };
+		E65490C21D815060007D96E7 /* SRGMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */; };
+		E65490C31D815069007D96E7 /* ComScore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E672EA461D62EE5D00CFB080 /* ComScore.framework */; };
 		E66F8A761D62DC570004EB58 /* SRGAnalytics_Demo_1_EventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8A721D62DC570004EB58 /* SRGAnalytics_Demo_1_EventTests.m */; };
 		E66F8A771D62DC570004EB58 /* SRGAnalytics_Demo_2_MediaPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8A731D62DC570004EB58 /* SRGAnalytics_Demo_2_MediaPlayerTests.m */; };
 		E66F8A781D62DC570004EB58 /* SRGAnalytics_Demo_3_PushNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8A741D62DC570004EB58 /* SRGAnalytics_Demo_3_PushNotificationTests.m */; };
@@ -236,6 +239,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E65490C31D815069007D96E7 /* ComScore.framework in Frameworks */,
+				E65490C21D815060007D96E7 /* SRGMediaPlayer.framework in Frameworks */,
+				E65490C11D81504C007D96E7 /* SRGAnalytics_MediaPlayer.framework in Frameworks */,
 				E65490A61D803C03007D96E7 /* SRGAnalytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -909,6 +915,10 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -924,6 +934,10 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;

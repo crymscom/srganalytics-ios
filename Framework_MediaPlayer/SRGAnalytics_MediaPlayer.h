@@ -5,6 +5,7 @@
 //
 
 #import <SRGAnalytics/SRGAnalytics.h>
+#import <SRGMediaPlayer/SRGMediaPlayer.h>
 #import <UIKit/UIKit.h>
 
 //! Project version number for SRGMediaPlayerAnalytics.
