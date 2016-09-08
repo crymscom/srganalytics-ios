@@ -52,6 +52,7 @@ static NSURL *DVRTestURL(void)
 - (void)setUp
 {
     self.mediaPlayerController = [[SRGMediaPlayerController alloc] init];
+    self.mediaPlayerController.liveTolerance = 10.;
 }
 
 - (void)tearDown
@@ -209,6 +210,109 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        checkLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testLiveLabels
+{
+    // Check that these labels are constant between states (for some, the value might differ, but they must
+    // in which case we test they are constantly availble or unavailable)
+    void (^checkLabels)(NSDictionary *) = ^(NSDictionary *labels) {
+        XCTAssertNotNil(labels[@"ns_st_br"]);
+        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
+        XCTAssertNotNil(labels[@"ns_st_vo"]);
+        XCTAssertNil(labels[@"ns_ap_ot"]);
+        
+        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
+    };
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        checkLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:LiveTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        checkLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        checkLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testDVRLabels
+{
+    // Check that these labels are constant between states (for some, the value might differ, but they must
+    // in which case we test they are constantly availble or unavailable)
+    void (^checkLabels)(NSDictionary *) = ^(NSDictionary *labels) {
+        XCTAssertNotNil(labels[@"ns_st_br"]);
+        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
+        XCTAssertNotNil(labels[@"ns_st_vo"]);
+        XCTAssertNil(labels[@"ns_ap_ot"]);
+        
+        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
+        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
+    };
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        checkLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:DVRTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        checkLabels(labels);
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        return YES;
+    }];
+    
+    // Live tolerance has been set to 10 for tests, duration of the DVR window for the test stream is about 45 seconds
+    CMTime pastTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(20., NSEC_PER_SEC));
+    [self.mediaPlayerController seekPreciselyToTime:pastTime withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        checkLabels(labels);
+        XCTAssertNotEqualObjects(labels[@"srg_timeshift"], @"0");
+        return YES;
+    }];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertNotEqualObjects(labels[@"srg_timeshift"], @"0");
         checkLabels(labels);
         return YES;
     }];
