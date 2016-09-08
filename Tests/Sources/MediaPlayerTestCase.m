@@ -9,7 +9,7 @@
 
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 
-static NSURL *VODTestURL(void)
+static NSURL *OnDemandTestURL(void)
 {
     return [NSURL URLWithString:@"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"];
 }
@@ -49,7 +49,7 @@ static NSURL *DVRTestURL(void)
         XCTFail(@"No event must be received when preparing a player");
     }];
     
-    [mediaPlayerController prepareToPlayURL:VODTestURL() withCompletionHandler:^{
+    [mediaPlayerController prepareToPlayURL:OnDemandTestURL() withCompletionHandler:^{
         [[NSNotificationCenter defaultCenter] removeObserver:prepareObserver];
     }];
     
@@ -64,7 +64,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testPlayAndStop
+- (void)testPlayStop
 {
     SRGMediaPlayerController *mediaPlayerController = [[SRGMediaPlayerController alloc] init];
     
@@ -73,7 +73,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    [mediaPlayerController playURL:VODTestURL()];
+    [mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -87,7 +87,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testPlayAndReset
+- (void)testPlayReset
 {
     SRGMediaPlayerController *mediaPlayerController = [[SRGMediaPlayerController alloc] init];
     
@@ -96,7 +96,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    [mediaPlayerController playURL:VODTestURL()];
+    [mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -119,7 +119,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    [mediaPlayerController playURL:VODTestURL()];
+    [mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
