@@ -6,6 +6,8 @@
 
 #import "SRGMediaPlayerTracker.h"
 
+static NSMutableDictionary *s_trackers = nil;
+
 @interface SRGMediaPlayerTracker ()
 
 @property (nonatomic, weak) SRGMediaPlayerController *mediaPlayerController;
@@ -26,16 +28,11 @@ __attribute__((constructor)) static void SRGMediaPlayerTrackerInit(void);
     return self;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-
 - (id)init
 {
     [self doesNotRecognizeSelector:_cmd];
     return [self initWithMediaPlayerController:nil];
 }
-
-#pragma clang diagnostic pop
 
 - (void)dealloc
 {
@@ -95,14 +92,24 @@ __attribute__((constructor)) static void SRGMediaPlayerTrackerInit(void);
 + (void)playbackStateDidChange:(NSNotification *)notification
 {
     SRGMediaPlayerController *mediaPlayerController = notification.object;
+    
+    NSValue *key = [NSValue valueWithNonretainedObject:mediaPlayerController];
     if (mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePreparing) {
-        // TODO: Attach tracker. Must send initial buffer event
+        NSAssert(s_trackers[key] == nil, @"No tracker must exist");
+        s_trackers[key] = [[SRGMediaPlayerTracker alloc] initWithMediaPlayerController:mediaPlayerController];
+        
+        if (s_trackers.count == 1) {
+            [CSComScore onUxActive];
+        }
     }
     else if (mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateIdle) {
-        // TODO: Detach tracker
+        NSAssert(s_trackers[key] != nil, @"A tracker must exist");
+        [s_trackers removeObjectForKey:key];
+        
+        if (s_trackers.count == 0) {
+            [CSComScore onUxInactive];
+        }
     }
-    
-     // TODO: Call onUxActive / onUxInactive when number of tracker changes from 0 -> 1 / 1 -> 0
 }
 
 - (void)playbackStateDidChange:(NSNotification *)notification
@@ -156,4 +163,6 @@ __attribute__((constructor)) static void SRGMediaPlayerTrackerInit(void)
                                              selector:@selector(playbackStateDidChange:)
                                                  name:SRGMediaPlayerPlaybackStateDidChangeNotification
                                                object:nil];
+    
+    s_trackers = [NSMutableDictionary dictionary];
 }

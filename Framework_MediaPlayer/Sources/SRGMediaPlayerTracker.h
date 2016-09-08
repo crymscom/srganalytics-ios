@@ -11,8 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SRGMediaPlayerTracker : CSStreamSense
 
-- (instancetype)initWithMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController NS_DESIGNATED_INITIALIZER;
-
 @end
 
 @interface SRGMediaPlayerTracker (Unavailable)
