@@ -15,8 +15,6 @@
 		0811A8541D800BBC00A9863B /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; };
 		0811A8551D800BBC00A9863B /* libextobjc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0811A8571D800C9A00A9863B /* libextobjc.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E601782E1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = E601782B1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h */; };
-		E601782F1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = E601782C1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m */; };
 		E61C0D6D1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D621D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C0D6E1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61C0D631D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m */; };
 		E61C0D751D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -38,9 +36,6 @@
 		E672EA521D62F19E00CFB080 /* ComScore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E672EA461D62EE5D00CFB080 /* ComScore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E69A204A1D61E5E80064E6C1 /* CSRequest+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20301D61E5E80064E6C1 /* CSRequest+SRGAnalytics.m */; };
 		E69A204B1D61E5E80064E6C1 /* CSRequest+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20311D61E5E80064E6C1 /* CSRequest+SRGAnalytics.h */; };
-		E69A204C1D61E5E80064E6C1 /* CSStreamSense+SRGFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20321D61E5E80064E6C1 /* CSStreamSense+SRGFixes.m */; };
-		E69A204D1D61E5E80064E6C1 /* CSStreamSenseClip+SRGFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20331D61E5E80064E6C1 /* CSStreamSenseClip+SRGFixes.m */; };
-		E69A204E1D61E5E80064E6C1 /* CSStreamSensePlaylist+SRGFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20341D61E5E80064E6C1 /* CSStreamSensePlaylist+SRGFixes.m */; };
 		E69A204F1D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20351D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.h */; };
 		E69A20501D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20361D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.m */; };
 		E69A20511D61E5E80064E6C1 /* NSString+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20371D61E5E80064E6C1 /* NSString+SRGAnalytics.h */; };
@@ -164,9 +159,6 @@
 		9F1519231AC422B800AE051D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		E60178291D6359BE0000362E /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.markdown; sourceTree = "<group>"; };
-		E601782B1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalytics_JRSwizzle.h; sourceTree = "<group>"; };
-		E601782C1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalytics_JRSwizzle.m; sourceTree = "<group>"; };
 		E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics_MediaPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61C0D5F1D61EFD200AEAE6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E61C0D621D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGMediaPlayerController+SRGAnalytics.h"; sourceTree = "<group>"; usesTabs = 0; };
@@ -193,9 +185,6 @@
 		E69A202E1D61E5E80064E6C1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E69A20301D61E5E80064E6C1 /* CSRequest+SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSRequest+SRGAnalytics.m"; sourceTree = "<group>"; };
 		E69A20311D61E5E80064E6C1 /* CSRequest+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CSRequest+SRGAnalytics.h"; sourceTree = "<group>"; };
-		E69A20321D61E5E80064E6C1 /* CSStreamSense+SRGFixes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSStreamSense+SRGFixes.m"; sourceTree = "<group>"; };
-		E69A20331D61E5E80064E6C1 /* CSStreamSenseClip+SRGFixes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSStreamSenseClip+SRGFixes.m"; sourceTree = "<group>"; };
-		E69A20341D61E5E80064E6C1 /* CSStreamSensePlaylist+SRGFixes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSStreamSensePlaylist+SRGFixes.m"; sourceTree = "<group>"; };
 		E69A20351D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SRGAnalytics.h"; sourceTree = "<group>"; };
 		E69A20361D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SRGAnalytics.m"; sourceTree = "<group>"; };
 		E69A20371D61E5E80064E6C1 /* NSString+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SRGAnalytics.h"; sourceTree = "<group>"; };
@@ -322,32 +311,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E60178271D6359BE0000362E /* Externals */ = {
-			isa = PBXGroup;
-			children = (
-				E60178281D6359BE0000362E /* JRSwizzle */,
-			);
-			path = Externals;
-			sourceTree = "<group>";
-		};
-		E60178281D6359BE0000362E /* JRSwizzle */ = {
-			isa = PBXGroup;
-			children = (
-				E60178291D6359BE0000362E /* README.markdown */,
-				E601782A1D6359BE0000362E /* Sources */,
-			);
-			path = JRSwizzle;
-			sourceTree = "<group>";
-		};
-		E601782A1D6359BE0000362E /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				E601782B1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h */,
-				E601782C1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
 		E61C0D5E1D61EFD200AEAE6D /* Framework_MediaPlayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,7 +367,6 @@
 		E69A202D1D61E5E80064E6C1 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				E60178271D6359BE0000362E /* Externals */,
 				E69A202F1D61E5E80064E6C1 /* Sources */,
 				E69A202E1D61E5E80064E6C1 /* Info.plist */,
 				E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */,
@@ -418,9 +380,6 @@
 			children = (
 				E69A20311D61E5E80064E6C1 /* CSRequest+SRGAnalytics.h */,
 				E69A20301D61E5E80064E6C1 /* CSRequest+SRGAnalytics.m */,
-				E69A20321D61E5E80064E6C1 /* CSStreamSense+SRGFixes.m */,
-				E69A20331D61E5E80064E6C1 /* CSStreamSenseClip+SRGFixes.m */,
-				E69A20341D61E5E80064E6C1 /* CSStreamSensePlaylist+SRGFixes.m */,
 				E6FC7FA21D620B6F00A55085 /* NSBundle+SRGAnalytics.h */,
 				E6FC7FA31D620B6F00A55085 /* NSBundle+SRGAnalytics.m */,
 				E69A20351D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.h */,
@@ -509,7 +468,6 @@
 				E69A205C1D61E5E80064E6C1 /* SRGAnalyticsTracker.h in Headers */,
 				E69A204B1D61E5E80064E6C1 /* CSRequest+SRGAnalytics.h in Headers */,
 				E69A20591D61E5E80064E6C1 /* SRGAnalyticsPageViewDataSource.h in Headers */,
-				E601782E1D6359BE0000362E /* SRGAnalytics_JRSwizzle.h in Headers */,
 				E6FC7FA41D620B6F00A55085 /* NSBundle+SRGAnalytics.h in Headers */,
 				E69A20511D61E5E80064E6C1 /* NSString+SRGAnalytics.h in Headers */,
 				E69A20581D61E5E80064E6C1 /* SRGAnalyticsNetmetrixTracker.h in Headers */,
@@ -741,18 +699,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E69A20541D61E5E80064E6C1 /* SRGAnalyticsLogger.m in Sources */,
-				E69A204E1D61E5E80064E6C1 /* CSStreamSensePlaylist+SRGFixes.m in Sources */,
 				E69A20501D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.m in Sources */,
 				E69A20521D61E5E80064E6C1 /* NSString+SRGAnalytics.m in Sources */,
-				E601782F1D6359BE0000362E /* SRGAnalytics_JRSwizzle.m in Sources */,
 				E69A205A1D61E5E80064E6C1 /* SRGAnalyticsTracker+Logging.m in Sources */,
 				E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */,
-				E69A204C1D61E5E80064E6C1 /* CSStreamSense+SRGFixes.m in Sources */,
 				E69A204A1D61E5E80064E6C1 /* CSRequest+SRGAnalytics.m in Sources */,
 				E69A205D1D61E5E80064E6C1 /* SRGAnalyticsTracker.m in Sources */,
 				E6FC7FA51D620B6F00A55085 /* NSBundle+SRGAnalytics.m in Sources */,
 				E69A20571D61E5E80064E6C1 /* SRGAnalyticsNetmetrixTracker.m in Sources */,
-				E69A204D1D61E5E80064E6C1 /* CSStreamSenseClip+SRGFixes.m in Sources */,
 				E69A20611D61E5E80064E6C1 /* UIViewController+SRGAnalytics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
