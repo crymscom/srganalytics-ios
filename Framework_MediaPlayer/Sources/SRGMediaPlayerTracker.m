@@ -8,9 +8,6 @@
 
 #import <SRGAnalytics/SRGAnalytics.h>
 
-// FIXME: Due to internal comScore bugs, the object will never be properly released. This does not hurt in our implementaton,
-//        but this could be fixed
-
 static NSMutableDictionary *s_trackers = nil;
 
 @interface SRGMediaPlayerTracker ()
@@ -51,6 +48,8 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)dealloc
 {
+    // FIXME: Due to internal comScore bugs, the object will never be properly released. This does not hurt in our implementaton,
+    //        but this could be fixed
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
