@@ -156,12 +156,7 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (NSString *)windowState
 {
-    AVPlayerLayer *playerLayer = self.mediaPlayerController.playerLayer;
-    if (! playerLayer.readyForDisplay) {
-        return nil;
-    }
-    
-    CGSize size = playerLayer.videoRect.size;
+    CGSize size = self.mediaPlayerController.playerLayer.videoRect.size;
     CGRect screenRect = [UIScreen mainScreen].bounds;
     return roundf(size.width) == roundf(screenRect.size.width) && roundf(size.height) == roundf(screenRect.size.height) ? @"full" : @"norm";
 }
@@ -179,11 +174,6 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (NSString *)scalingMode
 {
-    AVPlayerLayer *playerLayer = self.mediaPlayerController.playerLayer;
-    if (! playerLayer.readyForDisplay) {
-        return nil;
-    }
-    
     static NSDictionary *s_gravities;
     static dispatch_once_t s_onceToken;
     dispatch_once(&s_onceToken, ^{
@@ -191,7 +181,7 @@ static NSMutableDictionary *s_trackers = nil;
                          AVLayerVideoGravityResizeAspect : @"fit-a",
                          AVLayerVideoGravityResizeAspectFill : @"fill-a" };
     });
-    return s_gravities[playerLayer.videoGravity] ?: @"no";
+    return s_gravities[self.mediaPlayerController.playerLayer.videoGravity] ?: @"no";
 }
 
 - (NSString *)orientation
@@ -211,12 +201,7 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (NSString *)dimensions
 {
-    AVPlayerLayer *playerLayer = self.mediaPlayerController.playerLayer;
-    if (! playerLayer.readyForDisplay) {
-        return nil;
-    }
-    
-    CGSize size = playerLayer.videoRect.size;
+    CGSize size = self.mediaPlayerController.playerLayer.videoRect.size;
     return [NSString stringWithFormat:@"%0.fx%0.f", size.width, size.height];
 }
 

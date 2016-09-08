@@ -45,6 +45,10 @@ static NSURL *DVRTestURL(void)
 // of the player for which the request has been sent), we must properly ensure that notifications do not fall from one
 // test onto another one when several tests are run. To avoid such issues, we always properly reset the media player
 // at the end of each test (if it wasn't already)
+//
+// Remark: We currently use a single media player reference in our tests. If this somehow changes, be sure to reset other
+// players here as well!
+
 - (void)setUp
 {
     self.mediaPlayerController = [[SRGMediaPlayerController alloc] init];
@@ -166,6 +170,57 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController reset];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testOnDemandLabels
+{
+    // Check that these labels are constant between states (for some, the value might differ, but they must
+    // in which case we test they are constantly availble or unavailable)
+    void (^checkLabels)(NSDictionary *) = ^(NSDictionary *labels) {
+        XCTAssertNotNil(labels[@"ns_st_br"]);
+        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
+        XCTAssertNotNil(labels[@"ns_st_vo"]);
+        XCTAssertNil(labels[@"ns_ap_ot"]);
+        
+        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
+        XCTAssertNil(labels[@"srg_timeshift"]);
+        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
+    };
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        checkLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        checkLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        checkLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testVolumeLabel
+{
+
 }
 
 @end
