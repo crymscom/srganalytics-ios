@@ -12,22 +12,9 @@
 
 @end
 
+__attribute__((constructor)) static void SRGMediaPlayerTrackerInit(void);
+
 @implementation SRGMediaPlayerTracker
-
-#pragma mark Class methods
-
-+ (void)initialize
-{
-    if (self != [SRGMediaPlayerTracker class]) {
-        return;
-    }
-    
-    // Observe state changes for all media player controllers to create and remove trackers on the fly
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(playbackStateDidChange:)
-                                                 name:SRGMediaPlayerPlaybackStateDidChangeNotification
-                                               object:nil];
-}
 
 #pragma mark Object lifecycle
 
@@ -159,3 +146,14 @@
 }
 
 @end
+
+#pragma mark Static functions
+
+__attribute__((constructor)) static void SRGMediaPlayerTrackerInit(void)
+{
+    // Observe state changes for all media player controllers to create and remove trackers on the fly
+    [[NSNotificationCenter defaultCenter] addObserver:[SRGMediaPlayerTracker class]
+                                             selector:@selector(playbackStateDidChange:)
+                                                 name:SRGMediaPlayerPlaybackStateDidChangeNotification
+                                               object:nil];
+}

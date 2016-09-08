@@ -18,7 +18,6 @@
 {
     SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
     [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS];
-    [analyticsTracker startStreamMeasurementWithVirtualSite:nil];
 	return YES;
 }
 

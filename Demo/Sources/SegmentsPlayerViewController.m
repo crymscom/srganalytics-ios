@@ -90,7 +90,7 @@
     [super viewWillAppear:animated];
 
     if ([self isMovingToParentViewController] || [self isBeingPresented]) {
-        [self.mediaPlayerController playURL:self.contentURL atTime:kCMTimeZero withSegments:self.segments userInfo:@{SRGAnalyticsIdentifierInfoKey : self.identifier}];
+        [self.mediaPlayerController playURL:self.contentURL atTime:kCMTimeZero withSegments:self.segments userInfo:nil];
     }
 }
 

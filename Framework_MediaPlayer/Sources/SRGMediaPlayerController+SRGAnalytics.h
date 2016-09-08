@@ -6,16 +6,12 @@
 
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
-OBJC_EXTERN NSString * const SRGAnalyticsIdentifierInfoKey;
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SRGMediaPlayerController (SRGAnalytics)
 
-/**
- *  Set whether a stream tracker must be created for the receiver. The default value is YES.
- *
- *  @discussion If the stream tracker is not created yet and the player is already playing, the stream will be automatically
- *              opened. Conversely, any open stream will automatically be closed when tracking is set to NO.
- */
 @property (nonatomic, getter=isTracked) BOOL tracked;
 
 @end
+
+NS_ASSUME_NONNULL_END
