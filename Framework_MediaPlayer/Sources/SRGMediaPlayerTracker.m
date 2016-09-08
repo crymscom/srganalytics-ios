@@ -57,7 +57,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                  name:SRGMediaPlayerSegmentDidEndNotification
                                                object:self.mediaPlayerController];
     
-    [self notify:CSStreamSenseBuffer position:[self currentPositionInMilliseconds] labels:nil];
+    [self notifyEvent:CSStreamSenseBuffer withPosition:[self currentPositionInMilliseconds]];
 }
 
 - (void)stop
@@ -72,10 +72,53 @@ static NSMutableDictionary *s_trackers = nil;
                                                     name:SRGMediaPlayerSegmentDidEndNotification
                                                   object:self.mediaPlayerController];
     
-    [self notify:CSStreamSenseEnd position:[self currentPositionInMilliseconds] labels:nil];
+    [self notifyEvent:CSStreamSenseEnd withPosition:[self currentPositionInMilliseconds]];
 }
 
 #pragma mark Helpers
+
+- (void)safelySetValue:(NSString *)value forLabel:(NSString *)label
+{
+    NSParameterAssert(label);
+    
+    if (value) {
+        [self setLabel:label value:value];
+    }
+    else {
+        [[self labels] removeObjectForKey:label];
+    }
+}
+
+- (void)safelySetValue:(NSString *)value forClipLabel:(NSString *)label
+{
+    NSParameterAssert(label);
+    
+    if (value) {
+        [[self clip] setLabel:label value:value];
+    }
+    else {
+        [[[self clip] labels] removeObjectForKey:label];
+    }
+}
+
+- (void)notifyEvent:(CSStreamSenseEventType)event withPosition:(long)position
+{
+    // Labels
+    [self safelySetValue:[self bitRate] forLabel:@"ns_st_br"];
+    [self safelySetValue:[self windowState] forLabel:@"ns_st_ws"];
+    [self safelySetValue:[self volume] forLabel:@"ns_st_vo"];
+    [self safelySetValue:[self scalingMode] forLabel:@"ns_st_sg"];
+    [self safelySetValue:[self orientation] forLabel:@"ns_ap_ot"];
+    
+    // Clip labels
+    [self safelySetValue:[self dimensions] forClipLabel:@"ns_st_cs"];
+    [self safelySetValue:[self timeshiftFromLiveInMilliseconds] forClipLabel:@"srg_timeshift"];
+    [self safelySetValue:[self screenType] forClipLabel:@"srg_screen_type"];
+    
+    [self notify:event position:position labels:nil /* already set */];
+}
+
+#pragma mark Playback data
 
 - (long)currentPositionInMilliseconds
 {
@@ -92,6 +135,129 @@ static NSMutableDictionary *s_trackers = nil;
         else {
             return (long)floor(CMTimeGetSeconds(currentTime) * 1000);
         }
+    }
+}
+
+- (NSString *)bitRate
+{
+    AVPlayerItem *currentItem = self.mediaPlayerController.player.currentItem;
+    if (! currentItem) {
+        return nil;
+    }
+    
+    NSArray *events = currentItem.accessLog.events;
+    if (! events.lastObject) {
+        return nil;
+    }
+    
+    double observedBitrate = [events.lastObject observedBitrate];
+    return [@(observedBitrate) stringValue];
+}
+
+- (NSString *)windowState
+{
+    AVPlayerLayer *playerLayer = self.mediaPlayerController.playerLayer;
+    if (! playerLayer.readyForDisplay) {
+        return nil;
+    }
+    
+    CGSize size = playerLayer.videoRect.size;
+    CGRect screenRect = [UIScreen mainScreen].bounds;
+    return roundf(size.width) == roundf(screenRect.size.width) && roundf(size.height) == roundf(screenRect.size.height) ? @"full" : @"norm";
+}
+
+- (NSString *)volume
+{
+    if (self.mediaPlayerController.player && self.mediaPlayerController.player.isMuted) {
+        return @"0";
+    }
+    else {
+        NSInteger volume = [AVAudioSession sharedInstance].outputVolume * 100;
+        return [@(volume) stringValue];
+    }
+}
+
+- (NSString *)scalingMode
+{
+    AVPlayerLayer *playerLayer = self.mediaPlayerController.playerLayer;
+    if (! playerLayer.readyForDisplay) {
+        return nil;
+    }
+    
+    static NSDictionary *s_gravities;
+    static dispatch_once_t s_onceToken;
+    dispatch_once(&s_onceToken, ^{
+        s_gravities = @{ AVLayerVideoGravityResize: @"fill",
+                         AVLayerVideoGravityResizeAspect : @"fit-a",
+                         AVLayerVideoGravityResizeAspectFill : @"fill-a" };
+    });
+    return s_gravities[playerLayer.videoGravity] ?: @"no";
+}
+
+- (NSString *)orientation
+{
+    static NSDictionary *s_orientations;
+    static dispatch_once_t s_onceToken;
+    dispatch_once(&s_onceToken, ^{
+        s_orientations = @{ @(UIDeviceOrientationFaceDown) : @"facedown",
+                            @(UIDeviceOrientationFaceUp) : @"faceup",
+                            @(UIDeviceOrientationPortrait) : @"pt",
+                            @(UIDeviceOrientationPortraitUpsideDown) : @"updown",
+                            @(UIDeviceOrientationLandscapeLeft) : @"left",
+                            @(UIDeviceOrientationLandscapeRight) : @"right" };
+    });
+    return s_orientations[@([UIDevice currentDevice].orientation)];
+}
+
+- (NSString *)dimensions
+{
+    AVPlayerLayer *playerLayer = self.mediaPlayerController.playerLayer;
+    if (! playerLayer.readyForDisplay) {
+        return nil;
+    }
+    
+    CGSize size = playerLayer.videoRect.size;
+    return [NSString stringWithFormat:@"%0.fx%0.f", size.width, size.height];
+}
+
+- (NSString *)timeshiftFromLiveInMilliseconds
+{
+    // Do not return any value for non-live streams
+    if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
+        CMTime timeShift = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), self.mediaPlayerController.player.currentItem.currentTime);
+        NSInteger timeShiftInSeconds = (NSInteger)fabs(CMTimeGetSeconds(timeShift));
+        
+        // Consider offsets smaller than the tolerance to be equivalent to live conditions, sending 0 instead of the real offset
+        if (timeShiftInSeconds <= self.mediaPlayerController.liveTolerance) {
+            return @"0";
+        }
+        else {
+            return [@(timeShiftInSeconds * 1000) stringValue];
+        }
+    }
+    else if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive) {
+        return @"0";
+    }
+    else {
+        return nil;
+    }
+}
+
+- (NSString *)airplay
+{
+    return self.mediaPlayerController.player.isExternalPlaybackActive ? @"1" : @"0";
+}
+
+- (NSString *)screenType
+{
+    if (self.mediaPlayerController.pictureInPictureController.pictureInPictureActive) {
+        return @"pip";
+    }
+    else if (self.mediaPlayerController.player.isExternalPlaybackActive) {
+        return @"airplay";
+    }
+    else {
+        return @"default";
     }
 }
 
@@ -125,31 +291,27 @@ static NSMutableDictionary *s_trackers = nil;
     }
 }
 
-// TODO: Warning: Test label persistence. Previously, labels were set on the tracker and updated / removed. Could we
-//       avoid such issues by always using the -notify labels parameter (building the label dictionary with base labels
-//       and custom labels)?
-
 - (void)playbackStateDidChange:(NSNotification *)notification
 {
     switch (self.mediaPlayerController.playbackState) {
         case SRGMediaPlayerPlaybackStatePlaying: {
-            [self notify:CSStreamSensePlay position:[self currentPositionInMilliseconds] labels:nil];
+            [self notifyEvent:CSStreamSensePlay withPosition:[self currentPositionInMilliseconds]];
             break;
         }
             
         case SRGMediaPlayerPlaybackStateSeeking:
         case SRGMediaPlayerPlaybackStatePaused: {
-            [self notify:CSStreamSensePause position:[self currentPositionInMilliseconds] labels:nil];
+            [self notifyEvent:CSStreamSensePause withPosition:[self currentPositionInMilliseconds]];
             break;
         }
             
         case SRGMediaPlayerPlaybackStateStalled: {
-            [self notify:CSStreamSenseBuffer position:[self currentPositionInMilliseconds] labels:nil];
+            [self notifyEvent:CSStreamSenseBuffer withPosition:[self currentPositionInMilliseconds]];
             break;
         }
             
         case SRGMediaPlayerPlaybackStateEnded: {
-            [self notify:CSStreamSenseEnd position:[self currentPositionInMilliseconds] labels:nil];
+            [self notifyEvent:CSStreamSenseEnd withPosition:[self currentPositionInMilliseconds]];
             break;
         }
             
@@ -160,14 +322,10 @@ static NSMutableDictionary *s_trackers = nil;
 }
 
 - (void)segmentDidStart:(NSNotification *)notification
-{
-
-}
+{}
 
 - (void)segmentDidEnd:(NSNotification *)notification
-{
-
-}
+{}
 
 @end
 
