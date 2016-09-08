@@ -9,6 +9,9 @@
 
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 
+static NSString * const MediaPlayerTestVirtualSite = @"rts-app-test-v";
+static NSString * const MediaPlayerTestNetMetrixIdentifier = @"test";
+
 static NSURL *OnDemandTestURL(void)
 {
     return [NSURL URLWithString:@"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"];
@@ -38,7 +41,10 @@ static NSURL *DVRTestURL(void)
 {
     // Setup analytics for all tests
     SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
-    [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS withComScoreVirtualSite:@"rts-app-test-v" netMetrixIdentifier:@"test" debugMode:NO];
+    [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS
+                           withComScoreVirtualSite:MediaPlayerTestVirtualSite
+                               netMetrixIdentifier:MediaPlayerTestNetMetrixIdentifier
+                                         debugMode:NO];
 }
 
 // Since the comScore request notifications we observe are emitted at the comScore level (i.e. we have lost the identity
@@ -169,6 +175,25 @@ static NSURL *DVRTestURL(void)
     }];
     
     [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testGlobalLabels
+{
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        
+        XCTAssertEqualObjects(labels[@"ns_st_mp"], @"SRGMediaPlayer");
+        XCTAssertEqualObjects(labels[@"ns_st_pu"], SRGAnalyticsMarketingVersion());
+        XCTAssertEqualObjects(labels[@"ns_st_mv"], SRGMediaPlayerMarketingVersion());
+        XCTAssertEqualObjects(labels[@"ns_st_it"], @"c");
+        XCTAssertEqualObjects(labels[@"ns_vsite"], MediaPlayerTestVirtualSite);
+        XCTAssertEqualObjects(labels[@"srg_ptype"], @"p_app_ios");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }

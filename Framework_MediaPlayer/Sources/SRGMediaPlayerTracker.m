@@ -6,6 +6,8 @@
 
 #import "SRGMediaPlayerTracker.h"
 
+#import <SRGAnalytics/SRGAnalytics.h>
+
 // FIXME: Due to internal comScore bugs, the object will never be properly released. This does not hurt in our implementaton,
 //        but this could be fixed
 
@@ -25,6 +27,18 @@ static NSMutableDictionary *s_trackers = nil;
 {
     if (self = [super init]) {
         self.mediaPlayerController = mediaPlayerController;
+        
+        // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
+        [self setKeepAliveInterval:9 * 60];
+        
+        // Global labels
+        [self safelySetValue:@"SRGMediaPlayer" forLabel:@"ns_st_mp"];
+        [self safelySetValue:SRGAnalyticsMarketingVersion() forLabel:@"ns_st_pu"];
+        [self safelySetValue:SRGMediaPlayerMarketingVersion() forLabel:@"ns_st_mv"];
+        [self safelySetValue:@"c" forLabel:@"ns_st_it"];
+        
+        [self safelySetValue:[SRGAnalyticsTracker sharedTracker].comScoreVirtualSite forLabel:@"ns_vsite"];
+        [self safelySetValue:@"p_app_ios" forLabel:@"srg_ptype"];
     }
     return self;
 }
