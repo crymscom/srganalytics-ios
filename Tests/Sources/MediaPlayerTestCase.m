@@ -4,10 +4,12 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "AnalyticsTestCase.h"
 #import "NSNotificationCenter+Tests.h"
 
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
+#import <XCTest/XCTest.h>
+
+typedef BOOL (^HiddenEventExpectationHandler)(NSString *event, NSDictionary *labels);
 
 static NSString * const MediaPlayerTestVirtualSite = @"rts-app-test-v";
 static NSString * const MediaPlayerTestNetMetrixIdentifier = @"test";
@@ -27,13 +29,36 @@ static NSURL *DVRTestURL(void)
     return [NSURL URLWithString:@"http://vevoplaylist-live.hls.adaptive.level3.net/vevo/ch1/appleman.m3u8"];
 }
 
-@interface MediaPlayerTestCase : AnalyticsTestCase
+@interface MediaPlayerTestCase : XCTestCase
 
 @property (nonatomic) SRGMediaPlayerController *mediaPlayerController;
 
 @end
 
 @implementation MediaPlayerTestCase
+
+#pragma mark Helpers
+
+// Expectation for global hidden event notifications (player notifications are all event notifications, we don't want to have a look
+// at view events here)
+- (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(HiddenEventExpectationHandler)handler
+{
+    return [self expectationForNotification:SRGAnalyticsComScoreRequestDidFinishNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+        NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreRequestLabelsUserInfoKey];
+        
+        NSString *event = labels[@"ns_type"];
+        if (! [event isEqualToString:@"hidden"]) {
+            return NO;
+        }
+        
+        // Discard heartbeats (though hidden events, they are outside our control)
+        if ([labels[@"ns_st_ev"] isEqualToString:@"hb"]) {
+            return NO;
+        }
+        
+        return handler(event, labels);
+    }];
+}
 
 #pragma mark Setup and teardown
 

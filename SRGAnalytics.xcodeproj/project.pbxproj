@@ -29,7 +29,6 @@
 		E65490C11D81504C007D96E7 /* SRGAnalytics_MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */; };
 		E65490C21D815060007D96E7 /* SRGMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */; };
 		E65490C31D815069007D96E7 /* ComScore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E672EA461D62EE5D00CFB080 /* ComScore.framework */; };
-		E65490D31D816A18007D96E7 /* AnalyticsTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = E65490CF1D816A18007D96E7 /* AnalyticsTestCase.m */; };
 		E65490D41D816A18007D96E7 /* BundleFix.m in Sources */ = {isa = PBXBuildFile; fileRef = E65490D01D816A18007D96E7 /* BundleFix.m */; };
 		E65490D51D816A18007D96E7 /* NSNotificationCenter+Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = E65490D21D816A18007D96E7 /* NSNotificationCenter+Tests.m */; };
 		E66F8A761D62DC570004EB58 /* SRGAnalytics_Demo_1_EventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8A721D62DC570004EB58 /* SRGAnalytics_Demo_1_EventTests.m */; };
@@ -180,8 +179,6 @@
 		E65490B11D803CA2007D96E7 /* MediaPlayerTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaPlayerTestCase.m; sourceTree = "<group>"; };
 		E65490BD1D812BC8007D96E7 /* SRGMediaPlayerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGMediaPlayerTracker.h; sourceTree = "<group>"; };
 		E65490BE1D812BC8007D96E7 /* SRGMediaPlayerTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGMediaPlayerTracker.m; sourceTree = "<group>"; };
-		E65490CE1D816A18007D96E7 /* AnalyticsTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalyticsTestCase.h; sourceTree = "<group>"; };
-		E65490CF1D816A18007D96E7 /* AnalyticsTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsTestCase.m; sourceTree = "<group>"; };
 		E65490D01D816A18007D96E7 /* BundleFix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BundleFix.m; sourceTree = "<group>"; };
 		E65490D11D816A18007D96E7 /* NSNotificationCenter+Tests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+Tests.h"; sourceTree = "<group>"; };
 		E65490D21D816A18007D96E7 /* NSNotificationCenter+Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNotificationCenter+Tests.m"; sourceTree = "<group>"; };
@@ -371,8 +368,6 @@
 		E65490CD1D816A18007D96E7 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				E65490CE1D816A18007D96E7 /* AnalyticsTestCase.h */,
-				E65490CF1D816A18007D96E7 /* AnalyticsTestCase.m */,
 				E65490D01D816A18007D96E7 /* BundleFix.m */,
 				E65490D11D816A18007D96E7 /* NSNotificationCenter+Tests.h */,
 				E65490D21D816A18007D96E7 /* NSNotificationCenter+Tests.m */,
@@ -708,7 +703,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E65490D51D816A18007D96E7 /* NSNotificationCenter+Tests.m in Sources */,
-				E65490D31D816A18007D96E7 /* AnalyticsTestCase.m in Sources */,
 				E65490B21D803CA2007D96E7 /* MediaPlayerTestCase.m in Sources */,
 				E65490D41D816A18007D96E7 /* BundleFix.m in Sources */,
 			);
