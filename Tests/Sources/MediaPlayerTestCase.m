@@ -231,7 +231,18 @@ static NSURL *DVRTestURL(void)
 
 - (void)testMediaError
 {
-    XCTFail(@"");
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received");
+    }];
+    
+    [self expectationForNotification:SRGMediaPlayerPlaybackDidFailNotification object:self.mediaPlayerController handler:^BOOL (NSNotification *notification) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:[NSURL URLWithString:@"http://httpbin.org/status/403"]];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 - (void)testGlobalLabels
