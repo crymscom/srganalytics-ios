@@ -63,8 +63,9 @@ static NSURL *DVRTestURL(void)
 
 - (void)tearDown
 {
-    // Use expectations to wait for proper player reset if not idle
-    if (self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle) {
+    // Reset the player if needed
+    if (self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
+            && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
         [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
             XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
             return YES;
@@ -106,6 +107,45 @@ static NSURL *DVRTestURL(void)
     }];
     
     [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testPlaybackToEnd
+{
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        return YES;
+    }];
+    
+    // Seek near the end of the video
+    CMTime pastTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(5., NSEC_PER_SEC));
+    [self.mediaPlayerController seekPreciselyToTime:pastTime withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        return YES;
+    }];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Let playback finish normally
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        return YES;
+    }];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -187,6 +227,11 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController reset];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testMediaError
+{
+    XCTFail(@"");
 }
 
 - (void)testGlobalLabels
