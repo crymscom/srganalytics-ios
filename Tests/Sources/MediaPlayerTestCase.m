@@ -5,6 +5,7 @@
 //
 
 #import "NSNotificationCenter+Tests.h"
+#import "Segment.h"
 
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 #import <XCTest/XCTest.h>
@@ -58,6 +59,16 @@ static NSURL *DVRTestURL(void)
         
         return handler(event, labels);
     }];
+}
+
+- (XCTestExpectation *)expectationForElapsedTimeInterval:(NSTimeInterval)timeInterval witHandler:(void (^)(void))handler
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:[NSString stringWithFormat:@"Wait for %@ seconds", @(timeInterval)]];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [expectation fulfill];
+        handler ? handler() : nil;
+    });
+    return expectation;
 }
 
 #pragma mark Setup and teardown
@@ -461,6 +472,59 @@ static NSURL *DVRTestURL(void)
     
     self.mediaPlayerController.player.muted = NO;
     [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testNonSelectedSegmentPlayback
+{
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Let the segment be played through. No events must be received
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received");
+    }];
+    
+    [self expectationForElapsedTimeInterval:10. witHandler:^{
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testPlayAndSegmentSelection
+{
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+
+    // Expect segment transitions (play / end)
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        // TODO: Check full
+        return YES;
+    }];
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        // TODO: Check segment
+        return YES;
+    }];
+    
+    [self.mediaPlayerController seekToSegment:segment withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }

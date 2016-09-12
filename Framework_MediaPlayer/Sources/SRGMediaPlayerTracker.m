@@ -320,11 +320,33 @@ static NSMutableDictionary *s_trackers = nil;
 }
 
 - (void)segmentDidStart:(NSNotification *)notification
-{}
+{
+    // Only send analytics for selected segments
+    if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
+        id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
+        id<SRGSegment> previousSegment = notification.userInfo[SRGMediaPlayerPreviousSegmentKey];
+        
+        // Notify full-length end. Nothing to do if there was a previous segment (the event is sent from its end
+        // notification)
+        if (!previousSegment) {
+            [self notifyEvent:CSStreamSenseEnd withPosition:CMTimeGetSeconds(segment.timeRange.start) * 1000.];
+        }
+        [self notifyEvent:CSStreamSensePlay withPosition:CMTimeGetSeconds(segment.timeRange.start) * 1000.];
+    }
+}
 
 - (void)segmentDidEnd:(NSNotification *)notification
-{}
-
+{
+    // Only send analytics for selected segments
+    if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
+        id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
+        
+        
+        
+        [self notifyEvent:CSStreamSenseEnd withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.timeRange)) * 1000.];
+    }
+}
+    
 @end
 
 #pragma mark Static functions

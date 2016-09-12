@@ -19,6 +19,7 @@
 		E61C0D6E1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61C0D631D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m */; };
 		E61C0D751D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C0D861D61F16000AEAE6D /* SRGMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */; };
+		E64B11071D82D4F400CAD97B /* Segment.m in Sources */ = {isa = PBXBuildFile; fileRef = E64B11061D82D4F400CAD97B /* Segment.m */; };
 		E65490A61D803C03007D96E7 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; };
 		E65490B21D803CA2007D96E7 /* MediaPlayerTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = E65490B11D803CA2007D96E7 /* MediaPlayerTestCase.m */; };
 		E65490BA1D803D66007D96E7 /* libextobjc.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -174,6 +175,8 @@
 		E61C0D671D61EFD200AEAE6D /* SRGMediaPlayerControllerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGMediaPlayerControllerTracker.h; sourceTree = "<group>"; };
 		E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalytics_MediaPlayer.h; sourceTree = "<group>"; };
 		E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGMediaPlayer.framework; path = Carthage/Build/iOS/SRGMediaPlayer.framework; sourceTree = "<group>"; };
+		E64B11051D82D4F400CAD97B /* Segment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Segment.h; sourceTree = "<group>"; };
+		E64B11061D82D4F400CAD97B /* Segment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Segment.m; sourceTree = "<group>"; };
 		E65490A11D803C03007D96E7 /* SRGAnalytics-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SRGAnalytics-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E65490AD1D803C3E007D96E7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E65490B11D803CA2007D96E7 /* MediaPlayerTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaPlayerTestCase.m; sourceTree = "<group>"; };
@@ -371,6 +374,8 @@
 				E65490D01D816A18007D96E7 /* BundleFix.m */,
 				E65490D11D816A18007D96E7 /* NSNotificationCenter+Tests.h */,
 				E65490D21D816A18007D96E7 /* NSNotificationCenter+Tests.m */,
+				E64B11051D82D4F400CAD97B /* Segment.h */,
+				E64B11061D82D4F400CAD97B /* Segment.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -705,6 +710,7 @@
 				E65490D51D816A18007D96E7 /* NSNotificationCenter+Tests.m in Sources */,
 				E65490B21D803CA2007D96E7 /* MediaPlayerTestCase.m in Sources */,
 				E65490D41D816A18007D96E7 /* BundleFix.m in Sources */,
+				E64B11071D82D4F400CAD97B /* Segment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
