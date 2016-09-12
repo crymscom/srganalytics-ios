@@ -14,6 +14,7 @@
 @property (nonatomic) NSURL *contentURL;
 @property (nonatomic) NSString *identifier;
 @property (nonatomic) NSArray<Segment *> *segments;
+@property (nonatomic) NSDictionary *userInfo;
 @property (nonatomic, weak) Segment *selectedSegment;
 
 @property (nonatomic) IBOutlet SRGMediaPlayerController *mediaPlayerController;         // top object, strong
@@ -32,13 +33,14 @@
 
 #pragma mark Object lifecycle
 
-- (instancetype)initWithContentURL:(NSURL *)contentURL identifier:(NSString *)identifier segments:(nullable NSArray<Segment *> *)segments
+- (instancetype)initWithContentURL:(NSURL *)contentURL identifier:(NSString *)identifier segments:(nullable NSArray<Segment *> *)segments userInfo:(nullable NSDictionary *)userInfo
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:NSStringFromClass(self.class) bundle:nil];
     SegmentsPlayerViewController *viewController = [storyboard instantiateInitialViewController];
     viewController.contentURL = contentURL;
     viewController.identifier = identifier;
     viewController.segments = segments;
+    viewController.userInfo = userInfo;
     return viewController;
 }
 
@@ -90,7 +92,7 @@
     [super viewWillAppear:animated];
 
     if ([self isMovingToParentViewController] || [self isBeingPresented]) {
-        [self.mediaPlayerController playURL:self.contentURL atTime:kCMTimeZero withSegments:self.segments userInfo:nil];
+        [self.mediaPlayerController playURL:self.contentURL atTime:kCMTimeZero withSegments:self.segments userInfo:self.userInfo];
     }
 }
 

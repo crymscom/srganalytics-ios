@@ -5,6 +5,8 @@
 //
 
 #import "SRGMediaPlayerTracker.h"
+#import "SRGMediaPlayerController+SRGAnalytics.h"
+#import "SRGSegment+SRGAnalytics.h"
 
 #import <SRGAnalytics/SRGAnalytics.h>
 
@@ -13,6 +15,7 @@ static NSMutableDictionary *s_trackers = nil;
 @interface SRGMediaPlayerTracker ()
 
 @property (nonatomic, weak) SRGMediaPlayerController *mediaPlayerController;
+@property (nonatomic, weak) id<SRGSegment> currentSegment;
 
 @end
 
@@ -127,6 +130,13 @@ static NSMutableDictionary *s_trackers = nil;
     [self safelySetValue:[self dimensions] forClipLabel:@"ns_st_cs"];
     [self safelySetValue:[self timeshiftFromLiveInMilliseconds] forClipLabel:@"srg_timeshift"];
     [self safelySetValue:[self screenType] forClipLabel:@"srg_screen_type"];
+    
+    if (self.mediaPlayerController.srg_analyticsLabels) {
+        [self setLabels:self.mediaPlayerController.srg_analyticsLabels];
+    }
+    if (self.currentSegment.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey]) {
+        [[self clip] setLabels:self.currentSegment.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey]];
+    }
     
     [self notify:event position:position labels:nil /* already set */];
 }
@@ -331,6 +341,7 @@ static NSMutableDictionary *s_trackers = nil;
         if (!previousSegment) {
             [self notifyEvent:CSStreamSenseEnd withPosition:CMTimeGetSeconds(segment.timeRange.start) * 1000.];
         }
+        self.currentSegment = segment;
         [self notifyEvent:CSStreamSensePlay withPosition:CMTimeGetSeconds(segment.timeRange.start) * 1000.];
     }
 }
@@ -341,9 +352,10 @@ static NSMutableDictionary *s_trackers = nil;
     if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
         
-        
-        
         [self notifyEvent:CSStreamSenseEnd withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.timeRange)) * 1000.];
+        if ([segment isEqual:self.currentSegment]) {
+            self.currentSegment = nil;
+        }
     }
 }
     

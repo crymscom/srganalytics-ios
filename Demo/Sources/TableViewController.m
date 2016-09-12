@@ -56,21 +56,22 @@
 	if ([cell.reuseIdentifier hasPrefix:@"MediaPlayer"])
 	{
         SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
-                                                                                                             userInfo:nil];
+                                                                                                             userInfo:@{SRGAnalyticsMediaPlayerDictionnaryKey:@{@"ns_st_ep": [self contentURLNameForIdentifier:cell.reuseIdentifier]}}];
 		[self presentViewController:playerViewController animated:YES completion:nil];
 	}
 	else if ([cell.reuseIdentifier hasPrefix:@"CustomMediaPlayer"])
     {
         // TODO: Use CustomMediaPlayerViewController controller
         SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
-                                                                                                             userInfo:nil];
+                                                                                                             userInfo:@{SRGAnalyticsMediaPlayerDictionnaryKey:@{@"ns_st_ep": [self contentURLNameForIdentifier:cell.reuseIdentifier]}}];
         [self presentViewController:playerViewController animated:YES completion:nil];
     }
     else if ([cell.reuseIdentifier hasPrefix:@"SegmentsMediaPlayer"])
     {
         SegmentsPlayerViewController *segmentsPlayerViewController = [[SegmentsPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
                                                                                                                    identifier:cell.reuseIdentifier
-                                                                                                                     segments:[self segmentsForIdentifier:cell.reuseIdentifier]];
+                                                                                                                     segments:[self segmentsForIdentifier:cell.reuseIdentifier]
+                                                                                                                     userInfo:@{SRGAnalyticsMediaPlayerDictionnaryKey:@{@"ns_st_ep": [self contentURLNameForIdentifier:cell.reuseIdentifier]}}];
         [self presentViewController:segmentsPlayerViewController animated:YES completion:nil];
     }
 	else if ([cell.reuseIdentifier isEqualToString:@"PushNotificationCell"])
@@ -118,6 +119,33 @@
     }
     
 	return [NSURL URLWithString:urlString];
+}
+
+- (NSString *)contentURLNameForIdentifier:(NSString *)identifier
+{
+    NSString *name = nil;
+    if ([identifier hasSuffix:@"LiveCell"])
+    {
+        name = @"Eurosport";
+    }
+    else if ([identifier hasSuffix:@"VODCell"] || [identifier hasSuffix:@"SegmentsCell"])
+    {
+        name = @"Téléjournal";
+    }
+    else if ([identifier hasSuffix:@"DVRCell"])
+    {
+        name = @"Vevo";
+    }
+    else if ([identifier hasSuffix:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
+    {
+        name = @"SRF 1";
+    }
+    else if ([identifier hasSuffix:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell_2"])
+    {
+        name = @"SRF AOD";
+    }
+    
+    return name;
 }
 
 - (NSArray<id<SRGSegment>> *)segmentsForIdentifier:(NSString *)identifier

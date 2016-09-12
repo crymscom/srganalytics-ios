@@ -5,6 +5,7 @@
 //
 
 #import "Segment.h"
+#import <SRGAnalytics_MediaPlayer/SRGAnalyticsMediaPlayerConstants.h>
 
 #pragma mark - Functions
 
@@ -43,7 +44,10 @@
 
 - (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name timeRange:(CMTimeRange)timeRange
 {
-    NSDictionary *dictionnary = @{@"name":name, @"startTime": @(CMTimeGetSeconds(self.timeRange.start)), @"duration": @(CMTimeGetSeconds(self.timeRange.duration))};
+    NSDictionary *dictionnary = @{@"name":name,
+                                  @"startTime": @(CMTimeGetSeconds(self.timeRange.start)),
+                                  @"duration": @(CMTimeGetSeconds(self.timeRange.duration)),
+                                  @"userInfo": @{SRGAnalyticsMediaPlayerDictionnaryKey: @{@"ns_st_ep": name}}};
     self = [self initWithDictionary:dictionnary];
     return self;
 }

@@ -5,12 +5,14 @@
 //
 
 #import "Segment.h"
+#import <SRGAnalytics_MediaPlayer/SRGAnalyticsMediaPlayerConstants.h>
 
 @interface Segment ()
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic) CMTimeRange timeRange;
 @property (nonatomic, getter=isBlocked) BOOL blocked;
+@property (nonatomic) NSDictionary *userInfo;
 
 @end
 
@@ -37,6 +39,7 @@
     if (self = [super init]) {
         self.name = name;
         self.timeRange = timeRange;
+        self.userInfo = @{SRGAnalyticsMediaPlayerDictionnaryKey:@{@"ns_st_ep": name}};
     }
     return self;
 }
