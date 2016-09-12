@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, getter=isBlocked) BOOL blocked;
 @property (nonatomic, getter=isHidden) BOOL hidden;
+@property (nonatomic, nullable) NSDictionary *userInfo;
 
 @end
 
@@ -29,6 +30,7 @@
         self.identifier = dictionary[@"identifier"];
         self.blocked = [dictionary[@"blocked"] boolValue];
         self.hidden = [dictionary[@"hidden"] boolValue];
+        self.userInfo = dictionary[@"userInfo"];
         
         NSTimeInterval startTime = [dictionary[@"startTime"] doubleValue] / 1000.;
         NSTimeInterval duration = [dictionary[@"duration"] doubleValue] / 1000.;
