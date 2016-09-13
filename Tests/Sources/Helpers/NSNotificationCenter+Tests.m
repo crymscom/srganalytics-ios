@@ -20,6 +20,10 @@
             return;
         }
         
+        if ([labels[@"ns_st_ev"] isEqualToString:@"hb"]) {
+            return;
+        }
+        
         block(event, labels);
     }];
 }
