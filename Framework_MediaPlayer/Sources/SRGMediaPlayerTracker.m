@@ -16,7 +16,6 @@ static NSMutableDictionary *s_trackers = nil;
 @interface SRGMediaPlayerTracker ()
 
 @property (nonatomic, weak) SRGMediaPlayerController *mediaPlayerController;
-@property (nonatomic, weak) id<SRGSegment> currentSegment;
 
 @end
 
@@ -74,7 +73,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                  name:SRGMediaPlayerSegmentDidEndNotification
                                                object:self.mediaPlayerController];
     
-    [self notifyEvent:CSStreamSenseBuffer withPosition:[self currentPositionInMilliseconds]];
+    [self notifyEvent:CSStreamSenseBuffer withPosition:[self currentPositionInMilliseconds] segment:nil];
 }
 
 - (void)stop
@@ -89,7 +88,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                     name:SRGMediaPlayerSegmentDidEndNotification
                                                   object:self.mediaPlayerController];
     
-    [self notifyEvent:CSStreamSenseEnd withPosition:[self currentPositionInMilliseconds]];
+    [self notifyEvent:CSStreamSenseEnd withPosition:[self currentPositionInMilliseconds] segment:nil];
 }
 
 #pragma mark Helpers
@@ -118,7 +117,7 @@ static NSMutableDictionary *s_trackers = nil;
     }
 }
 
-- (void)notifyEvent:(CSStreamSenseEventType)event withPosition:(long)position
+- (void)notifyEvent:(CSStreamSenseEventType)event withPosition:(long)position segment:(id<SRGSegment>)segment
 {
     // Labels
     [self safelySetValue:[self bitRate] forLabel:@"ns_st_br"];
@@ -136,8 +135,8 @@ static NSMutableDictionary *s_trackers = nil;
     [self safelySetValue:[self timeshiftFromLiveInMilliseconds] forClipLabel:@"srg_timeshift"];
     [self safelySetValue:[self screenType] forClipLabel:@"srg_screen_type"];
     
-    if ([self.currentSegment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
-        NSDictionary *labels = [(id<SRGAnalyticsSegment>)self.currentSegment srg_analyticsLabels];
+    if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
+        NSDictionary *labels = [(id<SRGAnalyticsSegment>)segment srg_analyticsLabels];
         if (labels) {
             [[self clip] setLabels:labels];
         }
@@ -308,23 +307,23 @@ static NSMutableDictionary *s_trackers = nil;
 {
     switch (self.mediaPlayerController.playbackState) {
         case SRGMediaPlayerPlaybackStatePlaying: {
-            [self notifyEvent:CSStreamSensePlay withPosition:[self currentPositionInMilliseconds]];
+            [self notifyEvent:CSStreamSensePlay withPosition:[self currentPositionInMilliseconds] segment:nil];
             break;
         }
             
         case SRGMediaPlayerPlaybackStateSeeking:
         case SRGMediaPlayerPlaybackStatePaused: {
-            [self notifyEvent:CSStreamSensePause withPosition:[self currentPositionInMilliseconds]];
+            [self notifyEvent:CSStreamSensePause withPosition:[self currentPositionInMilliseconds] segment:nil];
             break;
         }
             
         case SRGMediaPlayerPlaybackStateStalled: {
-            [self notifyEvent:CSStreamSenseBuffer withPosition:[self currentPositionInMilliseconds]];
+            [self notifyEvent:CSStreamSenseBuffer withPosition:[self currentPositionInMilliseconds] segment:nil];
             break;
         }
             
         case SRGMediaPlayerPlaybackStateEnded: {
-            [self notifyEvent:CSStreamSenseEnd withPosition:[self currentPositionInMilliseconds]];
+            [self notifyEvent:CSStreamSenseEnd withPosition:[self currentPositionInMilliseconds] segment:nil];
             break;
         }
             
@@ -339,15 +338,14 @@ static NSMutableDictionary *s_trackers = nil;
     // Only send analytics for selected segments
     if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
-        id<SRGSegment> previousSegment = notification.userInfo[SRGMediaPlayerPreviousSegmentKey];
         
-        // Notify full-length end. Nothing to do if there was a previous segment (the event is sent from its end
-        // notification)
-        if (!previousSegment) {
-            [self notifyEvent:CSStreamSenseEnd withPosition:CMTimeGetSeconds(segment.timeRange.start) * 1000.];
+        // Notify full-length end (only if not started at the given segment, i.e. if the player is not preparing playback)
+        id<SRGSegment> previousSegment = notification.userInfo[SRGMediaPlayerPreviousSegmentKey];
+        if (! previousSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStatePreparing) {
+            [self notifyEvent:CSStreamSenseEnd withPosition:CMTimeGetSeconds(segment.timeRange.start) * 1000. segment:nil];
         }
-        self.currentSegment = segment;
-        [self notifyEvent:CSStreamSensePlay withPosition:CMTimeGetSeconds(segment.timeRange.start) * 1000.];
+        
+        [self notifyEvent:CSStreamSensePlay withPosition:CMTimeGetSeconds(segment.timeRange.start) * 1000. segment:segment];
     }
 }
 
@@ -357,9 +355,13 @@ static NSMutableDictionary *s_trackers = nil;
     if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
         
-        [self notifyEvent:CSStreamSenseEnd withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.timeRange)) * 1000.];
-        if ([segment isEqual:self.currentSegment]) {
-            self.currentSegment = nil;
+        [self notifyEvent:CSStreamSenseEnd withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.timeRange)) * 1000. segment:segment];
+        
+        // Notify full-length start
+        // TODO: Check playback end condition with a unit test
+        id<SRGSegment> nextSegment = notification.userInfo[SRGMediaPlayerNextSegmentKey];
+        if (! nextSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
+            [self notifyEvent:CSStreamSensePlay withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.timeRange)) * 1000. segment:nil];
         }
     }
 }
