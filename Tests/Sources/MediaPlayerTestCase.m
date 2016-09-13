@@ -83,14 +83,6 @@ static NSURL *DVRTestURL(void)
                                          debugMode:NO];
 }
 
-// Since the comScore request notifications we observe are emitted at the comScore level (i.e. we have lost the identity
-// of the player for which the request has been sent), we must properly ensure that notifications do not fall from one
-// test onto another one when several tests are run. To avoid such issues, we always properly reset the media player
-// at the end of each test (if it wasn't already)
-//
-// Remark: We currently use a single media player reference in our tests. If this somehow changes, be sure to reset other
-// players here as well!
-
 - (void)setUp
 {
     self.mediaPlayerController = [[SRGMediaPlayerController alloc] init];
@@ -99,18 +91,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)tearDown
 {
-    // Reset the player if needed
-    if (self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
-            && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
-        [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-            XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-            return YES;
-        }];
-        
-        [self.mediaPlayerController reset];
-        
-        [self waitForExpectationsWithTimeout:20. handler:nil];
-    }
+    [self.mediaPlayerController reset];
     self.mediaPlayerController = nil;
 }
 
