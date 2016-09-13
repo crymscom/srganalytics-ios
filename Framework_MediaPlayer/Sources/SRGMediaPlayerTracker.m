@@ -130,7 +130,9 @@ static NSMutableDictionary *s_trackers = nil;
         [self setLabels:self.mediaPlayerController.srg_analyticsLabels];
     }
     
-    // Clip labels
+    // Clip labels (reset to avoid inheriting from previous event)
+    [[self clip] reset];
+    
     [self safelySetValue:[self dimensions] forClipLabel:@"ns_st_cs"];
     [self safelySetValue:[self timeshiftFromLiveInMilliseconds] forClipLabel:@"srg_timeshift"];
     [self safelySetValue:[self screenType] forClipLabel:@"srg_screen_type"];
