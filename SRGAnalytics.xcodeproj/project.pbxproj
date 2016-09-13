@@ -17,7 +17,7 @@
 		0811A8571D800C9A00A9863B /* libextobjc.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08BF963B1D86CF1600D36D50 /* SRGAnalyticsMediaPlayerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 08BF96391D86CF1600D36D50 /* SRGAnalyticsMediaPlayerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08BF963E1D86D0B300D36D50 /* SRGAnalyticsMediaPlayerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BF963D1D86D0B300D36D50 /* SRGAnalyticsMediaPlayerConstants.m */; };
-		08BF96411D86E48600D36D50 /* SRGSegment+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 08BF963F1D86E48600D36D50 /* SRGSegment+SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		08BF96411D86E48600D36D50 /* SRGAnalyticsSegment.h in Headers */ = {isa = PBXBuildFile; fileRef = 08BF963F1D86E48600D36D50 /* SRGAnalyticsSegment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C0D6D1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D621D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C0D6E1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61C0D631D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m */; };
 		E61C0D751D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -166,7 +166,7 @@
 		0811A8521D800BA000A9863B /* libextobjc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libextobjc.framework; path = Carthage/Build/iOS/libextobjc.framework; sourceTree = "<group>"; };
 		08BF96391D86CF1600D36D50 /* SRGAnalyticsMediaPlayerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsMediaPlayerConstants.h; sourceTree = "<group>"; };
 		08BF963D1D86D0B300D36D50 /* SRGAnalyticsMediaPlayerConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsMediaPlayerConstants.m; sourceTree = "<group>"; };
-		08BF963F1D86E48600D36D50 /* SRGSegment+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGSegment+SRGAnalytics.h"; sourceTree = "<group>"; };
+		08BF963F1D86E48600D36D50 /* SRGAnalyticsSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsSegment.h; sourceTree = "<group>"; };
 		9F1519211AC422AE00AE051D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F1519231AC422B800AE051D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -354,7 +354,7 @@
 				E61C0D661D61EFD200AEAE6D /* SRGMediaPlayerControllerTracker.m */,
 				E65490BD1D812BC8007D96E7 /* SRGMediaPlayerTracker.h */,
 				E65490BE1D812BC8007D96E7 /* SRGMediaPlayerTracker.m */,
-				08BF963F1D86E48600D36D50 /* SRGSegment+SRGAnalytics.h */,
+				08BF963F1D86E48600D36D50 /* SRGAnalyticsSegment.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -489,7 +489,7 @@
 			files = (
 				E61C0D6D1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h in Headers */,
 				08BF963B1D86CF1600D36D50 /* SRGAnalyticsMediaPlayerConstants.h in Headers */,
-				08BF96411D86E48600D36D50 /* SRGSegment+SRGAnalytics.h in Headers */,
+				08BF96411D86E48600D36D50 /* SRGAnalyticsSegment.h in Headers */,
 				E65490BF1D812BC8007D96E7 /* SRGMediaPlayerTracker.h in Headers */,
 				E61C0D751D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h in Headers */,
 			);

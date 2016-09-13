@@ -5,9 +5,6 @@
 //
 
 #import "Segment.h"
-#import <SRGAnalytics_MediaPlayer/SRGAnalyticsMediaPlayerConstants.h>
-
-#pragma mark - Functions
 
 @interface Segment ()
 
@@ -16,7 +13,6 @@
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, getter=isBlocked) BOOL blocked;
 @property (nonatomic, getter=isHidden) BOOL hidden;
-@property (nonatomic, nullable) NSDictionary *userInfo;
 
 @end
 
@@ -31,7 +27,6 @@
         self.identifier = dictionary[@"identifier"];
         self.blocked = [dictionary[@"blocked"] boolValue];
         self.hidden = [dictionary[@"hidden"] boolValue];
-        self.userInfo = dictionary[@"userInfo"];
         
         NSTimeInterval startTime = [dictionary[@"startTime"] doubleValue] / 1000.;
         NSTimeInterval duration = [dictionary[@"duration"] doubleValue] / 1000.;
@@ -44,12 +39,11 @@
 
 - (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name timeRange:(CMTimeRange)timeRange
 {
-    NSDictionary *dictionnary = @{@"name":name,
-                                  @"startTime": @(CMTimeGetSeconds(self.timeRange.start)),
-                                  @"duration": @(CMTimeGetSeconds(self.timeRange.duration)),
-                                  @"userInfo": @{SRGAnalyticsMediaPlayerDictionnaryKey: @{@"ns_st_ep": name}}};
-    self = [self initWithDictionary:dictionnary];
-    return self;
+    NSDictionary *dictionnary = @{ @"name" : name,
+                                   @"identifier" : identifier,
+                                   @"startTime" : @(CMTimeGetSeconds(self.timeRange.start)),
+                                   @"duration" : @(CMTimeGetSeconds(self.timeRange.duration)) };
+    return [self initWithDictionary:dictionnary];
 }
 
 - (instancetype)init
@@ -64,6 +58,13 @@
 {
     NSString *imageFilePath = [[NSBundle mainBundle] pathForResource:@"thumbnail-placeholder" ofType:@"png"];
     return [NSURL fileURLWithPath:imageFilePath];
+}
+
+#pragma mark SRGAnalyticsSegment protocol
+
+- (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
+{
+    return @{ @"segment_name" : self.name };
 }
 
 #pragma mark Description

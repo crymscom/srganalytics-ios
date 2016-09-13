@@ -7,6 +7,8 @@
 #import <Foundation/Foundation.h>
 #import <SRGMediaplayer/SRGSegment.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol SRGAnalyticsSegment <SRGSegment>
 
 /**
@@ -15,3 +17,5 @@
 @property (nonatomic, readonly) NSDictionary<NSString *, NSString *> *srg_analyticsLabels;
 
 @end
+
+NS_ASSUME_NONNULL_END

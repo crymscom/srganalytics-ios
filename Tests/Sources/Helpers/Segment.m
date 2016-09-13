@@ -5,14 +5,12 @@
 //
 
 #import "Segment.h"
-#import <SRGAnalytics_MediaPlayer/SRGAnalyticsMediaPlayerConstants.h>
 
 @interface Segment ()
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic) CMTimeRange timeRange;
 @property (nonatomic, getter=isBlocked) BOOL blocked;
-@property (nonatomic) NSDictionary *userInfo;
 
 @end
 
@@ -39,7 +37,6 @@
     if (self = [super init]) {
         self.name = name;
         self.timeRange = timeRange;
-        self.userInfo = @{SRGAnalyticsMediaPlayerDictionnaryKey:@{@"ns_st_ep": name}};
     }
     return self;
 }
@@ -50,6 +47,13 @@
 {
     // NO need to test hidden segments in unit tests, those are only for use by UI overlays
     return NO;
+}
+
+#pragma mark SRGAnalyticsSegment protocol
+
+- (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
+{
+    return @{ @"segment_name" : self.name };
 }
 
 #pragma mark Description

@@ -462,6 +462,7 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertNil(labels[@"segment_name"]);
         return YES;
     }];
     
@@ -484,10 +485,9 @@ static NSURL *DVRTestURL(void)
 
 - (void)testPlayAndSegmentSelection
 {
-#if 0
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        // TODO: Check labels
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
         return YES;
     }];
     
@@ -495,7 +495,6 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withUserInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-#endif
 }
 
 @end

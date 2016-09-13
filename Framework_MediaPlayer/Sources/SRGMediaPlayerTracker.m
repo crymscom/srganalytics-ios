@@ -5,8 +5,9 @@
 //
 
 #import "SRGMediaPlayerTracker.h"
+
+#import "SRGAnalyticsSegment.h"
 #import "SRGMediaPlayerController+SRGAnalytics.h"
-#import "SRGSegment+SRGAnalytics.h"
 
 #import <SRGAnalytics/SRGAnalytics.h>
 
@@ -126,22 +127,23 @@ static NSMutableDictionary *s_trackers = nil;
     [self safelySetValue:[self scalingMode] forLabel:@"ns_st_sg"];
     [self safelySetValue:[self orientation] forLabel:@"ns_ap_ot"];
     
+    if (self.mediaPlayerController.srg_analyticsLabels) {
+        [self setLabels:self.mediaPlayerController.srg_analyticsLabels];
+    }
+    
     // Clip labels
     [self safelySetValue:[self dimensions] forClipLabel:@"ns_st_cs"];
     [self safelySetValue:[self timeshiftFromLiveInMilliseconds] forClipLabel:@"srg_timeshift"];
     [self safelySetValue:[self screenType] forClipLabel:@"srg_screen_type"];
     
-    if (self.mediaPlayerController.srg_analyticsLabels) {
-        [self setLabels:self.mediaPlayerController.srg_analyticsLabels];
-    }
     if ([self.currentSegment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
         NSDictionary *labels = [(id<SRGAnalyticsSegment>)self.currentSegment srg_analyticsLabels];
         if (labels) {
-            [[self clip] setLabels:self.currentSegment.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey]];
+            [[self clip] setLabels:labels];
         }
     }
     
-    [self notify:event position:position labels:nil /* already set */];
+    [self notify:event position:position labels:nil /* already set on the stream and clip objects */];
 }
 
 #pragma mark Playback data
