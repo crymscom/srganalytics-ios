@@ -6,17 +6,12 @@
 
 #import <Foundation/Foundation.h>
 #import <SRGMediaplayer/SRGSegment.h>
-#import "SRGAnalyticsMediaPlayerConstants.h"
-#import <libextobjc/EXTConcreteProtocol.h>
 
 @protocol SRGAnalyticsSegment <SRGSegment>
 
-@concrete
-
 /**
- *  Analytics labels for the current played URL
- *  @return A dictionnary from userInfo[SRGAnalyticsMediaPlayerDictionnaryKey] value.
+ *  Analytics labels for the current played segment
  */
-@property (nonatomic, readonly) NSDictionary *srg_analyticsLabels;
+@property (nonatomic, readonly) NSDictionary<NSString *, NSString *> *srg_analyticsLabels;
 
 @end

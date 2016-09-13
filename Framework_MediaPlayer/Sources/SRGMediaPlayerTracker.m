@@ -134,8 +134,11 @@ static NSMutableDictionary *s_trackers = nil;
     if (self.mediaPlayerController.srg_analyticsLabels) {
         [self setLabels:self.mediaPlayerController.srg_analyticsLabels];
     }
-    if (self.currentSegment.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey]) {
-        [[self clip] setLabels:self.currentSegment.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey]];
+    if ([self.currentSegment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
+        NSDictionary *labels = [(id<SRGAnalyticsSegment>)self.currentSegment srg_analyticsLabels];
+        if (labels) {
+            [[self clip] setLabels:self.currentSegment.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey]];
+        }
     }
     
     [self notify:event position:position labels:nil /* already set */];

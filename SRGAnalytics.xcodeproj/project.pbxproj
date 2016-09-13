@@ -18,7 +18,6 @@
 		08BF963B1D86CF1600D36D50 /* SRGAnalyticsMediaPlayerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 08BF96391D86CF1600D36D50 /* SRGAnalyticsMediaPlayerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08BF963E1D86D0B300D36D50 /* SRGAnalyticsMediaPlayerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BF963D1D86D0B300D36D50 /* SRGAnalyticsMediaPlayerConstants.m */; };
 		08BF96411D86E48600D36D50 /* SRGSegment+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 08BF963F1D86E48600D36D50 /* SRGSegment+SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		08BF96421D86E48600D36D50 /* SRGSegment+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 08BF96401D86E48600D36D50 /* SRGSegment+SRGAnalytics.m */; };
 		E61C0D6D1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D621D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C0D6E1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61C0D631D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m */; };
 		E61C0D751D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -168,7 +167,6 @@
 		08BF96391D86CF1600D36D50 /* SRGAnalyticsMediaPlayerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsMediaPlayerConstants.h; sourceTree = "<group>"; };
 		08BF963D1D86D0B300D36D50 /* SRGAnalyticsMediaPlayerConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsMediaPlayerConstants.m; sourceTree = "<group>"; };
 		08BF963F1D86E48600D36D50 /* SRGSegment+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGSegment+SRGAnalytics.h"; sourceTree = "<group>"; };
-		08BF96401D86E48600D36D50 /* SRGSegment+SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGSegment+SRGAnalytics.m"; sourceTree = "<group>"; };
 		9F1519211AC422AE00AE051D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F1519231AC422B800AE051D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -357,7 +355,6 @@
 				E65490BD1D812BC8007D96E7 /* SRGMediaPlayerTracker.h */,
 				E65490BE1D812BC8007D96E7 /* SRGMediaPlayerTracker.m */,
 				08BF963F1D86E48600D36D50 /* SRGSegment+SRGAnalytics.h */,
-				08BF96401D86E48600D36D50 /* SRGSegment+SRGAnalytics.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -714,7 +711,6 @@
 			files = (
 				E61C0D6E1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m in Sources */,
 				08BF963E1D86D0B300D36D50 /* SRGAnalyticsMediaPlayerConstants.m in Sources */,
-				08BF96421D86E48600D36D50 /* SRGSegment+SRGAnalytics.m in Sources */,
 				E65490C01D812BC8007D96E7 /* SRGMediaPlayerTracker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
