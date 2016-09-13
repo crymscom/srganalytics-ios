@@ -46,9 +46,17 @@ NSString * const SRGAnalyticsComScoreRequestLabelsUserInfoKey = @"SRGAnalyticsLa
     }
     
     NSDictionary *userInfo = @{ SRGAnalyticsComScoreRequestLabelsUserInfoKey : [completeLabels copy] };
-    dispatch_async(dispatch_get_main_queue(), ^{
+    
+    void (^notificationBlock)(void) = ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestDidFinishNotification object:self userInfo:userInfo];
-    });
+    };
+    
+    if (! [NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), notificationBlock);
+    }
+    else {
+        notificationBlock();
+    }
 }
 
 @end
