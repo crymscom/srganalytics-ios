@@ -77,14 +77,7 @@
 	
 	NSString *event = ns_st_ev ?  [typeSymbol stringByAppendingFormat:@" %@", ns_st_ev] : ns_ap_ev;
 	NSString *name = ns_st_ev ? [NSString stringWithFormat:@"%@ / %@", labels[@"ns_st_pl"], labels[@"ns_st_ep"]] : labels[@"name"];
-	
-	BOOL success = [notification.userInfo[SRGAnalyticsComScoreRequestSuccessUserInfoKey] boolValue];
-	if (success) {
-		SRGAnalyticsLogInfo(@"%@ > %@", event, name);
-	}
-	else {
-		SRGAnalyticsLogError(@"ERROR sending %@ > %@", event, name);
-	}
+    SRGAnalyticsLogInfo(@"%@ > %@", event, name);
 	
 	SRGAnalyticsLogDebug(@"Comscore %@ event sent:\n%@", labels[@"ns_type"], dictionaryRepresentation);
 }

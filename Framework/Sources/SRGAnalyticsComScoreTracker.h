@@ -18,5 +18,4 @@
  *  The `userInfo` also contains the `ComScoreRequestLabelsUserInfoKey` which is a NSDictionary representing all the labels.
  */
 FOUNDATION_EXTERN NSString * const SRGAnalyticsComScoreRequestDidFinishNotification;
-FOUNDATION_EXTERN NSString * const SRGAnalyticsComScoreRequestSuccessUserInfoKey;
 FOUNDATION_EXTERN NSString * const SRGAnalyticsComScoreRequestLabelsUserInfoKey;
