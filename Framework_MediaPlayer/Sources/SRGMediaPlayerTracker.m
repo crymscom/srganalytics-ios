@@ -30,15 +30,6 @@ static NSMutableDictionary *s_trackers = nil;
         
         // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
         [self setKeepAliveInterval:9 * 60];
-        
-        // Global labels
-        [self safelySetValue:@"SRGMediaPlayer" forLabel:@"ns_st_mp"];
-        [self safelySetValue:SRGAnalyticsMarketingVersion() forLabel:@"ns_st_pu"];
-        [self safelySetValue:SRGMediaPlayerMarketingVersion() forLabel:@"ns_st_mv"];
-        [self safelySetValue:@"c" forLabel:@"ns_st_it"];
-        
-        [self safelySetValue:[SRGAnalyticsTracker sharedTracker].comScoreVirtualSite forLabel:@"ns_vsite"];
-        [self safelySetValue:@"p_app_ios" forLabel:@"srg_ptype"];
     }
     return self;
 }
@@ -119,6 +110,18 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)notifyEvent:(CSStreamSenseEventType)event withPosition:(long)position segment:(id<SRGSegment>)segment
 {
+    // Reset stream labels to avoid persistence (do not reset since the stream would behave badly afterwards)
+    [[self labels] removeAllObjects];
+    
+    // Global labels
+    [self safelySetValue:@"SRGMediaPlayer" forLabel:@"ns_st_mp"];
+    [self safelySetValue:SRGAnalyticsMarketingVersion() forLabel:@"ns_st_pu"];
+    [self safelySetValue:SRGMediaPlayerMarketingVersion() forLabel:@"ns_st_mv"];
+    [self safelySetValue:@"c" forLabel:@"ns_st_it"];
+    
+    [self safelySetValue:[SRGAnalyticsTracker sharedTracker].comScoreVirtualSite forLabel:@"ns_vsite"];
+    [self safelySetValue:@"p_app_ios" forLabel:@"srg_ptype"];
+    
     // Labels
     [self safelySetValue:[self bitRate] forLabel:@"ns_st_br"];
     [self safelySetValue:[self windowState] forLabel:@"ns_st_ws"];
@@ -130,7 +133,7 @@ static NSMutableDictionary *s_trackers = nil;
         [self setLabels:self.mediaPlayerController.srg_analyticsLabels];
     }
     
-    // Clip labels (reset to avoid inheriting from previous event)
+    // Clip labels (reset to avoid inheriting from previous segment)
     [[self clip] reset];
     
     [self safelySetValue:[self dimensions] forClipLabel:@"ns_st_cs"];
