@@ -12,6 +12,42 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 
 @implementation SRGMediaPlayerController (SRGAnalytics)
 
++ (NSDictionary *)fullInfoWithAnalyticsInfo:(NSDictionary *)analyticsInfo userInfo:(NSDictionary *)userInfo
+{
+    NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
+    if (analyticsInfo) {
+        fullUserInfo[SRGAnalyticsMediaPlayerDictionnaryKey] = analyticsInfo;
+    }
+    if (userInfo) {
+        [fullUserInfo addEntriesFromDictionary:userInfo];
+    }
+    return [fullUserInfo copy];
+}
+
+- (void)prepareToPlayURL:(NSURL *)URL atTime:(CMTime)time withSegments:(nullable NSArray<id<SRGSegment>> *)segments analyticsInfo:(nullable NSDictionary *)analyticsInfo userInfo:(nullable NSDictionary *)userInfo completionHandler:(nullable void (^)(void))completionHandler
+{
+    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsInfo:analyticsInfo userInfo:userInfo];
+    [self prepareToPlayURL:URL atTime:time withSegments:segments userInfo:fullUserInfo completionHandler:completionHandler];
+}
+
+- (void)playURL:(NSURL *)URL atTime:(CMTime)time withSegments:(nullable NSArray<id<SRGSegment>> *)segments analyticsInfo:(nullable NSDictionary *)analyticsInfo userInfo:(nullable NSDictionary *)userInfo
+{
+    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsInfo:analyticsInfo userInfo:userInfo];
+    [self playURL:URL atTime:time withSegments:segments userInfo:fullUserInfo];
+}
+
+- (void)prepareToPlayURL:(NSURL *)URL atIndex:(NSInteger)index inSegments:(NSArray<id<SRGSegment>> *)segments withAnalyticsInfo:(nullable NSDictionary *)analyticsInfo userInfo:(nullable NSDictionary *)userInfo completionHandler:(nullable void (^)(void))completionHandler
+{
+    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsInfo:analyticsInfo userInfo:userInfo];
+    [self prepareToPlayURL:URL atIndex:index inSegments:segments withUserInfo:fullUserInfo completionHandler:completionHandler];
+}
+
+- (void)playURL:(NSURL *)URL atIndex:(NSInteger)index inSegments:(NSArray<id<SRGSegment>> *)segments withAnalyticsInfo:(nullable NSDictionary *)analyticsInfo userInfo:(nullable NSDictionary *)userInfo
+{
+    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsInfo:analyticsInfo userInfo:userInfo];
+    [self playURL:URL atIndex:index inSegments:segments withUserInfo:fullUserInfo];
+}
+
 - (BOOL)isTracked
 {
     NSNumber *isTracked = objc_getAssociatedObject(self, SRGAnalyticsTrackedKey);
