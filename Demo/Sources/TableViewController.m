@@ -148,7 +148,7 @@
     return name;
 }
 
-- (NSArray<id<SRGSegment>> *)segmentsForIdentifier:(NSString *)identifier
+- (NSArray<Segment *> *)segmentsForIdentifier:(NSString *)identifier
 {
     if ([identifier rangeOfString:@"MultipleSegments"].length != 0)
     {
