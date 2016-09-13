@@ -272,13 +272,14 @@ static NSURL *DVRTestURL(void)
     }];
     
     [self expectationForNotification:SRGMediaPlayerPlaybackDidFailNotification object:self.mediaPlayerController handler:^BOOL (NSNotification *notification) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
         return YES;
     }];
     
     [self.mediaPlayerController playURL:[NSURL URLWithString:@"http://httpbin.org/status/403"]];
     
-    [self waitForExpectationsWithTimeout:20. handler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
 }
 
 - (void)testGlobalLabels
@@ -493,11 +494,11 @@ static NSURL *DVRTestURL(void)
         XCTFail(@"No event must be received");
     }];
     
-    [self expectationForElapsedTimeInterval:10. witHandler:^{
+    [self expectationForElapsedTimeInterval:10. witHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
     }];
-    
-    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 - (void)testPlayAndSegmentSelection
