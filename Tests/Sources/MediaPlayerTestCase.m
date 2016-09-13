@@ -476,14 +476,14 @@ static NSURL *DVRTestURL(void)
         XCTFail(@"No event must be received");
     }];
     
-    [self expectationForElapsedTimeInterval:10. witHandler:nil];
+    [self expectationForElapsedTimeInterval:5. witHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
     }];
 }
 
-- (void)testPlayAndSegmentSelection
+- (void)testSegmentSelectionAndPlaythrough
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
@@ -493,6 +493,17 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withUserInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Let the segment be played through
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        return YES;
+    }];
+    
+    [self expectationForElapsedTimeInterval:5. witHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
