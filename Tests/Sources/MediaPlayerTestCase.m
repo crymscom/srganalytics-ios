@@ -461,6 +461,8 @@ static NSURL *DVRTestURL(void)
 - (void)testNonSelectedSegmentPlayback
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+        CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
+        NSLog(@"currentTime play: %@", @(CMTimeGetSeconds(currentTime)));
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
@@ -479,11 +481,26 @@ static NSURL *DVRTestURL(void)
         XCTFail(@"No event must be received");
     }];
     
-    [self expectationForElapsedTimeInterval:5. witHandler:nil];
+    [self expectationForElapsedTimeInterval:6. witHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
     }];
+    
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
+        NSLog(@"currentTime pause: %@", @(CMTimeGetSeconds(currentTime)));
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController performSelector:@selector(pause) withObject:nil afterDelay:1.];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 - (void)testSegmentSelection
