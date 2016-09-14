@@ -461,8 +461,6 @@ static NSURL *DVRTestURL(void)
 - (void)testNonSelectedSegmentPlayback
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
-        NSLog(@"currentTime play: %@", @(CMTimeGetSeconds(currentTime)));
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
@@ -481,16 +479,14 @@ static NSURL *DVRTestURL(void)
         XCTFail(@"No event must be received");
     }];
     
-    [self expectationForElapsedTimeInterval:6. witHandler:nil];
+    [self expectationForElapsedTimeInterval:3. witHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
     }];
     
-    
+    // Let the segment be played through. No information from the segment must appear.
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
-        NSLog(@"currentTime pause: %@", @(CMTimeGetSeconds(currentTime)));
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
@@ -498,7 +494,45 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    [self.mediaPlayerController performSelector:@selector(pause) withObject:nil afterDelay:1.];
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Let the segment be played through. No information from the segment must appear.
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        return YES;
+    }];
+
+    [self.mediaPlayerController play];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Let the segment be played through and finish. No events must be received
+    id eventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received");
+    }];
+    
+    [self expectationForElapsedTimeInterval:3. witHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver2];
+    }];
+
+    
+    // Let the segment be played through. No information from the segment must appear.
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController pause];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
