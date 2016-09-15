@@ -310,6 +310,11 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)playbackStateDidChange:(NSNotification *)notification
 {
+    // Inhibit usual playback transitions when selecting a segment
+    if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
+        return;
+    }
+    
     switch (self.mediaPlayerController.playbackState) {
         case SRGMediaPlayerPlaybackStatePlaying: {
             [self notifyEvent:CSStreamSensePlay withPosition:[self currentPositionInMilliseconds] segment:nil];
