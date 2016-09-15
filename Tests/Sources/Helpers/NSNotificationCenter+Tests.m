@@ -15,12 +15,14 @@
     return [self addObserverForName:SRGAnalyticsComScoreRequestDidFinishNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreRequestLabelsUserInfoKey];
         
-        NSString *event = labels[@"ns_type"];
-        if (! [event isEqualToString:@"hidden"]) {
+        NSString *type = labels[@"ns_type"];
+        if (! [type isEqualToString:@"hidden"]) {
             return;
         }
         
-        if ([labels[@"ns_st_ev"] isEqualToString:@"hb"]) {
+        
+        NSString *event = labels[@"ns_st_ev"];
+        if ([event isEqualToString:@"hb"]) {
             return;
         }
         
