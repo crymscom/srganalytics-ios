@@ -20,7 +20,6 @@
             return;
         }
         
-        
         NSString *event = labels[@"ns_st_ev"];
         if ([event isEqualToString:@"hb"]) {
             return;
