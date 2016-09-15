@@ -613,8 +613,8 @@ static NSURL *DVRTestURL(void)
     // Let the segment be played through until we receive the transition notifications (since both are the same, capture
     // them with a single expectation)
     
-    __block BOOL segmentEndReceived;
-    __block BOOL fullPlayReceived;
+    __block BOOL segmentEndReceived = NO;
+    __block BOOL fullPlayReceived = NO;
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"end"]) {
