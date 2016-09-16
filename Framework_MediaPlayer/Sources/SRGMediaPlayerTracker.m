@@ -64,7 +64,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                  name:SRGMediaPlayerSegmentDidEndNotification
                                                object:self.mediaPlayerController];
     
-    [self notifyEvent:CSStreamSenseBuffer withPosition:[self currentPositionInMilliseconds] segment:nil];
+    [self notifyEvent:CSStreamSenseBuffer withPosition:0 segment:nil];
 }
 
 - (void)stop
