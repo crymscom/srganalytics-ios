@@ -798,4 +798,55 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testSegmentRepeatedSelection
+{
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsInfo:@{ @"stream_name" : @"full",
+                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Expect segment transition (but no playback events) when selecting another segment
+    
+    __block BOOL segmentEndReceived = NO;
+    __block BOOL segmentPlayReceived = NO;
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"end"]) {
+            XCTAssertFalse(segmentEndReceived);
+            XCTAssertFalse(segmentPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            segmentEndReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(segmentPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            segmentPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return segmentEndReceived && segmentPlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekToSegment:segment withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
 @end
