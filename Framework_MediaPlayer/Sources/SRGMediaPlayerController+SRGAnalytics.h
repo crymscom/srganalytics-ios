@@ -22,12 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, getter=isTracked) BOOL tracked;
 
-/**
- *  Analytics labels for the current played URL
- *  @return A dictionnary from userInfo[SRGAnalyticsMediaPlayerDictionnaryKey] value.
- */
-@property (nonatomic, readonly) NSDictionary *srg_analyticsLabels;
-
 @end
 
 NS_ASSUME_NONNULL_END

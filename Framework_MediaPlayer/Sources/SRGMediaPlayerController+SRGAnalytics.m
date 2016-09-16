@@ -59,9 +59,4 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
     objc_setAssociatedObject(self, SRGAnalyticsTrackedKey, @(tracked), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSDictionary *)srg_analyticsLabels
-{
-    return self.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey];
-}
-
 @end
