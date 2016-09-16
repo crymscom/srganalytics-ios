@@ -368,7 +368,6 @@ static NSMutableDictionary *s_trackers = nil;
         [self notifyEvent:CSStreamSenseEnd withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.timeRange)) * 1000. segment:segment];
         
         // Notify full-length start
-        // TODO: Check playback end condition with a unit test
         id<SRGSegment> nextSegment = notification.userInfo[SRGMediaPlayerNextSegmentKey];
         if (! nextSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
             [self notifyEvent:CSStreamSensePlay withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.timeRange)) * 1000. segment:nil];

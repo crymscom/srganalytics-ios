@@ -849,4 +849,116 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testSeekOutsideSelectedSegment
+{
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+        return YES;
+    }];
+    
+    Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(60., NSEC_PER_SEC), CMTimeMakeWithSeconds(20., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1, segment2] withAnalyticsInfo:@{ @"stream_name" : @"full",
+                                                                                                                          @"overridable_name" : @"full" } userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Expect transition into the full-length since, even if seeking resumes in another segment (since this segment has
+    // not been selected, we don't want to track it). Because of a seek, a pause in the segment is expected first
+    
+    __block BOOL segment1PauseReceived = NO;
+    __block BOOL segment1EndReceived = NO;
+    __block BOOL fullLengthPlayReceived = NO;
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"pause"]) {
+            XCTAssertFalse(segment1PauseReceived);
+            XCTAssertFalse(segment1EndReceived);
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+            segment1PauseReceived = YES;
+        }
+        else if ([event isEqualToString:@"end"]) {
+            XCTAssertFalse(segment1EndReceived);
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+            segment1EndReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPlayReceived = YES;
+        }
+        
+        return segment1PauseReceived && segment1EndReceived && fullLengthPlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekPreciselyToTime:CMTimeAdd(CMTimeRangeGetEnd(segment1.timeRange), CMTimeMakeWithSeconds(10., NSEC_PER_SEC)) withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testSeekWithinSelectedSegment
+{
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsInfo:@{ @"stream_name" : @"full",
+                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Expect play - pause transition with segment labels
+    
+    __block BOOL segmentPauseReceived = NO;
+    __block BOOL segmentPlayReceived = NO;
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"pause"]) {
+            XCTAssertFalse(segmentPauseReceived);
+            XCTAssertFalse(segmentPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            segmentPauseReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(segmentPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            segmentPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return segmentPauseReceived && segmentPlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekPreciselyToTime:CMTimeAdd(segment.timeRange.start, CMTimeMakeWithSeconds(3., NSEC_PER_SEC)) withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
 @end
