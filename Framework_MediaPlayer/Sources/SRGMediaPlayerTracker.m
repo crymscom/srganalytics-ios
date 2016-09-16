@@ -315,32 +315,36 @@ static NSMutableDictionary *s_trackers = nil;
         return;
     }
     
+    CSStreamSenseEventType event;
     switch (self.mediaPlayerController.playbackState) {
         case SRGMediaPlayerPlaybackStatePlaying: {
-            [self notifyEvent:CSStreamSensePlay withPosition:[self currentPositionInMilliseconds] segment:nil];
+            event = CSStreamSensePlay;
             break;
         }
             
         case SRGMediaPlayerPlaybackStateSeeking:
         case SRGMediaPlayerPlaybackStatePaused: {
-            [self notifyEvent:CSStreamSensePause withPosition:[self currentPositionInMilliseconds] segment:nil];
+            event = CSStreamSensePause;
             break;
         }
             
         case SRGMediaPlayerPlaybackStateStalled: {
-            [self notifyEvent:CSStreamSenseBuffer withPosition:[self currentPositionInMilliseconds] segment:nil];
+            event = CSStreamSenseBuffer;
             break;
         }
             
         case SRGMediaPlayerPlaybackStateEnded: {
-            [self notifyEvent:CSStreamSenseEnd withPosition:[self currentPositionInMilliseconds] segment:nil];
+            event = CSStreamSenseEnd;
             break;
         }
             
         default: {
+            return;
             break;
         }
     }
+    
+    [self notifyEvent:event withPosition:[self currentPositionInMilliseconds] segment:self.mediaPlayerController.selectedSegment];
 }
 
 - (void)segmentDidStart:(NSNotification *)notification
