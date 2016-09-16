@@ -161,11 +161,11 @@ static NSMutableDictionary *s_trackers = nil;
     }
     else {
         CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
-        if (CMTIME_IS_INDEFINITE(currentTime)) {
+        if (CMTIME_IS_INDEFINITE(currentTime) || CMTIME_IS_INVALID(currentTime)) {
             return 0;
         }
         else {
-            return (long)floor(CMTimeGetSeconds(currentTime) * 1000);
+            return (long)floor(CMTimeGetSeconds(currentTime) * 1000.);
         }
     }
 }
