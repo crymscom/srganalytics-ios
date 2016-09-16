@@ -1007,7 +1007,7 @@ static NSURL *DVRTestURL(void)
 - (void)testSelectedSegmentAtStreamEnd
 {
     // Precise timing information gathered from the stream itself
-    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(1795045., 1000.), CMTimeMakeWithSeconds(5000., 1000.))];
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(1795.045, NSEC_PER_SEC), CMTimeMakeWithSeconds(5., NSEC_PER_SEC))];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
