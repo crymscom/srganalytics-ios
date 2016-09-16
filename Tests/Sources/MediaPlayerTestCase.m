@@ -1089,6 +1089,8 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
+    // Expect end event with segment labels
+    
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
@@ -1103,7 +1105,55 @@ static NSURL *DVRTestURL(void)
 }
 
 - (void)testBlockedSegmentSelection
-{}
+{
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] analyticsInfo:@{ @"stream_name" : @"full",
+                                                                                                                      @"overridable_name" : @"full" } userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Expect pause and play on the full-length (corresponding to the segment being skipped)
+    
+    __block BOOL fullLengthPauseReceived = NO;
+    __block BOOL fullLengthPlayReceived = NO;
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"pause"]) {
+            XCTAssertFalse(fullLengthPauseReceived);
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPauseReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return fullLengthPauseReceived && fullLengthPlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekToSegment:segment withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
 
 - (void)testSeekIntoBlockedSegment
 {}
