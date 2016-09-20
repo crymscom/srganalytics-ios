@@ -22,8 +22,6 @@
 		E613889F1D916A9900218919 /* SRGAnalyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E613888B1D916A9900218919 /* SRGAnalyticsLogger.m */; };
 		E61388A01D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E613888C1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h */; };
 		E61388A11D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E613888D1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m */; };
-		E61388A31D916A9900218919 /* SRGAnalyticsTracker+Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = E613888F1D916A9900218919 /* SRGAnalyticsTracker+Logging.h */; };
-		E61388A41D916A9900218919 /* SRGAnalyticsTracker+Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388901D916A9900218919 /* SRGAnalyticsTracker+Logging.m */; };
 		E61388A51D916A9900218919 /* SRGAnalyticsTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388911D916A9900218919 /* SRGAnalyticsTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61388A61D916A9900218919 /* SRGAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388921D916A9900218919 /* SRGAnalyticsTracker.m */; };
 		E61388A71D916A9900218919 /* UIViewController+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388931D916A9900218919 /* UIViewController+SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -174,8 +172,6 @@
 		E613888B1D916A9900218919 /* SRGAnalyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsLogger.m; sourceTree = "<group>"; };
 		E613888C1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsNetMetrixTracker.h; sourceTree = "<group>"; };
 		E613888D1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsNetMetrixTracker.m; sourceTree = "<group>"; };
-		E613888F1D916A9900218919 /* SRGAnalyticsTracker+Logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGAnalyticsTracker+Logging.h"; sourceTree = "<group>"; };
-		E61388901D916A9900218919 /* SRGAnalyticsTracker+Logging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGAnalyticsTracker+Logging.m"; sourceTree = "<group>"; };
 		E61388911D916A9900218919 /* SRGAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsTracker.h; sourceTree = "<group>"; };
 		E61388921D916A9900218919 /* SRGAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsTracker.m; sourceTree = "<group>"; };
 		E61388931D916A9900218919 /* UIViewController+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+SRGAnalytics.h"; sourceTree = "<group>"; };
@@ -336,8 +332,6 @@
 				E613888B1D916A9900218919 /* SRGAnalyticsLogger.m */,
 				E613888C1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h */,
 				E613888D1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m */,
-				E613888F1D916A9900218919 /* SRGAnalyticsTracker+Logging.h */,
-				E61388901D916A9900218919 /* SRGAnalyticsTracker+Logging.m */,
 				E61388911D916A9900218919 /* SRGAnalyticsTracker.h */,
 				E61388921D916A9900218919 /* SRGAnalyticsTracker.m */,
 				E61388931D916A9900218919 /* UIViewController+SRGAnalytics.h */,
@@ -520,7 +514,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E61388A31D916A9900218919 /* SRGAnalyticsTracker+Logging.h in Headers */,
 				E61388A71D916A9900218919 /* UIViewController+SRGAnalytics.h in Headers */,
 				E69A20621D61E5E80064E6C1 /* SRGAnalytics.h in Headers */,
 				E613889E1D916A9900218919 /* SRGAnalyticsLogger.h in Headers */,
@@ -763,7 +756,6 @@
 				E61388AC1D916A9900218919 /* NSBundle+SRGAnalytics.m in Sources */,
 				E61388AE1D916A9900218919 /* NSDictionary+SRGAnalytics.m in Sources */,
 				E61388AA1D916A9900218919 /* CSMeasurementDispatcher+SRGAnalytics.m in Sources */,
-				E61388A41D916A9900218919 /* SRGAnalyticsTracker+Logging.m in Sources */,
 				E61388B01D916A9900218919 /* NSString+SRGAnalytics.m in Sources */,
 				E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */,
 				E61388A11D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m in Sources */,
