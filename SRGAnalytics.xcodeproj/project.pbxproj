@@ -43,13 +43,12 @@
 		E672EA471D62EE5D00CFB080 /* ComScore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E672EA461D62EE5D00CFB080 /* ComScore.framework */; };
 		E672EA511D62F19E00CFB080 /* ComScore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E672EA461D62EE5D00CFB080 /* ComScore.framework */; };
 		E672EA521D62F19E00CFB080 /* ComScore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E672EA461D62EE5D00CFB080 /* ComScore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E69A204A1D61E5E80064E6C1 /* CSRequest+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20301D61E5E80064E6C1 /* CSRequest+SRGAnalytics.m */; };
-		E69A204B1D61E5E80064E6C1 /* CSRequest+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20311D61E5E80064E6C1 /* CSRequest+SRGAnalytics.h */; };
+		E69A204A1D61E5E80064E6C1 /* CSMeasurementDispatcher+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20301D61E5E80064E6C1 /* CSMeasurementDispatcher+SRGAnalytics.m */; };
+		E69A204B1D61E5E80064E6C1 /* CSMeasurementDispatcher+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20311D61E5E80064E6C1 /* CSMeasurementDispatcher+SRGAnalytics.h */; };
 		E69A204F1D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20351D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.h */; };
 		E69A20501D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20361D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.m */; };
 		E69A20511D61E5E80064E6C1 /* NSString+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20371D61E5E80064E6C1 /* NSString+SRGAnalytics.h */; };
 		E69A20521D61E5E80064E6C1 /* NSString+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A20381D61E5E80064E6C1 /* NSString+SRGAnalytics.m */; };
-		E69A20531D61E5E80064E6C1 /* SRGAnalyticsComScoreTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20391D61E5E80064E6C1 /* SRGAnalyticsComScoreTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E69A20541D61E5E80064E6C1 /* SRGAnalyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A203A1D61E5E80064E6C1 /* SRGAnalyticsLogger.m */; };
 		E69A20551D61E5E80064E6C1 /* SRGAnalyticsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A203B1D61E5E80064E6C1 /* SRGAnalyticsLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E69A20571D61E5E80064E6C1 /* SRGAnalyticsNetmetrixTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E69A203D1D61E5E80064E6C1 /* SRGAnalyticsNetmetrixTracker.m */; };
@@ -200,13 +199,12 @@
 		E672EA461D62EE5D00CFB080 /* ComScore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ComScore.framework; path = Carthage/Build/iOS/ComScore.framework; sourceTree = "<group>"; };
 		E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E69A202E1D61E5E80064E6C1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E69A20301D61E5E80064E6C1 /* CSRequest+SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSRequest+SRGAnalytics.m"; sourceTree = "<group>"; };
-		E69A20311D61E5E80064E6C1 /* CSRequest+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CSRequest+SRGAnalytics.h"; sourceTree = "<group>"; };
+		E69A20301D61E5E80064E6C1 /* CSMeasurementDispatcher+SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSMeasurementDispatcher+SRGAnalytics.m"; sourceTree = "<group>"; };
+		E69A20311D61E5E80064E6C1 /* CSMeasurementDispatcher+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CSMeasurementDispatcher+SRGAnalytics.h"; sourceTree = "<group>"; };
 		E69A20351D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SRGAnalytics.h"; sourceTree = "<group>"; };
 		E69A20361D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SRGAnalytics.m"; sourceTree = "<group>"; };
 		E69A20371D61E5E80064E6C1 /* NSString+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SRGAnalytics.h"; sourceTree = "<group>"; };
 		E69A20381D61E5E80064E6C1 /* NSString+SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SRGAnalytics.m"; sourceTree = "<group>"; };
-		E69A20391D61E5E80064E6C1 /* SRGAnalyticsComScoreTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsComScoreTracker.h; sourceTree = "<group>"; };
 		E69A203A1D61E5E80064E6C1 /* SRGAnalyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsLogger.m; sourceTree = "<group>"; };
 		E69A203B1D61E5E80064E6C1 /* SRGAnalyticsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsLogger.h; sourceTree = "<group>"; };
 		E69A203D1D61E5E80064E6C1 /* SRGAnalyticsNetmetrixTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsNetmetrixTracker.m; sourceTree = "<group>"; };
@@ -414,15 +412,14 @@
 		E69A202F1D61E5E80064E6C1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				E69A20311D61E5E80064E6C1 /* CSRequest+SRGAnalytics.h */,
-				E69A20301D61E5E80064E6C1 /* CSRequest+SRGAnalytics.m */,
+				E69A20311D61E5E80064E6C1 /* CSMeasurementDispatcher+SRGAnalytics.h */,
+				E69A20301D61E5E80064E6C1 /* CSMeasurementDispatcher+SRGAnalytics.m */,
 				E6FC7FA21D620B6F00A55085 /* NSBundle+SRGAnalytics.h */,
 				E6FC7FA31D620B6F00A55085 /* NSBundle+SRGAnalytics.m */,
 				E69A20351D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.h */,
 				E69A20361D61E5E80064E6C1 /* NSDictionary+SRGAnalytics.m */,
 				E69A20371D61E5E80064E6C1 /* NSString+SRGAnalytics.h */,
 				E69A20381D61E5E80064E6C1 /* NSString+SRGAnalytics.m */,
-				E69A20391D61E5E80064E6C1 /* SRGAnalyticsComScoreTracker.h */,
 				E69A203B1D61E5E80064E6C1 /* SRGAnalyticsLogger.h */,
 				E69A203A1D61E5E80064E6C1 /* SRGAnalyticsLogger.m */,
 				E69A203E1D61E5E80064E6C1 /* SRGAnalyticsNetmetrixTracker.h */,
@@ -504,12 +501,11 @@
 				E69A20551D61E5E80064E6C1 /* SRGAnalyticsLogger.h in Headers */,
 				E69A20601D61E5E80064E6C1 /* UIViewController+SRGAnalytics.h in Headers */,
 				E69A205C1D61E5E80064E6C1 /* SRGAnalyticsTracker.h in Headers */,
-				E69A204B1D61E5E80064E6C1 /* CSRequest+SRGAnalytics.h in Headers */,
+				E69A204B1D61E5E80064E6C1 /* CSMeasurementDispatcher+SRGAnalytics.h in Headers */,
 				E69A20591D61E5E80064E6C1 /* SRGAnalyticsPageViewDataSource.h in Headers */,
 				E6FC7FA41D620B6F00A55085 /* NSBundle+SRGAnalytics.h in Headers */,
 				E69A20511D61E5E80064E6C1 /* NSString+SRGAnalytics.h in Headers */,
 				E69A20581D61E5E80064E6C1 /* SRGAnalyticsNetmetrixTracker.h in Headers */,
-				E69A20531D61E5E80064E6C1 /* SRGAnalyticsComScoreTracker.h in Headers */,
 				E69A205B1D61E5E80064E6C1 /* SRGAnalyticsTracker+Logging.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -745,7 +741,7 @@
 				E69A20521D61E5E80064E6C1 /* NSString+SRGAnalytics.m in Sources */,
 				E69A205A1D61E5E80064E6C1 /* SRGAnalyticsTracker+Logging.m in Sources */,
 				E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */,
-				E69A204A1D61E5E80064E6C1 /* CSRequest+SRGAnalytics.m in Sources */,
+				E69A204A1D61E5E80064E6C1 /* CSMeasurementDispatcher+SRGAnalytics.m in Sources */,
 				E69A205D1D61E5E80064E6C1 /* SRGAnalyticsTracker.m in Sources */,
 				E6FC7FA51D620B6F00A55085 /* NSBundle+SRGAnalytics.m in Sources */,
 				E69A20571D61E5E80064E6C1 /* SRGAnalyticsNetmetrixTracker.m in Sources */,

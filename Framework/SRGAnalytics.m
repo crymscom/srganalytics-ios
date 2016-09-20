@@ -10,5 +10,5 @@
 
 NSString * SRGAnalyticsMarketingVersion(void)
 {
-    return [NSBundle SRGAnalyticsBundle].infoDictionary[@"CFBundleVersion"];
+    return [NSBundle srg_analyticsBundle].infoDictionary[@"CFBundleVersion"];
 }

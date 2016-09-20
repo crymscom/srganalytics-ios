@@ -10,9 +10,8 @@
 #import <ComScore/CSComScore.h>
 #import <ComScore/CSTaskExecutor.h>
 
-#import "CSRequest+SRGAnalytics.h"
+#import "CSMeasurementDispatcher+SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
-#import "SRGAnalyticsComScoreTracker.h"
 
 @implementation SRGAnalyticsTracker (Logging)
 

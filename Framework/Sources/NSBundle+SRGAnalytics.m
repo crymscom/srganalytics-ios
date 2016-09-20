@@ -10,7 +10,7 @@
 
 @implementation NSBundle (SRGAnalytics)
 
-+ (instancetype)SRGAnalyticsBundle
++ (instancetype)srg_analyticsBundle
 {
     static NSBundle *bundle;
     static dispatch_once_t once;

@@ -4,12 +4,14 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "CSRequest+SRGAnalytics.h"
+#import "CSMeasurementDispatcher+SRGAnalytics.h"
+
 #import <objc/runtime.h>
 
 NSString * const SRGAnalyticsComScoreRequestDidFinishNotification = @"SRGAnalyticsComScoreRequestDidFinish";
 NSString * const SRGAnalyticsComScoreRequestLabelsUserInfoKey = @"SRGAnalyticsLabels";
 
+// Private comScore methods
 @interface NSObject (SRGCSApplicationMeasurement)
 
 + (id)newWithCore:(id)core eventType:(CSApplicationEventType)type labels:(NSDictionary *)labels timestamp:(long long)timestamp;
@@ -22,7 +24,7 @@ NSString * const SRGAnalyticsComScoreRequestLabelsUserInfoKey = @"SRGAnalyticsLa
 + (void)load
 {
     // Swizzle a method which gets called early, not when the events are really sent. comScore processes events after some
-    // time, which is unreliable
+    // time, which is unreliable (especially for tests)
     method_exchangeImplementations(class_getInstanceMethod(self, @selector(send:labels:cache:background:)),
                                    class_getInstanceMethod(self, @selector(swizzled_send:labels:cache:background:)));
 }
@@ -38,14 +40,14 @@ NSString * const SRGAnalyticsComScoreRequestLabelsUserInfoKey = @"SRGAnalyticsLa
     id core = object_getIvar(self, class_getInstanceVariable([self class], "_core"));
     id measurement = [NSClassFromString(@"CSApplicationMeasurement") newWithCore:core eventType:eventType labels:labels timestamp:timestamp];
     
-    NSMutableDictionary *completeLabels = [NSMutableDictionary dictionary];
+    NSMutableDictionary<NSString *, NSString *> *completeLabels = [NSMutableDictionary dictionary];
     for (id label in [measurement getLabels].allValues) {
         NSString *name = [label valueForKey:@"name"];
         NSString *value = [label valueForKey:@"value"];
         completeLabels[name] = value;
     }
     
-    NSDictionary *userInfo = @{ SRGAnalyticsComScoreRequestLabelsUserInfoKey : [completeLabels copy] };
+    NSDictionary *userInfo = @{ SRGAnalyticsComScoreRequestLabelsUserInfoKey: [completeLabels copy] };
     
     void (^notificationBlock)(void) = ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestDidFinishNotification object:self userInfo:userInfo];

@@ -63,22 +63,25 @@ typedef NS_ENUM(NSInteger, SSRBusinessUnit) {
 /**
  *  Posted when the request's response is received. The `object` of the notification is a NSURLRequest.
  */
-FOUNDATION_EXTERN NSString * const SRGAnalyticsNetmetrixRequestDidFinishNotification;
+OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestDidFinishNotification;
 
 /**
  * A NSNumber (boolean) indicating success in the user info dictionary of `SRGAnalyticsNetmetrixRequestDidFinishNotification`.
  */
-FOUNDATION_EXTERN NSString * const SRGAnalyticsNetmetrixRequestSuccessUserInfoKey;
+OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestSuccessUserInfoKey;
 
 /**
  *  A NSError in the user info dictionary of `SRGAnalyticsNetmetrixRequestDidFinishNotification`. This key is not present if the request succeeded.
  */
-FOUNDATION_EXTERN NSString * const SRGAnalyticsNetmetrixRequestErrorUserInfoKey;
+OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestErrorUserInfoKey;
 
 /**
  *  A NSURLResponse in the user info dictionary of `SRGAnalyticsNetmetrixRequestDidFinishNotification`.
  */
-FOUNDATION_EXTERN NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey;
+OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey;
+
+OBJC_EXTERN NSString * const SRGAnalyticsComScoreRequestDidFinishNotification;
+OBJC_EXTERN NSString * const SRGAnalyticsComScoreRequestLabelsUserInfoKey;
 
 /**
  *  SRGAnalyticsTracker is used to track view and hidden events for SRGSSR apps

@@ -4,16 +4,15 @@
 //  License information is available from the LICENSE file.
 //
 
+#import <ComScore/ComScore.h>
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSBundle (SRGAnalytics)
-
 /**
- *  The analytics resource bundle
+ *  Internal category on a comScore class, used for swizzling purposes
  */
-+ (NSBundle *)srg_analyticsBundle;
+@interface CSMeasurementDispatcher (SRGNotification)
 
 @end
 
