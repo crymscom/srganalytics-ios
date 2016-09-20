@@ -21,7 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  If you want to control when such events are sent, however, you can implement the optional `trackedAutomatically`
  *  property to return NO, disabling the mechanisms described above. In such cases, you are responsible of calling the 
- *  `-[UIViewController trackPageView]` method appropriately when required.
+ *  `-[UIViewController trackPageView]` method appropriately when required. This approach is needed when the labels
+ *  are not available when `-viewDidAppear:` is called, e.g. if they are retrieved from a web service request started
+ *  when the view controller is displayed.
  */
 @protocol SRGAnalyticsViewTracking <NSObject>
 
