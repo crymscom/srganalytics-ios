@@ -12,9 +12,11 @@
 
 // Swizzled method original implementations
 static void (*s_viewDidAppear)(id, SEL, BOOL);
+static void (*s_viewWillDisappear)(id, SEL, BOOL);
 
 // Swizzled method implementations
 static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animated);
+static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL animated);
 
 @implementation UIViewController (SRGAnalytics)
 
@@ -25,6 +27,10 @@ static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animate
     Method viewDidAppearMethod = class_getInstanceMethod(self, @selector(viewDidAppear:));
     s_viewDidAppear = (__typeof__(s_viewDidAppear))method_getImplementation(viewDidAppearMethod);
     method_setImplementation(viewDidAppearMethod, (IMP)swizzed_viewDidAppear);
+    
+    Method viewWillDisappearMethod = class_getInstanceMethod(self, @selector(viewWillDisappear:));
+    s_viewWillDisappear = (__typeof__(s_viewWillDisappear))method_getImplementation(viewWillDisappearMethod);
+    method_setImplementation(viewWillDisappearMethod, (IMP)swizzed_viewWillDisappear);
 }
 
 #pragma mark Tracking
@@ -56,6 +62,13 @@ static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animate
     }
 }
 
+#pragma mark Notifications
+
+- (void)srg_viewController_analytics_applicationWillEnterForeground:(NSNotification *)notification
+{
+    [self trackPageView];
+}
+
 @end
 
 #pragma mark Functions
@@ -70,4 +83,18 @@ static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animate
             [self trackPageView];
         }
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(srg_viewController_analytics_applicationWillEnterForeground:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+}
+
+static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL animated)
+{
+    s_viewWillDisappear(self, _cmd, animated);
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
 }

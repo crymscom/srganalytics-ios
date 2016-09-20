@@ -13,8 +13,6 @@
  *
  */
 
-// TODO: Move to a separate file
-
 /**
  *  Posted when the request's response is received. The `object` of the notification is a NSURLRequest.
  */

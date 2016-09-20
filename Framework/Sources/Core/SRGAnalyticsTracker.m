@@ -53,17 +53,6 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
 
 #pragma mark Object lifecycle
 
-- (instancetype)init
-{
-    if (self = [super init]) {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(srg_analytics_applicationWillEnterForeground:)
-                                                     name:UIApplicationWillEnterForegroundNotification
-                                                   object:nil];
-    }
-    return self;
-}
-
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -267,12 +256,6 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
     SRGAnalyticsLogInfo(@"%@ > %@", event, name);
     
     SRGAnalyticsLogDebug(@"Comscore %@ event sent:\n%@", labels[@"ns_type"], dictionaryRepresentation);
-}
-
-- (void)srg_analytics_applicationWillEnterForeground:(NSNotification *)notification
-{
-    // FIXME: Move to UIViewController category and call if visible (swizzle other view lifecycle method for visibility)
-    // [self trackPageViewForObject:self.lastPageViewDataSource];
 }
 
 @end
