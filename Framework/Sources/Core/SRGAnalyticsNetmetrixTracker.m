@@ -55,7 +55,6 @@ static NSString * const LoggerDomainAnalyticsNetMetrix = @"NetMetrix";
 
 - (void)trackView
 {
-    
     NSString *netMetrixURLString = [NSString stringWithFormat:@"http://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netMetrixDomain, self.identifier, self.device];
     NSURL *netMetrixURL = [NSURL URLWithString:netMetrixURLString];
     

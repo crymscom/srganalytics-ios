@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  View controllers whose appearance must be tracked by comScore and NetMetrix view events must conform to the
  *  `SRGAnalyticsViewTracking` protocol. The only method required by this protocol is `srg_pageViewTitle`, which
- *  supplies the name of the to be used in the view events.
+ *  provides the name to be used for the view events.
  *
  *  Optional methods can be implemented to provide more information and custom measurement information (labels).
  *
@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  automatically be sent when its `-viewDidAppear:` method is called or when the application returns from
  *  background while the view controller is visible. 
  *
- *  If you want to control when such events will be sent, however, you can implement the optional `trackedAutomatically` 
+ *  If you want to control when such events are sent, however, you can implement the optional `trackedAutomatically`
  *  property to return NO, disabling the mechanisms described above. In such cases, you are responsible of calling the 
  *  `-[UIViewController trackPageView]` method appropriately when required.
  */
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The page view label to use for view event measurement.
  *
- *  @return The page view title. If this value is empty or nil, the default `Untitled` value will be used
+ *  @return The page view title. If this value is empty or nil, the default `untitled` value will be used
  */
 @property (nonatomic, readonly, copy, nullable) NSString *srg_pageViewTitle;
 
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nullable) NSArray<NSString *> *srg_pageViewLevels;
 
 /**
- *  Additional information (labels) which must be send with a view event. By default no custom labels are sent.
+ *  Additional information (labels) which must be sent with a view event. By default no custom labels are sent.
  *
  *  @return The dictionary of labels
  *
@@ -75,8 +75,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Analytics extensions for manual `UIViewController` tracking. This is especially useful when the `srg_trackedAutomatically`
- *  has been implemented and returns NO, see above
+ *  Analytics extensions for manual view controller tracking. This is especially useful when the `srg_trackedAutomatically`
+ *  method has been implemented and returns NO (see above)
  */
 @interface UIViewController (SRGAnalytics)
 

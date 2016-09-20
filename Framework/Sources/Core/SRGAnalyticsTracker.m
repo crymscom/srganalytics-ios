@@ -6,17 +6,14 @@
 
 #import "SRGAnalyticsTracker.h"
 
-#import "NSString+SRGAnalytics.h"
 #import "NSDictionary+SRGAnalytics.h"
+#import "NSString+SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsNetMetrixTracker.h"
 #import "SRGAnalyticsNotifications.h"
 #import "UIViewController+SRGAnalytics.h"
 
-#import <ComScore/CSCore.h>
-#import <ComScore/CSComScore.h>
 #import <ComScore/CSTaskExecutor.h>
-#import <UIKit/UIKit.h>
 
 NSString * const SRGAnalyticsBusinessUnitIdentifierRSI = @"rsi";
 NSString * const SRGAnalyticsBusinessUnitIdentifierRTR = @"rtr";
@@ -127,7 +124,7 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
     return [globalLabels copy];
 }
 
-#pragma mark Page view tracking
+#pragma mark Page view tracking (private)
 
 - (void)trackPageViewTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification;
 {
@@ -172,6 +169,8 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
     
     [self.netmetrixTracker trackView];
 }
+
+#pragma mark Hidden event tracking
 
 - (void)trackHiddenEventWithTitle:(NSString *)title
 {

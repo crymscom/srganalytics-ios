@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Create a tracker for the specified NetMetrix identifier and business unit
  *
- *  @param identifier             A unique NetMetrix identifier for the application (e.g. SRG-info, SRG-sport, srg-player, ...)
+ *  @param identifier             A unique NetMetrix identifier for the application (e.g. 'SRG-info', 'SRG-sport', 'srgplayer', ...)
  *  @param businessUnitIdentifier The business unit to which events must be associated
  *
  *  @return a Netmetrix tracker
