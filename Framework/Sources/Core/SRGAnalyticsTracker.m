@@ -11,7 +11,7 @@
 #import "NSString+SRGAnalytics.h"
 #import "NSDictionary+SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
-#import "SRGAnalyticsPageViewDataSource.h"
+#import "UIViewController+SRGAnalytics.h"
 
 #import <ComScore/CSCore.h>
 #import <ComScore/CSComScore.h>

@@ -7,7 +7,6 @@
 #import "UIViewController+SRGAnalytics.h"
 
 #import "SRGAnalyticsTracker.h"
-#import "SRGAnalyticsPageViewDataSource.h"
 
 #import <objc/runtime.h>
 
