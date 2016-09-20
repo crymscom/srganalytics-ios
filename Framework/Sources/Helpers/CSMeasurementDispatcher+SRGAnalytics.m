@@ -8,8 +8,8 @@
 
 #import <objc/runtime.h>
 
-NSString * const SRGAnalyticsComScoreRequestDidFinishNotification = @"SRGAnalyticsComScoreRequestDidFinish";
-NSString * const SRGAnalyticsComScoreRequestLabelsUserInfoKey = @"SRGAnalyticsLabels";
+NSString * const SRGAnalyticsWillSendRequestNotification = @"SRGAnalyticsWillSendRequestNotification";
+NSString * const SRGAnalyticsLabelsKey = @"SRGAnalyticsLabelsKey";
 
 // Private comScore methods
 @interface NSObject (SRGCSApplicationMeasurement)
@@ -47,10 +47,10 @@ NSString * const SRGAnalyticsComScoreRequestLabelsUserInfoKey = @"SRGAnalyticsLa
         completeLabels[name] = value;
     }
     
-    NSDictionary *userInfo = @{ SRGAnalyticsComScoreRequestLabelsUserInfoKey: [completeLabels copy] };
+    NSDictionary *userInfo = @{ SRGAnalyticsLabelsKey: [completeLabels copy] };
     
     void (^notificationBlock)(void) = ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestDidFinishNotification object:self userInfo:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsWillSendRequestNotification object:self userInfo:userInfo];
     };
     
     if (! [NSThread isMainThread]) {

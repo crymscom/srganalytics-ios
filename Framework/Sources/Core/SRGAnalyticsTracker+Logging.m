@@ -19,7 +19,7 @@
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(comScoreRequestDidFinish:)
-                                                 name:SRGAnalyticsComScoreRequestDidFinishNotification
+                                                 name:SRGAnalyticsWillSendRequestNotification
                                                object:nil];
 	
     // +[CSComScore setPixelURL:] is dispatched on an internal comScore queue, so calling +[CSComScore pixelURL]
@@ -50,7 +50,7 @@
 
 - (void)comScoreRequestDidFinish:(NSNotification *)notification
 {
-	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreRequestLabelsUserInfoKey];
+	NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
 	NSUInteger maxKeyLength = [[[labels allKeys] valueForKeyPath:@"@max.length"] unsignedIntegerValue];
 	
 	NSMutableString *dictionaryRepresentation = [NSMutableString new];

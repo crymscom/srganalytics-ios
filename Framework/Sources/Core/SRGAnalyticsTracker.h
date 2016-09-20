@@ -80,8 +80,8 @@ OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestErrorUserInfoKey;
  */
 OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey;
 
-OBJC_EXTERN NSString * const SRGAnalyticsComScoreRequestDidFinishNotification;
-OBJC_EXTERN NSString * const SRGAnalyticsComScoreRequestLabelsUserInfoKey;
+OBJC_EXTERN NSString * const SRGAnalyticsWillSendRequestNotification;
+OBJC_EXTERN NSString * const SRGAnalyticsLabelsKey;
 
 /**
  *  SRGAnalyticsTracker is used to track view and hidden events for SRGSSR apps
