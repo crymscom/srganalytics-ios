@@ -21,7 +21,7 @@
  *
  *  @return the page view title. Empty or nil value will be replaced by `Untitled` value.
  *
- *  @discussion The title will be "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
+ *  @discussion The title will be "normalized" using `srg_comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
  */
 - (NSString *)pageViewTitle;
 
@@ -47,7 +47,7 @@
  *
  *  @return an array of string.
  *
- *  @discussion Each level value will be "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
+ *  @discussion Each level value will be "normalized" using `srg_comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
  */
 - (NSArray *)pageViewLevels;
 

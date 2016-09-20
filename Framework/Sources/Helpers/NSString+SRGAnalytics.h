@@ -6,22 +6,16 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSString (SRGAnalytics)
 
 /**
  *  Format the receiver in a standard way
  */
-- (NSString *)comScoreTitleFormattedString;
-- (NSString *)comScoreFormattedString;
-
-/**
- *  Truncate strings longer than 50 (replacing last characters with ...)
- */
-- (NSString *)truncateAndAddEllipsisForStatistics;
-
-/**
- *  Truncate long strings longer than maxLength (replacing last characters with ...)
- */
-- (NSString *)truncateAndAddEllipsis:(int)maxLength;
+@property (nonatomic, readonly, copy, nullable) NSString *srg_comScoreTitleFormattedString;
+@property (nonatomic, readonly, copy, nullable) NSString *srg_comScoreFormattedString;
 
 @end
+
+NS_ASSUME_NONNULL_END

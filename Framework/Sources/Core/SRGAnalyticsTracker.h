@@ -191,7 +191,7 @@ OBJC_EXTERN NSString * const SRGAnalyticsLabelsKey;
  *  Track a view event identified by its title, levels labels and origin (user opening the page view from a push notification or not).
  *
  *  @param title        the page title tracked by Comscore (set as `srg_title` label). (Mandatory)
- *                      The title value is "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
+ *                      The title value is "normalized" using `srg_comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
  *                      An empty or nil title will be replaced with `Untitled` value.
  *  @param levels       a list of strings. Each level will be set as srg_nX (srg_n1, srg_n2, ...) label and will be concatenated in `category` 
  *                      label. (Optional)
@@ -200,7 +200,7 @@ OBJC_EXTERN NSString * const SRGAnalyticsLabelsKey;
  *  @param fromPush     YES, if the view controller has been opened from a push notification, NO otherwise.
  *
  *  @discussion if the levels array is nil or empty, then one level called `srg_n1` is added with default value `app`.
- *  Each level value is "normalized" using `-(NSString *)comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
+ *  Each level value is "normalized" using `srg_comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
  */
 - (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels customLabels:(NSDictionary *)customLabels fromPushNotification:(BOOL)fromPush;
 

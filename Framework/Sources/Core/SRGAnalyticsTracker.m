@@ -191,7 +191,7 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
 {
 	NSMutableDictionary *labels = [NSMutableDictionary dictionary];
 	
-	title = title.length > 0 ? [title comScoreTitleFormattedString] : @"untitled";
+	title = title.length > 0 ? title.srg_comScoreTitleFormattedString : @"untitled";
 	[labels safeSetValue:title forKey:@"srg_title"];
 	[labels safeSetValue:@(fromPush) forKey:@"srg_ap_push"];
 	
@@ -206,7 +206,7 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
 		__block NSMutableString *levelsConcatenation = [NSMutableString new];
 		[levels enumerateObjectsUsingBlock:^(id value, NSUInteger idx, BOOL *stop) {
 			NSString *levelKey = [NSString stringWithFormat:@"srg_n%tu", idx+1];
-			NSString *levelValue = [[value description] comScoreFormattedString];
+			NSString *levelValue = [value description].srg_comScoreFormattedString;
 			
 			if (idx<10) {
 				[labels safeSetValue:levelValue forKey:levelKey];
@@ -222,7 +222,7 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
 	}
 	
 	[labels safeSetValue:category forKey:@"category"];
-	[labels safeSetValue:[NSString stringWithFormat:@"%@.%@", category, [title comScoreFormattedString]] forKey:@"name"];
+	[labels safeSetValue:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
 	
 	[customLabels enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 		[labels safeSetValue:[obj description] forKey:[key description]];
@@ -242,7 +242,7 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
 {
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
     
-    title = title.length > 0 ? [title comScoreTitleFormattedString] : @"untitled";
+    title = title.length > 0 ? title.srg_comScoreTitleFormattedString : @"untitled";
     [labels safeSetValue:title forKey:@"srg_title"];
     
     [customLabels enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
