@@ -40,6 +40,10 @@ static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL ani
     if ([self conformsToProtocol:@protocol(SRGAnalyticsViewTracking)]) {
         id<SRGAnalyticsViewTracking> trackedSelf = (id<SRGAnalyticsViewTracking>)self;
         
+        if ([trackedSelf respondsToSelector:@selector(srg_isTrackedAutomatically)] && ! [trackedSelf srg_isTrackedAutomatically]) {
+            return;
+        }
+        
         NSArray<NSString *> *levels = nil;
         if ([trackedSelf respondsToSelector:@selector(srg_pageViewLevels)]) {
             levels = [trackedSelf srg_pageViewLevels];
@@ -76,13 +80,8 @@ static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL ani
 static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animated)
 {
     s_viewDidAppear(self, _cmd, animated);
-
-    if ([self conformsToProtocol:@protocol(SRGAnalyticsViewTracking)]) {
-        id<SRGAnalyticsViewTracking> tracking = (id<SRGAnalyticsViewTracking>)self;
-        if (! [tracking respondsToSelector:@selector(srg_isTrackedAutomatically)] || [tracking srg_isTrackedAutomatically]) {
-            [self trackPageView];
-        }
-    }
+    
+    [self trackPageView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(srg_viewController_analytics_applicationWillEnterForeground:)

@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param customLabels         Additional custom labels
  *  @param fromPushNotification YES iff the view is opened from a push notification
  */
-- (void)trackPageViewTitle:(NSString *)title levels:(nullable NSArray<NSString *> *)levels customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification;
+- (void)trackPageViewTitle:(nullable NSString *)title levels:(nullable NSArray<NSString *> *)levels customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification;
 
 @end
 

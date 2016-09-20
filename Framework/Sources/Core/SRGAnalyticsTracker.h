@@ -9,7 +9,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  @name Official SRGSSR business units
+ *  @name Official SRGSSR business units (other business units are currently not officially supported)
  */
 
 OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierRSI;

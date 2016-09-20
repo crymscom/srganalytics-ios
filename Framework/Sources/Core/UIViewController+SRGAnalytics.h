@@ -16,9 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  Optional methods can be implemented to provide more information and custom measurement information (labels).
  *
  *  By default, if a view controller conforms to the `SRGAnalyticsViewTracking` protocol, a view event will
- *  automatically be sent when its `-viewDidAppear:` method is called. If you want to control when the event
- *  will be sent, you can implement the optional `trackedAutomatically` property to return NO. In such cases,
- *  you are responsible to call the `-[UIViewController trackPageView]` method when the view events must be sent.
+ *  automatically be sent when its `-viewDidAppear:` method is called or when the application returns from
+ *  background while the view controller is visible. 
+ *
+ *  If you want to control when such events will be sent, however, you can implement the optional `trackedAutomatically` 
+ *  property to return NO, disabling the mechanisms described above. In such cases, you are responsible of calling the 
+ *  `-[UIViewController trackPageView]` method appropriately when required.
  */
 @protocol SRGAnalyticsViewTracking <NSObject>
 
