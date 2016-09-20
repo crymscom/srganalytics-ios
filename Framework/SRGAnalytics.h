@@ -16,6 +16,5 @@ FOUNDATION_EXPORT NSString * SRGAnalyticsMarketingVersion(void);
 // Public headers
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsTracker.h"
-#import "SRGAnalyticsComScoreTracker.h"
 #import "SRGAnalyticsPageViewDataSource.h"
 #import "UIViewController+SRGAnalytics.h"
