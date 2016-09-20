@@ -7,12 +7,12 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  The implementation swizzles `viewDidAppear:` for automatic analytics (can be opt-out, see `SRGAnalyticsPageViewDataSource` protocol)
+ *  Analytics extensions for `UIViewController` tracking
  */
 @interface UIViewController (SRGAnalytics)
 
 /**
- *  Call this method to track view events manually when content changes (by ex.: filtering data, changing part of the view, ...)
+ *  Call this method to send a page view event manually
  */
 - (void)trackPageView;
 
