@@ -5,6 +5,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SRGAnalytics/SRGAnalytics.h>
 #import <XCTest/XCTest.h>
 #import <KIF/KIF.h>
 

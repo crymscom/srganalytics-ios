@@ -34,6 +34,7 @@
 		E61388AE1D916A9900218919 /* NSDictionary+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E613889B1D916A9900218919 /* NSDictionary+SRGAnalytics.m */; };
 		E61388AF1D916A9900218919 /* NSString+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E613889C1D916A9900218919 /* NSString+SRGAnalytics.h */; };
 		E61388B01D916A9900218919 /* NSString+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E613889D1D916A9900218919 /* NSString+SRGAnalytics.m */; };
+		E61388B41D91841600218919 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; };
 		E61C0D6D1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D621D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C0D6E1D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61C0D631D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m */; };
 		E61C0D751D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -256,6 +257,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E61388B41D91841600218919 /* SRGAnalytics.framework in Frameworks */,
 				E66F8A861D62E2320004EB58 /* KIF.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
