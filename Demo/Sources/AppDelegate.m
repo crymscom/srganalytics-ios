@@ -39,9 +39,9 @@
 {
 	UINavigationController *navigationController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"PushNavigationController"];
 	ViewController *controller = (ViewController *)navigationController.topViewController;
-	controller.pageViewFromPushNotification = YES;
+	controller.srg_isOpenedFromPushNotification = YES;
 	[self.window.rootViewController presentViewController:navigationController animated:YES completion:^{
-		controller.pageViewFromPushNotification = NO;
+		controller.srg_isOpenedFromPushNotification = NO;
 	}];
 }
 

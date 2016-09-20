@@ -28,8 +28,8 @@
 {
     // Initial full-length play when opening
     {
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Only consider relevant events
             if (!labels[@"clip_name"])
@@ -48,8 +48,8 @@
     
     // Close the player. Only an end event is expected for the full-length
     {
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -76,8 +76,8 @@
 {
     // Initial full-length play when opening
     {
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Only consider relevant events
             if (!labels[@"clip_name"])
@@ -98,8 +98,8 @@
     // Go to the segment. Expect full-length end immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -138,8 +138,8 @@
     
     // Close the player. Only an end event is expected for the segment
     {
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -165,8 +165,8 @@
 {
     // Initial full-length play when opening
     {
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Only consider relevant events
             if (!labels[@"clip_name"])
@@ -186,8 +186,8 @@
     
     // Seek into the blocked segment
     {
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -219,8 +219,8 @@
 {
     // Initial full-length play when opening
     {
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Only consider relevant events
             if (!labels[@"clip_name"])
@@ -240,8 +240,8 @@
     
     // Pause
     {
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -272,8 +272,8 @@
 {
     // Initial full-length play when opening
     {
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Only consider relevant events
             if (!labels[@"clip_name"])
@@ -294,8 +294,8 @@
     // Go to the segment. Expect full-length end immediately followed by segment play
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -334,8 +334,8 @@
     
     // Pause
     {
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])
@@ -365,8 +365,8 @@
 {
     // Initial physical segment play when opening
     {
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Only consider relevant events
             if (!labels[@"clip_name"])
@@ -387,8 +387,8 @@
     // Go to other segment. Expect end for 1st segment, followed by play for the second
     {
         __block NSInteger numberOfNotificationsReceived = 0;
-        [self expectationForNotification:@"SRGAnalyticsComScoreRequestDidFinish" object:nil handler:^BOOL(NSNotification *notification) {
-            NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+        [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification *notification) {
+            NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
             
             // Skip heartbeats
             if ([labels[@"ns_st_ev"] isEqualToString:@"hb"])

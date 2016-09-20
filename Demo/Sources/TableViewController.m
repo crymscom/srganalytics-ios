@@ -15,7 +15,7 @@
 #import "SegmentsPlayerViewController.h"
 #import "SRGMediaPlayerController+SRGAnalytics.h"
 
-@interface TableViewController () <UITableViewDelegate, SRGAnalyticsPageViewDataSource>
+@interface TableViewController () <UITableViewDelegate, SRGAnalyticsViewTracking>
 
 @end
 
@@ -191,9 +191,9 @@
     return nil;
 }
 
-#pragma mark - SRGAnalyticsPageViewDataSource
+#pragma mark - SRGAnalyticsViewTracking
 
-- (NSString *) pageViewTitle
+- (NSString *) srg_pageViewTitle
 {
 	return @"MainPageTitle";
 }

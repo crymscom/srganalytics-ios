@@ -5,6 +5,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SRGAnalytics/SRGAnalytics.h>
 #import <XCTest/XCTest.h>
 #import <KIF/KIF.h>
 
@@ -24,8 +25,8 @@
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:@"SRGAnalyticsComScoreRequestDidFinish" object:nil];
-	NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+	NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
+	NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
     XCTAssertNil(labels[@"srg_test"]);
 	
@@ -37,8 +38,8 @@
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
-	NSNotification *notification = [system waitForNotificationName:@"SRGAnalyticsComScoreRequestDidFinish" object:nil];
-	NSDictionary *labels = notification.userInfo[@"SRGAnalyticsLabels"];
+	NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
+	NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
     XCTAssertNil(labels[@"srg_test"]);
 	

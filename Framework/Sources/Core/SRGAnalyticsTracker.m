@@ -28,7 +28,7 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
     BOOL _debugMode;
 }
 @property (nonatomic, strong) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
-@property (nonatomic, weak) id<SRGAnalyticsPageViewDataSource> lastPageViewDataSource;
+@property (nonatomic, weak) id<SRGAnalyticsViewTracking> lastPageViewDataSource;
 @property (nonatomic, assign) SSRBusinessUnit businessUnit;
 @property (nonatomic, strong) NSString *comScoreVirtualSite;
 @property (nonatomic, strong) NSString *netMetrixIdentifier;
@@ -158,27 +158,27 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
 
 #pragma mark - PageView tracking
 
-- (void)trackPageViewForDataSource:(id<SRGAnalyticsPageViewDataSource>)dataSource
+- (void)trackPageViewForDataSource:(id<SRGAnalyticsViewTracking>)dataSource
 {
 	_lastPageViewDataSource = dataSource;
 	
     if (!dataSource)
 		return;
 	
-	NSString *title = [dataSource pageViewTitle];
+	NSString *title = [dataSource srg_pageViewTitle];
 	NSArray *levels = nil;
 	
-	if ([dataSource respondsToSelector:@selector(pageViewLevels)])
-		levels = [dataSource pageViewLevels];
+	if ([dataSource respondsToSelector:@selector(srg_pageViewLevels)])
+		levels = [dataSource srg_pageViewLevels];
 	
 	NSDictionary *customLabels = nil;
-	if ([dataSource respondsToSelector:@selector(pageViewCustomLabels)]) {
-		customLabels = [dataSource pageViewCustomLabels];
+	if ([dataSource respondsToSelector:@selector(srg_pageViewCustomLabels)]) {
+		customLabels = [dataSource srg_pageViewCustomLabels];
 	}
 	
 	BOOL fromPushNotification = NO;
-	if ([dataSource respondsToSelector:@selector(pageViewFromPushNotification)])
-		fromPushNotification = [dataSource pageViewFromPushNotification];
+	if ([dataSource respondsToSelector:@selector(srg_isOpenedFromPushNotification)])
+		fromPushNotification = [dataSource srg_isOpenedFromPushNotification];
 	
 	[self trackPageViewTitle:title levels:levels customLabels:customLabels fromPushNotification:fromPushNotification];
 }

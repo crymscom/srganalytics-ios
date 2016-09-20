@@ -6,71 +6,74 @@
 
 #import <UIKit/UIKit.h>
 
-/**
- *  The `SRGAnalyticsPageViewDataSource` groups methods that are used for view event measurement.
- *
- *  If the view controller conforms to this protocol, the tracker will send a view event to Comscore and Netmetrix at each `-viewDidAppear:`,
- *  except if the optional -isTrackedAutomatically method is implemented and returns NO
- *
- *  This protocol can also be used to add custom labels to the view event
- */
-@protocol SRGAnalyticsPageViewDataSource <NSObject>
+NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Returns the page view title to be sent in `srg_title` label for view event measurement.
+ *  View controllers whose appearance must be tracked by comScore and NetMetrix view events must conform to the
+ *  `SRGAnalyticsViewTracking` protocol. The only method required by this protocol is `srg_pageViewTitle`, which
+ *  supplies the name of the to be used in the view events.
  *
- *  @return the page view title. Empty or nil value will be replaced by `Untitled` value.
+ *  Optional methods can be implemented to provide more information and custom measurement information (labels).
  *
- *  @discussion The title will be "normalized" using `srg_comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
+ *  By default, if a view controller conforms to the `SRGAnalyticsViewTracking` protocol, a view event will
+ *  automatically be sent when its `-viewDidAppear:` method is called. If you want to control when the event
+ *  will be sent, you can implement the optional `trackedAutomatically` property to return NO. In such cases,
+ *  you are responsible to call the `-[UIViewController trackPageView]` method when the view events must be sent.
  */
-- (NSString *)pageViewTitle;
+@protocol SRGAnalyticsViewTracking <NSObject>
+
+/**
+ *  The page view label to use for view event measurement.
+ *
+ *  @return The page view title. If this value is empty or nil, the default `Untitled` value will be used
+ */
+@property (nonatomic, readonly, copy, nullable) NSString *srg_pageViewTitle;
 
 @optional
 
 /**
- * If this method is implemented and returns NO, automatic tracking in `-viewDidAppear:` will be disabled. In this case, call
- * `-[UIViewController trackPageView]` manually. This is e.g. useful if the data source information is incomplete when
- * `-viewDidAppear:` is called.
+ *  If this method is implemented and returns NO, automatic tracking in `-viewDidAppear:` will be disabled. In this case,
+ *  call `-[UIViewController trackPageView]` manually.
  *
- * If this method is not implemented, the behavior defaults to automatic tracking.
+ *  If this method is not implemented, the behavior defaults to automatic tracking.
  *
- * @return YES iff automatic tracking must be enabled, NO otherwise
+ *  @return YES iff automatic tracking must be enabled, NO otherwise
  */
-- (BOOL)isTrackedAutomatically;
+@property (nonatomic, readonly, getter=srg_isTrackedAutomatically) BOOL srg_trackedAutomatically;
 
 /**
- *  Returns the levels to be sent for view event measurement. Each level will be added as `srg_n...` label. The tracker will also add a label named `category`
- *  containing the concatenation of all levels separated with a `.` (srg_n1.srg_n2...).
+ *  Returns the levels (position in the view hierarchy) to be sent for view event measurement.
  *
- *  If the page view levels array is nil or empty, the tracker will add one default level `srg_n1` label and a `category` label with value `app`.
- *  Up to 10 levels can be set, more levels will be dropped
+ *  If the page view levels array is nil or empty, an `app` default level will be used. Up to 10 levels can be set, any
+ *  additional level will be dropped.
  *
- *  @return an array of string.
- *
- *  @discussion Each level value will be "normalized" using `srg_comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
+ *  @return The array of levels, in increasing depth order
  */
-- (NSArray *)pageViewLevels;
+@property (nonatomic, readonly, nullable) NSArray<NSString *> *srg_pageViewLevels;
 
 /**
- *  Returns a dictionary of key values that will be set a labels when sending view events.
- *  When returning custom labels, beware that persistent labels can be overrided by those custom labels values.
+ *  Additional information (labels) which must be send with a view event. By default no custom labels are sent.
  *
- *  @return a dictionary of labels.
+ *  @return The dictionary of labels
+ *
+ *  @discussion Be careful when using custom labels and ensure your custom keys do not match reserved values by
+ *              using appropriate naming conventions (e.g. a prefix)
  */
-- (NSDictionary *)pageViewCustomLabels;
+@property (nonatomic, readonly, nullable) NSDictionary<NSString *, NSString *> *srg_pageViewCustomLabels;
 
 /**
- *  Returns the value specifying weither the view controller has been opened from a push notification or not.
- *  The tracker will set the `srg_ap_push` label value to `1` if true, `0` otherwise.
+ *  Return YES if the the view controller was opened from a push notification. If not implemented, it is assumed the
+ *  view controller was not opened from a push notification.
  *
- *  @return YES if the presented view controller has been opened from a push notification, NO otherwise. Default value is NO.
+ *  @return YES if the presented view controller has been opened from a push notification, NO otherwise
  */
-- (BOOL)pageViewFromPushNotification;
+@property (nonatomic, readonly, getter=srg_isOpenedFromPushNotification) BOOL srg_openedFromPushNotification;
 
 @end
 
 /**
- *  Analytics extensions for `UIViewController` tracking
+ *  Analytics extensions for manual `UIViewController` tracking. This is especially useful when the `srg_trackedAutomatically`
+ *  has been implemented and returns NO, see above
  */
 @interface UIViewController (SRGAnalytics)
 
@@ -80,3 +83,5 @@
 - (void)trackPageView;
 
 @end
+
+NS_ASSUME_NONNULL_END

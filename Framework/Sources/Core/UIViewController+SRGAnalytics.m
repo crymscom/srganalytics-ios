@@ -31,8 +31,8 @@ static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animate
 
 - (void)trackPageView
 {
-    if ([self conformsToProtocol:@protocol(SRGAnalyticsPageViewDataSource)]) {
-        [[SRGAnalyticsTracker sharedTracker] trackPageViewForDataSource:(id<SRGAnalyticsPageViewDataSource>)self];
+    if ([self conformsToProtocol:@protocol(SRGAnalyticsViewTracking)]) {
+        [[SRGAnalyticsTracker sharedTracker] trackPageViewForDataSource:(id<SRGAnalyticsViewTracking>)self];
     }
 }
 
@@ -44,9 +44,9 @@ static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animate
 {
     s_viewDidAppear(self, _cmd, animated);
 
-    if ([self conformsToProtocol:@protocol(SRGAnalyticsPageViewDataSource)]) {
-        id<SRGAnalyticsPageViewDataSource> dataSource = (id<SRGAnalyticsPageViewDataSource>)self;
-        if (! [dataSource respondsToSelector:@selector(isTrackedAutomatically)] || [dataSource isTrackedAutomatically]) {
+    if ([self conformsToProtocol:@protocol(SRGAnalyticsViewTracking)]) {
+        id<SRGAnalyticsViewTracking> tracking = (id<SRGAnalyticsViewTracking>)self;
+        if (! [tracking respondsToSelector:@selector(srg_isTrackedAutomatically)] || [tracking srg_isTrackedAutomatically]) {
             [self trackPageView];
         }
     }

@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SRGAnalyticsPageViewDataSource;
+@protocol SRGAnalyticsViewTracking;
 
 /**
  * SRG/SSR Business units
@@ -166,19 +166,19 @@ OBJC_EXTERN NSString * const SRGAnalyticsLabelsKey;
 
 /**
  *  Track a view event with specified dataSource. 
- *  It will retrieve the page view labels dictionary from methods defined in `SRGAnalyticsPageViewDataSource` protocol.
+ *  It will retrieve the page view labels dictionary from methods defined in `SRGAnalyticsViewTracking` protocol.
  *
- *  @param dataSource the dataSource implementing the `SRGAnalyticsPageViewDataSource` protocol. (Mandatory)
+ *  @param dataSource the dataSource implementing the `SRGAnalyticsViewTracking` protocol. (Mandatory)
  *
- *  @discussion the method is automatically called by view controllers conforming the `SRGAnalyticsPageViewDataSource` protocol, 
- *  @see `SRGAnalyticsPageViewDataSource`. The method can be called manually to send view events when changing page content 
+ *  @discussion the method is automatically called by view controllers conforming the `SRGAnalyticsViewTracking` protocol, 
+ *  @see `SRGAnalyticsViewTracking`. The method can be called manually to send view events when changing page content 
  *  without presenting a new view controller:, e.g. when using UISegmentedControl, or when filtering data using the same view
  *  controller instance.
  *
  *  The methods is also automatically called when the app becomes active again. A reference of the last page view datasource is 
  *  kept by the tracker.
  */
-- (void)trackPageViewForDataSource:(id<SRGAnalyticsPageViewDataSource>)dataSource;
+- (void)trackPageViewForDataSource:(id<SRGAnalyticsViewTracking>)dataSource;
 
 /**
  *  Track a view event identified by its title and levels labels. 
