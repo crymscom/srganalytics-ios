@@ -44,7 +44,7 @@ static NSURL *DVRTestURL(void)
 // at view events here)
 - (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(HiddenEventExpectationHandler)handler
 {
-    return [self expectationForNotification:SRGAnalyticsWillSendRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+    return [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
         
         NSString *type = labels[@"ns_type"];

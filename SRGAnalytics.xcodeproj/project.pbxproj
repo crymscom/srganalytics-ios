@@ -20,8 +20,8 @@
 		08BF96411D86E48600D36D50 /* SRGAnalyticsSegment.h in Headers */ = {isa = PBXBuildFile; fileRef = 08BF963F1D86E48600D36D50 /* SRGAnalyticsSegment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E613889E1D916A9900218919 /* SRGAnalyticsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E613888A1D916A9900218919 /* SRGAnalyticsLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E613889F1D916A9900218919 /* SRGAnalyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E613888B1D916A9900218919 /* SRGAnalyticsLogger.m */; };
-		E61388A01D916A9900218919 /* SRGAnalyticsNetmetrixTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E613888C1D916A9900218919 /* SRGAnalyticsNetmetrixTracker.h */; };
-		E61388A11D916A9900218919 /* SRGAnalyticsNetmetrixTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E613888D1D916A9900218919 /* SRGAnalyticsNetmetrixTracker.m */; };
+		E61388A01D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E613888C1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h */; };
+		E61388A11D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E613888D1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m */; };
 		E61388A31D916A9900218919 /* SRGAnalyticsTracker+Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = E613888F1D916A9900218919 /* SRGAnalyticsTracker+Logging.h */; };
 		E61388A41D916A9900218919 /* SRGAnalyticsTracker+Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388901D916A9900218919 /* SRGAnalyticsTracker+Logging.m */; };
 		E61388A51D916A9900218919 /* SRGAnalyticsTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388911D916A9900218919 /* SRGAnalyticsTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -172,8 +172,8 @@
 		9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E613888A1D916A9900218919 /* SRGAnalyticsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsLogger.h; sourceTree = "<group>"; };
 		E613888B1D916A9900218919 /* SRGAnalyticsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsLogger.m; sourceTree = "<group>"; };
-		E613888C1D916A9900218919 /* SRGAnalyticsNetmetrixTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsNetmetrixTracker.h; sourceTree = "<group>"; };
-		E613888D1D916A9900218919 /* SRGAnalyticsNetmetrixTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsNetmetrixTracker.m; sourceTree = "<group>"; };
+		E613888C1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsNetMetrixTracker.h; sourceTree = "<group>"; };
+		E613888D1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsNetMetrixTracker.m; sourceTree = "<group>"; };
 		E613888F1D916A9900218919 /* SRGAnalyticsTracker+Logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGAnalyticsTracker+Logging.h"; sourceTree = "<group>"; };
 		E61388901D916A9900218919 /* SRGAnalyticsTracker+Logging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGAnalyticsTracker+Logging.m"; sourceTree = "<group>"; };
 		E61388911D916A9900218919 /* SRGAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsTracker.h; sourceTree = "<group>"; };
@@ -334,8 +334,8 @@
 			children = (
 				E613888A1D916A9900218919 /* SRGAnalyticsLogger.h */,
 				E613888B1D916A9900218919 /* SRGAnalyticsLogger.m */,
-				E613888C1D916A9900218919 /* SRGAnalyticsNetmetrixTracker.h */,
-				E613888D1D916A9900218919 /* SRGAnalyticsNetmetrixTracker.m */,
+				E613888C1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h */,
+				E613888D1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m */,
 				E613888F1D916A9900218919 /* SRGAnalyticsTracker+Logging.h */,
 				E61388901D916A9900218919 /* SRGAnalyticsTracker+Logging.m */,
 				E61388911D916A9900218919 /* SRGAnalyticsTracker.h */,
@@ -529,7 +529,7 @@
 				E61388B31D916BB100218919 /* SRGAnalyticsPageViewDataSource.h in Headers */,
 				E61388A51D916A9900218919 /* SRGAnalyticsTracker.h in Headers */,
 				E61388AF1D916A9900218919 /* NSString+SRGAnalytics.h in Headers */,
-				E61388A01D916A9900218919 /* SRGAnalyticsNetmetrixTracker.h in Headers */,
+				E61388A01D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h in Headers */,
 				E61388AD1D916A9900218919 /* NSDictionary+SRGAnalytics.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -766,7 +766,7 @@
 				E61388A41D916A9900218919 /* SRGAnalyticsTracker+Logging.m in Sources */,
 				E61388B01D916A9900218919 /* NSString+SRGAnalytics.m in Sources */,
 				E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */,
-				E61388A11D916A9900218919 /* SRGAnalyticsNetmetrixTracker.m in Sources */,
+				E61388A11D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m in Sources */,
 				E61388A61D916A9900218919 /* SRGAnalyticsTracker.m in Sources */,
 				E613889F1D916A9900218919 /* SRGAnalyticsLogger.m in Sources */,
 				E61388A81D916A9900218919 /* UIViewController+SRGAnalytics.m in Sources */,

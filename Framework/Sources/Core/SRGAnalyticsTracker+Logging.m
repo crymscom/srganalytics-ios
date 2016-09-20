@@ -19,7 +19,7 @@
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(comScoreRequestDidFinish:)
-                                                 name:SRGAnalyticsWillSendRequestNotification
+                                                 name:SRGAnalyticsComScoreRequestNotification
                                                object:nil];
 	
     // +[CSComScore setPixelURL:] is dispatched on an internal comScore queue, so calling +[CSComScore pixelURL]

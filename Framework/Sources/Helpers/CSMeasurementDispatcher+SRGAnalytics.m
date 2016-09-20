@@ -8,7 +8,7 @@
 
 #import <objc/runtime.h>
 
-NSString * const SRGAnalyticsWillSendRequestNotification = @"SRGAnalyticsWillSendRequestNotification";
+NSString * const SRGAnalyticsComScoreRequestNotification = @"SRGAnalyticsComScoreRequestNotification";
 NSString * const SRGAnalyticsLabelsKey = @"SRGAnalyticsLabelsKey";
 
 // Private comScore methods
@@ -50,7 +50,7 @@ NSString * const SRGAnalyticsLabelsKey = @"SRGAnalyticsLabelsKey";
     NSDictionary *userInfo = @{ SRGAnalyticsLabelsKey: [completeLabels copy] };
     
     void (^notificationBlock)(void) = ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsWillSendRequestNotification object:self userInfo:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestNotification object:self userInfo:userInfo];
     };
     
     if (! [NSThread isMainThread]) {

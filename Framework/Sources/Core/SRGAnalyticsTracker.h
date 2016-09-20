@@ -63,24 +63,24 @@ typedef NS_ENUM(NSInteger, SSRBusinessUnit) {
 /**
  *  Posted when the request's response is received. The `object` of the notification is a NSURLRequest.
  */
-OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestDidFinishNotification;
+OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestNotification;
 
 /**
- * A NSNumber (boolean) indicating success in the user info dictionary of `SRGAnalyticsNetmetrixRequestDidFinishNotification`.
+ * A NSNumber (boolean) indicating success in the user info dictionary of `SRGAnalyticsNetmetrixRequestNotification`.
  */
 OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestSuccessUserInfoKey;
 
 /**
- *  A NSError in the user info dictionary of `SRGAnalyticsNetmetrixRequestDidFinishNotification`. This key is not present if the request succeeded.
+ *  A NSError in the user info dictionary of `SRGAnalyticsNetmetrixRequestNotification`. This key is not present if the request succeeded.
  */
 OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestErrorUserInfoKey;
 
 /**
- *  A NSURLResponse in the user info dictionary of `SRGAnalyticsNetmetrixRequestDidFinishNotification`.
+ *  A NSURLResponse in the user info dictionary of `SRGAnalyticsNetmetrixRequestNotification`.
  */
 OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey;
 
-OBJC_EXTERN NSString * const SRGAnalyticsWillSendRequestNotification;
+OBJC_EXTERN NSString * const SRGAnalyticsComScoreRequestNotification;
 OBJC_EXTERN NSString * const SRGAnalyticsLabelsKey;
 
 /**
@@ -114,6 +114,8 @@ OBJC_EXTERN NSString * const SRGAnalyticsLabelsKey;
  *  Add an Info.plist dictionary named `SRGAnalytics` with 2 keypairs :
  *              ComscoreVirtualSite    : string - mandatory
  *              NetmetrixAppID         : string - NetmetrixAppID MUST be set ONLY for application in production.
+ *
+ *  Remark: The NetMetrix "test" identifier can be used for tests
  *
  *  The application MUST call `-startTrackingForBusinessUnit:...` methods ONLY in `-application:didFinishLaunchingWithOptions:`.
  */

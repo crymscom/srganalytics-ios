@@ -4,40 +4,30 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGAnalyticsNetmetrixTracker.h"
+#import "SRGAnalyticsNetMetrixTracker.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  `SRGAnalyticsNetmetrixTracker` is used to track view events for Netmetrix.
- * 
- *  The destination URL is specified by a domain and appID.
+ *  Tracker for NetMetrix related events
  */
-@interface SRGAnalyticsNetmetrixTracker : NSObject
+@interface SRGAnalyticsNetMetrixTracker : NSObject
 
 /**
- *  --------------------------------------
- *  @name Initializing a Netmetrix Tracker
- *  --------------------------------------
- */
-
-/**
- *  Returns a `SRGAnalyticsNetmetrixTracker` object initialized with the specified appID and Netmetrix domain.
+ *  Create a tracker for the specified NetMetrix identifier and business unit
  *
- *  @param appID  a unique id identifying Netmetrics application (e.g. SRG-info, SRG-sport, srg-player, ...)
- *  @param domain the nexmetrics domain used  (e.g. SRG, srg, ...)
+ *  @param identifier   A unique NetMetrix identifier for the application (e.g. SRG-info, SRG-sport, srg-player, ...)
+ *  @param businessUnit The business unit to which events must be associated
  *
  *  @return a Netmetrix tracker
  */
-- (instancetype) initWithAppID:(NSString *)appID businessUnit:(SSRBusinessUnit)businessUnit;
+- (instancetype)initWithIdentifier:(NSString *)identifier businessUnit:(SSRBusinessUnit)businessUnit;
 
 /**
- *  -------------------
- *  @name View Tracking
- *  -------------------
+ *  Send a view event
  */
-
-/**
- *  Send a view event for application specified by its AppID and domain.
- */
-- (void) trackView;
+- (void)trackView;
 
 @end
+
+NS_ASSUME_NONNULL_END

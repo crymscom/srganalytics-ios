@@ -6,7 +6,7 @@
 
 #import "SRGAnalyticsTracker.h"
 
-#import "SRGAnalyticsNetmetrixTracker.h"
+#import "SRGAnalyticsNetMetrixTracker.h"
 
 #import "NSString+SRGAnalytics.h"
 #import "NSDictionary+SRGAnalytics.h"
@@ -17,7 +17,7 @@
 #import <ComScore/CSComScore.h>
 #import <UIKit/UIKit.h>
 
-NSString * const SRGAnalyticsNetmetrixRequestDidFinishNotification = @"SRGAnalyticsNetmetrixRequestDidFinish";
+NSString * const SRGAnalyticsNetmetrixRequestNotification = @"SRGAnalyticsNetmetrixRequestDidFinish";
 NSString * const SRGAnalyticsNetmetrixRequestSuccessUserInfoKey = @"SRGAnalyticsNetmetrixSuccess";
 NSString * const SRGAnalyticsNetmetrixRequestErrorUserInfoKey = @"SRGAnalyticsNetmetrixError";
 NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalyticsNetmetrixResponse";
@@ -26,7 +26,7 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
 @private
     BOOL _debugMode;
 }
-@property (nonatomic, strong) SRGAnalyticsNetmetrixTracker *netmetrixTracker;
+@property (nonatomic, strong) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
 @property (nonatomic, weak) id<SRGAnalyticsPageViewDataSource> lastPageViewDataSource;
 @property (nonatomic, assign) SSRBusinessUnit businessUnit;
 @property (nonatomic, strong) NSString *comScoreVirtualSite;
@@ -152,7 +152,7 @@ NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytic
 
 - (void)startNetmetrixTracker
 {
-	self.netmetrixTracker = [[SRGAnalyticsNetmetrixTracker alloc] initWithAppID:self.netMetrixIdentifier businessUnit:self.businessUnit];
+	self.netmetrixTracker = [[SRGAnalyticsNetMetrixTracker alloc] initWithIdentifier:self.netMetrixIdentifier businessUnit:self.businessUnit];
 }
 
 #pragma mark - PageView tracking
