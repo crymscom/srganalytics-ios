@@ -4,9 +4,11 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGAnalyticsTracker.h"
 #import "SRGAnalyticsNetMetrixTracker.h"
+
 #import "SRGAnalyticsLogger.h"
+#import "SRGAnalyticsNotifications.h"
+#import "SRGAnalyticsTracker.h"
 
 #import <UIKit/UIKit.h>
 
@@ -15,7 +17,7 @@ static NSString * const LoggerDomainAnalyticsNetMetrix = @"NetMetrix";
 @interface SRGAnalyticsNetMetrixTracker ()
 
 @property (nonatomic, copy) NSString *identifier;
-@property (nonatomic) SSRBusinessUnit businessUnit;
+@property (nonatomic, copy) NSString *businessUnitIdentifier;
 
 @end
 
@@ -23,27 +25,38 @@ static NSString * const LoggerDomainAnalyticsNetMetrix = @"NetMetrix";
 
 #pragma mark Object lifecycle
 
-- (instancetype)initWithIdentifier:(NSString *)identifier businessUnit:(SSRBusinessUnit)businessUnit
+- (instancetype)initWithIdentifier:(NSString *)identifier businessUnitIdentifier:(NSString *)businessUnitIdentifier
 {
     if (self = [super init]) {
         self.identifier = identifier;
-        self.businessUnit = businessUnit;
-        SRGAnalyticsLogDebug(@"%@ initialization\nAppID: %@\nDomain: %@", LoggerDomainAnalyticsNetMetrix, identifier, self.netmetrixDomain);
+        self.businessUnitIdentifier = businessUnitIdentifier;
+        SRGAnalyticsLogDebug(@"%@ initialization\nAppID: %@\nDomain: %@", LoggerDomainAnalyticsNetMetrix, identifier, self.netMetrixDomain);
     }
     return self;
 }
 
-- (NSString *)netmetrixDomain
+#pragma mark Getters and setters
+
+- (NSString *)netMetrixDomain
 {
-    NSArray *netmetrixDomains = @[ @"srf", @"SRG", @"SRGi", @"rtr", @"swissinf" ];
-    return netmetrixDomains[self.businessUnit];
+    static dispatch_once_t s_onceToken;
+    static NSDictionary<NSString *, NSString *> *s_domains;
+    dispatch_once(&s_onceToken, ^{
+        s_domains = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @"SRGi",
+                       SRGAnalyticsBusinessUnitIdentifierRTR : @"rtr",
+                       SRGAnalyticsBusinessUnitIdentifierRTS : @"SRG",
+                       SRGAnalyticsBusinessUnitIdentifierSRF : @"srf",
+                       SRGAnalyticsBusinessUnitIdentifierSWI : @"swissinf" };
+    });
+    return s_domains[self.businessUnitIdentifier] ?: self.businessUnitIdentifier;
 }
 
 #pragma mark View tracking
 
 - (void)trackView
 {
-    NSString *netMetrixURLString = [NSString stringWithFormat:@"http://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netmetrixDomain, self.identifier, self.device];
+    
+    NSString *netMetrixURLString = [NSString stringWithFormat:@"http://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netMetrixDomain, self.identifier, self.device];
     NSURL *netMetrixURL = [NSURL URLWithString:netMetrixURLString];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:netMetrixURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.];

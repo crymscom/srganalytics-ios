@@ -6,11 +6,11 @@
 
 #import "SRGAnalyticsTracker.h"
 
-#import "SRGAnalyticsNetMetrixTracker.h"
-
 #import "NSString+SRGAnalytics.h"
 #import "NSDictionary+SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
+#import "SRGAnalyticsNetMetrixTracker.h"
+#import "SRGAnalyticsNotifications.h"
 #import "UIViewController+SRGAnalytics.h"
 
 #import <ComScore/CSCore.h>
@@ -18,40 +18,46 @@
 #import <ComScore/CSTaskExecutor.h>
 #import <UIKit/UIKit.h>
 
-NSString *const SRGAnalyticsNetmetrixRequestNotification = @"SRGAnalyticsNetmetrixRequestDidFinish";
-NSString *const SRGAnalyticsNetmetrixRequestSuccessUserInfoKey = @"SRGAnalyticsNetmetrixSuccess";
-NSString *const SRGAnalyticsNetmetrixRequestErrorUserInfoKey = @"SRGAnalyticsNetmetrixError";
-NSString *const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalyticsNetmetrixResponse";
+NSString * const SRGAnalyticsBusinessUnitIdentifierRSI = @"rsi";
+NSString * const SRGAnalyticsBusinessUnitIdentifierRTR = @"rtr";
+NSString * const SRGAnalyticsBusinessUnitIdentifierRTS = @"rts";
+NSString * const SRGAnalyticsBusinessUnitIdentifierSRF = @"srf";
+NSString * const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
 
 @interface SRGAnalyticsTracker () {
 @private
     BOOL _debugMode;
 }
-@property (nonatomic, strong) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
-@property (nonatomic, weak) id<SRGAnalyticsViewTracking> lastPageViewDataSource;
-@property (nonatomic, assign) SSRBusinessUnit businessUnit;
-@property (nonatomic, strong) NSString *comScoreVirtualSite;
-@property (nonatomic, strong) NSString *netMetrixIdentifier;
+
+@property (nonatomic, copy) NSString *businessUnitIdentifier;
+@property (nonatomic, copy) NSString *comScoreVirtualSite;
+@property (nonatomic, copy) NSString *netMetrixIdentifier;
+
+@property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
+
 @end
 
 @implementation SRGAnalyticsTracker
 
+#pragma mark Class methods
+
 + (instancetype)sharedTracker
 {
-    static SRGAnalyticsTracker *sharedInstance = nil;
-    static dispatch_once_t SRGAnalyticsTracker_onceToken;
-    dispatch_once(&SRGAnalyticsTracker_onceToken, ^{
-        sharedInstance = [[[self class] alloc] init_custom_SRGAnalyticsTracker];
+    static SRGAnalyticsTracker *s_sharedInstance = nil;
+    static dispatch_once_t s_onceToken;
+    dispatch_once(&s_onceToken, ^{
+        s_sharedInstance = [SRGAnalyticsTracker new];
     });
-    return sharedInstance;
+    return s_sharedInstance;
 }
 
-- (id)init_custom_SRGAnalyticsTracker
+#pragma mark Object lifecycle
+
+- (instancetype)init
 {
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationWillEnterForeground:)
+                                                 selector:@selector(srg_analytics_applicationWillEnterForeground:)
                                                      name:UIApplicationWillEnterForegroundNotification
                                                    object:nil];
     }
@@ -63,44 +69,18 @@ NSString *const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytics
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - Notifications
+#pragma mark Start
 
-- (void)applicationWillEnterForeground:(NSNotification *)notification
-{
-    [self trackPageViewForObject:self.lastPageViewDataSource];
-}
-
-#pragma mark - Accessors
-
-- (NSArray *)businessUnits
-{
-    return @[ @"SRF", @"RTS", @"RSI", @"RTR", @"SWI" ];
-}
-
-- (NSString *)businessUnitIdentifier:(SSRBusinessUnit)businessUnit
-{
-    return [self.businessUnits[businessUnit] lowercaseString];
-}
-
-- (SSRBusinessUnit)businessUnitForIdentifier:(NSString *)buIdentifier
-{
-    NSUInteger index = [self.businessUnits indexOfObject:buIdentifier.uppercaseString];
-    NSAssert(index != NSNotFound, @"Business unit not found with identifier '%@'", buIdentifier);
-    return (SSRBusinessUnit)index;
-}
-
-#pragma mark - PageView tracking
-
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
-             withComScoreVirtualSite:(NSString *)comScoreVirtualSite
-                 netMetrixIdentifier:(NSString *)netMetrixIdentifier
-                           debugMode:(BOOL)debugMode
-{
-    _businessUnit = businessUnit;
-    _debugMode = debugMode;
-    
+- (void)startWithBusinessUnitIdentifier:(NSString *)businessUnitIdentifier
+                    comScoreVirtualSite:(NSString *)comScoreVirtualSite
+                    netMetrixIdentifier:(NSString *)netMetrixIdentifier
+                              debugMode:(BOOL)debugMode
+{    
+    self.businessUnitIdentifier = businessUnitIdentifier;
     self.comScoreVirtualSite = comScoreVirtualSite;
     self.netMetrixIdentifier = netMetrixIdentifier;
+    
+    _debugMode = debugMode;
     
     [self startComscoreTracker];
     [self startNetmetrixTracker];
@@ -112,7 +92,7 @@ NSString *const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytics
     [CSComScore setCustomerC2:@"6036016"];
     [CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
     [CSComScore enableAutoUpdate:60 foregroundOnly:NO];     //60 is the Comscore default interval value
-    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] ? : [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     if (appName) {
         [CSComScore setAutoStartLabels:@{ @"name": appName }];
     }
@@ -121,83 +101,52 @@ NSString *const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytics
     [self startLoggingInternalComScoreTasks];
 }
 
-- (NSDictionary *)comscoreGlobalLabels
+- (void)startNetmetrixTracker
+{
+    self.netmetrixTracker = [[SRGAnalyticsNetMetrixTracker alloc] initWithIdentifier:self.netMetrixIdentifier
+                                                              businessUnitIdentifier:self.businessUnitIdentifier];
+}
+
+#pragma mark Labels
+
+- (NSDictionary<NSString *, NSString *> *)comscoreGlobalLabels
 {
     NSBundle *mainBundle = [NSBundle mainBundle];
     
     NSString *appName = [[mainBundle objectForInfoDictionaryKey:@"CFBundleExecutable"] stringByAppendingString:@" iOS"];
-    NSString *appLanguage = [[mainBundle preferredLocalizations] firstObject] ? : @"fr";
+    NSString *appLanguage = mainBundle.preferredLocalizations.firstObject ?: @"fr";
     NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     
-    NSMutableDictionary *globalLabels = [@{ @"ns_ap_an": appName,
-                                            @"ns_ap_lang": [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
-                                            @"ns_ap_ver": appVersion,
-                                            @"srg_unit": [self businessUnitIdentifier:self.businessUnit].uppercaseString,
-                                            @"srg_ap_push": @"0",
-                                            @"ns_site": @"mainsite", // MGubler 17-Nov-2015: This 'mainsite' is a constant value. If wrong, everything is screwed.
-                                            @"ns_vsite": self.comScoreVirtualSite } mutableCopy]; // MGubler 17-Nov-2015: 'vsite' is associated with the app. It is created by comScore itself.
-    // Even if it is 'easy' to create a new one (for new/easier repoSRG, or fixing wrong values),
-    // this must never change for the given app.
+    NSMutableDictionary<NSString *, NSString *> *globalLabels = [@{ @"ns_ap_an": appName,
+                                                                    @"ns_ap_lang": [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
+                                                                    @"ns_ap_ver": appVersion,
+                                                                    @"srg_unit": self.businessUnitIdentifier.uppercaseString,
+                                                                    @"srg_ap_push": @"0",
+                                                                    @"ns_site": @"mainsite",                                    // The 'mainsite' is a constant value. If wrong, everything is screwed.
+                                                                    @"ns_vsite": self.comScoreVirtualSite } mutableCopy];       // The virtual site 'vsite' is associated with the app. It is created by comScore
+    
     if (_debugMode) {
-        static NSString *debugTimestamp;
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        static NSString *s_debugTimestamp;
+        static dispatch_once_t s_onceToken;
+        dispatch_once(&s_onceToken, ^{
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd'@'HH:mm:ss"];
-            debugTimestamp = [dateFormatter stringFromDate:[NSDate date]];
+            dateFormatter.dateFormat = @"yyyy-MM-dd'@'HH:mm:ss";
+            s_debugTimestamp = [dateFormatter stringFromDate:[NSDate date]];
         });
-        globalLabels[@"srg_test"] = debugTimestamp;
+        globalLabels[@"srg_test"] = s_debugTimestamp;
     }
     return [globalLabels copy];
 }
 
-- (void)startNetmetrixTracker
-{
-    self.netmetrixTracker = [[SRGAnalyticsNetMetrixTracker alloc] initWithIdentifier:self.netMetrixIdentifier businessUnit:self.businessUnit];
-}
+#pragma mark Page view tracking
 
-#pragma mark - PageView tracking
-
-- (void)trackPageViewForObject:(id<SRGAnalyticsViewTracking>)dataSource
-{
-    _lastPageViewDataSource = dataSource;
-    
-    if (! dataSource) {
-        return;
-    }
-    
-    NSString *title = [dataSource srg_pageViewTitle];
-    NSArray *levels = nil;
-    
-    if ([dataSource respondsToSelector:@selector(srg_pageViewLevels)]) {
-        levels = [dataSource srg_pageViewLevels];
-    }
-    
-    NSDictionary *customLabels = nil;
-    if ([dataSource respondsToSelector:@selector(srg_pageViewCustomLabels)]) {
-        customLabels = [dataSource srg_pageViewCustomLabels];
-    }
-    
-    BOOL fromPushNotification = NO;
-    if ([dataSource respondsToSelector:@selector(srg_isOpenedFromPushNotification)]) {
-        fromPushNotification = [dataSource srg_isOpenedFromPushNotification];
-    }
-    
-    [self trackPageViewTitle:title levels:levels customLabels:customLabels fromPushNotification:fromPushNotification];
-}
-
-- (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels
-{
-    [self trackPageViewTitle:title levels:levels customLabels:nil fromPushNotification:NO];
-}
-
-- (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels customLabels:(NSDictionary *)customLabels fromPushNotification:(BOOL)fromPush
+- (void)trackPageViewTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification;
 {
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
     
     title = title.length > 0 ? title.srg_comScoreTitleFormattedString : @"untitled";
     [labels safeSetValue:title forKey:@"srg_title"];
-    [labels safeSetValue:@(fromPush) forKey:@"srg_ap_push"];
+    [labels safeSetValue:@(fromPushNotification) forKey:@"srg_ap_push"];
     
     NSString *category = @"app";
     
@@ -207,7 +156,7 @@ NSString *const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytics
     else if (levels.count > 0) {
         __block NSMutableString *levelsConcatenation = [NSMutableString new];
         [levels enumerateObjectsUsingBlock:^(id value, NSUInteger idx, BOOL *stop) {
-            NSString *levelKey = [NSString stringWithFormat:@"srg_n%tu", idx + 1];
+            NSString *levelKey = [NSString stringWithFormat:@"srg_n%@", @(idx + 1)];
             NSString *levelValue = [value description].srg_comScoreFormattedString;
             
             if (idx < 10) {
@@ -285,7 +234,7 @@ NSString *const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytics
     } background:YES];
 }
 
-#pragma mark - Notifications
+#pragma mark Notifications
 
 - (void)comScoreRequestDidFinish:(NSNotification *)notification
 {
@@ -318,6 +267,12 @@ NSString *const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalytics
     SRGAnalyticsLogInfo(@"%@ > %@", event, name);
     
     SRGAnalyticsLogDebug(@"Comscore %@ event sent:\n%@", labels[@"ns_type"], dictionaryRepresentation);
+}
+
+- (void)srg_analytics_applicationWillEnterForeground:(NSNotification *)notification
+{
+    // FIXME: Move to UIViewController category and call if visible (swizzle other view lifecycle method for visibility)
+    // [self trackPageViewForObject:self.lastPageViewDataSource];
 }
 
 @end

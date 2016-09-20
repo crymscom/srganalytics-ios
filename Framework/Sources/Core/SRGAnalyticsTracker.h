@@ -6,82 +6,22 @@
 
 #import <Foundation/Foundation.h>
 
-/**
- * SRG/SSR Business units
- */
-typedef NS_ENUM (NSInteger, SSRBusinessUnit) {
-    /**
-     *  Business unit for Schweizer Radio und Fernsehen (SRF)
-     *
-     *  - Comscore value   : "sfr"
-     *  - Netmetrix domain : "sfr"
-     */
-    SSRBusinessUnitSRF,
-
-    /**
-     *  Business unit for Radio Télévision Suisse (RTS)
-     *
-     *  - Comscore value   : "rts"
-     *  - Netmetrix domain : "rts"
-     */
-    SSRBusinessUnitRTS,
-
-    /**
-     *  Business unit for Radiotelevisione svizzera (RSI)
-     *
-     *  - Comscore value   : "rsi"
-     *  - Netmetrix domain : "SRGi"
-     */
-    SSRBusinessUnitRSI,
-
-    /**
-     *  Business unit for Radiotelevisiun Svizra Rumantscha (RTR)
-     *
-     *  - Comscore value   : "rtr"
-     *  - Netmetrix domain : "rtr"
-     */
-    SSRBusinessUnitRTR,
-
-    /**
-     *  Business unit for Swissinfo (SWI)
-     *
-     *  - Comscore value   : "swi"
-     *  - Netmetrix domain : "swissinf"
-     */
-    SSRBusinessUnitSWI
-};
+NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  -------------------
- *  @name Notifications
- *  -------------------
+ *  @name Official SRGSSR business units
  */
 
-/**
- *  Posted when the request's response is received. The `object` of the notification is a NSURLRequest.
- */
-OBJC_EXTERN NSString *const SRGAnalyticsNetmetrixRequestNotification;
+OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierRSI;
+OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierRTR;
+OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierRTS;
+OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierSRF;
+OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierSWI;
 
 /**
- * A NSNumber (boolean) indicating success in the user info dictionary of `SRGAnalyticsNetmetrixRequestNotification`.
- */
-OBJC_EXTERN NSString *const SRGAnalyticsNetmetrixRequestSuccessUserInfoKey;
-
-/**
- *  A NSError in the user info dictionary of `SRGAnalyticsNetmetrixRequestNotification`. This key is not present if the request succeeded.
- */
-OBJC_EXTERN NSString *const SRGAnalyticsNetmetrixRequestErrorUserInfoKey;
-
-/**
- *  A NSURLResponse in the user info dictionary of `SRGAnalyticsNetmetrixRequestNotification`.
- */
-OBJC_EXTERN NSString *const SRGAnalyticsNetmetrixRequestResponseUserInfoKey;
-
-OBJC_EXTERN NSString *const SRGAnalyticsComScoreRequestNotification;
-OBJC_EXTERN NSString *const SRGAnalyticsLabelsKey;
-
-/**
- *  SRGAnalyticsTracker is used to track view and hidden events for SRGSSR apps
+ *  The analytics tracker is a singleton instance responsible of tracking usage of an application.
+ *
+ *  TODO: Describe use and available events
  */
 @interface SRGAnalyticsTracker : NSObject
 
@@ -116,76 +56,20 @@ OBJC_EXTERN NSString *const SRGAnalyticsLabelsKey;
  *
  *  The application MUST call `-startTrackingForBusinessUnit:...` methods ONLY in `-application:didFinishLaunchingWithOptions:`.
  */
-- (void)startTrackingForBusinessUnit:(SSRBusinessUnit)businessUnit
-             withComScoreVirtualSite:(NSString *)comScoreVirtualSite
-                 netMetrixIdentifier:(NSString *)netMetrixIdentifier
-                           debugMode:(BOOL)debugMode;
-
-/**
- *  --------------------
- *  @name Tracker Object
- *  --------------------
- */
+- (void)startWithBusinessUnitIdentifier:(NSString *)businessUnitIdentifier
+                    comScoreVirtualSite:(NSString *)comScoreVirtualSite
+                    netMetrixIdentifier:(NSString *)netMetrixIdentifier
+                              debugMode:(BOOL)debugMode;
 
 /**
  *  The ComScore virtual site to be used for sending stats.
  */
-@property (nonatomic, readonly, strong) NSString *comScoreVirtualSite;
+@property (nonatomic, readonly, copy) NSString *comScoreVirtualSite;
 
 /**
  *  The NetMetrix application name to be used for view event tracking.
  */
-@property (nonatomic, readonly, strong) NSString *netMetrixIdentifier;
-
-/**
- *  Return the business unit identifier
- *
- *  @param businessUnit the business unit
- *
- *  @return the corresponding identifier
- */
-- (NSString *)businessUnitIdentifier:(SSRBusinessUnit)businessUnit;
-
-/**
- *  Returns the business unit depending on its identifier
- *
- *  @param buIdentifier the identifier string like 'srf', 'SRG', 'rsi', 'rtr', 'swi'
- *
- *  @return the corresponding business unit
- */
-- (SSRBusinessUnit)businessUnitForIdentifier:(NSString *)buIdentifier;
-
-/**
- *  -------------------
- *  @name View Tracking
- *  -------------------
- */
-
-/**
- *  Track a view event identified by its title and levels labels.
- *  Helper method which calls `-(void)trackPageViewTitle:levels:fromPushNotification:` with no custom labels and fromPush value to `NO`
- *
- *  @param title    the page title tracked by Comscore. (Mandatory)
- *  @param levels   each levels value will be set as `srg_nX` labels and concatenated into the `category` label. (Optional)
- */
-- (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels;
-
-/**
- *  Track a view event identified by its title, levels labels and origin (user opening the page view from a push notification or not).
- *
- *  @param title        the page title tracked by Comscore (set as `srg_title` label). (Mandatory)
- *                      The title value is "normalized" using `srg_comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
- *                      An empty or nil title will be replaced with `Untitled` value.
- *  @param levels       a list of strings. Each level will be set as srg_nX (srg_n1, srg_n2, ...) label and will be concatenated in `category`
- *                      label. (Optional)
- *  @param customLabels a dictionary of key values that will be set a labels when sending view events. Persistent labels can be overrided with those
- *                      custom labels values.
- *  @param fromPush     YES, if the view controller has been opened from a push notification, NO otherwise.
- *
- *  @discussion if the levels array is nil or empty, then one level called `srg_n1` is added with default value `app`.
- *  Each level value is "normalized" using `srg_comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
- */
-- (void)trackPageViewTitle:(NSString *)title levels:(NSArray *)levels customLabels:(NSDictionary *)customLabels fromPushNotification:(BOOL)fromPush;
+@property (nonatomic, readonly, copy) NSString *netMetrixIdentifier;
 
 /**
  *  Track a (hidden) event identified by its title
@@ -201,6 +85,14 @@ OBJC_EXTERN NSString *const SRGAnalyticsLabelsKey;
  *  @param title        The event title.
  *                      An empty or nil title will be replaced with `Untitled` value.
  */
-- (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels;
+- (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels;
 
 @end
+
+@interface SRGAnalyticsTracker (Unavailable)
+
+- (instancetype)init NS_UNAVAILABLE;
+
+@end
+
+NS_ASSUME_NONNULL_END

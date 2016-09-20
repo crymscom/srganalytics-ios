@@ -17,7 +17,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
-    [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS withComScoreVirtualSite:@"rts-app-test-v" netMetrixIdentifier:@"test" debugMode:NO];
+    [analyticsTracker startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierRTS
+                                  comScoreVirtualSite:@"rts-app-test-v"
+                                  netMetrixIdentifier:@"test"
+                                            debugMode:NO];
 	return YES;
 }
 

@@ -80,7 +80,7 @@
         [(AppDelegate *)application.delegate application:application didReceiveRemoteNotification:@{} fetchCompletionHandler:^(UIBackgroundFetchResult result) {}];
 	}
     else if ([cell.reuseIdentifier isEqualToString:@"HiddenEventWithNoTitleCell"]) {
-        [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:nil];
+        [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@""];
     }
     else if ([cell.reuseIdentifier isEqualToString:@"HiddenEventWithTitleCell"]) {
         [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Title"];

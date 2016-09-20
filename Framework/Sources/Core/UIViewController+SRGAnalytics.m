@@ -32,7 +32,27 @@ static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animate
 - (void)trackPageView
 {
     if ([self conformsToProtocol:@protocol(SRGAnalyticsViewTracking)]) {
-        [[SRGAnalyticsTracker sharedTracker] trackPageViewForObject:(id<SRGAnalyticsViewTracking>)self];
+        id<SRGAnalyticsViewTracking> trackedSelf = (id<SRGAnalyticsViewTracking>)self;
+        
+        NSArray<NSString *> *levels = nil;
+        if ([trackedSelf respondsToSelector:@selector(srg_pageViewLevels)]) {
+            levels = [trackedSelf srg_pageViewLevels];
+        }
+        
+        NSDictionary<NSString *, NSString *> *customLabels = nil;
+        if ([trackedSelf respondsToSelector:@selector(srg_pageViewCustomLabels)]) {
+            customLabels = [trackedSelf srg_pageViewCustomLabels];
+        }
+        
+        BOOL fromPushNotification = NO;
+        if ([trackedSelf respondsToSelector:@selector(srg_isOpenedFromPushNotification)]) {
+            fromPushNotification = [trackedSelf srg_isOpenedFromPushNotification];
+        }
+        
+        [[SRGAnalyticsTracker sharedTracker] trackPageViewTitle:[trackedSelf srg_pageViewTitle]
+                                                         levels:levels
+                                                   customLabels:customLabels
+                                           fromPushNotification:fromPushNotification];
     }
 }
 

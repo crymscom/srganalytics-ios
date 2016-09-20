@@ -4,7 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGAnalyticsNetMetrixTracker.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,17 +16,23 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Create a tracker for the specified NetMetrix identifier and business unit
  *
- *  @param identifier   A unique NetMetrix identifier for the application (e.g. SRG-info, SRG-sport, srg-player, ...)
- *  @param businessUnit The business unit to which events must be associated
+ *  @param identifier             A unique NetMetrix identifier for the application (e.g. SRG-info, SRG-sport, srg-player, ...)
+ *  @param businessUnitIdentifier The business unit to which events must be associated
  *
  *  @return a Netmetrix tracker
  */
-- (instancetype)initWithIdentifier:(NSString *)identifier businessUnit:(SSRBusinessUnit)businessUnit;
+- (instancetype)initWithIdentifier:(NSString *)identifier businessUnitIdentifier:(NSString *)businessUnitIdentifier;
 
 /**
  *  Send a view event
  */
 - (void)trackView;
+
+@end
+
+@interface SRGAnalyticsNetMetrixTracker (Unavailable)
+
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
