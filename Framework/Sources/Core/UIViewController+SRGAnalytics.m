@@ -6,7 +6,7 @@
 
 #import "UIViewController+SRGAnalytics.h"
 
-#import "SRGAnalyticsTracker.h"
+#import "SRGAnalyticsTracker+Private.h"
 
 #import <objc/runtime.h>
 
@@ -32,7 +32,7 @@ static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animate
 - (void)trackPageView
 {
     if ([self conformsToProtocol:@protocol(SRGAnalyticsViewTracking)]) {
-        [[SRGAnalyticsTracker sharedTracker] trackPageViewForDataSource:(id<SRGAnalyticsViewTracking>)self];
+        [[SRGAnalyticsTracker sharedTracker] trackPageViewForObject:(id<SRGAnalyticsViewTracking>)self];
     }
 }
 

@@ -6,52 +6,49 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SRGAnalyticsViewTracking;
-
 /**
  * SRG/SSR Business units
  */
-typedef NS_ENUM(NSInteger, SSRBusinessUnit) {
-	/**
-	 *  Business unit for Schweizer Radio und Fernsehen (SRF)
-	 *
-	 *  - Comscore value   : "sfr"
-	 *  - Netmetrix domain : "sfr"
-	 */
-	SSRBusinessUnitSRF,
-	
-	/**
-	 *  Business unit for Radio Télévision Suisse (RTS)
-	 *
-	 *  - Comscore value   : "rts"
-	 *  - Netmetrix domain : "rts"
-	 */
-	SSRBusinessUnitRTS,
-	
-	/**
-	 *  Business unit for Radiotelevisione svizzera (RSI)
-	 *
-	 *  - Comscore value   : "rsi"
-	 *  - Netmetrix domain : "SRGi"
-	 */
-	SSRBusinessUnitRSI,
-	
-	/**
-	 *  Business unit for Radiotelevisiun Svizra Rumantscha (RTR)
-	 *
-	 *  - Comscore value   : "rtr"
-	 *  - Netmetrix domain : "rtr"
-	 */
-	SSRBusinessUnitRTR,
-	
-	/**
-	 *  Business unit for Swissinfo (SWI)
-	 *
-	 *  - Comscore value   : "swi"
-	 *  - Netmetrix domain : "swissinf"
-	 */
-	SSRBusinessUnitSWI
-	
+typedef NS_ENUM (NSInteger, SSRBusinessUnit) {
+    /**
+     *  Business unit for Schweizer Radio und Fernsehen (SRF)
+     *
+     *  - Comscore value   : "sfr"
+     *  - Netmetrix domain : "sfr"
+     */
+    SSRBusinessUnitSRF,
+
+    /**
+     *  Business unit for Radio Télévision Suisse (RTS)
+     *
+     *  - Comscore value   : "rts"
+     *  - Netmetrix domain : "rts"
+     */
+    SSRBusinessUnitRTS,
+
+    /**
+     *  Business unit for Radiotelevisione svizzera (RSI)
+     *
+     *  - Comscore value   : "rsi"
+     *  - Netmetrix domain : "SRGi"
+     */
+    SSRBusinessUnitRSI,
+
+    /**
+     *  Business unit for Radiotelevisiun Svizra Rumantscha (RTR)
+     *
+     *  - Comscore value   : "rtr"
+     *  - Netmetrix domain : "rtr"
+     */
+    SSRBusinessUnitRTR,
+
+    /**
+     *  Business unit for Swissinfo (SWI)
+     *
+     *  - Comscore value   : "swi"
+     *  - Netmetrix domain : "swissinf"
+     */
+    SSRBusinessUnitSWI
 };
 
 /**
@@ -63,25 +60,25 @@ typedef NS_ENUM(NSInteger, SSRBusinessUnit) {
 /**
  *  Posted when the request's response is received. The `object` of the notification is a NSURLRequest.
  */
-OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestNotification;
+OBJC_EXTERN NSString *const SRGAnalyticsNetmetrixRequestNotification;
 
 /**
  * A NSNumber (boolean) indicating success in the user info dictionary of `SRGAnalyticsNetmetrixRequestNotification`.
  */
-OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestSuccessUserInfoKey;
+OBJC_EXTERN NSString *const SRGAnalyticsNetmetrixRequestSuccessUserInfoKey;
 
 /**
  *  A NSError in the user info dictionary of `SRGAnalyticsNetmetrixRequestNotification`. This key is not present if the request succeeded.
  */
-OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestErrorUserInfoKey;
+OBJC_EXTERN NSString *const SRGAnalyticsNetmetrixRequestErrorUserInfoKey;
 
 /**
  *  A NSURLResponse in the user info dictionary of `SRGAnalyticsNetmetrixRequestNotification`.
  */
-OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey;
+OBJC_EXTERN NSString *const SRGAnalyticsNetmetrixRequestResponseUserInfoKey;
 
-OBJC_EXTERN NSString * const SRGAnalyticsComScoreRequestNotification;
-OBJC_EXTERN NSString * const SRGAnalyticsLabelsKey;
+OBJC_EXTERN NSString *const SRGAnalyticsComScoreRequestNotification;
+OBJC_EXTERN NSString *const SRGAnalyticsLabelsKey;
 
 /**
  *  SRGAnalyticsTracker is used to track view and hidden events for SRGSSR apps
@@ -165,23 +162,7 @@ OBJC_EXTERN NSString * const SRGAnalyticsLabelsKey;
  */
 
 /**
- *  Track a view event with specified dataSource. 
- *  It will retrieve the page view labels dictionary from methods defined in `SRGAnalyticsViewTracking` protocol.
- *
- *  @param dataSource the dataSource implementing the `SRGAnalyticsViewTracking` protocol. (Mandatory)
- *
- *  @discussion the method is automatically called by view controllers conforming the `SRGAnalyticsViewTracking` protocol, 
- *  @see `SRGAnalyticsViewTracking`. The method can be called manually to send view events when changing page content 
- *  without presenting a new view controller:, e.g. when using UISegmentedControl, or when filtering data using the same view
- *  controller instance.
- *
- *  The methods is also automatically called when the app becomes active again. A reference of the last page view datasource is 
- *  kept by the tracker.
- */
-- (void)trackPageViewForDataSource:(id<SRGAnalyticsViewTracking>)dataSource;
-
-/**
- *  Track a view event identified by its title and levels labels. 
+ *  Track a view event identified by its title and levels labels.
  *  Helper method which calls `-(void)trackPageViewTitle:levels:fromPushNotification:` with no custom labels and fromPush value to `NO`
  *
  *  @param title    the page title tracked by Comscore. (Mandatory)
@@ -195,9 +176,9 @@ OBJC_EXTERN NSString * const SRGAnalyticsLabelsKey;
  *  @param title        the page title tracked by Comscore (set as `srg_title` label). (Mandatory)
  *                      The title value is "normalized" using `srg_comScoreFormattedString` from `NSString+SRGAnalyticsUtils` category.
  *                      An empty or nil title will be replaced with `Untitled` value.
- *  @param levels       a list of strings. Each level will be set as srg_nX (srg_n1, srg_n2, ...) label and will be concatenated in `category` 
+ *  @param levels       a list of strings. Each level will be set as srg_nX (srg_n1, srg_n2, ...) label and will be concatenated in `category`
  *                      label. (Optional)
- *  @param customLabels a dictionary of key values that will be set a labels when sending view events. Persistent labels can be overrided with those 
+ *  @param customLabels a dictionary of key values that will be set a labels when sending view events. Persistent labels can be overrided with those
  *                      custom labels values.
  *  @param fromPush     YES, if the view controller has been opened from a push notification, NO otherwise.
  *
