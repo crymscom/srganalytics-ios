@@ -36,6 +36,8 @@ static NSURL *OnDemandTestURL(void)
 
 - (void)testHiddenEvent
 {
+    // Since the tracker is a singleton, we need to check it is in a correct state for the test, otherwise we
+    // succeed with a warning
     if ([SRGAnalyticsTracker sharedTracker].started) {
         NSLog(@"[WARNING] Shared tracker already started by another test. Please run this test individually");
         return;
@@ -60,6 +62,8 @@ static NSURL *OnDemandTestURL(void)
 
 - (void)testStreamEvents
 {
+    // Since the tracker is a singleton, we need to check it is in a correct state for the test, otherwise we
+    // succeed with a warning
     if ([SRGAnalyticsTracker sharedTracker].started) {
         NSLog(@"[WARNING] Shared tracker already started by another test. Please run this test individually");
         return;
@@ -89,6 +93,8 @@ static NSURL *OnDemandTestURL(void)
 // Contrieved test case, as the tracker should be start as early as possible (so that the start event is correct)
 - (void)testTrackerStartWhenPlayingMedia
 {
+    // Since the tracker is a singleton, we need to check it is in a correct state for the test, otherwise we
+    // succeed with a warning
     if ([SRGAnalyticsTracker sharedTracker].started) {
         NSLog(@"[WARNING] Shared tracker already started by another test. Please run this test individually");
         return;
