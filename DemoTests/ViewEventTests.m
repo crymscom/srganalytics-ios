@@ -23,7 +23,7 @@ static NSDictionary *startLabels = nil;
                                                       object:nil
                                                        queue:nil
                                                   usingBlock:^(NSNotification *notification) {
-                                                      NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+                                                      NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
                                                       if ([labels[@"ns_ap_ev"] isEqualToString:@"start"]) {
                                                           static dispatch_once_t onceToken;
                                                           dispatch_once(&onceToken, ^{
@@ -49,7 +49,7 @@ static NSDictionary *startLabels = nil;
 //	XCTAssertEqualObjects(startLabels[@"ns_vsite"], @"SRG-app-test-v");
 //	XCTAssertEqualObjects(startLabels[@"srg_unit"], @"SRG");
 //	
-//	NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+//	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 //	XCTAssertEqualObjects(labels[@"name"], @"app.mainpagetitle");
 //	XCTAssertEqualObjects(labels[@"category"], @"app");
 //	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
@@ -65,7 +65,7 @@ static NSDictionary *startLabels = nil;
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
 	NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
-	NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 	
 	XCTAssertEqualObjects(labels[@"name"], @"app.untitled");
 	XCTAssertEqualObjects(labels[@"category"], @"app");
@@ -85,7 +85,7 @@ static NSDictionary *startLabels = nil;
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
 	NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
-	NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 	
 	XCTAssertEqualObjects(labels[@"name"], @"app.cest-un-titre-pour-levenement-");
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
@@ -103,7 +103,7 @@ static NSDictionary *startLabels = nil;
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
 	NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
-	NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 	
 	XCTAssertEqualObjects(labels[@"name"], @"tv.dautres-niveauxplus-loin.title");
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
@@ -123,7 +123,7 @@ static NSDictionary *startLabels = nil;
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
 	NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
-	NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 	
 	XCTAssertEqualObjects(labels[@"name"], @"tv.n1.n2.title");
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
@@ -148,7 +148,7 @@ static NSDictionary *startLabels = nil;
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
     }];
     
-    NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+    NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
     XCTAssertEqualObjects(labels[@"srg_title"], @"untitled");
     XCTAssertEqualObjects(labels[@"ns_type"], @"hidden");
     
@@ -161,7 +161,7 @@ static NSDictionary *startLabels = nil;
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
     }];
     
-    NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+    NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
     XCTAssertEqualObjects(labels[@"srg_title"], @"Title");
     XCTAssertEqualObjects(labels[@"ns_type"], @"hidden");
     
@@ -174,7 +174,7 @@ static NSDictionary *startLabels = nil;
         [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
     }];
     
-    NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+    NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
     XCTAssertEqualObjects(labels[@"srg_title"], @"Title");
     XCTAssertEqualObjects(labels[@"ns_type"], @"hidden");
     XCTAssertEqualObjects(labels[@"srg_ap_cu"], @"custom");

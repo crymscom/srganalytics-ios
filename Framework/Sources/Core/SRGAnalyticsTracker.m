@@ -221,7 +221,7 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
 - (void)comScoreRequestDidFinish:(NSNotification *)notification
 {
-    NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+    NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
     NSUInteger maxKeyLength = [[[labels allKeys] valueForKeyPath:@"@max.length"] unsignedIntegerValue];
     
     NSMutableString *dictionaryRepresentation = [NSMutableString new];

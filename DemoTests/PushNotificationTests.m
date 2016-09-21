@@ -26,7 +26,7 @@
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
 	NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
-	NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
     XCTAssertNil(labels[@"srg_test"]);
 	
@@ -39,7 +39,7 @@
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 	
 	NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
-	NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
     XCTAssertNil(labels[@"srg_test"]);
 	

@@ -6,7 +6,8 @@
 
 #import "SRGAnalyticsNotifications.h"
 
-NSString * const SRGAnalyticsNetmetrixRequestNotification = @"SRGAnalyticsNetmetrixRequestDidFinish";
-NSString * const SRGAnalyticsNetmetrixRequestSuccessUserInfoKey = @"SRGAnalyticsNetmetrixSuccess";
-NSString * const SRGAnalyticsNetmetrixRequestErrorUserInfoKey = @"SRGAnalyticsNetmetrixError";
-NSString * const SRGAnalyticsNetmetrixRequestResponseUserInfoKey = @"SRGAnalyticsNetmetrixResponse";
+NSString * const SRGAnalyticsComScoreRequestNotification = @"SRGAnalyticsComScoreRequestNotification";
+NSString * const SRGAnalyticsComScoreLabelsKey = @"SRGAnalyticsComScoreLabelsKey";
+
+NSString * const SRGAnalyticsNetmetrixRequestNotification = @"SRGAnalyticsNetmetrixRequestNotification";
+NSString * const SRGAnalyticsNetmetrixURLKey = @"SRGAnalyticsNetmetrixURLKey";

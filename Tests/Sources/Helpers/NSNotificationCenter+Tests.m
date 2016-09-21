@@ -13,7 +13,7 @@
 - (id<NSObject>)addObserverForHiddenEventNotificationUsingBlock:(void (^)(NSString *event, NSDictionary *labels))block
 {
     return [self addObserverForName:SRGAnalyticsComScoreRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
-        NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
         
         NSString *type = labels[@"ns_type"];
         if (! [type isEqualToString:@"hidden"]) {

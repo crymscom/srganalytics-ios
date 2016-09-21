@@ -58,41 +58,27 @@ static NSString * const LoggerDomainAnalyticsNetMetrix = @"NetMetrix";
     NSString *netMetrixURLString = [NSString stringWithFormat:@"http://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netMetrixDomain, self.identifier, self.device];
     NSURL *netMetrixURL = [NSURL URLWithString:netMetrixURLString];
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:netMetrixURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"image/gif" forHTTPHeaderField:@"Accept"];
+    // Send the notification when the request is made (as is done with comScore). Notifications are intended to test
+    // whether events are properly sent, not whether they are properly received
+    [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsNetmetrixRequestNotification
+                                                        object:nil
+                                                      userInfo:@{ SRGAnalyticsNetmetrixURLKey : netMetrixURL }];
     
-    // Which User-Agent MUST be used is defined on http://www.net-metrix.ch/fr/produits/net-metrix-mobile/reglement/directives
-    NSString *systemVersion = [[[UIDevice currentDevice] systemVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
-    NSString *userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (iOS-%@; CPU %@ %@ like Mac OS X)", self.device, self.operatingSystem, systemVersion];
-    [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
-    
-    if ([self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
+    if (! [self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:netMetrixURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.];
+        [request setHTTPMethod:@"GET"];
+        [request setValue:@"image/gif" forHTTPHeaderField:@"Accept"];
+        
+        // Which User-Agent MUST be used is defined on http://www.net-metrix.ch/fr/produits/net-metrix-mobile/reglement/directives
+        NSString *systemVersion = [[[UIDevice currentDevice] systemVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+        NSString *userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (iOS-%@; CPU %@ %@ like Mac OS X)", self.device, self.operatingSystem, systemVersion];
+        [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
+        
         SRGAnalyticsLogVerbose(@"%@ : will send view event:\nurl        = %@\nuser-agent = %@", LoggerDomainAnalyticsNetMetrix, netMetrixURLString, userAgent);
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            BOOL success = ! connectionError;
-            if (success) {
-                SRGAnalyticsLogInfo(@"%@ view > %@", LoggerDomainAnalyticsNetMetrix, request.HTTPMethod);
-            }
-            else {
-                SRGAnalyticsLogError(@"%@ ERROR sending %@ view : %@", LoggerDomainAnalyticsNetMetrix, request.HTTPMethod, connectionError.localizedDescription);
-            }
-            
-            SRGAnalyticsLogDebug(@"%@ view event sent:\n%@", LoggerDomainAnalyticsNetMetrix, [(NSHTTPURLResponse *)response allHeaderFields]);
-            
-            NSMutableDictionary *userInfo = [@{ SRGAnalyticsNetmetrixRequestSuccessUserInfoKey: @(success) } mutableCopy];
-            if (response) {
-                userInfo[SRGAnalyticsNetmetrixRequestResponseUserInfoKey] = response;
-            }
-            if (connectionError) {
-                userInfo[SRGAnalyticsNetmetrixRequestErrorUserInfoKey] = connectionError;
-            }
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsNetmetrixRequestNotification object:request userInfo:[userInfo copy]];
-        }];
+        [[[NSURLSession sharedSession] dataTaskWithRequest:request] resume];
     }
     else {
-        SRGAnalyticsLogWarning(@"%@ response will be fake due to testing flag or xctest bundle presence", LoggerDomainAnalyticsNetMetrix);
+        SRGAnalyticsLogWarning(@"%@ request is not made for the test business unit", LoggerDomainAnalyticsNetMetrix);
     }
 }
 

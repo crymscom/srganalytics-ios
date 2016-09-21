@@ -105,7 +105,7 @@ OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierTEST;
 @property (nonatomic, readonly, copy, nullable) NSString *comScoreVirtualSite;
 
 /**
- *  The NetMetrix identifier which is used (nil if the tracker has not been started)
+ *  The NetMetrix identifier to use (nil if the tracker has not been started)
  */
 @property (nonatomic, readonly, copy, nullable) NSString *netMetrixIdentifier;
 

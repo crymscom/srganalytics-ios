@@ -6,10 +6,9 @@
 
 #import "CSMeasurementDispatcher+SRGAnalytics.h"
 
-#import <objc/runtime.h>
+#import "SRGAnalyticsNotifications.h"
 
-NSString * const SRGAnalyticsComScoreRequestNotification = @"SRGAnalyticsComScoreRequestNotification";
-NSString * const SRGAnalyticsLabelsKey = @"SRGAnalyticsLabelsKey";
+#import <objc/runtime.h>
 
 // Private comScore methods
 @interface NSObject (SRGCSApplicationMeasurement)
@@ -47,7 +46,7 @@ NSString * const SRGAnalyticsLabelsKey = @"SRGAnalyticsLabelsKey";
         completeLabels[name] = value;
     }
     
-    NSDictionary *userInfo = @{ SRGAnalyticsLabelsKey: [completeLabels copy] };
+    NSDictionary *userInfo = @{ SRGAnalyticsComScoreLabelsKey: [completeLabels copy] };
     
     void (^notificationBlock)(void) = ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestNotification object:self userInfo:userInfo];
