@@ -193,10 +193,6 @@
 		E61C0D5F1D61EFD200AEAE6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E61C0D621D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGMediaPlayerController+SRGAnalytics.h"; sourceTree = "<group>"; usesTabs = 0; };
 		E61C0D631D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGMediaPlayerController+SRGAnalytics.m"; sourceTree = "<group>"; };
-		E61C0D641D61EFD200AEAE6D /* SRGMediaPlayerControllerStreamSenseTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGMediaPlayerControllerStreamSenseTracker.m; sourceTree = "<group>"; };
-		E61C0D651D61EFD200AEAE6D /* SRGMediaPlayerControllerStreamSenseTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGMediaPlayerControllerStreamSenseTracker.h; sourceTree = "<group>"; };
-		E61C0D661D61EFD200AEAE6D /* SRGMediaPlayerControllerTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGMediaPlayerControllerTracker.m; sourceTree = "<group>"; };
-		E61C0D671D61EFD200AEAE6D /* SRGMediaPlayerControllerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGMediaPlayerControllerTracker.h; sourceTree = "<group>"; };
 		E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalytics_MediaPlayer.h; sourceTree = "<group>"; };
 		E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGMediaPlayer.framework; path = Carthage/Build/iOS/SRGMediaPlayer.framework; sourceTree = "<group>"; };
 		E64B11051D82D4F400CAD97B /* Segment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Segment.h; sourceTree = "<group>"; };
@@ -379,10 +375,6 @@
 				08BF963D1D86D0B300D36D50 /* SRGAnalyticsMediaPlayerConstants.m */,
 				E61C0D621D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.h */,
 				E61C0D631D61EFD200AEAE6D /* SRGMediaPlayerController+SRGAnalytics.m */,
-				E61C0D651D61EFD200AEAE6D /* SRGMediaPlayerControllerStreamSenseTracker.h */,
-				E61C0D641D61EFD200AEAE6D /* SRGMediaPlayerControllerStreamSenseTracker.m */,
-				E61C0D671D61EFD200AEAE6D /* SRGMediaPlayerControllerTracker.h */,
-				E61C0D661D61EFD200AEAE6D /* SRGMediaPlayerControllerTracker.m */,
 				E65490BD1D812BC8007D96E7 /* SRGMediaPlayerTracker.h */,
 				E65490BE1D812BC8007D96E7 /* SRGMediaPlayerTracker.m */,
 				08BF963F1D86E48600D36D50 /* SRGAnalyticsSegment.h */,

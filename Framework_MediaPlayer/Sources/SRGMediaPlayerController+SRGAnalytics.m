@@ -12,11 +12,13 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 
 @implementation SRGMediaPlayerController (SRGAnalytics)
 
-+ (NSDictionary *)fullInfoWithAnalyticsInfo:(NSDictionary *)analyticsInfo userInfo:(NSDictionary *)userInfo
+#pragma mark Helpers
+
++ (NSDictionary *)fullInfoWithAnalyticsLabels:(NSDictionary *)analyticsLabels userInfo:(NSDictionary *)userInfo
 {
     NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
-    if (analyticsInfo) {
-        fullUserInfo[SRGAnalyticsMediaPlayerDictionnaryKey] = analyticsInfo;
+    if (analyticsLabels) {
+        fullUserInfo[SRGAnalyticsMediaPlayerDictionnaryKey] = analyticsLabels;
     }
     if (userInfo) {
         [fullUserInfo addEntriesFromDictionary:userInfo];
@@ -24,29 +26,33 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
     return [fullUserInfo copy];
 }
 
-- (void)prepareToPlayURL:(NSURL *)URL atTime:(CMTime)time withSegments:(nullable NSArray<id<SRGSegment>> *)segments analyticsInfo:(nullable NSDictionary *)analyticsInfo userInfo:(nullable NSDictionary *)userInfo completionHandler:(nullable void (^)(void))completionHandler
+#pragma mark Playback methods
+
+- (void)prepareToPlayURL:(NSURL *)URL atTime:(CMTime)time withSegments:(nullable NSArray<id<SRGSegment>> *)segments analyticsLabels:(nullable NSDictionary *)analyticsLabels userInfo:(nullable NSDictionary *)userInfo completionHandler:(nullable void (^)(void))completionHandler
 {
-    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsInfo:analyticsInfo userInfo:userInfo];
+    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
     [self prepareToPlayURL:URL atTime:time withSegments:segments userInfo:fullUserInfo completionHandler:completionHandler];
 }
 
-- (void)playURL:(NSURL *)URL atTime:(CMTime)time withSegments:(nullable NSArray<id<SRGSegment>> *)segments analyticsInfo:(nullable NSDictionary *)analyticsInfo userInfo:(nullable NSDictionary *)userInfo
+- (void)playURL:(NSURL *)URL atTime:(CMTime)time withSegments:(nullable NSArray<id<SRGSegment>> *)segments analyticsLabels:(nullable NSDictionary *)analyticsLabels userInfo:(nullable NSDictionary *)userInfo
 {
-    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsInfo:analyticsInfo userInfo:userInfo];
+    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
     [self playURL:URL atTime:time withSegments:segments userInfo:fullUserInfo];
 }
 
-- (void)prepareToPlayURL:(NSURL *)URL atIndex:(NSInteger)index inSegments:(NSArray<id<SRGSegment>> *)segments withAnalyticsInfo:(nullable NSDictionary *)analyticsInfo userInfo:(nullable NSDictionary *)userInfo completionHandler:(nullable void (^)(void))completionHandler
+- (void)prepareToPlayURL:(NSURL *)URL atIndex:(NSInteger)index inSegments:(NSArray<id<SRGSegment>> *)segments withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels userInfo:(nullable NSDictionary *)userInfo completionHandler:(nullable void (^)(void))completionHandler
 {
-    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsInfo:analyticsInfo userInfo:userInfo];
+    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
     [self prepareToPlayURL:URL atIndex:index inSegments:segments withUserInfo:fullUserInfo completionHandler:completionHandler];
 }
 
-- (void)playURL:(NSURL *)URL atIndex:(NSInteger)index inSegments:(NSArray<id<SRGSegment>> *)segments withAnalyticsInfo:(nullable NSDictionary *)analyticsInfo userInfo:(nullable NSDictionary *)userInfo
+- (void)playURL:(NSURL *)URL atIndex:(NSInteger)index inSegments:(NSArray<id<SRGSegment>> *)segments withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels userInfo:(nullable NSDictionary *)userInfo
 {
-    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsInfo:analyticsInfo userInfo:userInfo];
+    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
     [self playURL:URL atIndex:index inSegments:segments withUserInfo:fullUserInfo];
 }
+
+#pragma mark Getters and setters
 
 - (BOOL)isTracked
 {
