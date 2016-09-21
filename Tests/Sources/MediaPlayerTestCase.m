@@ -74,10 +74,9 @@ static NSURL *DVRTestURL(void)
 + (void)setUp
 {
     // Setup analytics for all tests
-    SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
-    [analyticsTracker startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
-                                  comScoreVirtualSite:@"rts-app-test-v"
-                                  netMetrixIdentifier:@"test"];
+    [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
+                                                     comScoreVirtualSite:@"rts-app-test-v"
+                                                     netMetrixIdentifier:@"test"];
 }
 
 - (void)setUp
