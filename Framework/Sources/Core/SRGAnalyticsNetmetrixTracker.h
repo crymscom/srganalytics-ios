@@ -14,12 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SRGAnalyticsNetMetrixTracker : NSObject
 
 /**
- *  Create a tracker for the specified NetMetrix identifier and business unit
+ *  Create a tracker sending events for the specified NetMetrix identifier and business unit
  *
  *  @param identifier             A unique NetMetrix identifier for the application (e.g. 'SRG-info', 'SRG-sport', 'srgplayer', ...)
  *  @param businessUnitIdentifier The business unit to which events must be associated
  *
- *  @return a Netmetrix tracker
+ *  @return The Netmetrix tracker
  */
 - (instancetype)initWithIdentifier:(NSString *)identifier businessUnitIdentifier:(NSString *)businessUnitIdentifier;
 

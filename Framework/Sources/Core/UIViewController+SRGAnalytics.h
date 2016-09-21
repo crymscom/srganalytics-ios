@@ -9,9 +9,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  View controllers whose appearance must be tracked by comScore and NetMetrix view events must conform to the
- *  `SRGAnalyticsViewTracking` protocol. The only method required by this protocol is `srg_pageViewTitle`, which
- *  provides the name to be used for the view events.
+ *  View controllers whose use must be tracked by comScore and NetMetrix view events must conform to the
+ *  `SRGAnalyticsViewTracking` protocol, which describes the data to send with such. events. The only method 
+ *  required by this protocol is `srg_pageViewTitle`, which provides the name to be used for the view events.
  *
  *  Optional methods can be implemented to provide more information and custom measurement information (labels).
  *
@@ -21,9 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  If you want to control when such events are sent, however, you can implement the optional `trackedAutomatically`
  *  property to return NO, disabling the mechanisms described above. In such cases, you are responsible of calling the 
- *  `-[UIViewController trackPageView]` method appropriately when required. This approach is needed when the labels
+ *  `-[UIViewController trackPageView]` method appropriately when required. This approach is useful when the labels
  *  are not available when `-viewDidAppear:` is called, e.g. if they are retrieved from a web service request started
- *  when the view controller is displayed.
+ *  when the view controller gets displayed.
  */
 @protocol SRGAnalyticsViewTracking <NSObject>
 

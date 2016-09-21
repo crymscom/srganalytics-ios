@@ -12,9 +12,6 @@
 
 typedef BOOL (^HiddenEventExpectationHandler)(NSString *type, NSDictionary *labels);
 
-static NSString * const MediaPlayerTestVirtualSite = @"rts-app-test-v";
-static NSString * const MediaPlayerTestNetMetrixIdentifier = @"test";
-
 static NSURL *OnDemandTestURL(void)
 {
     return [NSURL URLWithString:@"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"];
@@ -78,10 +75,9 @@ static NSURL *DVRTestURL(void)
 {
     // Setup analytics for all tests
     SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
-    [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS
-                           withComScoreVirtualSite:MediaPlayerTestVirtualSite
-                               netMetrixIdentifier:MediaPlayerTestNetMetrixIdentifier
-                                         debugMode:NO];
+    [analyticsTracker startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
+                                  comScoreVirtualSite:@"rts-app-test-v"
+                                  netMetrixIdentifier:@"test"];
 }
 
 - (void)setUp
@@ -340,7 +336,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"ns_st_pu"], SRGAnalyticsMarketingVersion());
         XCTAssertEqualObjects(labels[@"ns_st_mv"], SRGMediaPlayerMarketingVersion());
         XCTAssertEqualObjects(labels[@"ns_st_it"], @"c");
-        XCTAssertEqualObjects(labels[@"ns_vsite"], MediaPlayerTestVirtualSite);
+        XCTAssertEqualObjects(labels[@"ns_vsite"], @"rts-app-test-v");
         XCTAssertEqualObjects(labels[@"srg_ptype"], @"p_app_ios");
         return YES;
     }];

@@ -20,11 +20,9 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierRTR = @"rtr";
 NSString * const SRGAnalyticsBusinessUnitIdentifierRTS = @"rts";
 NSString * const SRGAnalyticsBusinessUnitIdentifierSRF = @"srf";
 NSString * const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
+NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
-@interface SRGAnalyticsTracker () {
-@private
-    BOOL _debugMode;
-}
+@interface SRGAnalyticsTracker ()
 
 @property (nonatomic, copy) NSString *businessUnitIdentifier;
 @property (nonatomic, copy) NSString *comScoreVirtualSite;
@@ -60,13 +58,10 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
 - (void)startWithBusinessUnitIdentifier:(NSString *)businessUnitIdentifier
                     comScoreVirtualSite:(NSString *)comScoreVirtualSite
                     netMetrixIdentifier:(NSString *)netMetrixIdentifier
-                              debugMode:(BOOL)debugMode
 {    
     self.businessUnitIdentifier = businessUnitIdentifier;
     self.comScoreVirtualSite = comScoreVirtualSite;
     self.netMetrixIdentifier = netMetrixIdentifier;
-    
-    _debugMode = debugMode;
     
     [self startComscoreTracker];
     [self startNetmetrixTracker];
@@ -111,7 +106,7 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
                                                                     @"ns_site": @"mainsite",                                    // The 'mainsite' is a constant value. If wrong, everything is screwed.
                                                                     @"ns_vsite": self.comScoreVirtualSite } mutableCopy];       // The virtual site 'vsite' is associated with the app. It is created by comScore
     
-    if (_debugMode) {
+    if ([self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
         static NSString *s_debugTimestamp;
         static dispatch_once_t s_onceToken;
         dispatch_once(&s_onceToken, ^{

@@ -67,8 +67,7 @@ static NSString * const LoggerDomainAnalyticsNetMetrix = @"NetMetrix";
     NSString *userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (iOS-%@; CPU %@ %@ like Mac OS X)", self.device, self.operatingSystem, systemVersion];
     [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
     
-    BOOL testMode = [self.identifier isEqualToString:@"test"] || NSClassFromString(@"XCTestCase") != Nil;
-    if (! testMode) {
+    if ([self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
         SRGAnalyticsLogVerbose(@"%@ : will send view event:\nurl        = %@\nuser-agent = %@", LoggerDomainAnalyticsNetMetrix, netMetrixURLString, userAgent);
         [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
             BOOL success = ! connectionError;
