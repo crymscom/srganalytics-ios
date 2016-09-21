@@ -112,6 +112,11 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)notifyEvent:(CSStreamSenseEventType)event withPosition:(long)position labels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
+    // No additional error management for non-started trackers here. This is a corner case and would require
+    // too much work for a case which should never happen in practice. Simply put an assertion here, this case
+    // has been documented with "undefined behavior" in the header documentation
+    NSAssert([SRGAnalyticsTracker sharedTracker].started, @"The tracker must be started");
+    
     // Reset stream labels to avoid persistence (do not reset since the stream would behave badly afterwards)
     [[self labels] removeAllObjects];
     

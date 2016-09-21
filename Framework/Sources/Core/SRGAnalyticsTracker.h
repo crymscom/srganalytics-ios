@@ -61,7 +61,7 @@ OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierTEST;
  *     or of some feature of your application), send a hidden event using one of the `-trackHiddenEvent...` methods
  *     available from `SRGAnalyticsTracker`
  *  1. If you need to track media playback, you must add the SRGAnalytics_MediaPlayer subframework to your project
- *     (see getting started guide)
+ *     (@see `SRGMediaPlayerController+SRGAnalytics.h` for more information)
  *
  */
 @interface SRGAnalyticsTracker : NSObject
@@ -108,6 +108,11 @@ OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierTEST;
  *  The NetMetrix identifier which is used (nil if the tracker has not been started)
  */
 @property (nonatomic, readonly, copy, nullable) NSString *netMetrixIdentifier;
+
+/**
+ *  Return YES iff th tracker has been started
+ */
+@property (nonatomic, readonly, getter=isStarted) BOOL started;
 
 /**
  *  @name Hidden event tracking

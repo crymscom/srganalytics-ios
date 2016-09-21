@@ -22,7 +22,10 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierSRF = @"srf";
 NSString * const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
 NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
-@interface SRGAnalyticsTracker ()
+@interface SRGAnalyticsTracker () {
+@private
+    BOOL _started;
+}
 
 @property (nonatomic, copy) NSString *businessUnitIdentifier;
 @property (nonatomic, copy) NSString *comScoreVirtualSite;
@@ -53,6 +56,13 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark Getters and setters
+
+- (BOOL)isStarted
+{
+    return _started;
+}
+
 #pragma mark Start
 
 - (void)startWithBusinessUnitIdentifier:(NSString *)businessUnitIdentifier
@@ -65,6 +75,8 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
     
     [self startComscoreTracker];
     [self startNetmetrixTracker];
+    
+    _started = YES;
 }
 
 - (void)startComscoreTracker
@@ -123,6 +135,10 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
 - (void)trackPageViewTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification;
 {
+    if (! self.started) {
+        return;
+    }
+    
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
     
     title = title.length > 0 ? title.srg_comScoreTitleFormattedString : @"untitled";
@@ -174,6 +190,10 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
 - (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels
 {
+    if (! self.started) {
+        return;
+    }
+    
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
     
     title = title.length > 0 ? title.srg_comScoreTitleFormattedString : @"untitled";
