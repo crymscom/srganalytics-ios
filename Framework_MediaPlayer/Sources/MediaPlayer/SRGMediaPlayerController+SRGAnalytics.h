@@ -5,7 +5,6 @@
 //
 
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
-#import "SRGAnalyticsMediaPlayerConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

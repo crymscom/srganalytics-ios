@@ -11,6 +11,8 @@
 
 #import <SRGAnalytics/SRGAnalytics.h>
 
+NSString * const SRGAnalyticsMediaPlayerLabelsKey = @"SRGAnalyticsMediaPlayerLabelsKey";
+
 static NSMutableDictionary *s_trackers = nil;
 
 @interface SRGMediaPlayerTracker ()
@@ -64,7 +66,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                  name:SRGMediaPlayerSegmentDidEndNotification
                                                object:self.mediaPlayerController];
     
-    [self notifyEvent:CSStreamSenseBuffer withPosition:0 labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey] segment:nil];
+    [self notifyEvent:CSStreamSenseBuffer withPosition:0 labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey] segment:nil];
 }
 
 - (void)stopWithLabels:(NSDictionary *)labels
@@ -301,7 +303,7 @@ static NSMutableDictionary *s_trackers = nil;
         NSAssert(tracker != nil, @"A tracker must exist");
         
         NSDictionary *previousUserInfo = notification.userInfo[SRGMediaPlayerPreviousUserInfoKey];
-        [tracker stopWithLabels:previousUserInfo[SRGAnalyticsMediaPlayerDictionnaryKey]];
+        [tracker stopWithLabels:previousUserInfo[SRGAnalyticsMediaPlayerLabelsKey]];
         
         [s_trackers removeObjectForKey:key];
         if (s_trackers.count == 0) {
@@ -348,7 +350,7 @@ static NSMutableDictionary *s_trackers = nil;
     
     [self notifyEvent:event
          withPosition:[self currentPositionInMilliseconds]
-               labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey]
+               labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
               segment:self.mediaPlayerController.selectedSegment];
 }
 
@@ -363,13 +365,13 @@ static NSMutableDictionary *s_trackers = nil;
         if (! previousSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStatePreparing) {
             [self notifyEvent:CSStreamSenseEnd
                  withPosition:CMTimeGetSeconds(segment.timeRange.start) * 1000.
-                       labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey]
+                       labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                       segment:nil];
         }
         
         [self notifyEvent:CSStreamSensePlay
              withPosition:CMTimeGetSeconds(segment.timeRange.start) * 1000.
-                   labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey]
+                   labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                   segment:segment];
     }
 }
@@ -382,7 +384,7 @@ static NSMutableDictionary *s_trackers = nil;
         
         [self notifyEvent:CSStreamSenseEnd
              withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.timeRange)) * 1000.
-                   labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey]
+                   labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                   segment:segment];
         
         // Notify full-length start
@@ -390,7 +392,7 @@ static NSMutableDictionary *s_trackers = nil;
         if (! nextSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
             [self notifyEvent:CSStreamSensePlay
                  withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.timeRange)) * 1000.
-                       labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerDictionnaryKey]
+                       labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                       segment:nil];
         }
     }

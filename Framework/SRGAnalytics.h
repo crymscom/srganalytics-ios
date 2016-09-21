@@ -10,7 +10,7 @@
 FOUNDATION_EXPORT double SRGAnalyticsVersionNumber;
 FOUNDATION_EXPORT const unsigned char SRGAnalyticsVersionString[];
 
-// Oficial version number
+// Official version number
 FOUNDATION_EXPORT NSString * SRGAnalyticsMarketingVersion(void);
 
 // Public headers

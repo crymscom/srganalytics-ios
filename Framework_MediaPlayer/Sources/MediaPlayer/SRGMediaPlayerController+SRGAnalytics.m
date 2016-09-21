@@ -6,6 +6,8 @@
 
 #import "SRGMediaPlayerController+SRGAnalytics.h"
 
+#import "SRGMediaPlayerTracker.h"
+
 #import <objc/runtime.h>
 
 static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
@@ -14,11 +16,11 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 
 #pragma mark Helpers
 
-+ (NSDictionary *)fullInfoWithAnalyticsLabels:(NSDictionary *)analyticsLabels userInfo:(NSDictionary *)userInfo
++ (NSDictionary *)fullInfoWithAnalyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels userInfo:(NSDictionary *)userInfo
 {
     NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
     if (analyticsLabels) {
-        fullUserInfo[SRGAnalyticsMediaPlayerDictionnaryKey] = analyticsLabels;
+        fullUserInfo[SRGAnalyticsMediaPlayerLabelsKey] = analyticsLabels;
     }
     if (userInfo) {
         [fullUserInfo addEntriesFromDictionary:userInfo];
