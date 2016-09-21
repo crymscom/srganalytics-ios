@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8BEBFB5F0A11A2598CCAB06372DBEA0022CBB74F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "8BEBFB5F0A11A2598CCAB06372DBEA0022CBB74F" : 0,
+    "92BF894ACBE6A84E018E17E88E61E9B1DB9E5B44" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "AD2DFAEE-F5F4-4AB9-AE98-2B581C8ADF8C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "8BEBFB5F0A11A2598CCAB06372DBEA0022CBB74F" : "srganalytics-ios\/",
+    "92BF894ACBE6A84E018E17E88E61E9B1DB9E5B44" : "srgmediaplayer-ios\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SRGAnalytics",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SRGAnalytics.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/bitbucket.org\/rtsmb\/srganalytics-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8BEBFB5F0A11A2598CCAB06372DBEA0022CBB74F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/SRGSSR\/SRGMediaPlayer-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "92BF894ACBE6A84E018E17E88E61E9B1DB9E5B44"
+    }
+  ]
+}

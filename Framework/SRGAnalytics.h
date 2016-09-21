@@ -6,13 +6,15 @@
 
 #import <Foundation/Foundation.h>
 
+// Framework standard version number
 FOUNDATION_EXPORT double SRGAnalyticsVersionNumber;
 FOUNDATION_EXPORT const unsigned char SRGAnalyticsVersionString[];
 
+// Official version number
 FOUNDATION_EXPORT NSString * SRGAnalyticsMarketingVersion(void);
 
-#import "RTSAnalyticsLogger.h"
-#import "RTSAnalyticsTracker.h"
-#import "RTSAnalyticsComScoreTracker.h"
-#import "RTSAnalyticsPageViewDataSource.h"
-#import "UIViewController+RTSAnalytics.h"
+// Public headers
+#import "SRGAnalyticsLogger.h"
+#import "SRGAnalyticsNotifications.h"
+#import "SRGAnalyticsTracker.h"
+#import "UIViewController+SRGAnalytics.h"

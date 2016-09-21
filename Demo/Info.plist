@@ -27,13 +27,6 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>RTSAnalytics</key>
-	<dict>
-		<key>ComscoreVirtualSite</key>
-		<string>rts-app-test-v</string>
-		<key>NetmetrixAppID</key>
-		<string>test</string>
-	</dict>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

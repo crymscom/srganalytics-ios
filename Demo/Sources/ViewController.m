@@ -7,7 +7,7 @@
 #import "ViewController.h"
 #import <SRGAnalytics/SRGAnalytics.h>
 
-@interface ViewController () <RTSAnalyticsPageViewDataSource>
+@interface ViewController () <SRGAnalyticsViewTracking>
 
 @end
 
@@ -18,19 +18,19 @@
 	[self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-#pragma mark - RTSAnalyticsPageViewDataSource
+#pragma mark - SRGAnalyticsViewTracking
 
-- (NSString *)pageViewTitle
+- (NSString *)srg_pageViewTitle
 {
 	return self.title;
 }
 
-- (NSArray *)pageViewLevels
+- (NSArray *)srg_pageViewLevels
 {
 	return self.levels;
 }
 
-- (NSDictionary *)pageViewCustomLabels
+- (NSDictionary *)srg_pageViewCustomLabels
 {
 	return self.customLabels;
 }

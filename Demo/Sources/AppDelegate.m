@@ -12,17 +12,14 @@
 #import "Segment.h"
 #import "ViewController.h"
 
-@interface AppDelegate () <RTSAnalyticsMediaPlayerDataSource>
-
-@end
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	RTSAnalyticsTracker *analyticsTracker = [RTSAnalyticsTracker sharedTracker];
-    [analyticsTracker startTrackingForBusinessUnit:SSRBusinessUnitRTS];
-    [analyticsTracker startStreamMeasurementWithMediaDataSource:self];
+    SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
+    [analyticsTracker startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
+                                  comScoreVirtualSite:@"rts-app-test-v"
+                                  netMetrixIdentifier:@"test"];
 	return YES;
 }
 
@@ -44,22 +41,10 @@
 {
 	UINavigationController *navigationController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"PushNavigationController"];
 	ViewController *controller = (ViewController *)navigationController.topViewController;
-	controller.pageViewFromPushNotification = YES;
+	controller.srg_isOpenedFromPushNotification = YES;
 	[self.window.rootViewController presentViewController:navigationController animated:YES completion:^{
-		controller.pageViewFromPushNotification = NO;
+		controller.srg_isOpenedFromPushNotification = NO;
 	}];
-}
-
-#pragma mark - RTSAnalyticsMediaPlayerDataSource
-
-- (NSDictionary *)streamSensePlaylistMetadataForIdentifier:(NSString *)identifier
-{
-    return nil;
-}
-
-- (NSDictionary *)streamSenseClipMetadataForIdentifier:(NSString *)identifier withSegment:(Segment *)segment
-{
-    return @{ @"clip_name" : segment ? segment.name : @"no_name" };
 }
 
 @end

@@ -10,7 +10,7 @@
 
 @property (nonatomic, strong) NSArray *levels;
 @property (nonatomic, strong) NSDictionary *customLabels;
-@property (nonatomic, assign) BOOL pageViewFromPushNotification;
+@property (nonatomic, assign) BOOL srg_isOpenedFromPushNotification;
 
 @end
 

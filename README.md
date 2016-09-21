@@ -11,7 +11,7 @@ The SRG Analytics library for iOS is the easiest way to fulfill SRG application 
 
 ## Compatibility
 
-The library is suitable for applications running on iOS 8 and above.
+The library is suitable for applications running on iOS 8 and above. The project is meant to be opened with the latest Xcode version (currently Xcode 8).
 
 ## Installation
 
