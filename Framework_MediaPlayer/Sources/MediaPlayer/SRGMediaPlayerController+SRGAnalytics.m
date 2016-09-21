@@ -64,14 +64,7 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 
 - (void)setTracked:(BOOL)tracked
 {
-    if (self.tracked == tracked) {
-        return;
-    }
-    
     objc_setAssociatedObject(self, SRGAnalyticsTrackedKey, @(tracked), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    
-    SRGMediaPlayerTracker *tracker = [SRGMediaPlayerTracker trackerForMediaPlayerController:self];
-    tracker.enabled = tracked;
 }
 
 @end
