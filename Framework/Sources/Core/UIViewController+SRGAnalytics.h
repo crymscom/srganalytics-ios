@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  View controllers whose use must be tracked by comScore and NetMetrix view events must conform to the
- *  `SRGAnalyticsViewTracking` protocol, which describes the data to send with such. events. The only method 
+ *  `SRGAnalyticsViewTracking` protocol, which describes the data to send with such events. The only method
  *  required by this protocol is `srg_pageViewTitle`, which provides the name to be used for the view events.
  *
  *  Optional methods can be implemented to provide more information and custom measurement information (labels).
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol SRGAnalyticsViewTracking <NSObject>
 
 /**
- *  The page view label to use for view event measurement.
+ *  The page view title to use for view event measurement.
  *
  *  @return The page view title. If this value is empty or nil, the default `untitled` value will be used
  */
@@ -37,17 +37,16 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 
 /**
- *  If this method is implemented and returns NO, automatic tracking in `-viewDidAppear:` will be disabled. In this case,
- *  call `-[UIViewController trackPageView]` manually.
- *
- *  If this method is not implemented, the behavior defaults to automatic tracking.
+ *  By default any view controller conforming `SRGAnalyticsViewTracking` is automatically tracked. You can disable
+ *  this behavior by implementing the following method and return NO. In such cases, you are responsible of calling
+ *  the `-[UIViewController trackPageView]` method manually when a view event must be recorded
  *
  *  @return YES iff automatic tracking must be enabled, NO otherwise
  */
 @property (nonatomic, readonly, getter=srg_isTrackedAutomatically) BOOL srg_trackedAutomatically;
 
 /**
- *  Returns the levels (position in the view hierarchy) to be sent for view event measurement.
+ *  Return the levels (position in the view hierarchy) to be sent for view event measurement.
  *
  *  If the page view levels array is nil or empty, an `app` default level will be used. Up to 10 levels can be set, any
  *  additional level will be dropped.

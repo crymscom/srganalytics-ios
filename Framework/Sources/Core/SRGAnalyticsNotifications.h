@@ -6,6 +6,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  The following notifications can be used if you need to track when comScore and NetMetrix requests are made, 
  *  and which information is actually sent to these services. This can be useful for test case implementations,
@@ -23,3 +25,5 @@ OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestNotification;
 
 // Information available for `SRGAnalyticsNetmetrixRequestNotification`
 OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixURLKey;
+
+NS_ASSUME_NONNULL_END
