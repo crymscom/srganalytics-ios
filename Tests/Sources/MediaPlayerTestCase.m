@@ -1406,4 +1406,67 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testDisableTrackingWhileIdle
+{
+    // Play for a while. No stream events must be received
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when tracking has been disabled");
+    }];
+    
+    [self expectationForElapsedTimeInterval:5. withHandler:nil];
+    
+    self.mediaPlayerController.tracked = NO;
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+}
+
+- (void)testDisableTrackingWhilePreparing
+{
+
+}
+
+- (void)testDisableTrackingWhilePlaying
+{
+
+}
+
+- (void)testDisableTrackingWhilePaused
+{
+
+}
+
+- (void)testDisabletrackingWhileSeeking
+{
+
+}
+
+- (void)testEnableTrackingWhilePreparing
+{
+
+}
+
+
+- (void)testEnableTrackingWhilePlaying
+{
+
+}
+
+- (void)testEnableTackingWhilePaused
+{
+
+}
+
+- (void)testEnableTackingWhileSeeking
+{
+
+}
+
+- (void)testEnableTrackingTwice
+{
+
+}
+
 @end
