@@ -1764,9 +1764,78 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testEnableTrackingTwice
+- (void)testDisableTrackingWhilePlayingTwice
 {
+    // Wait until the media plays
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(event, @"play");
+        return YES;
+    }];
     
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Stop tracking twice while playing. Expect a single end to be received
+    __block NSInteger endEventCount = 0;
+    id endEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"end"]) {
+            ++endEventCount;
+        }
+        else {
+            XCTFail(@"Unexpected event received");
+        }
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
+    self.mediaPlayerController.tracked = NO;
+    self.mediaPlayerController.tracked = NO;
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:5. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:endEventObserver];
+    }];
+    
+    // Check we have received the end notification only once
+    XCTAssertEqual(endEventCount, 1);
+}
+
+- (void)testEnableTrackingWhilePlayingTwice
+{
+    // Wait until the media plays
+    [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
+        return [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePlaying;
+    }];
+    
+    self.mediaPlayerController.tracked = NO;
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Start tracking twice while playing. Expect a single play to be received
+    __block NSInteger playEventCount = 0;
+    id endEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"play"]) {
+            ++playEventCount;
+        }
+        else {
+            XCTFail(@"Unexpected event received");
+        }
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
+    self.mediaPlayerController.tracked = YES;
+    self.mediaPlayerController.tracked = YES;
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:5. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:endEventObserver];
+    }];
+    
+    // Check we have received the end notification only once
+    XCTAssertEqual(playEventCount, 1);
 }
 
 @end
