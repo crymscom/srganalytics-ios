@@ -22,14 +22,12 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierSRF = @"srf";
 NSString * const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
 NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
-@interface SRGAnalyticsTracker () {
-@private
-    BOOL _started;
-}
+@interface SRGAnalyticsTracker ()
 
 @property (nonatomic, copy) NSString *businessUnitIdentifier;
 @property (nonatomic, copy) NSString *comScoreVirtualSite;
 @property (nonatomic, copy) NSString *netMetrixIdentifier;
+@property (nonatomic, getter=isStarted) BOOL started;
 
 @property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
 
@@ -56,13 +54,6 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark Getters and setters
-
-- (BOOL)isStarted
-{
-    return _started;
-}
-
 #pragma mark Start
 
 - (void)startWithBusinessUnitIdentifier:(NSString *)businessUnitIdentifier
@@ -76,7 +67,7 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
     [self startComscoreTracker];
     [self startNetmetrixTracker];
     
-    _started = YES;
+    self.started = YES;
 }
 
 - (void)startComscoreTracker

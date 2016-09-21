@@ -25,8 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Simply add `SRGAnalytics_MediaPlayer.framework` to your project (which should already contain the main
  *  `SRGAnalytics.framework` as well as `SRGMediaPlayer.framework` as dependencies).
  *
- *  The tracker itself must have been started before any measurements can take place (@see `SRGAnalyticsTracker`),
- *  otherwise the behavior is undefined.
+ *  The tracker itself must have been started before any measurements can take place (@see `SRGAnalyticsTracker`).
  * 
  *  By default, provided a tracker has been started, all media players are automatically tracked without any 
  *  additional work. You can disable this behavior by setting the `SRGMediaPlayerController` `tracked` property to NO.

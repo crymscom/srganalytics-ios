@@ -52,7 +52,9 @@ OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierTEST;
  *
  *  1. Start the tracker early in your application lifecycle, for example in your application delegate
  *     `-application:didFinishLaunchingWithOptions:` implementation, by calling the
- *     `-startWithBusinessUnitIdentifier:comScoreVirtualSite:netMetrixIdentifier:` method
+ *     `-startWithBusinessUnitIdentifier:comScoreVirtualSite:netMetrixIdentifier:` method. This is especially
+ *     important since the application comScore start event is outside the control of the application and
+ *     requires the tracker to be properly setup before it is sent
  *  1. To track page views, have view controllers which must be tracked conform to the `SRGAnalyticsViewTracking`
  *     protocol. View controllers conforming to this protocol are automatically tracked by default, but this behavior 
  *     can be tailored to your needs, especially when the time at which the measurement is made (when the view
