@@ -19,6 +19,16 @@ OBJC_EXTERN NSString * const SRGAnalyticsMediaPlayerLabelsKey;
  */
 @interface SRGMediaPlayerTracker : CSStreamSense
 
+/**
+ *  Return the tracker associated with a media player controller, nil if none
+ */
++ (nullable SRGMediaPlayerTracker *)trackerForMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController;
+
+/**
+ *  Set to YES to disable (remark: Tracking is still made, but events are not sent)
+ */
+@property (nonatomic, getter=isEnabled) BOOL enabled;
+
 @end
 
 @interface SRGMediaPlayerTracker (Unavailable)

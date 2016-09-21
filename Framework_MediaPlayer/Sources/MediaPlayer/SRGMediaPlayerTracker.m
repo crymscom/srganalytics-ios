@@ -15,7 +15,10 @@ NSString * const SRGAnalyticsMediaPlayerLabelsKey = @"SRGAnalyticsMediaPlayerLab
 
 static NSMutableDictionary *s_trackers = nil;
 
-@interface SRGMediaPlayerTracker ()
+@interface SRGMediaPlayerTracker () {
+@private
+    BOOL _enabled;
+}
 
 @property (nonatomic, weak) SRGMediaPlayerController *mediaPlayerController;
 
@@ -23,12 +26,26 @@ static NSMutableDictionary *s_trackers = nil;
 
 @implementation SRGMediaPlayerTracker
 
+#pragma mark Class methods
+
++ (SRGMediaPlayerTracker *)trackerForMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
+{
+    for (SRGMediaPlayerTracker *tracker in s_trackers) {
+        if (tracker.mediaPlayerController == mediaPlayerController) {
+            return tracker;
+        }
+    }
+    
+    return nil;
+}
+
 #pragma mark Object lifecycle
 
 - (id)initWithMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
 {
     if (self = [super init]) {
         self.mediaPlayerController = mediaPlayerController;
+        self.enabled = mediaPlayerController.tracked;
         
         // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
         [self setKeepAliveInterval:9 * 60];
@@ -47,6 +64,27 @@ static NSMutableDictionary *s_trackers = nil;
     // FIXME: Due to internal comScore bugs, the object will never be properly released. This does not hurt in our implementaton,
     //        but this could be fixed
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark Getters and setters
+
+- (void)setEnabled:(BOOL)enabled
+{
+    if (_enabled == enabled) {
+        return;
+    }
+    
+    _enabled = enabled;
+    
+    // Balance comScore events if the player is playing, so that all events can be properly emitted
+    if (self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
+            && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStatePreparing
+            && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
+        CSStreamSenseEventType event = enabled ? CSStreamSensePlay : CSStreamSenseEnd;
+        [self rawNotifyEvent:event withPosition:[self currentPositionInMilliseconds]
+                      labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                     segment:self.mediaPlayerController.selectedSegment];
+    }
 }
 
 #pragma mark Tracker management
@@ -112,9 +150,16 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)notifyEvent:(CSStreamSenseEventType)event withPosition:(long)position labels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
-    // No additional error management for non-started trackers here. This is a corner case and would require
-    // too much work for a case which should never happen in practice. Simply put an assertion here, this case
-    // has been documented with "undefined behavior" in the header documentation
+    if (! self.enabled) {
+        return;
+    }
+    
+    [self rawNotifyEvent:event withPosition:position labels:labels segment:segment];
+}
+
+// Raw notification implementation which does not check whether the tracker is enabled
+- (void)rawNotifyEvent:(CSStreamSenseEventType)event withPosition:(long)position labels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
+{
     NSAssert([SRGAnalyticsTracker sharedTracker].started, @"The tracker must be started");
     
     // Reset stream labels to avoid persistence (do not reset since the stream would behave badly afterwards)
