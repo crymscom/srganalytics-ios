@@ -426,13 +426,28 @@ static NSMutableDictionary *s_trackers = nil;
     if (context == s_kvoContext) {
         if ([keyPath isEqualToString:@"tracked"]) {
             // Balance comScore events if the player is playing, so that all events can be properly emitted
-            if (self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
-                    && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStatePreparing
-                    && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
+            if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
                 CSStreamSenseEventType event = self.mediaPlayerController.tracked ? CSStreamSensePlay : CSStreamSenseEnd;
-                [self rawNotifyEvent:event withPosition:[self currentPositionInMilliseconds]
+                [self rawNotifyEvent:event
+                        withPosition:[self currentPositionInMilliseconds]
                               labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                              segment:self.mediaPlayerController.selectedSegment];
+            }
+            else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateSeeking
+                        || self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePaused) {
+                CSStreamSenseEventType event = self.mediaPlayerController.tracked ? CSStreamSensePlay : CSStreamSenseEnd;
+                [self rawNotifyEvent:event
+                        withPosition:[self currentPositionInMilliseconds]
+                              labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                             segment:self.mediaPlayerController.selectedSegment];
+                
+                // Also send the pause event when starting tracking, so that the current player state is accurately reflected
+                if (self.mediaPlayerController.tracked) {
+                    [self rawNotifyEvent:CSStreamSensePause
+                            withPosition:[self currentPositionInMilliseconds]
+                                  labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                                 segment:self.mediaPlayerController.selectedSegment];
+                }
             }
         }
     }

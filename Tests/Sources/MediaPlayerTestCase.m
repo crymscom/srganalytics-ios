@@ -1705,7 +1705,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testEnableTackingWhilePaused
+- (void)testEnableTrackingWhilePaused
 {
     // Wait until the player is playing. No event must be received since tracking is not enabled yet
     id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
@@ -1733,7 +1733,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Wait a little bit in the paused state
+    // Wait a little bit in the paused state (to avoid the result of the pause notification immediately trapped below)
     [self expectationForElapsedTimeInterval:3. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1766,7 +1766,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testEnableTrackingTwice
 {
-
+    
 }
 
 @end
