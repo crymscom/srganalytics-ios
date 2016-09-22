@@ -30,9 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The page view title to use for view event measurement.
  *
- *  @return The page view title. If this value is empty or nil, the default `untitled` value will be used
+ *  @return The page view title. If this value is empty, no event will be sent
  */
-@property (nonatomic, readonly, copy, nullable) NSString *srg_pageViewTitle;
+@property (nonatomic, readonly, copy) NSString *srg_pageViewTitle;
 
 @optional
 

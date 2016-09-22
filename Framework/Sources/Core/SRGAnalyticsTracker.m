@@ -177,6 +177,11 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
 - (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels
 {
+    // Do not send events with empty titles
+    if (title.length == 0) {
+        return;
+    }
+    
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
     
     title = title.length > 0 ? title.srg_comScoreTitleFormattedString : @"untitled";
