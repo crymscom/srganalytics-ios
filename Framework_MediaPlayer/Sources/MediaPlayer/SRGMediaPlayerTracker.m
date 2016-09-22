@@ -383,13 +383,13 @@ static NSMutableDictionary *s_trackers = nil;
         id<SRGSegment> previousSegment = notification.userInfo[SRGMediaPlayerPreviousSegmentKey];
         if (! previousSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStatePreparing) {
             [self notifyEvent:CSStreamSenseEnd
-                 withPosition:CMTimeGetSeconds(segment.timeRange.start) * 1000.
+                 withPosition:CMTimeGetSeconds(segment.srg_timeRange.start) * 1000.
                        labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                       segment:nil];
         }
         
         [self notifyEvent:CSStreamSensePlay
-             withPosition:CMTimeGetSeconds(segment.timeRange.start) * 1000.
+             withPosition:CMTimeGetSeconds(segment.srg_timeRange.start) * 1000.
                    labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                   segment:segment];
     }
@@ -402,7 +402,7 @@ static NSMutableDictionary *s_trackers = nil;
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
         
         [self notifyEvent:CSStreamSenseEnd
-             withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.timeRange)) * 1000.
+             withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.srg_timeRange)) * 1000.
                    labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                   segment:segment];
         
@@ -410,7 +410,7 @@ static NSMutableDictionary *s_trackers = nil;
         id<SRGSegment> nextSegment = notification.userInfo[SRGMediaPlayerNextSegmentKey];
         if (! nextSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
             [self notifyEvent:CSStreamSensePlay
-                 withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.timeRange)) * 1000.
+                 withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.srg_timeRange)) * 1000.
                        labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                       segment:nil];
         }

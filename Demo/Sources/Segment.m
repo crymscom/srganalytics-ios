@@ -8,11 +8,12 @@
 
 @interface Segment ()
 
-@property (nonatomic) CMTimeRange timeRange;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *identifier;
-@property (nonatomic, getter=isBlocked) BOOL blocked;
-@property (nonatomic, getter=isHidden) BOOL hidden;
+
+@property (nonatomic) CMTimeRange srg_timeRange;
+@property (nonatomic, getter=srg_isBlocked) BOOL srg_blocked;
+@property (nonatomic, getter=srg_isHidden) BOOL srg_hidden;
 
 @end
 
@@ -25,14 +26,14 @@
     if (self = [super init]) {
         self.name = dictionary[@"name"];
         self.identifier = dictionary[@"identifier"];
-        self.blocked = [dictionary[@"blocked"] boolValue];
-        self.hidden = [dictionary[@"hidden"] boolValue];
+        self.srg_blocked = [dictionary[@"blocked"] boolValue];
+        self.srg_hidden = [dictionary[@"hidden"] boolValue];
         
         NSTimeInterval startTime = [dictionary[@"startTime"] doubleValue] / 1000.;
         NSTimeInterval duration = [dictionary[@"duration"] doubleValue] / 1000.;
         
-        self.timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(startTime, NSEC_PER_SEC),
-                                         CMTimeMakeWithSeconds(duration, NSEC_PER_SEC));
+        self.srg_timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(startTime, NSEC_PER_SEC),
+                                             CMTimeMakeWithSeconds(duration, NSEC_PER_SEC));
     }
     return self;
 }
@@ -41,8 +42,8 @@
 {
     NSDictionary *dictionnary = @{ @"name" : name,
                                    @"identifier" : identifier,
-                                   @"startTime" : @(CMTimeGetSeconds(self.timeRange.start)),
-                                   @"duration" : @(CMTimeGetSeconds(self.timeRange.duration)) };
+                                   @"startTime" : @(CMTimeGetSeconds(self.srg_timeRange.start)),
+                                   @"duration" : @(CMTimeGetSeconds(self.srg_timeRange.duration)) };
     return [self initWithDictionary:dictionnary];
 }
 
@@ -75,11 +76,11 @@
     return [NSString stringWithFormat:@"<%@: %p; start: %@; duration: %@; name: %@; blocked: %@; hidden: %@>",
             [self class],
             self,
-            @(CMTimeGetSeconds(self.timeRange.start)),
-            @(CMTimeGetSeconds(self.timeRange.duration)),
+            @(CMTimeGetSeconds(self.srg_timeRange.start)),
+            @(CMTimeGetSeconds(self.srg_timeRange.duration)),
             self.name,
-            self.blocked ? @"YES" : @"NO",
-            self.hidden ? @"YES" : @"NO"];
+            self.srg_blocked ? @"YES" : @"NO",
+            self.srg_hidden ? @"YES" : @"NO"];
 }
 
 @end

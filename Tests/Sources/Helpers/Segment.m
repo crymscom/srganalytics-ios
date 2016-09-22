@@ -9,8 +9,8 @@
 @interface Segment ()
 
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic) CMTimeRange timeRange;
-@property (nonatomic, getter=isBlocked) BOOL blocked;
+@property (nonatomic) CMTimeRange srg_timeRange;
+@property (nonatomic, getter=srg_isBlocked) BOOL srg_blocked;
 
 @end
 
@@ -26,7 +26,7 @@
 + (Segment *)blockedSegmentWithName:(NSString *)name timeRange:(CMTimeRange)timeRange
 {
     Segment *segment = [[[self class] alloc] initWithName:name timeRange:timeRange];
-    segment.blocked = YES;
+    segment.srg_blocked = YES;
     return segment;
 }
 
@@ -36,14 +36,14 @@
 {
     if (self = [super init]) {
         self.name = name;
-        self.timeRange = timeRange;
+        self.srg_timeRange = timeRange;
     }
     return self;
 }
 
 #pragma mark Getters and setters
 
-- (BOOL)isHidden
+- (BOOL)srg_isHidden
 {
     // NO need to test hidden segments in unit tests, those are only for use by UI overlays
     return NO;
@@ -65,8 +65,8 @@
             [self class],
             self,
             self.name,
-            @(CMTimeGetSeconds(self.timeRange.start)),
-            @(CMTimeGetSeconds(self.timeRange.duration))];
+            @(CMTimeGetSeconds(self.srg_timeRange.start)),
+            @(CMTimeGetSeconds(self.srg_timeRange.duration))];
 }
 
 @end
