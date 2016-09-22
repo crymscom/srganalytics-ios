@@ -71,14 +71,6 @@ static NSURL *DVRTestURL(void)
 
 #pragma mark Setup and teardown
 
-+ (void)setUp
-{
-    // Setup analytics for all tests
-    [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
-                                                     comScoreVirtualSite:@"rts-app-test-v"
-                                                     netMetrixIdentifier:@"test"];
-}
-
 - (void)setUp
 {
     self.mediaPlayerController = [[SRGMediaPlayerController alloc] init];
