@@ -16,11 +16,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker sharedTracker];
-    [analyticsTracker startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
-                                  comScoreVirtualSite:@"rts-app-test-v"
-                                  netMetrixIdentifier:@"test"];
-	return YES;
+    [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
+                                                     comScoreVirtualSite:@"rts-app-test-v"
+                                                     netMetrixIdentifier:@"test"];
+    return YES;
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification

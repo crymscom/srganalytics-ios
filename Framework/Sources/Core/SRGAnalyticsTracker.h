@@ -52,9 +52,8 @@ OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierTEST;
  *
  *  1. Start the tracker early in your application lifecycle, for example in your application delegate
  *     `-application:didFinishLaunchingWithOptions:` implementation, by calling the
- *     `-startWithBusinessUnitIdentifier:comScoreVirtualSite:netMetrixIdentifier:` method. This is especially
- *     important since the application comScore start event is outside the control of the application and
- *     requires the tracker to be properly setup before it is sent
+ *     `-startWithBusinessUnitIdentifier:comScoreVirtualSite:netMetrixIdentifier:` method. If the tracker is not
+ *     started early enough, an `NSInternalInconsistencyException` will be thrown if a measurement is being made
  *  1. To track page views, have view controllers which must be tracked conform to the `SRGAnalyticsViewTracking`
  *     protocol. View controllers conforming to this protocol are automatically tracked by default, but this behavior 
  *     can be tailored to your needs, especially when the time at which the measurement is made (when the view
@@ -89,6 +88,9 @@ OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierTEST;
  *  The [JASS proxy](https://github.com/SRGSSR/jass) tool is provided to let you peek at the analytics data sent by your 
  *  application during development or tests.
  *
+ *  @discussion If the tracker is not started when a measurement is being made, an `NSInternalInconsistencyException`
+ *              exception will be thrown, inviting you to start it (or to do so earlier)
+ *
  *  @param businessUnitIdentifier The SRG SSR business unit for statistics measurements. Constants for the officially
  *                                supported business units are provided at the top of this file. A constant for use
  *                                during development or tests is supplied as well
@@ -112,7 +114,7 @@ OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierTEST;
 @property (nonatomic, readonly, copy, nullable) NSString *netMetrixIdentifier;
 
 /**
- *  Return YES iff th tracker has been started
+ *  Return YES iff the tracker has been started
  */
 @property (nonatomic, readonly, getter=isStarted) BOOL started;
 
@@ -122,15 +124,13 @@ OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierTEST;
 
 /**
  *  Send a hidden event with the specified title
+ *
+ *  @param title        The event title
+ *
+ *  @discussion If the title is nil, no event will be sent
  */
 - (void)trackHiddenEventWithTitle:(NSString *)title;
 
-/**
- *  Send a hidden event with the specified title
- *
- *  @param title        The event title.
- *                      An empty or nil title will be replaced with `Untitled` value.
- */
 /**
  *  Send a hidden event with the specified title
  *
@@ -138,7 +138,7 @@ OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierTEST;
  *  @param customLabels Custom information to be sent along the event and meaningful for measurements
  *
  *  @discussion Be careful when using custom labels and ensure your custom keys do not match reserved values by
- *              using appropriate naming conventions (e.g. a prefix)
+ *              using appropriate naming conventions (e.g. a prefix). If the title is nil, no event will be sent
  */
 - (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels;
 

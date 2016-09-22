@@ -63,7 +63,6 @@
 		E6B8EA021D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E6B8E9FA1D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6B8EA031D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B8E9FB1D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics.m */; };
 		E6B8EA041D92868D000D6904 /* SRGAnalyticsSegment.h in Headers */ = {isa = PBXBuildFile; fileRef = E6B8E9FD1D92868D000D6904 /* SRGAnalyticsSegment.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E6CBCA8A1D92D14900B5E169 /* NonStartedTrackerTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = E6CBCA891D92D14900B5E169 /* NonStartedTrackerTestCase.m */; };
 		E6FC7EA01D61F97500A55085 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E6FC7EA11D61F97500A55085 /* SRGAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E6FC7EA51D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */; };
@@ -215,7 +214,6 @@
 		E6B8E9FA1D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGMediaPlayerViewController+SRGAnalytics.h"; sourceTree = "<group>"; };
 		E6B8E9FB1D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGMediaPlayerViewController+SRGAnalytics.m"; sourceTree = "<group>"; };
 		E6B8E9FD1D92868D000D6904 /* SRGAnalyticsSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsSegment.h; sourceTree = "<group>"; };
-		E6CBCA891D92D14900B5E169 /* NonStartedTrackerTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NonStartedTrackerTestCase.m; sourceTree = "<group>"; };
 		E6FC7E881D61F95C00A55085 /* SRGAnalytics-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SRGAnalytics-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FC7F041D61FA4700A55085 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E6FC7F061D61FA4700A55085 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -393,7 +391,6 @@
 			children = (
 				E65490CD1D816A18007D96E7 /* Helpers */,
 				E65490B11D803CA2007D96E7 /* MediaPlayerTestCase.m */,
-				E6CBCA891D92D14900B5E169 /* NonStartedTrackerTestCase.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -744,7 +741,6 @@
 				E65490D51D816A18007D96E7 /* NSNotificationCenter+Tests.m in Sources */,
 				E65490B21D803CA2007D96E7 /* MediaPlayerTestCase.m in Sources */,
 				E65490D41D816A18007D96E7 /* BundleFix.m in Sources */,
-				E6CBCA8A1D92D14900B5E169 /* NonStartedTrackerTestCase.m in Sources */,
 				E64B11071D82D4F400CAD97B /* Segment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

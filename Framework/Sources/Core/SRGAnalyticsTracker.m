@@ -126,10 +126,6 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
 - (void)trackPageViewTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification;
 {
-    if (! self.started) {
-        return;
-    }
-    
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
     
     title = title.length > 0 ? title.srg_comScoreTitleFormattedString : @"untitled";
@@ -181,10 +177,6 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
 - (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels
 {
-    if (! self.started) {
-        return;
-    }
-    
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
     
     title = title.length > 0 ? title.srg_comScoreTitleFormattedString : @"untitled";

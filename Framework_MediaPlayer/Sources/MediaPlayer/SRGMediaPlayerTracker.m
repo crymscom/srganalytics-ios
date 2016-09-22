@@ -71,12 +71,8 @@ static NSMutableDictionary *s_trackers = nil;
                                                  name:SRGMediaPlayerSegmentDidEndNotification
                                                object:self.mediaPlayerController];
     
-    SRGAnalyticsTracker *tracker = [SRGAnalyticsTracker sharedTracker];
-    if (tracker.started) {
-        [self notifyEvent:CSStreamSenseBuffer withPosition:0 labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey] segment:nil];
-    }
+    [self notifyEvent:CSStreamSenseBuffer withPosition:0 labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey] segment:nil];
     
-    [tracker addObserver:self forKeyPath:@"started" options:0 context:s_kvoContext];
     [self.mediaPlayerController addObserver:self forKeyPath:@"tracked" options:0 context:s_kvoContext];
 }
 
@@ -92,12 +88,8 @@ static NSMutableDictionary *s_trackers = nil;
                                                     name:SRGMediaPlayerSegmentDidEndNotification
                                                   object:self.mediaPlayerController];
     
-    SRGAnalyticsTracker *tracker = [SRGAnalyticsTracker sharedTracker];
-    if (tracker.started) {
-        [self notifyEvent:CSStreamSenseEnd withPosition:[self currentPositionInMilliseconds] labels:labels segment:self.mediaPlayerController.selectedSegment];
-    }
+    [self notifyEvent:CSStreamSenseEnd withPosition:[self currentPositionInMilliseconds] labels:labels segment:self.mediaPlayerController.selectedSegment];
     
-    [tracker removeObserver:self forKeyPath:@"started" context:s_kvoContext];
     [self.mediaPlayerController removeObserver:self forKeyPath:@"tracked" context:s_kvoContext];
 }
 
@@ -129,7 +121,7 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)notifyEvent:(CSStreamSenseEventType)event withPosition:(long)position labels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
-    if (! [SRGAnalyticsTracker sharedTracker].started || ! self.mediaPlayerController.tracked) {
+    if (! self.mediaPlayerController.tracked) {
         return;
     }
     
@@ -430,7 +422,7 @@ static NSMutableDictionary *s_trackers = nil;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
     if (context == s_kvoContext) {
-        NSAssert([keyPath isEqualToString:@"tracked"] || [keyPath isEqualToString:@"started"], @"Implementation currently not valid for other properties");
+        NSAssert([keyPath isEqualToString:@"tracked"], @"Implementation currently not valid for other properties");
         
         // Balance comScore events if the player is playing, so that all events can be properly emitted
         if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {

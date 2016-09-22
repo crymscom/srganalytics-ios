@@ -7,6 +7,7 @@
 #import "CSMeasurementDispatcher+SRGAnalytics.h"
 
 #import "SRGAnalyticsNotifications.h"
+#import "SRGAnalyticsTracker.h"
 
 #import <objc/runtime.h>
 
@@ -30,6 +31,12 @@
 
 - (void)swizzled_send:(CSApplicationEventType)eventType labels:(NSDictionary *)labels cache:(BOOL)cache background:(BOOL)background
 {
+    if (! [SRGAnalyticsTracker sharedTracker].started) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                       reason:@"Tracker must be started before any measurement is being made. Please refer to the getting started guide for more information"
+                                     userInfo:nil];
+    }
+    
     // Call the original implementation
     [self swizzled_send:eventType labels:labels cache:cache background:background];
     
