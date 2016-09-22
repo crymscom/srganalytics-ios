@@ -29,6 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
  * 
  *  By default, provided a tracker has been started, all media players are automatically tracked without any 
  *  additional work. You can disable this behavior by setting the `SRGMediaPlayerController` `tracked` property to NO.
+ *  If you do not want any events to be emitted by a player, you should set this property to NO before beginning
+ *  playback.
+ *
  *  By default, standard SRG playback information (playhead position, type of event, etc.) is sent in stream events.
  *  To supply additional measurement information (e.g. title or duration), you must use custom labels.
  *
