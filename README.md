@@ -30,7 +30,30 @@ For more information about Carthage and its use, refer to the [official document
 
 ## Usage
 
-The following discusses how the library can be added to most applications.
+### Usage from Objective-C source files
+
+Import the global header files using:
+
+```objective-c
+#import <SRGAnalytics/SRGAnalytics.h>	                            // For SRGAnalytics.framework
+#import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>       // For SRGAnalytics_MediaPlayer.framework
+```
+
+or directly import the modules themselves:
+
+```objective-c
+@import SRGAnalytics;                    // For SRGAnalytics.framework
+@import SRGAnalytics_MediaPlayer;        // For SRGAnalytics_MediaPlayer.framework
+```
+
+### Usage from Swift source files
+
+Import the module where needed:
+
+```swift
+import SRGAnalytics                     // For SRGAnalytics.framework
+import SRGAnalytics_MediaPlayer         // For SRGAnalytics_MediaPlayer.framework
+```
 
 ### Initalization
 
