@@ -263,4 +263,21 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
     SRGAnalyticsLogDebug(@"Comscore %@ event sent:\n%@", labels[@"ns_type"], dictionaryRepresentation);
 }
 
+#pragma mark Description
+
+- (NSString *)description
+{
+    if (self.started) {
+        return [NSString stringWithFormat:@"<%@: %p; businessUnitIdentifier: %@; comScoreVirtualSite: %@; netMetrixIdentifier: %@>",
+                [self class],
+                self,
+                self.businessUnitIdentifier,
+                self.comScoreVirtualSite,
+                self.netMetrixIdentifier];
+    }
+    else {
+        return [NSString stringWithFormat:@"<%@: %p (not started yet)>", [self class], self];
+    }
+}
+
 @end
