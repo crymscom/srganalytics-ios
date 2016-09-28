@@ -34,6 +34,20 @@
                ReferencedContainer = "container:SRGAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6FB331E51D9BFB00001469F2"
+               BuildableName = "SRGAnalytics_DataProvider.framework"
+               BlueprintName = "SRGAnalytics_DataProvider"
+               ReferencedContainer = "container:SRGAnalytics.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
