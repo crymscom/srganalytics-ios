@@ -53,7 +53,7 @@ or directly import the modules themselves:
 
 ### Usage from Swift source files
 
-Import the module where needed:
+Import the modules where needed:
 
 ```swift
 import SRGAnalytics                     // For SRGAnalytics.framework
