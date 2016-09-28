@@ -4,6 +4,9 @@
 //  License information is available from the LICENSE file.
 //
 
+#import <SRGAnalytics/SRGAnalytics.h>
+#import <SRGDataProvider/SRGDataProvider.h>
+#import <SRGMediaPlayer/SRGMediaPlayer.h>
 #import <UIKit/UIKit.h>
 
 // Framework standard version number
