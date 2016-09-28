@@ -8,7 +8,7 @@
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 #import <UIKit/UIKit.h>
 
-// Framweork standard version number
+// Framework standard version number
 FOUNDATION_EXPORT double SRGAnalytics_MediaPlayerVersionNumber;
 FOUNDATION_EXPORT const unsigned char SRGAnalytics_MediaPlayerVersionString[];
 
