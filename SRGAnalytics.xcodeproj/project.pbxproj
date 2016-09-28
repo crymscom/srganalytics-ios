@@ -22,6 +22,8 @@
 		6FABE2F41D9C0278001C4E9A /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FABE2F31D9C0278001C4E9A /* Mantle.framework */; };
 		6FABE2F91D9C16EA001C4E9A /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FABE2F31D9C0278001C4E9A /* Mantle.framework */; };
 		6FABE2FA1D9C16EE001C4E9A /* SRGDataProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FABE2F11D9C0268001C4E9A /* SRGDataProvider.framework */; };
+		6FABE2FD1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FABE2FB1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6FABE2FE1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FABE2FC1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.m */; };
 		6FB331ED1D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB331E61D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework */; };
 		6FB331EE1D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB331E61D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FB331F91D9BFB77001469F2 /* SRGAnalytics_DataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB331F71D9BFB77001469F2 /* SRGAnalytics_DataProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -185,6 +187,8 @@
 		0811A8521D800BA000A9863B /* libextobjc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libextobjc.framework; path = Carthage/Build/iOS/libextobjc.framework; sourceTree = "<group>"; };
 		6FABE2F11D9C0268001C4E9A /* SRGDataProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGDataProvider.framework; path = Carthage/Build/iOS/SRGDataProvider.framework; sourceTree = "<group>"; };
 		6FABE2F31D9C0278001C4E9A /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
+		6FABE2FB1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGSegment+SRGAnalytics_DataProvider.h"; sourceTree = "<group>"; };
+		6FABE2FC1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGSegment+SRGAnalytics_DataProvider.m"; sourceTree = "<group>"; };
 		6FB331E61D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics_DataProvider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FB331F51D9BFB77001469F2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6FB331F71D9BFB77001469F2 /* SRGAnalytics_DataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalytics_DataProvider.h; sourceTree = "<group>"; };
@@ -340,6 +344,8 @@
 		6FB331F61D9BFB77001469F2 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				6FABE2FB1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.h */,
+				6FABE2FC1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -572,6 +578,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FABE2FD1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.h in Headers */,
 				6FB331F91D9BFB77001469F2 /* SRGAnalytics_DataProvider.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -832,6 +839,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FABE2FE1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
