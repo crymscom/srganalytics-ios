@@ -4,12 +4,11 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <Foundation/Foundation.h>
-#import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
+#import <SRGMediaPlayer/SRGMediaPlayer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Segment : NSObject <SRGAnalyticsSegment>
+@interface Segment : NSObject <SRGSegment>
 
 + (Segment *)segmentWithName:(NSString *)name timeRange:(CMTimeRange)timeRange;
 + (Segment *)blockedSegmentWithName:(NSString *)name timeRange:(CMTimeRange)timeRange;

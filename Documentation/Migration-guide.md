@@ -11,14 +11,9 @@ Support for CocoaPods has been removed. Since the framework requires at least iO
 
 For historical reasons, all classes were prefixed with `RTS`, which was misleading. This prefix has now been replaced with `SRG`. Be sure to update existing references in your code (a simple text search suffices).
 
-## Reduced complexity
+## View event generation
 
-Several data sources were previously available to customize measurement data (labels). These mechanisms have been completely eliminated in favor of simple dictionaries. Instead of having a data source indirectly supplying labels when required, you now:
-
-* Supply labels associated with the content being played when actually playing it (see `SRGMediaPlayerController+SRGAnalytics.h`)
-* Attach segment labels to segments themselves (see `SRGAnalyticsSegment` protocol)
-
-Moreover, you could previously generate view events from the tracker interface, which was redundant with the view controller tracking mechanism available from a `UIViewController` category and a companion protocol. To make tracker use more intuitive, view event management has therefore been completely removed from the tracker public interface.
+You could previously generate view events from the tracker interface, which was redundant with the view controller tracking mechanism available from a `UIViewController` category and a companion protocol. To make tracker use more intuitive, view event management has therefore been completely removed from the tracker public interface.
 
 ## Tracker initialization
 

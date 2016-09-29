@@ -5,6 +5,8 @@ The SRG Analytics library is made of several frameworks:
 
 * A main `SRGAnalytics.framework` which supplies the singleton responsible of gathering measurements (tracker)
 * A companion optional `SRGAnalytics_MediaPlayer.framework` responsible of stream measurements for applications using our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS)
+* A companion optional `SRGAnalytics_DataProvider.framework` transparently forwarding analytics labels received when using our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios)
+
 
 ## Starting the tracker
 
@@ -92,61 +94,11 @@ To measure media consumption, you need to add the `SRGAnalytics_MediaPlayer.fram
 
 You can disable tracking by setting the `SRGMediaPlayerController` `tracked` property to `NO`. If you don't want the player to send any media playback events, you do so before beginning playback. You can still toggle the property on or off at any time.
 
-Two levels of measurement information (labels) can be provided:
+Two levels of custom measurement information (labels) can be provided:
 
-* Labels associated with the content being played, and which can be supplied when playing the media. Dedicated methods are available from `SRGMediaPlayerController+SRGAnalytics.h`
-* Labels associated with a segment being played, and which are supplied by having segments implement the `SRGAnalyticsSegment` protocol instead of `SRGSegment`.
+* Labels associated with the content being played, and which can be supplied when playing the media
+* Labels associated with a segment being played
 
-When playing a segment, segment labels are superimposed to content labels. You can therefore decide to selectively override content labels by having segments return labels with matching names, if needed. 
+When playing a segment, segment labels are superimposed to content labels. You can therefore decide to selectively override content labels by having segments return labels with matching names, if needed.
 
-### Example
-
-You could have a segment return the following information:
-
-```objective-c
-@interface Segment : NSObject <SRGAnalyticsSegment>
-
-- (instancetype)initWithName:(NSString *)name timeRange:(CMTimeRange)timeRange;
-
-@property (nonatomic, readonly, copy) NSString *name;
-
-// ...
-
-@end
-
-@implementation Segment
-
-- (NSDictionary<NSString *, NSString *> *)srg_analyticsLabels
-{
-    return @{ @"myapp_media_id" : self.name };
-}
-
-// ...
-
-@end
-
-```
-
-and play the content with the following labels:
-
-```objective-c
-Segment *segment = [[Segment alloc] initWithName:@"Subject" timeRange:...];
-NSURL *URL = ...;
-
-SRGMediaPlayerController *mediaPlayerController = [[SRGMediaPlayerController alloc] init];
-[mediaPlayerController playURL:URL atTime:kCMTimeZero withSegments:@[segment] analyticsLabels:@{ @"myapp_media_id" : @"My media". @"myapp_producer" : @"RTS" } userInfo:nil];
-```
-
-When playing the content, tracking information will contain:
-
-```
-myapp_media_id = My media
-myapp_producer = RTS
-```
-
-but when playing the segment (after the user selects it), this information will be overridden as follows:
-
-```
-myapp_media_id = Subject
-myapp_producer = RTS
-```
+To provide custom labels, implement the `SRGAnalyticsMediaPlayerTrackingDelegate` and provide the delegate when using one of the playback methods available from the `SRGMediaPlayerController (SRGAnalytics)` category.

@@ -11,6 +11,8 @@ Measurements are based on events emitted by the application, and collected by co
  * View events: Appearance of views (page views), which makes it possible to track which content is seen by users
  * Hidden events: Custom events which can be used for measuresement of application functionalities
  * Media playback events: Measures audio and video consumption in conjunction with our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS)
+
+Moreover, if you are retrieving your data using our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios), a bridge framework is also provided so that analytics received from the service are transparently forwarded to the SRG Analytics library.
  
 ## Compatibility
 
@@ -26,8 +28,20 @@ github "SRGSSR/srganalytics-ios"
 
 Then run `carthage update --no-use-binaries` to update the dependencies. You will need to manually add one or several of the `.framework`s generated in the `Carthage/Build/iOS` folder to your projet, depending on your needs:
 
-* Alway add at least `SRGAnalytics.framework` as well as `ComScore.framework`. If you only need view and hidden event tracking, these are the only frameworks required
-* If you need media player event tracking, add `SRGAnalytics_MediaPlayer.framework` as well. Do not forget to add the `SRGMediaPlayer.framework` available from the same directory if your project wasn't already linking against it
+* If you need analytics only, add the following frameworks to your project:
+  * `SRGAnalytics.framework`
+  * `ComScore.framework`
+* If you use our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS) and want media consumption tracking as well, add the following frameworks to your project:
+  * `SRGAnalytics.framework`
+  * `SRGAnalytics_MediaPlayer.framework`
+  * `ComScore.framework`
+* If you use our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios) to retrieve data, add the following frameworks to your project:
+  * `SRGAnalytics.framework`
+  * `SRGAnalytics_MediaPlayer.framework`
+  * `SRGAnalytics_DataProvider.framework`
+  * `ComScore.framework`
+  * `SRGMediaPlayer.framework`
+  * `Mantle.framework`
 
 For more information about Carthage and its use, refer to the [official documentation](https://github.com/Carthage/Carthage).
 
@@ -46,6 +60,7 @@ Import the global header files using:
 ```objective-c
 #import <SRGAnalytics/SRGAnalytics.h>	                            // For SRGAnalytics.framework
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>       // For SRGAnalytics_MediaPlayer.framework
+#import <SRGAnalytics_MediaPlayer/SRGAnalytics_DataProvider.h>      // For SRGAnalytics_DataProvider.framework
 ```
 
 or directly import the modules themselves:
@@ -53,6 +68,7 @@ or directly import the modules themselves:
 ```objective-c
 @import SRGAnalytics;                    // For SRGAnalytics.framework
 @import SRGAnalytics_MediaPlayer;        // For SRGAnalytics_MediaPlayer.framework
+@import SRGAnalytics_DataProvider;       // For SRGAnalytics_DataProvider.framework
 ```
 
 ### Usage from Swift source files
@@ -62,6 +78,7 @@ Import the modules where needed:
 ```swift
 import SRGAnalytics                     // For SRGAnalytics.framework
 import SRGAnalytics_MediaPlayer         // For SRGAnalytics_MediaPlayer.framework
+import SRGAnalytics_DataProvider        // For SRGAnalytics_DataProvider.framework
 ```
 
 ### Working with the library

@@ -26,12 +26,4 @@
     return NO;
 }
 
-- (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
-{
-    // TODO: Consolidate with information on media composition and parent chapter. Probably
-    //       a data provider issue: When parsing data, high-level data needs to be merged into
-    //       chapter data. Maybe have a weak pointer to the parent
-    return self.analyticsLabels;
-}
-
 @end

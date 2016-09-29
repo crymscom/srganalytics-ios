@@ -4,12 +4,11 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
-#import <UIKit/UIKit.h>
+#import <SRGMediaPlayer/SRGMediaPlayer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Segment : NSObject <SRGAnalyticsSegment>
+@interface Segment : NSObject <SRGSegment>
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name timeRange:(CMTimeRange)timeRange;

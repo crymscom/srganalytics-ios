@@ -56,7 +56,6 @@
 	if ([cell.reuseIdentifier hasPrefix:@"MediaPlayer"])
 	{
         SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
-                                                                                                      analyticsLabels:@{ @"ns_st_ep" : [self contentURLNameForIdentifier:cell.reuseIdentifier] }
                                                                                                              userInfo:nil];
 		[self presentViewController:playerViewController animated:YES completion:nil];
 	}
@@ -64,7 +63,6 @@
     {
         // TODO: Use CustomMediaPlayerViewController controller
         SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
-                                                                                                      analyticsLabels:@{ @"ns_st_ep" : [self contentURLNameForIdentifier:cell.reuseIdentifier] }
                                                                                                              userInfo:nil];
         [self presentViewController:playerViewController animated:YES completion:nil];
     }
