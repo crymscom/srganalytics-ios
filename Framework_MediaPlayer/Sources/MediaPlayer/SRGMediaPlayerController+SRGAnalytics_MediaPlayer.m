@@ -4,7 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGMediaPlayerController+SRGAnalytics.h"
+#import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
 #import "SRGMediaPlayerTracker.h"
 
@@ -12,7 +12,7 @@
 
 static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 
-@implementation SRGMediaPlayerController (SRGAnalytics)
+@implementation SRGMediaPlayerController (SRGAnalytics_MediaPlayer)
 
 #pragma mark Helpers
 

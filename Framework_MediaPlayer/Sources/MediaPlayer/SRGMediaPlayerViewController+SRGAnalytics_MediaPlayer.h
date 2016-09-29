@@ -4,16 +4,16 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGMediaPlayerController+SRGAnalytics.h"
+#import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Stream measurement additions to `SRGMediaPlayerViewController`.
  *
- *  For more information about stream measurements, @see SRGMediaPlayerController+SRGAnalytics.h
+ *  For more information about stream measurements, @see SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h
  */
-@interface SRGMediaPlayerViewController (SRGAnalytics)
+@interface SRGMediaPlayerViewController (SRGAnalytics_MediaPlayer)
 
 /**
  *  Same as `-[SRGMediaPlayerViewController initWithContentURL:userInfo:]`, but with an additional parameter for 

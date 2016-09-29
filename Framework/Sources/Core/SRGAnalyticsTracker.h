@@ -56,14 +56,15 @@ OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierTEST;
  *     started early enough, an `NSInternalInconsistencyException` will be thrown if a measurement is being made
  *  1. To track page views, have view controllers which must be tracked conform to the `SRGAnalyticsViewTracking`
  *     protocol. View controllers conforming to this protocol are automatically tracked by default, but this behavior 
- *     can be tailored to your needs, especially when the time at which the measurement is made (when the view
+ *     can be tailored to your needs, especially if the time at which the measurement is made (when the view
  *     appears) is inappropriate. Please refer to the `SRGAnalyticsViewTracking` documentation for more information
  *  1. When you need to track specific functionalities in your applications (e.g. the use of some interface button
  *     or of some feature of your application), send a hidden event using one of the `-trackHiddenEvent...` methods
  *     available from `SRGAnalyticsTracker`
  *  1. If you need to track media playback, you must add the SRGAnalytics_MediaPlayer subframework to your project
- *     (@see `SRGMediaPlayerController+SRGAnalytics.h` for more information)
- *
+ *     (@see `SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h` for more information)
+ *  1. If you retrieve data using our data provider library, you must add the SRGAnalytics_DataProvider subframework 
+ *     to your project (@see `SRGMediaPlayerController+SRGAnalytics_DataProvider.h` for more information)
  */
 @interface SRGAnalyticsTracker : NSObject
 

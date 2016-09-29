@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  When playing a segment, corresponding labels are merged with those associated with the content, overriding existing keys. 
  *  You can take advantage of this behavior to add segment information on top of content labels.
  */
-@interface SRGMediaPlayerController (SRGAnalytics)
+@interface SRGMediaPlayerController (SRGAnalytics_MediaPlayer)
 
 /**
  *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atTime:withSegments:userInfo:completionHandler:]`, but with 

@@ -13,7 +13,7 @@
 #import "ViewController.h"
 #import "Segment.h"
 #import "SegmentsPlayerViewController.h"
-#import "SRGMediaPlayerController+SRGAnalytics.h"
+#import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
 @interface TableViewController () <UITableViewDelegate, SRGAnalyticsViewTracking>
 

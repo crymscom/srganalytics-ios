@@ -14,4 +14,4 @@ FOUNDATION_EXPORT double SRGAnalytics_DataProviderVersionNumber;
 FOUNDATION_EXPORT const unsigned char SRGAnalytics_DataProviderVersionString[];
 
 // Public headers
-#import "SRGSegment+SRGAnalytics_DataProvider.h"
+

@@ -5,7 +5,7 @@
 //
 
 #import "SegmentsPlayerViewController.h"
-#import "SRGMediaPlayerController+SRGAnalytics.h"
+#import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
 #import "SegmentCollectionViewCell.h"
 
