@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  of `SRGSegment`, and implement the required `srg_analyticsLabels` method to return the analytics associated with
  *  a segment.
  */
-@interface SRGMediaPlayerController (SRGAnalytics)
+@interface SRGMediaPlayerController (SRGAnalytics_MediaPlayer)
 
 /**
  *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atTime:withSegments:userInfo:completionHandler:]`, but with optional
@@ -65,14 +65,23 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param analyticsLabels The analytics labels to send in stream events
  */
-- (void)prepareToPlayURL:(NSURL *)URL atTime:(CMTime)time withSegments:(nullable NSArray<id<SRGSegment>> *)segments analyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels userInfo:(nullable NSDictionary *)userInfo completionHandler:(nullable void (^)(void))completionHandler;
+- (void)prepareToPlayURL:(NSURL *)URL
+                  atTime:(CMTime)time
+            withSegments:(nullable NSArray<id<SRGSegment>> *)segments
+         analyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels
+                userInfo:(nullable NSDictionary *)userInfo
+       completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
  *  Same as `-[SRGMediaPlayerController playURL:atTime:withSegments:userInfo:]`, but with optional analytics labels
  *
  *  @param analyticsLabels The analytics labels to send in stream events
  */
-- (void)playURL:(NSURL *)URL atTime:(CMTime)time withSegments:(nullable NSArray<id<SRGSegment>> *)segments analyticsLabels:(nullable NSDictionary *)analyticsLabels userInfo:(nullable NSDictionary *)userInfo;
+- (void)playURL:(NSURL *)URL
+         atTime:(CMTime)time
+   withSegments:(nullable NSArray<id<SRGSegment>> *)segments
+analyticsLabels:(nullable NSDictionary *)analyticsLabels
+       userInfo:(nullable NSDictionary *)userInfo;
 
 /**
  *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atIndex:inSegments:withUserInfo:completionHandler:]`, but with 
@@ -80,14 +89,23 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param analyticsLabels The analytics labels to send in stream events
  */
-- (void)prepareToPlayURL:(NSURL *)URL atIndex:(NSInteger)index inSegments:(NSArray<id<SRGSegment>> *)segments withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels userInfo:(nullable NSDictionary *)userInfo completionHandler:(nullable void (^)(void))completionHandler;
+- (void)prepareToPlayURL:(NSURL *)URL
+                 atIndex:(NSInteger)index
+              inSegments:(NSArray<id<SRGSegment>> *)segments
+     withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels
+                userInfo:(nullable NSDictionary *)userInfo
+       completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
  *  Same as `-[SRGMediaPlayerController playURL:atIndex:inSegments:withUserInfo:]`, but with optional analytics labels
  *
  *  @param analyticsLabels The analytics labels to send in stream events
  */
-- (void)playURL:(NSURL *)URL atIndex:(NSInteger)index inSegments:(NSArray<id<SRGSegment>> *)segments withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels userInfo:(nullable NSDictionary *)userInfo;
+- (void)playURL:(NSURL *)URL
+        atIndex:(NSInteger)index
+     inSegments:(NSArray<id<SRGSegment>> *)segments
+withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels
+       userInfo:(nullable NSDictionary *)userInfo;
 
 /**
  *  Set to NO to disable automatic player controller tracking. The default value is YES

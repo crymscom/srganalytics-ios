@@ -4,11 +4,11 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGMediaPlayerViewController+SRGAnalytics.h"
+#import "SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.h"
 
 #import "SRGMediaPlayerTracker.h"
 
-@implementation SRGMediaPlayerViewController (SRGAnalytics)
+@implementation SRGMediaPlayerViewController (SRGAnalytics_MediaPlayer)
 
 #pragma mark Helpers
 

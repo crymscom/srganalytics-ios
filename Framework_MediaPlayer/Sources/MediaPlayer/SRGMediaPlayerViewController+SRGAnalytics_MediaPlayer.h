@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  For more information about stream measurements, @see SRGMediaPlayerController+SRGAnalytics.h
  */
-@interface SRGMediaPlayerViewController (SRGAnalytics)
+@interface SRGMediaPlayerViewController (SRGAnalytics_MediaPlayer)
 
 /**
  *  Same as `-[SRGMediaPlayerViewController initWithContentURL:analyticsLabels:userInfo:]`, but with an additional parameter 

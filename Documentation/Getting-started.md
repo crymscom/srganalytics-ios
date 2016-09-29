@@ -5,6 +5,8 @@ The SRG Analytics library is made of several frameworks:
 
 * A main `SRGAnalytics.framework` which supplies the singleton responsible of gathering measurements (tracker)
 * A companion optional `SRGAnalytics_MediaPlayer.framework` responsible of stream measurements for applications using our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS)
+* A companion optional `SRGAnalytics_DataProvider.framework` transparently forwarding analytics labels received when using our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios)
+
 
 ## Starting the tracker
 

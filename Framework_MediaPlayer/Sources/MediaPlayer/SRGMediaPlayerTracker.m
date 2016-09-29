@@ -7,7 +7,7 @@
 #import "SRGMediaPlayerTracker.h"
 
 #import "SRGAnalyticsSegment.h"
-#import "SRGMediaPlayerController+SRGAnalytics.h"
+#import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
 #import <SRGAnalytics/SRGAnalytics.h>
 

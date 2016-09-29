@@ -24,12 +24,16 @@ The library can be added to a project using [Carthage](https://github.com/Cartha
 github "SRGSSR/srganalytics-ios"
 ```
 
-Then run `carthage update` to update the dependencies. You will need to manually add one or several of the `.framework`s generated in the `Carthage/Build/iOS` folder to your projet, depending on your needs:
+Then run `carthage update --no-use-binaries` to update the dependencies. You will need to manually add one or several of the `.framework`s generated in the `Carthage/Build/iOS` folder to your projet, depending on your needs:
 
 * Alway add at least `SRGAnalytics.framework` as well as `ComScore.framework`. If you only need view and hidden event tracking, these are the only frameworks required
 * If you need media player event tracking, add `SRGAnalytics_MediaPlayer.framework` as well. Do not forget to add the `SRGMediaPlayer.framework` available from the same directory if your project wasn't already linking against it
 
 For more information about Carthage and its use, refer to the [official documentation](https://github.com/Carthage/Carthage).
+
+### Remark
+
+The `--no-use-binaries` carthage update flag is required to prevent using pre-built Mantle binaries which lack bitcode support. This should hopefully be fixed in a future.
 
 ## Usage
 

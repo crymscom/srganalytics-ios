@@ -39,6 +39,7 @@ static NSURL *DVRTestURL(void)
 
 // Expectation for global hidden event notifications (player notifications are all event notifications, we don't want to have a look
 // at view events here)
+// TODO: Factor out this code, available elsewhere
 - (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(HiddenEventExpectationHandler)handler
 {
     return [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
