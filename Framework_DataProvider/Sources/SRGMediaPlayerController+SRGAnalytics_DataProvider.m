@@ -6,10 +6,9 @@
 
 #import "SRGMediaPlayerController+SRGAnalytics_DataProvider.h"
 
-#import "SRGMediaCompositionTrackingDelegate.h"
 #import "SRGSegment+SRGAnalytics_DataProvider.h"
 
-typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, id<SRGAnalyticsMediaPlayerTrackingDelegate>  _Nullable trackingDelegate, NSError * _Nullable error);
+typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *, NSString *> * _Nullable analyticsLabels, NSError * _Nullable error);
 
 @implementation SRGMediaPlayerController (SRGAnalytics_DataProvider)
 
@@ -30,9 +29,19 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
             return;
         }
         
-        SRGMediaCompositionTrackingDelegate *trackingDelegate = [[SRGMediaCompositionTrackingDelegate alloc] initWithMediaComposition:mediaComposition resource:resource];
+        NSMutableDictionary<NSString *, NSString *> *analyticsLabels = [NSMutableDictionary dictionary];
+        if (mediaComposition.analyticsLabels) {
+            [analyticsLabels addEntriesFromDictionary:mediaComposition.analyticsLabels];
+        }
+        if (mediaComposition.mainChapter.analyticsLabels) {
+            [analyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
+        }
+        if (resource.analyticsLabels) {
+            [analyticsLabels addEntriesFromDictionary:resource.analyticsLabels];
+        }
+        
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
-        completionBlock(URL, index, chapter.segments, trackingDelegate, nil);
+        completionBlock(URL, index, chapter.segments, [analyticsLabels copy], nil);
     }];
 }
 
@@ -41,13 +50,13 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                                      userInfo:(NSDictionary *)userInfo
                             completionHandler:(void (^)(NSError *error))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredQuality:preferredQuality completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, id<SRGAnalyticsMediaPlayerTrackingDelegate>  _Nullable trackingDelegate, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredQuality:preferredQuality completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
         }
         
-        [self prepareToPlayURL:URL atIndex:index inSegments:segments withTrackingDelegate:trackingDelegate userInfo:userInfo completionHandler:^{
+        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:userInfo completionHandler:^{
             completionHandler ? completionHandler(nil) : nil;
         }];
     }];
@@ -58,13 +67,13 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                             userInfo:(NSDictionary *)userInfo
                    completionHandler:(void (^)(NSError *error))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredQuality:preferredQuality completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, id<SRGAnalyticsMediaPlayerTrackingDelegate>  _Nullable trackingDelegate, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredQuality:preferredQuality completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
         }
         
-        [self prepareToPlayURL:URL atIndex:index inSegments:segments withTrackingDelegate:trackingDelegate userInfo:userInfo completionHandler:^{
+        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:userInfo completionHandler:^{
             [self play];
             completionHandler ? completionHandler(nil) : nil;
         }];

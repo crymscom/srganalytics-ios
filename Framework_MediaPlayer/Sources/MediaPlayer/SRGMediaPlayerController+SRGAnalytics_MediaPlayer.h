@@ -118,3 +118,5 @@ withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels
 @property (nonatomic, getter=isTracked) BOOL tracked;
 
 @end
+
+NS_ASSUME_NONNULL_END
