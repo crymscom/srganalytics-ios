@@ -81,11 +81,7 @@ static NSURL *ServiceTestURL(void)
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        
-        // Content label
         XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Archive footage of the man and his moods");
-        
-        // Resource label
         XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
         return YES;
     }];
@@ -117,9 +113,29 @@ static NSURL *ServiceTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
 }
 
+// TODO: This test currently fails since segment labels are incorrect in the media composition
+//       This must be discussed (see https://srfmmz.atlassian.net/wiki/display/SRGPLAY/Developer+Meeting+2016-10-05)
 - (void)testPlaySegmentInMediaComposition
 {
-
+    // Use a segment id as video id, expect segment labels
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Was ist bloss los mit der Schweizer Luftwaffe?");
+        XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
+    }];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSRF];
+    [[dataProvider mediaCompositionForVideoWithUid:@"506e4ce5-169f-45ba-b7cd-5942801c75b0" completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        [[self.mediaPlayerController playMediaComposition:mediaComposition withPreferredQuality:SRGQualityHD userInfo:nil completionHandler:^(NSError * _Nonnull error) {
+            XCTAssertNil(error);
+        }] resume];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 @end
