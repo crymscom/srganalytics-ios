@@ -16,6 +16,5 @@ FOUNDATION_EXPORT const unsigned char SRGAnalytics_MediaPlayerVersionString[];
 FOUNDATION_EXPORT NSString * SRGAnalyticsMediaPlayerMarketingVersion(void);
 
 // Public headers
-#import "SRGAnalyticsSegment.h"
 #import "SRGMediaPlayerController+SRGAnalytics.h"
 #import "SRGMediaPlayerViewController+SRGAnalytics.h"
