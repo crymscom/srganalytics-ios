@@ -26,4 +26,9 @@
     return NO;
 }
 
+- (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
+{
+    return self.analyticsLabels;
+}
+
 @end

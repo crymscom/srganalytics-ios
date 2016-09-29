@@ -4,7 +4,6 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "MediaPlayerTestTrackingDelegate.h"
 #import "NSNotificationCenter+Tests.h"
 #import "Segment.h"
 
@@ -526,8 +525,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] trackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] analyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                                      @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -593,8 +592,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -637,8 +636,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -687,8 +686,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] trackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] analyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                                      @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -739,8 +738,8 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(100., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1, segment2] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1, segment2] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                                          @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -791,8 +790,8 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(20., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(23., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1, segment2] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1, segment2] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                                          @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -841,8 +840,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -893,8 +892,8 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(60., NSEC_PER_SEC), CMTimeMakeWithSeconds(20., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1, segment2] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1, segment2] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                                          @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -953,8 +952,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1006,8 +1005,8 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1073,8 +1072,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1104,8 +1103,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] trackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] analyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                                      @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1155,8 +1154,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] trackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] analyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                                      @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1206,8 +1205,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1257,8 +1256,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] trackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] analyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                                      @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1305,8 +1304,8 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    MediaPlayerTestTrackingDelegate *trackingDelegate1 = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full1"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil trackingDelegate:trackingDelegate1 userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:@{ @"stream_name" : @"full1",
+                                                                                                               @"overridable_name" : @"full1" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1340,8 +1339,8 @@ static NSURL *DVRTestURL(void)
         return fullLength1EndReceived && fullLength2PlayReceived;
     }];
     
-    MediaPlayerTestTrackingDelegate *trackingDelegate2 = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full2"];
-    [self.mediaPlayerController playURL:LiveTestURL() atTime:kCMTimeZero withSegments:nil trackingDelegate:trackingDelegate2 userInfo:nil];
+    [self.mediaPlayerController playURL:LiveTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:@{ @"stream_name" : @"full2",
+                                                                                                           @"overridable_name" : @"full2" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -1357,8 +1356,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate1 = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full1"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1] withTrackingDelegate:trackingDelegate1 userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1] withAnalyticsLabels:@{ @"stream_name" : @"full1",
+                                                                                                                @"overridable_name" : @"full1" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1393,8 +1392,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate2 = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full2"];
-    [self.mediaPlayerController playURL:LiveTestURL() atIndex:0 inSegments:@[segment2] withTrackingDelegate:trackingDelegate2 userInfo:nil];
+    [self.mediaPlayerController playURL:LiveTestURL() atIndex:0 inSegments:@[segment2] withAnalyticsLabels:@{ @"stream_name" : @"full2",
+                                                                                                              @"overridable_name" : @"full2" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -1479,8 +1478,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                                 @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1545,8 +1544,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                                 @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1613,8 +1612,8 @@ static NSURL *DVRTestURL(void)
     
     self.mediaPlayerController.tracked = NO;
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                                 @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1676,8 +1675,8 @@ static NSURL *DVRTestURL(void)
     
     self.mediaPlayerController.tracked = NO;
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    MediaPlayerTestTrackingDelegate *trackingDelegate = [[MediaPlayerTestTrackingDelegate alloc] initWithName:@"full"];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withTrackingDelegate:trackingDelegate userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
+                                                                                                                 @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];

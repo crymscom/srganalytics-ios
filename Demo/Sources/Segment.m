@@ -61,6 +61,14 @@
     return [NSURL fileURLWithPath:imageFilePath];
 }
 
+#pragma mark SRGAnalyticsSegment protocol
+
+- (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
+{
+    return @{ @"segment_name" : self.name,
+              @"overridable_name" : self.name };
+}
+
 #pragma mark Description
 
 - (NSString *)description

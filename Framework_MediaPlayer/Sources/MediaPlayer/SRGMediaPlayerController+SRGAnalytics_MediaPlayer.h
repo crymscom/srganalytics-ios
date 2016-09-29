@@ -8,16 +8,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// Forward declarations
-@protocol SRGAnalyticsMediaPlayerTrackingDelegate;
-
 /**
  *  Stream measurement additions to SRGAnalytics, based on comScore StreamSense. The SRGAnalytics_MediaPlayer framework 
  *  is an optional SRGAnalytics companion framework which can be used to easily measure audio and video consumption in 
  *  applications powered by the SRGMediaPlayer library.
  *
- *  When playing a media, events will be automatically sent at appropriate times when the player state changes or
- *  when segments are being played.
+ *  When playing a media, two levels of analytics information (labels) are consolidated and sent to comScore:
+ *    - Labels associated with the content URL being played
+ *    - Labels associated with segments being played, which are merged and might override content URL labels
+ *
+ *  The SRGAnalytics_MediaPlayer framework automatically takes care of content and segment playback tracking, and 
+ *  supplies mechanisms to add your custom measurement labels to stream events if needed.
  *
  *  ## Usage
  *
@@ -40,61 +41,70 @@ NS_ASSUME_NONNULL_BEGIN
  *  when using custom labels, though, and ensure your custom keys do not match reserved values by using appropriate
  *  naming conventions (e.g. a prefix).
  *
- *  To supply custom measurement labels, specify a tracking delegate, conforming to the `SRGAnalyticsMediaPlayerTrackingDelegate`
- *  protocol, when calling one of the methods below. This tracking delegate requires two methods to be implemented,
- *  one for labels associated with the content, one for segment-specific labels.
+ *  Custom information can be added to both content and segment labels. When playing a segment, its labels are merged 
+ *  labels associated with the content, overriding existing keys. You can take advantage of this behavior to add
+ *  segment information on top of content labels.
+ *  
+ *  ### Labels associated with the content
  *
- *  When playing a segment, corresponding labels are merged with those associated with the content, overriding existing keys. 
- *  You can take advantage of this behavior to add segment information on top of content labels.
+ *  Labels associated with a media being played can be supplied when starting playback, using one of the plaback
+ *  methods made available below. Simply pass a dictionary of the content-related labels to be sent in stream
+ *  events.
+ *
+ *  ### Labels associated with a segment
+ *
+ *  To supply labels for a segment, have your segment model class conform to the `SRGAnalyticsSegment` protocol instead 
+ *  of `SRGSegment`, and implement the required `srg_analyticsLabels` method to return the analytics associated with
+ *  a segment.
  */
 @interface SRGMediaPlayerController (SRGAnalytics_MediaPlayer)
 
 /**
- *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atTime:withSegments:userInfo:completionHandler:]`, but with 
- *  optional tracking delegate
+ *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atTime:withSegments:userInfo:completionHandler:]`, but with optional
+ *  analytics labels
  *
- *  @param trackingDelegate The tracking delegate to use. The delegate is retained
+ *  @param analyticsLabels The analytics labels to send in stream events
  */
 - (void)prepareToPlayURL:(NSURL *)URL
                   atTime:(CMTime)time
             withSegments:(nullable NSArray<id<SRGSegment>> *)segments
-        trackingDelegate:(nullable id<SRGAnalyticsMediaPlayerTrackingDelegate>)trackingDelegate
+         analyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
- *  Same as `-[SRGMediaPlayerController playURL:atTime:withSegments:userInfo:]`, but with optional tracking delegate
+ *  Same as `-[SRGMediaPlayerController playURL:atTime:withSegments:userInfo:]`, but with optional analytics labels
  *
- *  @param trackingDelegate The tracking delegate to use. The delegate is retained
+ *  @param analyticsLabels The analytics labels to send in stream events
  */
 - (void)playURL:(NSURL *)URL
          atTime:(CMTime)time
    withSegments:(nullable NSArray<id<SRGSegment>> *)segments
-trackingDelegate:(nullable id<SRGAnalyticsMediaPlayerTrackingDelegate>)trackingDelegate
+analyticsLabels:(nullable NSDictionary *)analyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
  *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atIndex:inSegments:withUserInfo:completionHandler:]`, but with 
- *  optional tracking delegate
+ *  optional analytics labels
  *
- *  @param trackingDelegate The tracking delegate to use. The delegate is retained
+ *  @param analyticsLabels The analytics labels to send in stream events
  */
 - (void)prepareToPlayURL:(NSURL *)URL
                  atIndex:(NSInteger)index
               inSegments:(NSArray<id<SRGSegment>> *)segments
-    withTrackingDelegate:(nullable id<SRGAnalyticsMediaPlayerTrackingDelegate>)trackingDelegate
+     withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
- *  Same as `-[SRGMediaPlayerController playURL:atIndex:inSegments:withUserInfo:]`, but with optional tracking delegate
+ *  Same as `-[SRGMediaPlayerController playURL:atIndex:inSegments:withUserInfo:]`, but with optional analytics labels
  *
- *  @param trackingDelegate The tracking delegate to use. The delegate is retained
+ *  @param analyticsLabels The analytics labels to send in stream events
  */
 - (void)playURL:(NSURL *)URL
         atIndex:(NSInteger)index
      inSegments:(NSArray<id<SRGSegment>> *)segments
-withTrackingDelegate:(nullable id<SRGAnalyticsMediaPlayerTrackingDelegate>)trackingDelegate
+withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
@@ -108,25 +118,3 @@ withTrackingDelegate:(nullable id<SRGAnalyticsMediaPlayerTrackingDelegate>)track
 @property (nonatomic, getter=isTracked) BOOL tracked;
 
 @end
-
-/**
- *  Protocol through which custom labels can be provided during playback
- */
-@protocol SRGAnalyticsMediaPlayerTrackingDelegate <NSObject>
-
-/**
- *  Labels associated with the content being played
- */
-- (nullable NSDictionary<NSString *, NSString *> *)labelsForContent;
-
-/**
- *  Labels associated with the segment being played
- *
- *  @param segment The segment for which segment labels can be supplied. This method is also called when no segment is
- *                 being played (i.e. segment is nil), which also lets you provide labels in such cases if you want
- */
-- (nullable NSDictionary<NSString *, NSString *> *)labelsForSegment:(nullable id<SRGSegment>)segment;
-
-@end
-
-NS_ASSUME_NONNULL_END

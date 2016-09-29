@@ -12,11 +12,11 @@
 
 #pragma mark Helpers
 
-+ (NSDictionary *)fullInfoWithTrackingDelegate:(id<SRGAnalyticsMediaPlayerTrackingDelegate>)trackingDelegate userInfo:(NSDictionary *)userInfo
++ (NSDictionary *)fullInfoWithAnalyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels userInfo:(NSDictionary *)userInfo
 {
     NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
-    if (trackingDelegate) {
-        fullUserInfo[SRGAnalyticsMediaPlayerTrackingDelegateKey] = trackingDelegate;
+    if (analyticsLabels) {
+        fullUserInfo[SRGAnalyticsMediaPlayerLabelsKey] = analyticsLabels;
     }
     if (userInfo) {
         [fullUserInfo addEntriesFromDictionary:userInfo];
@@ -26,11 +26,9 @@
 
 #pragma mark Object lifecycle
 
-- (instancetype)initWithContentURL:(NSURL *)contentURL
-                  trackingDelegate:(id<SRGAnalyticsMediaPlayerTrackingDelegate>)trackingDelegate
-                          userInfo:(NSDictionary *)userInfo
+- (instancetype)initWithContentURL:(NSURL *)contentURL analyticsLabels:(NSDictionary<NSString *,NSString *> *)analyticsLabels userInfo:(NSDictionary *)userInfo
 {
-    NSDictionary *fullUserInfo = [SRGMediaPlayerViewController fullInfoWithTrackingDelegate:trackingDelegate userInfo:userInfo];
+    NSDictionary *fullUserInfo = [SRGMediaPlayerViewController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
     return [self initWithContentURL:contentURL userInfo:fullUserInfo];
 }
 
