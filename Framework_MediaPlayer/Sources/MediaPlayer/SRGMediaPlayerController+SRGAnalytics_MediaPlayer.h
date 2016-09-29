@@ -59,7 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
                   atTime:(CMTime)time
             withSegments:(nullable NSArray<id<SRGSegment>> *)segments
         trackingDelegate:(nullable id<SRGAnalyticsMediaPlayerTrackingDelegate>)trackingDelegate
-                userInfo:(nullable NSDictionary *)userInfo completionHandler:(nullable void (^)(void))completionHandler;
+                userInfo:(nullable NSDictionary *)userInfo
+       completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
  *  Same as `-[SRGMediaPlayerController playURL:atTime:withSegments:userInfo:]`, but with optional tracking delegate
@@ -116,7 +117,7 @@ withTrackingDelegate:(nullable id<SRGAnalyticsMediaPlayerTrackingDelegate>)track
 /**
  *  Labels associated with the content being played
  */
-- (nullable NSDictionary<NSString *, NSString *> *)contentLabels;
+- (nullable NSDictionary<NSString *, NSString *> *)labelsForContent;
 
 /**
  *  Labels associated with the segment being played

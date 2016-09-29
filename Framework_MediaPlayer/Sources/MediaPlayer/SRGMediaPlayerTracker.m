@@ -151,9 +151,9 @@ static NSMutableDictionary *s_trackers = nil;
     
     id<SRGAnalyticsMediaPlayerTrackingDelegate> trackingDelegate = userInfo[SRGAnalyticsMediaPlayerTrackingDelegateKey];
     
-    NSDictionary<NSString *, NSString *> *contentLabels = [trackingDelegate contentLabels];
-    if (contentLabels) {
-        [self setLabels:contentLabels];
+    NSDictionary<NSString *, NSString *> *labelsForContent = [trackingDelegate labelsForContent];
+    if (labelsForContent) {
+        [self setLabels:labelsForContent];
     }
     
     // Clip labels (reset to avoid inheriting from previous segment)

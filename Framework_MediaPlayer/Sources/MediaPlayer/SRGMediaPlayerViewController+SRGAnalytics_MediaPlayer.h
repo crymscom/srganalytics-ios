@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Stream measurement additions to `SRGMediaPlayerViewController`.
  *
- *  For more information about stream measurements, @see SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h
+ *  For more information about stream measurements, @see SRGMediaPlayerController+SRGAnalytics.h
  */
 @interface SRGMediaPlayerViewController (SRGAnalytics_MediaPlayer)
 

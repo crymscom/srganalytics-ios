@@ -24,7 +24,7 @@
     return self;
 }
 
-- (NSDictionary<NSString *,NSString *> *)contentLabels
+- (NSDictionary<NSString *,NSString *> *)labelsForContent
 {
     return @{ @"stream_name" : self.name,
               @"overridable_name" : self.name };
