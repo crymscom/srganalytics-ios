@@ -24,8 +24,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"quality == %@", @(preferredQuality)];
     SRGResource *resource = [resources filteredArrayUsingPredicate:predicate].firstObject ?: resources.firstObject;
     
-    // FIXME: Token service does not require any data provider
-    return [[SRGDataProvider currentDataProvider] tokenizeURL:resource.URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
+    return [SRGDataProvider tokenizeURL:resource.URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
         if (error) {
             completionBlock(nil, NSNotFound, nil, nil, error);
             return;
