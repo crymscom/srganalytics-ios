@@ -118,12 +118,11 @@ static NSURL *ServiceTestURL(void)
 - (void)testPlaySegmentInMediaComposition
 {
     // Use a segment id as video id, expect segment labels
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
-    
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Was ist bloss los mit der Schweizer Luftwaffe?");
         XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
+        return YES;
     }];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSRF];

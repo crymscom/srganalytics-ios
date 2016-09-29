@@ -333,8 +333,8 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)playbackStateDidChange:(NSNotification *)notification
 {
-    // Inhibit usual playback transitions when selecting a segment
-    if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
+    // Inhibit usual playback transitions occuring during segment selection
+    if ([notification.userInfo[SRGMediaPlayerSelectionKey] boolValue]) {
         return;
     }
     
@@ -375,11 +375,11 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)segmentDidStart:(NSNotification *)notification
 {
-    // Only send analytics for selected segments
-    if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
+    // Only send analytics for segment selections
+    if ([notification.userInfo[SRGMediaPlayerSelectionKey] boolValue]) {
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
         
-        // Notify full-length end (only if not started at the given segment, i.e. if the player is not preparing playback)
+        // Notify full-length end (only if not starting at the given segment, i.e. if the player is not preparing playback)
         id<SRGSegment> previousSegment = notification.userInfo[SRGMediaPlayerPreviousSegmentKey];
         if (! previousSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStatePreparing) {
             [self notifyEvent:CSStreamSenseEnd
@@ -397,7 +397,7 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)segmentDidEnd:(NSNotification *)notification
 {
-    // Only send analytics for selected segments
+    // Only send analytics for segments which were selected
     if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
         
@@ -406,9 +406,8 @@ static NSMutableDictionary *s_trackers = nil;
                    labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                   segment:segment];
         
-        // Notify full-length start
-        id<SRGSegment> nextSegment = notification.userInfo[SRGMediaPlayerNextSegmentKey];
-        if (! nextSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
+        // Notify full-length start if the transition was not due to another segment being selected
+        if (! [notification.userInfo[SRGMediaPlayerSelectionKey] boolValue] && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
             [self notifyEvent:CSStreamSensePlay
                  withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.srg_timeRange)) * 1000.
                        labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
