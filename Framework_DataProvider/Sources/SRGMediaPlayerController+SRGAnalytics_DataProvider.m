@@ -32,7 +32,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         
         SRGMediaCompositionTrackingDelegate *trackingDelegate = [[SRGMediaCompositionTrackingDelegate alloc] initWithMediaComposition:mediaComposition resource:resource];
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
-        completionBlock(resource.URL, index, chapter.segments, trackingDelegate, nil);
+        completionBlock(URL, index, chapter.segments, trackingDelegate, nil);
     }];
 }
 
