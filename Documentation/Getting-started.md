@@ -152,3 +152,19 @@ but when playing the segment (after the user selects it), this information will 
 myapp_media_id = Subject
 myapp_producer = RTS
 ```
+
+## Seamless analytics with the SRG SSR data provider library
+
+Our services directly supply the custom analytics labels which need to be sent to the analytics services. If you are using our data provider library to connect to these services, be sure to add the `SRGAnalytics_SRGDataProvider.framework` companion framework to your project as well, which will take care of this process for you.
+
+This framework adds a category `SRGMediaPlayerController (SRGAnalytics_DataProvider)`, which adds playback methods for media compositions to `SRGMediaPlayerController`. To play a media composition retrieved from an `SRGDataProvider`, simply call:
+
+```objective-c
+SRGRequest *request = [mediaPlayerController playMediaComposition:mediaComposition withPreferredQuality:SRGQualityHD userInfo:nil completionHandler:^(NSError * _Nonnull error) {
+	// Deal with errors, or play the URL with a media player
+}];
+[request resume];
+```
+on an `SRGMediaPlayerController` instance. Note that the play method returns an `SRGRequest` which must be resumed so that a token is retrieved before attempting to play the media.
+
+During playback, all analytics labels for the content and its segments are then transparently managed for you.

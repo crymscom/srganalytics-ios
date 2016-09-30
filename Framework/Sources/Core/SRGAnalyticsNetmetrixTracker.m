@@ -12,8 +12,6 @@
 
 #import <UIKit/UIKit.h>
 
-static NSString * const LoggerDomainAnalyticsNetMetrix = @"NetMetrix";
-
 @interface SRGAnalyticsNetMetrixTracker ()
 
 @property (nonatomic, copy) NSString *identifier;
@@ -30,7 +28,6 @@ static NSString * const LoggerDomainAnalyticsNetMetrix = @"NetMetrix";
     if (self = [super init]) {
         self.identifier = identifier;
         self.businessUnitIdentifier = businessUnitIdentifier;
-        SRGAnalyticsLogDebug(@"%@ initialization\nAppID: %@\nDomain: %@", LoggerDomainAnalyticsNetMetrix, identifier, self.netMetrixDomain);
     }
     return self;
 }
@@ -74,11 +71,13 @@ static NSString * const LoggerDomainAnalyticsNetMetrix = @"NetMetrix";
         NSString *userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (iOS-%@; CPU %@ %@ like Mac OS X)", self.device, self.operatingSystem, systemVersion];
         [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
         
-        SRGAnalyticsLogVerbose(@"%@ : will send view event:\nurl        = %@\nuser-agent = %@", LoggerDomainAnalyticsNetMetrix, netMetrixURLString, userAgent);
-        [[[NSURLSession sharedSession] dataTaskWithRequest:request] resume];
+        SRGAnalyticsLogDebug(@"NetMetrix", @"Request %@ started", request.URL);
+        [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            SRGAnalyticsLogDebug(@"NetMetrix", @"Request %@ ended with error %@", request.URL, error);
+        }] resume];
     }
     else {
-        SRGAnalyticsLogWarning(@"%@ request is not made for the test business unit", LoggerDomainAnalyticsNetMetrix);
+        SRGAnalyticsLogDebug(@"NetMetrix", @"Requests are disabled for the test business unit");
     }
 }
 

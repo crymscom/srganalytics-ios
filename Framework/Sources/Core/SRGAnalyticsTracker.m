@@ -221,7 +221,7 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
             [message appendFormat:@"%@: %@\n", NSStringFromSelector(selector), [CSComScore performSelector:selector]];
         }
         [message deleteCharactersInRange:NSMakeRange(message.length - 1, 1)];
-        SRGAnalyticsLogDebug(@"%@", message);
+        SRGAnalyticsLogDebug(@"comScore", @"%@", message);
     } background:YES];
 }
 
@@ -255,9 +255,7 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
     
     NSString *event = ns_st_ev ? [typeSymbol stringByAppendingFormat:@" %@", ns_st_ev] : ns_ap_ev;
     NSString *name = ns_st_ev ? [NSString stringWithFormat:@"%@ / %@", labels[@"ns_st_pl"], labels[@"ns_st_ep"]] : labels[@"name"];
-    SRGAnalyticsLogInfo(@"%@ > %@", event, name);
-    
-    SRGAnalyticsLogDebug(@"Comscore %@ event sent:\n%@", labels[@"ns_type"], dictionaryRepresentation);
+    SRGAnalyticsLogDebug(@"comScore", @"Event %@ with name %@ and labels %@", event, name, labels);
 }
 
 #pragma mark Description
