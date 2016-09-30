@@ -73,7 +73,6 @@ static NSDictionary *startLabels = nil;
 	XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
 	XCTAssertEqualObjects(labels[@"srg_title"], @"untitled");
 	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
-    XCTAssertNil(labels[@"srg_test"]);
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
     
