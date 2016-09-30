@@ -1,5 +1,6 @@
 github "comScore/ComScore-iOS-SDK" "92f34897cd7659d56bb5a3e9e85b808cf3758bda"
 github "Mantle/Mantle" "2.0.7"
 github "ashaman/libextobjc" "e24f2be3af2cf7fc88a78295f116ef98d0832bcf"
-github "SRGSSR/SRGMediaPlayer-iOS" "d4551884e073ed51b9a1709830babb42ca9fcd43"
-github "SRGSSR/srgdataprovider-ios" "c81eadb0197f8640163309f6db0b45ea36a642de"
+github "SRGSSR/srglogger-ios" "cec537033f37eb2c892088895ceb139a7de90906"
+github "SRGSSR/SRGMediaPlayer-iOS" "fb76cfaeed9e259cbf67fc05024c8538eb18ad8c"
+github "SRGSSR/srgdataprovider-ios" "8c2919fda01214c2b88ae10e58ca0ddc3924dbd6"

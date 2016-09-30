@@ -1,3 +1,4 @@
 github "SRGSSR/srgdataprovider-ios" "feature/services-v2"
+github "SRGSSR/srglogger-ios" "develop"
 github "SRGSSR/SRGMediaPlayer-iOS" "develop"
 github "comScore/ComScore-iOS-SDK" "master"
