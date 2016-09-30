@@ -45,9 +45,6 @@ static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL ani
         }
         
         NSString *title = [trackedSelf srg_pageViewTitle];
-        if (title.length == 0) {
-            return;
-        }
         
         NSArray<NSString *> *levels = nil;
         if ([trackedSelf respondsToSelector:@selector(srg_pageViewLevels)]) {
