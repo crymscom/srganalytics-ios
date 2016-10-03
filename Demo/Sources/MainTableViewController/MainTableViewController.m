@@ -101,14 +101,6 @@
     {
         urlString = @"https://wowza.jwplayer.com/live/jelly.stream/playlist.m3u8?DVR";
     }
-    else if ([identifier hasSuffix:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
-    {
-        urlString = @"http://srfaodorigin-vh.akamaihd.net/i/world/echo-der-zeit/7ea975b2-fafe-487b-a6a5-9b7d2461ff05.,q10,q20,.mp4.csmil/master.m3u8";
-    }
-    else if ([identifier hasSuffix:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell_2"])
-    {
-        urlString = @"http://srfaodorigin-vh.akamaihd.net/i/world/echo-der-zeit/5cc0475c-0f87-4c62-85d3-c43857094543.,q10,q20,.mp4.csmil/master.m3u8";
-    }
     
 	return [NSURL URLWithString:urlString];
 }
@@ -127,14 +119,6 @@
     else if ([identifier hasSuffix:@"DVRCell"])
     {
         name = @"Clock";
-    }
-    else if ([identifier hasSuffix:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
-    {
-        name = @"SRF 1";
-    }
-    else if ([identifier hasSuffix:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell_2"])
-    {
-        name = @"SRF AOD";
     }
     
     return name;
@@ -170,20 +154,6 @@
         
         return @[segment1, segment2, segment3];
     }
-//    else if ([identifier isEqualToString:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
-//    {
-//        Segment *physicalSegment1 = [[Segment alloc] initWithName:@"physical_segment1" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-//        Segment *physicalSegment2 = [[Segment alloc] initWithName:@"physical_segment2" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(1200., 1.))];
-//        return @[physicalSegment1, physicalSegment2];
-//    }
-//    else
-//    {
-//        Segment *fullLengthSegment = [[Segment alloc] initWithName:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-//        
-//        CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(15., 1.));
-//        Segment *segment = [[Segment alloc] initWithName:@"segment" timeRange:timeRange];
-//        return @[fullLengthSegment, segment];
-//    }
     return nil;
 }
 
