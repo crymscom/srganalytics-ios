@@ -109,7 +109,7 @@
 	}
     else if ([identifier hasSuffix:@"DVRCell"])
     {
-        urlString = @"http://vevoplaylist-live.hls.adaptive.level3.net/vevo/ch1/appleman.m3u8";
+        urlString = @"https://wowza.jwplayer.com/live/jelly.stream/playlist.m3u8?DVR";
     }
     else if ([identifier hasSuffix:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
     {
@@ -136,7 +136,7 @@
     }
     else if ([identifier hasSuffix:@"DVRCell"])
     {
-        name = @"Vevo";
+        name = @"Clock";
     }
     else if ([identifier hasSuffix:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
     {
