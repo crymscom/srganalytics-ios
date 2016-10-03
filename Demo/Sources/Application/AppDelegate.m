@@ -10,7 +10,7 @@
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 
 #import "Segment.h"
-#import "ViewController.h"
+#import "SimpleViewController.h"
 
 @implementation AppDelegate
 
@@ -39,7 +39,7 @@
 - (void) openViewControllerFromNotification
 {
 	UINavigationController *navigationController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"PushNavigationController"];
-	ViewController *controller = (ViewController *)navigationController.topViewController;
+	SimpleViewController *controller = (SimpleViewController *)navigationController.topViewController;
 	controller.srg_isOpenedFromPushNotification = YES;
 	[self.window.rootViewController presentViewController:navigationController animated:YES completion:^{
 		controller.srg_isOpenedFromPushNotification = NO;

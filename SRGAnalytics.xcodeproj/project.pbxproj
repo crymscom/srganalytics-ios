@@ -7,19 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0811A84E1D7DA2CB00A9863B /* SegmentCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811A8491D7DA2CB00A9863B /* SegmentCollectionViewCell.m */; };
-		0811A84F1D7DA2CB00A9863B /* SegmentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0811A84A1D7DA2CB00A9863B /* SegmentCollectionViewCell.xib */; };
-		0811A8501D7DA2CB00A9863B /* SegmentsPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0811A84C1D7DA2CB00A9863B /* SegmentsPlayerViewController.m */; };
-		0811A8511D7DA2CB00A9863B /* SegmentsPlayerViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0811A84D1D7DA2CB00A9863B /* SegmentsPlayerViewController.storyboard */; };
 		0811A8531D800BA000A9863B /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; };
 		0811A8541D800BBC00A9863B /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; };
 		0811A8551D800BBC00A9863B /* libextobjc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0811A8571D800C9A00A9863B /* libextobjc.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		088700D41DA2528900D4961A /* SimpleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700C51DA2528900D4961A /* SimpleViewController.m */; };
+		088700D51DA2540F00D4961A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088700AF1DA2525800D4961A /* LaunchScreen.xib */; };
+		088700D61DA2541800D4961A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 088700B01DA2525800D4961A /* Main.storyboard */; };
+		088700D71DA2542700D4961A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B51DA2528900D4961A /* AppDelegate.m */; };
+		088700D81DA2542700D4961A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B61DA2528900D4961A /* main.m */; };
+		088700D91DA2542D00D4961A /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B91DA2528900D4961A /* MainTableViewController.m */; };
+		088700DA1DA2543400D4961A /* Segment.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700BC1DA2528900D4961A /* Segment.m */; };
+		088700DB1DA2543400D4961A /* SegmentCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700BE1DA2528900D4961A /* SegmentCollectionViewCell.m */; };
+		088700DC1DA2543400D4961A /* SegmentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088700BF1DA2528900D4961A /* SegmentCollectionViewCell.xib */; };
+		088700DD1DA2543400D4961A /* SegmentsPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700C11DA2528900D4961A /* SegmentsPlayerViewController.m */; };
+		088700DE1DA2543400D4961A /* SegmentsPlayerViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 088700C21DA2528900D4961A /* SegmentsPlayerViewController.storyboard */; };
+		088700DF1DA2543800D4961A /* SimpleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700C51DA2528900D4961A /* SimpleViewController.m */; };
 		6FA09D891D9EC4BC00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8A1D9EC4CF00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8B1D9EC4DB00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8C1D9EC4EA00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
-		6FA09D8D1D9EC50B00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8E1D9EC50B00EDCA64 /* SRGLogger.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FA09D8F1D9EC52900EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D901D9EC53900EDCA64 /* SRGLogger.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -97,13 +104,6 @@
 		E6FC7EA91D61F99100A55085 /* SRGMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */; };
 		E6FC7EAA1D61F99100A55085 /* SRGMediaPlayer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E6FC7F1D1D61FA4700A55085 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6FC7F061D61FA4700A55085 /* Images.xcassets */; };
-		E6FC7F201D61FA4700A55085 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F0B1D61FA4700A55085 /* AppDelegate.m */; };
-		E6FC7F211D61FA4700A55085 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E6FC7F0C1D61FA4700A55085 /* LaunchScreen.xib */; };
-		E6FC7F221D61FA4700A55085 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6FC7F0E1D61FA4700A55085 /* Main.storyboard */; };
-		E6FC7F241D61FA4700A55085 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F121D61FA4700A55085 /* main.m */; };
-		E6FC7F251D61FA4700A55085 /* Segment.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F141D61FA4700A55085 /* Segment.m */; };
-		E6FC7F281D61FA4700A55085 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F191D61FA4700A55085 /* TableViewController.m */; };
-		E6FC7F291D61FA4700A55085 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F1B1D61FA4700A55085 /* ViewController.m */; };
 		E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */; };
 		E6FC7FC31D62D90800A55085 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; };
 /* End PBXBuildFile section */
@@ -197,13 +197,24 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0811A8481D7DA2CB00A9863B /* SegmentCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentCollectionViewCell.h; sourceTree = "<group>"; };
-		0811A8491D7DA2CB00A9863B /* SegmentCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentCollectionViewCell.m; sourceTree = "<group>"; };
-		0811A84A1D7DA2CB00A9863B /* SegmentCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SegmentCollectionViewCell.xib; sourceTree = "<group>"; };
-		0811A84B1D7DA2CB00A9863B /* SegmentsPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentsPlayerViewController.h; sourceTree = "<group>"; };
-		0811A84C1D7DA2CB00A9863B /* SegmentsPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentsPlayerViewController.m; sourceTree = "<group>"; };
-		0811A84D1D7DA2CB00A9863B /* SegmentsPlayerViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SegmentsPlayerViewController.storyboard; sourceTree = "<group>"; };
 		0811A8521D800BA000A9863B /* libextobjc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libextobjc.framework; path = Carthage/Build/iOS/libextobjc.framework; sourceTree = "<group>"; };
+		088700AF1DA2525800D4961A /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		088700B01DA2525800D4961A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		088700B41DA2528900D4961A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		088700B51DA2528900D4961A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		088700B61DA2528900D4961A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		088700B81DA2528900D4961A /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
+		088700B91DA2528900D4961A /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
+		088700BB1DA2528900D4961A /* Segment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Segment.h; sourceTree = "<group>"; };
+		088700BC1DA2528900D4961A /* Segment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Segment.m; sourceTree = "<group>"; };
+		088700BD1DA2528900D4961A /* SegmentCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentCollectionViewCell.h; sourceTree = "<group>"; };
+		088700BE1DA2528900D4961A /* SegmentCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentCollectionViewCell.m; sourceTree = "<group>"; };
+		088700BF1DA2528900D4961A /* SegmentCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SegmentCollectionViewCell.xib; sourceTree = "<group>"; };
+		088700C01DA2528900D4961A /* SegmentsPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentsPlayerViewController.h; sourceTree = "<group>"; };
+		088700C11DA2528900D4961A /* SegmentsPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentsPlayerViewController.m; sourceTree = "<group>"; };
+		088700C21DA2528900D4961A /* SegmentsPlayerViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SegmentsPlayerViewController.storyboard; sourceTree = "<group>"; };
+		088700C41DA2528900D4961A /* SimpleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleViewController.h; sourceTree = "<group>"; };
+		088700C51DA2528900D4961A /* SimpleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleViewController.m; sourceTree = "<group>"; };
 		6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGLogger.framework; path = Carthage/Build/iOS/SRGLogger.framework; sourceTree = "<group>"; };
 		6FA09D911D9EC61400EDCA64 /* SRGAnalyticsMediaPlayerLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsMediaPlayerLogger.h; sourceTree = "<group>"; };
 		6FA09D921D9EC66D00EDCA64 /* SRGAnalyticsDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsDataProvider.h; sourceTree = "<group>"; };
@@ -272,17 +283,6 @@
 		E6FC7E881D61F95C00A55085 /* SRGAnalytics-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SRGAnalytics-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FC7F041D61FA4700A55085 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E6FC7F061D61FA4700A55085 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		E6FC7F0A1D61FA4700A55085 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		E6FC7F0B1D61FA4700A55085 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E6FC7F0D1D61FA4700A55085 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		E6FC7F0F1D61FA4700A55085 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E6FC7F121D61FA4700A55085 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E6FC7F131D61FA4700A55085 /* Segment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Segment.h; sourceTree = "<group>"; };
-		E6FC7F141D61FA4700A55085 /* Segment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Segment.m; sourceTree = "<group>"; };
-		E6FC7F181D61FA4700A55085 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
-		E6FC7F191D61FA4700A55085 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
-		E6FC7F1A1D61FA4700A55085 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E6FC7F1B1D61FA4700A55085 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalytics.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -351,7 +351,6 @@
 				0811A8541D800BBC00A9863B /* libextobjc.framework in Frameworks */,
 				E672EA511D62F19E00CFB080 /* ComScore.framework in Frameworks */,
 				6FF3E2181D9CF58C00EB4A30 /* Mantle.framework in Frameworks */,
-				6FA09D8D1D9EC50B00EDCA64 /* SRGLogger.framework in Frameworks */,
 				E6FC7EA51D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Frameworks */,
 				E6FC7EA01D61F97500A55085 /* SRGAnalytics.framework in Frameworks */,
 			);
@@ -360,6 +359,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		088700B31DA2528900D4961A /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				088700B41DA2528900D4961A /* AppDelegate.h */,
+				088700B51DA2528900D4961A /* AppDelegate.m */,
+				088700B61DA2528900D4961A /* main.m */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		088700B71DA2528900D4961A /* MainTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				088700B81DA2528900D4961A /* MainTableViewController.h */,
+				088700B91DA2528900D4961A /* MainTableViewController.m */,
+			);
+			path = MainTableViewController;
+			sourceTree = "<group>";
+		};
+		088700BA1DA2528900D4961A /* Segments */ = {
+			isa = PBXGroup;
+			children = (
+				088700BB1DA2528900D4961A /* Segment.h */,
+				088700BC1DA2528900D4961A /* Segment.m */,
+				088700BD1DA2528900D4961A /* SegmentCollectionViewCell.h */,
+				088700BE1DA2528900D4961A /* SegmentCollectionViewCell.m */,
+				088700BF1DA2528900D4961A /* SegmentCollectionViewCell.xib */,
+				088700C01DA2528900D4961A /* SegmentsPlayerViewController.h */,
+				088700C11DA2528900D4961A /* SegmentsPlayerViewController.m */,
+				088700C21DA2528900D4961A /* SegmentsPlayerViewController.storyboard */,
+			);
+			path = Segments;
+			sourceTree = "<group>";
+		};
+		088700C31DA2528900D4961A /* SimpleViewController */ = {
+			isa = PBXGroup;
+			children = (
+				088700C41DA2528900D4961A /* SimpleViewController.h */,
+				088700C51DA2528900D4961A /* SimpleViewController.m */,
+			);
+			path = SimpleViewController;
+			sourceTree = "<group>";
+		};
 		6FB331F41D9BFB77001469F2 /* Framework_DataProvider */ = {
 			isa = PBXGroup;
 			children = (
@@ -577,6 +619,8 @@
 			isa = PBXGroup;
 			children = (
 				E6FC7F061D61FA4700A55085 /* Images.xcassets */,
+				088700AF1DA2525800D4961A /* LaunchScreen.xib */,
+				088700B01DA2525800D4961A /* Main.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -584,23 +628,10 @@
 		E6FC7F091D61FA4700A55085 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				E6FC7F0A1D61FA4700A55085 /* AppDelegate.h */,
-				E6FC7F0B1D61FA4700A55085 /* AppDelegate.m */,
-				E6FC7F0C1D61FA4700A55085 /* LaunchScreen.xib */,
-				E6FC7F121D61FA4700A55085 /* main.m */,
-				E6FC7F0E1D61FA4700A55085 /* Main.storyboard */,
-				E6FC7F131D61FA4700A55085 /* Segment.h */,
-				E6FC7F141D61FA4700A55085 /* Segment.m */,
-				0811A8481D7DA2CB00A9863B /* SegmentCollectionViewCell.h */,
-				0811A8491D7DA2CB00A9863B /* SegmentCollectionViewCell.m */,
-				0811A84A1D7DA2CB00A9863B /* SegmentCollectionViewCell.xib */,
-				0811A84B1D7DA2CB00A9863B /* SegmentsPlayerViewController.h */,
-				0811A84C1D7DA2CB00A9863B /* SegmentsPlayerViewController.m */,
-				0811A84D1D7DA2CB00A9863B /* SegmentsPlayerViewController.storyboard */,
-				E6FC7F181D61FA4700A55085 /* TableViewController.h */,
-				E6FC7F191D61FA4700A55085 /* TableViewController.m */,
-				E6FC7F1A1D61FA4700A55085 /* ViewController.h */,
-				E6FC7F1B1D61FA4700A55085 /* ViewController.m */,
+				088700B31DA2528900D4961A /* Application */,
+				088700B71DA2528900D4961A /* MainTableViewController */,
+				088700BA1DA2528900D4961A /* Segments */,
+				088700C31DA2528900D4961A /* SimpleViewController */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -802,7 +833,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 			);
 			mainGroup = 9F1518B21AC2F1CE00AE051D;
@@ -860,10 +890,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0811A8511D7DA2CB00A9863B /* SegmentsPlayerViewController.storyboard in Resources */,
-				0811A84F1D7DA2CB00A9863B /* SegmentCollectionViewCell.xib in Resources */,
-				E6FC7F211D61FA4700A55085 /* LaunchScreen.xib in Resources */,
-				E6FC7F221D61FA4700A55085 /* Main.storyboard in Resources */,
+				088700DE1DA2543400D4961A /* SegmentsPlayerViewController.storyboard in Resources */,
+				088700DC1DA2543400D4961A /* SegmentCollectionViewCell.xib in Resources */,
+				088700D61DA2541800D4961A /* Main.storyboard in Resources */,
+				088700D51DA2540F00D4961A /* LaunchScreen.xib in Resources */,
 				E6FC7F1D1D61FA4700A55085 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -923,6 +953,7 @@
 				E61388B01D916A9900218919 /* NSString+SRGAnalytics.m in Sources */,
 				E61388BC1D91903B00218919 /* SRGAnalyticsNotifications.m in Sources */,
 				E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */,
+				088700D41DA2528900D4961A /* SimpleViewController.m in Sources */,
 				E61388A11D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m in Sources */,
 				E61388A61D916A9900218919 /* SRGAnalyticsTracker.m in Sources */,
 				E61388A81D916A9900218919 /* UIViewController+SRGAnalytics.m in Sources */,
@@ -933,13 +964,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6FC7F291D61FA4700A55085 /* ViewController.m in Sources */,
-				E6FC7F281D61FA4700A55085 /* TableViewController.m in Sources */,
-				E6FC7F201D61FA4700A55085 /* AppDelegate.m in Sources */,
-				0811A8501D7DA2CB00A9863B /* SegmentsPlayerViewController.m in Sources */,
-				E6FC7F241D61FA4700A55085 /* main.m in Sources */,
-				E6FC7F251D61FA4700A55085 /* Segment.m in Sources */,
-				0811A84E1D7DA2CB00A9863B /* SegmentCollectionViewCell.m in Sources */,
+				088700DB1DA2543400D4961A /* SegmentCollectionViewCell.m in Sources */,
+				088700D81DA2542700D4961A /* main.m in Sources */,
+				088700D71DA2542700D4961A /* AppDelegate.m in Sources */,
+				088700DD1DA2543400D4961A /* SegmentsPlayerViewController.m in Sources */,
+				088700DF1DA2543800D4961A /* SimpleViewController.m in Sources */,
+				088700D91DA2542D00D4961A /* MainTableViewController.m in Sources */,
+				088700DA1DA2543400D4961A /* Segment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -972,25 +1003,6 @@
 			targetProxy = E6FC7EA71D61F97800A55085 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		E6FC7F0C1D61FA4700A55085 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E6FC7F0D1D61FA4700A55085 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-		E6FC7F0E1D61FA4700A55085 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E6FC7F0F1D61FA4700A55085 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		6FB331EF1D9BFB00001469F2 /* Debug */ = {

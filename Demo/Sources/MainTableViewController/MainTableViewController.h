@@ -6,6 +6,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TableViewController : UITableViewController
+@interface MainTableViewController : UITableViewController
 
 @end

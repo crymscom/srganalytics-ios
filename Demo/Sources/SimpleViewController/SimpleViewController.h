@@ -6,7 +6,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface SimpleViewController : UIViewController
 
 @property (nonatomic, strong) NSArray *levels;
 @property (nonatomic, strong) NSDictionary *customLabels;

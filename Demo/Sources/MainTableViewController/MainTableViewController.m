@@ -7,23 +7,22 @@
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
-#import "TableViewController.h"
+#import "MainTableViewController.h"
 
 #import "AppDelegate.h"
-#import "ViewController.h"
-#import "Segment.h"
+#import "SimpleViewController.h"
 #import "SegmentsPlayerViewController.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
-@interface TableViewController () <UITableViewDelegate, SRGAnalyticsViewTracking>
+@interface MainTableViewController () <UITableViewDelegate, SRGAnalyticsViewTracking>
 
 @end
 
-@implementation TableViewController
+@implementation MainTableViewController
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	ViewController *controller = [segue destinationViewController];
+	SimpleViewController *controller = [segue destinationViewController];
 	if ([segue.identifier isEqualToString:@"ViewWithNoTitle"]) {
 		controller.title = nil;
 	}
@@ -71,9 +70,7 @@
     else if ([cell.reuseIdentifier hasPrefix:@"SegmentsMediaPlayer"])
     {
         SegmentsPlayerViewController *segmentsPlayerViewController = [[SegmentsPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
-                                                                                                                   identifier:cell.reuseIdentifier
-                                                                                                                     segments:[self segmentsForIdentifier:cell.reuseIdentifier]
-                                                                                                                     userInfo:nil];
+                                                                                                                     segments:[self segmentsForIdentifier:cell.reuseIdentifier]];
         [self presentViewController:segmentsPlayerViewController animated:YES completion:nil];
     }
 	else if ([cell.reuseIdentifier isEqualToString:@"PushNotificationCell"])
@@ -154,8 +151,6 @@
 {
     if ([identifier rangeOfString:@"MultipleSegments"].length != 0)
     {
-        Segment *fullLengthSegment = [[Segment alloc] initWithIdentifier:identifier name:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-        
         const NSTimeInterval segment1StartTime = 2.;
         const NSTimeInterval segment1Duration = 3.;
         
@@ -165,31 +160,34 @@
         const NSTimeInterval segment3StartTime = 40.;
         const NSTimeInterval segment3Duration = 30.;
         
-        CMTimeRange timeRange1 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment1StartTime, 1.), CMTimeMakeWithSeconds(segment1Duration, 1.));
-        Segment *segment1 = [[Segment alloc] initWithIdentifier:identifier name:@"segment1" timeRange:timeRange1];
+        Segment *segment1 = [[Segment alloc] initWithDictionary:@{@"name" : @"segment1",
+                                                                  @"startTime" : @(segment1StartTime * 1000),
+                                                                  @"duration" : @(segment1Duration * 1000)}];
         
-        CMTimeRange timeRange2 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment2StartTime, 1.), CMTimeMakeWithSeconds(segment2Duration, 1.));
-        Segment *segment2 = [[Segment alloc] initWithIdentifier:identifier name:@"segment2" timeRange:timeRange2];
+        Segment *segment2 = [[Segment alloc] initWithDictionary:@{@"name" : @"segment2",
+                                                                  @"startTime" : @(segment2StartTime * 1000),
+                                                                  @"duration" : @(segment2Duration * 1000)}];;
         
-        CMTimeRange timeRange3 = CMTimeRangeMake(CMTimeMakeWithSeconds(segment3StartTime, 1.), CMTimeMakeWithSeconds(segment3Duration, 1.));
-        Segment *segment3 = [[Segment alloc] initWithIdentifier:identifier name:@"segment3" timeRange:timeRange3];
+        Segment *segment3 = [[Segment alloc] initWithDictionary:@{@"name" : @"segment3",
+                                                                  @"startTime" : @(segment3StartTime * 1000),
+                                                                  @"duration" : @(segment3Duration * 1000)}];;
         
-        return @[fullLengthSegment, segment1, segment2, segment3];
+        return @[segment1, segment2, segment3];
     }
-    else if ([identifier isEqualToString:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
-    {
-        Segment *physicalSegment1 = [[Segment alloc] initWithIdentifier:identifier name:@"physical_segment1" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-        Segment *physicalSegment2 = [[Segment alloc] initWithIdentifier:[identifier stringByAppendingString:@"_2"] name:@"physical_segment2" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(1200., 1.))];
-        return @[physicalSegment1, physicalSegment2];
-    }
-    else
-    {
-        Segment *fullLengthSegment = [[Segment alloc] initWithIdentifier:identifier name:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
-        
-        CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(15., 1.));
-        Segment *segment = [[Segment alloc] initWithIdentifier:identifier name:@"segment" timeRange:timeRange];
-        return @[fullLengthSegment, segment];
-    }
+//    else if ([identifier isEqualToString:@"SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell"])
+//    {
+//        Segment *physicalSegment1 = [[Segment alloc] initWithName:@"physical_segment1" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
+//        Segment *physicalSegment2 = [[Segment alloc] initWithName:@"physical_segment2" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(1200., 1.))];
+//        return @[physicalSegment1, physicalSegment2];
+//    }
+//    else
+//    {
+//        Segment *fullLengthSegment = [[Segment alloc] initWithName:@"full_length" timeRange:CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(3600., 1.))];
+//        
+//        CMTimeRange timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2., 1.), CMTimeMakeWithSeconds(15., 1.));
+//        Segment *segment = [[Segment alloc] initWithName:@"segment" timeRange:timeRange];
+//        return @[fullLengthSegment, segment];
+//    }
     return nil;
 }
 

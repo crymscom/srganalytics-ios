@@ -4,14 +4,14 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "ViewController.h"
+#import "SimpleViewController.h"
 #import <SRGAnalytics/SRGAnalytics.h>
 
-@interface ViewController () <SRGAnalyticsViewTracking>
+@interface SimpleViewController () <SRGAnalyticsViewTracking>
 
 @end
 
-@implementation ViewController
+@implementation SimpleViewController
 
 - (IBAction)dismiss:(id)sender
 {

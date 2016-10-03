@@ -6,11 +6,11 @@
 
 #import "Segment.h"
 
+#pragma mark - Functions
+
 @interface Segment ()
 
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *identifier;
-
 @property (nonatomic) CMTimeRange srg_timeRange;
 @property (nonatomic, getter=srg_isBlocked) BOOL srg_blocked;
 @property (nonatomic, getter=srg_isHidden) BOOL srg_hidden;
@@ -25,7 +25,6 @@
 {
     if (self = [super init]) {
         self.name = dictionary[@"name"];
-        self.identifier = dictionary[@"identifier"];
         self.srg_blocked = [dictionary[@"blocked"] boolValue];
         self.srg_hidden = [dictionary[@"hidden"] boolValue];
         
@@ -36,15 +35,6 @@
                                              CMTimeMakeWithSeconds(duration, NSEC_PER_SEC));
     }
     return self;
-}
-
-- (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name timeRange:(CMTimeRange)timeRange
-{
-    NSDictionary *dictionnary = @{ @"name" : name,
-                                   @"identifier" : identifier,
-                                   @"startTime" : @(CMTimeGetSeconds(self.srg_timeRange.start)),
-                                   @"duration" : @(CMTimeGetSeconds(self.srg_timeRange.duration)) };
-    return [self initWithDictionary:dictionnary];
 }
 
 - (instancetype)init
@@ -61,14 +51,6 @@
     return [NSURL fileURLWithPath:imageFilePath];
 }
 
-#pragma mark SRGAnalyticsSegment protocol
-
-- (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
-{
-    return @{ @"segment_name" : self.name,
-              @"overridable_name" : self.name };
-}
-
 #pragma mark Description
 
 - (NSString *)description
@@ -81,6 +63,14 @@
             self.name,
             self.srg_blocked ? @"YES" : @"NO",
             self.srg_hidden ? @"YES" : @"NO"];
+}
+
+#pragma mark SRGAnalyticsSegment protocol
+
+- (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
+{
+    return @{ @"segment_name" : self.name,
+              @"overridable_name" : self.name };
 }
 
 @end
