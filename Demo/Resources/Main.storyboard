@@ -207,59 +207,8 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomMediaPlayerLiveCell" textLabel="dMG-1N-gw8" style="IBUITableViewCellStyleDefault" id="eUE-8Z-nc1">
-                                        <rect key="frame" x="0.0" y="658" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eUE-8Z-nc1" id="UVP-wl-9qj">
-                                            <frame key="frameInset" width="375" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Custom Player Live Stream" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dMG-1N-gw8">
-                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomMediaPlayerVODCell" textLabel="15j-oy-rdN" style="IBUITableViewCellStyleDefault" id="146-xS-lYb">
-                                        <rect key="frame" x="0.0" y="702" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="146-xS-lYb" id="ehQ-g6-Kyi">
-                                            <frame key="frameInset" width="375" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Custom Player VOD Stream" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="15j-oy-rdN">
-                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomMediaPlayerDVRCell" textLabel="3xS-fQ-Ldo" style="IBUITableViewCellStyleDefault" id="035-qb-YXz" userLabel="CustomMediaPlayerDVRCell">
-                                        <rect key="frame" x="0.0" y="746" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="035-qb-YXz" id="XUK-6t-U1Z">
-                                            <frame key="frameInset" width="375" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Custom Player DVR Stream" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3xS-fQ-Ldo">
-                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SegmentsMediaPlayerOneSegmentVODCell" textLabel="7m5-GH-uy6" style="IBUITableViewCellStyleDefault" id="m3W-ZC-ctY">
-                                        <rect key="frame" x="0.0" y="790" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="658" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m3W-ZC-ctY" id="A9Q-J8-OeJ">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -276,7 +225,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SegmentsMediaPlayerMultipleSegmentsVODCell" textLabel="0ZJ-5e-jGB" style="IBUITableViewCellStyleDefault" id="73Q-e3-pXT">
-                                        <rect key="frame" x="0.0" y="834" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="702" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="73Q-e3-pXT" id="orD-Gj-tT5">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -293,7 +242,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SegmentsMediaPlayerMultiplePhysicalSegmentsAODCell" textLabel="ekv-7x-0JS" style="IBUITableViewCellStyleDefault" id="jlf-0V-MHi">
-                                        <rect key="frame" x="0.0" y="878" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="746" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jlf-0V-MHi" id="NvV-zq-amt">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -314,7 +263,7 @@
                             <tableViewSection headerTitle="Push Notifications" id="jqp-nz-MAe">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PushNotificationCell" textLabel="jFM-J9-Cr7" style="IBUITableViewCellStyleDefault" id="YxM-jP-2Dz">
-                                        <rect key="frame" x="0.0" y="971" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="839" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YxM-jP-2Dz" id="K4W-kr-BdH">
                                             <frame key="frameInset" width="375" height="43"/>

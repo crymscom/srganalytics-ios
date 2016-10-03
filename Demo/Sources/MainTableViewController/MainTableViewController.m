@@ -59,14 +59,6 @@
                                                                                                              userInfo:nil];
 		[self presentViewController:playerViewController animated:YES completion:nil];
 	}
-	else if ([cell.reuseIdentifier hasPrefix:@"CustomMediaPlayer"])
-    {
-        // TODO: Use CustomMediaPlayerViewController controller
-        SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
-                                                                                                      analyticsLabels:@{ @"ns_st_ep" : [self contentURLNameForIdentifier:cell.reuseIdentifier] }
-                                                                                                             userInfo:nil];
-        [self presentViewController:playerViewController animated:YES completion:nil];
-    }
     else if ([cell.reuseIdentifier hasPrefix:@"SegmentsMediaPlayer"])
     {
         SegmentsPlayerViewController *segmentsPlayerViewController = [[SegmentsPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
