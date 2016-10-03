@@ -63,7 +63,7 @@ static NSDictionary *startLabels = nil;
 - (void)testPresentViewControllerWithNoTitleSendsViewEvent
 {
 	[tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
-	
+    
 	NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
 	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 	
@@ -75,6 +75,22 @@ static NSDictionary *startLabels = nil;
 	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
+    
+    [tester waitForTimeInterval:2.0f];
+}
+
+- (void)testPresentViewControllerWithNoTitleSendsViewEventNetmetrix
+{
+    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
+    
+    NSNotification *notification = [system waitForNotificationName:SRGAnalyticsNetmetrixRequestNotification object:nil];
+    NSURL *urlKey = notification.userInfo[SRGAnalyticsNetmetrixURLKey];
+    BOOL containAppName =[urlKey.absoluteString containsString:@"/apps/test/ios/"];
+    
+    XCTAssertNotNil(urlKey);
+    XCTAssertTrue(containAppName);
+    
+    [tester tapViewWithAccessibilityLabel:@"Back"];
     
     [tester waitForTimeInterval:2.0f];
 }
