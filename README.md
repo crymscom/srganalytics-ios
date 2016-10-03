@@ -10,7 +10,7 @@ Measurements are based on events emitted by the application, and collected by co
 
  * View events: Appearance of views (page views), which makes it possible to track which content is seen by users
  * Hidden events: Custom events which can be used for measuresement of application functionalities
- * Media playback events: Measures audio and video consumption in conjunction with our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS)
+ * Media playback events: Measurements for audio and video consumption in conjunction with our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS)
 
 Moreover, if you are retrieving your data using our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios), a bridge framework is also provided so that analytics received from the service are transparently forwarded to the SRG Analytics library.
  
