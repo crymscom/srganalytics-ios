@@ -23,6 +23,7 @@
 		088700DD1DA2543400D4961A /* SegmentsPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700C11DA2528900D4961A /* SegmentsPlayerViewController.m */; };
 		088700DE1DA2543400D4961A /* SegmentsPlayerViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 088700C21DA2528900D4961A /* SegmentsPlayerViewController.storyboard */; };
 		088700DF1DA2543800D4961A /* SimpleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700C51DA2528900D4961A /* SimpleViewController.m */; };
+		08A38EB81DA2971300908946 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D891D9EC4BC00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8A1D9EC4CF00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8B1D9EC4DB00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
@@ -328,6 +329,7 @@
 			files = (
 				E61388B41D91841600218919 /* SRGAnalytics.framework in Frameworks */,
 				E66F8A861D62E2320004EB58 /* KIF.framework in Frameworks */,
+				08A38EB81DA2971300908946 /* SRGLogger.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1247,6 +1249,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Demo/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = DemoTests/Info.plist;
@@ -1269,6 +1272,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Demo/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = DemoTests/Info.plist;
