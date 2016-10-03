@@ -15,6 +15,8 @@
 @property (nonatomic, getter=srg_isBlocked) BOOL srg_blocked;
 @property (nonatomic, getter=srg_isHidden) BOOL srg_hidden;
 
+@property (nonatomic, assign) NSUInteger position;
+
 @end
 
 @implementation Segment
@@ -33,6 +35,8 @@
         
         self.srg_timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(startTime, NSEC_PER_SEC),
                                              CMTimeMakeWithSeconds(duration, NSEC_PER_SEC));
+        
+        self.position = [dictionary[@"position"] integerValue];
     }
     return self;
 }
@@ -69,8 +73,8 @@
 
 - (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
 {
-    return @{ @"segment_name" : self.name,
-              @"overridable_name" : self.name };
+    return @{ @"ns_st_ep" : self.name,
+              @"ns_st_pn" : @(self.position).description };
 }
 
 @end

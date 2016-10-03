@@ -55,7 +55,8 @@
 	if ([cell.reuseIdentifier hasPrefix:@"MediaPlayer"])
 	{
         SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
-                                                                                                      analyticsLabels:@{ @"ns_st_ep" : [self contentURLNameForIdentifier:cell.reuseIdentifier] }
+                                                                                                      analyticsLabels:@{ @"ns_st_ep" : [self contentURLNameForIdentifier:cell.reuseIdentifier],
+                                                                                                                         @"ns_st_pn" : @(1)}
                                                                                                              userInfo:nil];
 		[self presentViewController:playerViewController animated:YES completion:nil];
 	}
@@ -154,15 +155,18 @@
         
         Segment *segment1 = [[Segment alloc] initWithDictionary:@{@"name" : @"segment1",
                                                                   @"startTime" : @(segment1StartTime * 1000),
-                                                                  @"duration" : @(segment1Duration * 1000)}];
+                                                                  @"duration" : @(segment1Duration * 1000),
+                                                                  @"position" : @(2)}];
         
         Segment *segment2 = [[Segment alloc] initWithDictionary:@{@"name" : @"segment2",
                                                                   @"startTime" : @(segment2StartTime * 1000),
-                                                                  @"duration" : @(segment2Duration * 1000)}];;
+                                                                  @"duration" : @(segment2Duration * 1000),
+                                                                  @"position" : @(3)}];;
         
         Segment *segment3 = [[Segment alloc] initWithDictionary:@{@"name" : @"segment3",
                                                                   @"startTime" : @(segment3StartTime * 1000),
-                                                                  @"duration" : @(segment3Duration * 1000)}];;
+                                                                  @"duration" : @(segment3Duration * 1000),
+                                                                  @"position" : @(4)}];;
         
         return @[segment1, segment2, segment3];
     }
