@@ -17,6 +17,7 @@
 @property (nonatomic) IBOutlet SRGMediaPlayerController *mediaPlayerController;         // top object, strong
 
 @property (nonatomic, weak) IBOutlet UIView *videoView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *timelineWrapViewHeightConstraint;
 @property (nonatomic, weak) IBOutlet SRGTimelineView *timelineView;
 @property (nonatomic, weak) IBOutlet SRGTimeSlider *timelineSlider;
 
@@ -88,6 +89,9 @@
 
     if ([self isMovingToParentViewController] || [self isBeingPresented]) {
         [self.mediaPlayerController playURL:self.contentURL atTime:kCMTimeZero withSegments:self.segments userInfo:nil];
+        if (!self.segments.count) {
+            self.timelineWrapViewHeightConstraint.constant = 0.f;
+        }
     }
 }
 
