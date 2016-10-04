@@ -24,7 +24,7 @@ static NSURL *LiveTestURL(void)
 
 static NSURL *DVRTestURL(void)
 {
-    return [NSURL URLWithString:@"http://vevoplaylist-live.hls.adaptive.level3.net/vevo/ch1/appleman.m3u8"];
+    return [NSURL URLWithString:@"https://wowza.jwplayer.com/live/jelly.stream/playlist.m3u8?DVR"];
 }
 
 @interface MediaPlayerTestCase : XCTestCase
