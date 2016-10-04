@@ -9,9 +9,5 @@
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 #import <UIKit/UIKit.h>
 
-// Framework standard version number
-FOUNDATION_EXPORT double SRGAnalytics_DataProviderVersionNumber;
-FOUNDATION_EXPORT const unsigned char SRGAnalytics_DataProviderVersionString[];
-
 // Public headers
 #import "SRGMediaPlayerController+SRGAnalytics_DataProvider.h"
