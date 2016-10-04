@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Call this method to send a page view event manually
  */
-- (void)trackPageView;
+- (void)srg_trackPageView;
 
 @end
 

@@ -18,6 +18,7 @@
 - (void)setUp
 {
     [super setUp];
+    
     [KIFSystemTestActor setDefaultTimeout:30.0];
 }
 
@@ -28,7 +29,7 @@
 	NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
 	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
-    XCTAssertNil(labels[@"srg_test"]);
+    XCTAssertNotNil(labels[@"srg_test"]);
 	
 	[tester tapViewWithAccessibilityLabel:@"Done"];
     [tester waitForTimeInterval:2.0f];
@@ -41,7 +42,7 @@
 	NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
 	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
-    XCTAssertNil(labels[@"srg_test"]);
+    XCTAssertNotNil(labels[@"srg_test"]);
 	
 	[tester tapViewWithAccessibilityLabel:@"Back"];
     
