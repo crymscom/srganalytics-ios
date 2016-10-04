@@ -54,11 +54,15 @@
 	
 	if ([cell.reuseIdentifier hasPrefix:@"MediaPlayer"])
 	{
-        SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] initWithContentURL:[self contentURLForIdentifier:cell.reuseIdentifier]
-                                                                                                      analyticsLabels:@{ @"ns_st_ep" : [self contentURLNameForIdentifier:cell.reuseIdentifier],
-                                                                                                                         @"ns_st_pn" : @(1)}
-                                                                                                             userInfo:nil];
-		[self presentViewController:playerViewController animated:YES completion:nil];
+        SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] init];
+        [self presentViewController:playerViewController animated:YES completion:^{
+            [playerViewController.controller playURL:[self contentURLForIdentifier:cell.reuseIdentifier]
+                                              atTime:kCMTimeZero
+                                        withSegments:nil
+                                     analyticsLabels:@{ @"ns_st_ep" : [self contentURLNameForIdentifier:cell.reuseIdentifier],
+                                                        @"ns_st_pn" : @(1)}
+                                            userInfo:nil];
+        }];
 	}
     else if ([cell.reuseIdentifier hasPrefix:@"SegmentsMediaPlayer"])
     {
@@ -81,8 +85,6 @@
         [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Title" customLabels:@{ @"srg_ap_cu" : @"custom" }];
     }
 }
-
-
 
 #pragma mark - URLS and Segments
 

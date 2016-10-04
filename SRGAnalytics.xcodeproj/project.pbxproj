@@ -95,8 +95,6 @@
 		E6B8E9FF1D92868D000D6904 /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B8E9F71D92868D000D6904 /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m */; };
 		E6B8EA001D92868D000D6904 /* SRGMediaPlayerTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E6B8E9F81D92868D000D6904 /* SRGMediaPlayerTracker.h */; };
 		E6B8EA011D92868D000D6904 /* SRGMediaPlayerTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B8E9F91D92868D000D6904 /* SRGMediaPlayerTracker.m */; };
-		E6B8EA021D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E6B8E9FA1D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E6B8EA031D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B8E9FB1D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.m */; };
 		E6B8EA041D92868D000D6904 /* SRGAnalyticsSegment.h in Headers */ = {isa = PBXBuildFile; fileRef = E6B8E9FD1D92868D000D6904 /* SRGAnalyticsSegment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6FC7EA01D61F97500A55085 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E6FC7EA11D61F97500A55085 /* SRGAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -278,8 +276,6 @@
 		E6B8E9F71D92868D000D6904 /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m"; sourceTree = "<group>"; };
 		E6B8E9F81D92868D000D6904 /* SRGMediaPlayerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGMediaPlayerTracker.h; sourceTree = "<group>"; };
 		E6B8E9F91D92868D000D6904 /* SRGMediaPlayerTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGMediaPlayerTracker.m; sourceTree = "<group>"; };
-		E6B8E9FA1D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.h"; sourceTree = "<group>"; };
-		E6B8E9FB1D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.m"; sourceTree = "<group>"; };
 		E6B8E9FD1D92868D000D6904 /* SRGAnalyticsSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsSegment.h; sourceTree = "<group>"; };
 		E6FC7E881D61F95C00A55085 /* SRGAnalytics-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SRGAnalytics-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FC7F041D61FA4700A55085 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -593,8 +589,6 @@
 				E6B8E9F71D92868D000D6904 /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m */,
 				E6B8E9F81D92868D000D6904 /* SRGMediaPlayerTracker.h */,
 				E6B8E9F91D92868D000D6904 /* SRGMediaPlayerTracker.m */,
-				E6B8E9FA1D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.h */,
-				E6B8E9FB1D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.m */,
 			);
 			path = MediaPlayer;
 			sourceTree = "<group>";
@@ -655,7 +649,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6B8EA021D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.h in Headers */,
 				E61C0D751D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h in Headers */,
 				E6B8E9FE1D92868D000D6904 /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h in Headers */,
 				E6B8EA001D92868D000D6904 /* SRGMediaPlayerTracker.h in Headers */,
@@ -917,7 +910,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6B8E9FF1D92868D000D6904 /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m in Sources */,
-				E6B8EA031D92868D000D6904 /* SRGMediaPlayerViewController+SRGAnalytics_MediaPlayer.m in Sources */,
 				E6B8EA011D92868D000D6904 /* SRGMediaPlayerTracker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
