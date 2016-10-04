@@ -81,7 +81,7 @@ Import the modules where needed:
 ```swift
 import SRGAnalytics                     // For SRGAnalytics.framework
 import SRGAnalytics_MediaPlayer         // For SRGAnalytics_MediaPlayer.framework
-import SRGAnalytics_DataProvider			// For SRGAnalytics_DataProvider.framework
+import SRGAnalytics_DataProvider        // For SRGAnalytics_DataProvider.framework
 ```
 
 ### Working with the library
