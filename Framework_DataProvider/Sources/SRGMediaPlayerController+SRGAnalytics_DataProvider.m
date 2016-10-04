@@ -14,6 +14,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 
 - (SRGRequest *)loadMediaComposition:(SRGMediaComposition *)mediaComposition
                 withPreferredQuality:(SRGQuality)preferredQuality
+                              resume:(BOOL)resume
                      completionBlock:(SRGMediaPlayerDataProviderLoadCompletionBlock)completionBlock
 {
     NSParameterAssert(completionBlock);
@@ -23,7 +24,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"quality == %@", @(preferredQuality)];
     SRGResource *resource = [resources filteredArrayUsingPredicate:predicate].firstObject ?: resources.firstObject;
     
-    return [SRGDataProvider tokenizeURL:resource.URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
+    SRGRequest *request = [SRGDataProvider tokenizeURL:resource.URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
         if (error) {
             completionBlock(nil, NSNotFound, nil, nil, error);
             return;
@@ -43,14 +44,19 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
         completionBlock(URL, index, chapter.segments, [analyticsLabels copy], nil);
     }];
+    if (resume) {
+        [request resume];
+    }
+    return request;
 }
 
 - (SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
                          withPreferredQuality:(SRGQuality)preferredQuality
                                      userInfo:(NSDictionary *)userInfo
+                                       resume:(BOOL)resume
                             completionHandler:(void (^)(NSError *error))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredQuality:preferredQuality completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredQuality:preferredQuality resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
@@ -65,9 +71,10 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 - (SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
                 withPreferredQuality:(SRGQuality)preferredQuality
                             userInfo:(NSDictionary *)userInfo
+                              resume:(BOOL)resume
                    completionHandler:(void (^)(NSError *error))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredQuality:preferredQuality completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredQuality:preferredQuality resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
