@@ -38,6 +38,10 @@
 		controller.levels = @[ @"TV", @"n1", @"n2"];
 		controller.customLabels = @{ @"srg_ap_cu" : @"custom" };
 	}
+    else if ([segue.identifier isEqualToString:@"ViewWithManualTracking"]) {
+        controller.title = @"Title";
+        controller.srg_trackedAutomatically = NO;
+    }
 }
 
 

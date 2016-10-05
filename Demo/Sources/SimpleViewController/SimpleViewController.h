@@ -11,6 +11,7 @@
 @property (nonatomic, strong) NSArray *levels;
 @property (nonatomic, strong) NSDictionary *customLabels;
 @property (nonatomic, assign) BOOL srg_isOpenedFromPushNotification;
+@property (nonatomic, assign, getter=srg_isTrackedAutomatically) BOOL srg_trackedAutomatically;
 
 @end
 
