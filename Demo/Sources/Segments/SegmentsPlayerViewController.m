@@ -50,10 +50,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     self.timelineSlider.delegate = self;
     self.blockingOverlayView.hidden = YES;
-
+    
     NSString *className = NSStringFromClass([SegmentCollectionViewCell class]);
     UINib *cellNib = [UINib nibWithNibName:className bundle:nil];
     [self.timelineView registerNib:cellNib forCellWithReuseIdentifier:className];
@@ -86,10 +86,10 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    
     if ([self isMovingToParentViewController] || [self isBeingPresented]) {
         [self.mediaPlayerController playURL:self.contentURL atTime:kCMTimeZero withSegments:self.segments userInfo:nil];
-        if (!self.segments.count) {
+        if (! self.segments.count) {
             self.timelineWrapViewHeightConstraint.constant = 0.f;
         }
     }
@@ -98,7 +98,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-
+    
     if ([self isMovingFromParentViewController] || [self isBeingDismissed]) {
         [self.mediaPlayerController reset];
     }
@@ -109,9 +109,9 @@
 - (void)timeSlider:(SRGTimeSlider *)slider isMovingToPlaybackTime:(CMTime)time withValue:(CGFloat)value interactive:(BOOL)interactive
 {
     [self updateAppearanceWithTime:time];
-
+    
     if (interactive) {
-        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id<SRGSegment> _Nonnull segment, NSDictionary<NSString *, id> *_Nullable bindings) {
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL (id < SRGSegment > _Nonnull segment, NSDictionary < NSString *, id > *_Nullable bindings) {
             return CMTimeRangeContainsTime(segment.srg_timeRange, time);
         }];
         

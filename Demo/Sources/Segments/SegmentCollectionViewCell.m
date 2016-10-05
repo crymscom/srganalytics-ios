@@ -66,9 +66,9 @@ static NSDateComponentsFormatter *SegmentDurationDateComponentsFormatter(void)
     CMTimeRange r = self.segment.srg_timeRange;
     float progress = (CMTimeGetSeconds(time) - CMTimeGetSeconds(r.start)) / (CMTimeGetSeconds(CMTimeAdd(r.start, r.duration)) - CMTimeGetSeconds(r.start));
     progress = fminf(1.f, fmaxf(0.f, progress));
-    
+
     self.progressView.progress = progress;
-    
+
     UIColor *selectionColor = [UIColor colorWithRed:128.f / 255.f green:0.f / 255.f blue:0.f / 255.f alpha:1.f];
     if (selectedSegment) {
         self.backgroundColor = (self.segment == selectedSegment) ? selectionColor : [UIColor blackColor];

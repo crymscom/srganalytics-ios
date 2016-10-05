@@ -6,11 +6,10 @@
 
 #import "AppDelegate.h"
 
+#import "SimpleViewController.h"
+
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
-
-#import "Segment.h"
-#import "SimpleViewController.h"
 
 @implementation AppDelegate
 
@@ -24,26 +23,26 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-	NSLog(@"didReceiveLocalNotification %@", notification.userInfo);
-	
-	[self openViewControllerFromNotification];
+    NSLog(@"didReceiveLocalNotification %@", notification.userInfo);
+
+    [self openViewControllerFromNotification];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler
 {
-	NSLog(@"didReceiveRemoteNotification %@", userInfo);
-	
-	[self openViewControllerFromNotification];
+    NSLog(@"didReceiveRemoteNotification %@", userInfo);
+
+    [self openViewControllerFromNotification];
 }
 
-- (void) openViewControllerFromNotification
+- (void)openViewControllerFromNotification
 {
-	UINavigationController *navigationController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"PushNavigationController"];
-	SimpleViewController *controller = (SimpleViewController *)navigationController.topViewController;
-	controller.srg_isOpenedFromPushNotification = YES;
-	[self.window.rootViewController presentViewController:navigationController animated:YES completion:^{
-		controller.srg_isOpenedFromPushNotification = NO;
-	}];
+    UINavigationController *navigationController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"PushNavigationController"];
+    SimpleViewController *controller = (SimpleViewController *)navigationController.topViewController;
+    controller.srg_isOpenedFromPushNotification = YES;
+    [self.window.rootViewController presentViewController:navigationController animated:YES completion:^{
+        controller.srg_isOpenedFromPushNotification = NO;
+    }];
 }
 
 @end

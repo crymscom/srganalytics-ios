@@ -14,4 +14,3 @@
 @property (nonatomic, assign, getter=srg_isTrackedAutomatically) BOOL srg_trackedAutomatically;
 
 @end
-

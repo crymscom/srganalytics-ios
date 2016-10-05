@@ -65,13 +65,13 @@
             @(CMTimeGetSeconds(self.srg_timeRange.start)),
             @(CMTimeGetSeconds(self.srg_timeRange.duration)),
             self.name,
-            self.srg_blocked ? @"YES" : @"NO",
-            self.srg_hidden ? @"YES" : @"NO"];
+            self.srg_blocked ? @"YES":@"NO",
+            self.srg_hidden ? @"YES":@"NO"];
 }
 
 #pragma mark SRGAnalyticsSegment protocol
 
-- (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
+- (NSDictionary<NSString *, NSString *> *)srg_analyticsLabels
 {
     return @{ @"ns_st_ep" : self.name,
               @"ns_st_pn" : @(self.position).description };

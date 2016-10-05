@@ -36,24 +36,24 @@
 
 - (IBAction)dismiss:(id)sender
 {
-	[self dismissViewControllerAnimated:YES completion:NULL];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - SRGAnalyticsViewTracking
 
 - (NSString *)srg_pageViewTitle
 {
-	return self.title;
+    return self.title;
 }
 
 - (NSArray *)srg_pageViewLevels
 {
-	return self.levels;
+    return self.levels;
 }
 
 - (NSDictionary *)srg_pageViewCustomLabels
 {
-	return self.customLabels;
+    return self.customLabels;
 }
 
 @end
