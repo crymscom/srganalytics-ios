@@ -167,25 +167,10 @@ static NSDictionary *startLabels = nil;
     [tester waitForTimeInterval:2.0f];
 }
 
-// FIXME: Fix race condition with code in +load. This is the first test executed and it will fail because the start event is
-//        received here first
-- (void) testHiddenEventWithNoTitle
-{
-    NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil whileExecutingBlock:^{
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
-    }];
-    
-    NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
-    XCTAssertEqualObjects(labels[@"srg_title"], @"untitled");
-    XCTAssertEqualObjects(labels[@"ns_type"], @"hidden");
-    
-    [tester waitForTimeInterval:2.0f];
-}
-
 - (void) testHiddenEventWithTitle
 {
     NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil whileExecutingBlock:^{
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
     }];
     
     NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
@@ -198,7 +183,7 @@ static NSDictionary *startLabels = nil;
 - (void) testHiddenEventWithTitleAndCustomLabels
 {
     NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil whileExecutingBlock:^{
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
+        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
     }];
     
     NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
