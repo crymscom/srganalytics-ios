@@ -50,7 +50,7 @@ For more information about Carthage and its use, refer to the [official document
 
 ### Remark
 
-The `--no-use-binaries` carthage update flag is required to prevent using pre-built Mantle binaries which lack bitcode support. This should hopefully be fixed in a future.
+The `--no-use-binaries` carthage update flag is required to prevent using pre-built Mantle binaries which lack bitcode support. This should hopefully be fixed in the future.
 
 ## Usage
 
