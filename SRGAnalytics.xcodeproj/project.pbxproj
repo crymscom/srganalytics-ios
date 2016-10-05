@@ -16,7 +16,7 @@
 		088700D61DA2541800D4961A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 088700B01DA2525800D4961A /* Main.storyboard */; };
 		088700D71DA2542700D4961A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B51DA2528900D4961A /* AppDelegate.m */; };
 		088700D81DA2542700D4961A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B61DA2528900D4961A /* main.m */; };
-		088700D91DA2542D00D4961A /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B91DA2528900D4961A /* MainTableViewController.m */; };
+		088700D91DA2542D00D4961A /* DemosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B91DA2528900D4961A /* DemosViewController.m */; };
 		088700DA1DA2543400D4961A /* Segment.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700BC1DA2528900D4961A /* Segment.m */; };
 		088700DB1DA2543400D4961A /* SegmentCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700BE1DA2528900D4961A /* SegmentCollectionViewCell.m */; };
 		088700DC1DA2543400D4961A /* SegmentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088700BF1DA2528900D4961A /* SegmentCollectionViewCell.xib */; };
@@ -202,8 +202,8 @@
 		088700B41DA2528900D4961A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		088700B51DA2528900D4961A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		088700B61DA2528900D4961A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		088700B81DA2528900D4961A /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
-		088700B91DA2528900D4961A /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
+		088700B81DA2528900D4961A /* DemosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemosViewController.h; sourceTree = "<group>"; };
+		088700B91DA2528900D4961A /* DemosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemosViewController.m; sourceTree = "<group>"; };
 		088700BB1DA2528900D4961A /* Segment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Segment.h; sourceTree = "<group>"; };
 		088700BC1DA2528900D4961A /* Segment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Segment.m; sourceTree = "<group>"; };
 		088700BD1DA2528900D4961A /* SegmentCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentCollectionViewCell.h; sourceTree = "<group>"; };
@@ -367,13 +367,13 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		088700B71DA2528900D4961A /* MainTableViewController */ = {
+		088700B71DA2528900D4961A /* Demos */ = {
 			isa = PBXGroup;
 			children = (
-				088700B81DA2528900D4961A /* MainTableViewController.h */,
-				088700B91DA2528900D4961A /* MainTableViewController.m */,
+				088700B81DA2528900D4961A /* DemosViewController.h */,
+				088700B91DA2528900D4961A /* DemosViewController.m */,
 			);
-			path = MainTableViewController;
+			path = Demos;
 			sourceTree = "<group>";
 		};
 		088700BA1DA2528900D4961A /* Segments */ = {
@@ -625,7 +625,7 @@
 			isa = PBXGroup;
 			children = (
 				088700B31DA2528900D4961A /* Application */,
-				088700B71DA2528900D4961A /* MainTableViewController */,
+				088700B71DA2528900D4961A /* Demos */,
 				088700BA1DA2528900D4961A /* Segments */,
 				088700C31DA2528900D4961A /* SimpleViewController */,
 			);
@@ -963,7 +963,7 @@
 				088700D71DA2542700D4961A /* AppDelegate.m in Sources */,
 				088700DD1DA2543400D4961A /* SegmentsPlayerViewController.m in Sources */,
 				088700DF1DA2543800D4961A /* SimpleViewController.m in Sources */,
-				088700D91DA2542D00D4961A /* MainTableViewController.m in Sources */,
+				088700D91DA2542D00D4961A /* DemosViewController.m in Sources */,
 				088700DA1DA2543400D4961A /* Segment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

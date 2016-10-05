@@ -7,18 +7,18 @@
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
-#import "MainTableViewController.h"
+#import "DemosViewController.h"
 
 #import "AppDelegate.h"
 #import "SimpleViewController.h"
 #import "SegmentsPlayerViewController.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
-@interface MainTableViewController () <UITableViewDelegate, SRGAnalyticsViewTracking>
+@interface DemosViewController () <UITableViewDelegate, SRGAnalyticsViewTracking>
 
 @end
 
-@implementation MainTableViewController
+@implementation DemosViewController
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
