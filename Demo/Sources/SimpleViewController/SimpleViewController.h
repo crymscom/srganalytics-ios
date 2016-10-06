@@ -19,4 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface SimpleViewController (Unavailable)
+
+- (instancetype)init NS_UNAVAILABLE;
+
+@end
+
 NS_ASSUME_NONNULL_END

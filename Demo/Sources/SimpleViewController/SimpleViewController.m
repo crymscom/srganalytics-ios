@@ -31,16 +31,10 @@
     return viewController;
 }
 
-#pragma mark View lifecycle
-
-- (void)viewDidLoad
+- (instancetype)init
 {
-    [super viewDidLoad];
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil)
-                                                                             style:UIBarButtonItemStyleDone
-                                                                            target:self
-                                                                            action:@selector(dismiss:)];
+    [self doesNotRecognizeSelector:_cmd];
+    return [self initWithTitle:nil levels:nil customLabels:nil openedFromPushNotification:NO trackedAutomatically:YES];
 }
 
 #pragma mark SRGAnalyticsViewTracking protocol
