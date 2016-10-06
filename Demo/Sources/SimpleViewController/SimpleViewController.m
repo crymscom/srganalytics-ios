@@ -5,41 +5,50 @@
 //
 
 #import "SimpleViewController.h"
-#import <SRGAnalytics/SRGAnalytics.h>
 
-@interface SimpleViewController () <SRGAnalyticsViewTracking>
+@interface SimpleViewController ()
+
+@property (nonatomic) NSArray<NSString *> *levels;
+@property (nonatomic) NSDictionary<NSString *, NSString *> *customLabels;
+@property (nonatomic, getter=isOpenedFromPushNotification) BOOL openedFromPushNotification;
+@property (nonatomic, getter=isTrackedAutomatically) BOOL trackedAutomatically;
 
 @end
 
 @implementation SimpleViewController
 
-- (instancetype)initWithCoder:(NSCoder *)coder
+#pragma mark Object lifecycle
+
+- (instancetype)initWithTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *,NSString *> *)customLabels openedFromPushNotification:(BOOL)openedFromPushNotification trackedAutomatically:(BOOL)trackedAutomatically
 {
-    self = [super initWithCoder:coder];
-    if (self) {
-        self.srg_trackedAutomatically = YES;
-    }
-    return self;
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:NSStringFromClass([self class]) bundle:nil];
+    SimpleViewController *viewController = [storyboard instantiateInitialViewController];
+    viewController.title = title;
+    viewController.levels = levels;
+    viewController.customLabels = customLabels;
+    viewController.openedFromPushNotification = openedFromPushNotification;
+    viewController.trackedAutomatically = trackedAutomatically;
+    return viewController;
 }
 
-- (void)viewDidAppear:(BOOL)animated
+#pragma mark View lifecycle
+
+- (void)viewDidLoad
 {
-    [super viewDidAppear:animated];
+    [super viewDidLoad];
     
-    if (!self.srg_trackedAutomatically) {
-        self.title = @"Manual tracking";
-        [self performSelector:@selector(srg_trackPageView)
-                   withObject:nil
-                   afterDelay:1.f];
-    }
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil)
+                                                                             style:UIBarButtonItemStyleDone
+                                                                            target:self
+                                                                            action:@selector(dismiss:)];
 }
 
-- (IBAction)dismiss:(id)sender
+#pragma mark SRGAnalyticsViewTracking protocol
+
+- (BOOL)srg_isTrackedAutomatically
 {
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    return self.trackedAutomatically;
 }
-
-#pragma mark - SRGAnalyticsViewTracking
 
 - (NSString *)srg_pageViewTitle
 {
@@ -54,6 +63,18 @@
 - (NSDictionary *)srg_pageViewCustomLabels
 {
     return self.customLabels;
+}
+
+#pragma mark Actions
+
+- (IBAction)trackPageView:(id)sender
+{
+    [self srg_trackPageView];
+}
+
+- (void)dismiss:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 @end

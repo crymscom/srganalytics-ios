@@ -4,13 +4,19 @@
 //  License information is available from the LICENSE file.
 //
 
+#import <SRGAnalytics/SRGAnalytics.h>
 #import <UIKit/UIKit.h>
 
-@interface SimpleViewController : UIViewController
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, strong) NSArray *levels;
-@property (nonatomic, strong) NSDictionary *customLabels;
-@property (nonatomic, assign) BOOL srg_isOpenedFromPushNotification;
-@property (nonatomic, assign, getter=srg_isTrackedAutomatically) BOOL srg_trackedAutomatically;
+@interface SimpleViewController : UIViewController <SRGAnalyticsViewTracking>
+
+- (instancetype)initWithTitle:(nullable NSString *)title
+                       levels:(nullable NSArray<NSString *> *)levels
+                 customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels
+   openedFromPushNotification:(BOOL)openedFromPushNotification
+         trackedAutomatically:(BOOL)trackedAutomatically;
 
 @end
+
+NS_ASSUME_NONNULL_END

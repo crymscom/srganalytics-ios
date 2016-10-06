@@ -46,12 +46,13 @@
 
 - (void)openViewControllerFromNotification
 {
-    UINavigationController *navigationController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"PushNavigationController"];
-    SimpleViewController *controller = (SimpleViewController *)navigationController.topViewController;
-    controller.srg_isOpenedFromPushNotification = YES;
-    [self.window.rootViewController presentViewController:navigationController animated:YES completion:^{
-        controller.srg_isOpenedFromPushNotification = NO;
-    }];
+    SimpleViewController *simpleViewController = [[SimpleViewController alloc] initWithTitle:nil
+                                                                                      levels:nil
+                                                                                customLabels:nil
+                                                                  openedFromPushNotification:YES
+                                                                        trackedAutomatically:YES];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:simpleViewController];
+    [self.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
 }
 
 @end

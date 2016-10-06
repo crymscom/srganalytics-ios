@@ -21,30 +21,6 @@
     return [storyboard instantiateInitialViewController];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    SimpleViewController *controller = [segue destinationViewController];
-    if ([segue.identifier isEqualToString:@"ViewWithNoTitle"]) {
-        controller.title = nil;
-    }
-    else if ([segue.identifier isEqualToString:@"ViewWithTitle"]) {
-        controller.title = @"C'est un titre pour l'événement !";
-    }
-    else if ([segue.identifier isEqualToString:@"ViewWithTitleAndLevels"]) {
-        controller.title = @"Title";
-        controller.levels = @[ @"TV", @"D'autres niveaux.plus loin"];
-    }
-    else if ([segue.identifier isEqualToString:@"ViewWithTitleLevelsAndCustomLabels"]) {
-        controller.title = @"Title";
-        controller.levels = @[ @"TV", @"n1", @"n2"];
-        controller.customLabels = @{ @"srg_ap_cu": @"custom" };
-    }
-    else if ([segue.identifier isEqualToString:@"ViewWithManualTracking"]) {
-        controller.title = @"Title";
-        controller.srg_trackedAutomatically = NO;
-    }
-}
-
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
