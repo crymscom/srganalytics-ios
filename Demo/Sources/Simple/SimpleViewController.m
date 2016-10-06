@@ -19,6 +19,9 @@
 
 #pragma mark Object lifecycle
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+
 - (instancetype)initWithTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *,NSString *> *)customLabels openedFromPushNotification:(BOOL)openedFromPushNotification trackedAutomatically:(BOOL)trackedAutomatically
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:NSStringFromClass([self class]) bundle:nil];
@@ -36,6 +39,19 @@
     [self doesNotRecognizeSelector:_cmd];
     return [self initWithTitle:nil levels:nil customLabels:nil openedFromPushNotification:NO trackedAutomatically:YES];
 }
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return [self initWithTitle:nil levels:nil customLabels:nil openedFromPushNotification:NO trackedAutomatically:YES];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    return [super initWithCoder:aDecoder];
+}
+
+#pragma clang diagnostic pop
 
 #pragma mark SRGAnalyticsViewTracking protocol
 

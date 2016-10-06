@@ -59,7 +59,7 @@
                     
                 case 2: {
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Automatic tracking with levels and custom labels"
-                                                                                levels:@[ @"level1", @"level2", @"level3" ]
+                                                                                levels:@[ @"level1", @"level2" ]
                                                                           customLabels:@{ @"custom_label": @"custom_value" }
                                                             openedFromPushNotification:NO
                                                                   trackedAutomatically:YES];
@@ -71,7 +71,7 @@
                                                                                 levels:nil
                                                                           customLabels:nil
                                                             openedFromPushNotification:YES
-                                                                  trackedAutomatically:YES];
+                                                                  trackedAutomatically:NO];
                     break;
                 }
                     

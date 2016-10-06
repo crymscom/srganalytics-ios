@@ -57,26 +57,27 @@ static NSDictionary * startLabels = nil;
 //    [tester waitForTimeInterval:2.0f];
 //}
 
-- (void)testPresentViewControllerWithNoTitleSendsViewEvent
+- (void)testAutomaticTrackingComScore
 {
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 
     NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
     NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 
-    XCTAssertEqualObjects(labels[@"name"], @"app.untitled");
+    XCTAssertEqualObjects(labels[@"name"], @"app.automatic-tracking");
     XCTAssertEqualObjects(labels[@"category"], @"app");
     XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
     XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
-    XCTAssertEqualObjects(labels[@"srg_title"], @"untitled");
+    XCTAssertNil(labels[@"srg_n2"]);
+    XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking");
     XCTAssertEqualObjects(labels[@"ns_type"], @"view");
 
     [tester tapViewWithAccessibilityLabel:@"Back"];
 
-    [tester waitForTimeInterval:2.0f];
+    [tester waitForTimeInterval:2.];
 }
 
-- (void)testPresentViewControllerWithNoTitleSendsViewEventNetmetrix
+- (void)testAutomaticTrackingNetmetrix
 {
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 
@@ -89,64 +90,58 @@ static NSDictionary * startLabels = nil;
 
     [tester tapViewWithAccessibilityLabel:@"Back"];
 
-    [tester waitForTimeInterval:2.0f];
+    [tester waitForTimeInterval:2.];
 }
 
-- (void)testPresentViewControllerWithTitleViewEvent
+- (void)testAutomaticTrackingWithLevelsComScore
 {
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 
     NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
     NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 
-    XCTAssertEqualObjects(labels[@"name"], @"app.cest-un-titre-pour-levenement-");
+    XCTAssertEqualObjects(labels[@"name"], @"level1.level2.level3.automatic-tracking-with-levels");
     XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
-    XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
-    XCTAssertEqualObjects(labels[@"srg_title"], @"C'est un titre pour l'événement !");
+    XCTAssertEqualObjects(labels[@"srg_n1"], @"level1");
+    XCTAssertEqualObjects(labels[@"srg_n2"], @"level2");
+    XCTAssertEqualObjects(labels[@"srg_n3"], @"level3");
+    XCTAssertNil(labels[@"srg_n4"]);
+    XCTAssertEqualObjects(labels[@"category"], @"level1.level2.level3");
+    XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking with levels");
     XCTAssertEqualObjects(labels[@"ns_type"], @"view");
 
     [tester tapViewWithAccessibilityLabel:@"Back"];
 
-    [tester waitForTimeInterval:2.0f];
+    [tester waitForTimeInterval:2.];
 }
 
-- (void)testPresentViewControllerWithTitleAndLevelsSendsViewEvent
+- (void)testAutomaticTrackingWithLevelsAndCustomLabelsComScore
 {
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
 
     NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
     NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
 
-    XCTAssertEqualObjects(labels[@"name"], @"tv.dautres-niveauxplus-loin.title");
+    XCTAssertEqualObjects(labels[@"name"], @"level1.level2.automatic-tracking-with-levels-and-custom-labels");
     XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
-    XCTAssertEqualObjects(labels[@"srg_n1"], @"tv");
-    XCTAssertEqualObjects(labels[@"srg_n2"], @"dautres-niveauxplus-loin");
-    XCTAssertEqualObjects(labels[@"category"], @"tv.dautres-niveauxplus-loin");
-    XCTAssertEqualObjects(labels[@"srg_title"], @"Title");
+    XCTAssertEqualObjects(labels[@"srg_n1"], @"level1");
+    XCTAssertEqualObjects(labels[@"srg_n2"], @"level2");
+    XCTAssertNil(labels[@"srg_n3"]);
+    XCTAssertEqualObjects(labels[@"category"], @"level1.level2");
+    XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking with levels and custom labels");
     XCTAssertEqualObjects(labels[@"ns_type"], @"view");
+    XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
 
     [tester tapViewWithAccessibilityLabel:@"Back"];
 
-    [tester waitForTimeInterval:2.0f];
+    [tester waitForTimeInterval:2.];
 }
 
-- (void)testPresentViewControllerWithTitleLevelsAndCustomLabelsSendsViewEvent
+- (void)testManualTrackingComScore
 {
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
-
-    NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
-    NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
-
-    XCTAssertEqualObjects(labels[@"name"], @"tv.n1.n2.title");
-
-    [tester tapViewWithAccessibilityLabel:@"Back"];
-
-    [tester waitForTimeInterval:2.0f];
-}
-
-- (void)testPresentViewControllerWithWithManualTrackingEvent
-{
-    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
+    [tester waitForTappableViewWithAccessibilityLabel:@"Track"];
+    [tester tapViewWithAccessibilityLabel:@"Track"];
 
     NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
     NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
@@ -154,41 +149,14 @@ static NSDictionary * startLabels = nil;
     XCTAssertEqualObjects(labels[@"name"], @"app.manual-tracking");
     XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
     XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
-    XCTAssertNotEqualObjects(labels[@"srg_title"], @"Title");
+    XCTAssertNil(labels[@"srg_n2"]);
+    XCTAssertEqualObjects(labels[@"category"], @"app");
     XCTAssertEqualObjects(labels[@"srg_title"], @"Manual tracking");
-
     XCTAssertEqualObjects(labels[@"ns_type"], @"view");
 
     [tester tapViewWithAccessibilityLabel:@"Back"];
-
-    [tester waitForTimeInterval:2.0f];
-}
-
-- (void)testHiddenEventWithTitle
-{
-    NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil whileExecutingBlock:^{
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
-    }];
-
-    NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
-    XCTAssertEqualObjects(labels[@"srg_title"], @"Title");
-    XCTAssertEqualObjects(labels[@"ns_type"], @"hidden");
-
-    [tester waitForTimeInterval:2.0f];
-}
-
-- (void)testHiddenEventWithTitleAndCustomLabels
-{
-    NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil whileExecutingBlock:^{
-        [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1] inTableViewWithAccessibilityIdentifier:@"tableView"];
-    }];
-
-    NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
-    XCTAssertEqualObjects(labels[@"srg_title"], @"Title");
-    XCTAssertEqualObjects(labels[@"ns_type"], @"hidden");
-    XCTAssertEqualObjects(labels[@"srg_ap_cu"], @"custom");
-
-    [tester waitForTimeInterval:2.0f];
+    
+    [tester waitForTimeInterval:2.];
 }
 
 @end
