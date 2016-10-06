@@ -13,15 +13,9 @@
 		0811A8571D800C9A00A9863B /* libextobjc.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		088700D41DA2528900D4961A /* SimpleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700C51DA2528900D4961A /* SimpleViewController.m */; };
 		088700D51DA2540F00D4961A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088700AF1DA2525800D4961A /* LaunchScreen.xib */; };
-		088700D61DA2541800D4961A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 088700B01DA2525800D4961A /* Main.storyboard */; };
 		088700D71DA2542700D4961A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B51DA2528900D4961A /* AppDelegate.m */; };
 		088700D81DA2542700D4961A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B61DA2528900D4961A /* main.m */; };
 		088700D91DA2542D00D4961A /* DemosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B91DA2528900D4961A /* DemosViewController.m */; };
-		088700DA1DA2543400D4961A /* Segment.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700BC1DA2528900D4961A /* Segment.m */; };
-		088700DB1DA2543400D4961A /* SegmentCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700BE1DA2528900D4961A /* SegmentCollectionViewCell.m */; };
-		088700DC1DA2543400D4961A /* SegmentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088700BF1DA2528900D4961A /* SegmentCollectionViewCell.xib */; };
-		088700DD1DA2543400D4961A /* SegmentsPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700C11DA2528900D4961A /* SegmentsPlayerViewController.m */; };
-		088700DE1DA2543400D4961A /* SegmentsPlayerViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 088700C21DA2528900D4961A /* SegmentsPlayerViewController.storyboard */; };
 		088700DF1DA2543800D4961A /* SimpleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700C51DA2528900D4961A /* SimpleViewController.m */; };
 		08A38EB81DA2971300908946 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D891D9EC4BC00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
@@ -200,20 +194,11 @@
 /* Begin PBXFileReference section */
 		0811A8521D800BA000A9863B /* libextobjc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libextobjc.framework; path = Carthage/Build/iOS/libextobjc.framework; sourceTree = "<group>"; };
 		088700AF1DA2525800D4961A /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		088700B01DA2525800D4961A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		088700B41DA2528900D4961A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		088700B51DA2528900D4961A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		088700B61DA2528900D4961A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		088700B81DA2528900D4961A /* DemosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemosViewController.h; sourceTree = "<group>"; };
 		088700B91DA2528900D4961A /* DemosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemosViewController.m; sourceTree = "<group>"; };
-		088700BB1DA2528900D4961A /* Segment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Segment.h; sourceTree = "<group>"; };
-		088700BC1DA2528900D4961A /* Segment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Segment.m; sourceTree = "<group>"; };
-		088700BD1DA2528900D4961A /* SegmentCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentCollectionViewCell.h; sourceTree = "<group>"; };
-		088700BE1DA2528900D4961A /* SegmentCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentCollectionViewCell.m; sourceTree = "<group>"; };
-		088700BF1DA2528900D4961A /* SegmentCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SegmentCollectionViewCell.xib; sourceTree = "<group>"; };
-		088700C01DA2528900D4961A /* SegmentsPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentsPlayerViewController.h; sourceTree = "<group>"; };
-		088700C11DA2528900D4961A /* SegmentsPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentsPlayerViewController.m; sourceTree = "<group>"; };
-		088700C21DA2528900D4961A /* SegmentsPlayerViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SegmentsPlayerViewController.storyboard; sourceTree = "<group>"; };
 		088700C41DA2528900D4961A /* SimpleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleViewController.h; sourceTree = "<group>"; };
 		088700C51DA2528900D4961A /* SimpleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleViewController.m; sourceTree = "<group>"; };
 		6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGLogger.framework; path = Carthage/Build/iOS/SRGLogger.framework; sourceTree = "<group>"; };
@@ -381,29 +366,14 @@
 			path = Demos;
 			sourceTree = "<group>";
 		};
-		088700BA1DA2528900D4961A /* Segments */ = {
-			isa = PBXGroup;
-			children = (
-				088700BB1DA2528900D4961A /* Segment.h */,
-				088700BC1DA2528900D4961A /* Segment.m */,
-				088700BD1DA2528900D4961A /* SegmentCollectionViewCell.h */,
-				088700BE1DA2528900D4961A /* SegmentCollectionViewCell.m */,
-				088700BF1DA2528900D4961A /* SegmentCollectionViewCell.xib */,
-				088700C01DA2528900D4961A /* SegmentsPlayerViewController.h */,
-				088700C11DA2528900D4961A /* SegmentsPlayerViewController.m */,
-				088700C21DA2528900D4961A /* SegmentsPlayerViewController.storyboard */,
-			);
-			path = Segments;
-			sourceTree = "<group>";
-		};
-		088700C31DA2528900D4961A /* SimpleViewController */ = {
+		088700C31DA2528900D4961A /* Simple */ = {
 			isa = PBXGroup;
 			children = (
 				088700C41DA2528900D4961A /* SimpleViewController.h */,
 				088700C51DA2528900D4961A /* SimpleViewController.m */,
 				E6296E871DA6205200E33C32 /* SimpleViewController.storyboard */,
 			);
-			path = SimpleViewController;
+			path = Simple;
 			sourceTree = "<group>";
 		};
 		6FB331F41D9BFB77001469F2 /* Framework_DataProvider */ = {
@@ -622,7 +592,6 @@
 			children = (
 				E6FC7F061D61FA4700A55085 /* Images.xcassets */,
 				088700AF1DA2525800D4961A /* LaunchScreen.xib */,
-				088700B01DA2525800D4961A /* Main.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -632,8 +601,7 @@
 			children = (
 				088700B31DA2528900D4961A /* Application */,
 				088700B71DA2528900D4961A /* Demos */,
-				088700BA1DA2528900D4961A /* Segments */,
-				088700C31DA2528900D4961A /* SimpleViewController */,
+				088700C31DA2528900D4961A /* Simple */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -891,9 +859,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				088700DE1DA2543400D4961A /* SegmentsPlayerViewController.storyboard in Resources */,
-				088700DC1DA2543400D4961A /* SegmentCollectionViewCell.xib in Resources */,
-				088700D61DA2541800D4961A /* Main.storyboard in Resources */,
 				088700D51DA2540F00D4961A /* LaunchScreen.xib in Resources */,
 				E6296E881DA6205200E33C32 /* SimpleViewController.storyboard in Resources */,
 				E6296E861DA60CE700E33C32 /* DemosViewController.storyboard in Resources */,
@@ -966,13 +931,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				088700DB1DA2543400D4961A /* SegmentCollectionViewCell.m in Sources */,
 				088700D81DA2542700D4961A /* main.m in Sources */,
 				088700D71DA2542700D4961A /* AppDelegate.m in Sources */,
-				088700DD1DA2543400D4961A /* SegmentsPlayerViewController.m in Sources */,
 				088700DF1DA2543800D4961A /* SimpleViewController.m in Sources */,
 				088700D91DA2542D00D4961A /* DemosViewController.m in Sources */,
-				088700DA1DA2543400D4961A /* Segment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

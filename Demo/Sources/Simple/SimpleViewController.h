@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
                        levels:(nullable NSArray<NSString *> *)levels
                  customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels
    openedFromPushNotification:(BOOL)openedFromPushNotification
-         trackedAutomatically:(BOOL)trackedAutomatically;
+         trackedAutomatically:(BOOL)trackedAutomatically NS_DESIGNATED_INITIALIZER;
 
 @end
 

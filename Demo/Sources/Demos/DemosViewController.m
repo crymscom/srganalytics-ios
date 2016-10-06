@@ -8,8 +8,8 @@
 
 #import "AppDelegate.h"
 #import "SimpleViewController.h"
-#import "SegmentsPlayerViewController.h"
-#import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
+
+#import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 
 @implementation DemosViewController
 
@@ -21,13 +21,18 @@
     return [storyboard instantiateInitialViewController];
 }
 
+#pragma mark SRGAnalyticsViewTracking protocol
+
+- (NSString *)srg_pageViewTitle
+{
+    return @"Demo list";
+}
+
 #pragma mark UITableViewDelegate protocol
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    UIViewController *viewController;
     
     switch (indexPath.section) {
         case 0: {
@@ -130,13 +135,6 @@
             break;
         }
     }
-}
-
-#pragma mark SRGAnalyticsViewTracking protocol
-
-- (NSString *)srg_pageViewTitle
-{
-    return @"Demo list";
 }
 
 @end
