@@ -6,6 +6,7 @@
 
 #import "AppDelegate.h"
 
+#import "DemosViewController.h"
 #import "SimpleViewController.h"
 
 #import <SRGAnalytics/SRGAnalytics.h>
@@ -15,22 +16,30 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor blackColor];
+    [self.window makeKeyAndVisible];
+    
     [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
                                                      comScoreVirtualSite:@"rts-app-test-v"
                                                      netMetrixIdentifier:@"test"];
+    
+    DemosViewController *demosViewController = [[DemosViewController alloc] init];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:demosViewController];
+    
     return YES;
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    NSLog(@"didReceiveLocalNotification %@", notification.userInfo);
+    NSLog(@"Local notification received: %@", notification.userInfo);
 
     [self openViewControllerFromNotification];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler
 {
-    NSLog(@"didReceiveRemoteNotification %@", userInfo);
+    NSLog(@"Remote notification received %@", userInfo);
 
     [self openViewControllerFromNotification];
 }

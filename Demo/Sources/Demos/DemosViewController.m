@@ -4,9 +4,6 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <SRGAnalytics/SRGAnalytics.h>
-#import <SRGMediaPlayer/SRGMediaPlayer.h>
-
 #import "DemosViewController.h"
 
 #import "AppDelegate.h"
@@ -14,11 +11,15 @@
 #import "SegmentsPlayerViewController.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
-@interface DemosViewController () <UITableViewDelegate, SRGAnalyticsViewTracking>
-
-@end
-
 @implementation DemosViewController
+
+#pragma mark Object lifecycle
+
+- (instancetype)init
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:NSStringFromClass([self class]) bundle:nil];
+    return [storyboard instantiateInitialViewController];
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
