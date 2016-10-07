@@ -30,7 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
  *                           error is encountered (it will not be called if the player cannot play the content;
  *                           listen to `SRGMediaPlayerPlaybackDidFailNotification` to catch playback errors)
  *
- *  @return The playback request
+ *  @return The playback request. If successful, the player will be paused on the chapter / segment specified by
+ *          the media composition
  */
 - (SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
                          withPreferredQuality:(SRGQuality)preferredQuality
@@ -52,7 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
  *                           error is encountered (it will not be called if the player cannot play the content;
  *                           listen to `SRGMediaPlayerPlaybackDidFailNotification` to catch playback errors)
  *
- *  @return The playback request
+ *  @return The playback request. If successful, the player will start on the chapter / segment specified by
+ *          the media composition
  */
 - (SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
                 withPreferredQuality:(SRGQuality)preferredQuality
