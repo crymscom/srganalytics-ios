@@ -75,6 +75,11 @@
     return self.customLabels;
 }
 
+- (BOOL)srg_isOpenedFromPushNotification
+{
+    return self.openedFromPushNotification;
+}
+
 #pragma mark Actions
 
 - (IBAction)trackPageView:(id)sender

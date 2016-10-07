@@ -50,7 +50,7 @@
                     
                 case 1: {
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Automatic tracking with levels"
-                                                                                levels:@[ @"level1", @"level2", @"level3"]
+                                                                                levels:@[@"level1", @"level2", @"level3"]
                                                                           customLabels:nil
                                                             openedFromPushNotification:NO
                                                                   trackedAutomatically:YES];
@@ -58,15 +58,24 @@
                 }
                     
                 case 2: {
-                    simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Automatic tracking with levels and custom labels"
-                                                                                levels:@[ @"level1", @"level2" ]
-                                                                          customLabels:@{ @"custom_label": @"custom_value" }
+                    simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Maximum number of levels"
+                                                                                levels:@[@"level1", @"level2", @"level3", @"level4", @"level5", @"level6", @"level7", @"level8", @"level9", @"level10", @"level11", @"level12"]
+                                                                          customLabels:nil
                                                             openedFromPushNotification:NO
                                                                   trackedAutomatically:YES];
                     break;
                 }
                     
                 case 3: {
+                    simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Automatic tracking with levels and custom labels"
+                                                                                levels:@[@"level1", @"level2"]
+                                                                          customLabels:@{ @"custom_label": @"custom_value" }
+                                                            openedFromPushNotification:NO
+                                                                  trackedAutomatically:YES];
+                    break;
+                }
+                    
+                case 4: {
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Manual tracking"
                                                                                 levels:nil
                                                                           customLabels:nil
