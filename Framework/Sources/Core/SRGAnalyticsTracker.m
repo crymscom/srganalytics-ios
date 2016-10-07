@@ -126,10 +126,13 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
 - (void)trackPageViewTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification;
 {
-    NSMutableDictionary *labels = [NSMutableDictionary dictionary];
+    if (title.length == 0) {
+        SRGAnalyticsLogWarning(@"tracker", @"Missing title. No event will be sent");
+        return;
+    }
     
-    title = title.length > 0 ? title.srg_comScoreTitleFormattedString : @"untitled";
-    [labels safeSetValue:title forKey:@"srg_title"];
+    NSMutableDictionary *labels = [NSMutableDictionary dictionary];
+    [labels safeSetValue:title.srg_comScoreTitleFormattedString forKey:@"srg_title"];
     [labels safeSetValue:@(fromPushNotification) forKey:@"srg_ap_push"];
     
     NSString *category = @"app";
@@ -138,7 +141,7 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
         [labels safeSetValue:category forKey:@"srg_n1"];
     }
     else if (levels.count > 0) {
-        __block NSMutableString *levelsConcatenation = [NSMutableString new];
+        __block NSMutableString *levelsString = [NSMutableString new];
         [levels enumerateObjectsUsingBlock:^(id value, NSUInteger idx, BOOL *stop) {
             NSString *levelKey = [NSString stringWithFormat:@"srg_n%@", @(idx + 1)];
             NSString *levelValue = [value description].srg_comScoreFormattedString;
@@ -147,13 +150,13 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
                 [labels safeSetValue:levelValue forKey:levelKey];
             }
             
-            if (levelsConcatenation.length > 0) {
-                [levelsConcatenation appendString:@"."];
+            if (levelsString.length > 0) {
+                [levelsString appendString:@"."];
             }
-            [levelsConcatenation appendString:levelValue];
+            [levelsString appendString:levelValue];
         }];
         
-        category = [levelsConcatenation copy];
+        category = [levelsString copy];
     }
     
     [labels safeSetValue:category forKey:@"category"];
@@ -177,15 +180,13 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
 - (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels
 {
-    // Do not send events with empty titles
     if (title.length == 0) {
+        SRGAnalyticsLogWarning(@"tracker", @"Missing title. No event will be sent");
         return;
     }
     
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
-    
-    title = title.length > 0 ? title.srg_comScoreTitleFormattedString : @"untitled";
-    [labels safeSetValue:title forKey:@"srg_title"];
+    [labels safeSetValue:title.srg_comScoreTitleFormattedString forKey:@"srg_title"];
     
     [customLabels enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [labels safeSetValue:[obj description] forKey:[key description]];
@@ -221,7 +222,7 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
             [message appendFormat:@"%@: %@\n", NSStringFromSelector(selector), [CSComScore performSelector:selector]];
         }
         [message deleteCharactersInRange:NSMakeRange(message.length - 1, 1)];
-        SRGAnalyticsLogDebug(@"comScore", @"%@", message);
+        SRGAnalyticsLogDebug(@"tracker", @"%@", message);
     } background:YES];
 }
 
@@ -255,7 +256,7 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
     
     NSString *event = ns_st_ev ? [typeSymbol stringByAppendingFormat:@" %@", ns_st_ev] : ns_ap_ev;
     NSString *name = ns_st_ev ? [NSString stringWithFormat:@"%@ / %@", labels[@"ns_st_pl"], labels[@"ns_st_ep"]] : labels[@"name"];
-    SRGAnalyticsLogDebug(@"comScore", @"Event %@ with name %@ and labels %@", event, name, labels);
+    SRGAnalyticsLogDebug(@"tracker", @"Event %@ with name %@ and labels %@", event, name, labels);
 }
 
 #pragma mark Description

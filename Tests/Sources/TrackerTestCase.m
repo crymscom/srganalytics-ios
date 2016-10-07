@@ -4,9 +4,12 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <XCTest/XCTest.h>
+#import "AnalyticsTestCase.h"
+#import "NSNotificationCenter+Tests.h"
 
-@interface TrackerTestCase : XCTestCase
+typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
+
+@interface TrackerTestCase : AnalyticsTestCase
 
 @end
 
@@ -14,21 +17,46 @@
 
 #pragma mark Tests
 
-// TODO: Move tracker initialization outside tests (since it is a singleton)
-
-- (void)testStart
-{
-    XCTFail(@"TODO");
-}
-
 - (void)testHiddenEvent
 {
-    XCTFail(@"TODO");
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+        XCTAssertNil(type);
+        XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
+        return YES;
+    }];
+    
+    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Hidden event"];
+    
+    [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
-- (void)testHiddenEventWithNoName
+- (void)testHiddenEventWithCustomLabels
 {
-    XCTFail(@"TODO");
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+        XCTAssertNil(type);
+        XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
+        XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
+        return YES;
+    }];
+    
+    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Hidden event" customLabels:@{ @"custom_label" : @"custom_value" }];
+    
+    [self waitForExpectationsWithTimeout:5. handler:nil];
+}
+
+- (void)testHiddenEventWithEmptyTitle
+{
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"Events with missing title must not be sent");
+    }];
+    
+    [self expectationForElapsedTimeInterval:5. withHandler:nil];
+    
+    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"" customLabels:nil];
+    
+    [self waitForExpectationsWithTimeout:5. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
 }
 
 @end

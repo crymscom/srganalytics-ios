@@ -4,48 +4,22 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <SRGAnalytics_DataProvider/SRGAnalytics_DataProvider.h>
-#import <XCTest/XCTest.h>
+#import "AnalyticsTestCase.h"
 
-typedef BOOL (^HiddenEventExpectationHandler)(NSString *type, NSDictionary *labels);
+#import <SRGAnalytics_DataProvider/SRGAnalytics_DataProvider.h>
 
 static NSURL *ServiceTestURL(void)
 {
     return [NSURL URLWithString:@"http://il-test.srgssr.ch"];
 }
 
-@interface DataProviderTestCase : XCTestCase
+@interface DataProviderTestCase : AnalyticsTestCase
 
 @property (nonatomic) SRGMediaPlayerController *mediaPlayerController;
 
 @end
 
 @implementation DataProviderTestCase
-
-#pragma mark Helpers
-
-// Expectation for global hidden event notifications (player notifications are all event notifications, we don't want to have a look
-// at view events here)
-// TODO: Factor out this code, available elsewhere
-- (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(HiddenEventExpectationHandler)handler
-{
-    return [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
-        NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
-        
-        NSString *type = labels[@"ns_type"];
-        if (! [type isEqualToString:@"hidden"]) {
-            return NO;
-        }
-        
-        // Discard heartbeats (though hidden events, they are outside our control)
-        NSString *event = labels[@"ns_st_ev"];
-        if ([event isEqualToString:@"hb"]) {
-            return NO;
-        }
-        
-        return handler(event, labels);
-    }];
-}
 
 #pragma mark Setup and teardown
 
@@ -113,9 +87,9 @@ static NSURL *ServiceTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
 }
 
-// TODO: This test currently fails since segment labels are incorrect in the media composition
-//       This must be discussed (see https://srfmmz.atlassian.net/wiki/display/SRGPLAY/Developer+Meeting+2016-10-05)
-- (void)testPlaySegmentInMediaComposition
+// TODO: This test currently fails since segment labels are incorrect in the media composition. Will be fixed,
+//       see https://srfmmz.atlassian.net/browse/AIS-13388
+- (void)disabled_testPlaySegmentInMediaComposition
 {
     // Use a segment id as video id, expect segment labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
