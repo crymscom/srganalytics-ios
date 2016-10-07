@@ -10,7 +10,6 @@
 		0811A8531D800BA000A9863B /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; };
 		0811A8541D800BBC00A9863B /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; };
 		0811A8551D800BBC00A9863B /* libextobjc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0811A8571D800C9A00A9863B /* libextobjc.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		088700D41DA2528900D4961A /* SimpleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700C51DA2528900D4961A /* SimpleViewController.m */; };
 		088700D51DA2540F00D4961A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088700AF1DA2525800D4961A /* LaunchScreen.xib */; };
 		088700D71DA2542700D4961A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B51DA2528900D4961A /* AppDelegate.m */; };
@@ -79,6 +78,8 @@
 		E65490C31D815069007D96E7 /* ComScore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E672EA461D62EE5D00CFB080 /* ComScore.framework */; };
 		E65490D41D816A18007D96E7 /* BundleFix.m in Sources */ = {isa = PBXBuildFile; fileRef = E65490D01D816A18007D96E7 /* BundleFix.m */; };
 		E65490D51D816A18007D96E7 /* NSNotificationCenter+Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = E65490D21D816A18007D96E7 /* NSNotificationCenter+Tests.m */; };
+		E66BEC161DA7FA4800AD4450 /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; };
+		E66BEC171DA7FA5900AD4450 /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; };
 		E66F8A761D62DC570004EB58 /* ViewEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8A721D62DC570004EB58 /* ViewEventTests.m */; };
 		E66F8A851D62E2250004EB58 /* KIF.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E66F8A831D62E2250004EB58 /* KIF.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E66F8A861D62E2320004EB58 /* KIF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E66F8A831D62E2250004EB58 /* KIF.framework */; };
@@ -148,7 +149,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0811A8571D800C9A00A9863B /* libextobjc.framework in Copy Frameworks Into Test Bundle */,
 			);
 			name = "Copy Frameworks Into Test Bundle";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -278,6 +278,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E66BEC171DA7FA5900AD4450 /* libextobjc.framework in Frameworks */,
 				6FA09D8B1D9EC4DB00EDCA64 /* SRGLogger.framework in Frameworks */,
 				6FABE2F01D9C0268001C4E9A /* SRGMediaPlayer.framework in Frameworks */,
 				6FABE2EF1D9C0258001C4E9A /* SRGAnalytics_MediaPlayer.framework in Frameworks */,
@@ -323,6 +324,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E66BEC161DA7FA4800AD4450 /* libextobjc.framework in Frameworks */,
 				6FA09D891D9EC4BC00EDCA64 /* SRGLogger.framework in Frameworks */,
 				E672EA471D62EE5D00CFB080 /* ComScore.framework in Frameworks */,
 			);

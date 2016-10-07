@@ -32,11 +32,13 @@ Then run `carthage update --no-use-binaries` to update the dependencies. You wil
   * `SRGAnalytics.framework`: The main analytics framework
   * `SRGLogger.framework`: The framework used for internal logging
   * `ComScore.framework`: comScore framework
+  * `libextobjc.framework`: A utility framework
 * If you use our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS) and want media consumption tracking as well, add the following frameworks to your project:
   * `SRGAnalytics.framework`: The main analytics framework
   * `SRGAnalytics_MediaPlayer.framework`: The media player analytics companion framework
   * `SRGLogger.framework`: The framework used for internal logging
   * `ComScore.framework`: comScore framework
+  * `libextobjc.framework`: A utility framework
 * If you use our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios) to retrieve data, add the following frameworks to your project:
   * `SRGAnalytics.framework`: The main analytics framework
   * `SRGAnalytics_MediaPlayer.framework`: The media player analytics companion framework
@@ -45,6 +47,7 @@ Then run `carthage update --no-use-binaries` to update the dependencies. You wil
   * `ComScore.framework`: comScore framework
   * `SRGMediaPlayer.framework`: The media player framework (if not already in your project)
   * `Mantle.framework`:  The framework used to parse the data
+  * `libextobjc.framework`: A utility framework
   
 For more information about Carthage and its use, refer to the [official documentation](https://github.com/Carthage/Carthage).
 
