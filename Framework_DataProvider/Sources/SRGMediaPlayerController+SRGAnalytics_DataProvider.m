@@ -8,6 +8,8 @@
 
 #import "SRGSegment+SRGAnalytics_DataProvider.h"
 
+#import <libextobjc/libextobjc.h>
+
 typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *, NSString *> * _Nullable analyticsLabels, NSError * _Nullable error);
 
 @implementation SRGMediaPlayerController (SRGAnalytics_DataProvider)
@@ -21,7 +23,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     
     SRGChapter *chapter = mediaComposition.mainChapter;
     NSArray<SRGResource *> *resources = [chapter resourcesForProtocol:SRGProtocolHLS];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"quality == %@", @(preferredQuality)];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(preferredQuality)];
     SRGResource *resource = [resources filteredArrayUsingPredicate:predicate].firstObject ?: resources.firstObject;
     
     SRGRequest *request = [SRGDataProvider tokenizeURL:resource.URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
