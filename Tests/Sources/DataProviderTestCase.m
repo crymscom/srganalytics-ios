@@ -87,9 +87,7 @@ static NSURL *ServiceTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
 }
 
-// TODO: This test currently fails since segment labels are incorrect in the media composition. Will be fixed,
-//       see https://srfmmz.atlassian.net/browse/AIS-13388
-- (void)disabled_testPlaySegmentInMediaComposition
+- (void)testPlaySegmentInMediaComposition
 {
     // Use a segment id as video id, expect segment labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
