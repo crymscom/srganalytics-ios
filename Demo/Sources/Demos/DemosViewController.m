@@ -58,7 +58,7 @@
                 }
                     
                 case 2: {
-                    simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Maximum number of levels"
+                    simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Automatic tracking with many levels"
                                                                                 levels:@[@"level1", @"level2", @"level3", @"level4", @"level5", @"level6", @"level7", @"level8", @"level9", @"level10", @"level11", @"level12"]
                                                                           customLabels:nil
                                                             openedFromPushNotification:NO
@@ -79,7 +79,7 @@
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Manual tracking"
                                                                                 levels:nil
                                                                           customLabels:nil
-                                                            openedFromPushNotification:YES
+                                                            openedFromPushNotification:NO
                                                                   trackedAutomatically:NO];
                     break;
                 }

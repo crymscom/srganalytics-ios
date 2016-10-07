@@ -48,8 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Return the levels (position in the view hierarchy) to be sent for view event measurement.
  *
- *  If the page view levels array is nil or empty, an `app` default level will be used. Up to 10 levels can be set, any
- *  additional level will be dropped.
+ *  If the page view levels array is nil or empty, an `app` default level will be used.
  *
  *  @return The array of levels, in increasing depth order
  */

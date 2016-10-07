@@ -110,8 +110,9 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testMaximumNumberOfLevels
 {
+    // The SRG standard only has srg_nX fields up to 10. The full hierarchy is still obtained from the name and category labels, though
     [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.maximum-number-of-levels");
+        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.level11.level12.automatic-tracking-with-many-levels");
         XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
         XCTAssertEqualObjects(labels[@"srg_n1"], @"level1");
         XCTAssertEqualObjects(labels[@"srg_n2"], @"level2");
@@ -124,8 +125,8 @@ static NSDictionary *s_startLabels = nil;
         XCTAssertEqualObjects(labels[@"srg_n9"], @"level9");
         XCTAssertEqualObjects(labels[@"srg_n10"], @"level10");
         XCTAssertNil(labels[@"srg_n11"]);
-        XCTAssertEqualObjects(labels[@"category"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10");
-        XCTAssertEqualObjects(labels[@"srg_title"], @"Maximum number of levels");
+        XCTAssertEqualObjects(labels[@"category"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.level11.level12");
+        XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking with many levels");
         XCTAssertEqualObjects(labels[@"ns_type"], @"view");
         return YES;
     }];

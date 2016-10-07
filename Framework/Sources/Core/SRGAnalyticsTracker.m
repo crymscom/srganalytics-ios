@@ -138,7 +138,7 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
         [labels safeSetValue:category forKey:@"srg_n1"];
     }
     else if (levels.count > 0) {
-        __block NSMutableString *levelsConcatenation = [NSMutableString new];
+        __block NSMutableString *levelsString = [NSMutableString new];
         [levels enumerateObjectsUsingBlock:^(id value, NSUInteger idx, BOOL *stop) {
             NSString *levelKey = [NSString stringWithFormat:@"srg_n%@", @(idx + 1)];
             NSString *levelValue = [value description].srg_comScoreFormattedString;
@@ -147,13 +147,13 @@ NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
                 [labels safeSetValue:levelValue forKey:levelKey];
             }
             
-            if (levelsConcatenation.length > 0) {
-                [levelsConcatenation appendString:@"."];
+            if (levelsString.length > 0) {
+                [levelsString appendString:@"."];
             }
-            [levelsConcatenation appendString:levelValue];
+            [levelsString appendString:levelValue];
         }];
         
-        category = [levelsConcatenation copy];
+        category = [levelsString copy];
     }
     
     [labels safeSetValue:category forKey:@"category"];
