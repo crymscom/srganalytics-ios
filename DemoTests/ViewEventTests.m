@@ -9,7 +9,7 @@
 #import <KIF/KIF.h>
 #import <SRGAnalytics/SRGAnalytics.h>
 
-typedef BOOL (^HiddenEventExpectationHandler)(NSString *type, NSDictionary *labels);
+typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
 
 static NSDictionary *s_startLabels = nil;
 
@@ -30,7 +30,7 @@ static NSDictionary *s_startLabels = nil;
 
 #pragma mark Helpers
 
-- (XCTestExpectation *)expectationForViewEventNotificationWithHandler:(HiddenEventExpectationHandler)handler
+- (XCTestExpectation *)expectationForViewEventNotificationWithHandler:(EventExpectationHandler)handler
 {
     return [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];

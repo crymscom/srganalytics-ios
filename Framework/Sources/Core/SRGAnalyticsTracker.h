@@ -128,7 +128,7 @@ OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierTEST;
  *
  *  @param title        The event title
  *
- *  @discussion If the title is nil, no event will be sent
+ *  @discussion If the title is empty, no event will be sent
  */
 - (void)trackHiddenEventWithTitle:(NSString *)title;
 

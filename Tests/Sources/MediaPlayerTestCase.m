@@ -4,13 +4,13 @@
 //  License information is available from the LICENSE file.
 //
 
+#import "AnalyticsTestCase.h"
 #import "NSNotificationCenter+Tests.h"
 #import "Segment.h"
 
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
-#import <XCTest/XCTest.h>
 
-typedef BOOL (^HiddenEventExpectationHandler)(NSString *type, NSDictionary *labels);
+typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
 
 static NSURL *OnDemandTestURL(void)
 {
@@ -27,48 +27,13 @@ static NSURL *DVRTestURL(void)
     return [NSURL URLWithString:@"https://wowza.jwplayer.com/live/jelly.stream/playlist.m3u8?DVR"];
 }
 
-@interface MediaPlayerTestCase : XCTestCase
+@interface MediaPlayerTestCase : AnalyticsTestCase
 
 @property (nonatomic) SRGMediaPlayerController *mediaPlayerController;
 
 @end
 
 @implementation MediaPlayerTestCase
-
-#pragma mark Helpers
-
-// Expectation for global hidden event notifications (player notifications are all event notifications, we don't want to have a look
-// at view events here)
-// TODO: Factor out this code, available elsewhere
-- (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(HiddenEventExpectationHandler)handler
-{
-    return [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
-        NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
-        
-        NSString *type = labels[@"ns_type"];
-        if (! [type isEqualToString:@"hidden"]) {
-            return NO;
-        }
-        
-        // Discard heartbeats (though hidden events, they are outside our control)
-        NSString *event = labels[@"ns_st_ev"];
-        if ([event isEqualToString:@"hb"]) {
-            return NO;
-        }
-        
-        return handler(event, labels);
-    }];
-}
-
-- (XCTestExpectation *)expectationForElapsedTimeInterval:(NSTimeInterval)timeInterval withHandler:(void (^)(void))handler
-{
-    XCTestExpectation *expectation = [self expectationWithDescription:[NSString stringWithFormat:@"Wait for %@ seconds", @(timeInterval)]];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [expectation fulfill];
-        handler ? handler() : nil;
-    });
-    return expectation;
-}
 
 #pragma mark Setup and teardown
 
