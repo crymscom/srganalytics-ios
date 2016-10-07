@@ -41,7 +41,7 @@ static NSDictionary *s_startLabels = nil;
         }
         
         // Discard start events (outside our control)
-        NSString *event = labels[@"ns_st_ev"];
+        NSString *event = labels[@"ns_ap_ev"];
         if ([event isEqualToString:@"start"]) {
             return NO;
         }
