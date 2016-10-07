@@ -84,6 +84,15 @@
                     break;
                 }
                     
+                case 5: {
+                    simpleViewController = [[SimpleViewController alloc] initWithTitle:@""
+                                                                                levels:nil
+                                                                          customLabels:nil
+                                                            openedFromPushNotification:NO
+                                                                  trackedAutomatically:YES];
+                    break;
+                }
+                    
                 default: {
                     return;
                     break;

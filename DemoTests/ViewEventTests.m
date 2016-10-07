@@ -4,10 +4,9 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <UIKit/UIKit.h>
-#import <XCTest/XCTest.h>
 #import <KIF/KIF.h>
 #import <SRGAnalytics/SRGAnalytics.h>
+#import <UIKit/UIKit.h>
 
 typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
 
@@ -48,6 +47,16 @@ static NSDictionary *s_startLabels = nil;
         
         return handler(event, labels);
     }];
+}
+
+- (XCTestExpectation *)expectationForElapsedTimeInterval:(NSTimeInterval)timeInterval withHandler:(void (^)(void))handler
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:[NSString stringWithFormat:@"Wait for %@ seconds", @(timeInterval)]];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [expectation fulfill];
+        handler ? handler() : nil;
+    });
+    return expectation;
 }
 
 #pragma mark Tests
@@ -180,6 +189,24 @@ static NSDictionary *s_startLabels = nil;
     [tester tapViewWithAccessibilityLabel:@"Track"];
     
     [self waitForExpectationsWithTimeout:5. handler:nil];
+    
+    [tester tapViewWithAccessibilityLabel:@"Back"];
+    [tester waitForTimeInterval:2.];
+}
+
+- (void)testMissingTitle
+{
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForName:SRGAnalyticsComScoreRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        XCTFail(@"No event must be sent when the title is empty");
+    }];
+    
+    [self expectationForElapsedTimeInterval:3. withHandler:nil];
+    
+    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
+    
+    [self waitForExpectationsWithTimeout:5. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
     
     [tester tapViewWithAccessibilityLabel:@"Back"];
     [tester waitForTimeInterval:2.];
