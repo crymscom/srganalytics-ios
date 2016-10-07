@@ -9,26 +9,15 @@
 #import <KIF/KIF.h>
 #import <SRGAnalytics/SRGAnalytics.h>
 
+static NSDictionary *s_startLabels = nil;
+
 @interface SRGAnalytics_Demo_1_EventTests : KIFTestCase
 
 @end
 
 @implementation SRGAnalytics_Demo_1_EventTests
 
-static NSDictionary * startLabels = nil;
-
-+ (void)load
-{
-    [[NSNotificationCenter defaultCenter] addObserverForName:SRGAnalyticsComScoreRequestNotification object:nil queue:nil usingBlock:^(NSNotification *notification) {
-        NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
-        if ([labels[@"ns_ap_ev"] isEqualToString:@"start"]) {
-            static dispatch_once_t onceToken;
-            dispatch_once(&onceToken, ^{
-                startLabels = [labels copy];
-            });
-        }
-    }];
-}
+#pragma mark Setup and tear down
 
 - (void)setUp
 {
@@ -36,26 +25,7 @@ static NSDictionary * startLabels = nil;
     [KIFSystemTestActor setDefaultTimeout:60.0];
 }
 
-// Making sure with AAAAA that this method is called first.
-//#warning This test is subject to severe race condition issues. Disable temporarily
-//- (void)disabled_testAAAAAApplicationStartAndStartMeasurementAndFirstPageViewEventAreSend
-//{
-//	NSNotification *notification = [system waitForNotificationName:SRGAnalyticsComScoreRequestNotification object:nil];
-//	XCTAssertEqualObjects(startLabels[@"ns_ap_an"], @"SRGAnalytics Demo iOS");
-//	XCTAssertEqualObjects(startLabels[@"ns_site"], @"mainsite");
-//	XCTAssertEqualObjects(startLabels[@"ns_vsite"], @"SRG-app-test-v");
-//	XCTAssertEqualObjects(startLabels[@"srg_unit"], @"SRG");
-//
-//	NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
-//	XCTAssertEqualObjects(labels[@"name"], @"app.mainpagetitle");
-//	XCTAssertEqualObjects(labels[@"category"], @"app");
-//	XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
-//	XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
-//	XCTAssertEqualObjects(labels[@"srg_title"], @"MainPageTitle");
-//	XCTAssertEqualObjects(labels[@"ns_type"], @"view");
-//
-//    [tester waitForTimeInterval:2.0f];
-//}
+#pragma mark Tests
 
 - (void)testAutomaticTrackingComScore
 {
