@@ -23,7 +23,7 @@
 
 - (BOOL)srg_isHidden
 {
-    return NO;
+    return self.isHidden;
 }
 
 - (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
