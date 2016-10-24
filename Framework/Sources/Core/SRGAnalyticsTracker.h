@@ -11,16 +11,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  @name Supported business units
  */
+typedef NSString * SRGAnalyticsBusinessUnitIdentifier NS_STRING_ENUM;
 
-OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierRSI;
-OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierRTR;
-OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierRTS;
-OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierSRF;
-OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierSWI;
+OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRSI;
+OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTR;
+OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTS;
+OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRF;
+OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI;
 
 // This special business unit can be used in test or debug builds of your application if you do not want to pollute
 // actual measurements while in development
-OBJC_EXPORT NSString * const SRGAnalyticsBusinessUnitIdentifierTEST;
+OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST;
 
 /**
  *  The analytics tracker is a singleton instance responsible of tracking usage of an application, using comScore and

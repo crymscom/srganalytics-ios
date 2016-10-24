@@ -15,12 +15,12 @@
 
 #import <ComScore/CSTaskExecutor.h>
 
-NSString * const SRGAnalyticsBusinessUnitIdentifierRSI = @"rsi";
-NSString * const SRGAnalyticsBusinessUnitIdentifierRTR = @"rtr";
-NSString * const SRGAnalyticsBusinessUnitIdentifierRTS = @"rts";
-NSString * const SRGAnalyticsBusinessUnitIdentifierSRF = @"srf";
-NSString * const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
-NSString * const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRSI = @"rsi";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTR = @"rtr";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTS = @"rts";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRF = @"srf";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
 @interface SRGAnalyticsTracker ()
 
