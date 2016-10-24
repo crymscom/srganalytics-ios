@@ -47,12 +47,16 @@ static NSURL *ServiceTestURL(void)
         
         [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredQuality:SRGQualityHD userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
+            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             [expectation fulfill];
         }];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePaused);
+    
+    // Start playback and check labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Archive footage of the man and his moods");
@@ -60,9 +64,6 @@ static NSURL *ServiceTestURL(void)
         return YES;
     }];
     
-    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePaused);
-    
-    // Start playback and check labels
     [self.mediaPlayerController play];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -78,6 +79,7 @@ static NSURL *ServiceTestURL(void)
         
         [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredQuality:SRGQualityHD userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
+            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             [expectation fulfill];
         }];
     }] resume];
@@ -103,6 +105,7 @@ static NSURL *ServiceTestURL(void)
         
         [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredQuality:SRGQualityHD userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
+            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
         }];
     }] resume];
     

@@ -62,6 +62,11 @@ NS_ASSUME_NONNULL_BEGIN
                               resume:(BOOL)resume
                    completionHandler:(nullable void (^)(NSError *error))completionHandler;
 
+/**
+ *  Return the media composition currently played, if any
+ */
+@property (nonatomic, readonly, nullable) SRGMediaComposition *mediaComposition;
+
 @end
 
 NS_ASSUME_NONNULL_END
