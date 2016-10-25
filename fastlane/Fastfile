@@ -13,11 +13,15 @@ default_platform :ios
 
 platform :ios do
   before_all do
+
     carthage(
       command: "bootstrap",
       platform: "iOS"
-      )
-    
+    )
+
+    # Do a carthage bootstrap in the Demo project too, for UI test (hidden events on view)
+    sh "cd ../Demo; carthage bootstrap --platform iOS"
+
   end
 
   desc "Run library tests"
