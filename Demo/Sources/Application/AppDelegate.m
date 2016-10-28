@@ -11,6 +11,7 @@
 
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
+#import <SRGLogger/SRGLogger.h>
 
 @implementation AppDelegate
 
@@ -21,6 +22,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
+    
+    [SRGLogger setLogHandler:SRGNSLogHandler()];
     
     [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
                                                      comScoreVirtualSite:@"rts-app-test-v"

@@ -83,6 +83,15 @@ import SRGAnalytics_MediaPlayer         // For SRGAnalytics_MediaPlayer.framewor
 import SRGAnalytics_DataProvider        // For SRGAnalytics_DataProvider.framework
 ```
 
+### Info.plist settings
+
+The library automatically tracks which SRG SSR applications are installed on a user device, and sends this information to comScore. For this mechanism to work properly, though, your application **must** declare all official SRG SSR application URL schemes as being supported in its `Info.plist` file:
+
+* Open your application `Info.plist` file
+* Add the `LSApplicationQueriesSchemes` key if it does not exist, and ensure that the associated array of values **contains all URL schemes** found at the [following URL](http://pastebin.com/raw/RnZYEWCA). The schemes correspond to all values found under the `ios` dictionary keys (e.g. `playrts`, `srfplayer`)
+
+If this is not done appropriately, application installations will be reported incorrectly, and an error message will be logged.
+
 ### Working with the library
 
 To learn about how the library can be used, have a look at the [getting started guide](Documentation/Getting-started.md).
