@@ -64,10 +64,10 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     self.comScoreVirtualSite = comScoreVirtualSite;
     self.netMetrixIdentifier = netMetrixIdentifier;
     
+    self.started = YES;
+    
     [self startComscoreTracker];
     [self startNetmetrixTracker];
-    
-    self.started = YES;
 }
 
 - (void)startComscoreTracker
@@ -83,6 +83,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [CSComScore setLabels:[self comscoreGlobalLabels]];
     
     [self startLoggingInternalComScoreTasks];
+    [self sendApplicationList];
 }
 
 - (void)startNetmetrixTracker
@@ -193,6 +194,59 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     }];
     
     [CSComScore hiddenWithLabels:labels];
+}
+
+#pragma mark Application list measurement
+
+- (void)sendApplicationList
+{
+    // Specifications are available at:  https://srfmmz.atlassian.net/wiki/display/INTFORSCHUNG/App+Overlapping+Measurement
+    //
+    // The application list is not critical measurement information. As such, we try to send it once when the tracker
+    // is started. If we fail, this will be made once again the next time the application is started
+    NSURL *applicationListURL = [NSURL URLWithString:@"http://pastebin.com/raw/RnZYEWCA"];
+    [[[NSURLSession sharedSession] dataTaskWithURL:applicationListURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error) {
+            SRGAnalyticsLogError(@"tracker", @"The application list could not be retrieved. Reason: %@", error);
+            return;
+        }
+        
+        NSError *parseError = nil;
+        id JSONObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
+        if (! JSONObject || ! [JSONObject isKindOfClass:[NSArray class]]) {
+            SRGAnalyticsLogError(@"tracker", @"The application list format is incorrect");
+            return;
+        }
+        NSArray<NSDictionary *> *applicationDictionaries = JSONObject;
+        
+        NSMutableSet<NSString *> *installedApplications = [NSMutableSet set];
+        for (NSDictionary *applicationDictionary in applicationDictionaries) {
+            NSString *application = applicationDictionary[@"code"];
+            NSString *URLScheme = applicationDictionary[@"ios"];
+            
+            if (! URLScheme || ! application) {
+                SRGAnalyticsLogWarning(@"tracker", @"URL scheme or application name missing in %@. Skipped", applicationDictionary);
+                continue;
+            }
+            
+            NSString *URLString = [NSString stringWithFormat:@"%@://probe", URLScheme];
+            if (! [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URLString]]) {
+                continue;
+            }
+            
+            [installedApplications addObject:application];
+        }
+        
+        if (installedApplications.count == 0) {
+            SRGAnalyticsLogWarning(@"tracker", @"No identified application installed. Nothing to be done");
+            return;
+        }
+        
+        NSArray *sortedInstalledApplications = [installedApplications.allObjects sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        NSDictionary *labels = @{ @"srg_evgroup" : @"Installed Apps",
+                                  @"srg_evname" : [sortedInstalledApplications componentsJoinedByString:@","] };
+        [CSComScore hiddenWithLabels:labels];
+    }] resume];
 }
 
 #pragma mark Logging
