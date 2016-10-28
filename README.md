@@ -77,6 +77,17 @@ Your app `Info.plist` file must contains a dictionary section called `RTSAnalyti
 
 By using custom build settings variables, it is possible to provide different values for different configurations (Debug, Beta, Release, etc.) with a single `Info.plist` file.
 
+### Installed applications tracking
+
+The library automatically tracks which SRG SSR applications are installed on a user device, and sends this information to comScore. For this mechanism to work properly, though, your application **must** declare all official SRG SSR application URL schemes as being supported in its `Info.plist` file. This is achieved as follows:
+
+* Open your application `Info.plist` file
+* Add the `LSApplicationQueriesSchemes` key if it does not exist, and ensure that the associated array of values **is a superset of all URL schemes** found at the [following URL](http://pastebin.com/raw/RnZYEWCA). The schemes themselves must be extracted from all `ios` dictionary keys (e.g. `playrts`, `srfplayer`)
+
+If this setup is not done appropriately, application installations will be reported incorrectly to comScore, and an error message will be logged. This situation is not catastropic but should be fixed when possible to ensure accurate measurements.
+
+Since the list available from the above URL might change from time to time, the warning might resurface later to remind you to update your `Info.plist` file accordingly. Be sure to check your application logs.
+
 ### Tracking view counts for view controllers
 
 For each view controller which requires tracking, like a page view event, you have it explicitly conform to the `RTSAnalyticsPageViewDataSource` protocol, and implement the associated required method. This is all you need to do, view events will then automatically be sent when your view controller is presented.
