@@ -168,6 +168,79 @@
 	[CSComScore setLabels:[self comscoreGlobalLabels]];
 	
 	[self startLoggingInternalComScoreTasks];
+    [self sendApplicationList];
+}
+
+#pragma mark Application list measurement
+
+- (void)sendApplicationList
+{
+    // Tracks which SRG SSR applications are installed on the user device
+    //
+    // Specifications are available at: https://srfmmz.atlassian.net/wiki/display/INTFORSCHUNG/App+Overlapping+Measurement
+    //
+    // This measurement is not critical and is therefore performed only once the tracker starts. If it fails for some reason
+    // (no network, for example), the measurement will be attempted again the next time the application is started
+    NSURL *applicationListURL = [NSURL URLWithString:@"http://pastebin.com/raw/RnZYEWCA"];
+    [[[NSURLSession sharedSession] dataTaskWithURL:applicationListURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error) {
+            RTSAnalyticsLogError(@"The application list could not be retrieved. Reason: %@", error);
+            return;
+        }
+        
+        NSError *parseError = nil;
+        id JSONObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
+        if (! JSONObject || ! [JSONObject isKindOfClass:[NSArray class]]) {
+            RTSAnalyticsLogError(@"The application list format is incorrect");
+            return;
+        }
+        NSArray<NSDictionary *> *applicationDictionaries = JSONObject;
+        
+        // Extract URL schemes and installed applications
+        NSMutableSet<NSString *> *URLSchemes = [NSMutableSet set];
+        NSMutableSet<NSString *> *installedApplications = [NSMutableSet set];
+        for (NSDictionary *applicationDictionary in applicationDictionaries) {
+            NSString *application = applicationDictionary[@"code"];
+            NSString *URLScheme = applicationDictionary[@"ios"];
+            
+            if (URLScheme.length == 0 || ! application) {
+                RTSAnalyticsLogWarning(@"URL scheme or application name missing in %@. Skipped", applicationDictionary);
+                continue;
+            }
+            
+            [URLSchemes addObject:URLScheme];
+            
+            NSString *URLString = [NSString stringWithFormat:@"%@://probe", URLScheme];
+            if (! [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URLString]]) {
+                continue;
+            }
+            
+            [installedApplications addObject:application];
+        }
+        
+        // Since iOS 9, to be able to open a URL in another application (and thus to be able to test for URL scheme
+        // support), the application must declare the schemes it supports via its Info.plist file (under the
+        // `LSApplicationQueriesSchemes` key). If we are running on iOS 9 or above, check that the app list is consistent
+        // with the remote list, and log an error if this is not the case
+        NSArray<NSString *> *declaredURLSchemesArray = [NSBundle mainBundle].infoDictionary[@"LSApplicationQueriesSchemes"];
+        NSSet<NSString *> *declaredURLSchemes = declaredURLSchemesArray ? [NSSet setWithArray:declaredURLSchemesArray] : [NSSet set];
+        if (! [URLSchemes isSubsetOfSet:declaredURLSchemes]) {
+            RTSAnalyticsLogError(@"The URL schemes declared in your application Info.plist file under the "
+                                 "'LSApplicationQueriesSchemes' key must at list contain the scheme list available at "
+                                 "http://pastebin.com/raw/RnZYEWCA (the schemes are found under the 'ios' key). Please "
+                                 "update your Info.plist file to make this message disappear");
+        }
+        
+        if (installedApplications.count == 0) {
+            RTSAnalyticsLogWarning(@"No identified application installed. Nothing to be done");
+            return;
+        }
+        
+        NSArray *sortedInstalledApplications = [installedApplications.allObjects sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        NSDictionary *labels = @{ @"srg_evgroup" : @"Installed Apps",
+                                  @"srg_evname" : [sortedInstalledApplications componentsJoinedByString:@","] };
+        [CSComScore hiddenWithLabels:labels];
+    }] resume];
 }
 
 - (NSDictionary *)comscoreGlobalLabels
