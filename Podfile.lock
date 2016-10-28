@@ -8,16 +8,16 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
   - OCMock (3.3.1)
-  - SRGAnalytics (1.5.5):
-    - SRGAnalytics/Core (= 1.5.5)
-  - SRGAnalytics/Core (1.5.5):
+  - SRGAnalytics (1.5.6):
+    - SRGAnalytics/Core (= 1.5.6)
+  - SRGAnalytics/Core (1.5.6):
     - ComScore-iOS (= 3.1510.232)
     - JRSwizzle (= 1.0)
-    - SRGAnalytics/Core/Version (= 1.5.5)
-  - SRGAnalytics/Core/Version (1.5.5):
+    - SRGAnalytics/Core/Version (= 1.5.6)
+  - SRGAnalytics/Core/Version (1.5.6):
     - ComScore-iOS (= 3.1510.232)
     - JRSwizzle (= 1.0)
-  - SRGAnalytics/MediaPlayer (1.5.5):
+  - SRGAnalytics/MediaPlayer (1.5.6):
     - SRGAnalytics/Core
     - SRGMediaPlayer (~> 1.9.0)
   - SRGMediaPlayer (1.9.10):
@@ -46,7 +46,7 @@ SPEC CHECKSUMS:
   KIF: b518c9831453abea5afdbbde3908ec47832d6d56
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   OCMock: f3f61e6eaa16038c30caa5798c5e49d3307b6f22
-  SRGAnalytics: 16f9051a47fe66f1eb163049a45ccb8e61bc5bed
+  SRGAnalytics: c8e1c680152842947ed9bd6cf6d79ea2bf80f5a4
   SRGMediaPlayer: bbf126c06ff767e13f734274ec6021173407968c
   TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250
 
