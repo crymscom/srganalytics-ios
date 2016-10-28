@@ -200,10 +200,12 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)sendApplicationList
 {
-    // Specifications are available at:  https://srfmmz.atlassian.net/wiki/display/INTFORSCHUNG/App+Overlapping+Measurement
+    // Tracks which SRG SSR applications are installed on the user device
     //
-    // The application list is not critical measurement information. As such, we try to send it once when the tracker
-    // is started. If we fail, this will be made once again the next time the application is started
+    // Specifications are available at: https://srfmmz.atlassian.net/wiki/display/INTFORSCHUNG/App+Overlapping+Measurement
+    //
+    // This measurement is not critical and is therefore performed only once the tracker starts. If it fails for some reason
+    // (no network, for example), the measurement will be attempted again the next time the application is started
     NSURL *applicationListURL = [NSURL URLWithString:@"http://pastebin.com/raw/RnZYEWCA"];
     [[[NSURLSession sharedSession] dataTaskWithURL:applicationListURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
@@ -219,6 +221,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         }
         NSArray<NSDictionary *> *applicationDictionaries = JSONObject;
         
+        // Extract URL schemes and installed applications
         NSMutableSet<NSString *> *URLSchemes = [NSMutableSet set];
         NSMutableSet<NSString *> *installedApplications = [NSMutableSet set];
         for (NSDictionary *applicationDictionary in applicationDictionaries) {
@@ -241,8 +244,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         }
         
         // Since iOS 9, to be able to open a URL in another application (and thus to be able to test for URL scheme
-        // support), the application must declare the schemes it supports it via its Info.plist file (under the
-        // LSApplicationQueriesSchemes key). If we are running on iOS 9 or above, check that the app list is consistent
+        // support), the application must declare the schemes it supports via its Info.plist file (under the
+        // `LSApplicationQueriesSchemes` key). If we are running on iOS 9 or above, check that the app list is consistent
         // with the remote list, and log an error if this is not the case
         NSArray<NSString *> *declaredURLSchemesArray = [NSBundle mainBundle].infoDictionary[@"LSApplicationQueriesSchemes"];
         NSSet<NSString *> *declaredURLSchemes = declaredURLSchemesArray ? [NSSet setWithArray:declaredURLSchemesArray] : [NSSet set];
