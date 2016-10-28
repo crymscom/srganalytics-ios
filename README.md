@@ -85,12 +85,14 @@ import SRGAnalytics_DataProvider        // For SRGAnalytics_DataProvider.framewo
 
 ### Info.plist settings
 
-The library automatically tracks which SRG SSR applications are installed on a user device, and sends this information to comScore. For this mechanism to work properly, though, your application **must** declare all official SRG SSR application URL schemes as being supported in its `Info.plist` file:
+The library automatically tracks which SRG SSR applications are installed on a user device, and sends this information to comScore. For this mechanism to work properly, though, your application **must** declare all official SRG SSR application URL schemes as being supported in its `Info.plist` file. This is achieved as follows:
 
 * Open your application `Info.plist` file
-* Add the `LSApplicationQueriesSchemes` key if it does not exist, and ensure that the associated array of values **contains all URL schemes** found at the [following URL](http://pastebin.com/raw/RnZYEWCA). The schemes correspond to all values found under the `ios` dictionary keys (e.g. `playrts`, `srfplayer`)
+* Add the `LSApplicationQueriesSchemes` key if it does not exist, and ensure that the associated array of values **is a superset of all URL schemes** found at the [following URL](http://pastebin.com/raw/RnZYEWCA). The schemes themselves must be extracted from all `ios` dictionary keys (e.g. `playrts`, `srfplayer`)
 
-If this is not done appropriately, application installations will be reported incorrectly, and an error message will be logged.
+If this setup is not done appropriately, application installations will be reported incorrectly to comScore, and an error message will be logged. This situation is not catastropic but should be fixed when possible to ensure accurate measurements.
+
+Since the list available from the above URL might change from time to time, the warning might resurface later to remind you to update your `Info.plist` file accordingly. Be sure to check your application logs (see `Logging` below).
 
 ### Working with the library
 
