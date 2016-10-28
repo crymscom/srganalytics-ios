@@ -244,16 +244,13 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         // support), the application must declare the schemes it supports it via its Info.plist file (under the
         // LSApplicationQueriesSchemes key). If we are running on iOS 9 or above, check that the app list is consistent
         // with the remote list, and log an error if this is not the case
-        // TODO: Always perform this check when iOS 9 is the minimum version
-        if (&UIApplicationOpenURLOptionsSourceApplicationKey /* available on iOS 9 only */ != NULL) {
-            NSArray<NSString *> *declaredURLSchemesArray = [NSBundle mainBundle].infoDictionary[@"LSApplicationQueriesSchemes"];
-            NSSet<NSString *> *declaredURLSchemes = declaredURLSchemesArray ? [NSSet setWithArray:declaredURLSchemesArray] : [NSSet set];
-            if (! [URLSchemes isSubsetOfSet:declaredURLSchemes]) {
-                SRGAnalyticsLogError(@"tracker", @"The URL schemes declared in your application Info.plist file under the "
-                                     "'LSApplicationQueriesSchemes' key must at list contain the scheme list available at "
-                                     "http://pastebin.com/raw/RnZYEWCA (the schemes are found under the 'ios' key). Please "
-                                     "update your Info.plist file to make this message disappear");
-            }
+        NSArray<NSString *> *declaredURLSchemesArray = [NSBundle mainBundle].infoDictionary[@"LSApplicationQueriesSchemes"];
+        NSSet<NSString *> *declaredURLSchemes = declaredURLSchemesArray ? [NSSet setWithArray:declaredURLSchemesArray] : [NSSet set];
+        if (! [URLSchemes isSubsetOfSet:declaredURLSchemes]) {
+            SRGAnalyticsLogError(@"tracker", @"The URL schemes declared in your application Info.plist file under the "
+                                 "'LSApplicationQueriesSchemes' key must at list contain the scheme list available at "
+                                 "http://pastebin.com/raw/RnZYEWCA (the schemes are found under the 'ios' key). Please "
+                                 "update your Info.plist file to make this message disappear");
         }
         
         if (installedApplications.count == 0) {
