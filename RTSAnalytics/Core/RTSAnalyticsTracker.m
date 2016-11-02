@@ -158,6 +158,7 @@
 	NSAssert(self.comscoreVSite.length > 0, @"You MUST define `RTSAnalytics>ComscoreVirtualSite` key in your app Info.plist");
 	
 	[CSComScore setAppContext];
+    [CSComScore setSecure:YES];
 	[CSComScore setCustomerC2:@"6036016"];
 	[CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
 	[CSComScore enableAutoUpdate:60 foregroundOnly:NO]; //60 is the Comscore default interval value
