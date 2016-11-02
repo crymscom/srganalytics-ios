@@ -211,7 +211,7 @@
             
             [URLSchemes addObject:URLScheme];
             
-            NSString *URLString = [NSString stringWithFormat:@"%@://probe", URLScheme];
+            NSString *URLString = [NSString stringWithFormat:@"%@://probe-for-srganalytics", URLScheme];
             if (! [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URLString]]) {
                 continue;
             }
@@ -228,7 +228,7 @@
         if (! [URLSchemes isSubsetOfSet:declaredURLSchemes]) {
             RTSAnalyticsLogError(@"The URL schemes declared in your application Info.plist file under the "
                                  "'LSApplicationQueriesSchemes' key must at list contain the scheme list available at "
-                                 "https://pastebin.com/raw/RnZYEWCA (the schemes are found under the 'ios' key). Please "
+                                 "https://pastebin.com/raw/RnZYEWCA (the schemes are found under the 'ios' key, or a script is available in the SRGAnalytics repository to collect it). Please "
                                  "update your Info.plist file to make this message disappear");
         }
         
