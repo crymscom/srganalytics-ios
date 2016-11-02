@@ -39,11 +39,11 @@
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSString *, NSString *> *s_domains;
     dispatch_once(&s_onceToken, ^{
-        s_domains = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @"SRGi",
-                       SRGAnalyticsBusinessUnitIdentifierRTR : @"rtr",
-                       SRGAnalyticsBusinessUnitIdentifierRTS : @"SRG",
-                       SRGAnalyticsBusinessUnitIdentifierSRF : @"srf",
-                       SRGAnalyticsBusinessUnitIdentifierSWI : @"swissinf" };
+        s_domains = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @"rsi-ssl",
+                       SRGAnalyticsBusinessUnitIdentifierRTR : @"rtr-ssl",
+                       SRGAnalyticsBusinessUnitIdentifierRTS : @"rts-ssl",
+                       SRGAnalyticsBusinessUnitIdentifierSRF : @"sftv-ssl",
+                       SRGAnalyticsBusinessUnitIdentifierSWI : @"sinf-ssl" };
     });
     return s_domains[self.businessUnitIdentifier] ?: self.businessUnitIdentifier;
 }
@@ -52,7 +52,7 @@
 
 - (void)trackView
 {
-    NSString *netMetrixURLString = [NSString stringWithFormat:@"http://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netMetrixDomain, self.identifier, self.device];
+    NSString *netMetrixURLString = [NSString stringWithFormat:@"https://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netMetrixDomain, self.identifier, self.device];
     NSURL *netMetrixURL = [NSURL URLWithString:netMetrixURLString];
     
     // Send the notification when the request is made (as is done with comScore). Notifications are intended to test
