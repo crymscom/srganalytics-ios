@@ -41,8 +41,8 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 
 - (NSString *) netmetrixDomain
 {
-	return netmetrixDomains[self.businessUnit];
     NSArray *netmetrixDomains = @[ @"sftv-ssl", @"rts-ssl", @"rsi-ssl", @"rtr-ssl", @"sinf-ssl" ];
+	return netmetrixDomains[self.businessUnit];
 }
 
 #pragma mark - Track View
