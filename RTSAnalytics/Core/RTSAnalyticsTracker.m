@@ -182,7 +182,7 @@
     //
     // This measurement is not critical and is therefore performed only once the tracker starts. If it fails for some reason
     // (no network, for example), the measurement will be attempted again the next time the application is started
-    NSURL *applicationListURL = [NSURL URLWithString:@"http://pastebin.com/raw/RnZYEWCA"];
+    NSURL *applicationListURL = [NSURL URLWithString:@"https://pastebin.com/raw/RnZYEWCA"];
     [[[NSURLSession sharedSession] dataTaskWithURL:applicationListURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
             RTSAnalyticsLogError(@"The application list could not be retrieved. Reason: %@", error);
@@ -228,7 +228,7 @@
         if (! [URLSchemes isSubsetOfSet:declaredURLSchemes]) {
             RTSAnalyticsLogError(@"The URL schemes declared in your application Info.plist file under the "
                                  "'LSApplicationQueriesSchemes' key must at list contain the scheme list available at "
-                                 "http://pastebin.com/raw/RnZYEWCA (the schemes are found under the 'ios' key). Please "
+                                 "https://pastebin.com/raw/RnZYEWCA (the schemes are found under the 'ios' key). Please "
                                  "update your Info.plist file to make this message disappear");
         }
         
