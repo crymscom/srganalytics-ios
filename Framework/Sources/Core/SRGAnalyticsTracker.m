@@ -207,7 +207,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     //
     // This measurement is not critical and is therefore performed only once the tracker starts. If it fails for some reason
     // (no network, for example), the measurement will be attempted again the next time the application is started
-    NSURL *applicationListURL = [NSURL URLWithString:@"http://pastebin.com/raw/RnZYEWCA"];
+    NSURL *applicationListURL = [NSURL URLWithString:@"https://pastebin.com/raw/RnZYEWCA"];
     [[[NSURLSession sharedSession] dataTaskWithURL:applicationListURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
             SRGAnalyticsLogError(@"tracker", @"The application list could not be retrieved. Reason: %@", error);
