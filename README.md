@@ -85,14 +85,16 @@ import SRGAnalytics_DataProvider        // For SRGAnalytics_DataProvider.framewo
 
 ### Info.plist settings
 
-The library automatically tracks which SRG SSR applications are installed on a user device, and sends this information to comScore. For this mechanism to work properly, though, your application **must** declare all official SRG SSR application URL schemes as being supported in its `Info.plist` file. This is achieved as follows:
+The library automatically tracks which SRG SSR applications are installed on a user device, and sends this information to comScore. For this mechanism to work properly, though, your application **must** declare all official SRG SSR application URL schemes as being supported in its `Info.plist` file. 
 
-* Open your application `Info.plist` file
-* Add the `LSApplicationQueriesSchemes` key if it does not exist, and ensure that the associated array of values **is a superset of all URL schemes** found at the [following URL](https://pastebin.com/raw/RnZYEWCA). For convenience the `LSApplicationQueriesSchemesGenerator.sh` script found in the `Scripts` folder automatically creates this list for you.
+This can be achieved as follows:
 
-If this setup is not done appropriately, application installations will be reported incorrectly to comScore, and an error message will be logged. This situation is not catastropic but should be fixed when possible to ensure accurate measurements.
+* Run the `LSApplicationQueriesSchemesGenerator.sh` script found in the `Scripts` folder. This script automatically generates an `LSApplicationQueriesSchemesGenerator.plist` file in the folder you are running it from, containing an up-to-date list of SRG SSR application schemes
+* Open the generated `plist` file and either copy the `LSApplicationQueriesSchemes` to your project `Info.plist` file, or merge it with already existing entries.
 
-Since the list available from the above URL might change from time to time, the warning might resurface later to remind you to update your `Info.plist` file accordingly. Be sure to check your application logs (see `Logging` below).
+If URL schemes declared by your application do not match the current ones, application installations will not be accurately reported to comScore, and error messages will be logged when the application starts (see _Logging_ below). This situation is not catastropic but should be fixed when possible to ensure better measurements.
+
+The list of SRG SSR URL schemes might change from time to time as new applications are created or older discarded. The error message mentioned above might thefore resurface to remind you to update your `Info.plist` file. Be sure to check your application logs for such messages from time to time.
 
 ### Working with the library
 
