@@ -14,7 +14,7 @@ mutable_dictionnary = NSMutableDictionary.dictionary()
 mutable_dictionnary['LSApplicationQueriesSchemes'] = url_schemes
 success = mutable_dictionnary.writeToFile_atomically_('LSApplicationQueriesSchemesForSRGAnalytics.plist', 1)
 if not success:
-  print "plist failed to write!"
+  print "URL scheme list could not be generated"
   sys.exit(1)
 else:
-  print "You have it in the SApplicationQueriesSchemesForSRGAnalytics.plist file"
+  print "URL scheme list saved to LSApplicationQueriesSchemesForSRGAnalytics.plist file"
