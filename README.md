@@ -83,7 +83,7 @@ import SRGAnalytics_MediaPlayer         // For SRGAnalytics_MediaPlayer.framewor
 import SRGAnalytics_DataProvider        // For SRGAnalytics_DataProvider.framework
 ```
 
-### Info.plist settings
+### Info.plist settings for application installation measurements
 
 The library automatically tracks which SRG SSR applications are installed on a user device, and sends this information to comScore. For this mechanism to work properly, though, your application **must** declare all official SRG SSR application URL schemes as being supported in its `Info.plist` file. 
 
@@ -95,6 +95,10 @@ This can be achieved as follows:
 If URL schemes declared by your application do not match the current ones, application installations will not be accurately reported to comScore, and error messages will be logged when the application starts (see _Logging_ below). This situation is not catastropic but should be fixed when possible to ensure better measurements.
 
 The list of SRG SSR URL schemes might change from time to time as new applications are created or older discarded. The error message mentioned above might thefore resurface to remind you to update your `Info.plist` file. Be sure to check your application logs for such messages from time to time.
+
+#### Remark
+
+The number of URL schemes an application declares is limited to 50. Please contact us if you happen to reach this limit.
 
 ### Working with the library
 
