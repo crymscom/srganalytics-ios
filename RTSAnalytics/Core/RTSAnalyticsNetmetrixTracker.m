@@ -41,7 +41,7 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 
 - (NSString *) netmetrixDomain
 {
-	NSArray *netmetrixDomains = @[ @"srf", @"rts", @"rtsi", @"rtr", @"swissinf" ];
+    NSArray *netmetrixDomains = @[ @"sftv-ssl", @"rts-ssl", @"rsi-ssl", @"rtr-ssl", @"sinf-ssl" ];
 	return netmetrixDomains[self.businessUnit];
 }
 
@@ -49,7 +49,7 @@ NSString * const RTSAnalyticsNetmetrixRequestResponseUserInfoKey = @"RTSAnalytic
 
 - (void) trackView
 {
-	NSString *netmetrixURLString = [NSString stringWithFormat:@"http://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netmetrixDomain, self.appID, self.device];
+	NSString *netmetrixURLString = [NSString stringWithFormat:@"https://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netmetrixDomain, self.appID, self.device];
 	NSURL *netmetrixURL = [NSURL URLWithString:netmetrixURLString];
 	
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:netmetrixURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30];
