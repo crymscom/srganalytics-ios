@@ -39,9 +39,14 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     NSParameterAssert(completionBlock);
     
     SRGChapter *chapter = mediaComposition.mainChapter;
-    NSArray<SRGResource *> *resources = [chapter resourcesForProtocol:SRGProtocolHLS];
+    
+    SRGProtocol protocol = (preferredProtocol != SRGProtocolNone) ? preferredProtocol : chapter.recommendedProtocol;
+    NSArray<SRGResource *> *resources = [chapter resourcesForProtocol:protocol];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(preferredQuality)];
     SRGResource *resource = [resources filteredArrayUsingPredicate:predicate].firstObject ?: resources.firstObject;
+    if (! resource) {
+        return nil;
+    }
     
     SRGRequest *request = [SRGDataProvider tokenizeURL:resource.URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
         if (error) {

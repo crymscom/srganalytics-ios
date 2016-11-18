@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  either by calling `-resume` on it or adding it to a request queue.
  *
  *  @param mediaComposition  The media composition to prepare
- *  @param preferredProtocol The protocol to use (if `SRGProtocolNone` or if the protocol is not found, a recommended
+ *  @param preferredProtocol The protocol to use. If `SRGProtocolNone` or if the protocol is not found, a recommended
  *                           protocol will be used instead
  *  @param preferredQuality  The quality to use. If `SRGQualityNone` or not found, the best available quality
  *                           is used
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  *                           listen to `SRGMediaPlayerPlaybackDidFailNotification` to catch playback errors)
  *
  *  @return The playback request. If successful, the player will be paused on the chapter / segment specified by
- *          the media composition
+ *          the media composition. The method might return nil if no protocol / quality combination is found
  */
 - (nullable SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
                                  withPreferredProtocol:(SRGProtocol)preferredProtocol
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  either by calling `-resume` on it or adding it to a request queue.
  *
  *  @param mediaComposition  The media composition to play
- *  @param preferredProtocol The protocol to use (if `SRGProtocolNone` or if the protocol is not found, a recommended
+ *  @param preferredProtocol The protocol to use. If `SRGProtocolNone` or if the protocol is not found, a recommended
  *                           protocol will be used instead
  *  @param preferredQuality  The quality to use. If `SRGQualityNone` or not found, the best available quality
  *                           is used
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  *                           listen to `SRGMediaPlayerPlaybackDidFailNotification` to catch playback errors)
  *
  *  @return The playback request. If successful, the player will start on the chapter / segment specified by
- *          the media composition
+ *          the media composition. The method might return nil if no protocol / quality combination is found
  */
 - (nullable SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
                         withPreferredProtocol:(SRGProtocol)preferredProtocol
