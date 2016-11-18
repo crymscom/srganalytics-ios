@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  either by calling `-resume` on it or adding it to a request queue.
  *
  *  @param mediaComposition  The media composition to prepare
+ *  @param preferredProtocol The protocol to use (if `SRGProtocolNone` or if the protocol is not found, a recommended
+ *                           protocol will be used instead
  *  @param preferredQuality  The quality to use. If `SRGQualityNone` or not found, the best available quality
  *                           is used
  *  @param userInfo          Optional dictionary conveying arbitrary information during playback
@@ -33,11 +35,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return The playback request. If successful, the player will be paused on the chapter / segment specified by
  *          the media composition
  */
-- (SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
-                         withPreferredQuality:(SRGQuality)preferredQuality
-                                     userInfo:(nullable NSDictionary *)userInfo
-                                       resume:(BOOL)resume
-                            completionHandler:(nullable void (^)(NSError *error))completionHandler;
+- (nullable SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
+                                 withPreferredProtocol:(SRGProtocol)preferredProtocol
+                                      preferredQuality:(SRGQuality)preferredQuality
+                                              userInfo:(nullable NSDictionary *)userInfo
+                                                resume:(BOOL)resume
+                                     completionHandler:(nullable void (^)(NSError *error))completionHandler;
 
 /**
  *  Return a request for playing a media composition, trying to use the specified quality. The request can
@@ -45,6 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  either by calling `-resume` on it or adding it to a request queue.
  *
  *  @param mediaComposition  The media composition to play
+ *  @param preferredProtocol The protocol to use (if `SRGProtocolNone` or if the protocol is not found, a recommended
+ *                           protocol will be used instead
  *  @param preferredQuality  The quality to use. If `SRGQualityNone` or not found, the best available quality
  *                           is used
  *  @param userInfo          Optional dictionary conveying arbitrary information during playback
@@ -56,11 +61,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return The playback request. If successful, the player will start on the chapter / segment specified by
  *          the media composition
  */
-- (SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
-                withPreferredQuality:(SRGQuality)preferredQuality
-                            userInfo:(nullable NSDictionary *)userInfo
-                              resume:(BOOL)resume
-                   completionHandler:(nullable void (^)(NSError *error))completionHandler;
+- (nullable SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
+                        withPreferredProtocol:(SRGProtocol)preferredProtocol
+                             preferredQuality:(SRGQuality)preferredQuality
+                                     userInfo:(nullable NSDictionary *)userInfo
+                                       resume:(BOOL)resume
+                            completionHandler:(nullable void (^)(NSError *error))completionHandler;
 
 /**
  *  Return the media composition currently played, if any

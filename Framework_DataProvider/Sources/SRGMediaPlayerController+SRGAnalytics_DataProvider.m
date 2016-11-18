@@ -31,7 +31,8 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 }
 
 - (SRGRequest *)loadMediaComposition:(SRGMediaComposition *)mediaComposition
-                withPreferredQuality:(SRGQuality)preferredQuality
+               withPreferredProtocol:(SRGProtocol)preferredProtocol
+                    preferredQuality:(SRGQuality)preferredQuality
                               resume:(BOOL)resume
                      completionBlock:(SRGMediaPlayerDataProviderLoadCompletionBlock)completionBlock
 {
@@ -71,12 +72,13 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 #pragma mark Playback methods
 
 - (SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
-                         withPreferredQuality:(SRGQuality)preferredQuality
+                         withPreferredProtocol:(SRGProtocol)preferredProtocol
+preferredQuality:(SRGQuality)preferredQuality
                                      userInfo:(NSDictionary *)userInfo
                                        resume:(BOOL)resume
                             completionHandler:(void (^)(NSError *error))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredQuality:preferredQuality resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredProtocol:preferredProtocol preferredQuality:preferredQuality resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
@@ -90,12 +92,13 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 }
 
 - (SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
-                withPreferredQuality:(SRGQuality)preferredQuality
+                withPreferredProtocol:(SRGProtocol)preferredProtocol
+                    preferredQuality:(SRGQuality)preferredQuality
                             userInfo:(NSDictionary *)userInfo
                               resume:(BOOL)resume
                    completionHandler:(void (^)(NSError *error))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredQuality:preferredQuality resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredProtocol:preferredProtocol preferredQuality:preferredQuality resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
