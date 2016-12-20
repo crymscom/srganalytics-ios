@@ -233,7 +233,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
             NSString *URLScheme = applicationDictionary[@"ios"];
             
             if (URLScheme.length == 0 || ! application) {
-                SRGAnalyticsLogWarning(@"tracker", @"URL scheme or application name missing in %@. Skipped", applicationDictionary);
+                SRGAnalyticsLogInfo(@"tracker", @"URL scheme or application name missing in %@. Skipped", applicationDictionary);
                 continue;
             }
             
