@@ -49,9 +49,9 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     }
     
     SRGRequest *request = [SRGDataProvider tokenizeURL:resource.URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
+        // Bypass token server response, if an error occurred. We don't want to block the media player here
         if (error) {
-            completionBlock(nil, NSNotFound, nil, nil, error);
-            return;
+            URL = resource.URL;
         }
         
         NSMutableDictionary<NSString *, NSString *> *analyticsLabels = [NSMutableDictionary dictionary];
