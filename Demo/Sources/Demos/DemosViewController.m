@@ -107,7 +107,7 @@
             
             switch (indexPath.row) {
                 case 0: {
-                    URL = [NSURL URLWithString:@"http://esioslive6-i.akamaihd.net/hls/live/202892/AL_P_ESP1_FR_FRA/playlist.m3u8"];
+                    URL = [NSURL URLWithString:@"http://fr-par-iphone-2.cdn.hexaglobe.net/streaming/euronews_ewns/9-live.m3u8"];
                     break;
                 }
                     
