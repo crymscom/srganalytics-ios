@@ -1305,7 +1305,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     [self.mediaPlayerController playURL:LiveTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:@{ @"stream_name" : @"full2",
-                                                                                                           @"overridable_name" : @"full2" } userInfo:nil];
+                                                                                                             @"overridable_name" : @"full2" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }

@@ -44,6 +44,15 @@
     // timestamp will not be identical to the timestamp of the real event which is sent afterwards
     long long timestamp = [[NSDate date] timeIntervalSince1970];
     id core = object_getIvar(self, class_getInstanceVariable([self class], "_core"));
+    
+    // The core is initialized asynchronously (and therefore might not be completely initialized yet). In particular,
+    // the advertisement identifier is generated asynchronously, which leads to crashes if the AdSupport.framework is
+    // linked against the project. To avoid such issues, force identifier generation (use direct method invocation to
+    // avoid ARC complaints)
+    SEL selector = NSSelectorFromString(@"generateCrossPublisherUniqueId");
+    void (*methodImp)(id, SEL) = (void (*)(id, SEL))[core methodForSelector:selector];
+    methodImp(core, selector);
+    
     id measurement = [NSClassFromString(@"CSApplicationMeasurement") newWithCore:core eventType:eventType labels:labels timestamp:timestamp];
     
     NSMutableDictionary<NSString *, NSString *> *completeLabels = [NSMutableDictionary dictionary];
