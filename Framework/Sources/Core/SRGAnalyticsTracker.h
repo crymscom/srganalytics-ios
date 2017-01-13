@@ -106,6 +106,11 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
                     netMetrixIdentifier:(NSString *)netMetrixIdentifier;
 
 /**
+ *  The SRG SSR business unit which measurements are associated with
+ */
+@property (nonatomic, readonly, copy, nullable) NSString *businessUnitIdentifier;
+
+/**
  *  The comScore virtual site where statistics are gathered (nil if the tracker has not been started)
  */
 @property (nonatomic, readonly, copy, nullable) NSString *comScoreVirtualSite;

@@ -31,14 +31,14 @@
 
 - (void)swizzled_send:(CSApplicationEventType)eventType labels:(NSDictionary *)labels cache:(BOOL)cache background:(BOOL)background
 {
-    if (! [SRGAnalyticsTracker sharedTracker].started) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                       reason:@"Tracker must be started before any measurement is being made. Please refer to the getting started guide for more information"
-                                     userInfo:nil];
-    }
-    
     // Call the original implementation
     [self swizzled_send:eventType labels:labels cache:cache background:background];
+
+    // Do not do anything when not running in test mode
+    SRGAnalyticsTracker *tracker = [SRGAnalyticsTracker sharedTracker];
+    if (! [tracker.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
+        return;
+    }
     
     // Labels are not complete. To get all labels we mimic the comScore SDK by creating the measurement object. Only the
     // timestamp will not be identical to the timestamp of the real event which is sent afterwards
