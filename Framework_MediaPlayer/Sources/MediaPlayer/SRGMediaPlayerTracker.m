@@ -7,6 +7,7 @@
 #import "SRGMediaPlayerTracker.h"
 
 #import "SRGAnalyticsSegment.h"
+#import "SRGAnalyticsTracker.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
 #import <SRGAnalytics/SRGAnalytics.h>
@@ -303,6 +304,12 @@ static NSMutableDictionary *s_trackers = nil;
 
 + (void)playbackStateDidChange:(NSNotification *)notification
 {
+    // Avoid calling comScore methods when the tracker is not started (which usually leads to crashes because the virtual
+    // site has not been set)
+    if (! [SRGAnalyticsTracker sharedTracker].started) {
+        return;
+    }
+    
     SRGMediaPlayerController *mediaPlayerController = notification.object;
     
     NSValue *key = [NSValue valueWithNonretainedObject:mediaPlayerController];
