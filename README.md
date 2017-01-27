@@ -29,31 +29,31 @@ github "SRGSSR/srganalytics-ios"
 Then run `carthage update --platform iOS` to update the dependencies. You will need to manually add one or several of the `.framework`s generated in the `Carthage/Build/iOS` folder to your projet, depending on your needs:
 
 * If you need analytics only, add the following frameworks to your project:
-  * `SRGAnalytics.framework`: The main analytics framework
-  * `SRGLogger.framework`: The framework used for internal logging
   * `ComScore.framework`: comScore framework
   * `libextobjc.framework`: A utility framework
+  * `SRGAnalytics.framework`: The main analytics framework
+  * `SRGLogger.framework`: The framework used for internal logging
 * If you use our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS) and want media consumption tracking as well, add the following frameworks to your project:
+  * `ComScore.framework`: comScore framework
+  * `libextobjc.framework`: A utility framework
   * `SRGAnalytics.framework`: The main analytics framework
   * `SRGAnalytics_MediaPlayer.framework`: The media player analytics companion framework
   * `SRGLogger.framework`: The framework used for internal logging
-  * `ComScore.framework`: comScore framework
-  * `libextobjc.framework`: A utility framework
 * If you use our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios) to retrieve data, add the following frameworks to your project:
-  * `SRGAnalytics.framework`: The main analytics framework
-  * `SRGAnalytics_MediaPlayer.framework`: The media player analytics companion framework
-  * `SRGAnalytics_DataProvider.framework`: The data provider analytics companion framework
-  * `SRGLogger.framework`: The framework used for internal logging
   * `ComScore.framework`: comScore framework
-  * `SRGMediaPlayer.framework`: The media player framework (if not already in your project)
-  * `Mantle.framework`:  The framework used to parse the data
   * `libextobjc.framework`: A utility framework
+  * `Mantle.framework`:  The framework used to parse the data
+  * `SRGAnalytics.framework`: The main analytics framework
+  * `SRGAnalytics_DataProvider.framework`: The data provider analytics companion framework
+  * `SRGAnalytics_MediaPlayer.framework`: The media player analytics companion framework
+  * `SRGLogger.framework`: The framework used for internal logging
+  * `SRGMediaPlayer.framework`: The media player framework (if not already in your project)
   
 For more information about Carthage and its use, refer to the [official documentation](https://github.com/Carthage/Carthage).
 
 ## Usage
 
-When you want to classes or functions provided by the library in your code, you must import it from your source files first.
+When you want to use classes or functions provided by the library in your code, you must import it from your source files first.
 
 ### Usage from Objective-C source files
 
