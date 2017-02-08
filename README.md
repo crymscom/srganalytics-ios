@@ -29,25 +29,28 @@ github "SRGSSR/srganalytics-ios"
 Then run `carthage update --platform iOS` to update the dependencies. You will need to manually add one or several of the `.framework`s generated in the `Carthage/Build/iOS` folder to your projet, depending on your needs:
 
 * If you need analytics only, add the following frameworks to your project:
-  * `ComScore.framework`: comScore framework
-  * `libextobjc.framework`: A utility framework
-  * `SRGAnalytics.framework`: The main analytics framework
-  * `SRGLogger.framework`: The framework used for internal logging
+  * `ComScore`: comScore framework
+  * `libextobjc`: A utility framework
+  * `MAKVONotificationCenter`: A safe KVO framework
+  * `SRGAnalytics`: The main analytics framework
+  * `SRGLogger`: The framework used for internal logging
 * If you use our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS) and want media consumption tracking as well, add the following frameworks to your project:
-  * `ComScore.framework`: comScore framework
-  * `libextobjc.framework`: A utility framework
-  * `SRGAnalytics.framework`: The main analytics framework
-  * `SRGAnalytics_MediaPlayer.framework`: The media player analytics companion framework
-  * `SRGLogger.framework`: The framework used for internal logging
+  * `ComScore`: comScore framework
+  * `libextobjc`: A utility framework
+  * `MAKVONotificationCenter`: A safe KVO framework
+  * `SRGAnalytics`: The main analytics framework
+  * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework
+  * `SRGLogger`: The framework used for internal logging
 * If you use our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios) to retrieve data, add the following frameworks to your project:
-  * `ComScore.framework`: comScore framework
-  * `libextobjc.framework`: A utility framework
-  * `Mantle.framework`:  The framework used to parse the data
-  * `SRGAnalytics.framework`: The main analytics framework
-  * `SRGAnalytics_DataProvider.framework`: The data provider analytics companion framework
-  * `SRGAnalytics_MediaPlayer.framework`: The media player analytics companion framework
-  * `SRGLogger.framework`: The framework used for internal logging
-  * `SRGMediaPlayer.framework`: The media player framework (if not already in your project)
+  * `ComScore`: comScore framework
+  * `libextobjc`: A utility framework
+  * `MAKVONotificationCenter`: A safe KVO framework
+  * `Mantle`:  The framework used to parse the data
+  * `SRGAnalytics`: The main analytics framework
+  * `SRGAnalytics_DataProvider`: The data provider analytics companion framework
+  * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework
+  * `SRGLogger`: The framework used for internal logging
+  * `SRGMediaPlayer`: The media player framework (if not already in your project)
   
 For more information about Carthage and its use, refer to the [official documentation](https://github.com/Carthage/Carthage).
 

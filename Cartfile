@@ -1,4 +1,5 @@
 github "ashaman/libextobjc" "e24f2be3af2cf7fc88a78295f116ef98d0832bcf"
+github "SRGSSR/MAKVONotificationCenter" "4a127e52997889729286510103f7e27100223730"
 github "SRGSSR/srgdataprovider-ios" "develop"
 github "SRGSSR/srglogger-ios" "develop"
 github "SRGSSR/SRGMediaPlayer-iOS" "develop"
