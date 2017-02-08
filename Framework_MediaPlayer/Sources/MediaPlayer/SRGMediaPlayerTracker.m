@@ -11,6 +11,8 @@
 #import "SRGAnalyticsTracker.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
+#import <libextobjc/libextobjc.h>
+#import <MAKVONotificationCenter/MAKVONotificationCenter.h>
 #import <SRGAnalytics/SRGAnalytics.h>
 
 static void *s_kvoContext = &s_kvoContext;
@@ -75,7 +77,35 @@ static NSMutableDictionary *s_trackers = nil;
     
     [self notifyEvent:CSStreamSenseBuffer withPosition:0 labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey] segment:nil];
     
-    [self.mediaPlayerController addObserver:self forKeyPath:@"tracked" options:0 context:s_kvoContext];
+    //@weakify(self)
+    [self.mediaPlayerController addObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked) options:0 block:^(MAKVONotification *notification) {
+        //@strongify(self)
+        
+        // Balance comScore events if the player is playing, so that all events can be properly emitted
+        if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
+            CSStreamSenseEventType event = self.mediaPlayerController.tracked ? CSStreamSensePlay : CSStreamSenseEnd;
+            [self rawNotifyEvent:event
+                    withPosition:[self currentPositionInMilliseconds]
+                          labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                         segment:self.mediaPlayerController.selectedSegment];
+        }
+        else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateSeeking
+                 || self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePaused) {
+            CSStreamSenseEventType event = self.mediaPlayerController.tracked ? CSStreamSensePlay : CSStreamSenseEnd;
+            [self rawNotifyEvent:event
+                    withPosition:[self currentPositionInMilliseconds]
+                          labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                         segment:self.mediaPlayerController.selectedSegment];
+            
+            // Also send the pause event when starting tracking, so that the current player state is accurately reflected
+            if (self.mediaPlayerController.tracked) {
+                [self rawNotifyEvent:CSStreamSensePause
+                        withPosition:[self currentPositionInMilliseconds]
+                              labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                             segment:self.mediaPlayerController.selectedSegment];
+            }
+        }
+    }];
 }
 
 - (void)stopWithLabels:(NSDictionary *)labels
@@ -92,7 +122,7 @@ static NSMutableDictionary *s_trackers = nil;
     
     [self notifyEvent:CSStreamSenseEnd withPosition:[self currentPositionInMilliseconds] labels:labels segment:self.mediaPlayerController.selectedSegment];
     
-    [self.mediaPlayerController removeObserver:self forKeyPath:@"tracked" context:s_kvoContext];
+    [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
 }
 
 #pragma mark Helpers
@@ -425,43 +455,6 @@ static NSMutableDictionary *s_trackers = nil;
                        labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                       segment:nil];
         }
-    }
-}
-
-#pragma mark KVO
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
-{
-    if (context == s_kvoContext) {
-        NSAssert([keyPath isEqualToString:@"tracked"], @"Implementation currently not valid for other properties");
-        
-        // Balance comScore events if the player is playing, so that all events can be properly emitted
-        if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
-            CSStreamSenseEventType event = self.mediaPlayerController.tracked ? CSStreamSensePlay : CSStreamSenseEnd;
-            [self rawNotifyEvent:event
-                    withPosition:[self currentPositionInMilliseconds]
-                          labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
-                         segment:self.mediaPlayerController.selectedSegment];
-        }
-        else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateSeeking
-                 || self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePaused) {
-            CSStreamSenseEventType event = self.mediaPlayerController.tracked ? CSStreamSensePlay : CSStreamSenseEnd;
-            [self rawNotifyEvent:event
-                    withPosition:[self currentPositionInMilliseconds]
-                          labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
-                         segment:self.mediaPlayerController.selectedSegment];
-            
-            // Also send the pause event when starting tracking, so that the current player state is accurately reflected
-            if (self.mediaPlayerController.tracked) {
-                [self rawNotifyEvent:CSStreamSensePause
-                        withPosition:[self currentPositionInMilliseconds]
-                              labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
-                             segment:self.mediaPlayerController.selectedSegment];
-            }
-        }
-    }
-    else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
     
