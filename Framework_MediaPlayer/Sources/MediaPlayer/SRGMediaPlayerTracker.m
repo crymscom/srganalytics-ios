@@ -77,9 +77,9 @@ static NSMutableDictionary *s_trackers = nil;
     
     [self notifyEvent:CSStreamSenseBuffer withPosition:0 labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey] segment:nil];
     
-    //@weakify(self)
+    @weakify(self)
     [self.mediaPlayerController addObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked) options:0 block:^(MAKVONotification *notification) {
-        //@strongify(self)
+        @strongify(self)
         
         // Balance comScore events if the player is playing, so that all events can be properly emitted
         if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
@@ -355,7 +355,7 @@ static NSMutableDictionary *s_trackers = nil;
         
         [tracker start];
         
-        SRGAnalyticsLogInfo(@"player_tracker", @"Started tracking for %@", key);
+        SRGAnalyticsLogInfo(@"PlayerTracker", @"Started tracking for %@", key);
     }
     else if (mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateIdle) {
         SRGMediaPlayerTracker *tracker = s_trackers[key];
@@ -369,7 +369,7 @@ static NSMutableDictionary *s_trackers = nil;
             [CSComScore onUxInactive];
         }
         
-        SRGAnalyticsLogInfo(@"player_tracker", @"Stopped tracking for %@", key);
+        SRGAnalyticsLogInfo(@"PlayerTracker", @"Stopped tracking for %@", key);
     }
 }
 
