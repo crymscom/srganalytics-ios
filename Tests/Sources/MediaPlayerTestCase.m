@@ -491,7 +491,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] analyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                                      @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                        @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -527,7 +527,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
-
+    
     [self.mediaPlayerController play];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -558,7 +558,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                 @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -602,7 +602,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                 @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -652,7 +652,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] analyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                                      @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                        @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -704,7 +704,7 @@ static NSURL *DVRTestURL(void)
     Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(100., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1, segment2] withAnalyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                                          @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                            @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -756,7 +756,7 @@ static NSURL *DVRTestURL(void)
     Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(20., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(23., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1, segment2] withAnalyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                                          @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                            @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -806,7 +806,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                 @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -858,7 +858,7 @@ static NSURL *DVRTestURL(void)
     Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(60., NSEC_PER_SEC), CMTimeMakeWithSeconds(20., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1, segment2] withAnalyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                                          @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                            @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -918,7 +918,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                 @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -971,7 +971,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                 @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1038,7 +1038,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                 @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1069,7 +1069,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] analyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                                      @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                        @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1120,7 +1120,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] analyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                                      @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                        @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1171,7 +1171,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                               @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                 @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1222,7 +1222,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:@[segment] analyticsLabels:@{ @"stream_name" : @"full",
-                                                                                                                      @"overridable_name" : @"full" } userInfo:nil];
+                                                                                                                        @"overridable_name" : @"full" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1270,7 +1270,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:@{ @"stream_name" : @"full1",
-                                                                                                               @"overridable_name" : @"full1" } userInfo:nil];
+                                                                                                                 @"overridable_name" : @"full1" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1322,7 +1322,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment1] withAnalyticsLabels:@{ @"stream_name" : @"full1",
-                                                                                                                @"overridable_name" : @"full1" } userInfo:nil];
+                                                                                                                  @"overridable_name" : @"full1" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
