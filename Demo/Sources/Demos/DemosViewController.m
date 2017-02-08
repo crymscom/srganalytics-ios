@@ -7,6 +7,7 @@
 #import "DemosViewController.h"
 
 #import "AppDelegate.h"
+#import "PlayerViewController.h"
 #import "SimpleViewController.h"
 
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
@@ -128,13 +129,9 @@
                 }
             }
             
-            SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] init];
-            [playerViewController.controller playURL:URL
-                                              atTime:kCMTimeZero
-                                        withSegments:nil
-                                     analyticsLabels:nil
-                                            userInfo:nil];
-            [self presentViewController:playerViewController animated:YES completion:nil];
+            PlayerViewController *playerViewController = [[PlayerViewController alloc] initWithURL:URL];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:playerViewController];
+            [self presentViewController:navigationController animated:YES completion:nil];
             break;
         }
             
