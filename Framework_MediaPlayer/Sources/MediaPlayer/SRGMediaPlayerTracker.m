@@ -6,6 +6,7 @@
 
 #import "SRGMediaPlayerTracker.h"
 
+#import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsSegment.h"
 #import "SRGAnalyticsTracker.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
@@ -323,6 +324,8 @@ static NSMutableDictionary *s_trackers = nil;
         }
         
         [tracker start];
+        
+        SRGAnalyticsLogInfo(@"player_tracker", @"Started tracking for %@", key);
     }
     else if (mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateIdle) {
         SRGMediaPlayerTracker *tracker = s_trackers[key];
@@ -335,6 +338,8 @@ static NSMutableDictionary *s_trackers = nil;
         if (s_trackers.count == 0) {
             [CSComScore onUxInactive];
         }
+        
+        SRGAnalyticsLogInfo(@"player_tracker", @"Stopped tracking for %@", key);
     }
 }
 
