@@ -40,11 +40,6 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     
     SRGChapter *chapter = mediaComposition.mainChapter;
     
-    if (chapter.srg_isBlocked) {
-        completionBlock(nil, NSNotFound, nil, nil, SRGBlockingReasonErrorForBlockingReason(chapter.blockingReason));
-        return nil;
-    }
-    
     SRGProtocol protocol = (preferredProtocol != SRGProtocolNone) ? preferredProtocol : chapter.recommendedProtocol;
     NSArray<SRGResource *> *resources = [chapter resourcesForProtocol:protocol];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(preferredQuality)];
