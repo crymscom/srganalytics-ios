@@ -3,5 +3,5 @@ github "SRGSSR/MAKVONotificationCenter" "4a127e52997889729286510103f7e2710022373
 github "Mantle/Mantle" "2.1.0"
 github "ashaman/libextobjc" "e24f2be3af2cf7fc88a78295f116ef98d0832bcf"
 github "SRGSSR/srglogger-ios" "9a911766b46432d9a21d8b04fd4325b537b6e7b2"
-github "SRGSSR/SRGMediaPlayer-iOS" "fe5a5acfcc61c01629347d6c67ac959ebd8e0e78"
-github "SRGSSR/srgdataprovider-ios" "ce6f3f1bf3a90b41382708dba30c30f6ff96d79a"
+github "SRGSSR/SRGMediaPlayer-iOS" "ecad1e8627a5f1797e680557149dd54630fe7f5a"
+github "SRGSSR/srgdataprovider-ios" "56d847490633ec4a017cd99a7996942e85935e52"
