@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
                                       preferredQuality:(SRGQuality)preferredQuality
                                               userInfo:(nullable NSDictionary *)userInfo
                                                 resume:(BOOL)resume
-                                     completionHandler:(nullable void (^)(NSError *error))completionHandler;
+                                     completionHandler:(nullable void (^)(NSError * _Nullable error))completionHandler;
 
 /**
  *  Return a request for playing a media composition, trying to use the specified quality. The request can
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
                              preferredQuality:(SRGQuality)preferredQuality
                                      userInfo:(nullable NSDictionary *)userInfo
                                        resume:(BOOL)resume
-                            completionHandler:(nullable void (^)(NSError *error))completionHandler;
+                            completionHandler:(nullable void (^)(NSError * _Nullable error))completionHandler;
 
 /**
  *  Return the media composition currently played, if any

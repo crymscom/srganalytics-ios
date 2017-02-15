@@ -77,8 +77,8 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 #pragma mark Playback methods
 
 - (SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
-                         withPreferredProtocol:(SRGProtocol)preferredProtocol
-preferredQuality:(SRGQuality)preferredQuality
+                        withPreferredProtocol:(SRGProtocol)preferredProtocol
+                             preferredQuality:(SRGQuality)preferredQuality
                                      userInfo:(NSDictionary *)userInfo
                                        resume:(BOOL)resume
                             completionHandler:(void (^)(NSError *error))completionHandler
@@ -97,7 +97,7 @@ preferredQuality:(SRGQuality)preferredQuality
 }
 
 - (SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
-                withPreferredProtocol:(SRGProtocol)preferredProtocol
+               withPreferredProtocol:(SRGProtocol)preferredProtocol
                     preferredQuality:(SRGQuality)preferredQuality
                             userInfo:(NSDictionary *)userInfo
                               resume:(BOOL)resume
