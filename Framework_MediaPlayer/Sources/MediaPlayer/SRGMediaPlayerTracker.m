@@ -26,7 +26,11 @@ static NSMutableDictionary *s_trackers = nil;
     BOOL _enabled;
 }
 
-@property (nonatomic, weak) SRGMediaPlayerController *mediaPlayerController;
+// We must not retain the controller, so that its deallocation is not prevented (deallocation will ensure the idle state
+// is always reached before the player gets destroyed, and our tracker is removed when this state is reached). Since
+// returning to the idle state might occur during deallocation, we need a non-weak ref (which would otherwise be nilled
+// and thus not available when the tracker is stopped)
+@property (nonatomic, unsafe_unretained) SRGMediaPlayerController *mediaPlayerController;
 
 @end
 
@@ -110,6 +114,8 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)stopWithLabels:(NSDictionary *)labels
 {
+    NSAssert(self.mediaPlayerController, @"Media player controller must be available when stopping");
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:SRGMediaPlayerPlaybackStateDidChangeNotification
                                                   object:self.mediaPlayerController];
@@ -123,6 +129,8 @@ static NSMutableDictionary *s_trackers = nil;
     [self notifyEvent:CSStreamSenseEnd withPosition:[self currentPositionInMilliseconds] labels:labels segment:self.mediaPlayerController.selectedSegment];
     
     [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
+    
+    self.mediaPlayerController = nil;
 }
 
 #pragma mark Helpers
