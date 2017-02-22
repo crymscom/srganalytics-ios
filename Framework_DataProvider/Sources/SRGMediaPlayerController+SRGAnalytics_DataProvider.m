@@ -59,14 +59,14 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     if (preferredStartBitRate != 0 && [URL.host containsString:@"akamai"]) {
         NSURLComponents *URLComponents = [NSURLComponents componentsWithURL:URL resolvingAgainstBaseURL:NO];
         
-        NSMutableArray<NSURLQueryItem *> *queryItems = URLComponents.queryItems ? [URLComponents.queryItems mutableCopy] : [NSMutableArray array];
+        NSMutableArray<NSURLQueryItem *> *queryItems = [URLComponents.queryItems mutableCopy] ?: [NSMutableArray array];
         [queryItems addObject:[NSURLQueryItem queryItemWithName:@"__b__" value:@(preferredStartBitRate).stringValue]];
         URLComponents.queryItems = [queryItems copy];
         
         URL = URLComponents.URL;
     }
     
-    SRGRequest *request = [SRGDataProvider tokenizeURL:resource.URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
+    SRGRequest *request = [SRGDataProvider tokenizeURL:URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
         // Bypass token server response, if an error occurred. We don't want to block the media player here
         if (error) {
             URL = resource.URL;
