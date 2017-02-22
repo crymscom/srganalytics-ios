@@ -33,10 +33,15 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 - (SRGRequest *)loadMediaComposition:(SRGMediaComposition *)mediaComposition
                withPreferredProtocol:(SRGProtocol)preferredProtocol
                     preferredQuality:(SRGQuality)preferredQuality
+               preferredStartBitRate:(NSInteger)preferredStartBitRate
                               resume:(BOOL)resume
                      completionBlock:(SRGMediaPlayerDataProviderLoadCompletionBlock)completionBlock
 {
     NSParameterAssert(completionBlock);
+    
+    if (preferredStartBitRate < 0) {
+        preferredStartBitRate = 0;
+    }
     
     SRGChapter *chapter = mediaComposition.mainChapter;
     
@@ -46,6 +51,19 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     SRGResource *resource = [resources filteredArrayUsingPredicate:predicate].firstObject ?: resources.firstObject;
     if (! resource) {
         return nil;
+    }
+    
+    // Use the preferrred start bit rate is set. Currrently only supported by Akamai via a __b__ parameter (the actual
+    // bitrate will be rounded to the nearest available quality)
+    NSURL *URL = resource.URL;
+    if (preferredStartBitRate != 0 && [URL.host containsString:@"akamai"]) {
+        NSURLComponents *URLComponents = [NSURLComponents componentsWithURL:URL resolvingAgainstBaseURL:NO];
+        
+        NSMutableArray<NSURLQueryItem *> *queryItems = URLComponents.queryItems ? [URLComponents.queryItems mutableCopy] : [NSMutableArray array];
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:@"__b__" value:@(preferredStartBitRate).stringValue]];
+        URLComponents.queryItems = [queryItems copy];
+        
+        URL = URLComponents.URL;
     }
     
     SRGRequest *request = [SRGDataProvider tokenizeURL:resource.URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
@@ -79,11 +97,12 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 - (SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
                         withPreferredProtocol:(SRGProtocol)preferredProtocol
                              preferredQuality:(SRGQuality)preferredQuality
+                        preferredStartBitRate:(NSInteger)preferredStartBitRate
                                      userInfo:(NSDictionary *)userInfo
                                        resume:(BOOL)resume
                             completionHandler:(void (^)(NSError *error))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredProtocol:preferredProtocol preferredQuality:preferredQuality resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredProtocol:preferredProtocol preferredQuality:preferredQuality preferredStartBitRate:preferredStartBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
@@ -99,11 +118,12 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 - (SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
                withPreferredProtocol:(SRGProtocol)preferredProtocol
                     preferredQuality:(SRGQuality)preferredQuality
+               preferredStartBitRate:(NSInteger)preferredStartBitRate
                             userInfo:(NSDictionary *)userInfo
                               resume:(BOOL)resume
                    completionHandler:(void (^)(NSError *error))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredProtocol:preferredProtocol preferredQuality:preferredQuality resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredProtocol:preferredProtocol preferredQuality:preferredQuality preferredStartBitRate:preferredStartBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
