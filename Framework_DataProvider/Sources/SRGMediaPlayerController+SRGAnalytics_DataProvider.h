@@ -26,11 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
  *                               protocol will be used instead
  *  @param preferredQuality      The quality to use. If `SRGQualityNone` or not found, the best available quality
  *                               is used
- *  @param preferredStartBitRate The bit rate the video should at least start with, in kbps. This parameter is a 
- *                               recommendation with no result guarantee, though it should in general be applied. The 
- *                               nearest available quality (larger or smaller than the requested size) will be used.
- *                               Usual SRG SSR valid bit ranges vary from 100 to 3000 kbps. Use 0 to start with the
- *                               lowest quality stream
+ *  @param preferredStartBitRate The bit rate the video should at start with, in kbps. This parameter is a recommendation
+ *                               with no result guarantee, though it should in general be applied. The nearest available
+ *                               quality (larger or smaller than the requested size) will be used. Usual SRG SSR valid bit
+ *                               ranges vary from 100 to 3000 kbps. Use 0 to start with the lowest quality stream 
  *  @param userInfo              Optional dictionary conveying arbitrary information during playback
  *  @param resume                Set to YES if you want the request to be started automatically
  *  @param completionHandler     The completion handler will be called once the player is prepared, or if a request
