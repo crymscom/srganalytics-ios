@@ -39,6 +39,10 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 {
     NSParameterAssert(completionBlock);
     
+    if (preferredStartBitRate < 0) {
+        preferredStartBitRate = 0;
+    }
+    
     SRGChapter *chapter = mediaComposition.mainChapter;
     
     SRGProtocol protocol = (preferredProtocol != SRGProtocolNone) ? preferredProtocol : chapter.recommendedProtocol;
@@ -47,6 +51,19 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     SRGResource *resource = [resources filteredArrayUsingPredicate:predicate].firstObject ?: resources.firstObject;
     if (! resource) {
         return nil;
+    }
+    
+    // Use the preferrred start bit rate is set. Currrently only supported by Akamai via a __b__ parameter (the actual
+    // bitrate will be rounded to the nearest available quality)
+    NSURL *URL = resource.URL;
+    if (preferredStartBitRate != 0 && [URL.host containsString:@"akamai"]) {
+        NSURLComponents *URLComponents = [NSURLComponents componentsWithURL:URL resolvingAgainstBaseURL:NO];
+        
+        NSMutableArray<NSURLQueryItem *> *queryItems = URLComponents.queryItems ? [URLComponents.queryItems mutableCopy] : [NSMutableArray array];
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:@"__b__" value:@(preferredStartBitRate).stringValue]];
+        URLComponents.queryItems = [queryItems copy];
+        
+        URL = URLComponents.URL;
     }
     
     SRGRequest *request = [SRGDataProvider tokenizeURL:resource.URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
