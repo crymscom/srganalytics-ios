@@ -411,11 +411,11 @@
 		6FB331F61D9BFB77001469F2 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				6FABE2FB1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.h */,
-				6FABE2FC1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.m */,
+				6FA09D921D9EC66D00EDCA64 /* SRGAnalyticsDataProvider.h */,
 				6FF3E21A1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.h */,
 				6FF3E21B1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m */,
-				6FA09D921D9EC66D00EDCA64 /* SRGAnalyticsDataProvider.h */,
+				6FABE2FB1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.h */,
+				6FABE2FC1D9C175E001C4E9A /* SRGSegment+SRGAnalytics_DataProvider.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
