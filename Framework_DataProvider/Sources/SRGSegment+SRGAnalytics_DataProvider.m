@@ -12,8 +12,8 @@
 
 - (CMTimeRange)srg_timeRange
 {
-    return CMTimeRangeMake(CMTimeMakeWithSeconds(self.markIn, NSEC_PER_SEC),
-                           CMTimeMakeWithSeconds(self.markOut, NSEC_PER_SEC));
+    return CMTimeRangeMake(CMTimeMakeWithSeconds(self.markIn / 1000., NSEC_PER_SEC),
+                           CMTimeMakeWithSeconds(self.markOut / 1000., NSEC_PER_SEC));
 }
 
 - (BOOL)srg_isBlocked
