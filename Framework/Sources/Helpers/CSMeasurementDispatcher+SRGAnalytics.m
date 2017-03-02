@@ -6,6 +6,7 @@
 
 #import "CSMeasurementDispatcher+SRGAnalytics.h"
 
+#import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsNotifications.h"
 #import "SRGAnalyticsTracker.h"
 
@@ -14,12 +15,14 @@
 // Private comScore methods
 @interface NSObject (SRGCSApplicationMeasurement)
 
-+ (id)newWithCore:(id)core eventType:(CSApplicationEventType)type labels:(NSDictionary *)labels timestamp:(long long)timestamp;
++ (id)newWithCore:(CSCore *)core eventType:(CSApplicationEventType)type labels:(NSDictionary *)labels timestamp:(long long)timestamp;
 - (NSDictionary *)getLabels;
 
 @end
 
 @implementation CSMeasurementDispatcher (SRGNotification)
+
+#pragma mark Class methods
 
 + (void)load
 {
@@ -40,19 +43,27 @@
         return;
     }
     
+    id core = object_getIvar(self, class_getInstanceVariable([self class], "_core"));
+    
+    // The application measurement creation below will crash if the AdSupport framework is linked with the project. We can
+    // apply a fix by forcing unique id generation, but this fix was discovered to lead to subtle internal comScore issues.
+    // We still keep this fix for the test BU, used in our test suite. Everything will be dropped when comScore is replaced,
+    // after all
+    if (NSClassFromString(@"ASIdentifierManager") != Nil) {
+        SRGAnalyticsLogWarning(@"notifications", @"comScore notifications are not sent when the AdSupport framework is linked "
+                               "to the project. Contact us if this support is really required in your case.");
+        
+        // To avoid internal comScore crashes, we force unique id generation. This might lead to instabilities, as we
+        // discovered, which is why we add a warning message to the logs. This is a test-only behavior, though, and
+        // comScore support will be dropped soon, we therefore don't need a better fix for the moment.
+        SEL selector = NSSelectorFromString(@"generateCrossPublisherUniqueId");
+        void (*methodImp)(id, SEL) = (void (*)(id, SEL))[core methodForSelector:selector];
+        methodImp(core, selector);
+    }
+    
     // Labels are not complete. To get all labels we mimic the comScore SDK by creating the measurement object. Only the
     // timestamp will not be identical to the timestamp of the real event which is sent afterwards
     long long timestamp = [[NSDate date] timeIntervalSince1970];
-    id core = object_getIvar(self, class_getInstanceVariable([self class], "_core"));
-    
-    // The core is initialized asynchronously (and therefore might not be completely initialized yet). In particular,
-    // the advertisement identifier is generated asynchronously, which leads to crashes if the AdSupport.framework is
-    // linked against the project. To avoid such issues, force identifier generation (use direct method invocation to
-    // avoid ARC complaints)
-    SEL selector = NSSelectorFromString(@"generateCrossPublisherUniqueId");
-    void (*methodImp)(id, SEL) = (void (*)(id, SEL))[core methodForSelector:selector];
-    methodImp(core, selector);
-    
     id measurement = [NSClassFromString(@"CSApplicationMeasurement") newWithCore:core eventType:eventType labels:labels timestamp:timestamp];
     
     NSMutableDictionary<NSString *, NSString *> *completeLabels = [NSMutableDictionary dictionary];
