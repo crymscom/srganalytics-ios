@@ -26,7 +26,7 @@ The library can be added to a project using [Carthage](https://github.com/Cartha
 github "SRGSSR/srganalytics-ios"
 ```
 
-Then run `carthage update --platform iOS` to update the dependencies. You will need to manually add one or several of the `.framework`s generated in the `Carthage/Build/iOS` folder to your projet, depending on your needs:
+Then run `carthage update --platform iOS` to update the dependencies. You will need to manually add one or several of the `.framework`s generated in the `Carthage/Build/iOS` folder to your project, depending on your needs:
 
 * If you need analytics only, add the following frameworks to your project:
   * `ComScore`: comScore framework
