@@ -307,20 +307,20 @@ static NSURL *DVRTestURL(void)
 {
     // Check that these labels are constant between states (for some, the value might differ, but they must
     // in which case we test they are constantly availble or unavailable)
-    void (^checkLabels)(NSDictionary *) = ^(NSDictionary *labels) {
+    void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
         XCTAssertNotNil(labels[@"ns_st_br"]);
         XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
         XCTAssertNotNil(labels[@"ns_st_vo"]);
         XCTAssertNil(labels[@"ns_ap_ot"]);
         
         XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
-        XCTAssertNil(labels[@"srg_timeshift"]);
         XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
     };
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        checkLabels(labels);
+        XCTAssertNil(labels[@"srg_timeshift"]);
+        checkMainLabels(labels);
         return YES;
     }];
     
@@ -330,7 +330,8 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        checkLabels(labels);
+        XCTAssertNil(labels[@"srg_timeshift"]);
+        checkMainLabels(labels);
         return YES;
     }];
     
@@ -340,7 +341,8 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        checkLabels(labels);
+        XCTAssertNil(labels[@"srg_timeshift"]);
+        checkMainLabels(labels);
         return YES;
     }];
     
@@ -353,30 +355,31 @@ static NSURL *DVRTestURL(void)
 {
     // Check that these labels are constant between states (for some, the value might differ, but they must
     // in which case we test they are constantly availble or unavailable)
-    void (^checkLabels)(NSDictionary *) = ^(NSDictionary *labels) {
+    void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
         XCTAssertNotNil(labels[@"ns_st_br"]);
         XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
         XCTAssertNotNil(labels[@"ns_st_vo"]);
         XCTAssertNil(labels[@"ns_ap_ot"]);
         
         XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
     };
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        checkLabels(labels);
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        checkMainLabels(labels);
         return YES;
     }];
     
-    [self.mediaPlayerController playURL:LiveTestURL()];
+    [self.mediaPlayerController playURL:LiveTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:@{ @"test_info" : @"test" } userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        checkLabels(labels);
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        checkMainLabels(labels);
         return YES;
     }];
     
@@ -386,7 +389,8 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        checkLabels(labels);
+        XCTAssertNil(labels[@"srg_timeshift"]);
+        checkMainLabels(labels);
         return YES;
     }];
     
@@ -399,7 +403,7 @@ static NSURL *DVRTestURL(void)
 {
     // Check that these labels are constant between states (for some, the value might differ, but they must
     // in which case we test they are constantly availble or unavailable)
-    void (^checkLabels)(NSDictionary *) = ^(NSDictionary *labels) {
+    void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
         XCTAssertNotNil(labels[@"ns_st_br"]);
         XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
         XCTAssertNotNil(labels[@"ns_st_vo"]);
@@ -411,7 +415,8 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        checkLabels(labels);
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        checkMainLabels(labels);
         return YES;
     }];
     
@@ -421,8 +426,8 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        checkLabels(labels);
         XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        checkMainLabels(labels);
         return YES;
     }];
     
@@ -434,16 +439,17 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        checkLabels(labels);
+        XCTAssertNotNil(labels[@"srg_timeshift"]);
         XCTAssertNotEqualObjects(labels[@"srg_timeshift"], @"0");
+        checkMainLabels(labels);
         return YES;
     }];
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertNotEqualObjects(labels[@"srg_timeshift"], @"0");
-        checkLabels(labels);
+        XCTAssertNil(labels[@"srg_timeshift"]);
+        checkMainLabels(labels);
         return YES;
     }];
     
