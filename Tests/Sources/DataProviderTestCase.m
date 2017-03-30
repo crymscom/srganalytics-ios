@@ -94,13 +94,13 @@ static NSURL *ServiceTestURL(void)
     // Use a segment id as video id, expect segment labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Was ist bloss los mit der Schweizer Luftwaffe?");
+        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"«26 minutes» – web first: Welsche Satire auf Hochdeutsch!");
         XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
         return YES;
     }];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSRF];
-    [[dataProvider tvMediaCompositionWithUid:@"506e4ce5-169f-45ba-b7cd-5942801c75b0" completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider tvMediaCompositionWithUid:@"99ac4dd4-8cd4-4883-8c80-0373d37cf0ad" completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
         [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredProtocol:SRGProtocolNone preferredQuality:SRGQualityHD preferredStartBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
