@@ -8,9 +8,9 @@ The SRG Analytics library for iOS makes it easy to add usage tracking informatio
 
 Measurements are based on events emitted by the application, and collected by comScore and NetMetrix. Currently, the following kinds of events are supported
 
- * View events: Appearance of views (page views), which makes it possible to track which content is seen by users
- * Hidden events: Custom events which can be used for measuresement of application functionalities
- * Media playback events: Measurements for audio and video consumption in conjunction with our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS)
+ * View events: Appearance of views (page views), which makes it possible to track which content is seen by users.
+ * Hidden events: Custom events which can be used for measuresement of application functionalities.
+ * Media playback events: Measurements for audio and video consumption in conjunction with our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS).
 
 Moreover, if you are retrieving your data using our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios), a bridge framework is also provided so that analytics received from the service are transparently forwarded to the SRG Analytics library.
  
@@ -29,28 +29,28 @@ github "SRGSSR/srganalytics-ios"
 Then run `carthage update --platform iOS` to update the dependencies. You will need to manually add one or several of the `.framework`s generated in the `Carthage/Build/iOS` folder to your project, depending on your needs:
 
 * If you need analytics only, add the following frameworks to your project:
-  * `ComScore`: comScore framework
-  * `libextobjc`: A utility framework
-  * `MAKVONotificationCenter`: A safe KVO framework
-  * `SRGAnalytics`: The main analytics framework
-  * `SRGLogger`: The framework used for internal logging
+  * `ComScore`: comScore framework.
+  * `libextobjc`: A utility framework.
+  * `MAKVONotificationCenter`: A safe KVO framework.
+  * `SRGAnalytics`: The main analytics framework.
+  * `SRGLogger`: The framework used for internal logging.
 * If you use our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS) and want media consumption tracking as well, add the following frameworks to your project:
-  * `ComScore`: comScore framework
-  * `libextobjc`: A utility framework
-  * `MAKVONotificationCenter`: A safe KVO framework
-  * `SRGAnalytics`: The main analytics framework
-  * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework
-  * `SRGLogger`: The framework used for internal logging
+  * `ComScore`: comScore framework.
+  * `libextobjc`: A utility framework.
+  * `MAKVONotificationCenter`: A safe KVO framework.
+  * `SRGAnalytics`: The main analytics framework.
+  * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework.
+  * `SRGLogger`: The framework used for internal logging.
 * If you use our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios) to retrieve data, add the following frameworks to your project:
-  * `ComScore`: comScore framework
-  * `libextobjc`: A utility framework
-  * `MAKVONotificationCenter`: A safe KVO framework
-  * `Mantle`:  The framework used to parse the data
-  * `SRGAnalytics`: The main analytics framework
-  * `SRGAnalytics_DataProvider`: The data provider analytics companion framework
-  * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework
-  * `SRGLogger`: The framework used for internal logging
-  * `SRGMediaPlayer`: The media player framework (if not already in your project)
+  * `ComScore`: comScore framework.
+  * `libextobjc`: A utility framework.
+  * `MAKVONotificationCenter`: A safe KVO framework.
+  * `Mantle`:  The framework used to parse the data.
+  * `SRGAnalytics`: The main analytics framework.
+  * `SRGAnalytics_DataProvider`: The data provider analytics companion framework.
+  * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework.
+  * `SRGLogger`: The framework used for internal logging.
+  * `SRGMediaPlayer`: The media player framework (if not already in your project).
   
 For more information about Carthage and its use, refer to the [official documentation](https://github.com/Carthage/Carthage).
 
@@ -92,13 +92,10 @@ The library automatically tracks which SRG SSR applications are installed on a u
 
 This can be achieved as follows:
 
-* Run the `LSApplicationQueriesSchemesGenerator.sh` script found in the `Scripts` folder. This script automatically generates an `LSApplicationQueriesSchemesGenerator.plist` file in the folder you are running it from, containing an up-to-date list of SRG SSR application schemes
+* Run the `LSApplicationQueriesSchemesGenerator.swift ` script found in the `Scripts` folder. This script automatically generates an `LSApplicationQueriesSchemesGenerator.plist` file in the folder you are running it from, containing an up-to-date list of SRG SSR application schemes.
 * Open the generated `plist` file and either copy the `LSApplicationQueriesSchemes` to your project `Info.plist` file, or merge it with already existing entries.
 
 If URL schemes declared by your application do not match the current ones, application installations will not be accurately reported to comScore, and error messages will be logged when the application starts (see _Logging_ below). This situation is not catastropic but should be fixed when possible to ensure better measurements.
-
-* Open your application `Info.plist` file
-* Add the `LSApplicationQueriesSchemes` key if it does not exist, and ensure that the associated array of values **is a superset of all URL schemes** found at the [following URL](https://pastebin.com/raw/RnZYEWCA). The schemes themselves must be extracted from all `ios` dictionary keys (e.g. `playrts`, `srfplayer`). Thanks to the script `LSApplicationQueriesSchemesGenerator.swift` in the `Scripts` folder, it creates the list for you.
 
 #### Remark
 
@@ -110,7 +107,13 @@ To learn about how the library can be used, have a look at the [getting started 
 
 ### Logging
 
-The library internally uses the [SRG Logger](https://github.com/SRGSSR/srglogger-ios) library for logging, within the `ch.srgssr.analytics` subsystem. This logger either automatically integrates with your own logger, or can be easily integrated with it. Refer to the SRG Logger documentation for more information.
+The library internally uses the [SRG Logger](https://github.com/SRGSSR/srglogger-ios) library for logging, with the following subsystems:
+
+* `ch.srgssr.analytics` for `SRGAnalytics.framework` events.
+* `ch.srgssr.analytics.mediaplayer` for `SRGAnalytics_MediaPlayer.framework` events.
+* `ch.srgssr.analytics.dataprovider` for `SRGAnalytics_DataProvider.framework` events.
+
+This logger either automatically integrates with your own logger, or can be easily integrated with it. Refer to the SRG Logger documentation for more information.
 
 ## Demo project
 

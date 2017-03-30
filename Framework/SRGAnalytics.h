@@ -6,10 +6,10 @@
 
 #import <Foundation/Foundation.h>
 
-// Official version number
+// Official version number.
 FOUNDATION_EXPORT NSString * SRGAnalyticsMarketingVersion(void);
 
-// Public headers
+// Public headers.
 #import "SRGAnalyticsNotifications.h"
 #import "SRGAnalyticsTracker.h"
 #import "UIViewController+SRGAnalytics.h"

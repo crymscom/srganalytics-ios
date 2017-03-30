@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  applications powered by the SRGMediaPlayer library.
  *
  *  When playing a media, two levels of analytics information (labels) are consolidated and sent to comScore:
- *    - Labels associated with the content URL being played
- *    - Labels associated with segments being played, which are merged and might override content URL labels
+ *    - Labels associated with the content URL being played.
+ *    - Labels associated with segment being played, which are merged and might override content URL labels.
  *
  *  The SRGAnalytics_MediaPlayer framework automatically takes care of content and segment playback tracking, and 
  *  supplies mechanisms to add your custom measurement labels to stream events if needed.
@@ -28,8 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  The tracker itself must have been started before any measurements can take place (@see `SRGAnalyticsTracker`).
  * 
  *  By default, provided a tracker has been started, all media players are automatically tracked without any 
- *  additional work. You can disable this behavior by setting the `SRGMediaPlayerController` `tracked` property to NO.
- *  If you do not want any events to be emitted by a player, you should set this property to NO before beginning
+ *  additional work. You can disable this behavior by setting the `SRGMediaPlayerController` `tracked` property to `NO`.
+ *  If you do not want any events to be emitted by a player, you should set this property to `NO` before beginning
  *  playback.
  *
  *  By default, standard SRG playback information (playhead position, type of event, etc.) is sent in stream events.
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  naming conventions (e.g. a prefix).
  *
  *  Custom information can be added to both content and segment labels. When playing a segment, its labels are merged 
- *  labels associated with the content, overriding existing keys. You can take advantage of this behavior to add
+ *  with labels associated with the content, overriding existing keys. You can take advantage of this behavior to add
  *  segment information on top of content labels.
  *  
  *  ### Labels associated with the content
@@ -61,9 +61,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atTime:withSegments:userInfo:completionHandler:]`, but with optional
- *  analytics labels
+ *  analytics labels.
  *
- *  @param analyticsLabels The analytics labels to send in stream events
+ *  @param analyticsLabels The analytics labels to send in stream events.
  */
 - (void)prepareToPlayURL:(NSURL *)URL
                   atTime:(CMTime)time
@@ -73,9 +73,9 @@ NS_ASSUME_NONNULL_BEGIN
        completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
- *  Same as `-[SRGMediaPlayerController playURL:atTime:withSegments:userInfo:]`, but with optional analytics labels
+ *  Same as `-[SRGMediaPlayerController playURL:atTime:withSegments:userInfo:]`, but with optional analytics labels.
  *
- *  @param analyticsLabels The analytics labels to send in stream events
+ *  @param analyticsLabels The analytics labels to send in stream events.
  */
 - (void)playURL:(NSURL *)URL
          atTime:(CMTime)time
@@ -85,9 +85,9 @@ analyticsLabels:(nullable NSDictionary *)analyticsLabels
 
 /**
  *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atIndex:inSegments:withUserInfo:completionHandler:]`, but with 
- *  optional analytics labels
+ *  optional analytics labels.
  *
- *  @param analyticsLabels The analytics labels to send in stream events
+ *  @param analyticsLabels The analytics labels to send in stream events.
  */
 - (void)prepareToPlayURL:(NSURL *)URL
                  atIndex:(NSInteger)index
@@ -97,9 +97,9 @@ analyticsLabels:(nullable NSDictionary *)analyticsLabels
        completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
- *  Same as `-[SRGMediaPlayerController playURL:atIndex:inSegments:withUserInfo:]`, but with optional analytics labels
+ *  Same as `-[SRGMediaPlayerController playURL:atIndex:inSegments:withUserInfo:]`, but with optional analytics labels.
  *
- *  @param analyticsLabels The analytics labels to send in stream events
+ *  @param analyticsLabels The analytics labels to send in stream events.
  */
 - (void)playURL:(NSURL *)URL
         atIndex:(NSInteger)index
@@ -108,11 +108,11 @@ withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
- *  Set to NO to disable automatic player controller tracking. The default value is YES
+ *  Set to `NO` to disable automatic player controller tracking. The default value is `YES`.
  *
  *  @discussion Media players are tracked between the time they prepare a media for playback and the time they return to
  *              the idle state. You can start and stop tracking at any time, which will automatically send the required
- *              stream events. If you do not want to track a player at all, be sure that you set this property to NO
+ *              stream events. If you do not want to track a player at all, be sure that you set this property to `NO`
  *              before starting playback
  */
 @property (nonatomic, getter=isTracked) BOOL tracked;

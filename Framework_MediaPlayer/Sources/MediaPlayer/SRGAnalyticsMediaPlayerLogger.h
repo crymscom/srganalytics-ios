@@ -7,7 +7,7 @@
 #import <SRGLogger/SRGLogger.h>
 
 /**
- *  Helper macros for logging
+ *  Helper macros for logging.
  */
 #define SRGAnalyticsMediaPlayerLogVerbose(category, format, ...) SRGLogVerbose(@"ch.srgssr.analytics.mediaplayer", category, format, ##__VA_ARGS__)
 #define SRGAnalyticsMediaPlayerLogVerbose(category, format, ...)   SRGLogDebug(@"ch.srgssr.analytics.mediaplayer", category, format, ##__VA_ARGS__)

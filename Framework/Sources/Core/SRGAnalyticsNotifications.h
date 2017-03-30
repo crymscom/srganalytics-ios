@@ -15,16 +15,16 @@ NS_ASSUME_NONNULL_BEGIN
  *  suitable for test setups.
  */
 
-// Notification sent when a request is made to comScore
+// Notification sent when a request is made to comScore.
 OBJC_EXTERN NSString * const SRGAnalyticsComScoreRequestNotification;
 
-// Information available for `SRGAnalyticsComScoreRequestNotification`
-OBJC_EXTERN NSString * const SRGAnalyticsComScoreLabelsKey;                 // Key for accessing the comScore labels (as an NSDictionary<NSString *, NSString *>) available from the user info
+// Information available for `SRGAnalyticsComScoreRequestNotification`.
+OBJC_EXTERN NSString * const SRGAnalyticsComScoreLabelsKey;                 // Key for accessing the comScore labels (as an `NSDictionary<NSString *, NSString *>`) available from the user info.
 
-// Notification sent when a request is made to NetMetrix
+// Notification sent when a request is made to NetMetrix.
 OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixRequestNotification;
 
-// Information available for `SRGAnalyticsNetmetrixRequestNotification`
+// Information available for `SRGAnalyticsNetmetrixRequestNotification`.
 OBJC_EXTERN NSString * const SRGAnalyticsNetmetrixURLKey;
 
 NS_ASSUME_NONNULL_END

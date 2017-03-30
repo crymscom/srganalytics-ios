@@ -8,6 +8,6 @@
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 #import <UIKit/UIKit.h>
 
-// Public headers
+// Public headers.
 #import "SRGAnalyticsSegment.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"

@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSDictionary (SRGAnalytics)
 
 /**
- *  Set value and key iff both are non-nil
+ *  Set value and key iff both are non-`nil`.
  */
 - (void)safeSetValue:(nullable id)value forKey:(nullable NSString *)key;
 

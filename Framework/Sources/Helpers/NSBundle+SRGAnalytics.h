@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSBundle (SRGAnalytics)
 
 /**
- *  The analytics resource bundle
+ *  The analytics resource bundle.
  */
 + (NSBundle *)srg_analyticsBundle;
 
