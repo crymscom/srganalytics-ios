@@ -163,3 +163,7 @@ SRGRequest *request = [mediaPlayerController playMediaComposition:mediaCompositi
 on an `SRGMediaPlayerController` instance. Note that the play method returns an `SRGRequest` which must be resumed so that a token is retrieved before attempting to play the media.
 
 Nothing more is required for correct media consumption measurements. During playback, all analytics labels for the content and its segments are then transparently managed for you.
+
+## Thread-safety
+
+The library is intended to be used from the main thread only. Trying to use if from background threads results in undefined behavior.
