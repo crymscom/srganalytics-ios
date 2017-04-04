@@ -1,108 +1,127 @@
 ![SRG Media Player logo](README-images/logo.png)
 
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)
+
 ## About
 
-The SRG Analytics library for iOS is the easiest way to fulfill SRG application analytics needs:
+The SRG Analytics library for iOS makes it easy to add usage tracking information to your applications, following the SRG SSR standards.
 
-* The library automatically sends comScore, view counts and NET-Metrix events
-* When using the [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS), it also tracks all associated Stream Sense events
+Measurements are based on events emitted by the application, and collected by comScore and NetMetrix. Currently, the following kinds of events are supported
 
+ * View events: Appearance of views (page views), which makes it possible to track which content is seen by users.
+ * Hidden events: Custom events which can be used for measuresement of application functionalities.
+ * Media playback events: Measurements for audio and video consumption in conjunction with our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS).
+
+Moreover, if you are retrieving your data using our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios), a bridge framework is also provided so that analytics received from the service are transparently forwarded to the SRG Analytics library.
+ 
 ## Compatibility
 
-The library is suitable for applications running on iOS 8 and above.
+The library is suitable for applications running on iOS 8 and above. The project is meant to be opened with the latest Xcode version (currently Xcode 8).
 
 ## Installation
 
-The library can be added to a project through [CocoaPods](http://cocoapods.org/) version 1.0 or above. Create a `Podfile` with the following contents:
-
-* The SRG specification repository:
+The library can be added to a project using [Carthage](https://github.com/Carthage/Carthage)  by adding the following dependency to your `Cartfile`:
     
 ```
-#!ruby
-    source 'https://github.com/SRGSSR/srgpodspecs-ios.git'
-```
-    
-* The `SRGAnalytics` dependency:
-
-```
-#!ruby
-    pod 'SRGAnalytics', '<version>'
+github "SRGSSR/srganalytics-ios"
 ```
 
-* To add optional support for the [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS):
+Then run `carthage update --platform iOS` to update the dependencies. You will need to manually add one or several of the `.framework`s generated in the `Carthage/Build/iOS` folder to your project, depending on your needs:
 
-```
-#!ruby
-    pod 'SRGAnalytics/MediaPlayer'
-```
-
-It is preferable not to provide a version number for the `SRGMediaPlayer` subspec.
-
-Then run `pod install` to update the dependencies.
-
-For more information about CocoaPods and the `Podfile`, please refer to the [official documentation](http://guides.cocoapods.org/).
+* If you need analytics only, add the following frameworks to your project:
+  * `ComScore`: comScore framework.
+  * `libextobjc`: A utility framework.
+  * `MAKVONotificationCenter`: A safe KVO framework.
+  * `SRGAnalytics`: The main analytics framework.
+  * `SRGLogger`: The framework used for internal logging.
+* If you use our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS) and want media consumption tracking as well, add the following frameworks to your project:
+  * `ComScore`: comScore framework.
+  * `libextobjc`: A utility framework.
+  * `MAKVONotificationCenter`: A safe KVO framework.
+  * `SRGAnalytics`: The main analytics framework.
+  * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework.
+  * `SRGLogger`: The framework used for internal logging.
+* If you use our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios) to retrieve data, add the following frameworks to your project:
+  * `ComScore`: comScore framework.
+  * `libextobjc`: A utility framework.
+  * `MAKVONotificationCenter`: A safe KVO framework.
+  * `Mantle`:  The framework used to parse the data.
+  * `SRGAnalytics`: The main analytics framework.
+  * `SRGAnalytics_DataProvider`: The data provider analytics companion framework.
+  * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework.
+  * `SRGLogger`: The framework used for internal logging.
+  * `SRGMediaPlayer`: The media player framework (if not already in your project).
+  
+For more information about Carthage and its use, refer to the [official documentation](https://github.com/Carthage/Carthage).
 
 ## Usage
 
-The following discusses how the library can be integrated for most applications:
+When you want to use classes or functions provided by the library in your code, you must import it from your source files first.
 
-### Initalization
+### Usage from Objective-C source files
 
-In the method `-application:didFinishLaunchingWithOptions:` method of your application delegate, simply call:
+Import the global header files using:
 
-```
-#!objective-c
-    [[RTSAnalyticsTracker sharedTracker] startTrackingForBusinessUnit:businessUnit];
-
-```
-
-where `businessUnit` is one of the SRG business units as declared by the `SSRBusinessUnit` enum. If you have included support for the SRG Media Player library, call instead:
-
-```
-#!objective-c
-    [[RTSAnalyticsTracker sharedTracker] startTrackingForBusinessUnit:businessUnit
-                                                      mediaDataSource:dataSource];
-
+```objective-c
+#import <SRGAnalytics/SRGAnalytics.h>	                            // For SRGAnalytics.framework
+#import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>       // For SRGAnalytics_MediaPlayer.framework
+#import <SRGAnalytics_DataProvider/SRGAnalytics_DataProvider.h>     // For SRGAnalytics_DataProvider.framework
 ```
 
-providing a `dataSource` conforming to the `RTSAnalyticsMediaPlayerDataSource` protocol. This data source lets you further customize which labels are sent to Stream Sense. Please refer to the `RTSAnalyticsMediaPlayerDataSource` protocol documentation for more information.
+or directly import the modules themselves:
 
-### Configuration
+```objective-c
+@import SRGAnalytics;                    // For SRGAnalytics.framework
+@import SRGAnalytics_MediaPlayer;        // For SRGAnalytics_MediaPlayer.framework
+@import SRGAnalytics_DataProvider;		 // For SRGAnalytics_DataProvider.framework
+```
 
-Your app `Info.plist` file must contains a dictionary section called `RTSAnalytics` containing the following key-value pairs: 
+### Usage from Swift source files
 
-* `ComscoreVirtualSite` (mandatory): virtual site where comScore view and hidden events will be sent
-* `StreamSenseVirtualSite` (optional): virtual site where streamSense events will be sent. If not set, uses `ComscoreVirtualSite`
-* `NetmetrixAppID` (mandatory): NET-Metrix application identifier
+Import the modules where needed:
 
-By using custom build settings variables, it is possible to provide different values for different configurations (Debug, Beta, Release, etc.) with a single `Info.plist` file.
+```swift
+import SRGAnalytics                     // For SRGAnalytics.framework
+import SRGAnalytics_MediaPlayer         // For SRGAnalytics_MediaPlayer.framework
+import SRGAnalytics_DataProvider        // For SRGAnalytics_DataProvider.framework
+```
 
-### Installed applications tracking
+### Info.plist settings for application installation measurements
 
-The library automatically tracks which SRG SSR applications are installed on a user device, and sends this information to comScore. For this mechanism to work properly, though, your application **must** declare all official SRG SSR application URL schemes as being supported in its `Info.plist` file. This is achieved as follows:
+The library automatically tracks which SRG SSR applications are installed on a user device, and sends this information to comScore. For this mechanism to work properly, though, your application **must** declare all official SRG SSR application URL schemes as being supported in its `Info.plist` file. 
 
-* Open your application `Info.plist` file
-* Add the `LSApplicationQueriesSchemes` key if it does not exist, and ensure that the associated array of values **is a superset of all URL schemes** found at the [following URL](https://pastebin.com/raw/RnZYEWCA). The schemes themselves must be extracted from all `ios` dictionary keys (e.g. `playrts`, `srfplayer`). Thanks to the script `LSApplicationQueriesSchemesGenerator.swift` in the `Scripts` folder, it creates the list for you.
+This can be achieved as follows:
 
-If this setup is not done appropriately, application installations will be reported incorrectly to comScore, and an error message will be logged. This situation is not catastropic but should be fixed when possible to ensure accurate measurements.
+* Run the `LSApplicationQueriesSchemesGenerator.swift ` script found in the `Scripts` folder. This script automatically generates an `LSApplicationQueriesSchemesGenerator.plist` file in the folder you are running it from, containing an up-to-date list of SRG SSR application schemes.
+* Open the generated `plist` file and either copy the `LSApplicationQueriesSchemes` to your project `Info.plist` file, or merge it with already existing entries.
 
-Since the list available from the above URL might change from time to time, the warning might resurface later to remind you to update your `Info.plist` file accordingly. Be sure to check your application logs.
+If URL schemes declared by your application do not match the current ones, application installations will not be accurately reported to comScore, and error messages will be logged when the application starts (see _Logging_ below). This situation is not catastropic but should be fixed when possible to ensure better measurements.
 
-### Tracking view counts for view controllers
+#### Remark
 
-For each view controller which requires tracking, like a page view event, you have it explicitly conform to the `RTSAnalyticsPageViewDataSource` protocol, and implement the associated required method. This is all you need to do, view events will then automatically be sent when your view controller is presented.
+The number of URL schemes an application declares is limited to 50. Please contact us if you happen to reach this limit.
 
-You can provide further optional information, please have a look at the `RTSAnalyticsPageViewDataSource` header file.
+### Working with the library
 
-### Tracking media players
+To learn about how the library can be used, have a look at the [getting started guide](Documentation/Getting-started.md).
 
-By default, all media players are tracked, and associated Stream Sense events sent. You can disable this behavior by setting the `tracked` property of a media player controller to `NO`. 
+### Logging
 
-Note that `RTSMediaPlayerViewController` instances are automatically tracked. Since the underlying controller is currently not publicly exposed, you cannot change this default behavior at the moment.
+The library internally uses the [SRG Logger](https://github.com/SRGSSR/srglogger-ios) library for logging, with the following subsystems:
 
-### Push notifications
+* `ch.srgssr.analytics` for `SRGAnalytics.framework` events.
+* `ch.srgssr.analytics.mediaplayer` for `SRGAnalytics_MediaPlayer.framework` events.
+* `ch.srgssr.analytics.dataprovider` for `SRGAnalytics_DataProvider.framework` events.
 
-To track view controllers opened through push notifications, implement the optional `-pageViewFromPushNotification` method of the `RTSAnalyticsPageViewDataSource` protocol and return `YES` iff opened from a push notification.
+This logger either automatically integrates with your own logger, or can be easily integrated with it. Refer to the SRG Logger documentation for more information.
+
+## Demo project
+
+To test what the library is capable of, try running the associated demo by opening the workspace and building the associated scheme.
+
+## Migration from versions 1.x
+
+For information about changes introduced with version 2 of the library, please read the [migration guide](Documentation/Migration-guide.md).
 
 ## License
 
