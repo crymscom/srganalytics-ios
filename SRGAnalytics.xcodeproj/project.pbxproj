@@ -51,6 +51,20 @@
 		6FF3E21D1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF3E21B1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m */; };
 		6FF3E22B1D9D2E9B00EB4A30 /* DataProviderTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF3E22A1D9D2E9B00EB4A30 /* DataProviderTestCase.m */; };
 		6FF3E22C1D9D330700EB4A30 /* SRGAnalytics_DataProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB331E61D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework */; };
+		6FF7C3391EB75C21002699F8 /* TCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF7C3371EB75C21002699F8 /* TCCore.framework */; };
+		6FF7C33A1EB75C21002699F8 /* TCSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF7C3381EB75C21002699F8 /* TCSDK.framework */; };
+		6FF7C33B1EB75C32002699F8 /* TCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF7C3371EB75C21002699F8 /* TCCore.framework */; };
+		6FF7C33C1EB75C32002699F8 /* TCSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF7C3381EB75C21002699F8 /* TCSDK.framework */; };
+		6FF7C33D1EB75C3F002699F8 /* TCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF7C3371EB75C21002699F8 /* TCCore.framework */; };
+		6FF7C33E1EB75C3F002699F8 /* TCSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF7C3381EB75C21002699F8 /* TCSDK.framework */; };
+		6FF7C33F1EB75C49002699F8 /* TCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF7C3371EB75C21002699F8 /* TCCore.framework */; };
+		6FF7C3401EB75C49002699F8 /* TCCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF7C3371EB75C21002699F8 /* TCCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6FF7C3411EB75C49002699F8 /* TCSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF7C3381EB75C21002699F8 /* TCSDK.framework */; };
+		6FF7C3421EB75C49002699F8 /* TCSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF7C3381EB75C21002699F8 /* TCSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6FF7C3431EB75C60002699F8 /* TCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF7C3371EB75C21002699F8 /* TCCore.framework */; };
+		6FF7C3441EB75C60002699F8 /* TCSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF7C3381EB75C21002699F8 /* TCSDK.framework */; };
+		6FF7C3491EB75C8A002699F8 /* TCCore.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FF7C3371EB75C21002699F8 /* TCCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6FF7C34A1EB75C8A002699F8 /* TCSDK.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FF7C3381EB75C21002699F8 /* TCSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E600FE5D1D93C5ED000B8A1D /* TrackerTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = E600FE5C1D93C5ED000B8A1D /* TrackerTestCase.m */; };
 		E600FE7E1D943D96000B8A1D /* TrackerSingletonSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = E600FE7D1D943D96000B8A1D /* TrackerSingletonSetup.m */; };
 		E613889E1D916A9900218919 /* SRGAnalyticsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E613888A1D916A9900218919 /* SRGAnalyticsLogger.h */; };
@@ -167,6 +181,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6FF7C3491EB75C8A002699F8 /* TCCore.framework in Copy Frameworks Into Test Bundle */,
+				6FF7C34A1EB75C8A002699F8 /* TCSDK.framework in Copy Frameworks Into Test Bundle */,
 				6FB97FEB1E4AF1870014C4C2 /* MAKVONotificationCenter.framework in Copy Frameworks Into Test Bundle */,
 				6FA09D901D9EC53900EDCA64 /* SRGLogger.framework in Copy Frameworks Into Test Bundle */,
 				6FF3E2111D9CE6CF00EB4A30 /* SRGDataProvider.framework in Copy Frameworks Into Test Bundle */,
@@ -192,6 +208,8 @@
 				6FF3E2191D9CF58C00EB4A30 /* Mantle.framework in Embed Frameworks */,
 				0811A8551D800BBC00A9863B /* libextobjc.framework in Embed Frameworks */,
 				6FA09D8E1D9EC50B00EDCA64 /* SRGLogger.framework in Embed Frameworks */,
+				6FF7C3421EB75C49002699F8 /* TCSDK.framework in Embed Frameworks */,
+				6FF7C3401EB75C49002699F8 /* TCCore.framework in Embed Frameworks */,
 				6FF3E2171D9CF57600EB4A30 /* SRGDataProvider.framework in Embed Frameworks */,
 				6FB97FE81E4AF0D60014C4C2 /* MAKVONotificationCenter.framework in Embed Frameworks */,
 			);
@@ -228,6 +246,8 @@
 		6FF3E21A1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGMediaPlayerController+SRGAnalytics_DataProvider.h"; sourceTree = "<group>"; };
 		6FF3E21B1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGMediaPlayerController+SRGAnalytics_DataProvider.m"; sourceTree = "<group>"; };
 		6FF3E22A1D9D2E9B00EB4A30 /* DataProviderTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataProviderTestCase.m; sourceTree = "<group>"; };
+		6FF7C3371EB75C21002699F8 /* TCCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCCore.framework; path = Carthage/Build/iOS/TCCore.framework; sourceTree = "<group>"; };
+		6FF7C3381EB75C21002699F8 /* TCSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCSDK.framework; path = Carthage/Build/iOS/TCSDK.framework; sourceTree = "<group>"; };
 		9F1519211AC422AE00AE051D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F1519231AC422B800AE051D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -291,6 +311,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FF7C33D1EB75C3F002699F8 /* TCCore.framework in Frameworks */,
+				6FF7C33E1EB75C3F002699F8 /* TCSDK.framework in Frameworks */,
 				6FB97FE61E4AF0CD0014C4C2 /* MAKVONotificationCenter.framework in Frameworks */,
 				E66BEC171DA7FA5900AD4450 /* libextobjc.framework in Frameworks */,
 				6FA09D8B1D9EC4DB00EDCA64 /* SRGLogger.framework in Frameworks */,
@@ -304,6 +326,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FF7C33B1EB75C32002699F8 /* TCCore.framework in Frameworks */,
+				6FF7C33C1EB75C32002699F8 /* TCSDK.framework in Frameworks */,
 				6FB97FE51E4AF0B50014C4C2 /* MAKVONotificationCenter.framework in Frameworks */,
 				6FA09D8A1D9EC4CF00EDCA64 /* SRGLogger.framework in Frameworks */,
 				0811A8531D800BA000A9863B /* libextobjc.framework in Frameworks */,
@@ -316,6 +340,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FF7C3431EB75C60002699F8 /* TCCore.framework in Frameworks */,
+				6FF7C3441EB75C60002699F8 /* TCSDK.framework in Frameworks */,
 				6FB97FEA1E4AF1800014C4C2 /* MAKVONotificationCenter.framework in Frameworks */,
 				6FA09D8F1D9EC52900EDCA64 /* SRGLogger.framework in Frameworks */,
 				6FF3E22C1D9D330700EB4A30 /* SRGAnalytics_DataProvider.framework in Frameworks */,
@@ -339,6 +365,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FF7C3391EB75C21002699F8 /* TCCore.framework in Frameworks */,
+				6FF7C33A1EB75C21002699F8 /* TCSDK.framework in Frameworks */,
 				6FB97FE41E4AF0270014C4C2 /* MAKVONotificationCenter.framework in Frameworks */,
 				E66BEC161DA7FA4800AD4450 /* libextobjc.framework in Frameworks */,
 				6FA09D891D9EC4BC00EDCA64 /* SRGLogger.framework in Frameworks */,
@@ -358,6 +386,8 @@
 				0811A8541D800BBC00A9863B /* libextobjc.framework in Frameworks */,
 				E672EA511D62F19E00CFB080 /* ComScore.framework in Frameworks */,
 				6FF3E2181D9CF58C00EB4A30 /* Mantle.framework in Frameworks */,
+				6FF7C3411EB75C49002699F8 /* TCSDK.framework in Frameworks */,
+				6FF7C33F1EB75C49002699F8 /* TCCore.framework in Frameworks */,
 				E6FC7EA51D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Frameworks */,
 				E6FC7EA01D61F97500A55085 /* SRGAnalytics.framework in Frameworks */,
 			);
@@ -469,6 +499,8 @@
 				6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */,
 				E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */,
 				9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */,
+				6FF7C3371EB75C21002699F8 /* TCCore.framework */,
+				6FF7C3381EB75C21002699F8 /* TCSDK.framework */,
 				9F1519211AC422AE00AE051D /* UIKit.framework */,
 			);
 			name = Frameworks;
