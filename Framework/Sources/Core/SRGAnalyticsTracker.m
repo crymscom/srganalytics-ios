@@ -14,6 +14,7 @@
 #import "UIViewController+SRGAnalytics.h"
 
 #import <ComScore/CSTaskExecutor.h>
+#import <TCSDK/TCSDK.h>
 
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRSI = @"rsi";
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTR = @"rtr";
@@ -26,9 +27,12 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 @property (nonatomic, copy) NSString *businessUnitIdentifier;
 @property (nonatomic, copy) NSString *comScoreVirtualSite;
+@property (nonatomic) NSInteger accountIdentifier;
+@property (nonatomic) NSInteger containerIdentifier;
 @property (nonatomic, copy) NSString *netMetrixIdentifier;
 @property (nonatomic, getter=isStarted) BOOL started;
 
+@property (nonatomic) TagCommander *tagCommander;
 @property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
 
 @end
@@ -58,16 +62,22 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)startWithBusinessUnitIdentifier:(NSString *)businessUnitIdentifier
                     comScoreVirtualSite:(NSString *)comScoreVirtualSite
+                      accountIdentifier:(int)accountIdentifier
+                    containerIdentifier:(int)containerIdentifier
                     netMetrixIdentifier:(NSString *)netMetrixIdentifier
 {    
     self.businessUnitIdentifier = businessUnitIdentifier;
     self.comScoreVirtualSite = comScoreVirtualSite;
+    self.accountIdentifier = accountIdentifier;
+    self.containerIdentifier = containerIdentifier;
     self.netMetrixIdentifier = netMetrixIdentifier;
     
     self.started = YES;
     
     [self startComscoreTracker];
     [self startNetmetrixTracker];
+    
+    self.tagCommander = [[TagCommander alloc] initWithSiteID:accountIdentifier andContainerID:containerIdentifier];
 }
 
 - (void)startComscoreTracker
