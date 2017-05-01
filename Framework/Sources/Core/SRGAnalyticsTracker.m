@@ -136,12 +136,21 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 #pragma mark Page view tracking (private)
 
-- (void)trackPageViewTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification;
+- (void)trackPageViewTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification
 {
     if (title.length == 0) {
         SRGAnalyticsLogWarning(@"tracker", @"Missing title. No event will be sent");
         return;
     }
+    
+    [self trackComScorePageViewTitle:title levels:levels customLabels:customLabels fromPushNotification:fromPushNotification];
+    [self trackTagCommanderPageViewTitle:title levels:levels customLabels:customLabels fromPushNotification:fromPushNotification];
+    [self.netmetrixTracker trackView];
+}
+
+- (void)trackComScorePageViewTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification;
+{
+    NSAssert(title.length != 0, @"A title is required");
     
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
     [labels safeSetValue:title.srg_comScoreTitleFormattedString forKey:@"srg_title"];
@@ -179,8 +188,17 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     }];
     
     [CSComScore viewWithLabels:labels];
+}
+
+- (void)trackTagCommanderPageViewTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification
+{
+    NSAssert(title.length != 0, @"A title is required");
     
-    [self.netmetrixTracker trackView];
+    [self.tagCommander addData:@"TITLE" withValue:title];
+    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [self.tagCommander addData:key withValue:object];
+    }];
+    [self.tagCommander sendData];
 }
 
 #pragma mark Hidden event tracking
