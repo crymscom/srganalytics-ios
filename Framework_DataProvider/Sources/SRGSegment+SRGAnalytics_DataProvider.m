@@ -33,7 +33,12 @@
 
 - (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
 {
-    return @{@"VIDEO_SEGMENT" : self.title};
+    if (self.analyticsLabels[@"ns_st_ep"]) {
+        return  @{@"VIDEO_SEGMENT" : self.analyticsLabels[@"ns_st_ep"] };
+    }
+    else {
+        return nil;
+    }
 }
 
 @end

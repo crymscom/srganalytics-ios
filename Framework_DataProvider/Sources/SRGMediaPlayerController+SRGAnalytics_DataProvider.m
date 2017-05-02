@@ -72,25 +72,30 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
             URL = resource.URL;
         }
         
+        // ComScore labels
         NSMutableDictionary<NSString *, NSString *> *analyticsLabels = [NSMutableDictionary dictionary];
-//        // ComScore labels
-//        if (mediaComposition.analyticsLabels) {
-//            [analyticsLabels addEntriesFromDictionary:mediaComposition.analyticsLabels];
-//        }
-//        if (mediaComposition.mainChapter.analyticsLabels) {
-//            [analyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
-//        }
-//        if (resource.analyticsLabels) {
-//            [analyticsLabels addEntriesFromDictionary:resource.analyticsLabels];
-//        }
+        if (mediaComposition.analyticsLabels) {
+            [analyticsLabels addEntriesFromDictionary:mediaComposition.analyticsLabels];
+        }
+        if (mediaComposition.mainChapter.analyticsLabels) {
+            [analyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
+        }
+        if (resource.analyticsLabels) {
+            [analyticsLabels addEntriesFromDictionary:resource.analyticsLabels];
+        }
         
-        [analyticsLabels setObject:mediaComposition.mainChapter.title forKey:@"VIDEO_TITLE"];
-        [analyticsLabels setObject:mediaComposition.show.title forKey:@"VIDEO_SUBTITLE"];
-        [analyticsLabels setObject:@(mediaComposition.mainChapter.duration).stringValue forKey:@"VIDEO_TOTAL_DURATION"];
+        // TagCommander
+        NSMutableDictionary<NSString *, NSString *> *tagCommanderAnalyticsLabels = [NSMutableDictionary dictionary];
+        if (analyticsLabels[@"ns_st_pr"])
+            [tagCommanderAnalyticsLabels setObject:analyticsLabels[@"ns_st_pr"] forKey:@"VIDEO_TITLE"];
+        if (analyticsLabels[@"ns_st_pl"])
+            [tagCommanderAnalyticsLabels setObject:analyticsLabels[@"ns_st_pl"] forKey:@"VIDEO_SUBTITLE"];
+        if (analyticsLabels[@"ns_st_el"])
+            [tagCommanderAnalyticsLabels setObject:(analyticsLabels[@"ns_st_el"]) forKey:@"VIDEO_TOTAL_DURATION"];
 
         
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
-        completionBlock(URL, index, chapter.segments, [analyticsLabels copy], nil);
+        completionBlock(URL, index, chapter.segments, [tagCommanderAnalyticsLabels copy], nil);
     }];
     if (resume) {
         [request resume];
