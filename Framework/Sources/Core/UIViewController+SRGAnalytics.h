@@ -9,7 +9,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  View controllers whose use must be tracked by comScore and NetMetrix view events must conform to the
+ *  View controllers whose use must be tracked by TagCommander and NetMetrix view events must conform to the
  *  `SRGAnalyticsViewTracking` protocol, which describes the data to send with such events. The only method
  *  required by this protocol is `srg_pageViewTitle`, which provides the name to be used for the view events.
  *

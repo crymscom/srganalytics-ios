@@ -9,11 +9,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Stream measurement additions to SRGAnalytics, based on comScore StreamSense. The SRGAnalytics_MediaPlayer framework 
+ *  Stream measurement additions to SRGAnalytics, based on TagCommander. The SRGAnalytics_MediaPlayer framework 
  *  is an optional SRGAnalytics companion framework which can be used to easily measure audio and video consumption in 
  *  applications powered by the SRGMediaPlayer library.
  *
- *  When playing a media, two levels of analytics information (labels) are consolidated and sent to comScore:
+ *  When playing a media, two levels of analytics information (labels) are consolidated and sent to TagCommander:
  *    - Labels associated with the content URL being played.
  *    - Labels associated with segment being played, which are merged and might override content URL labels.
  *

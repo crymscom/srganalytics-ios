@@ -75,13 +75,13 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 
 /**
  *  Start the tracker. This is required to specify for which business unit you are tracking events, as well as to
- *  where they must be sent on the comScore and NetMetrix services. Attempting to track view, hidden or stream events
+ *  where they must be sent on the TagCommander and NetMetrix services. Attempting to track view, hidden or stream events
  *  without starting the tracker has no effect.
  *
  *  During tests, or if you do not want to pollute real measurements during development, you can use the special
  *  `SRGAnalyticsBusinessUnitIdentifierTEST` business unit. This business unit:
  *    - Disables NetMetrix event sending.
- *    - Still sends comScore events to the specified virtual site.
+ *    - Still sends TagCommander events to the specified virtual site.
  *    - Adds an `srg_test` label to measurements, specifying the time at which the tracker was started as a timestamp 
  *      (yyyy-MM-dd@HH:mm). This label can be used to identify application sesssions and to gather measurements related
  *      to a session if needed.
@@ -116,11 +116,6 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  The TagCommander container identifier.
  */
 @property (nonatomic, readonly) NSInteger containerIdentifier;
-
-/**
- *  The comScore virtual site where statistics are gathered (`nil` if the tracker has not been started).
- */
-@property (nonatomic, readonly, copy, nullable) NSString *comScoreVirtualSite;
 
 /**
  *  The NetMetrix identifier which is used (`nil` if the tracker has not been started).

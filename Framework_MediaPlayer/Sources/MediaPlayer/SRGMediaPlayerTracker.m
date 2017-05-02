@@ -71,8 +71,6 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)dealloc
 {
-    // FIXME: Due to internal comScore bugs, the object will never be properly released. This does not hurt in our implementaton,
-    //        but this could be fixed
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -107,7 +105,7 @@ static NSMutableDictionary *s_trackers = nil;
     [self.mediaPlayerController addObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked) options:0 block:^(MAKVONotification *notification) {
         @strongify(self)
         
-        // Balance comScore events if the player is playing, so that all events can be properly emitted
+        // Balance events if the player is playing, so that all events can be properly emitted
         if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
             SRGAnalyticsMediaEvent event = self.mediaPlayerController.tracked ? SRGAnalyticsMediaEventPlay : SRGAnalyticsMediaEventEnd;
             [self rawNotifyEvent:event
@@ -360,7 +358,7 @@ static NSMutableDictionary *s_trackers = nil;
 
 + (void)playbackStateDidChange:(NSNotification *)notification
 {
-    // Avoid calling comScore methods when the tracker is not started (which usually leads to crashes because the virtual
+    // Avoid calling tracking methods when the tracker is not started (which usually leads to crashes because the virtual
     // site has not been set)
     if (! [SRGAnalyticsTracker sharedTracker].started) {
         return;
