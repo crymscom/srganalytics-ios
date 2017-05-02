@@ -9,6 +9,7 @@
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsSegment.h"
 #import "SRGAnalyticsTracker.h"
+#import "SRGAnalyticsTracker+Private.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
 #import <libextobjc/libextobjc.h>
@@ -246,7 +247,28 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)rawNotifyTagCommanderEvent:(SRGAnalyticsMediaEvent)event withPosition:(long)position labels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
+    static dispatch_once_t s_onceToken;
+    static NSDictionary<NSNumber *, NSString *> *s_actions;
+    dispatch_once(&s_onceToken, ^{
+        s_actions = @{ @(SRGAnalyticsMediaEventPlay) : @"play",
+                       @(SRGAnalyticsMediaEventPause) : @"pause",
+                       @(SRGAnalyticsMediaEventSeek) : @"seek",
+                       @(SRGAnalyticsMediaEventStop) : @"stop",
+                       @(SRGAnalyticsMediaEventEnd) : @"eof",
+                       @(SRGAnalyticsMediaEventHeartbeat) : @"pos"};
+    });
     
+    NSString *action = s_actions[@(event)];
+    if (! action) {
+        return;
+    }
+    
+    TagCommander *tagCommander = [SRGAnalyticsTracker sharedTracker].tagCommander;
+    [tagCommander addData:@"VIDEO_ACTION" withValue:action];
+    [tagCommander addData:@"VIDEO_CURRENT_POSITION" withValue:@((int)(position / 1000)).stringValue];
+    [tagCommander addData:@"VIDEO_VOLUME" withValue:[self volume]];
+    [tagCommander addData:@"VIDEO_MUTE" withValue:[self muted]];
+    [tagCommander sendData];
 }
 
 #pragma mark Playback data
@@ -301,6 +323,11 @@ static NSMutableDictionary *s_trackers = nil;
         NSInteger volume = [AVAudioSession sharedInstance].outputVolume * 100;
         return [@(volume) stringValue];
     }
+}
+
+- (NSString *)muted
+{
+    return self.mediaPlayerController.player.muted ? @"1" : @"0";
 }
 
 - (NSString *)scalingMode

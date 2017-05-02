@@ -6,6 +6,8 @@
 
 #import "SRGAnalyticsTracker.h"
 
+#import <TCSDK/TCSDK.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -22,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param fromPushNotification `YES` iff the view is opened from a push notification.
  */
 - (void)trackPageViewTitle:(nullable NSString *)title levels:(nullable NSArray<NSString *> *)levels customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification;
+
+/**
+ *  The associated TagCommander tracker.
+ */
+@property (nonatomic, readonly) TagCommander *tagCommander;
 
 @end
 
