@@ -189,8 +189,6 @@
 		E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGMediaPlayer.framework; path = Carthage/Build/iOS/SRGMediaPlayer.framework; sourceTree = "<group>"; };
 		E6296E851DA60CE700E33C32 /* DemosViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DemosViewController.storyboard; sourceTree = "<group>"; };
 		E6296E871DA6205200E33C32 /* SimpleViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SimpleViewController.storyboard; sourceTree = "<group>"; };
-		E66F8A711D62DC570004EB58 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E66F8A721D62DC570004EB58 /* ViewEventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewEventTests.m; sourceTree = "<group>"; };
 		E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E69A202E1D61E5E80064E6C1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E69A20481D61E5E80064E6C1 /* SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalytics.h; sourceTree = "<group>"; };
@@ -337,7 +335,6 @@
 				E61C0D5E1D61EFD200AEAE6D /* Framework_MediaPlayer */,
 				6FB331F41D9BFB77001469F2 /* Framework_DataProvider */,
 				E6FC7F031D61FA4700A55085 /* Demo */,
-				E66F8A701D62DC570004EB58 /* DemoTests */,
 				AC99606425BE818BA71D7E4D /* Frameworks */,
 				9F1518BC1AC2F1CE00AE051D /* Products */,
 			);
@@ -419,15 +416,6 @@
 				E6B8E9FC1D92868D000D6904 /* Protocols */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		E66F8A701D62DC570004EB58 /* DemoTests */ = {
-			isa = PBXGroup;
-			children = (
-				E66F8A711D62DC570004EB58 /* Info.plist */,
-				E66F8A721D62DC570004EB58 /* ViewEventTests.m */,
-			);
-			path = DemoTests;
 			sourceTree = "<group>";
 		};
 		E69A202D1D61E5E80064E6C1 /* Framework */ = {

@@ -56,8 +56,6 @@
     NSURL *netMetrixURL = [NSURL URLWithString:netMetrixURLString];
     
     if ([self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
-        // Send the notification when the request is made (as is done with comScore). Notifications are intended to test
-        // whether events are properly sent, not whether they are properly received
         [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsNetmetrixRequestNotification
                                                             object:nil
                                                           userInfo:@{ SRGAnalyticsNetmetrixURLKey : netMetrixURL }];

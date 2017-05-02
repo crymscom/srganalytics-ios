@@ -72,7 +72,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
             URL = resource.URL;
         }
         
-        // ComScore labels
+        // IL labels
         NSMutableDictionary<NSString *, NSString *> *analyticsLabels = [NSMutableDictionary dictionary];
         if (mediaComposition.analyticsLabels) {
             [analyticsLabels addEntriesFromDictionary:mediaComposition.analyticsLabels];

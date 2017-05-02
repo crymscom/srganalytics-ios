@@ -24,7 +24,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST;
 
 /**
- *  The analytics tracker is a singleton instance responsible of tracking usage of an application, using comScore and
+ *  The analytics tracker is a singleton instance responsible of tracking usage of an application, using TagCommander and
  *  NetMetrix. This usage is simply a collection of key-values (both strings), often referred to as labels, which
  *  can then be used for analytics measurements. 
  *
@@ -33,7 +33,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *
  *  ## Measurements
  *
- *  Measurements are based on events emitted by the application, and collected by comScore and NetMetrix. Currently, the
+ *  Measurements are based on events emitted by the application, and collected by TagCommander and NetMetrix. Currently, the
  *  SRGAnalytics library supports the following kinds of events:
  *    - View events: Appearance of views (page views), which makes it possible to track which content is seen by users.
  *    - Hidden events: Custom events which can be used for measuresement of application functionalities.
@@ -41,7 +41,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *      consumption.
  *
  *  All kinds of events can be supplied arbitrary information. This information is primarily meant for use by
- *  comScore. NetMetrix currently only records view events in a fairly basic way. No distinction has been made in
+ *  TagCommander. NetMetrix currently only records view events in a fairly basic way. No distinction has been made in
  *  the use of the tracker, though. Events will be transparently sent to the services which support them, with the 
  *  data meaningful for their use.
  *
@@ -53,7 +53,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *
  *  1. Start the tracker early in your application lifecycle, for example in your application delegate
  *     `-application:didFinishLaunchingWithOptions:` implementation, by calling the
- *     `-startWithBusinessUnitIdentifier:comScoreVirtualSite:netMetrixIdentifier:` method.
+ *     `-startWithBusinessUnitIdentifier:netMetrixIdentifier:` method.
  *  1. To track page views, have view controllers which must be tracked conform to the `SRGAnalyticsViewTracking`
  *     protocol. View controllers conforming to this protocol are automatically tracked by default, but this behavior 
  *     can be tailored to your needs, especially if the time at which the measurement is made (when the view
