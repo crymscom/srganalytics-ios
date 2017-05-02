@@ -24,8 +24,6 @@
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
     
-    [SRGLogger setLogHandler:SRGNSLogHandler()];
-    
     [TCDebug setDebugLevel:TCLogLevel_Verbose];
     [TCDebug setNotificationLog:YES];
     
