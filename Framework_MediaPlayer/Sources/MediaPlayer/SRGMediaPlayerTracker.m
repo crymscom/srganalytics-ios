@@ -560,10 +560,12 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)heartbeat:(NSTimer *)timer
 {
-    [self notifyEvent:SRGAnalyticsMediaEventHeartbeat
-         withPosition:[self currentPositionInMilliseconds]
-               labels:self.currentLabels
-              segment:self.mediaPlayerController.selectedSegment];
+    if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
+        [self notifyEvent:SRGAnalyticsMediaEventHeartbeat
+             withPosition:[self currentPositionInMilliseconds]
+                   labels:self.currentLabels
+                  segment:self.mediaPlayerController.selectedSegment];
+    }
 }
     
 @end
