@@ -11,5 +11,7 @@ __attribute__((constructor)) static void SetupTestSingletonTracker(void)
 {
     [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
                                                      comScoreVirtualSite:@"rts-app-test-v"
+                                                       accountIdentifier:3601
+                                                     containerIdentifier:2
                                                      netMetrixIdentifier:@"test"];
 }
