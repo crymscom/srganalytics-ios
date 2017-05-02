@@ -209,7 +209,7 @@ static NSMutableDictionary *s_trackers = nil;
     [tagCommander addData:@"VIDEO_VOLUME" withValue:[self volume]];
     [tagCommander addData:@"VIDEO_MUTE" withValue:[self muted]];
     
-    NSMutableDictionary<NSString *, NSString *> *allLabels = [labels copy];
+    NSMutableDictionary<NSString *, NSString *> *allLabels = [labels mutableCopy];
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [tagCommander addData:key withValue:object];
     }];
