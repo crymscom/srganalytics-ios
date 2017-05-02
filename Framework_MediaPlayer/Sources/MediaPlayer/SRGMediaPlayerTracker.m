@@ -48,6 +48,7 @@ static NSMutableDictionary *s_trackers = nil;
 
 @property (nonatomic, weak) id periodicTimeObserver;
 @property (nonatomic) long positionInMilliseconds;
+@property (nonatomic) NSDictionary<NSString *, NSString *> *labels;
 
 @end
 
@@ -141,7 +142,7 @@ static NSMutableDictionary *s_trackers = nil;
     self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:30. target:self selector:@selector(heartbeat:) userInfo:nil repeats:YES];
 }
 
-- (void)stopWithLabels:(NSDictionary *)labels
+- (void)stop
 {
     NSAssert(self.mediaPlayerController, @"Media player controller must be available when stopping");
     
@@ -157,15 +158,15 @@ static NSMutableDictionary *s_trackers = nil;
     
     // The position in milliseconds must not be 0 when the player is stopped (Webtrekk requirement). Track it since the
     // value retrieved from the player would be 0 (idle state, player is nil)
-    [self notifyEvent:SRGAnalyticsMediaEventEnd withPosition:self.positionInMilliseconds labels:labels segment:self.mediaPlayerController.selectedSegment];
+    [self notifyEvent:SRGAnalyticsMediaEventEnd withPosition:self.positionInMilliseconds labels:self.labels segment:self.mediaPlayerController.selectedSegment];
     
     [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
+    [self.mediaPlayerController removePeriodicTimeObserver:self.periodicTimeObserver];
+    
+    self.positionInMilliseconds = 0;
+    self.labels = nil;
     
     self.heartbeatTimer = nil;
-    
-    [self.mediaPlayerController removePeriodicTimeObserver:self.periodicTimeObserver];
-    self.positionInMilliseconds = 0;
-    
     self.mediaPlayerController = nil;
 }
 
@@ -208,16 +209,23 @@ static NSMutableDictionary *s_trackers = nil;
     [tagCommander addData:@"VIDEO_VOLUME" withValue:[self volume]];
     [tagCommander addData:@"VIDEO_MUTE" withValue:[self muted]];
     
+    NSMutableDictionary<NSString *, NSString *> *allLabels = [labels copy];
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [tagCommander addData:key withValue:object];
     }];
     
     if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
         NSDictionary *segmentLabels = [(id<SRGAnalyticsSegment>)segment srg_analyticsLabels];
-        [segmentLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-            [tagCommander addData:key withValue:object];
-        }];
+        
+        if (segmentLabels) {
+            [allLabels addEntriesFromDictionary:segmentLabels];
+            [segmentLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+                [tagCommander addData:key withValue:object];
+            }];
+        }
     }
+    
+    self.labels = [allLabels copy];
     
     [tagCommander sendData];
 }
@@ -382,8 +390,7 @@ static NSMutableDictionary *s_trackers = nil;
         SRGMediaPlayerTracker *tracker = s_trackers[key];
         NSAssert(tracker != nil, @"A tracker must exist");
         
-        NSDictionary *previousUserInfo = notification.userInfo[SRGMediaPlayerPreviousUserInfoKey];
-        [tracker stopWithLabels:previousUserInfo[SRGAnalyticsMediaPlayerLabelsKey]];
+        [tracker stop];
         
         [s_trackers removeObjectForKey:key];
         
