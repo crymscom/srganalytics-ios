@@ -43,6 +43,9 @@ static NSMutableDictionary *s_trackers = nil;
 // and thus not available when the tracker is stopped)
 @property (nonatomic, unsafe_unretained) SRGMediaPlayerController *mediaPlayerController;
 
+@property (nonatomic) NSDictionary<NSString *, NSString *> *currentLabels;
+@property (nonatomic) NSTimer *heartbeatTimer;
+
 @end
 
 @implementation SRGMediaPlayerTracker
@@ -71,6 +74,14 @@ static NSMutableDictionary *s_trackers = nil;
     // FIXME: Due to internal comScore bugs, the object will never be properly released. This does not hurt in our implementaton,
     //        but this could be fixed
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark Getters and setters
+
+- (void)setHeartbeatTimer:(NSTimer *)heartbeatTimer
+{
+    [_heartbeatTimer invalidate];
+    _heartbeatTimer = heartbeatTimer;
 }
 
 #pragma mark Tracker management
@@ -121,11 +132,15 @@ static NSMutableDictionary *s_trackers = nil;
             }
         }
     }];
+    
+    self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:30. target:self selector:@selector(heartbeat:) userInfo:nil repeats:YES];
 }
 
 - (void)stopWithLabels:(NSDictionary *)labels
 {
     NSAssert(self.mediaPlayerController, @"Media player controller must be available when stopping");
+    
+    self.heartbeatTimer = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:SRGMediaPlayerPlaybackStateDidChangeNotification
@@ -175,6 +190,8 @@ static NSMutableDictionary *s_trackers = nil;
     if (! self.mediaPlayerController.tracked) {
         return;
     }
+    
+    self.currentLabels = labels;
     
     [self rawNotifyStreamSenseEvent:event withPosition:position labels:labels segment:segment];
     [self rawNotifyTagCommanderEvent:event withPosition:position labels:labels segment:segment];
@@ -537,6 +554,16 @@ static NSMutableDictionary *s_trackers = nil;
                       segment:nil];
         }
     }
+}
+
+#pragma mark Timers
+
+- (void)heartbeat:(NSTimer *)timer
+{
+    [self notifyEvent:SRGAnalyticsMediaEventHeartbeat
+         withPosition:[self currentPositionInMilliseconds]
+               labels:self.currentLabels
+              segment:self.mediaPlayerController.selectedSegment];
 }
     
 @end
