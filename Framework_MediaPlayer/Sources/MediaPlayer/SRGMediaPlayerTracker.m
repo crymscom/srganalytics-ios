@@ -300,6 +300,18 @@ static NSMutableDictionary *s_trackers = nil;
     [tagCommander addData:@"VIDEO_CURRENT_POSITION" withValue:@((int)(position / 1000)).stringValue];
     [tagCommander addData:@"VIDEO_VOLUME" withValue:[self volume]];
     [tagCommander addData:@"VIDEO_MUTE" withValue:[self muted]];
+    
+    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [tagCommander addData:key withValue:object];
+    }];
+    
+    if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
+        NSDictionary *segmentLabels = [(id<SRGAnalyticsSegment>)segment srg_analyticsLabels];
+        [segmentLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+            [tagCommander addData:key withValue:object];
+        }];
+    }
+    
     [tagCommander sendData];
 }
 
