@@ -268,7 +268,7 @@ static NSMutableDictionary *s_trackers = nil;
     [self safelySetValue:[self screenType] forClipLabel:@"srg_screen_type"];
     
     if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
-        NSDictionary *labels = [(id<SRGAnalyticsSegment>)segment srg_analyticsLabels];
+        NSDictionary *labels = [(id<SRGAnalyticsSegment>)segment srg_comScoreLabels];
         if (labels) {
             [[self clip] setLabels:labels];
         }
