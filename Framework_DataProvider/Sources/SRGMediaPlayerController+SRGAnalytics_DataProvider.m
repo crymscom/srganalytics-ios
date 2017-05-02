@@ -91,7 +91,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         if (analyticsLabels[@"ns_st_pl"])
             [tagCommanderAnalyticsLabels setObject:analyticsLabels[@"ns_st_pl"] forKey:@"VIDEO_SUBTITLE"];
         if (analyticsLabels[@"ns_st_el"])
-            [tagCommanderAnalyticsLabels setObject:(analyticsLabels[@"ns_st_el"]) forKey:@"VIDEO_TOTAL_DURATION"];
+            [tagCommanderAnalyticsLabels setObject:@(analyticsLabels[@"ns_st_el"].integerValue / 1000).stringValue forKey:@"VIDEO_TOTAL_DURATION"];
 
         
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
