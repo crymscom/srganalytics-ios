@@ -202,6 +202,7 @@ static NSMutableDictionary *s_trackers = nil;
     }
     
     TagCommander *tagCommander = [SRGAnalyticsTracker sharedTracker].tagCommander;
+    [tagCommander addData:@"HIT_TYPE" withValue:@"click"];
     [tagCommander addData:@"VIDEO_ACTION" withValue:action];
     [tagCommander addData:@"VIDEO_CURRENT_POSITION" withValue:@((int)(position / 1000)).stringValue];
     [tagCommander addData:@"VIDEO_VOLUME" withValue:[self volume]];
