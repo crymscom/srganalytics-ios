@@ -25,6 +25,12 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="UnV-Xb-8YO" customClass="SRGTimeSlider">
+                                <rect key="frame" x="6" y="617" width="363" height="31"/>
+                                <connections>
+                                    <outlet property="mediaPlayerController" destination="uig-6E-huT" id="Fnv-cV-29b"/>
+                                </connections>
+                            </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tq2-sn-Z6D" customClass="SRGPlaybackButton">
                                 <rect key="frame" x="162" y="308" width="50" height="50"/>
                                 <constraints>
@@ -40,8 +46,11 @@
                         <constraints>
                             <constraint firstItem="tq2-sn-Z6D" firstAttribute="centerX" secondItem="EYU-t9-AoU" secondAttribute="centerX" id="7A6-Sq-Qje"/>
                             <constraint firstItem="e1C-99-haw" firstAttribute="top" secondItem="EYU-t9-AoU" secondAttribute="top" id="SNX-iJ-ENu"/>
+                            <constraint firstAttribute="trailing" secondItem="UnV-Xb-8YO" secondAttribute="trailing" constant="8" id="XJZ-dz-g9a"/>
                             <constraint firstAttribute="trailing" secondItem="e1C-99-haw" secondAttribute="trailing" id="cUw-Kl-CaR"/>
                             <constraint firstItem="tq2-sn-Z6D" firstAttribute="centerY" secondItem="EYU-t9-AoU" secondAttribute="centerY" id="eAG-7m-tvw"/>
+                            <constraint firstItem="UnV-Xb-8YO" firstAttribute="leading" secondItem="EYU-t9-AoU" secondAttribute="leading" constant="8" id="eJQ-Jm-sLM"/>
+                            <constraint firstItem="sWL-yl-Iht" firstAttribute="top" secondItem="UnV-Xb-8YO" secondAttribute="bottom" constant="20" id="mC5-tu-rUB"/>
                             <constraint firstItem="sWL-yl-Iht" firstAttribute="top" secondItem="e1C-99-haw" secondAttribute="bottom" id="x1Q-8V-SKn"/>
                             <constraint firstItem="e1C-99-haw" firstAttribute="leading" secondItem="EYU-t9-AoU" secondAttribute="leading" id="xSJ-OL-D8x"/>
                         </constraints>
