@@ -195,6 +195,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSAssert(title.length != 0, @"A title is required");
     
     [self.tagCommander addData:@"TITLE" withValue:title];
+    [self.tagCommander addData:@"HIT_TYPE" withValue:@"screen"];
     [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [self.tagCommander addData:key withValue:object];
     }];
