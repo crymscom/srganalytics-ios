@@ -59,9 +59,6 @@ static NSMutableDictionary *s_trackers = nil;
 {
     if (self = [super init]) {
         self.mediaPlayerController = mediaPlayerController;
-        
-        // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
-        [self setKeepAliveInterval:9 * 60];
     }
     return self;
 }
@@ -176,30 +173,6 @@ static NSMutableDictionary *s_trackers = nil;
 
 #pragma mark Helpers
 
-- (void)safelySetValue:(NSString *)value forLabel:(NSString *)label
-{
-    NSParameterAssert(label);
-    
-    if (value) {
-        [self setLabel:label value:value];
-    }
-    else {
-        [[self labels] removeObjectForKey:label];
-    }
-}
-
-- (void)safelySetValue:(NSString *)value forClipLabel:(NSString *)label
-{
-    NSParameterAssert(label);
-    
-    if (value) {
-        [[self clip] setLabel:label value:value];
-    }
-    else {
-        [[[self clip] labels] removeObjectForKey:label];
-    }
-}
-
 - (void)notifyEvent:(SRGAnalyticsMediaEvent)event withPosition:(long)position labels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
     if (! self.mediaPlayerController.tracked) {
@@ -208,76 +181,11 @@ static NSMutableDictionary *s_trackers = nil;
     
     self.currentLabels = labels;
     
-    [self rawNotifyStreamSenseEvent:event withPosition:position labels:labels segment:segment];
-    [self rawNotifyTagCommanderEvent:event withPosition:position labels:labels segment:segment];
+    [self rawNotifyEvent:event withPosition:position labels:labels segment:segment];
 }
 
 // Raw notification implementation which does not check whether the tracker is enabled
 - (void)rawNotifyEvent:(SRGAnalyticsMediaEvent)event withPosition:(long)position labels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
-{
-    [self rawNotifyStreamSenseEvent:event withPosition:position labels:labels segment:segment];
-    [self rawNotifyTagCommanderEvent:event withPosition:position labels:labels segment:segment];
-}
-
-- (void)rawNotifyStreamSenseEvent:(SRGAnalyticsMediaEvent)event withPosition:(long)position labels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
-{
-    static dispatch_once_t s_onceToken;
-    static NSDictionary<NSNumber *, NSNumber *> *s_streamSenseEvents;
-    dispatch_once(&s_onceToken, ^{
-        s_streamSenseEvents = @{ @(SRGAnalyticsMediaEventBuffer) : @(CSStreamSenseBuffer),
-                                 @(SRGAnalyticsMediaEventPlay) : @(CSStreamSensePlay),
-                                 @(SRGAnalyticsMediaEventPause) : @(CSStreamSensePause),
-                                 @(SRGAnalyticsMediaEventSeek) : @(CSStreamSensePause),
-                                 @(SRGAnalyticsMediaEventStop) : @(CSStreamSenseEnd),
-                                 @(SRGAnalyticsMediaEventEnd) : @(CSStreamSenseEnd) };
-    });
-    
-    NSNumber *eventType = s_streamSenseEvents[@(event)];
-    if (! eventType) {
-        return;
-    }
-    
-    // Reset stream labels to avoid persistence (do not reset since the stream would behave badly afterwards)
-    [[self labels] removeAllObjects];
-    
-    // Global labels
-    [self safelySetValue:@"SRGMediaPlayer" forLabel:@"ns_st_mp"];
-    [self safelySetValue:SRGAnalyticsMarketingVersion() forLabel:@"ns_st_pu"];
-    [self safelySetValue:SRGMediaPlayerMarketingVersion() forLabel:@"ns_st_mv"];
-    [self safelySetValue:@"c" forLabel:@"ns_st_it"];
-    
-    [self safelySetValue:[SRGAnalyticsTracker sharedTracker].comScoreVirtualSite forLabel:@"ns_vsite"];
-    [self safelySetValue:@"p_app_ios" forLabel:@"srg_ptype"];
-    
-    // Labels
-    [self safelySetValue:[self bitRate] forLabel:@"ns_st_br"];
-    [self safelySetValue:[self windowState] forLabel:@"ns_st_ws"];
-    [self safelySetValue:[self volume] forLabel:@"ns_st_vo"];
-    [self safelySetValue:[self scalingMode] forLabel:@"ns_st_sg"];
-    [self safelySetValue:[self orientation] forLabel:@"ns_ap_ot"];
-    
-    if (labels) {
-        [self setLabels:labels];
-    }
-    
-    // Clip labels (reset to avoid inheriting from previous segment)
-    [[self clip] reset];
-    
-    [self safelySetValue:[self dimensions] forClipLabel:@"ns_st_cs"];
-    [self safelySetValue:[self timeshiftFromLiveInMilliseconds] forClipLabel:@"srg_timeshift"];
-    [self safelySetValue:[self screenType] forClipLabel:@"srg_screen_type"];
-    
-    if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
-        NSDictionary *labels = [(id<SRGAnalyticsSegment>)segment srg_comScoreLabels];
-        if (labels) {
-            [[self clip] setLabels:labels];
-        }
-    }
-    
-    [self notify:eventType.intValue position:position labels:nil /* already set on the stream and clip objects */];
-}
-
-- (void)rawNotifyTagCommanderEvent:(SRGAnalyticsMediaEvent)event withPosition:(long)position labels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSString *> *s_actions;
@@ -466,9 +374,6 @@ static NSMutableDictionary *s_trackers = nil;
         SRGMediaPlayerTracker *tracker = [[SRGMediaPlayerTracker alloc] initWithMediaPlayerController:mediaPlayerController];
         
         s_trackers[key] = tracker;
-        if (s_trackers.count == 1) {
-            [CSComScore onUxActive];
-        }
         
         [tracker start];
         
@@ -482,9 +387,6 @@ static NSMutableDictionary *s_trackers = nil;
         [tracker stopWithLabels:previousUserInfo[SRGAnalyticsMediaPlayerLabelsKey]];
         
         [s_trackers removeObjectForKey:key];
-        if (s_trackers.count == 0) {
-            [CSComScore onUxInactive];
-        }
         
         SRGAnalyticsLogInfo(@"PlayerTracker", @"Stopped tracking for %@", key);
     }

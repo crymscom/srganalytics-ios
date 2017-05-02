@@ -56,12 +56,6 @@
     return @{ @"VIDEO_SEGMENT" : self.name };
 }
 
-- (NSDictionary<NSString *,NSString *> *)srg_comScoreLabels
-{
-    return @{ @"segment_name" : self.name,
-              @"overridable_name" : self.name };
-}
-
 #pragma mark Description
 
 - (NSString *)description

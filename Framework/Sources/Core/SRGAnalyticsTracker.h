@@ -92,15 +92,12 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  @param businessUnitIdentifier The SRG SSR business unit for statistics measurements. Constants for the officially
  *                                supported business units are provided at the top of this file. A constant for use
  *                                during development or tests is supplied as well.
- *  @param comScoreVirtualSite    Virtual sites are where comScore measurements are collected. The virtual site you must
- *                                use is usually supplied by the team in charge of measurements for your application.
  *  @param accountIdentifier      The TagCommander account identifier.
  *  @param container              The TagCommander container.
  *  @param netMetrixIdentifier    The identifier used to group NetMetrix measurements for your application. This value
  *                                is supplied by the team in charge of measurements for your applicatiom.
  */
 - (void)startWithBusinessUnitIdentifier:(NSString *)businessUnitIdentifier
-                    comScoreVirtualSite:(NSString *)comScoreVirtualSite
                       accountIdentifier:(int)accountIdentifier
                     containerIdentifier:(int)containerIdentifier
                     netMetrixIdentifier:(NSString *)netMetrixIdentifier;

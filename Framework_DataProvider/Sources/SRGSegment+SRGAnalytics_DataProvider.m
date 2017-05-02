@@ -26,11 +26,6 @@
     return self.hidden;
 }
 
-- (NSDictionary<NSString *,NSString *> *)srg_comScoreLabels
-{
-    return self.analyticsLabels;
-}
-
 - (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
 {
     if (self.analyticsLabels[@"ns_st_ep"]) {

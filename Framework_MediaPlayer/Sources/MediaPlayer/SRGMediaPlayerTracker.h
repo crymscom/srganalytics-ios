@@ -4,7 +4,6 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <ComScore/ComScore.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,7 +16,7 @@ OBJC_EXTERN NSString * const SRGAnalyticsMediaPlayerLabelsKey;
  *  tracking of media consumption. A tracker is automatically associated with a player controller when it prepares
  *  to play, and is removed when the player returns to the idle state.
  */
-@interface SRGMediaPlayerTracker : CSStreamSense
+@interface SRGMediaPlayerTracker : NSObject
 
 @end
 
