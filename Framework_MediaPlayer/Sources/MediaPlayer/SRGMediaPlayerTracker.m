@@ -46,6 +46,9 @@ static NSMutableDictionary *s_trackers = nil;
 @property (nonatomic) NSDictionary<NSString *, NSString *> *currentLabels;
 @property (nonatomic) NSTimer *heartbeatTimer;
 
+@property (nonatomic, weak) id periodicTimeObserver;
+@property (nonatomic) long positionInMilliseconds;
+
 @end
 
 @implementation SRGMediaPlayerTracker
@@ -133,14 +136,19 @@ static NSMutableDictionary *s_trackers = nil;
         }
     }];
     
+    self.periodicTimeObserver = [self.mediaPlayerController addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1., NSEC_PER_SEC) queue:nil usingBlock:^(CMTime time) {
+        @strongify(self)
+        
+        self.positionInMilliseconds = CMTimeGetSeconds(time) * 1000;
+    }];
+    self.positionInMilliseconds = 0;
+    
     self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:30. target:self selector:@selector(heartbeat:) userInfo:nil repeats:YES];
 }
 
 - (void)stopWithLabels:(NSDictionary *)labels
 {
     NSAssert(self.mediaPlayerController, @"Media player controller must be available when stopping");
-    
-    self.heartbeatTimer = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:SRGMediaPlayerPlaybackStateDidChangeNotification
@@ -152,9 +160,16 @@ static NSMutableDictionary *s_trackers = nil;
                                                     name:SRGMediaPlayerSegmentDidEndNotification
                                                   object:self.mediaPlayerController];
     
-    [self notifyEvent:SRGAnalyticsMediaEventEnd withPosition:[self currentPositionInMilliseconds] labels:labels segment:self.mediaPlayerController.selectedSegment];
+    // The position in milliseconds must not be 0 when the player is stopped (Webtrekk requirement). Track it since the
+    // value retrieved from the player would be 0 (idle state, player is nil)
+    [self notifyEvent:SRGAnalyticsMediaEventEnd withPosition:self.positionInMilliseconds labels:labels segment:self.mediaPlayerController.selectedSegment];
     
     [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
+    
+    self.heartbeatTimer = nil;
+    
+    [self.mediaPlayerController removePeriodicTimeObserver:self.periodicTimeObserver];
+    self.positionInMilliseconds = 0;
     
     self.mediaPlayerController = nil;
 }
