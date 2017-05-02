@@ -73,15 +73,21 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         }
         
         NSMutableDictionary<NSString *, NSString *> *analyticsLabels = [NSMutableDictionary dictionary];
-        if (mediaComposition.analyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:mediaComposition.analyticsLabels];
-        }
-        if (mediaComposition.mainChapter.analyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
-        }
-        if (resource.analyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:resource.analyticsLabels];
-        }
+//        // ComScore labels
+//        if (mediaComposition.analyticsLabels) {
+//            [analyticsLabels addEntriesFromDictionary:mediaComposition.analyticsLabels];
+//        }
+//        if (mediaComposition.mainChapter.analyticsLabels) {
+//            [analyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
+//        }
+//        if (resource.analyticsLabels) {
+//            [analyticsLabels addEntriesFromDictionary:resource.analyticsLabels];
+//        }
+        
+        [analyticsLabels setObject:mediaComposition.mainChapter.title forKey:@"VIDEO_TITLE"];
+        [analyticsLabels setObject:mediaComposition.show.title forKey:@"VIDEO_SUBTITLE"];
+        [analyticsLabels setObject:@(mediaComposition.mainChapter.duration).stringValue forKey:@"VIDEO_TOTAL_DURATION"];
+
         
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
         completionBlock(URL, index, chapter.segments, [analyticsLabels copy], nil);
