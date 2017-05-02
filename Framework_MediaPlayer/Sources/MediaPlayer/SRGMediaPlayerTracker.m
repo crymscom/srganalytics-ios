@@ -49,6 +49,7 @@ static NSMutableDictionary *s_trackers = nil;
 @property (nonatomic, weak) id periodicTimeObserver;
 @property (nonatomic) long positionInMilliseconds;
 @property (nonatomic) NSDictionary<NSString *, NSString *> *labels;
+@property (nonatomic) SRGAnalyticsMediaEvent latestMediaEvent;
 
 @end
 
@@ -158,7 +159,7 @@ static NSMutableDictionary *s_trackers = nil;
     
     // The position in milliseconds must not be 0 when the player is stopped (Webtrekk requirement). Track it since the
     // value retrieved from the player would be 0 (idle state, player is nil)
-    [self notifyEvent:SRGAnalyticsMediaEventEnd withPosition:self.positionInMilliseconds labels:self.labels segment:self.mediaPlayerController.selectedSegment];
+    [self notifyEvent:SRGAnalyticsMediaEventStop withPosition:self.positionInMilliseconds labels:self.labels segment:self.mediaPlayerController.selectedSegment];
     
     [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
     [self.mediaPlayerController removePeriodicTimeObserver:self.periodicTimeObserver];
@@ -201,6 +202,13 @@ static NSMutableDictionary *s_trackers = nil;
     if (! action) {
         return;
     }
+    
+    if ((event == SRGAnalyticsMediaEventEnd && self.latestMediaEvent == SRGAnalyticsMediaEventStop) ||
+        (event == SRGAnalyticsMediaEventStop && self.latestMediaEvent == SRGAnalyticsMediaEventEnd)) {
+        return;
+    }
+    
+    self.latestMediaEvent = event;
     
     TagCommander *tagCommander = [SRGAnalyticsTracker sharedTracker].tagCommander;
     [tagCommander addData:@"HIT_TYPE" withValue:@"click"];
