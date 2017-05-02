@@ -25,38 +25,38 @@ print("☁️ Fetching configuration from server...")
 
 let task = URLSession.shared.dataTask(with: configURL, completionHandler: { (data, response, error) in
 
-	guard let data = data else {
-		print("❌ Fetching configuration from remote server failed.")
-		return
-	}
+    guard let data = data else {
+        print("❌ Fetching configuration from remote server failed.")
+        return
+    }
 
-	print("✔︎ Configuration download successful.")
+    print("✔︎ Configuration download successful.")
 
     do {
         let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments])
-		if let content = json as? NSArray {
+        if let content = json as? NSArray {
             let schemes = content.flatMap({ (entry) -> String? in
                 guard let entry = entry as? NSDictionary else {
                     return nil
                 }
                 if let scheme = entry.object(forKey: "ios") as? String {
-	            	return scheme.isEmpty ? nil : scheme
+                    return scheme.isEmpty ? nil : scheme
                 }
                 return nil
             })
 
-			print("💾 Saving schemes to file \(fileName)")
+            print("💾 Saving schemes to file \(fileName)")
             var schemesDictionary = ["LSApplicationQueriesSchemes": schemes]
             let written = (schemesDictionary as NSDictionary).write(toFile: fileName, atomically: true)
             if written {
-				print("Done. Thanks. Bye. 🎉")
+                print("Done. Thanks. Bye. 🎉")
             } else {
-				print("❌ Error while writing file to disk.")
+                print("❌ Error while writing file to disk.")
             }
-		}
+        }
         waiting = false
     } catch {
-		print("❌ Parsing downloaded content failed. Doesn't seem to be JSON.")
+        print("❌ Parsing downloaded content failed. Doesn't seem to be JSON.")
     }
 })
 task.resume()
