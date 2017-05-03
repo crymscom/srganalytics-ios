@@ -6,7 +6,7 @@
 
 #import "UIViewController+SRGAnalytics.h"
 
-#import "SRGAnalyticsTracker+Private.h"
+#import "SRGAnalyticsTracker.h"
 
 #import <objc/runtime.h>
 

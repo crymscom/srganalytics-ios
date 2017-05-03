@@ -8,13 +8,11 @@
 
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsSegment.h"
-#import "SRGAnalyticsTracker.h"
 #import "SRGAnalyticsTracker+Private.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
 #import <libextobjc/libextobjc.h>
 #import <MAKVONotificationCenter/MAKVONotificationCenter.h>
-#import <SRGAnalytics/SRGAnalytics.h>
 
 typedef NS_ENUM(NSInteger, SRGAnalyticsMediaEvent) {
     SRGAnalyticsMediaEventBuffer,

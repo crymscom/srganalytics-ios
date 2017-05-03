@@ -15,6 +15,7 @@
 		088700D81DA2542700D4961A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B61DA2528900D4961A /* main.m */; };
 		088700D91DA2542D00D4961A /* DemosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B91DA2528900D4961A /* DemosViewController.m */; };
 		088700DF1DA2543800D4961A /* SimpleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700C51DA2528900D4961A /* SimpleViewController.m */; };
+		6F13D8B51EB9BBC400D264DC /* SRGAnalyticsTracker+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F13D8B31EB9BBC400D264DC /* SRGAnalyticsTracker+Private.h */; };
 		6FA09D891D9EC4BC00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8A1D9EC4CF00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8B1D9EC4DB00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
@@ -62,7 +63,6 @@
 		E61388AC1D916A9900218919 /* NSBundle+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388991D916A9900218919 /* NSBundle+SRGAnalytics.m */; };
 		E61388AD1D916A9900218919 /* NSDictionary+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E613889A1D916A9900218919 /* NSDictionary+SRGAnalytics.h */; };
 		E61388AE1D916A9900218919 /* NSDictionary+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E613889B1D916A9900218919 /* NSDictionary+SRGAnalytics.m */; };
-		E61388B71D9185E700218919 /* SRGAnalyticsTracker+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388B51D9185E700218919 /* SRGAnalyticsTracker+Private.h */; };
 		E61388BB1D91903B00218919 /* SRGAnalyticsNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388B91D91903B00218919 /* SRGAnalyticsNotifications.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61388BC1D91903B00218919 /* SRGAnalyticsNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388BA1D91903B00218919 /* SRGAnalyticsNotifications.m */; };
 		E61C0D751D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -146,6 +146,7 @@
 		088700B91DA2528900D4961A /* DemosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemosViewController.m; sourceTree = "<group>"; };
 		088700C41DA2528900D4961A /* SimpleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleViewController.h; sourceTree = "<group>"; };
 		088700C51DA2528900D4961A /* SimpleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleViewController.m; sourceTree = "<group>"; };
+		6F13D8B31EB9BBC400D264DC /* SRGAnalyticsTracker+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGAnalyticsTracker+Private.h"; sourceTree = "<group>"; };
 		6F69505A1E9BA32B008FE8FA /* KIF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KIF.framework; path = Carthage/Build/iOS/KIF.framework; sourceTree = "<group>"; };
 		6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGLogger.framework; path = Carthage/Build/iOS/SRGLogger.framework; sourceTree = "<group>"; };
 		6FA09D911D9EC61400EDCA64 /* SRGAnalyticsMediaPlayerLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsMediaPlayerLogger.h; sourceTree = "<group>"; };
@@ -180,7 +181,6 @@
 		E61388991D916A9900218919 /* NSBundle+SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SRGAnalytics.m"; sourceTree = "<group>"; };
 		E613889A1D916A9900218919 /* NSDictionary+SRGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SRGAnalytics.h"; sourceTree = "<group>"; };
 		E613889B1D916A9900218919 /* NSDictionary+SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SRGAnalytics.m"; sourceTree = "<group>"; };
-		E61388B51D9185E700218919 /* SRGAnalyticsTracker+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGAnalyticsTracker+Private.h"; sourceTree = "<group>"; };
 		E61388B91D91903B00218919 /* SRGAnalyticsNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsNotifications.h; sourceTree = "<group>"; };
 		E61388BA1D91903B00218919 /* SRGAnalyticsNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsNotifications.m; sourceTree = "<group>"; };
 		E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics_MediaPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -377,13 +377,13 @@
 				E613888A1D916A9900218919 /* SRGAnalyticsLogger.h */,
 				E613888C1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h */,
 				E613888D1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m */,
-				E61388911D916A9900218919 /* SRGAnalyticsTracker.h */,
-				E61388921D916A9900218919 /* SRGAnalyticsTracker.m */,
-				E61388B51D9185E700218919 /* SRGAnalyticsTracker+Private.h */,
-				E61388931D916A9900218919 /* UIViewController+SRGAnalytics.h */,
-				E61388941D916A9900218919 /* UIViewController+SRGAnalytics.m */,
 				E61388B91D91903B00218919 /* SRGAnalyticsNotifications.h */,
 				E61388BA1D91903B00218919 /* SRGAnalyticsNotifications.m */,
+				E61388911D916A9900218919 /* SRGAnalyticsTracker.h */,
+				E61388921D916A9900218919 /* SRGAnalyticsTracker.m */,
+				6F13D8B31EB9BBC400D264DC /* SRGAnalyticsTracker+Private.h */,
+				E61388931D916A9900218919 /* UIViewController+SRGAnalytics.h */,
+				E61388941D916A9900218919 /* UIViewController+SRGAnalytics.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -519,10 +519,10 @@
 				E61388A71D916A9900218919 /* UIViewController+SRGAnalytics.h in Headers */,
 				E69A20621D61E5E80064E6C1 /* SRGAnalytics.h in Headers */,
 				E613889E1D916A9900218919 /* SRGAnalyticsLogger.h in Headers */,
-				E61388B71D9185E700218919 /* SRGAnalyticsTracker+Private.h in Headers */,
 				E61388AB1D916A9900218919 /* NSBundle+SRGAnalytics.h in Headers */,
 				E61388A51D916A9900218919 /* SRGAnalyticsTracker.h in Headers */,
 				E61388BB1D91903B00218919 /* SRGAnalyticsNotifications.h in Headers */,
+				6F13D8B51EB9BBC400D264DC /* SRGAnalyticsTracker+Private.h in Headers */,
 				E61388A01D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h in Headers */,
 				E61388AD1D916A9900218919 /* NSDictionary+SRGAnalytics.h in Headers */,
 			);
