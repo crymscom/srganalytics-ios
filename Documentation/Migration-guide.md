@@ -18,8 +18,6 @@ Several data sources were previously available to customize measurement data (la
 * Supply labels associated with the content being played when actually playing it (see `SRGMediaPlayerController+SRGAnalytics.h`).
 * Attach segment labels to segments themselves (see `SRGAnalyticsSegment` protocol).
 
-Moreover, you could previously generate view events from the tracker interface, which was redundant with the view controller tracking mechanism available from a `UIViewController` category and a companion protocol. To make tracker use more intuitive, view event management has therefore been completely removed from the tracker public interface.
-
 ## Tracker initialization
 
 In versions 1.x of the library, tracker configuration was made in two different places:
