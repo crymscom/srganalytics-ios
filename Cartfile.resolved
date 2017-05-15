@@ -1,6 +1,6 @@
 github "Mantle/Mantle" "2.1.0"
 github "SRGSSR/MAKVONotificationCenter" "4a127e52997889729286510103f7e27100223730"
-github "SRGSSR/SRGMediaPlayer-iOS" "d6c2ac1eb6b5a36a5f19b5ac50f4b85de0abb37d"
+github "SRGSSR/SRGMediaPlayer-iOS" "6792de85e857bfb5cd96ae1ca55116512cd86189"
 github "SRGSSR/libextobjc" "076c968c9ade619ee836c89a935e09e6708d6ef2"
 github "SRGSSR/srgdataprovider-ios" "ea33c11e3860e65076564bf2e46322cdad60e62b"
 github "SRGSSR/srglogger-ios" "1.0"
