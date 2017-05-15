@@ -117,7 +117,7 @@ This logger either automatically integrates with your own logger, or can be easi
 
 ## Demo project
 
-To test what the library is capable of, try running the associated demo by opening the workspace and building the associated scheme.
+To test what the library is capable of, run the associated demo.
 
 ## Migration from versions 1.x
 

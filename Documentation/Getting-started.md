@@ -34,13 +34,17 @@ Be careful when using custom labels, though, and ensure your custom keys do not 
 
 ## Measuring page views
 
-View controllers represent the units of screen interaction in an application, this is why page view measurements are made on view controllers only. All necessary methods and protocols have been gathered in the `UIViewController+SRGAnalytics.h` file.
+View controllers represent the units of screen interaction in an application, this is why page view measurements are primarily made on view controllers. All methods and protocols for view controller tracking have been gathered in the `UIViewController+SRGAnalytics.h` file.
 
 View controller measurement is an opt-in, in other words no view controller is tracked by default. For a view controller to be tracked, you need to have it conform to the `SRGAnalyticsViewTracking` protocol. This protocol requires a single method to be implemented, returning the view controller name to be used for measurements. By default, once a view controller implements the `SRGAnalyticsViewTracking` protocol, it automatically generates a page view when it did appear on screen, or if it is already displayed when the application wakes up from background.
 
 The `SRGAnalyticsViewTracking` protocol supplies optional methods to specify other custom measurement information (labels). If this information (or the title to be used) is not available when the view controller appears, you can disable automatic tracking by implementing the optional `-srg_isTrackedAutomatically` protocol method, returning `NO`. You are then responsible of calling `-trackPageView` on the view controller when you want to perform measurements.
 
 If a view can be opened from a push notification, you must implement the `-srg_openedFromPushNotification` method and return `YES` when the view controller was actually opened from a push notification.
+
+#### Remark
+
+If your application needs to track views instead of view controllers, you can still perform tracking using the `-[SRGAnalyticsTracker trackPageViewTitle:levels:customLabels:fromPushNotification:]` method.
 
 ### Example
 

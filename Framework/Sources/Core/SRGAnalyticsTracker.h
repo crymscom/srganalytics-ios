@@ -54,10 +54,12 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  1. Start the tracker early in your application lifecycle, for example in your application delegate
  *     `-application:didFinishLaunchingWithOptions:` implementation, by calling the
  *     `-startWithBusinessUnitIdentifier:comScoreVirtualSite:netMetrixIdentifier:` method.
- *  1. To track page views, have view controllers which must be tracked conform to the `SRGAnalyticsViewTracking`
- *     protocol. View controllers conforming to this protocol are automatically tracked by default, but this behavior 
- *     can be tailored to your needs, especially if the time at which the measurement is made (when the view
- *     appears) is inappropriate. Please refer to the `SRGAnalyticsViewTracking` documentation for more information.
+ *  1. To track page views related to view controllers, have them conform to the `SRGAnalyticsViewTracking` protocol.
+ *     View controllers conforming to this protocol are automatically tracked by default, but this behavior can be
+ *     tailored to your needs, especially if the time at which the measurement is made (when the view appears) is 
+ *     inappropriate. Please refer to the `SRGAnalyticsViewTracking` documentation for more information. If your
+ *     application uses plain views (not view controllers) which must be tracked as well, you can still perform
+ *     tracking via the `-[SRGAnalyticsTracker trackPageViewTitle:levels:customLabels:fromPushNotification:]` method.
  *  1. When you need to track specific functionalities in your application (e.g. the use of some interface button
  *     or of some feature of your application), send a hidden event using one of the `-trackHiddenEvent...` methods
  *     available from `SRGAnalyticsTracker`.
@@ -144,6 +146,23 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *              using appropriate naming conventions (e.g. a prefix). If the title is `nil`, no event will be sent.
  */
 - (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels;
+
+/**
+ *  Track a page view.
+ *
+ *  @param title                The page title.
+ *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy.
+ *  @param customLabels         Additional custom labels.
+ *  @param fromPushNotification `YES` iff the view is opened from a push notification.
+ *
+ *  @discussion This method is primarily available for page view tracking not related to a view controller. If your page view
+ *              is related to a view controller, the recommended way of tracking the view controller is by having it conform
+ *              to the `SRGAnalyticsViewTracking` protocol.
+ */
+- (void)trackPageViewTitle:(nullable NSString *)title
+                    levels:(nullable NSArray<NSString *> *)levels
+              customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels
+      fromPushNotification:(BOOL)fromPushNotification;
 
 @end
 
