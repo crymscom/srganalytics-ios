@@ -32,6 +32,11 @@ static NSMutableDictionary *s_trackers = nil;
 // and thus not available when the tracker is stopped)
 @property (nonatomic, unsafe_unretained) SRGMediaPlayerController *mediaPlayerController;
 
+// Keep track of the playback time. We would lose this information when the player is reset, but we still need it
+// in associated labels. The easiest is to store this information at the tracker level during playback.
+@property (nonatomic, weak) id periodicTimeObserver;
+@property (nonatomic) long currentPositionInMilliseconds;
+
 @end
 
 @implementation SRGMediaPlayerTracker
@@ -62,6 +67,35 @@ static NSMutableDictionary *s_trackers = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark Getters and setters
+
+- (void)setMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
+{
+    [_mediaPlayerController removePeriodicTimeObserver:self.periodicTimeObserver];
+    
+    _mediaPlayerController = mediaPlayerController;
+    
+    @weakify(self)
+    [mediaPlayerController addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1., NSEC_PER_SEC) queue:NULL usingBlock:^(CMTime time) {
+        @strongify(self)
+        
+        // Live stream: Playhead position must be always 0
+        if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive
+                || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
+            self.currentPositionInMilliseconds = 0;
+        }
+        else {
+            CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
+            if (CMTIME_IS_INDEFINITE(currentTime) || CMTIME_IS_INVALID(currentTime)) {
+                self.currentPositionInMilliseconds = 0;
+            }
+            else {
+                self.currentPositionInMilliseconds = (long)floor(CMTimeGetSeconds(currentTime) * 1000.);
+            }
+        }
+    }];
+}
+
 #pragma mark Tracker management
 
 - (void)start
@@ -89,23 +123,20 @@ static NSMutableDictionary *s_trackers = nil;
         if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
             CSStreamSenseEventType event = self.mediaPlayerController.tracked ? CSStreamSensePlay : CSStreamSenseEnd;
             [self rawNotifyEvent:event
-                    withPosition:[self currentPositionInMilliseconds]
-                          labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                      withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                          segment:self.mediaPlayerController.selectedSegment];
         }
         else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateSeeking
                  || self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePaused) {
             CSStreamSenseEventType event = self.mediaPlayerController.tracked ? CSStreamSensePlay : CSStreamSenseEnd;
             [self rawNotifyEvent:event
-                    withPosition:[self currentPositionInMilliseconds]
-                          labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                      withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                          segment:self.mediaPlayerController.selectedSegment];
             
             // Also send the pause event when starting tracking, so that the current player state is accurately reflected
             if (self.mediaPlayerController.tracked) {
                 [self rawNotifyEvent:CSStreamSensePause
-                        withPosition:[self currentPositionInMilliseconds]
-                              labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                          withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                              segment:self.mediaPlayerController.selectedSegment];
             }
         }
@@ -126,7 +157,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                     name:SRGMediaPlayerSegmentDidEndNotification
                                                   object:self.mediaPlayerController];
     
-    [self notifyEvent:CSStreamSenseEnd withPosition:[self currentPositionInMilliseconds] labels:labels segment:self.mediaPlayerController.selectedSegment];
+    [self notifyEvent:CSStreamSenseEnd withPosition:self.currentPositionInMilliseconds labels:labels segment:self.mediaPlayerController.selectedSegment];
     
     [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
     
@@ -165,11 +196,11 @@ static NSMutableDictionary *s_trackers = nil;
         return;
     }
     
-    [self rawNotifyEvent:event withPosition:position labels:labels segment:segment];
+    [self rawNotifyEvent:event withLabels:labels segment:segment];
 }
 
 // Raw notification implementation which does not check whether the tracker is enabled
-- (void)rawNotifyEvent:(CSStreamSenseEventType)event withPosition:(long)position labels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
+- (void)rawNotifyEvent:(CSStreamSenseEventType)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
     // Reset stream labels to avoid persistence (do not reset since the stream would behave badly afterwards)
     [[self labels] removeAllObjects];
@@ -208,28 +239,10 @@ static NSMutableDictionary *s_trackers = nil;
         }
     }
     
-    [self notify:event position:position labels:nil /* already set on the stream and clip objects */];
+    [self notify:event position:self.currentPositionInMilliseconds labels:nil /* already set on the stream and clip objects */];
 }
 
 #pragma mark Playback data
-
-- (long)currentPositionInMilliseconds
-{
-    // Live stream: Playhead position must be always 0
-    if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive
-            || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
-        return 0;
-    }
-    else {
-        CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
-        if (CMTIME_IS_INDEFINITE(currentTime) || CMTIME_IS_INVALID(currentTime)) {
-            return 0;
-        }
-        else {
-            return (long)floor(CMTimeGetSeconds(currentTime) * 1000.);
-        }
-    }
-}
 
 - (NSString *)bitRate
 {
@@ -418,7 +431,7 @@ static NSMutableDictionary *s_trackers = nil;
     }
     
     [self notifyEvent:event
-         withPosition:[self currentPositionInMilliseconds]
+         withPosition:self.currentPositionInMilliseconds
                labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
               segment:self.mediaPlayerController.selectedSegment];
 }
