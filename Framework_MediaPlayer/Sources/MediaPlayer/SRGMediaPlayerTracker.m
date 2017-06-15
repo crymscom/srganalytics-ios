@@ -202,7 +202,7 @@ static NSMutableDictionary *s_trackers = nil;
 // Raw notification implementation which does not check whether the tracker is enabled
 - (void)rawNotifyEvent:(CSStreamSenseEventType)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
-    // Reset stream labels to avoid persistence (do not reset since the stream would behave badly afterwards)
+    // Reset custom stream labels to avoid persistence (do not reset since the stream would behave badly afterwards)
     [[self labels] removeAllObjects];
     
     // Global labels
@@ -225,8 +225,9 @@ static NSMutableDictionary *s_trackers = nil;
         [self setLabels:labels];
     }
     
-    // Clip labels (reset to avoid inheriting from previous segment)
-    [[self clip] reset];
+    // Reset custom clip labels to avoid inheriting from a previous segment. Do not reset otherwise internal hidden
+    // comScore labels (e.g. ns_st_pa) would be incorrect afterwards
+    [[[self clip] labels] removeAllObjects];
     
     [self safelySetValue:[self dimensions] forClipLabel:@"ns_st_cs"];
     [self safelySetValue:[self timeshiftFromLiveInMilliseconds] forClipLabel:@"srg_timeshift"];
