@@ -113,7 +113,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                  name:SRGMediaPlayerSegmentDidEndNotification
                                                object:self.mediaPlayerController];
     
-    [self notifyEvent:CSStreamSenseBuffer withPosition:0 labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey] segment:nil];
+    [self notifyEvent:CSStreamSenseBuffer withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey] segment:nil];
     
     @weakify(self)
     [self.mediaPlayerController addObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked) options:0 block:^(MAKVONotification *notification) {
@@ -157,7 +157,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                     name:SRGMediaPlayerSegmentDidEndNotification
                                                   object:self.mediaPlayerController];
     
-    [self notifyEvent:CSStreamSenseEnd withPosition:self.currentPositionInMilliseconds labels:labels segment:self.mediaPlayerController.selectedSegment];
+    [self notifyEvent:CSStreamSenseEnd withLabels:labels segment:self.mediaPlayerController.selectedSegment];
     
     [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
     
@@ -190,7 +190,7 @@ static NSMutableDictionary *s_trackers = nil;
     }
 }
 
-- (void)notifyEvent:(CSStreamSenseEventType)event withPosition:(long)position labels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
+- (void)notifyEvent:(CSStreamSenseEventType)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
     if (! self.mediaPlayerController.tracked) {
         return;
@@ -202,7 +202,7 @@ static NSMutableDictionary *s_trackers = nil;
 // Raw notification implementation which does not check whether the tracker is enabled
 - (void)rawNotifyEvent:(CSStreamSenseEventType)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
-    // Reset stream labels to avoid persistence (do not reset since the stream would behave badly afterwards)
+    // Reset custom stream labels to avoid persistence (do not reset since the stream would behave badly afterwards)
     [[self labels] removeAllObjects];
     
     // Global labels
@@ -225,8 +225,9 @@ static NSMutableDictionary *s_trackers = nil;
         [self setLabels:labels];
     }
     
-    // Clip labels (reset to avoid inheriting from previous segment)
-    [[self clip] reset];
+    // Reset custom clip labels to avoid inheriting from a previous segment. Do not reset otherwise internal hidden
+    // comScore labels (e.g. ns_st_pa) would be incorrect afterwards
+    [[[self clip] labels] removeAllObjects];
     
     [self safelySetValue:[self dimensions] forClipLabel:@"ns_st_cs"];
     [self safelySetValue:[self timeshiftFromLiveInMilliseconds] forClipLabel:@"srg_timeshift"];
@@ -431,8 +432,7 @@ static NSMutableDictionary *s_trackers = nil;
     }
     
     [self notifyEvent:event
-         withPosition:self.currentPositionInMilliseconds
-               labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+           withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
               segment:self.mediaPlayerController.selectedSegment];
 }
 
@@ -446,14 +446,12 @@ static NSMutableDictionary *s_trackers = nil;
         id<SRGSegment> previousSegment = notification.userInfo[SRGMediaPlayerPreviousSegmentKey];
         if (! previousSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStatePreparing) {
             [self notifyEvent:CSStreamSenseEnd
-                 withPosition:CMTimeGetSeconds(segment.srg_timeRange.start) * 1000.
-                       labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                   withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                       segment:nil];
         }
         
         [self notifyEvent:CSStreamSensePlay
-             withPosition:CMTimeGetSeconds(segment.srg_timeRange.start) * 1000.
-                   labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+               withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                   segment:segment];
     }
 }
@@ -465,15 +463,13 @@ static NSMutableDictionary *s_trackers = nil;
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
         
         [self notifyEvent:CSStreamSenseEnd
-             withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.srg_timeRange)) * 1000.
-                   labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+               withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                   segment:segment];
         
         // Notify full-length start if the transition was not due to another segment being selected
         if (! [notification.userInfo[SRGMediaPlayerSelectionKey] boolValue] && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
             [self notifyEvent:CSStreamSensePlay
-                 withPosition:CMTimeGetSeconds(CMTimeRangeGetEnd(segment.srg_timeRange)) * 1000.
-                       labels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                   withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                       segment:nil];
         }
     }

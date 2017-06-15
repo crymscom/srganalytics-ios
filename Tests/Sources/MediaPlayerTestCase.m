@@ -84,8 +84,15 @@ static NSURL *DVRTestURL(void)
 
 - (void)testPlaybackToEnd
 {
+    // Also check internal comScore important measurement values for playback duration (ns_st_pa and ns_st_pt). Ensure
+    // we did not mess with them by mistake
+    
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        
+        // comScore internal duration labels
+        XCTAssertNil(labels[@"ns_st_pa"]);
+        XCTAssertNil(labels[@"ns_st_pt"]);
         return YES;
     }];
     
@@ -95,6 +102,11 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        
+        // comScore internal duration labels
+        XCTAssertNotNil(labels[@"ns_st_pa"]);
+        XCTAssertNotEqualObjects(labels[@"ns_st_pa"], @"0");
+        XCTAssertNotEqualObjects(labels[@"ns_st_pt"], @"0");
         return YES;
     }];
     
@@ -106,6 +118,10 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        
+        // comScore internal duration labels
+        XCTAssertNil(labels[@"ns_st_pa"]);
+        XCTAssertNil(labels[@"ns_st_pt"]);
         return YES;
     }];
     
@@ -115,6 +131,11 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        
+        // comScore internal duration labels
+        XCTAssertNotNil(labels[@"ns_st_pa"]);
+        XCTAssertNotEqualObjects(labels[@"ns_st_pa"], @"0");
+        XCTAssertNotEqualObjects(labels[@"ns_st_pt"], @"0");
         return YES;
     }];
     
