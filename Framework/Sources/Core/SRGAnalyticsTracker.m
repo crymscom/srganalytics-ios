@@ -191,7 +191,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [labels safeSetValue:title.srg_comScoreFormattedString forKey:@"srg_title"];
     
     [labels safeSetValue:@"app" forKey:@"category"];
-    [labels safeSetValue:[NSString stringWithFormat:@"app.%@", title].srg_comScoreFormattedString forKey:@"name"];
+    [labels safeSetValue:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];
     
     [customLabels enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [labels safeSetValue:[obj description] forKey:[key description]];
