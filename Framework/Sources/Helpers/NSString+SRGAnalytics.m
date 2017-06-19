@@ -8,23 +8,21 @@
 
 @implementation NSString (SRGAnalytics)
 
-- (NSString *)srg_comScoreTitleFormattedString
-{
-    NSCharacterSet *andSet = [NSCharacterSet characterSetWithCharactersInString:@"+&"];
-    NSCharacterSet *strokeSet = [NSCharacterSet characterSetWithCharactersInString:@"=/\\<>()"];
-    NSString *title = [[self componentsSeparatedByCharactersInSet:strokeSet] componentsJoinedByString:@"-"];
-    return [[title componentsSeparatedByCharactersInSet:andSet] componentsJoinedByString:@"and"];
-}
-
 - (NSString *)srg_comScoreFormattedString
 {
-    NSLocale *posixLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-    NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"[^a-z0-9 -]" options:0 error:nil];
-    
     NSString *normalizedString = [[self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
+    
+    // Remove accentuated characters
+    NSLocale *posixLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
     normalizedString = [normalizedString stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:posixLocale];
-    normalizedString = [regexp stringByReplacingMatchesInString:normalizedString options:0 range:NSMakeRange(0, [normalizedString length]) withTemplate:@""];
-    return [normalizedString stringByReplacingOccurrencesOfString:@" " withString:@"-"];
+    
+    // See rules at https://srfmmz.atlassian.net/wiki/display/SRGPLAY/Measurement+of+SRG+Player+Apps
+    NSCharacterSet *andSet = [NSCharacterSet characterSetWithCharactersInString:@"+&"];
+    normalizedString = [[normalizedString componentsSeparatedByCharactersInSet:andSet] componentsJoinedByString:@"and"];
+    
+    // Replace all non-alphanumeric characters with hyphens
+    NSCharacterSet *nonAlphanumericCharacters = [NSCharacterSet alphanumericCharacterSet].invertedSet;
+    return [[normalizedString componentsSeparatedByCharactersInSet:nonAlphanumericCharacters] componentsJoinedByString:@"-"];
 }
 
 @end
