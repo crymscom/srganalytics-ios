@@ -10,11 +10,9 @@
 
 - (NSString *)srg_comScoreFormattedString
 {
-    NSString *normalizedString = [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].lowercaseString;
-    
     // Remove accentuated characters
     NSLocale *posixLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-    normalizedString = [normalizedString stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:posixLocale];
+    NSString *normalizedString = [self.lowercaseString stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:posixLocale];
     
     // See rules at https://srfmmz.atlassian.net/wiki/display/SRGPLAY/Measurement+of+SRG+Player+Apps
     NSCharacterSet *andSet = [NSCharacterSet characterSetWithCharactersInString:@"+&"];
