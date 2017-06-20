@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Format the receiver in a standard way.
  */
-@property (nonatomic, readonly, copy, nullable) NSString *srg_comScoreTitleFormattedString;
 @property (nonatomic, readonly, copy, nullable) NSString *srg_comScoreFormattedString;
 
 @end
