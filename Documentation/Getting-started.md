@@ -64,12 +64,12 @@ and implement the methods you need to supply measurement information:
 // Mandatory
 - (NSString *)srg_pageViewTitle
 {
-	return @"home";
+    return @"home";
 }
 
 - (NSDictionary<NSString *, NSString *> *)srg_pageViewCustomLabels
 {
-	return @{ @"myapp_category" : @"general" };
+    return @{ @"myapp_category" : @"general" };
 }
 
 @end
@@ -160,7 +160,7 @@ This framework adds a category `SRGMediaPlayerController (SRGAnalytics_DataProvi
 
 ```objective-c
 SRGRequest *request = [mediaPlayerController playMediaComposition:mediaComposition withPreferredQuality:SRGQualityHD preferredStartBitRate:0 userInfo:nil completionHandler:^(NSError * _Nonnull error) {
-	// Deal with errors, or play the URL with a media player
+    // Deal with errors, or play the URL with a media player
 }];
 [request resume];
 ```
