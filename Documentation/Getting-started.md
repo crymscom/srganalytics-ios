@@ -159,10 +159,9 @@ Our services directly supply the custom analytics labels which need to be sent t
 This framework adds a category `SRGMediaPlayerController (SRGAnalytics_DataProvider)`, which adds playback methods for media compositions to `SRGMediaPlayerController`. To play a media composition retrieved from an `SRGDataProvider`, simply call:
 
 ```objective-c
-SRGRequest *request = [mediaPlayerController playMediaComposition:mediaComposition withPreferredQuality:SRGQualityHD preferredStartBitRate:0 userInfo:nil completionHandler:^(NSError * _Nonnull error) {
+SRGRequest *request = [mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone preferredQuality:SRGQualityHD preferredStartBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
     // Deal with errors, or play the URL with a media player
 }];
-[request resume];
 ```
 on an `SRGMediaPlayerController` instance. Note that the play method returns an `SRGRequest` which must be resumed so that a token is retrieved before attempting to play the media.
 
