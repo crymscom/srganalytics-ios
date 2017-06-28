@@ -45,7 +45,7 @@ static NSURL *ServiceTestURL(void)
     [[dataProvider videoMediaCompositionWithUid:@"42297626" completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredProtocol:SRGProtocolNone preferredQuality:SRGQualityHD preferredStartBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone preferredQuality:SRGQualityHD preferredStartBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             [expectation fulfill];
@@ -77,7 +77,7 @@ static NSURL *ServiceTestURL(void)
     [[dataProvider videoMediaCompositionWithUid:@"42297626" completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredProtocol:SRGProtocolNone preferredQuality:SRGQualityHD preferredStartBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone preferredQuality:SRGQualityHD preferredStartBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             [expectation fulfill];
@@ -103,7 +103,7 @@ static NSURL *ServiceTestURL(void)
     [[dataProvider videoMediaCompositionWithUid:@"99ac4dd4-8cd4-4883-8c80-0373d37cf0ad" completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredProtocol:SRGProtocolNone preferredQuality:SRGQualityHD preferredStartBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone preferredQuality:SRGQualityHD preferredStartBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
         }];
