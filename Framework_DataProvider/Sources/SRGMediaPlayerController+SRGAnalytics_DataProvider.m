@@ -52,11 +52,12 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     // Find the best resource subset matching the streaming method and quality. Prefer DVR streams to live streams.
     NSArray<SRGResource *> *resources = [chapter resourcesForStreamingMethod:streamingMethod];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(quality)];
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, streamType) ascending:YES comparator:^(SRGResource * _Nonnull resource1, SRGResource * _Nonnull resource2) {
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, streamType) ascending:YES comparator:^(NSNumber * _Nonnull streamType1, NSNumber * _Nonnull streamType2) {
         // Don't simply compare enum values as integers, since their order might change.
         NSArray<NSNumber *> *orderedStreamTypes = @[ @(SRGStreamTypeDVR), @(SRGStreamTypeLive), @(SRGStreamTypeOnDemand) ];
-        NSUInteger index1 = [orderedStreamTypes indexOfObject:@(resource1.streamType)];
-        NSUInteger index2 = [orderedStreamTypes indexOfObject:@(resource2.streamType)];
+        
+        NSUInteger index1 = [orderedStreamTypes indexOfObject:streamType1];
+        NSUInteger index2 = [orderedStreamTypes indexOfObject:streamType2];
         if (index1 == index2) {
             return NSOrderedSame;
         }
@@ -67,7 +68,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
             return NSOrderedDescending;
         }
     }];
-    SRGResource *resource = [[resources filteredArrayUsingPredicate:predicate] sortedArrayUsingDescriptors:@[sortDescriptor]].firstObject ?: resources.firstObject;
+    SRGResource *resource = [[resources filteredArrayUsingPredicate:predicate] sortedArrayUsingDescriptors:@[sortDescriptor]].firstObject ?: [resources sortedArrayUsingDescriptors:@[sortDescriptor]].firstObject;
     
     // Use the preferrred start bit rate is set. Currrently only supported by Akamai via a __b__ parameter (the actual
     // bitrate will be rounded to the nearest available quality)
