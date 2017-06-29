@@ -54,7 +54,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(quality)];
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, streamType) ascending:YES comparator:^(SRGResource * _Nonnull resource1, SRGResource * _Nonnull resource2) {
         // Don't simply compare enum values as integers, since their order might change.
-        NSArray<NSNumber *> *orderedStreamTypes = @[ @(SRGStreamTypeOnDemand), @(SRGStreamTypeLive), @(SRGStreamTypeDVR) ];
+        NSArray<NSNumber *> *orderedStreamTypes = @[ @(SRGStreamTypeDVR), @(SRGStreamTypeLive), @(SRGStreamTypeOnDemand) ];
         NSUInteger index1 = [orderedStreamTypes indexOfObject:@(resource1.streamType)];
         NSUInteger index2 = [orderedStreamTypes indexOfObject:@(resource2.streamType)];
         if (index1 == index2) {
