@@ -31,36 +31,52 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 }
 
 - (SRGRequest *)loadMediaComposition:(SRGMediaComposition *)mediaComposition
-        withPreferredStreamingMethod:(SRGStreamingMethod)preferredStreamingMethod
-                    preferredQuality:(SRGQuality)preferredQuality
-               preferredStartBitRate:(NSInteger)preferredStartBitRate
+        withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                             quality:(SRGQuality)quality
+                        startBitRate:(NSInteger)startBitRate
                               resume:(BOOL)resume
                      completionBlock:(SRGMediaPlayerDataProviderLoadCompletionBlock)completionBlock
 {
     NSParameterAssert(completionBlock);
     
-    if (preferredStartBitRate < 0) {
-        preferredStartBitRate = 0;
+    if (startBitRate < 0) {
+        startBitRate = 0;
     }
     
     SRGChapter *chapter = mediaComposition.mainChapter;
     
-    SRGStreamingMethod streamingMethod = (preferredStreamingMethod != SRGStreamingMethodNone) ? preferredStreamingMethod : chapter.recommendedStreamingMethod;
-    NSArray<SRGResource *> *resources = [chapter resourcesForStreamingMethod:streamingMethod];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(preferredQuality)];
-    SRGResource *resource = [resources filteredArrayUsingPredicate:predicate].firstObject ?: resources.firstObject;
-    if (! resource) {
-        return nil;
+    if (streamingMethod == SRGStreamingMethodNone) {
+        streamingMethod = chapter.recommendedStreamingMethod;
     }
+    
+    // Find the best resource subset matching the streaming method and quality. Prefer DVR streams to live streams.
+    NSArray<SRGResource *> *resources = [chapter resourcesForStreamingMethod:streamingMethod];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(quality)];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, streamType) ascending:YES comparator:^(SRGResource * _Nonnull resource1, SRGResource * _Nonnull resource2) {
+        // Don't simply compare enum values as integers, since their order might change.
+        NSArray<NSNumber *> *orderedStreamTypes = @[ @(SRGStreamTypeOnDemand), @(SRGStreamTypeLive), @(SRGStreamTypeDVR) ];
+        NSUInteger index1 = [orderedStreamTypes indexOfObject:@(resource1.streamType)];
+        NSUInteger index2 = [orderedStreamTypes indexOfObject:@(resource2.streamType)];
+        if (index1 == index2) {
+            return NSOrderedSame;
+        }
+        else if (index1 < index2) {
+            return NSOrderedAscending;
+        }
+        else {
+            return NSOrderedDescending;
+        }
+    }];
+    SRGResource *resource = [[resources filteredArrayUsingPredicate:predicate] sortedArrayUsingDescriptors:@[sortDescriptor]].firstObject ?: resources.firstObject;
     
     // Use the preferrred start bit rate is set. Currrently only supported by Akamai via a __b__ parameter (the actual
     // bitrate will be rounded to the nearest available quality)
     NSURL *URL = resource.URL;
-    if (preferredStartBitRate != 0 && [URL.host containsString:@"akamai"]) {
+    if (startBitRate != 0 && [URL.host containsString:@"akamai"]) {
         NSURLComponents *URLComponents = [NSURLComponents componentsWithURL:URL resolvingAgainstBaseURL:NO];
         
         NSMutableArray<NSURLQueryItem *> *queryItems = [URLComponents.queryItems mutableCopy] ?: [NSMutableArray array];
-        [queryItems addObject:[NSURLQueryItem queryItemWithName:@"__b__" value:@(preferredStartBitRate).stringValue]];
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:@"__b__" value:@(startBitRate).stringValue]];
         URLComponents.queryItems = [queryItems copy];
         
         URL = URLComponents.URL;
@@ -95,14 +111,14 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 #pragma mark Playback methods
 
 - (SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
-                 withPreferredStreamingMethod:(SRGStreamingMethod)preferredStreamingMethod
-                             preferredQuality:(SRGQuality)preferredQuality
-                        preferredStartBitRate:(NSInteger)preferredStartBitRate
+                 withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                                      quality:(SRGQuality)quality
+                                 startBitRate:(NSInteger)startBitRate
                                      userInfo:(NSDictionary *)userInfo
                                        resume:(BOOL)resume
-                            completionHandler:(void (^)(NSError *error))completionHandler
+                            completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:preferredStreamingMethod preferredQuality:preferredQuality preferredStartBitRate:preferredStartBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
@@ -116,14 +132,14 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 }
 
 - (SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
-        withPreferredStreamingMethod:(SRGStreamingMethod)preferredStreamingMethod
-                    preferredQuality:(SRGQuality)preferredQuality
-               preferredStartBitRate:(NSInteger)preferredStartBitRate
+        withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                             quality:(SRGQuality)quality
+                        startBitRate:(NSInteger)startBitRate
                             userInfo:(NSDictionary *)userInfo
                               resume:(BOOL)resume
-                   completionHandler:(void (^)(NSError *error))completionHandler
+                   completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:preferredStreamingMethod preferredQuality:preferredQuality preferredStartBitRate:preferredStartBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
