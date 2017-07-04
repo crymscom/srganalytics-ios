@@ -197,6 +197,14 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         return;
     }
     
+    [self trackComScoreHiddenEventWithTitle:title customLabels:customLabels];
+    [self trackHiddenTagCommanderEventWithTitle:title customLabels:customLabels];
+}
+
+- (void)trackComScoreHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels
+{
+    NSAssert(title.length != 0, @"A title is required");
+    
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
     [labels safeSetValue:title forKey:@"srg_title"];
     
@@ -208,6 +216,17 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     }];
     
     [CSComScore hiddenWithLabels:labels];
+}
+
+- (void)trackHiddenTagCommanderEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels
+{
+    NSAssert(title.length != 0, @"A title is required");
+    
+    [self.tagCommander addData:@"TITLE" withValue:title];
+    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [self.tagCommander addData:key withValue:object];
+    }];
+    [self.tagCommander sendData];
 }
 
 #pragma mark Application list measurement
