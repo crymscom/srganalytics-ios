@@ -77,8 +77,8 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 
 /**
  *  Start the tracker. This is required to specify for which business unit you are tracking events, as well as to
- *  where they must be sent on the comScore and NetMetrix services. Attempting to track view, hidden or stream events
- *  without starting the tracker has no effect.
+ *  where they must be sent on the comScore, NetMetrix and TagCommander services. Attempting to track view, hidden 
+ *  or stream events without starting the tracker has no effect.
  *
  *  During tests, or if you do not want to pollute real measurements during development, you can use the special
  *  `SRGAnalyticsBusinessUnitIdentifierTEST` business unit. This business unit:
@@ -96,17 +96,31 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *                                during development or tests is supplied as well.
  *  @param comScoreVirtualSite    Virtual sites are where comScore measurements are collected. The virtual site you must
  *                                use is usually supplied by the team in charge of measurements for your application.
+ *  @param accountIdentifier      The TagCommander account identifier.
+ *  @param container              The TagCommander container.
  *  @param netMetrixIdentifier    The identifier used to group NetMetrix measurements for your application. This value
  *                                is supplied by the team in charge of measurements for your applicatiom.
  */
 - (void)startWithBusinessUnitIdentifier:(NSString *)businessUnitIdentifier
                     comScoreVirtualSite:(NSString *)comScoreVirtualSite
+                      accountIdentifier:(NSInteger)accountIdentifier
+                    containerIdentifier:(NSInteger)containerIdentifier
                     netMetrixIdentifier:(NSString *)netMetrixIdentifier;
 
 /**
  *  The SRG SSR business unit which measurements are associated with.
  */
 @property (nonatomic, readonly, copy, nullable) NSString *businessUnitIdentifier;
+
+/**
+ *  The TagCommander account identifier.
+ */
+@property (nonatomic, readonly) NSInteger accountIdentifier;
+
+/**
+ *  The TagCommander container identifier.
+ */
+@property (nonatomic, readonly) NSInteger containerIdentifier;
 
 /**
  *  The comScore virtual site where statistics are gathered (`nil` if the tracker has not been started).

@@ -27,6 +27,8 @@
     
     [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
                                                      comScoreVirtualSite:@"rts-app-test-v"
+                                                       accountIdentifier:3601
+                                                     containerIdentifier:2
                                                      netMetrixIdentifier:@"test"];
     
     DemosViewController *demosViewController = [[DemosViewController alloc] init];
