@@ -12,6 +12,7 @@
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 #import <SRGLogger/SRGLogger.h>
+#import <TCCore/TCCore.h>
 
 @implementation AppDelegate
 
@@ -24,6 +25,9 @@
     [self.window makeKeyAndVisible];
     
     [SRGLogger setLogHandler:SRGNSLogHandler()];
+    
+    [TCDebug setDebugLevel:TCLogLevel_Verbose];
+    [TCDebug setNotificationLog:YES];
     
     [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
                                                      comScoreVirtualSite:@"rts-app-test-v"
