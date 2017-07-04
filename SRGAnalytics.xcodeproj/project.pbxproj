@@ -42,6 +42,17 @@
 		6FB97FEB1E4AF1870014C4C2 /* MAKVONotificationCenter.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FB97FE31E4AF0270014C4C2 /* MAKVONotificationCenter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FB97FEF1E4B005B0014C4C2 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB97FEE1E4B005B0014C4C2 /* PlayerViewController.m */; };
 		6FB97FF11E4B00690014C4C2 /* PlayerViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FB97FF01E4B00690014C4C2 /* PlayerViewController.storyboard */; };
+		6FD9B2461F0BC4E0004805D2 /* TCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2441F0BC4E0004805D2 /* TCCore.framework */; };
+		6FD9B2471F0BC4E0004805D2 /* TCSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */; };
+		6FD9B2481F0BC4FA004805D2 /* TCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2441F0BC4E0004805D2 /* TCCore.framework */; };
+		6FD9B2491F0BC4FA004805D2 /* TCSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */; };
+		6FD9B24A1F0BC50C004805D2 /* TCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2441F0BC4E0004805D2 /* TCCore.framework */; };
+		6FD9B24B1F0BC50C004805D2 /* TCSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */; };
+		6FD9B24C1F0BC513004805D2 /* TCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2441F0BC4E0004805D2 /* TCCore.framework */; };
+		6FD9B24D1F0BC513004805D2 /* TCCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2441F0BC4E0004805D2 /* TCCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6FD9B24E1F0BC513004805D2 /* TCSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */; };
+		6FD9B24F1F0BC513004805D2 /* TCSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6FD9B2501F0BC551004805D2 /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; };
 		6FF3E20F1D9CE68600EB4A30 /* Mantle.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FF3E20E1D9CE68600EB4A30 /* Mantle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FF3E2111D9CE6CF00EB4A30 /* SRGDataProvider.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FF3E2101D9CE6CF00EB4A30 /* SRGDataProvider.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FF3E2161D9CF57600EB4A30 /* SRGDataProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF3E2101D9CE6CF00EB4A30 /* SRGDataProvider.framework */; };
@@ -192,6 +203,8 @@
 				6FF3E2191D9CF58C00EB4A30 /* Mantle.framework in Embed Frameworks */,
 				0811A8551D800BBC00A9863B /* libextobjc.framework in Embed Frameworks */,
 				6FA09D8E1D9EC50B00EDCA64 /* SRGLogger.framework in Embed Frameworks */,
+				6FD9B24F1F0BC513004805D2 /* TCSDK.framework in Embed Frameworks */,
+				6FD9B24D1F0BC513004805D2 /* TCCore.framework in Embed Frameworks */,
 				6FF3E2171D9CF57600EB4A30 /* SRGDataProvider.framework in Embed Frameworks */,
 				6FB97FE81E4AF0D60014C4C2 /* MAKVONotificationCenter.framework in Embed Frameworks */,
 			);
@@ -224,6 +237,8 @@
 		6FB97FED1E4B005B0014C4C2 /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
 		6FB97FEE1E4B005B0014C4C2 /* PlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
 		6FB97FF01E4B00690014C4C2 /* PlayerViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PlayerViewController.storyboard; sourceTree = "<group>"; };
+		6FD9B2441F0BC4E0004805D2 /* TCCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCCore.framework; path = Carthage/Build/iOS/TCCore.framework; sourceTree = "<group>"; };
+		6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCSDK.framework; path = Carthage/Build/iOS/TCSDK.framework; sourceTree = "<group>"; };
 		6FF3E20E1D9CE68600EB4A30 /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
 		6FF3E2101D9CE6CF00EB4A30 /* SRGDataProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGDataProvider.framework; path = Carthage/Build/iOS/SRGDataProvider.framework; sourceTree = "<group>"; };
 		6FF3E21A1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGMediaPlayerController+SRGAnalytics_DataProvider.h"; sourceTree = "<group>"; };
@@ -291,6 +306,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FD9B24A1F0BC50C004805D2 /* TCCore.framework in Frameworks */,
+				6FD9B24B1F0BC50C004805D2 /* TCSDK.framework in Frameworks */,
 				6FB97FE61E4AF0CD0014C4C2 /* MAKVONotificationCenter.framework in Frameworks */,
 				E66BEC171DA7FA5900AD4450 /* libextobjc.framework in Frameworks */,
 				6FA09D8B1D9EC4DB00EDCA64 /* SRGLogger.framework in Frameworks */,
@@ -304,6 +321,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FD9B2481F0BC4FA004805D2 /* TCCore.framework in Frameworks */,
+				6FD9B2491F0BC4FA004805D2 /* TCSDK.framework in Frameworks */,
 				6FB97FE51E4AF0B50014C4C2 /* MAKVONotificationCenter.framework in Frameworks */,
 				6FA09D8A1D9EC4CF00EDCA64 /* SRGLogger.framework in Frameworks */,
 				0811A8531D800BA000A9863B /* libextobjc.framework in Frameworks */,
@@ -316,6 +335,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FD9B2501F0BC551004805D2 /* libextobjc.framework in Frameworks */,
 				6FB97FEA1E4AF1800014C4C2 /* MAKVONotificationCenter.framework in Frameworks */,
 				6FA09D8F1D9EC52900EDCA64 /* SRGLogger.framework in Frameworks */,
 				6FF3E22C1D9D330700EB4A30 /* SRGAnalytics_DataProvider.framework in Frameworks */,
@@ -339,6 +359,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FD9B2461F0BC4E0004805D2 /* TCCore.framework in Frameworks */,
+				6FD9B2471F0BC4E0004805D2 /* TCSDK.framework in Frameworks */,
 				6FB97FE41E4AF0270014C4C2 /* MAKVONotificationCenter.framework in Frameworks */,
 				E66BEC161DA7FA4800AD4450 /* libextobjc.framework in Frameworks */,
 				6FA09D891D9EC4BC00EDCA64 /* SRGLogger.framework in Frameworks */,
@@ -358,6 +380,8 @@
 				0811A8541D800BBC00A9863B /* libextobjc.framework in Frameworks */,
 				E672EA511D62F19E00CFB080 /* ComScore.framework in Frameworks */,
 				6FF3E2181D9CF58C00EB4A30 /* Mantle.framework in Frameworks */,
+				6FD9B24E1F0BC513004805D2 /* TCSDK.framework in Frameworks */,
+				6FD9B24C1F0BC513004805D2 /* TCCore.framework in Frameworks */,
 				E6FC7EA51D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Frameworks */,
 				E6FC7EA01D61F97500A55085 /* SRGAnalytics.framework in Frameworks */,
 			);
@@ -469,6 +493,8 @@
 				6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */,
 				E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */,
 				9FD74D421ACC2DF900A2D86A /* SystemConfiguration.framework */,
+				6FD9B2441F0BC4E0004805D2 /* TCCore.framework */,
+				6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */,
 				9F1519211AC422AE00AE051D /* UIKit.framework */,
 			);
 			name = Frameworks;
