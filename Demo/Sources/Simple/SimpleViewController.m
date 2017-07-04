@@ -75,6 +75,11 @@
     return self.customLabels;
 }
 
+- (NSDictionary<NSString *,NSString *> *)srg_pageViewComScoreCustomLabels
+{
+    return self.customLabels;
+}
+
 - (BOOL)srg_isOpenedFromPushNotification
 {
     return self.openedFromPushNotification;

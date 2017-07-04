@@ -136,12 +136,28 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 #pragma mark Page view tracking (private)
 
-- (void)trackPageViewTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification;
+- (void)trackPageViewWithTitle:(NSString *)title
+                        levels:(NSArray<NSString *> *)levels
+                  customLabels:(NSDictionary<NSString *,NSString *> *)customLabels
+          comScoreCustomLabels:(NSDictionary<NSString *,NSString *> *)comScoreCustomLabels
+          fromPushNotification:(BOOL)fromPushNotification
 {
     if (title.length == 0) {
         SRGAnalyticsLogWarning(@"tracker", @"Missing title. No event will be sent");
         return;
     }
+    
+    [self trackComScorePageViewWithTitle:title levels:levels customLabels:comScoreCustomLabels fromPushNotification:fromPushNotification];
+    [self trackTagCommanderPageViewWithTitle:title levels:levels customLabels:customLabels fromPushNotification:fromPushNotification];
+    [self.netmetrixTracker trackView];
+}
+
+- (void)trackComScorePageViewWithTitle:(NSString *)title
+                                levels:(NSArray<NSString *> *)levels
+                          customLabels:(NSDictionary<NSString *, NSString *> *)customLabels
+                  fromPushNotification:(BOOL)fromPushNotification
+{
+    NSAssert(title.length != 0, @"A title is required");
     
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
     [labels safeSetValue:title forKey:@"srg_title"];
@@ -179,25 +195,39 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     }];
     
     [CSComScore viewWithLabels:labels];
+}
+
+- (void)trackTagCommanderPageViewWithTitle:(NSString *)title
+                                    levels:(NSArray<NSString *> *)levels
+                              customLabels:(NSDictionary<NSString *, NSString *> *)customLabels
+                      fromPushNotification:(BOOL)fromPushNotification
+{
+    NSAssert(title.length != 0, @"A title is required");
     
-    [self.netmetrixTracker trackView];
+    [self.tagCommander addData:@"TITLE" withValue:title];
+    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [self.tagCommander addData:key withValue:object];
+    }];
+    [self.tagCommander sendData];
 }
 
 #pragma mark Hidden event tracking
 
 - (void)trackHiddenEventWithTitle:(NSString *)title
 {
-    [self trackHiddenEventWithTitle:title customLabels:nil];
+    [self trackHiddenEventWithTitle:title customLabels:nil comScoreCustomLabels:nil];
 }
 
-- (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels
+- (void)trackHiddenEventWithTitle:(NSString *)title
+                     customLabels:(NSDictionary *)customLabels
+             comScoreCustomLabels:(NSDictionary<NSString *,NSString *> *)comScoreCustomLabels
 {
     if (title.length == 0) {
         SRGAnalyticsLogWarning(@"tracker", @"Missing title. No event will be sent");
         return;
     }
     
-    [self trackComScoreHiddenEventWithTitle:title customLabels:customLabels];
+    [self trackComScoreHiddenEventWithTitle:title customLabels:comScoreCustomLabels];
     [self trackHiddenTagCommanderEventWithTitle:title customLabels:customLabels];
 }
 

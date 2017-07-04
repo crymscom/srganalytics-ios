@@ -61,14 +61,20 @@ static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL ani
             customLabels = [trackedSelf srg_pageViewCustomLabels];
         }
         
+        NSDictionary<NSString *, NSString *> *comScoreCustomLabels = nil;
+        if ([trackedSelf respondsToSelector:@selector(srg_pageViewComScoreCustomLabels)]) {
+            comScoreCustomLabels = [trackedSelf srg_pageViewComScoreCustomLabels];
+        }
+        
         BOOL fromPushNotification = NO;
         if ([trackedSelf respondsToSelector:@selector(srg_isOpenedFromPushNotification)]) {
             fromPushNotification = [trackedSelf srg_isOpenedFromPushNotification];
         }
         
-        [[SRGAnalyticsTracker sharedTracker] trackPageViewTitle:title
+        [[SRGAnalyticsTracker sharedTracker] trackPageViewWithTitle:title
                                                          levels:levels
                                                    customLabels:customLabels
+                                               comScoreCustomLabels:comScoreCustomLabels
                                            fromPushNotification:fromPushNotification];
     }
 }

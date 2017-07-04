@@ -153,13 +153,17 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 /**
  *  Send a hidden event with the specified title.
  *
- *  @param title        The event title.
- *  @param customLabels Custom information to be sent along the event and which is meaningful for your application measurements.
+ *  @param title                The event title.
+ *  @param customLabels         Custom information to be sent along the event and which is meaningful for your application measurements.
+ *  @param comScoreCustomLabels Custom comScore information to be sent along the event and which is meaningful for your application
+ *                              measurements.
  *
  *  @discussion Be careful when using custom labels and ensure your custom keys do not match reserved values by
  *              using appropriate naming conventions (e.g. a prefix). If the title is `nil`, no event will be sent.
  */
-- (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels;
+- (void)trackHiddenEventWithTitle:(NSString *)title
+                     customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels
+             comScoreCustomLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreCustomLabels;
 
 /**
  *  Track a page view.
@@ -167,16 +171,19 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  @param title                The page title.
  *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy.
  *  @param customLabels         Additional custom labels.
+ *  @param comScoreCustomLabels Custom comScore information to be sent along the event and which is meaningful for your application
+ *                              measurements.
  *  @param fromPushNotification `YES` iff the view is opened from a push notification.
  *
  *  @discussion This method is primarily available for page view tracking not related to a view controller. If your page view
  *              is related to a view controller, the recommended way of tracking the view controller is by having it conform
  *              to the `SRGAnalyticsViewTracking` protocol.
  */
-- (void)trackPageViewTitle:(nullable NSString *)title
-                    levels:(nullable NSArray<NSString *> *)levels
-              customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels
-      fromPushNotification:(BOOL)fromPushNotification;
+- (void)trackPageViewWithTitle:(nullable NSString *)title
+                        levels:(nullable NSArray<NSString *> *)levels
+                  customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels
+          comScoreCustomLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreCustomLabels
+          fromPushNotification:(BOOL)fromPushNotification;
 
 @end
 
