@@ -43,7 +43,9 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
         return YES;
     }];
     
-    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Hidden event" customLabels:@{ @"custom_label" : @"custom_value" }];
+    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Hidden event"
+                                                      customLabels:@{ @"custom_label" : @"custom_value" }
+                                              comScoreCustomLabels:@{ @"custom_label" : @"custom_value" }];
     
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
@@ -56,7 +58,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
     
     [self expectationForElapsedTimeInterval:5. withHandler:nil];
     
-    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"" customLabels:nil];
+    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"" customLabels:nil comScoreCustomLabels:nil];
     
     [self waitForExpectationsWithTimeout:5. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
