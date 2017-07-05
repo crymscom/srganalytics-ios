@@ -28,7 +28,7 @@
 
 - (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
 {
-    return self.analyticsLabels;
+    return self.comScoreAnalyticsLabels;
 }
 
 @end

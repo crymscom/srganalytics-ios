@@ -90,14 +90,14 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         }
         
         NSMutableDictionary<NSString *, NSString *> *analyticsLabels = [NSMutableDictionary dictionary];
-        if (mediaComposition.analyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:mediaComposition.analyticsLabels];
+        if (mediaComposition.comScoreAnalyticsLabels) {
+            [analyticsLabels addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
         }
-        if (mediaComposition.mainChapter.analyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
+        if (mediaComposition.mainChapter.comScoreAnalyticsLabels) {
+            [analyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
         }
-        if (resource.analyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:resource.analyticsLabels];
+        if (resource.comScoreAnalyticsLabels) {
+            [analyticsLabels addEntriesFromDictionary:resource.comScoreAnalyticsLabels ];
         }
         
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
