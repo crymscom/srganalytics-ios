@@ -257,6 +257,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 {
     NSAssert(title.length != 0, @"A title is required");
     
+    // TODO: Apply final tagging rules
     [self.tagCommander addData:@"TITLE" withValue:title];
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [self.tagCommander addData:key withValue:object];
@@ -316,7 +317,26 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
                           atPosition:(NSTimeInterval)position
                           withLabels:(NSDictionary<NSString *,NSString *> *)labels
 {
-
+    // TODO: Apply final tagging rules
+    static dispatch_once_t s_onceToken;
+    static NSDictionary<NSNumber *, NSString *> *s_actions;
+    dispatch_once(&s_onceToken, ^{
+        s_actions = @{ @(SRGAnalyticsPlayerEventPlay) : @"play",
+                       @(SRGAnalyticsPlayerEventPause) : @"pause",
+                       @(SRGAnalyticsPlayerEventSeek) : @"seek",
+                       @(SRGAnalyticsPlayerEventStop) : @"stop",
+                       @(SRGAnalyticsPlayerEventEnd) : @"eof",
+                       @(SRGAnalyticsPlayerEventHeartbeat) : @"pos"};
+    });
+    
+    NSString *action = s_actions[@(event)];
+    if (! action) {
+        return;
+    }
+    
+    [self.tagCommander addData:@"VIDEO_ACTION" withValue:action];
+    [self.tagCommander addData:@"VIDEO_CURRENT_POSITION" withValue:@((int)(position / 1000)).stringValue];
+    [self.tagCommander sendData];
 }
 
 #pragma mark Application list measurement
