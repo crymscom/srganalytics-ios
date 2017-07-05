@@ -175,9 +175,13 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  */
 @property (nonatomic, readonly, getter=isStarted) BOOL started;
 
+@end
+
 /**
  *  @name Hidden event tracking
  */
+
+@interface SRGAnalyticsTracker (HiddenEventTracking)
 
 /**
  *  Send a hidden event with the specified title.
@@ -203,6 +207,27 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
                            labels:(nullable NSDictionary<NSString *, NSString *> *)labels
                    comScoreLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreLabels;
 
+@end
+
+/**
+ *  @name Page view tracking
+ */
+
+@interface SRGAnalyticsTracker (PageViewTracking)
+
+/**
+ *  Track a page view (not associated with a push notification).
+ *
+ *  @param title                The page title.
+ *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy.
+ *
+ *  @discussion This method is primarily available for page view tracking not related to a view controller. If your page view
+ *              is related to a view controller, the recommended way of tracking the view controller is by having it conform
+ *              to the `SRGAnalyticsViewTracking` protocol.
+ */
+- (void)trackPageViewWithTitle:(nullable NSString *)title
+                        levels:(nullable NSArray<NSString *> *)levels;
+
 /**
  *  Track a page view.
  *
@@ -222,6 +247,14 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
                         labels:(nullable NSDictionary<NSString *, NSString *> *)labels
                 comScoreLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreLabels
           fromPushNotification:(BOOL)fromPushNotification;
+
+@end
+
+/**
+ *  @name Player tracking
+ */
+
+@interface SRGAnalyticsTracker (PlayerTracking)
 
 /**
  *  Track a media player event.

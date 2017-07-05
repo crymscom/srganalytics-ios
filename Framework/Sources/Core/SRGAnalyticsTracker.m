@@ -165,6 +165,11 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 #pragma mark Page view tracking
 
+- (void)trackPageViewWithTitle:(NSString *)title levels:(NSArray<NSString *> *)levels
+{
+    [self trackPageViewWithTitle:title levels:levels labels:nil comScoreLabels:nil fromPushNotification:NO];
+}
+
 - (void)trackPageViewWithTitle:(NSString *)title
                         levels:(NSArray<NSString *> *)levels
                         labels:(NSDictionary<NSString *, NSString *> *)labels
