@@ -57,6 +57,12 @@
               @"overridable_name" : self.name };
 }
 
+- (NSDictionary<NSString *,NSString *> *)srg_comScoreAnalyticsLabels
+{
+    return @{ @"segment_name" : self.name,
+              @"overridable_name" : self.name };
+}
+
 #pragma mark Description
 
 - (NSString *)description

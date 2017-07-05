@@ -216,7 +216,7 @@ static NSMutableDictionary *s_trackers = nil;
     [comScoreClipLabels srg_safelySetObject:[self screenType] forKey:@"srg_screen_type"];
     
     if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
-        NSDictionary *clipLabels = [(id<SRGAnalyticsSegment>)segment srg_analyticsLabels];
+        NSDictionary *clipLabels = [(id<SRGAnalyticsSegment>)segment srg_comScoreAnalyticsLabels];
         if (clipLabels) {
             [comScoreClipLabels addEntriesFromDictionary:clipLabels];
         }

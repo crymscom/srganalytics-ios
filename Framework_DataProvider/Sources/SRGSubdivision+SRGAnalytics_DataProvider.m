@@ -28,6 +28,11 @@
 
 - (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
 {
+    return self.analyticsLabels;
+}
+
+- (NSDictionary<NSString *,NSString *> *)srg_comScoreAnalyticsLabels
+{
     return self.comScoreAnalyticsLabels;
 }
 
