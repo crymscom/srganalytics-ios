@@ -27,9 +27,9 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 @interface SRGAnalyticsTracker ()
 
 @property (nonatomic, copy) NSString *businessUnitIdentifier;
-@property (nonatomic, copy) NSString *comScoreVirtualSite;
 @property (nonatomic) NSInteger accountIdentifier;
 @property (nonatomic) NSInteger containerIdentifier;
+@property (nonatomic, copy) NSString *comScoreVirtualSite;
 @property (nonatomic, copy) NSString *netMetrixIdentifier;
 @property (nonatomic, getter=isStarted) BOOL started;
 
@@ -63,27 +63,28 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 #pragma mark Start
 
 - (void)startWithBusinessUnitIdentifier:(NSString *)businessUnitIdentifier
-                    comScoreVirtualSite:(NSString *)comScoreVirtualSite
                       accountIdentifier:(NSInteger)accountIdentifier
                     containerIdentifier:(NSInteger)containerIdentifier
+                    comScoreVirtualSite:(NSString *)comScoreVirtualSite
                     netMetrixIdentifier:(NSString *)netMetrixIdentifier
 {    
     self.businessUnitIdentifier = businessUnitIdentifier;
-    self.comScoreVirtualSite = comScoreVirtualSite;
     self.accountIdentifier = accountIdentifier;
     self.containerIdentifier = containerIdentifier;
+    self.comScoreVirtualSite = comScoreVirtualSite;
     self.netMetrixIdentifier = netMetrixIdentifier;
     
     self.started = YES;
     
-    [self startComscoreTracker];
-    [self startNetmetrixTracker];
-    
     self.tagCommander = [[TagCommander alloc] initWithSiteID:(int)accountIdentifier andContainerID:(int)containerIdentifier];
+    
+    [self startComscoreTracker];
     
     // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
     self.streamSense = [[CSStreamSense alloc] init];
     [self.streamSense setKeepAliveInterval:9 * 60];
+    
+    [self startNetmetrixTracker];
 }
 
 - (void)startComscoreTracker
