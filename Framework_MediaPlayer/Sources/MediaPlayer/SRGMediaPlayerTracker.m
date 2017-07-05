@@ -39,6 +39,9 @@ static NSMutableDictionary *s_trackers = nil;
 @property (nonatomic, weak) id periodicTimeObserver;
 @property (nonatomic) long currentPositionInMilliseconds;
 
+@property (nonatomic) NSDictionary<NSString *, NSString *> *currentLabels;
+@property (nonatomic) NSTimer *heartbeatTimer;
+
 @end
 
 @implementation SRGMediaPlayerTracker
@@ -93,6 +96,12 @@ static NSMutableDictionary *s_trackers = nil;
     }];
 }
 
+- (void)setHeartbeatTimer:(NSTimer *)heartbeatTimer
+{
+    [_heartbeatTimer invalidate];
+    _heartbeatTimer = heartbeatTimer;
+}
+
 #pragma mark Tracker management
 
 - (void)start
@@ -138,11 +147,15 @@ static NSMutableDictionary *s_trackers = nil;
             }
         }
     }];
+    
+    self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:30. target:self selector:@selector(heartbeat:) userInfo:nil repeats:YES];
 }
 
 - (void)stopWithLabels:(NSDictionary *)labels
 {
     NSAssert(self.mediaPlayerController, @"Media player controller must be available when stopping");
+    
+    self.heartbeatTimer = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:SRGMediaPlayerPlaybackStateDidChangeNotification
@@ -456,7 +469,20 @@ static NSMutableDictionary *s_trackers = nil;
         }
     }
 }
-    
+
+#pragma mark Timers
+
+- (void)heartbeat:(NSTimer *)timer
+{
+    if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
+        [[SRGAnalyticsTracker sharedTracker] trackPlayerEvent:SRGAnalyticsPlayerEventHeartbeat
+                                                   atPosition:self.currentPositionInMilliseconds
+                                                   withLabels:nil
+                                               comScoreLabels:nil
+                                           comScoreClipLabels:nil];
+    }
+}
+
 @end
 
 #pragma mark Static functions
