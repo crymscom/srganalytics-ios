@@ -169,18 +169,11 @@ static NSMutableDictionary *s_trackers = nil;
         return;
     }
     
-    [self rawNotifyStreamSenseEvent:event withLabels:labels segment:segment];
-    [self rawNotifyTagCommanderEvent:event withLabels:labels segment:segment];
+    [self rawNotifyEvent:event withLabels:labels segment:segment];
 }
 
 // Raw notification implementation which does not check whether the tracker is enabled
 - (void)rawNotifyEvent:(SRGAnalyticsPlayerEvent)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
-{
-    [self rawNotifyStreamSenseEvent:event withLabels:labels segment:segment];
-    [self rawNotifyTagCommanderEvent:event withLabels:labels segment:segment];
-}
-
-- (void)rawNotifyStreamSenseEvent:(SRGAnalyticsPlayerEvent)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
     NSMutableDictionary<NSString *, NSString *> *comScoreLabels = [NSMutableDictionary dictionary];
     
@@ -202,7 +195,7 @@ static NSMutableDictionary *s_trackers = nil;
     if (labels) {
         [comScoreLabels addEntriesFromDictionary:labels];
     }
-
+    
     // Clip labels
     NSMutableDictionary<NSString *, NSString *> *comScoreClipLabels = [NSMutableDictionary dictionary];
     [comScoreClipLabels srg_safelySetObject:[self dimensions] forKey:@"ns_st_cs"];
@@ -222,11 +215,6 @@ static NSMutableDictionary *s_trackers = nil;
                                                withLabels:nil
                                            comScoreLabels:[comScoreLabels copy]
                                        comScoreClipLabels:[comScoreClipLabels copy]];
-}
-
-- (void)rawNotifyTagCommanderEvent:(SRGAnalyticsPlayerEvent)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
-{
-    
 }
 
 #pragma mark Playback data
