@@ -6,13 +6,14 @@
 
 #import "SRGAnalyticsTracker.h"
 
-#import "NSDictionary+SRGAnalytics.h"
+#import "NSMutableDictionary+SRGAnalytics.h"
 #import "NSString+SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsNetMetrixTracker.h"
 #import "SRGAnalyticsNotifications.h"
 #import "UIViewController+SRGAnalytics.h"
 
+#import <ComScore/ComScore.h>
 #import <ComScore/CSTaskExecutor.h>
 #import <TCSDK/TCSDK.h>
 
@@ -34,6 +35,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 @property (nonatomic) TagCommander *tagCommander;
 @property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
+@property (nonatomic) CSStreamSense *streamSense;
 
 @end
 
@@ -78,6 +80,10 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [self startNetmetrixTracker];
     
     self.tagCommander = [[TagCommander alloc] initWithSiteID:(int)accountIdentifier andContainerID:(int)containerIdentifier];
+    
+    // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
+    self.streamSense = [[CSStreamSense alloc] init];
+    [self.streamSense setKeepAliveInterval:9 * 60];
 }
 
 - (void)startComscoreTracker
@@ -160,22 +166,22 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSAssert(title.length != 0, @"A title is required");
     
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
-    [labels safeSetValue:title forKey:@"srg_title"];
-    [labels safeSetValue:@(fromPushNotification) forKey:@"srg_ap_push"];
+    [labels srg_safelySetObject:title forKey:@"srg_title"];
+    [labels srg_safelySetObject:@(fromPushNotification) forKey:@"srg_ap_push"];
     
     NSString *category = @"app";
     
     if (! levels) {
-        [labels safeSetValue:category forKey:@"srg_n1"];
+        [labels srg_safelySetObject:category forKey:@"srg_n1"];
     }
     else if (levels.count > 0) {
         __block NSMutableString *levelsComScoreFormattedString = [NSMutableString new];
-        [levels enumerateObjectsUsingBlock:^(id value, NSUInteger idx, BOOL *stop) {
+        [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
             NSString *levelKey = [NSString stringWithFormat:@"srg_n%@", @(idx + 1)];
-            NSString *levelValue = [value description];
+            NSString *levelValue = [object description];
             
             if (idx < 10) {
-                [labels safeSetValue:levelValue forKey:levelKey];
+                [labels srg_safelySetObject:levelValue forKey:levelKey];
             }
             
             if (levelsComScoreFormattedString.length > 0) {
@@ -187,11 +193,11 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         category = [levelsComScoreFormattedString copy];
     }
     
-    [labels safeSetValue:category forKey:@"category"];
-    [labels safeSetValue:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
+    [labels srg_safelySetObject:category forKey:@"category"];
+    [labels srg_safelySetObject:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
     
-    [customLabels enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [labels safeSetValue:[obj description] forKey:[key description]];
+    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [labels srg_safelySetObject:[object description] forKey:[key description]];
     }];
     
     [CSComScore viewWithLabels:labels];
@@ -231,24 +237,24 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [self trackHiddenTagCommanderEventWithTitle:title customLabels:customLabels];
 }
 
-- (void)trackComScoreHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels
+- (void)trackComScoreHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary<NSString *, NSString *> *)customLabels
 {
     NSAssert(title.length != 0, @"A title is required");
     
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
-    [labels safeSetValue:title forKey:@"srg_title"];
+    [labels srg_safelySetObject:title forKey:@"srg_title"];
     
-    [labels safeSetValue:@"app" forKey:@"category"];
-    [labels safeSetValue:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];
+    [labels srg_safelySetObject:@"app" forKey:@"category"];
+    [labels srg_safelySetObject:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];
     
-    [customLabels enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [labels safeSetValue:[obj description] forKey:[key description]];
+    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [labels srg_safelySetObject:[object description] forKey:[key description]];
     }];
     
     [CSComScore hiddenWithLabels:labels];
 }
 
-- (void)trackHiddenTagCommanderEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels
+- (void)trackHiddenTagCommanderEventWithTitle:(NSString *)title customLabels:(NSDictionary<NSString *, NSString *> *)customLabels
 {
     NSAssert(title.length != 0, @"A title is required");
     
@@ -257,6 +263,61 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         [self.tagCommander addData:key withValue:object];
     }];
     [self.tagCommander sendData];
+}
+
+#pragma mark Player tracking
+
+- (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
+              atPosition:(NSTimeInterval)position
+        withCustomLabels:(NSDictionary<NSString *, NSString *> *)customLabels
+    comScoreCustomLabels:(NSDictionary<NSString *, NSString *> *)comScoreCustomLabels
+comScoreCustomClipLabels:(nullable NSDictionary<NSString *,NSString *> *)comScoreCustomClipLabels
+{
+    [self trackComScorePlayerEvent:event atPosition:position withCustomLabels:comScoreCustomLabels customClipLabels:comScoreCustomClipLabels];
+    [self trackTagCommanderPlayerEvent:event atPosition:position withCustomLabels:customLabels];
+}
+
+- (void)trackComScorePlayerEvent:(SRGAnalyticsPlayerEvent)event
+                      atPosition:(NSTimeInterval)position
+                withCustomLabels:(NSDictionary<NSString *, NSString *> *)customLabels
+                customClipLabels:(NSDictionary<NSString *, NSString *> *)customClipLabels
+{
+    static dispatch_once_t s_onceToken;
+    static NSDictionary<NSNumber *, NSNumber *> *s_streamSenseEvents;
+    dispatch_once(&s_onceToken, ^{
+        s_streamSenseEvents = @{ @(SRGAnalyticsPlayerEventBuffer) : @(CSStreamSenseBuffer),
+                                 @(SRGAnalyticsPlayerEventPlay) : @(CSStreamSensePlay),
+                                 @(SRGAnalyticsPlayerEventPause) : @(CSStreamSensePause),
+                                 @(SRGAnalyticsPlayerEventSeek) : @(CSStreamSensePause),
+                                 @(SRGAnalyticsPlayerEventStop) : @(CSStreamSenseEnd),
+                                 @(SRGAnalyticsPlayerEventEnd) : @(CSStreamSenseEnd) };
+    });
+    
+    NSNumber *eventType = s_streamSenseEvents[@(event)];
+    if (! eventType) {
+        return;
+    }
+    
+    [[self.streamSense labels] removeAllObjects];
+    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [self.streamSense setLabel:key value:object];
+    }];
+    
+    // Reset custom clip labels to avoid inheriting from a previous segment. Do not reset otherwise internal hidden
+    // comScore labels (e.g. ns_st_pa) would be incorrect afterwards
+    [[[self.streamSense clip] labels] removeAllObjects];
+    [customClipLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [[self.streamSense clip] setLabel:key value:object];
+    }];
+    
+    [self.streamSense notify:eventType.intValue position:position labels:nil /* already set on the stream and clip objects */];
+}
+
+- (void)trackTagCommanderPlayerEvent:(SRGAnalyticsPlayerEvent)event
+                          atPosition:(NSTimeInterval)position
+                    withCustomLabels:(NSDictionary<NSString *,NSString *> *)customLabels
+{
+
 }
 
 #pragma mark Application list measurement

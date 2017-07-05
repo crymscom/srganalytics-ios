@@ -6,24 +6,16 @@
 
 #import "SRGMediaPlayerTracker.h"
 
+#import "NSMutableDictionary+SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsSegment.h"
 #import "SRGAnalyticsTracker.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
+#import <ComScore/ComScore.h>
 #import <libextobjc/libextobjc.h>
 #import <MAKVONotificationCenter/MAKVONotificationCenter.h>
 #import <SRGAnalytics/SRGAnalytics.h>
-
-typedef NS_ENUM(NSInteger, SRGAnalyticsMediaEvent) {
-    SRGAnalyticsMediaEventBuffer,
-    SRGAnalyticsMediaEventPlay,
-    SRGAnalyticsMediaEventPause,
-    SRGAnalyticsMediaEventSeek,
-    SRGAnalyticsMediaEventStop,
-    SRGAnalyticsMediaEventEnd,
-    SRGAnalyticsMediaEventHeartbeat
-};
 
 static void *s_kvoContext = &s_kvoContext;
 
@@ -57,9 +49,6 @@ static NSMutableDictionary *s_trackers = nil;
 {
     if (self = [super init]) {
         self.mediaPlayerController = mediaPlayerController;
-        
-        // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
-        [self setKeepAliveInterval:9 * 60];
     }
     return self;
 }
@@ -72,8 +61,6 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)dealloc
 {
-    // FIXME: Due to internal comScore bugs, the object will never be properly released. This does not hurt in our implementaton,
-    //        but this could be fixed
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -123,7 +110,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                  name:SRGMediaPlayerSegmentDidEndNotification
                                                object:self.mediaPlayerController];
     
-    [self notifyEvent:SRGAnalyticsMediaEventBuffer withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey] segment:nil];
+    [self notifyEvent:SRGAnalyticsPlayerEventBuffer withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey] segment:nil];
     
     @weakify(self)
     [self.mediaPlayerController addObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked) options:0 block:^(MAKVONotification *notification) {
@@ -131,21 +118,21 @@ static NSMutableDictionary *s_trackers = nil;
         
         // Balance comScore events if the player is playing, so that all events can be properly emitted
         if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
-            SRGAnalyticsMediaEvent event = self.mediaPlayerController.tracked ? SRGAnalyticsMediaEventPlay : SRGAnalyticsMediaEventEnd;
+            SRGAnalyticsPlayerEvent event = self.mediaPlayerController.tracked ? SRGAnalyticsPlayerEventPlay : SRGAnalyticsPlayerEventEnd;
             [self rawNotifyEvent:event
                       withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                          segment:self.mediaPlayerController.selectedSegment];
         }
         else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateSeeking
                  || self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePaused) {
-            SRGAnalyticsMediaEvent event = self.mediaPlayerController.tracked ? SRGAnalyticsMediaEventPlay : SRGAnalyticsMediaEventEnd;
+            SRGAnalyticsPlayerEvent event = self.mediaPlayerController.tracked ? SRGAnalyticsPlayerEventPlay : SRGAnalyticsPlayerEventEnd;
             [self rawNotifyEvent:event
                       withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                          segment:self.mediaPlayerController.selectedSegment];
             
             // Also send the pause event when starting tracking, so that the current player state is accurately reflected
             if (self.mediaPlayerController.tracked) {
-                [self rawNotifyEvent:SRGAnalyticsMediaEventPause
+                [self rawNotifyEvent:SRGAnalyticsPlayerEventPause
                           withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                              segment:self.mediaPlayerController.selectedSegment];
             }
@@ -167,7 +154,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                     name:SRGMediaPlayerSegmentDidEndNotification
                                                   object:self.mediaPlayerController];
     
-    [self notifyEvent:SRGAnalyticsMediaEventEnd withLabels:labels segment:self.mediaPlayerController.selectedSegment];
+    [self notifyEvent:SRGAnalyticsPlayerEventEnd withLabels:labels segment:self.mediaPlayerController.selectedSegment];
     
     [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
     
@@ -176,31 +163,7 @@ static NSMutableDictionary *s_trackers = nil;
 
 #pragma mark Helpers
 
-- (void)safelySetValue:(NSString *)value forLabel:(NSString *)label
-{
-    NSParameterAssert(label);
-    
-    if (value) {
-        [self setLabel:label value:value];
-    }
-    else {
-        [[self labels] removeObjectForKey:label];
-    }
-}
-
-- (void)safelySetValue:(NSString *)value forClipLabel:(NSString *)label
-{
-    NSParameterAssert(label);
-    
-    if (value) {
-        [[self clip] setLabel:label value:value];
-    }
-    else {
-        [[[self clip] labels] removeObjectForKey:label];
-    }
-}
-
-- (void)notifyEvent:(SRGAnalyticsMediaEvent)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
+- (void)notifyEvent:(SRGAnalyticsPlayerEvent)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
     if (! self.mediaPlayerController.tracked) {
         return;
@@ -211,71 +174,57 @@ static NSMutableDictionary *s_trackers = nil;
 }
 
 // Raw notification implementation which does not check whether the tracker is enabled
-- (void)rawNotifyEvent:(SRGAnalyticsMediaEvent)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
+- (void)rawNotifyEvent:(SRGAnalyticsPlayerEvent)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
     [self rawNotifyStreamSenseEvent:event withLabels:labels segment:segment];
     [self rawNotifyTagCommanderEvent:event withLabels:labels segment:segment];
 }
 
-- (void)rawNotifyStreamSenseEvent:(SRGAnalyticsMediaEvent)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
+- (void)rawNotifyStreamSenseEvent:(SRGAnalyticsPlayerEvent)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
-    static dispatch_once_t s_onceToken;
-    static NSDictionary<NSNumber *, NSNumber *> *s_streamSenseEvents;
-    dispatch_once(&s_onceToken, ^{
-        s_streamSenseEvents = @{ @(SRGAnalyticsMediaEventBuffer) : @(CSStreamSenseBuffer),
-                                 @(SRGAnalyticsMediaEventPlay) : @(CSStreamSensePlay),
-                                 @(SRGAnalyticsMediaEventPause) : @(CSStreamSensePause),
-                                 @(SRGAnalyticsMediaEventSeek) : @(CSStreamSensePause),
-                                 @(SRGAnalyticsMediaEventStop) : @(CSStreamSenseEnd),
-                                 @(SRGAnalyticsMediaEventEnd) : @(CSStreamSenseEnd) };
-    });
-    
-    NSNumber *eventType = s_streamSenseEvents[@(event)];
-    if (! eventType) {
-        return;
-    }
-    
-    [[self labels] removeAllObjects];
+    NSMutableDictionary<NSString *, NSString *> *comScoreLabels = [NSMutableDictionary dictionary];
     
     // Global labels
-    [self safelySetValue:@"SRGMediaPlayer" forLabel:@"ns_st_mp"];
-    [self safelySetValue:SRGAnalyticsMarketingVersion() forLabel:@"ns_st_pu"];
-    [self safelySetValue:SRGMediaPlayerMarketingVersion() forLabel:@"ns_st_mv"];
-    [self safelySetValue:@"c" forLabel:@"ns_st_it"];
+    [comScoreLabels srg_safelySetObject:@"SRGMediaPlayer" forKey:@"ns_st_mp"];
+    [comScoreLabels srg_safelySetObject:SRGAnalyticsMarketingVersion() forKey:@"ns_st_pu"];
+    [comScoreLabels srg_safelySetObject:SRGMediaPlayerMarketingVersion() forKey:@"ns_st_mv"];
+    [comScoreLabels srg_safelySetObject:@"c" forKey:@"ns_st_it"];
     
-    [self safelySetValue:[SRGAnalyticsTracker sharedTracker].comScoreVirtualSite forLabel:@"ns_vsite"];
-    [self safelySetValue:@"p_app_ios" forLabel:@"srg_ptype"];
+    [comScoreLabels srg_safelySetObject:[SRGAnalyticsTracker sharedTracker].comScoreVirtualSite forKey:@"ns_vsite"];
+    [comScoreLabels srg_safelySetObject:@"p_app_ios" forKey:@"srg_ptype"];
     
-    // Labels
-    [self safelySetValue:[self bitRate] forLabel:@"ns_st_br"];
-    [self safelySetValue:[self windowState] forLabel:@"ns_st_ws"];
-    [self safelySetValue:[self volume] forLabel:@"ns_st_vo"];
-    [self safelySetValue:[self scalingMode] forLabel:@"ns_st_sg"];
-    [self safelySetValue:[self orientation] forLabel:@"ns_ap_ot"];
+    [comScoreLabels srg_safelySetObject:[self bitRate] forKey:@"ns_st_br"];
+    [comScoreLabels srg_safelySetObject:[self windowState] forKey:@"ns_st_ws"];
+    [comScoreLabels srg_safelySetObject:[self volume] forKey:@"ns_st_vo"];
+    [comScoreLabels srg_safelySetObject:[self scalingMode] forKey:@"ns_st_sg"];
+    [comScoreLabels srg_safelySetObject:[self orientation] forKey:@"ns_ap_ot"];
     
     if (labels) {
-        [self setLabels:labels];
+        [comScoreLabels addEntriesFromDictionary:labels];
     }
-    
-    // Reset custom clip labels to avoid inheriting from a previous segment. Do not reset otherwise internal hidden
-    // comScore labels (e.g. ns_st_pa) would be incorrect afterwards
-    [[[self clip] labels] removeAllObjects];
-    
-    [self safelySetValue:[self dimensions] forClipLabel:@"ns_st_cs"];
-    [self safelySetValue:[self timeshiftFromLiveInMilliseconds] forClipLabel:@"srg_timeshift"];
-    [self safelySetValue:[self screenType] forClipLabel:@"srg_screen_type"];
+
+    // Clip labels
+    NSMutableDictionary<NSString *, NSString *> *comScoreClipLabels = [NSMutableDictionary dictionary];
+    [comScoreClipLabels srg_safelySetObject:[self dimensions] forKey:@"ns_st_cs"];
+    [comScoreClipLabels srg_safelySetObject:[self timeshiftFromLiveInMilliseconds] forKey:@"srg_timeshift"];
+    [comScoreClipLabels srg_safelySetObject:[self screenType] forKey:@"srg_screen_type"];
     
     if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
-        NSDictionary *labels = [(id<SRGAnalyticsSegment>)segment srg_analyticsLabels];
-        if (labels) {
-            [[self clip] setLabels:labels];
+        NSDictionary *clipLabels = [(id<SRGAnalyticsSegment>)segment srg_analyticsLabels];
+        if (clipLabels) {
+            [comScoreClipLabels addEntriesFromDictionary:clipLabels];
         }
     }
     
-    [self notify:eventType.intValue position:self.currentPositionInMilliseconds labels:nil /* already set on the stream and clip objects */];
+    // TODO: TagCommander labels
+    [[SRGAnalyticsTracker sharedTracker] trackPlayerEvent:event
+                                               atPosition:self.currentPositionInMilliseconds
+                                         withCustomLabels:nil
+                                     comScoreCustomLabels:[comScoreLabels copy]
+                                 comScoreCustomClipLabels:[comScoreClipLabels copy]];
 }
 
-- (void)rawNotifyTagCommanderEvent:(SRGAnalyticsMediaEvent)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
+- (void)rawNotifyTagCommanderEvent:(SRGAnalyticsPlayerEvent)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
 {
     
 }
@@ -439,34 +388,34 @@ static NSMutableDictionary *s_trackers = nil;
         return;
     }
     
-    SRGAnalyticsMediaEvent event;
+    SRGAnalyticsPlayerEvent event;
     switch (self.mediaPlayerController.playbackState) {
         case SRGMediaPlayerPlaybackStatePlaying: {
-            event = SRGAnalyticsMediaEventPlay;
+            event = SRGAnalyticsPlayerEventPlay;
             break;
         }
             
         case SRGMediaPlayerPlaybackStateSeeking:
-            event = SRGAnalyticsMediaEventSeek;
+            event = SRGAnalyticsPlayerEventSeek;
             break;
             
         case SRGMediaPlayerPlaybackStatePaused: {
-            event = SRGAnalyticsMediaEventPause;
+            event = SRGAnalyticsPlayerEventPause;
             break;
         }
             
         case SRGMediaPlayerPlaybackStateStalled: {
-            event = SRGAnalyticsMediaEventBuffer;
+            event = SRGAnalyticsPlayerEventBuffer;
             break;
         }
             
         case SRGMediaPlayerPlaybackStateEnded: {
-            event = SRGAnalyticsMediaEventEnd;
+            event = SRGAnalyticsPlayerEventEnd;
             break;
         }
             
         case SRGMediaPlayerPlaybackStateIdle: {
-            event = SRGAnalyticsMediaEventStop;
+            event = SRGAnalyticsPlayerEventStop;
             break;
         }
             
@@ -490,12 +439,12 @@ static NSMutableDictionary *s_trackers = nil;
         // Notify full-length end (only if not starting at the given segment, i.e. if the player is not preparing playback)
         id<SRGSegment> previousSegment = notification.userInfo[SRGMediaPlayerPreviousSegmentKey];
         if (! previousSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStatePreparing) {
-            [self notifyEvent:SRGAnalyticsMediaEventEnd
+            [self notifyEvent:SRGAnalyticsPlayerEventEnd
                    withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                       segment:nil];
         }
         
-        [self notifyEvent:SRGAnalyticsMediaEventPlay
+        [self notifyEvent:SRGAnalyticsPlayerEventPlay
                withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                   segment:segment];
     }
@@ -507,13 +456,13 @@ static NSMutableDictionary *s_trackers = nil;
     if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
         
-        [self notifyEvent:SRGAnalyticsMediaEventEnd
+        [self notifyEvent:SRGAnalyticsPlayerEventEnd
                withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                   segment:segment];
         
         // Notify full-length start if the transition was not due to another segment being selected
         if (! [notification.userInfo[SRGMediaPlayerSelectionKey] boolValue] && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
-            [self notifyEvent:SRGAnalyticsMediaEventPlay
+            [self notifyEvent:SRGAnalyticsPlayerEventPlay
                    withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                       segment:nil];
         }

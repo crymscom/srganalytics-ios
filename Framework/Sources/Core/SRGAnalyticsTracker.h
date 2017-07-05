@@ -24,6 +24,40 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST;
 
 /**
+ *  @name Media player events
+ */
+typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
+    /**
+     *  The player started buffering.
+     */
+    SRGAnalyticsPlayerEventBuffer,
+    /**
+     *  Playback started or resumed.
+     */
+    SRGAnalyticsPlayerEventPlay,
+    /**
+     *  Playback was paused.
+     */
+    SRGAnalyticsPlayerEventPause,
+    /**
+     *  The player started seeking.
+     */
+    SRGAnalyticsPlayerEventSeek,
+    /**
+     *  The player was stopped.
+     */
+    SRGAnalyticsPlayerEventStop,
+    /**
+     *  Playback ended normally.
+     */
+    SRGAnalyticsPlayerEventEnd,
+    /**
+     *  Heartbeat.
+     */
+    SRGAnalyticsPlayerEventHeartbeat
+};
+
+/**
  *  The analytics tracker is a singleton instance responsible of tracking usage of an application, using comScore and
  *  NetMetrix. This usage is simply a collection of key-values (both strings), often referred to as labels, which
  *  can then be used for analytics measurements. 
@@ -184,6 +218,23 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
                   customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels
           comScoreCustomLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreCustomLabels
           fromPushNotification:(BOOL)fromPushNotification;
+
+/**
+ *  Track a media player event.
+ *
+ *  @param event                The event type.
+ *  @param position             The playback position at which the event occurs, in milliseconds.
+ *  @param customLabels         Additional custom labels.
+ *  @param comScoreCustomLabels Custom comScore information to be sent along the event and which is meaningful for your application
+ *                              measurements.
+ *  @param comScoreCustomLabels Custom comScore clip information to be sent along the event and which is meaningful to your application
+ *                              measurements.
+ */
+- (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
+              atPosition:(NSTimeInterval)position
+        withCustomLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels
+    comScoreCustomLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreCustomLabels
+comScoreCustomClipLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreCustomClipLabels;
 
 @end
 
