@@ -11,7 +11,7 @@ Measurements are based on events emitted by the application and collected by Tag
 The SRG Analytics library supports three kinds of measurements:
 
  * View events: Appearance of views (page views), which makes it possible to track which content is seen by users.
- * Hidden events: Custom events which can be used for measuresement of application functionalities.
+ * Hidden events: Custom events which can be used for measurement of application functionalities.
  * Media playback events: Measurements for audio and video consumption.
 
 The library can be used independently, but also seamlessly integrates with our [SRG Media Player](https://github.com/SRGSSR/SRGMediaPlayer-iOS) and [SRG Data Provider](https://github.com/SRGSSR/srgdataprovider-ios) libraries:
