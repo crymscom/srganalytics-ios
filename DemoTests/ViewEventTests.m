@@ -148,10 +148,10 @@ static NSDictionary *s_startLabels = nil;
     [tester waitForTimeInterval:2.];
 }
 
-- (void)testAutomaticTrackingWithLevelsAndCustomLabels
+- (void)testAutomaticTrackingWithLevelsAndLabels
 {
     [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.automatic-tracking-with-levels-and-custom-labels");
+        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.automatic-tracking-with-levels-and-labels");
         XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
         XCTAssertEqualObjects(labels[@"srg_n1"], @"Level1");
         XCTAssertEqualObjects(labels[@"srg_n2"], @"Level2");

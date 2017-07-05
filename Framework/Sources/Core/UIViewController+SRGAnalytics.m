@@ -56,14 +56,14 @@ static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL ani
             levels = [trackedSelf srg_pageViewLevels];
         }
         
-        NSDictionary<NSString *, NSString *> *customLabels = nil;
-        if ([trackedSelf respondsToSelector:@selector(srg_pageViewCustomLabels)]) {
-            customLabels = [trackedSelf srg_pageViewCustomLabels];
+        NSDictionary<NSString *, NSString *> *labels = nil;
+        if ([trackedSelf respondsToSelector:@selector(srg_pageViewLabels)]) {
+            labels = [trackedSelf srg_pageViewLabels];
         }
         
-        NSDictionary<NSString *, NSString *> *comScoreCustomLabels = nil;
-        if ([trackedSelf respondsToSelector:@selector(srg_pageViewComScoreCustomLabels)]) {
-            comScoreCustomLabels = [trackedSelf srg_pageViewComScoreCustomLabels];
+        NSDictionary<NSString *, NSString *> *comScoreLabels = nil;
+        if ([trackedSelf respondsToSelector:@selector(srg_pageViewComScoreLabels)]) {
+            comScoreLabels = [trackedSelf srg_pageViewComScoreLabels];
         }
         
         BOOL fromPushNotification = NO;
@@ -72,10 +72,10 @@ static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL ani
         }
         
         [[SRGAnalyticsTracker sharedTracker] trackPageViewWithTitle:title
-                                                         levels:levels
-                                                   customLabels:customLabels
-                                               comScoreCustomLabels:comScoreCustomLabels
-                                           fromPushNotification:fromPushNotification];
+                                                             levels:levels
+                                                             labels:labels
+                                                     comScoreLabels:comScoreLabels
+                                               fromPushNotification:fromPushNotification];
     }
 }
 

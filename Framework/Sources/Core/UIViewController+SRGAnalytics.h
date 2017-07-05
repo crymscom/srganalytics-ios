@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @discussion Be careful when using custom labels and ensure your custom keys do not match reserved values by
  *              using appropriate naming conventions (e.g. a prefix).
  */
-@property (nonatomic, readonly, nullable) NSDictionary<NSString *, NSString *> *srg_pageViewCustomLabels;
+@property (nonatomic, readonly, nullable) NSDictionary<NSString *, NSString *> *srg_pageViewLabels;
 
 /**
  *  Additional information (labels) which must be sent with a comScore view event. By default no custom labels are sent.
@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @discussion Be careful when using custom labels and ensure your custom keys do not match reserved values by
  *              using appropriate naming conventions (e.g. a prefix).
  */
-@property (nonatomic, readonly, nullable) NSDictionary<NSString *, NSString *> *srg_pageViewComScoreCustomLabels;
+@property (nonatomic, readonly, nullable) NSDictionary<NSString *, NSString *> *srg_pageViewComScoreLabels;
 
 /**
  *  Return `YES` if the the view controller was opened from a push notification. If not implemented, it is assumed the

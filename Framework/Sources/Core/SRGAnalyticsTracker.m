@@ -144,8 +144,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)trackPageViewWithTitle:(NSString *)title
                         levels:(NSArray<NSString *> *)levels
-                  customLabels:(NSDictionary<NSString *,NSString *> *)customLabels
-          comScoreCustomLabels:(NSDictionary<NSString *,NSString *> *)comScoreCustomLabels
+                        labels:(NSDictionary<NSString *,NSString *> *)labels
+                comScoreLabels:(NSDictionary<NSString *,NSString *> *)comScoreLabels
           fromPushNotification:(BOOL)fromPushNotification
 {
     if (title.length == 0) {
@@ -153,26 +153,26 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         return;
     }
     
-    [self trackComScorePageViewWithTitle:title levels:levels customLabels:comScoreCustomLabels fromPushNotification:fromPushNotification];
-    [self trackTagCommanderPageViewWithTitle:title levels:levels customLabels:customLabels fromPushNotification:fromPushNotification];
+    [self trackComScorePageViewWithTitle:title levels:levels labels:comScoreLabels fromPushNotification:fromPushNotification];
+    [self trackTagCommanderPageViewWithTitle:title levels:levels labels:labels fromPushNotification:fromPushNotification];
     [self.netmetrixTracker trackView];
 }
 
 - (void)trackComScorePageViewWithTitle:(NSString *)title
                                 levels:(NSArray<NSString *> *)levels
-                          customLabels:(NSDictionary<NSString *, NSString *> *)customLabels
+                          labels:(NSDictionary<NSString *, NSString *> *)labels
                   fromPushNotification:(BOOL)fromPushNotification
 {
     NSAssert(title.length != 0, @"A title is required");
     
-    NSMutableDictionary *labels = [NSMutableDictionary dictionary];
-    [labels srg_safelySetObject:title forKey:@"srg_title"];
-    [labels srg_safelySetObject:@(fromPushNotification) forKey:@"srg_ap_push"];
+    NSMutableDictionary *pageViewLabels = [NSMutableDictionary dictionary];
+    [pageViewLabels srg_safelySetObject:title forKey:@"srg_title"];
+    [pageViewLabels srg_safelySetObject:@(fromPushNotification) forKey:@"srg_ap_push"];
     
     NSString *category = @"app";
     
     if (! levels) {
-        [labels srg_safelySetObject:category forKey:@"srg_n1"];
+        [pageViewLabels srg_safelySetObject:category forKey:@"srg_n1"];
     }
     else if (levels.count > 0) {
         __block NSMutableString *levelsComScoreFormattedString = [NSMutableString new];
@@ -181,7 +181,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
             NSString *levelValue = [object description];
             
             if (idx < 10) {
-                [labels srg_safelySetObject:levelValue forKey:levelKey];
+                [pageViewLabels srg_safelySetObject:levelValue forKey:levelKey];
             }
             
             if (levelsComScoreFormattedString.length > 0) {
@@ -193,25 +193,25 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         category = [levelsComScoreFormattedString copy];
     }
     
-    [labels srg_safelySetObject:category forKey:@"category"];
-    [labels srg_safelySetObject:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
+    [pageViewLabels srg_safelySetObject:category forKey:@"category"];
+    [pageViewLabels srg_safelySetObject:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
     
-    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [labels srg_safelySetObject:[object description] forKey:[key description]];
+    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [pageViewLabels srg_safelySetObject:[object description] forKey:[key description]];
     }];
     
-    [CSComScore viewWithLabels:labels];
+    [CSComScore viewWithLabels:pageViewLabels];
 }
 
 - (void)trackTagCommanderPageViewWithTitle:(NSString *)title
                                     levels:(NSArray<NSString *> *)levels
-                              customLabels:(NSDictionary<NSString *, NSString *> *)customLabels
+                                    labels:(NSDictionary<NSString *, NSString *> *)labels
                       fromPushNotification:(BOOL)fromPushNotification
 {
     NSAssert(title.length != 0, @"A title is required");
     
     [self.tagCommander addData:@"TITLE" withValue:title];
-    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [self.tagCommander addData:key withValue:object];
     }];
     [self.tagCommander sendData];
@@ -221,45 +221,44 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)trackHiddenEventWithTitle:(NSString *)title
 {
-    [self trackHiddenEventWithTitle:title customLabels:nil comScoreCustomLabels:nil];
+    [self trackHiddenEventWithTitle:title labels:nil comScoreLabels:nil];
 }
 
 - (void)trackHiddenEventWithTitle:(NSString *)title
-                     customLabels:(NSDictionary *)customLabels
-             comScoreCustomLabels:(NSDictionary<NSString *,NSString *> *)comScoreCustomLabels
+                           labels:(NSDictionary *)labels
+                   comScoreLabels:(NSDictionary<NSString *,NSString *> *)comScoreLabels
 {
     if (title.length == 0) {
         SRGAnalyticsLogWarning(@"tracker", @"Missing title. No event will be sent");
         return;
     }
     
-    [self trackComScoreHiddenEventWithTitle:title customLabels:comScoreCustomLabels];
-    [self trackHiddenTagCommanderEventWithTitle:title customLabels:customLabels];
+    [self trackComScoreHiddenEventWithTitle:title labels:comScoreLabels];
+    [self trackHiddenTagCommanderEventWithTitle:title labels:labels];
 }
 
-- (void)trackComScoreHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary<NSString *, NSString *> *)customLabels
+- (void)trackComScoreHiddenEventWithTitle:(NSString *)title labels:(NSDictionary<NSString *, NSString *> *)labels
 {
     NSAssert(title.length != 0, @"A title is required");
     
-    NSMutableDictionary *labels = [NSMutableDictionary dictionary];
-    [labels srg_safelySetObject:title forKey:@"srg_title"];
+    NSMutableDictionary *hiddenEventLabels = [NSMutableDictionary dictionary];
+    [hiddenEventLabels srg_safelySetObject:title forKey:@"srg_title"];    
+    [hiddenEventLabels srg_safelySetObject:@"app" forKey:@"category"];
+    [hiddenEventLabels srg_safelySetObject:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];
     
-    [labels srg_safelySetObject:@"app" forKey:@"category"];
-    [labels srg_safelySetObject:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];
-    
-    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [labels srg_safelySetObject:[object description] forKey:[key description]];
+    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [hiddenEventLabels srg_safelySetObject:[object description] forKey:[key description]];
     }];
     
-    [CSComScore hiddenWithLabels:labels];
+    [CSComScore hiddenWithLabels:hiddenEventLabels];
 }
 
-- (void)trackHiddenTagCommanderEventWithTitle:(NSString *)title customLabels:(NSDictionary<NSString *, NSString *> *)customLabels
+- (void)trackHiddenTagCommanderEventWithTitle:(NSString *)title labels:(NSDictionary<NSString *, NSString *> *)labels
 {
     NSAssert(title.length != 0, @"A title is required");
     
     [self.tagCommander addData:@"TITLE" withValue:title];
-    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [self.tagCommander addData:key withValue:object];
     }];
     [self.tagCommander sendData];
@@ -269,18 +268,18 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
               atPosition:(NSTimeInterval)position
-        withCustomLabels:(NSDictionary<NSString *, NSString *> *)customLabels
-    comScoreCustomLabels:(NSDictionary<NSString *, NSString *> *)comScoreCustomLabels
-comScoreCustomClipLabels:(nullable NSDictionary<NSString *,NSString *> *)comScoreCustomClipLabels
+              withLabels:(NSDictionary<NSString *, NSString *> *)labels
+          comScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
+      comScoreClipLabels:(NSDictionary<NSString *,NSString *> *)comScoreClipLabels
 {
-    [self trackComScorePlayerEvent:event atPosition:position withCustomLabels:comScoreCustomLabels customClipLabels:comScoreCustomClipLabels];
-    [self trackTagCommanderPlayerEvent:event atPosition:position withCustomLabels:customLabels];
+    [self trackComScorePlayerEvent:event atPosition:position withLabels:comScoreLabels clipLabels:comScoreClipLabels];
+    [self trackTagCommanderPlayerEvent:event atPosition:position withLabels:labels];
 }
 
 - (void)trackComScorePlayerEvent:(SRGAnalyticsPlayerEvent)event
                       atPosition:(NSTimeInterval)position
-                withCustomLabels:(NSDictionary<NSString *, NSString *> *)customLabels
-                customClipLabels:(NSDictionary<NSString *, NSString *> *)customClipLabels
+                      withLabels:(NSDictionary<NSString *, NSString *> *)labels
+                      clipLabels:(NSDictionary<NSString *, NSString *> *)clipLabels
 {
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSNumber *> *s_streamSenseEvents;
@@ -299,14 +298,14 @@ comScoreCustomClipLabels:(nullable NSDictionary<NSString *,NSString *> *)comScor
     }
     
     [[self.streamSense labels] removeAllObjects];
-    [customLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [self.streamSense setLabel:key value:object];
     }];
     
-    // Reset custom clip labels to avoid inheriting from a previous segment. Do not reset otherwise internal hidden
-    // comScore labels (e.g. ns_st_pa) would be incorrect afterwards
+    // Reset clip labels to avoid inheriting from a previous segment. This does not reset internal hidden comScore labels
+    // (e.g. ns_st_pa), which would otherwise be incorrect
     [[[self.streamSense clip] labels] removeAllObjects];
-    [customClipLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [clipLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [[self.streamSense clip] setLabel:key value:object];
     }];
     
@@ -315,7 +314,7 @@ comScoreCustomClipLabels:(nullable NSDictionary<NSString *,NSString *> *)comScor
 
 - (void)trackTagCommanderPlayerEvent:(SRGAnalyticsPlayerEvent)event
                           atPosition:(NSTimeInterval)position
-                    withCustomLabels:(NSDictionary<NSString *,NSString *> *)customLabels
+                          withLabels:(NSDictionary<NSString *,NSString *> *)labels
 {
 
 }

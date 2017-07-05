@@ -70,7 +70,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *  Measurements are based on events emitted by the application, and collected by comScore and NetMetrix. Currently, the
  *  SRGAnalytics library supports the following kinds of events:
  *    - View events: Appearance of views (page views), which makes it possible to track which content is seen by users.
- *    - Hidden events: Custom events which can be used for measuresement of application functionalities.
+ *    - Hidden events: Arbitrary events which can be used for measurement of application functionalities.
  *    - Media playback events (available from the SRGAnalytics_MediaPlayer subframework): Measures audio and video
  *      consumption.
  *
@@ -93,7 +93,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *     tailored to your needs, especially if the time at which the measurement is made (when the view appears) is 
  *     inappropriate. Please refer to the `SRGAnalyticsViewTracking` documentation for more information. If your
  *     application uses plain views (not view controllers) which must be tracked as well, you can still perform
- *     tracking via the `-[SRGAnalyticsTracker trackPageViewTitle:levels:customLabels:fromPushNotification:]` method.
+ *     tracking via the `-[SRGAnalyticsTracker trackPageViewTitle:levels:labels:fromPushNotification:]` method.
  *  1. When you need to track specific functionalities in your application (e.g. the use of some interface button
  *     or of some feature of your application), send a hidden event using one of the `-trackHiddenEvent...` methods
  *     available from `SRGAnalyticsTracker`.
@@ -187,25 +187,25 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 /**
  *  Send a hidden event with the specified title.
  *
- *  @param title                The event title.
- *  @param customLabels         Custom information to be sent along the event and which is meaningful for your application measurements.
- *  @param comScoreCustomLabels Custom comScore information to be sent along the event and which is meaningful for your application
- *                              measurements.
+ *  @param title          The event title.
+ *  @param labels         Information to be sent along the event and which is meaningful for your application measurements.
+ *  @param comScoreLabels comScore information to be sent along the event and which is meaningful for your application
+ *                        measurements.
  *
  *  @discussion Be careful when using custom labels and ensure your custom keys do not match reserved values by
  *              using appropriate naming conventions (e.g. a prefix). If the title is `nil`, no event will be sent.
  */
 - (void)trackHiddenEventWithTitle:(NSString *)title
-                     customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels
-             comScoreCustomLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreCustomLabels;
+                           labels:(nullable NSDictionary<NSString *, NSString *> *)labels
+                   comScoreLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreLabels;
 
 /**
  *  Track a page view.
  *
  *  @param title                The page title.
  *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy.
- *  @param customLabels         Additional custom labels.
- *  @param comScoreCustomLabels Custom comScore information to be sent along the event and which is meaningful for your application
+ *  @param labels               Additional custom labels.
+ *  @param comScoreLabels       Custom comScore information to be sent along the event and which is meaningful for your application
  *                              measurements.
  *  @param fromPushNotification `YES` iff the view is opened from a push notification.
  *
@@ -215,26 +215,26 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  */
 - (void)trackPageViewWithTitle:(nullable NSString *)title
                         levels:(nullable NSArray<NSString *> *)levels
-                  customLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels
-          comScoreCustomLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreCustomLabels
+                        labels:(nullable NSDictionary<NSString *, NSString *> *)labels
+                comScoreLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreLabels
           fromPushNotification:(BOOL)fromPushNotification;
 
 /**
  *  Track a media player event.
  *
- *  @param event                The event type.
- *  @param position             The playback position at which the event occurs, in milliseconds.
- *  @param customLabels         Additional custom labels.
- *  @param comScoreCustomLabels Custom comScore information to be sent along the event and which is meaningful for your application
- *                              measurements.
- *  @param comScoreCustomLabels Custom comScore clip information to be sent along the event and which is meaningful to your application
- *                              measurements.
+ *  @param event              The event type.
+ *  @param position           The playback position at which the event occurs, in milliseconds.
+ *  @param labels             Additional custom labels.
+ *  @param comScoreLabels     Custom comScore information to be sent along the event and which is meaningful for your application
+ *                            measurements.
+ *  @param comScoreClipLabels Custom comScore clip information to be sent along the event and which is meaningful to your application
+ *                            measurements.
  */
 - (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
               atPosition:(NSTimeInterval)position
-        withCustomLabels:(nullable NSDictionary<NSString *, NSString *> *)customLabels
-    comScoreCustomLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreCustomLabels
-comScoreCustomClipLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreCustomClipLabels;
+              withLabels:(nullable NSDictionary<NSString *, NSString *> *)labels
+          comScoreLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreLabels
+      comScoreClipLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreClipLabels;
 
 @end
 

@@ -219,9 +219,9 @@ static NSMutableDictionary *s_trackers = nil;
     // TODO: TagCommander labels
     [[SRGAnalyticsTracker sharedTracker] trackPlayerEvent:event
                                                atPosition:self.currentPositionInMilliseconds
-                                         withCustomLabels:nil
-                                     comScoreCustomLabels:[comScoreLabels copy]
-                                 comScoreCustomClipLabels:[comScoreClipLabels copy]];
+                                               withLabels:nil
+                                           comScoreLabels:[comScoreLabels copy]
+                                       comScoreClipLabels:[comScoreClipLabels copy]];
 }
 
 - (void)rawNotifyTagCommanderEvent:(SRGAnalyticsPlayerEvent)event withLabels:(NSDictionary *)labels segment:(id<SRGSegment>)segment
