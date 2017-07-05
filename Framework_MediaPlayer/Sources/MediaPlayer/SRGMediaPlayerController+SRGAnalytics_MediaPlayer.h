@@ -69,6 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
                   atTime:(CMTime)time
             withSegments:(nullable NSArray<id<SRGSegment>> *)segments
          analyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels
+ comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
 
@@ -81,6 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
          atTime:(CMTime)time
    withSegments:(nullable NSArray<id<SRGSegment>> *)segments
 analyticsLabels:(nullable NSDictionary *)analyticsLabels
+comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
@@ -93,6 +95,7 @@ analyticsLabels:(nullable NSDictionary *)analyticsLabels
                  atIndex:(NSInteger)index
               inSegments:(NSArray<id<SRGSegment>> *)segments
      withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels
+ comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
 
@@ -105,6 +108,7 @@ analyticsLabels:(nullable NSDictionary *)analyticsLabels
         atIndex:(NSInteger)index
      inSegments:(NSArray<id<SRGSegment>> *)segments
 withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels
+comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
 /**

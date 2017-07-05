@@ -12,7 +12,7 @@
 
 NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
 
-typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *, NSString *> * _Nullable analyticsLabels, NSError * _Nullable error);
+typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *, NSString *> * _Nullable analyticsLabels, NSDictionary<NSString *, NSString *> * _Nullable comScoreAnalyticsLabels, NSError * _Nullable error);
 
 @implementation SRGMediaPlayerController (SRGAnalytics_DataProvider)
 
@@ -90,18 +90,29 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         }
         
         NSMutableDictionary<NSString *, NSString *> *analyticsLabels = [NSMutableDictionary dictionary];
+        if (mediaComposition.analyticsLabels) {
+            [analyticsLabels addEntriesFromDictionary:mediaComposition.analyticsLabels];
+        }
+        if (mediaComposition.mainChapter.analyticsLabels) {
+            [analyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
+        }
+        if (resource.analyticsLabels) {
+            [analyticsLabels addEntriesFromDictionary:resource.analyticsLabels];
+        }
+        
+        NSMutableDictionary<NSString *, NSString *> *comScoreAnalyticsLabels = [NSMutableDictionary dictionary];
         if (mediaComposition.comScoreAnalyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
+            [comScoreAnalyticsLabels addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
         }
         if (mediaComposition.mainChapter.comScoreAnalyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
+            [comScoreAnalyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
         }
         if (resource.comScoreAnalyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:resource.comScoreAnalyticsLabels ];
+            [comScoreAnalyticsLabels addEntriesFromDictionary:resource.comScoreAnalyticsLabels];
         }
         
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
-        completionBlock(URL, index, chapter.segments, [analyticsLabels copy], nil);
+        completionBlock(URL, index, chapter.segments, [analyticsLabels copy], [comScoreAnalyticsLabels copy], nil);
     }];
     if (resume) {
         [request resume];
@@ -119,14 +130,14 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                                        resume:(BOOL)resume
                             completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSDictionary<NSString *,NSString *> * _Nullable comScoreAnalyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
         }
         
         NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithMediaComposition:mediaComposition userInfo:userInfo];
-        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
+        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels comScoreAnalyticsLabels:comScoreAnalyticsLabels userInfo:fullUserInfo completionHandler:^{
             completionHandler ? completionHandler(nil) : nil;
         }];
     }];
@@ -140,14 +151,14 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                               resume:(BOOL)resume
                    completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSDictionary<NSString *,NSString *> * _Nullable comScoreAnalyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
         }
         
         NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithMediaComposition:mediaComposition userInfo:userInfo];
-        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
+        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels comScoreAnalyticsLabels:comScoreAnalyticsLabels userInfo:fullUserInfo completionHandler:^{
             [self play];
             completionHandler ? completionHandler(nil) : nil;
         }];
