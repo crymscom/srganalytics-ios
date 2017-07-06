@@ -267,13 +267,13 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 /**
  *  Track a media player event.
  *
- *  @param event              The event type.
- *  @param position           The playback position at which the event occurs, in milliseconds.
- *  @param labels             Additional custom labels.
- *  @param comScoreLabels     Custom comScore information to be sent along the event and which is meaningful for your application
- *                            measurements.
- *  @param comScoreClipLabels Custom comScore clip information to be sent along the event and which is meaningful to your application
- *                            measurements.
+ *  @param event                 The event type.
+ *  @param position              The playback position at which the event occurs, in milliseconds.
+ *  @param labels                Additional custom labels.
+ *  @param comScoreLabels        Custom comScore information to be sent along the event and which is meaningful for your application
+ *                               measurements.
+ *  @param comScoreSegmentLabels Custom comScore segment information to be sent along the event and which is meaningful to your application
+ *                               measurements.
  *
  *  @discussion Be careful when using custom labels and ensure your custom keys do not match reserved values by
  *              using appropriate naming conventions (e.g. a prefix).
@@ -282,7 +282,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
               atPosition:(NSTimeInterval)position
               withLabels:(nullable NSDictionary<NSString *, NSString *> *)labels
           comScoreLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreLabels
-      comScoreClipLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreClipLabels;
+   comScoreSegmentLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreSegmentLabels;
 
 @end
 

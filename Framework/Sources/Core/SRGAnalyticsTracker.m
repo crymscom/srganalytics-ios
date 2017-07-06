@@ -300,16 +300,16 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
               atPosition:(NSTimeInterval)position
               withLabels:(NSDictionary<NSString *, NSString *> *)labels
           comScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
-      comScoreClipLabels:(NSDictionary<NSString *, NSString *> *)comScoreClipLabels
+   comScoreSegmentLabels:(NSDictionary<NSString *, NSString *> *)comScoreSegmentLabels
 {
     [self trackTagCommanderPlayerEvent:event atPosition:position withLabels:labels];
-    [self trackComScorePlayerEvent:event atPosition:position withLabels:comScoreLabels clipLabels:comScoreClipLabels];
+    [self trackComScorePlayerEvent:event atPosition:position withLabels:comScoreLabels segmentLabels:comScoreSegmentLabels];
 }
 
 - (void)trackComScorePlayerEvent:(SRGAnalyticsPlayerEvent)event
                       atPosition:(NSTimeInterval)position
                       withLabels:(NSDictionary<NSString *, NSString *> *)labels
-                      clipLabels:(NSDictionary<NSString *, NSString *> *)clipLabels
+                   segmentLabels:(NSDictionary<NSString *, NSString *> *)segmentLabels
 {
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSNumber *> *s_streamSenseEvents;
@@ -335,7 +335,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     // Reset clip labels to avoid inheriting from a previous segment. This does not reset internal hidden comScore labels
     // (e.g. ns_st_pa), which would otherwise be incorrect
     [[[self.streamSense clip] labels] removeAllObjects];
-    [clipLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [segmentLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [[self.streamSense clip] setLabel:key value:object];
     }];
     

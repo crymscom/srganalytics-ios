@@ -227,15 +227,15 @@ static NSMutableDictionary *s_trackers = nil;
     }
     
     // comScore clip labels
-    NSMutableDictionary<NSString *, NSString *> *fullComScoreClipLabels = [NSMutableDictionary dictionary];
-    [fullComScoreClipLabels srg_safelySetObject:[self dimensions] forKey:@"ns_st_cs"];
-    [fullComScoreClipLabels srg_safelySetObject:[self timeshiftFromLiveInMilliseconds] forKey:@"srg_timeshift"];
-    [fullComScoreClipLabels srg_safelySetObject:[self screenType] forKey:@"srg_screen_type"];
+    NSMutableDictionary<NSString *, NSString *> *fullComScoreSegmentLabels = [NSMutableDictionary dictionary];
+    [fullComScoreSegmentLabels srg_safelySetObject:[self dimensions] forKey:@"ns_st_cs"];
+    [fullComScoreSegmentLabels srg_safelySetObject:[self timeshiftFromLiveInMilliseconds] forKey:@"srg_timeshift"];
+    [fullComScoreSegmentLabels srg_safelySetObject:[self screenType] forKey:@"srg_screen_type"];
     
     if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
-        NSDictionary<NSString *, NSString *> *comScoreClipLabels = [(id<SRGAnalyticsSegment>)segment srg_comScoreAnalyticsLabels];
-        if (comScoreClipLabels) {
-            [fullComScoreClipLabels addEntriesFromDictionary:comScoreClipLabels];
+        NSDictionary<NSString *, NSString *> *comScoreSegmentLabels = [(id<SRGAnalyticsSegment>)segment srg_comScoreAnalyticsLabels];
+        if (comScoreSegmentLabels) {
+            [fullComScoreSegmentLabels addEntriesFromDictionary:comScoreSegmentLabels];
         }
     }
     
@@ -243,7 +243,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                atPosition:self.currentPositionInMilliseconds
                                                withLabels:[fullLabels copy]
                                            comScoreLabels:[fullComScoreLabels copy]
-                                       comScoreClipLabels:[fullComScoreClipLabels copy]];
+                                    comScoreSegmentLabels:[fullComScoreSegmentLabels copy]];
 }
 
 // Convenience helper using current labels
@@ -495,7 +495,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                    atPosition:self.currentPositionInMilliseconds
                                                    withLabels:nil
                                                comScoreLabels:nil
-                                           comScoreClipLabels:nil];
+                                        comScoreSegmentLabels:nil];
     }
 }
 
