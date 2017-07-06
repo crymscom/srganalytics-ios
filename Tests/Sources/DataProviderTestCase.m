@@ -42,7 +42,7 @@ static NSURL *ServiceTestURL(void)
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSWI];
-    [[dataProvider videoMediaCompositionWithUid:@"42297626" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider videoMediaCompositionWithUid:@"42297626" completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
         [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
@@ -74,7 +74,7 @@ static NSURL *ServiceTestURL(void)
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSWI];
-    [[dataProvider videoMediaCompositionWithUid:@"42297626" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider videoMediaCompositionWithUid:@"42297626" completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
         [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
@@ -100,7 +100,7 @@ static NSURL *ServiceTestURL(void)
     }];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSRF];
-    [[dataProvider videoMediaCompositionWithUid:@"99ac4dd4-8cd4-4883-8c80-0373d37cf0ad" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider videoMediaCompositionWithUid:@"99ac4dd4-8cd4-4883-8c80-0373d37cf0ad" completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
         [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
