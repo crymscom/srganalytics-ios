@@ -9,11 +9,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Stream measurement additions to SRGAnalytics, based on comScore StreamSense. The SRGAnalytics_MediaPlayer framework 
- *  is an optional SRGAnalytics companion framework which can be used to easily measure audio and video consumption in 
- *  applications powered by the SRGMediaPlayer library.
+ *  Streaming measurement additions to SRGAnalytics. The SRGAnalytics_MediaPlayer framework is an optional SRGAnalytics
+ *  companion framework which can be used to easily measure audio and video consumption in applications powered by 
+ *  the SRG MediaPlayer library. If you need to implement streaming measurements for other players, use the corresponding
+ *  method available from `SRGAnalyticsTracker`.
  *
- *  When playing a media, two levels of analytics information (labels) are consolidated and sent to comScore:
+ *  When playing a media, two levels of analytics information (labels) are consolidated:
  *    - Labels associated with the content URL being played.
  *    - Labels associated with segment being played, which are merged and might override content URL labels.
  *
@@ -27,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  The tracker itself must have been started before any measurements can take place (@see `SRGAnalyticsTracker`).
  * 
- *  By default, provided a tracker has been started, all media players are automatically tracked without any 
+ *  By default, provided a tracker has been started, all SRG Media Player controllers are automatically tracked without any
  *  additional work. You can disable this behavior by setting the `SRGMediaPlayerController` `tracked` property to `NO`.
  *  If you do not want any events to be emitted by a player, you should set this property to `NO` before beginning
  *  playback.
@@ -54,8 +55,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  ### Labels associated with a segment
  *
  *  To supply labels for a segment, have your segment model class conform to the `SRGAnalyticsSegment` protocol instead 
- *  of `SRGSegment`, and implement the required `srg_analyticsLabels` method to return the analytics associated with
- *  a segment.
+ *  of `SRGSegment`, and implement the required `srg_analyticsLabels` and `srg_comScoreAnalyticsLabels` methods to return 
+ *  the analytics associated with a segment.
  */
 @interface SRGMediaPlayerController (SRGAnalytics_MediaPlayer)
 
@@ -63,7 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atTime:withSegments:userInfo:completionHandler:]`, but with optional
  *  analytics labels.
  *
- *  @param analyticsLabels The analytics labels to send in stream events.
+ *  @param analyticsLabels        The analytics labels to send in stream events.
+ *  @param comScorenalyticsLabels The comScore analytics labels to send in stream events.
  */
 - (void)prepareToPlayURL:(NSURL *)URL
                   atTime:(CMTime)time
@@ -76,7 +78,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Same as `-[SRGMediaPlayerController playURL:atTime:withSegments:userInfo:]`, but with optional analytics labels.
  *
- *  @param analyticsLabels The analytics labels to send in stream events.
+ *  @param analyticsLabels        The analytics labels to send in stream events.
+ *  @param comScorenalyticsLabels The comScore analytics labels to send in stream events.
  */
 - (void)playURL:(NSURL *)URL
          atTime:(CMTime)time
@@ -89,7 +92,8 @@ comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
  *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atIndex:inSegments:withUserInfo:completionHandler:]`, but with 
  *  optional analytics labels.
  *
- *  @param analyticsLabels The analytics labels to send in stream events.
+ *  @param analyticsLabels        The analytics labels to send in stream events.
+ *  @param comScorenalyticsLabels The comScore analytics labels to send in stream events.
  */
 - (void)prepareToPlayURL:(NSURL *)URL
                  atIndex:(NSInteger)index
@@ -102,7 +106,8 @@ comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
 /**
  *  Same as `-[SRGMediaPlayerController playURL:atIndex:inSegments:withUserInfo:]`, but with optional analytics labels.
  *
- *  @param analyticsLabels The analytics labels to send in stream events.
+ *  @param analyticsLabels        The analytics labels to send in stream events.
+ *  @param comScorenalyticsLabels The comScore analytics labels to send in stream events.
  */
 - (void)playURL:(NSURL *)URL
         atIndex:(NSInteger)index

@@ -10,7 +10,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Data provider compatibility additions to `SRGMediaPlayerController`.
+ *  Data provider compatibility additions to `SRGMediaPlayerController`. By playing medias with the methods provided
+ *  by this category, complete metadata is entirely retrieved from the Integration Layer and automatically managed
+ *  without additional work.
  *
  *  For more information about stream measurements, @see SRGMediaPlayerController+SRGAnalytics.h.
  */

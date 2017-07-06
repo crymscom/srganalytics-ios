@@ -220,10 +220,14 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *
  *  @param title                The page title.
  *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy.
+ *                              If the page view levels array is `nil` or empty, an 'app' default level will be used.
  *
  *  @discussion This method is primarily available for page view tracking not related to a view controller. If your page view
  *              is related to a view controller, the recommended way of tracking the view controller is by having it conform
  *              to the `SRGAnalyticsViewTracking` protocol.
+ *
+ *              Be careful when using custom labels and ensure your custom keys do not match reserved values by
+ *              using appropriate naming conventions (e.g. a prefix). If the title is `nil`, no event will be sent.
  */
 - (void)trackPageViewWithTitle:(nullable NSString *)title
                         levels:(nullable NSArray<NSString *> *)levels;
@@ -232,7 +236,8 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *  Track a page view.
  *
  *  @param title                The page title.
- *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy.
+ *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy. If the 
+ *                              page view levels array is `nil` or empty, an 'app' default level will be used.
  *  @param labels               Additional custom labels.
  *  @param comScoreLabels       Custom comScore information to be sent along the event and which is meaningful for your application
  *                              measurements.
@@ -241,6 +246,9 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *  @discussion This method is primarily available for page view tracking not related to a view controller. If your page view
  *              is related to a view controller, the recommended way of tracking the view controller is by having it conform
  *              to the `SRGAnalyticsViewTracking` protocol.
+ *
+ *              Be careful when using custom labels and ensure your custom keys do not match reserved values by
+ *              using appropriate naming conventions (e.g. a prefix). If the title is `nil`, no event will be sent.
  */
 - (void)trackPageViewWithTitle:(nullable NSString *)title
                         levels:(nullable NSArray<NSString *> *)levels
@@ -266,6 +274,9 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *                            measurements.
  *  @param comScoreClipLabels Custom comScore clip information to be sent along the event and which is meaningful to your application
  *                            measurements.
+ *
+ *  @discussion Be careful when using custom labels and ensure your custom keys do not match reserved values by
+ *              using appropriate naming conventions (e.g. a prefix).
  */
 - (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
               atPosition:(NSTimeInterval)position
