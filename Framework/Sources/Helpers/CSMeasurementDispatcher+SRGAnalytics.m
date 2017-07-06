@@ -66,14 +66,14 @@
     long long timestamp = [[NSDate date] timeIntervalSince1970];
     id measurement = [NSClassFromString(@"CSApplicationMeasurement") newWithCore:core eventType:eventType labels:labels timestamp:timestamp];
     
-    NSMutableDictionary<NSString *, NSString *> *completeLabels = [NSMutableDictionary dictionary];
+    NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
     for (id label in [measurement getLabels].allValues) {
         NSString *name = [label valueForKey:@"name"];
         NSString *value = [label valueForKey:@"value"];
-        completeLabels[name] = value;
+        fullLabels[name] = value;
     }
     
-    NSDictionary *userInfo = @{ SRGAnalyticsComScoreLabelsKey: [completeLabels copy] };
+    NSDictionary *userInfo = @{ SRGAnalyticsComScoreLabelsKey: [fullLabels copy] };
     
     void (^notificationBlock)(void) = ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestNotification object:self userInfo:userInfo];
