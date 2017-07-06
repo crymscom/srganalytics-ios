@@ -510,12 +510,12 @@
 				E613888A1D916A9900218919 /* SRGAnalyticsLogger.h */,
 				E613888C1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h */,
 				E613888D1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m */,
+				E61388B91D91903B00218919 /* SRGAnalyticsNotifications.h */,
+				E61388BA1D91903B00218919 /* SRGAnalyticsNotifications.m */,
 				E61388911D916A9900218919 /* SRGAnalyticsTracker.h */,
 				E61388921D916A9900218919 /* SRGAnalyticsTracker.m */,
 				E61388931D916A9900218919 /* UIViewController+SRGAnalytics.h */,
 				E61388941D916A9900218919 /* UIViewController+SRGAnalytics.m */,
-				E61388B91D91903B00218919 /* SRGAnalyticsNotifications.h */,
-				E61388BA1D91903B00218919 /* SRGAnalyticsNotifications.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";

@@ -157,10 +157,20 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)trackTagCommanderEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
-    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [self.tagCommander addData:key withValue:object];
-    }];
-    [self.tagCommander sendData];
+    if (! [self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
+        [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+            [self.tagCommander addData:key withValue:object];
+        }];
+        [self.tagCommander sendData];
+    }
+    else {
+        // Only custom labels are sent in the notification userInfo. Internal predefined TagCommander variables are not sent,
+        // as they are not needed for tests (they are part of what is guaranteed by the TagCommander SDK). For a complete list of
+        // predefined variables, see https://github.com/TagCommander/pods/blob/master/TCSDK/PredefinedVariables.md
+        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsRequestNotification
+                                                            object:self
+                                                          userInfo:@{ SRGAnalyticsLabelsKey : labels }];
+    }
 }
 
 #pragma mark Page view tracking
