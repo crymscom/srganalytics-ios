@@ -122,12 +122,12 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *  `SRGAnalyticsBusinessUnitIdentifierTEST` business unit. This business unit:
  *    - Disables NetMetrix event sending.
  *    - Still sends comScore events to the specified virtual site.
- *    - Adds an `srg_test` label to measurements, specifying the time at which the tracker was started as a timestamp 
- *      (yyyy-MM-dd@HH:mm). This label can be used to identify application sesssions and to gather measurements related
- *      to a session if needed.
+ *    - Adds an `srg_test` label to comScore measurements, specifying the time at which the tracker was started as a 
+ *      timestamp (yyyy-MM-dd@HH:mm). This label can be used to identify application sesssions and to gather measurements 
+ *      related to a session if needed.
  *
- *  The [JASS proxy](https://github.com/SRGSSR/jass) tool is provided to let you peek at the analytics data sent by your 
- *  application during development or tests.
+ *  The [JASS proxy](https://github.com/SRGSSR/jass) tool is provided to let you peek at the comScore analytics data sent 
+ *  by your application during development or tests.
  
  *  @param businessUnitIdentifier The SRG SSR business unit for statistics measurements. Constants for the officially
  *                                supported business units are provided at the top of this file. A constant for use

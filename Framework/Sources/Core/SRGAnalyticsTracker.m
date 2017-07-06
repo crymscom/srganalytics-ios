@@ -239,11 +239,14 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 {
     NSAssert(title.length != 0, @"A title is required");
     
-    [self.tagCommander addData:@"TITLE" withValue:title];
+    // TODO: Apply final tagging rules
+    NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
+    [fullLabels srg_safelySetObject:title forKey:@"TITLE"];
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [self.tagCommander addData:key withValue:object];
+        [fullLabels srg_safelySetObject:object forKey:key];
     }];
-    [self.tagCommander sendData];
+    
+    [self trackTagCommanderEventWithLabels:[fullLabels copy]];
 }
 
 #pragma mark Hidden event tracking
@@ -287,11 +290,13 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSAssert(title.length != 0, @"A title is required");
     
     // TODO: Apply final tagging rules
-    [self.tagCommander addData:@"TITLE" withValue:title];
+    NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
+    [fullLabels srg_safelySetObject:title forKey:@"TITLE"];
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [self.tagCommander addData:key withValue:object];
+        [fullLabels srg_safelySetObject:object forKey:key];
     }];
-    [self.tagCommander sendData];
+    
+    [self trackTagCommanderEventWithLabels:[fullLabels copy]];
 }
 
 #pragma mark Player tracking
@@ -346,7 +351,6 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
                           atPosition:(NSTimeInterval)position
                           withLabels:(NSDictionary<NSString *,NSString *> *)labels
 {
-    // TODO: Apply final tagging rules
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSString *> *s_actions;
     dispatch_once(&s_onceToken, ^{
@@ -363,9 +367,12 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         return;
     }
     
-    [self.tagCommander addData:@"VIDEO_ACTION" withValue:action];
-    [self.tagCommander addData:@"VIDEO_CURRENT_POSITION" withValue:@((int)(position / 1000)).stringValue];
-    [self.tagCommander sendData];
+    // TODO: Apply final tagging rules
+    NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
+    [fullLabels srg_safelySetObject:action forKey:@"VIDEO_ACTION"];
+    [fullLabels srg_safelySetObject:@((int)(position / 1000)).stringValue forKey:@"VIDEO_CURRENT_POSITION"];
+    
+    [self trackTagCommanderEventWithLabels:[fullLabels copy]];
 }
 
 #pragma mark Application list measurement
