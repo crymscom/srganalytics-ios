@@ -36,6 +36,7 @@
 
 - (NSString *)netMetrixDomain
 {
+    // HTTPs domains as documented here: https://srfmmz.atlassian.net/wiki/display/SRGPLAY/HTTPS+Transition
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSString *, NSString *> *s_domains;
     dispatch_once(&s_onceToken, ^{
