@@ -17,6 +17,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTR;
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTS;
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRF;
+OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRG;
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI;
 
 // This special business unit can be used in test or debug builds of your application if you do not want to pollute
@@ -87,7 +88,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *
  *  1. Start the tracker early in your application lifecycle, for example in your application delegate
  *     `-application:didFinishLaunchingWithOptions:` implementation, by calling the
- *     `-startWithBusinessUnitIdentifier:accountIdentifier:containerIdentifier:comScoreVirtualSite:netMetrixIdentifier:`
+ *     `-startWithBusinessUnitIdentifier:containerIdentifier:comScoreVirtualSite:netMetrixIdentifier:`
  *     method.
  *  1. To track page views related to view controllers, have them conform to the `SRGAnalyticsViewTracking` protocol.
  *     View controllers conforming to this protocol are automatically tracked by default, but this behavior can be
@@ -120,6 +121,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *
  *  During tests, or if you do not want to pollute real measurements during development, you can use the special
  *  `SRGAnalyticsBusinessUnitIdentifierTEST` business unit. This business unit:
+ *    - Disables TagCommander (the container identifier is ignored).
  *    - Disables NetMetrix event sending.
  *    - Still sends comScore events to the specified virtual site.
  *    - Adds an `srg_test` label to comScore measurements, specifying the time at which the tracker was started as a 
@@ -132,15 +134,13 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *  @param businessUnitIdentifier The SRG SSR business unit for statistics measurements. Constants for the officially
  *                                supported business units are provided at the top of this file. A constant for use
  *                                during development or tests is supplied as well.
- *  @param accountIdentifier      The TagCommander account identifier.
- *  @param container              The TagCommander container.
+ *  @param containerIdentifier    The TagCommander container identifier.
  *  @param comScoreVirtualSite    Virtual sites are where comScore measurements are collected. The virtual site you must
  *                                use is usually supplied by the team in charge of measurements for your application.
  *  @param netMetrixIdentifier    The identifier used to group NetMetrix measurements for your application. This value
  *                                is supplied by the team in charge of measurements for your applicatiom.
  */
-- (void)startWithBusinessUnitIdentifier:(NSString *)businessUnitIdentifier
-                      accountIdentifier:(NSInteger)accountIdentifier
+- (void)startWithBusinessUnitIdentifier:(SRGAnalyticsBusinessUnitIdentifier)businessUnitIdentifier
                     containerIdentifier:(NSInteger)containerIdentifier
                     comScoreVirtualSite:(NSString *)comScoreVirtualSite
                     netMetrixIdentifier:(NSString *)netMetrixIdentifier;
@@ -148,12 +148,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 /**
  *  The SRG SSR business unit which measurements are associated with.
  */
-@property (nonatomic, readonly, copy, nullable) NSString *businessUnitIdentifier;
-
-/**
- *  The TagCommander account identifier.
- */
-@property (nonatomic, readonly) NSInteger accountIdentifier;
+@property (nonatomic, readonly, copy, nullable) SRGAnalyticsBusinessUnitIdentifier businessUnitIdentifier;
 
 /**
  *  The TagCommander container identifier.

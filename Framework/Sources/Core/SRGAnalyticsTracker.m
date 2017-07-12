@@ -21,13 +21,13 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRSI =
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTR = @"rtr";
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTS = @"rts";
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRF = @"srf";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRG = @"srg";
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
 @interface SRGAnalyticsTracker ()
 
 @property (nonatomic, copy) NSString *businessUnitIdentifier;
-@property (nonatomic) NSInteger accountIdentifier;
 @property (nonatomic) NSInteger containerIdentifier;
 @property (nonatomic, copy) NSString *comScoreVirtualSite;
 @property (nonatomic, copy) NSString *netMetrixIdentifier;
@@ -55,21 +55,31 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 #pragma mark Start
 
-- (void)startWithBusinessUnitIdentifier:(NSString *)businessUnitIdentifier
-                      accountIdentifier:(NSInteger)accountIdentifier
+- (void)startWithBusinessUnitIdentifier:(SRGAnalyticsBusinessUnitIdentifier)businessUnitIdentifier
                     containerIdentifier:(NSInteger)containerIdentifier
                     comScoreVirtualSite:(NSString *)comScoreVirtualSite
                     netMetrixIdentifier:(NSString *)netMetrixIdentifier
-{    
+{
     self.businessUnitIdentifier = businessUnitIdentifier;
-    self.accountIdentifier = accountIdentifier;
     self.containerIdentifier = containerIdentifier;
     self.comScoreVirtualSite = comScoreVirtualSite;
     self.netMetrixIdentifier = netMetrixIdentifier;
     
     self.started = YES;
     
-    self.tagCommander = [[TagCommander alloc] initWithSiteID:(int)accountIdentifier andContainerID:(int)containerIdentifier];
+    if (! [businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
+        static NSDictionary<SRGAnalyticsBusinessUnitIdentifier, NSNumber *> *s_accountIdentifiers = nil;
+        static dispatch_once_t s_onceToken;
+        dispatch_once(&s_onceToken, ^{
+            s_accountIdentifiers = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @3668,
+                                      SRGAnalyticsBusinessUnitIdentifierRTR : @0,       // FIXME:
+                                      SRGAnalyticsBusinessUnitIdentifierRTS : @3669,
+                                      SRGAnalyticsBusinessUnitIdentifierSRF : @3667,
+                                      SRGAnalyticsBusinessUnitIdentifierSRG : @3666,
+                                      SRGAnalyticsBusinessUnitIdentifierSWI : @3670 };
+        });
+        self.tagCommander = [[TagCommander alloc] initWithSiteID:s_accountIdentifiers[businessUnitIdentifier].intValue andContainerID:(int)containerIdentifier];
+    }
     
     [self startComscoreTracker];
     
@@ -149,7 +159,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)trackTagCommanderEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
-    if (! [self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
+    // TagCommander is not initialized in test mode
+    if (self.tagCommander) {
         [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
             [self.tagCommander addData:key withValue:object];
         }];

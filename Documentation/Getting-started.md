@@ -17,7 +17,6 @@ Before measurements can be collected, the tracker singleton responsible of all a
     // ...
 
     [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierSRF
-                                                       accountIdentifier:1012
                                                      containerIdentifier:3
                                                      comScoreVirtualSite:@"srg-vsite"
                                                      netMetrixIdentifier:@"srf-app-identifier"];

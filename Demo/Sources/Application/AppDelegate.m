@@ -30,7 +30,6 @@
     [TCDebug setNotificationLog:YES];
     
     [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
-                                                       accountIdentifier:3601
                                                      containerIdentifier:2
                                                      comScoreVirtualSite:@"rts-app-test-v"
                                                      netMetrixIdentifier:@"test"];
