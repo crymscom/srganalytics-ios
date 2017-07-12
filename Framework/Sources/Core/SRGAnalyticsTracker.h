@@ -53,9 +53,13 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
      */
     SRGAnalyticsPlayerEventEnd,
     /**
-     *  Heartbeat.
+     *  Heartbeat (VOD).
      */
-    SRGAnalyticsPlayerEventHeartbeat
+    SRGAnalyticsPlayerEventHeartbeat,
+    /**
+     *  Live hearbeat (send when live only).
+     */
+    SRGAnalyticsPlayerEventLiveHeartbeat
 };
 
 /**

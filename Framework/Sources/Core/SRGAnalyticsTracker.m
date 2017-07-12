@@ -252,9 +252,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 {
     NSAssert(title.length != 0, @"A title is required");
     
-    // TODO: Apply final tagging rules
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
-    [fullLabels srg_safelySetObject:title forKey:@"TITLE"];
+    [fullLabels srg_safelySetObject:@"screen" forKey:@"hit_type"];
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [fullLabels srg_safelySetObject:object forKey:key];
     }];
@@ -302,9 +301,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 {
     NSAssert(title.length != 0, @"A title is required");
     
-    // TODO: Apply final tagging rules
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
-    [fullLabels srg_safelySetObject:title forKey:@"TITLE"];
+    [fullLabels srg_safelySetObject:@"click" forKey:@"hit_type"];
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [fullLabels srg_safelySetObject:object forKey:key];
     }];
@@ -372,7 +370,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
                        @(SRGAnalyticsPlayerEventSeek) : @"seek",
                        @(SRGAnalyticsPlayerEventStop) : @"stop",
                        @(SRGAnalyticsPlayerEventEnd) : @"eof",
-                       @(SRGAnalyticsPlayerEventHeartbeat) : @"pos"};
+                       @(SRGAnalyticsPlayerEventHeartbeat) : @"pos",
+                       @(SRGAnalyticsPlayerEventHeartbeat) : @"uptime" };
     });
     
     NSString *action = s_actions[@(event)];
@@ -380,9 +379,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         return;
     }
     
-    // TODO: Apply final tagging rules
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
-    [fullLabels srg_safelySetObject:action forKey:@"VIDEO_ACTION"];
+    [fullLabels srg_safelySetObject:action forKey:@"hit_type"];
     [fullLabels srg_safelySetObject:@((int)(position / 1000)).stringValue forKey:@"VIDEO_CURRENT_POSITION"];
     
     [self trackTagCommanderEventWithLabels:[fullLabels copy]];
