@@ -157,7 +157,7 @@ static NSDictionary *s_startLabels = nil;
         XCTAssertEqualObjects(labels[@"srg_n2"], @"Level2");
         XCTAssertNil(labels[@"srg_n3"]);
         XCTAssertEqualObjects(labels[@"category"], @"level1.level2");
-        XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking with levels and custom labels");
+        XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking with levels and labels");
         XCTAssertEqualObjects(labels[@"ns_type"], @"view");
         XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
         return YES;
