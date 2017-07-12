@@ -456,9 +456,10 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
             
             NSArray *sortedInstalledApplications = [installedApplications.allObjects sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
             
-            // TODO: Labels for TagCommander
-            [self trackEventWithLabels:nil comScoreLabels:@{ @"srg_evgroup" : @"Installed Apps",
-                                                             @"srg_evname" : [sortedInstalledApplications componentsJoinedByString:@","] }];
+            // Same labels for TagCommander and comScore
+            NSDictionary *labels = @{ @"srg_evgroup" : @"Installed Apps",
+                                      @"srg_evname" : [sortedInstalledApplications componentsJoinedByString:@","] };
+            [self trackEventWithLabels:labels comScoreLabels:labels];
         });
     }] resume];
 }
