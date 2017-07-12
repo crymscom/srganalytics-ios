@@ -134,7 +134,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     }
     
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
-    [labels safeSetValue:title.srg_comScoreFormattedString forKey:@"srg_title"];
+    [labels safeSetValue:title forKey:@"srg_title"];
     [labels safeSetValue:@(fromPushNotification) forKey:@"srg_ap_push"];
     
     NSString *category = @"app";
@@ -143,22 +143,22 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         [labels safeSetValue:category forKey:@"srg_n1"];
     }
     else if (levels.count > 0) {
-        __block NSMutableString *levelsString = [NSMutableString new];
+        __block NSMutableString *levelsComScoreFormattedString = [NSMutableString new];
         [levels enumerateObjectsUsingBlock:^(id value, NSUInteger idx, BOOL *stop) {
             NSString *levelKey = [NSString stringWithFormat:@"srg_n%@", @(idx + 1)];
-            NSString *levelValue = [value description].srg_comScoreFormattedString;
+            NSString *levelValue = [value description];
             
             if (idx < 10) {
                 [labels safeSetValue:levelValue forKey:levelKey];
             }
             
-            if (levelsString.length > 0) {
-                [levelsString appendString:@"."];
+            if (levelsComScoreFormattedString.length > 0) {
+                [levelsComScoreFormattedString appendString:@"."];
             }
-            [levelsString appendString:levelValue];
+            [levelsComScoreFormattedString appendString:levelValue.srg_comScoreFormattedString];
         }];
         
-        category = [levelsString copy];
+        category = [levelsComScoreFormattedString copy];
     }
     
     [labels safeSetValue:category forKey:@"category"];
@@ -188,7 +188,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     }
     
     NSMutableDictionary *labels = [NSMutableDictionary dictionary];
-    [labels safeSetValue:title.srg_comScoreFormattedString forKey:@"srg_title"];
+    [labels safeSetValue:title forKey:@"srg_title"];
     
     [labels safeSetValue:@"app" forKey:@"category"];
     [labels safeSetValue:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];

@@ -51,7 +51,7 @@
                     
                 case 1: {
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Automatic tracking with levels"
-                                                                                levels:@[@"level1", @"level2", @"level3"]
+                                                                                levels:@[@"Level1", @"Level2", @"Level3"]
                                                                           customLabels:nil
                                                             openedFromPushNotification:NO
                                                                   trackedAutomatically:YES];
@@ -60,7 +60,7 @@
                     
                 case 2: {
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Automatic tracking with many levels"
-                                                                                levels:@[@"level1", @"level2", @"level3", @"level4", @"level5", @"level6", @"level7", @"level8", @"level9", @"level10", @"level11", @"level12"]
+                                                                                levels:@[@"Level1", @"Level2", @"Level3", @"Level4", @"Level5", @"Level6", @"Level7", @"Level8", @"Level9", @"Level10", @"Level11", @"Level12"]
                                                                           customLabels:nil
                                                             openedFromPushNotification:NO
                                                                   trackedAutomatically:YES];
@@ -69,7 +69,7 @@
                     
                 case 3: {
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Automatic tracking with levels and custom labels"
-                                                                                levels:@[@"level1", @"level2"]
+                                                                                levels:@[@"Level1", @"Level2"]
                                                                           customLabels:@{ @"custom_label": @"custom_value" }
                                                             openedFromPushNotification:NO
                                                                   trackedAutomatically:YES];
