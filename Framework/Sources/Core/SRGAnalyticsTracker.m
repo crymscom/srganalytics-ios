@@ -67,7 +67,18 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     
     self.started = YES;
     
-    if (! [businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
+    [self startTagCommanderTracker];
+    [self startComscoreTracker];
+    [self startNetmetrixTracker];
+    
+    [self sendApplicationList];
+}
+
+- (void)startTagCommanderTracker
+{
+    NSParameterAssert(self.businessUnitIdentifier);
+    
+    if (! [self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
         static NSDictionary<SRGAnalyticsBusinessUnitIdentifier, NSNumber *> *s_accountIdentifiers = nil;
         static dispatch_once_t s_onceToken;
         dispatch_once(&s_onceToken, ^{
@@ -78,16 +89,19 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
                                       SRGAnalyticsBusinessUnitIdentifierSRG : @3666,
                                       SRGAnalyticsBusinessUnitIdentifierSWI : @3670 };
         });
-        self.tagCommander = [[TagCommander alloc] initWithSiteID:s_accountIdentifiers[businessUnitIdentifier].intValue andContainerID:(int)containerIdentifier];
+        self.tagCommander = [[TagCommander alloc] initWithSiteID:s_accountIdentifiers[self.businessUnitIdentifier].intValue andContainerID:(int)self.containerIdentifier];
+        
+        NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+        [self.tagCommander addPermanentData:@"app_name" withValue:applicationName];
+        
+        [self.tagCommander addPermanentData:@"app_os" withValue:@"iOS"];
+        
+        NSString *applicationBuildNumber = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+        [self.tagCommander addPermanentData:@"app_build_number" withValue:applicationBuildNumber];
+        
+        NSString *applicationVersionNumber = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+        [self.tagCommander addPermanentData:@"app_version_number" withValue:applicationVersionNumber];
     }
-    
-    [self startComscoreTracker];
-    
-    // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
-    self.streamSense = [[CSStreamSense alloc] init];
-    [self.streamSense setKeepAliveInterval:9 * 60];
-    
-    [self startNetmetrixTracker];
 }
 
 - (void)startComscoreTracker
@@ -97,13 +111,17 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [CSComScore setCustomerC2:@"6036016"];
     [CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
     [CSComScore enableAutoUpdate:60 foregroundOnly:NO];     //60 is the Comscore default interval value
-    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-    if (appName) {
-        [CSComScore setAutoStartLabels:@{ @"name": appName }];
+    
+    NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+    if (applicationName) {
+        [CSComScore setAutoStartLabels:@{ @"name": applicationName }];
     }
+    
     [CSComScore setLabels:[self comscoreGlobalLabels]];
     
-    [self sendApplicationList];
+    // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
+    self.streamSense = [[CSStreamSense alloc] init];
+    [self.streamSense setKeepAliveInterval:9 * 60];
 }
 
 - (void)startNetmetrixTracker
