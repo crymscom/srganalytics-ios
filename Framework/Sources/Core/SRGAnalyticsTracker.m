@@ -414,7 +414,6 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
     [fullLabels srg_safelySetObject:action forKey:@"hit_type"];
-    [fullLabels srg_safelySetObject:@((int)(position / 1000)).stringValue forKey:@"VIDEO_CURRENT_POSITION"];
     
     [self trackTagCommanderEventWithLabels:[fullLabels copy]];
 }

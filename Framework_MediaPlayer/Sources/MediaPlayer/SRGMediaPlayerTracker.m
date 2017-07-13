@@ -200,7 +200,17 @@ static NSMutableDictionary *s_trackers = nil;
 {
     // Standard labels
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
-    // TODO: Add TagCommander standard labels (including segment labels if necessary)
+    [fullLabels srg_safelySetObject:SRGMediaPlayerMarketingVersion() forKey:@"media_player_version"];
+    [fullLabels srg_safelySetObject:@"SRGMediaPlayer" forKey:@"media_player_display"];
+    
+    AVPlayerItem *playerItem = self.mediaPlayerController.player.currentItem;
+    AVMediaSelectionGroup *legibleGroup = [playerItem.asset mediaSelectionGroupForMediaCharacteristic:AVMediaCharacteristicLegible];
+    AVMediaSelectionOption *currentLegibleOption = [playerItem selectedMediaOptionInMediaSelectionGroup:legibleGroup];
+    BOOL hasSubtitles = (currentLegibleOption != nil);
+    [fullLabels srg_safelySetObject:hasSubtitles ? @"true" : @"false" forKey:@"media_stubtitles_on"];
+    [fullLabels srg_safelySetObject:[self timeshiftFromLiveInMilliseconds] forKey:@"media_timeshift_milliseconds"];
+    [fullLabels srg_safelySetObject:[self bitRate] forKey:@"media_bandwidth"];
+    [fullLabels srg_safelySetObject:[self volume] forKey:@"media_volume"];
     
     if (labels) {
         [fullLabels addEntriesFromDictionary:labels];
