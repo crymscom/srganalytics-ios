@@ -275,6 +275,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [fullLabels srg_safelySetObject:@"app" forKey:@"navigation_property_type"];
     [fullLabels srg_safelySetObject:self.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
     [fullLabels srg_safelySetObject:@"prod" forKey:@"navigation_environment"];          // TODO: Incorrect. Other value: preprod
+    [fullLabels srg_safelySetObject:fromPushNotification ? @"true" : @"false" forKey:@"accessed_after_push_notification"];
     
     [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
         if (idx >= 7) {
