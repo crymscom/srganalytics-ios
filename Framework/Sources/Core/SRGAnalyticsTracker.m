@@ -83,7 +83,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         static dispatch_once_t s_onceToken;
         dispatch_once(&s_onceToken, ^{
             s_accountIdentifiers = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @3668,
-                                      SRGAnalyticsBusinessUnitIdentifierRTR : @0,       // FIXME:
+                                      SRGAnalyticsBusinessUnitIdentifierRTR : @3666,       // Under the SRG umbrella
                                       SRGAnalyticsBusinessUnitIdentifierRTS : @3669,
                                       SRGAnalyticsBusinessUnitIdentifierSRF : @3667,
                                       SRGAnalyticsBusinessUnitIdentifierSRG : @3666,
