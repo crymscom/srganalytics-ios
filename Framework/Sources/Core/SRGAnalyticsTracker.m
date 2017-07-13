@@ -338,6 +338,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
     [fullLabels srg_safelySetObject:@"click" forKey:@"hit_type"];
+    
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [fullLabels srg_safelySetObject:object forKey:key];
     }];
@@ -416,6 +417,10 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
     [fullLabels srg_safelySetObject:action forKey:@"hit_type"];
+    
+    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [fullLabels srg_safelySetObject:object forKey:key];
+    }];
     
     [self trackTagCommanderEventWithLabels:[fullLabels copy]];
 }
