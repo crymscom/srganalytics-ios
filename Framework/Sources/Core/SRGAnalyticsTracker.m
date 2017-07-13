@@ -185,6 +185,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         [self.tagCommander sendData];
     }
     else {
+        SRGAnalyticsLogDebug(@"tracker", @"Event sent with labels: %@", labels);
+        
         // Only custom labels are sent in the notification userInfo. Internal predefined TagCommander variables are not sent,
         // as they are not needed for tests (they are part of what is guaranteed by the TagCommander SDK). For a complete list of
         // predefined variables, see https://github.com/TagCommander/pods/blob/master/TCSDK/PredefinedVariables.md
