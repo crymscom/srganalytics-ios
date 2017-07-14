@@ -88,7 +88,9 @@ static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animate
 {
     s_viewDidAppear(self, _cmd, animated);
     
-    [self srg_trackPageViewForced:NO];
+    if ([self isMovingToParentViewController]) {
+        [self srg_trackPageViewForced:NO];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(srg_viewController_analytics_applicationWillEnterForeground:)
