@@ -49,7 +49,7 @@ static NSURL *DVRTestURL(void)
     self.mediaPlayerController = nil;
 }
 
-#pragma mark Tests
+#pragma mark TMS Tests
 
 - (void)testPrepareToPlay
 {
@@ -64,7 +64,7 @@ static NSURL *DVRTestURL(void)
     
     // Now playing must trigger a play event
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
         return YES;
     }];
     
@@ -73,7 +73,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
         return YES;
     }];
     
@@ -88,11 +88,11 @@ static NSURL *DVRTestURL(void)
     // we did not mess with them by mistake
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
         
-        // comScore internal duration labels
-        XCTAssertNil(labels[@"ns_st_pa"]);
-        XCTAssertNil(labels[@"ns_st_pt"]);
+//        // comScore internal duration labels
+//        XCTAssertNil(labels[@"ns_st_pa"]);
+//        XCTAssertNil(labels[@"ns_st_pt"]);
         return YES;
     }];
     
@@ -101,12 +101,12 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"pause");
         
-        // comScore internal duration labels
-        XCTAssertNotNil(labels[@"ns_st_pa"]);
-        XCTAssertNotEqualObjects(labels[@"ns_st_pa"], @"0");
-        XCTAssertNotEqualObjects(labels[@"ns_st_pt"], @"0");
+//        // comScore internal duration labels
+//        XCTAssertNotNil(labels[@"ns_st_pa"]);
+//        XCTAssertNotEqualObjects(labels[@"ns_st_pa"], @"0");
+//        XCTAssertNotEqualObjects(labels[@"ns_st_pt"], @"0");
         return YES;
     }];
     
@@ -117,11 +117,11 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
         
-        // comScore internal duration labels
-        XCTAssertNil(labels[@"ns_st_pa"]);
-        XCTAssertNil(labels[@"ns_st_pt"]);
+//        // comScore internal duration labels
+//        XCTAssertNil(labels[@"ns_st_pa"]);
+//        XCTAssertNil(labels[@"ns_st_pt"]);
         return YES;
     }];
     
@@ -130,12 +130,12 @@ static NSURL *DVRTestURL(void)
     // Let playback finish normally
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
         
-        // comScore internal duration labels
-        XCTAssertNotNil(labels[@"ns_st_pa"]);
-        XCTAssertNotEqualObjects(labels[@"ns_st_pa"], @"0");
-        XCTAssertNotEqualObjects(labels[@"ns_st_pt"], @"0");
+//        // comScore internal duration labels
+//        XCTAssertNotNil(labels[@"ns_st_pa"]);
+//        XCTAssertNotEqualObjects(labels[@"ns_st_pa"], @"0");
+//        XCTAssertNotEqualObjects(labels[@"ns_st_pt"], @"0");
         return YES;
     }];
     
@@ -145,7 +145,7 @@ static NSURL *DVRTestURL(void)
 - (void)testPlayStop
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
         return YES;
     }];
     
@@ -154,7 +154,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
         return YES;
     }];
     
@@ -166,7 +166,7 @@ static NSURL *DVRTestURL(void)
 - (void)testPlayReset
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
         return YES;
     }];
     
@@ -175,7 +175,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
         return YES;
     }];
     
@@ -254,7 +254,7 @@ static NSURL *DVRTestURL(void)
 - (void)testConsecutiveMedia
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
         return YES;
     }];
     
@@ -263,7 +263,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
         return YES;
     }];
     
@@ -272,14 +272,14 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
         return YES;
     }];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
         return YES;
     }];
     
@@ -308,14 +308,14 @@ static NSURL *DVRTestURL(void)
 - (void)testGlobalLabels
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
         
-        XCTAssertEqualObjects(labels[@"ns_st_mp"], @"SRGMediaPlayer");
-        XCTAssertEqualObjects(labels[@"ns_st_pu"], SRGAnalyticsMarketingVersion());
-        XCTAssertEqualObjects(labels[@"ns_st_mv"], SRGMediaPlayerMarketingVersion());
-        XCTAssertEqualObjects(labels[@"ns_st_it"], @"c");
-        XCTAssertEqualObjects(labels[@"ns_vsite"], @"rts-app-test-v");
-        XCTAssertEqualObjects(labels[@"srg_ptype"], @"p_app_ios");
+        XCTAssertEqualObjects(labels[@"media_player_display"], @"SRGMediaPlayer");
+//        XCTAssertEqualObjects(labels[@"ns_st_pu"], SRGAnalyticsMarketingVersion());
+        XCTAssertEqualObjects(labels[@"media_player_version"], SRGMediaPlayerMarketingVersion());
+//        XCTAssertEqualObjects(labels[@"ns_st_it"], @"c");
+//        XCTAssertEqualObjects(labels[@"ns_vsite"], @"rts-app-test-v");
+//        XCTAssertEqualObjects(labels[@"srg_ptype"], @"p_app_ios");
         return YES;
     }];
     
@@ -329,18 +329,18 @@ static NSURL *DVRTestURL(void)
     // Check that these labels are constant between states (for some, the value might differ, but they must
     // in which case we test they are constantly availble or unavailable)
     void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
-        XCTAssertNotNil(labels[@"ns_st_br"]);
-        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
-        XCTAssertNotNil(labels[@"ns_st_vo"]);
-        XCTAssertNil(labels[@"ns_ap_ot"]);
-        
-        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
-        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
+//        XCTAssertNotNil(labels[@"ns_st_br"]);
+//        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
+//        XCTAssertNotNil(labels[@"ns_st_vo"]);
+//        XCTAssertNil(labels[@"ns_ap_ot"]);
+//        
+//        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
+//        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
     };
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertNil(labels[@"srg_timeshift"]);
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertNil(labels[@"srg_timeshift"]);
         checkMainLabels(labels);
         return YES;
     }];
@@ -350,8 +350,8 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        XCTAssertNil(labels[@"srg_timeshift"]);
+        XCTAssertEqualObjects(labels[@"hit_type"], @"pause");
+//        XCTAssertNil(labels[@"srg_timeshift"]);
         checkMainLabels(labels);
         return YES;
     }];
@@ -361,8 +361,8 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertNil(labels[@"srg_timeshift"]);
+        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
+//        XCTAssertNil(labels[@"srg_timeshift"]);
         checkMainLabels(labels);
         return YES;
     }];
@@ -377,18 +377,18 @@ static NSURL *DVRTestURL(void)
     // Check that these labels are constant between states (for some, the value might differ, but they must
     // in which case we test they are constantly availble or unavailable)
     void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
-        XCTAssertNotNil(labels[@"ns_st_br"]);
-        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
-        XCTAssertNotNil(labels[@"ns_st_vo"]);
-        XCTAssertNil(labels[@"ns_ap_ot"]);
-        
-        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
-        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
+//        XCTAssertNotNil(labels[@"ns_st_br"]);
+//        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
+//        XCTAssertNotNil(labels[@"ns_st_vo"]);
+//        XCTAssertNil(labels[@"ns_ap_ot"]);
+//        
+//        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
+//        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
     };
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
         checkMainLabels(labels);
         return YES;
     }];
@@ -403,8 +403,8 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"pause");
+//        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
         checkMainLabels(labels);
         return YES;
     }];
@@ -414,8 +414,8 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertNil(labels[@"srg_timeshift"]);
+        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
+//        XCTAssertNil(labels[@"srg_timeshift"]);
         checkMainLabels(labels);
         return YES;
     }];
@@ -430,18 +430,18 @@ static NSURL *DVRTestURL(void)
     // Check that these labels are constant between states (for some, the value might differ, but they must
     // in which case we test they are constantly availble or unavailable)
     void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
-        XCTAssertNotNil(labels[@"ns_st_br"]);
-        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
-        XCTAssertNotNil(labels[@"ns_st_vo"]);
-        XCTAssertNil(labels[@"ns_ap_ot"]);
-        
-        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
-        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
+//        XCTAssertNotNil(labels[@"ns_st_br"]);
+//        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
+//        XCTAssertNotNil(labels[@"ns_st_vo"]);
+//        XCTAssertNil(labels[@"ns_ap_ot"]);
+//        
+//        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
+//        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
     };
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
         checkMainLabels(labels);
         return YES;
     }];
@@ -451,8 +451,8 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"pause");
+//        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
         checkMainLabels(labels);
         return YES;
     }];
@@ -464,17 +464,17 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertNotNil(labels[@"srg_timeshift"]);
-        XCTAssertNotEqualObjects(labels[@"srg_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertNotNil(labels[@"srg_timeshift"]);
+//        XCTAssertNotEqualObjects(labels[@"srg_timeshift"], @"0");
         checkMainLabels(labels);
         return YES;
     }];
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertNil(labels[@"srg_timeshift"]);
+        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
+//        XCTAssertNil(labels[@"srg_timeshift"]);
         checkMainLabels(labels);
         return YES;
     }];
@@ -487,8 +487,8 @@ static NSURL *DVRTestURL(void)
 - (void)testVolumeLabel
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"ns_st_vo"], @"0");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+        XCTAssertEqualObjects(labels[@"media_volume"], @"0");
         return YES;
     }];
     
@@ -500,8 +500,8 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        XCTAssertNotEqualObjects(labels[@"ns_st_vo"], @"0");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"pause");
+        XCTAssertNotEqualObjects(labels[@"media_volume"], @"0");
         return YES;
     }];
     
@@ -514,10 +514,10 @@ static NSURL *DVRTestURL(void)
 - (void)testNonSelectedSegmentPlayback
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertNil(labels[@"segment_name"]);
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertNil(labels[@"segment_name"]);
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -545,10 +545,10 @@ static NSURL *DVRTestURL(void)
     
     // Pause playback. Expect full-length information
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertNil(labels[@"segment_name"]);
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"pause");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertNil(labels[@"segment_name"]);
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -558,10 +558,10 @@ static NSURL *DVRTestURL(void)
     
     // Resume playback. Expect full-length information
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertNil(labels[@"segment_name"]);
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertNil(labels[@"segment_name"]);
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -586,10 +586,10 @@ static NSURL *DVRTestURL(void)
 - (void)testSelectedSegmentPlayback
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -606,10 +606,10 @@ static NSURL *DVRTestURL(void)
     
     // Pause playback. Expect segment information
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"pause");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -619,10 +619,10 @@ static NSURL *DVRTestURL(void)
     
     // Resume playback. Expect segment information
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -635,10 +635,10 @@ static NSURL *DVRTestURL(void)
 {
     // No end on full since we start with the segment, only a play for the segment
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -660,21 +660,21 @@ static NSURL *DVRTestURL(void)
     __block BOOL fullPlayReceived = NO;
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"end"]) {
+        if ([event isEqualToString:@"eof"]) {
             XCTAssertFalse(segmentEndReceived);
             XCTAssertFalse(fullPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
             segmentEndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullPlayReceived = YES;
         }
         else {
@@ -690,10 +690,10 @@ static NSURL *DVRTestURL(void)
 - (void)testSegmentSelectionAfterStartOnFullLength
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertNil(labels[@"segment_name"]);
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertNil(labels[@"segment_name"]);
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -714,21 +714,21 @@ static NSURL *DVRTestURL(void)
     __block BOOL segmentPlayReceived = NO;
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"end"]) {
+        if ([event isEqualToString:@"eof"]) {
             XCTAssertFalse(fullEndReceived);
             XCTAssertFalse(segmentPlayReceived);
-            
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullEndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(segmentPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
             segmentPlayReceived = YES;
         }
         else {
@@ -746,10 +746,10 @@ static NSURL *DVRTestURL(void)
 - (void)testSegmentSelectionWhilePlayingSelectedSegment
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
         return YES;
     }];
     
@@ -771,21 +771,21 @@ static NSURL *DVRTestURL(void)
     __block BOOL segment2PlayReceived = NO;
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"end"]) {
+        if ([event isEqualToString:@"eof"]) {
             XCTAssertFalse(segment1EndReceived);
             XCTAssertFalse(segment2PlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
             segment1EndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(segment2PlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment2");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment2");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment2");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment2");
             segment2PlayReceived = YES;
         }
         else {
@@ -803,10 +803,10 @@ static NSURL *DVRTestURL(void)
 - (void)testTransitionFromSelectedSegmentIntoNonSelectedContiguousSegment
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
         return YES;
     }];
     
@@ -829,21 +829,21 @@ static NSURL *DVRTestURL(void)
     __block BOOL fullLengthPlayReceived = NO;
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"end"]) {
+        if ([event isEqualToString:@"eof"]) {
             XCTAssertFalse(segment1EndReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
             segment1EndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -859,10 +859,10 @@ static NSURL *DVRTestURL(void)
 - (void)testSegmentRepeatedSelection
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -883,21 +883,21 @@ static NSURL *DVRTestURL(void)
     __block BOOL segmentPlayReceived = NO;
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"end"]) {
+        if ([event isEqualToString:@"eof"]) {
             XCTAssertFalse(segmentEndReceived);
             XCTAssertFalse(segmentPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
             segmentEndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(segmentPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
             segmentPlayReceived = YES;
         }
         else {
@@ -915,10 +915,10 @@ static NSURL *DVRTestURL(void)
 - (void)testSeekOutsideSelectedSegment
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
         return YES;
     }];
     
@@ -947,26 +947,26 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(segment1EndReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
             segment1PauseReceived = YES;
         }
-        else if ([event isEqualToString:@"end"]) {
+        else if ([event isEqualToString:@"eof"]) {
             XCTAssertFalse(segment1EndReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
             segment1EndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         
@@ -981,10 +981,10 @@ static NSURL *DVRTestURL(void)
 - (void)testSeekWithinSelectedSegment
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1009,17 +1009,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(segmentPauseReceived);
             XCTAssertFalse(segmentPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
             segmentPauseReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(segmentPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
             segmentPlayReceived = YES;
         }
         else {
@@ -1040,10 +1040,10 @@ static NSURL *DVRTestURL(void)
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(1795.045, NSEC_PER_SEC), CMTimeMakeWithSeconds(5., NSEC_PER_SEC))];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1067,22 +1067,22 @@ static NSURL *DVRTestURL(void)
     __block BOOL fullLengthEndReceived = NO;
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"end"]) {
+        if ([event isEqualToString:@"eof"]) {
             if (! segmentEndReceived) {
                 XCTAssertFalse(fullLengthPlayReceived);
                 XCTAssertFalse(fullLengthEndReceived);
                 
-                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-                XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-                XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+//                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//                XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//                XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
                 segmentEndReceived = YES;
             }
             else {
                 XCTAssertFalse(fullLengthEndReceived);
                 
-                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-                XCTAssertNil(labels[@"segment_name"]);
-                XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//                XCTAssertNil(labels[@"segment_name"]);
+//                XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
                 fullLengthEndReceived = YES;
             }
         }
@@ -1090,9 +1090,9 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(fullLengthPlayReceived);
             XCTAssertFalse(fullLengthEndReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -1111,10 +1111,10 @@ static NSURL *DVRTestURL(void)
 - (void)testResetWhilePlayingSegment
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1132,10 +1132,10 @@ static NSURL *DVRTestURL(void)
     // Expect end event with segment labels
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1147,10 +1147,10 @@ static NSURL *DVRTestURL(void)
 - (void)testBlockedSegmentSelection
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertNil(labels[@"segment_name"]);
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertNil(labels[@"segment_name"]);
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -1175,17 +1175,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(fullLengthPauseReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPauseReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -1203,10 +1203,10 @@ static NSURL *DVRTestURL(void)
 - (void)testSeekIntoBlockedSegment
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertNil(labels[@"segment_name"]);
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertNil(labels[@"segment_name"]);
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -1231,17 +1231,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(fullLengthPauseReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPauseReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -1259,10 +1259,10 @@ static NSURL *DVRTestURL(void)
 - (void)testPlayStartingWithBlockedSegment
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertNil(labels[@"segment_name"]);
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertNil(labels[@"segment_name"]);
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -1287,17 +1287,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(fullLengthPauseReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPauseReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
-            
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//            
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -1315,10 +1315,10 @@ static NSURL *DVRTestURL(void)
 - (void)testBlockedSegmentPlaythrough
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertNil(labels[@"segment_name"]);
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertNil(labels[@"segment_name"]);
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -1343,17 +1343,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(fullLengthPauseReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPauseReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -1369,10 +1369,10 @@ static NSURL *DVRTestURL(void)
 - (void)testConsecutiveMediaPlayback
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full1");
-        XCTAssertNil(labels[@"segment_name"]);
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"full1");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full1");
+//        XCTAssertNil(labels[@"segment_name"]);
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full1");
         return YES;
     }];
     
@@ -1392,21 +1392,21 @@ static NSURL *DVRTestURL(void)
     __block BOOL fullLength2PlayReceived = NO;
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"end"]) {
+        if ([event isEqualToString:@"eof"]) {
             XCTAssertFalse(fullLength1EndReceived);
             XCTAssertFalse(fullLength2PlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full1");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full1");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full1");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full1");
             fullLength1EndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLength2PlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full2");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full2");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full2");
+//            XCTAssertNil(labels[@"segment_name"]);
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full2");
             fullLength2PlayReceived = YES;
         }
         else {
@@ -1430,10 +1430,10 @@ static NSURL *DVRTestURL(void)
 - (void)testConsecutiveMediaWithSegments
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full1");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full1");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
         return YES;
     }];
     
@@ -1454,21 +1454,21 @@ static NSURL *DVRTestURL(void)
     __block BOOL segment2PlayReceived = NO;
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"end"]) {
+        if ([event isEqualToString:@"eof"]) {
             XCTAssertFalse(segment1EndReceived);
             XCTAssertFalse(segment2PlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full1");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full1");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
             segment1EndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(segment2PlayReceived);
             
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full2");
-            XCTAssertEqualObjects(labels[@"segment_name"], @"segment2");
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment2");
+//            XCTAssertEqualObjects(labels[@"stream_name"], @"full2");
+//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment2");
+//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment2");
             segment2PlayReceived = YES;
         }
         else {
@@ -1548,7 +1548,7 @@ static NSURL *DVRTestURL(void)
     
     // Stop tracking while playing. Expect an end to be received
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(event, @"end");
+        XCTAssertEqualObjects(event, @"eof");
         return YES;
     }];
     
@@ -1562,10 +1562,10 @@ static NSURL *DVRTestURL(void)
 {
     // Wait until the media plays. Expect segment labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1582,10 +1582,10 @@ static NSURL *DVRTestURL(void)
     
     // Stop tracking while playing. Expect an end to be received with segment labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1619,7 +1619,7 @@ static NSURL *DVRTestURL(void)
     
     // Stop tracking while paused. Expect an end to be received
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(event, @"end");
+        XCTAssertEqualObjects(event, @"eof");
         return YES;
     }];
     
@@ -1633,10 +1633,10 @@ static NSURL *DVRTestURL(void)
 {
     // Wait until the media plays. Expect segment labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1653,10 +1653,10 @@ static NSURL *DVRTestURL(void)
     
     // Pause playback. Expect a pause with segment labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"pause");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1666,10 +1666,10 @@ static NSURL *DVRTestURL(void)
     
     // Stop tracking while paused. Expect an end to be received with segment labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1726,10 +1726,10 @@ static NSURL *DVRTestURL(void)
     
     // Enable tracking. Expect plays to be received
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1759,7 +1759,7 @@ static NSURL *DVRTestURL(void)
     
     // Enable tracking. Expect a play to be received
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
         return YES;
     }];
     
@@ -1796,10 +1796,10 @@ static NSURL *DVRTestURL(void)
     
     // Enable tracking. Expect a play to be received, with segment labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1868,7 +1868,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testDisableTrackingWhilePlayingTwice
+- (void)testDisableTrackingTwiceWhilePlaying
 {
     // Wait until the media plays
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -1883,6 +1883,1899 @@ static NSURL *DVRTestURL(void)
     // Stop tracking twice while playing. Expect a single end to be received
     __block NSInteger endEventCount = 0;
     id endEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"eof"]) {
+            ++endEventCount;
+        }
+        else {
+            XCTFail(@"Unexpected event received");
+        }
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
+    self.mediaPlayerController.tracked = NO;
+    self.mediaPlayerController.tracked = NO;
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:5. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:endEventObserver];
+    }];
+    
+    // Check we have received the end notification only once
+    XCTAssertEqual(endEventCount, 1);
+}
+
+- (void)testEnableTrackingTwiceWhilePlaying
+{
+    // Wait until the media plays
+    [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
+        return [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePlaying;
+    }];
+    
+    self.mediaPlayerController.tracked = NO;
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Start tracking twice while playing. Expect a single play to be received
+    __block NSInteger playEventCount = 0;
+    id endEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"play"]) {
+            ++playEventCount;
+        }
+        else {
+            XCTFail(@"Unexpected event received");
+        }
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
+    self.mediaPlayerController.tracked = YES;
+    self.mediaPlayerController.tracked = YES;
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:5. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:endEventObserver];
+    }];
+    
+    // Check we have received the end notification only once
+    XCTAssertEqual(playEventCount, 1);
+}
+
+#pragma mark ComScore Tests
+
+- (void)testComScorePrepareToPlay
+{
+    // Prepare the player until it is paused. No event must be received
+    id prepareObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when preparing a player");
+    }];
+    
+    [self.mediaPlayerController prepareToPlayURL:OnDemandTestURL() withCompletionHandler:^{
+        [[NSNotificationCenter defaultCenter] removeObserver:prepareObserver];
+    }];
+    
+    // Now playing must trigger a play event
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController play];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScorePlaybackToEnd
+{
+    // Also check internal comScore important measurement values for playback duration (ns_st_pa and ns_st_pt). Ensure
+    // we did not mess with them by mistake
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        
+        // comScore internal duration labels
+        XCTAssertNil(labels[@"ns_st_pa"]);
+        XCTAssertNil(labels[@"ns_st_pt"]);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        
+        // comScore internal duration labels
+        XCTAssertNotNil(labels[@"ns_st_pa"]);
+        XCTAssertNotEqualObjects(labels[@"ns_st_pa"], @"0");
+        XCTAssertNotEqualObjects(labels[@"ns_st_pt"], @"0");
+        return YES;
+    }];
+    
+    // Seek near the end of the video
+    CMTime pastTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(5., NSEC_PER_SEC));
+    [self.mediaPlayerController seekPreciselyToTime:pastTime withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        
+        // comScore internal duration labels
+        XCTAssertNil(labels[@"ns_st_pa"]);
+        XCTAssertNil(labels[@"ns_st_pt"]);
+        return YES;
+    }];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Let playback finish normally
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        
+        // comScore internal duration labels
+        XCTAssertNotNil(labels[@"ns_st_pa"]);
+        XCTAssertNotEqualObjects(labels[@"ns_st_pa"], @"0");
+        XCTAssertNotEqualObjects(labels[@"ns_st_pt"], @"0");
+        return YES;
+    }];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScorePlayStop
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController stop];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScorePlayReset
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScorePlayPausePlay
+{
+    __block NSInteger count1 = 0;
+    id eventObserver1 = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        ++count1;
+    }];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+        return [type isEqualToString:@"play"];
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver1];
+    }];
+    
+    // One event expected: play
+    XCTAssertEqual(count1, 1);
+    
+    __block NSInteger count2 = 0;
+    id eventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        ++count2;
+    }];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+        return [type isEqualToString:@"pause"];
+    }];
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver2];
+    }];
+    
+    // One event expected: pause
+    XCTAssertEqual(count2, 1);
+    
+    __block NSInteger count3 = 0;
+    id eventObserver3 = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        ++count3;
+    }];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+        return [type isEqualToString:@"play"];
+    }];
+    
+    [self.mediaPlayerController play];
+    
+    [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver3];
+    }];
+    
+    [self expectationForElapsedTimeInterval:3. withHandler:nil];
+    
+    id eventObserver4 = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        // Also see http://stackoverflow.com/questions/14565405/avplayer-pauses-for-no-obvious-reason and
+        // the demo project https://github.com/defagos/radars/tree/master/unexpected-player-rate-changes
+        NSLog(@"[AVPlayer probable bug]: Unexpected state change to %@. Fast play - pause sequences can induce unexpected rate changes "
+              "captured via KVO in our implementation. Those changes do not harm but cannot be tested reliably", @(self.mediaPlayerController.playbackState));
+    }];
+    
+    [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver4];
+    }];
+}
+
+- (void)testComScoreConsecutiveMedia
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:LiveTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        return YES;
+    }];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreMediaError
+{
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received");
+    }];
+    
+    [self expectationForNotification:SRGMediaPlayerPlaybackDidFailNotification object:self.mediaPlayerController handler:^BOOL (NSNotification *notification) {
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:[NSURL URLWithString:@"http://httpbin.org/status/403"]];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+}
+
+- (void)testComScoreGlobalLabels
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        
+        XCTAssertEqualObjects(labels[@"ns_st_mp"], @"SRGMediaPlayer");
+        XCTAssertEqualObjects(labels[@"ns_st_pu"], SRGAnalyticsMarketingVersion());
+        XCTAssertEqualObjects(labels[@"ns_st_mv"], SRGMediaPlayerMarketingVersion());
+        XCTAssertEqualObjects(labels[@"ns_st_it"], @"c");
+        XCTAssertEqualObjects(labels[@"ns_vsite"], @"rts-app-test-v");
+        XCTAssertEqualObjects(labels[@"srg_ptype"], @"p_app_ios");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreOnDemandLabels
+{
+    // Check that these labels are constant between states (for some, the value might differ, but they must
+    // in which case we test they are constantly availble or unavailable)
+    void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
+        XCTAssertNotNil(labels[@"ns_st_br"]);
+        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
+        XCTAssertNotNil(labels[@"ns_st_vo"]);
+        XCTAssertNil(labels[@"ns_ap_ot"]);
+        
+        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
+        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
+    };
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertNil(labels[@"srg_timeshift"]);
+        checkMainLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        XCTAssertNil(labels[@"srg_timeshift"]);
+        checkMainLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertNil(labels[@"srg_timeshift"]);
+        checkMainLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreLiveLabels
+{
+    // Check that these labels are constant between states (for some, the value might differ, but they must
+    // in which case we test they are constantly availble or unavailable)
+    void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
+        XCTAssertNotNil(labels[@"ns_st_br"]);
+        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
+        XCTAssertNotNil(labels[@"ns_st_vo"]);
+        XCTAssertNil(labels[@"ns_ap_ot"]);
+        
+        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
+        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
+    };
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        checkMainLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:LiveTestURL()
+                                 atTime:kCMTimeZero
+                           withSegments:nil
+                        analyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"test_info" : @"test" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        checkMainLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertNil(labels[@"srg_timeshift"]);
+        checkMainLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreDVRLabels
+{
+    // Check that these labels are constant between states (for some, the value might differ, but they must
+    // in which case we test they are constantly availble or unavailable)
+    void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
+        XCTAssertNotNil(labels[@"ns_st_br"]);
+        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
+        XCTAssertNotNil(labels[@"ns_st_vo"]);
+        XCTAssertNil(labels[@"ns_ap_ot"]);
+        
+        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
+        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
+    };
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        checkMainLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:DVRTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
+        checkMainLabels(labels);
+        return YES;
+    }];
+    
+    // Live tolerance has been set to 10 for tests, duration of the DVR window for the test stream is about 45 seconds
+    CMTime pastTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(20., NSEC_PER_SEC));
+    [self.mediaPlayerController seekPreciselyToTime:pastTime withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertNotNil(labels[@"srg_timeshift"]);
+        XCTAssertNotEqualObjects(labels[@"srg_timeshift"], @"0");
+        checkMainLabels(labels);
+        return YES;
+    }];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertNil(labels[@"srg_timeshift"]);
+        checkMainLabels(labels);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreVolumeLabel
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"ns_st_vo"], @"0");
+        return YES;
+    }];
+    
+    self.mediaPlayerController.playerCreationBlock = ^(AVPlayer *player) {
+        player.muted = YES;
+    };
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        XCTAssertNotEqualObjects(labels[@"ns_st_vo"], @"0");
+        return YES;
+    }];
+    
+    self.mediaPlayerController.player.muted = NO;
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreNonSelectedSegmentPlayback
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                 atTime:kCMTimeZero
+                           withSegments:@[segment]
+                        analyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Let the segment be played through. No events must be received
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received");
+    }];
+    
+    [self expectationForElapsedTimeInterval:3. withHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
+    // Pause playback. Expect full-length information
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Resume playback. Expect full-length information
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController play];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    id eventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        // Also see http://stackoverflow.com/questions/14565405/avplayer-pauses-for-no-obvious-reason and
+        // the demo project https://github.com/defagos/radars/tree/master/unexpected-player-rate-changes
+        NSLog(@"[AVPlayer probable bug]: Unexpected state change to %@. Fast play - pause sequences can induce unexpected rate changes "
+              "captured via KVO in our implementation. Those changes do not harm but cannot be tested reliably", @(self.mediaPlayerController.playbackState));
+    }];
+    
+    [self expectationForElapsedTimeInterval:3. withHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver2];
+    }];
+}
+
+- (void)testComScoreSelectedSegmentPlayback
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Pause playback. Expect segment information
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Resume playback. Expect segment information
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController play];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreInitialSegmentSelectionAndPlaythrough
+{
+    // No end on full since we start with the segment, only a play for the segment
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Let the segment be played through until we receive the transition notifications (since both are the same, capture
+    // them with a single expectation)
+    
+    __block BOOL segmentEndReceived = NO;
+    __block BOOL fullPlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"end"]) {
+            XCTAssertFalse(segmentEndReceived);
+            XCTAssertFalse(fullPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            segmentEndReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(fullPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return segmentEndReceived && fullPlayReceived;
+    }];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreSegmentSelectionAfterStartOnFullLength
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                 atTime:kCMTimeZero
+                           withSegments:@[segment]
+                        analyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // When selecting a segment, usual playback events due to seeking must be inhibited
+    
+    __block BOOL fullEndReceived = NO;
+    __block BOOL segmentPlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"end"]) {
+            XCTAssertFalse(fullEndReceived);
+            XCTAssertFalse(segmentPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullEndReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(segmentPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            segmentPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return fullEndReceived && segmentPlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekToSegment:segment withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreSegmentSelectionWhilePlayingSelectedSegment
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+        return YES;
+    }];
+    
+    Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(100., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment1, segment2]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Expect segment transition (but no playback events) when selecting another segment
+    
+    __block BOOL segment1EndReceived = NO;
+    __block BOOL segment2PlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"end"]) {
+            XCTAssertFalse(segment1EndReceived);
+            XCTAssertFalse(segment2PlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+            segment1EndReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(segment2PlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment2");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment2");
+            segment2PlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return segment1EndReceived && segment2PlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekToSegment:segment2 withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreTransitionFromSelectedSegmentIntoNonSelectedContiguousSegment
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+        return YES;
+    }];
+    
+    Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(20., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(23., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment1, segment2]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Let the segment be played through. A transition into the full-length is expected since the second segment
+    // is not selected
+    
+    __block BOOL segment1EndReceived = NO;
+    __block BOOL fullLengthPlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"end"]) {
+            XCTAssertFalse(segment1EndReceived);
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+            segment1EndReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return segment1EndReceived && fullLengthPlayReceived;
+    }];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreSegmentRepeatedSelection
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Expect segment transition (but no playback events) when selecting another segment
+    
+    __block BOOL segmentEndReceived = NO;
+    __block BOOL segmentPlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"end"]) {
+            XCTAssertFalse(segmentEndReceived);
+            XCTAssertFalse(segmentPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            segmentEndReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(segmentPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            segmentPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return segmentEndReceived && segmentPlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekToSegment:segment withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreSeekOutsideSelectedSegment
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+        return YES;
+    }];
+    
+    Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(60., NSEC_PER_SEC), CMTimeMakeWithSeconds(20., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment1, segment2]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Expect transition into the full-length since, even if seeking resumes in another segment (since this segment has
+    // not been selected, we don't want to track it). Because of a seek, a pause in the segment is expected first
+    
+    __block BOOL segment1PauseReceived = NO;
+    __block BOOL segment1EndReceived = NO;
+    __block BOOL fullLengthPlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"pause"]) {
+            XCTAssertFalse(segment1PauseReceived);
+            XCTAssertFalse(segment1EndReceived);
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+            segment1PauseReceived = YES;
+        }
+        else if ([event isEqualToString:@"end"]) {
+            XCTAssertFalse(segment1EndReceived);
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+            segment1EndReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPlayReceived = YES;
+        }
+        
+        return segment1PauseReceived && segment1EndReceived && fullLengthPlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekPreciselyToTime:CMTimeAdd(CMTimeRangeGetEnd(segment1.srg_timeRange), CMTimeMakeWithSeconds(10., NSEC_PER_SEC)) withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreSeekWithinSelectedSegment
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Expect play - pause transition with segment labels
+    
+    __block BOOL segmentPauseReceived = NO;
+    __block BOOL segmentPlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"pause"]) {
+            XCTAssertFalse(segmentPauseReceived);
+            XCTAssertFalse(segmentPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            segmentPauseReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(segmentPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            segmentPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return segmentPauseReceived && segmentPlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekPreciselyToTime:CMTimeAdd(segment.srg_timeRange.start, CMTimeMakeWithSeconds(3., NSEC_PER_SEC)) withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreSelectedSegmentAtStreamEnd
+{
+    // Precise timing information gathered from the stream itself
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(1795.045, NSEC_PER_SEC), CMTimeMakeWithSeconds(5., NSEC_PER_SEC))];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    XCTAssertEqualObjects(self.mediaPlayerController.currentSegment, segment);
+    XCTAssertEqualObjects(self.mediaPlayerController.selectedSegment, segment);
+    
+    // Expect end of segment and play / end for the full-length (which does not harm for statistics)
+    
+    __block BOOL segmentEndReceived = NO;
+    __block BOOL fullLengthPlayReceived = NO;
+    __block BOOL fullLengthEndReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"end"]) {
+            if (! segmentEndReceived) {
+                XCTAssertFalse(fullLengthPlayReceived);
+                XCTAssertFalse(fullLengthEndReceived);
+                
+                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+                XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+                XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+                segmentEndReceived = YES;
+            }
+            else {
+                XCTAssertFalse(fullLengthEndReceived);
+                
+                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+                XCTAssertNil(labels[@"segment_name"]);
+                XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+                fullLengthEndReceived = YES;
+            }
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(fullLengthPlayReceived);
+            XCTAssertFalse(fullLengthEndReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return segmentEndReceived && fullLengthPlayReceived && fullLengthEndReceived;
+    }];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    XCTAssertNil(self.mediaPlayerController.currentSegment);
+    XCTAssertNil(self.mediaPlayerController.selectedSegment);
+}
+
+- (void)testComScoreResetWhilePlayingSegment
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Expect end event with segment labels
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreBlockedSegmentSelection
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                 atTime:kCMTimeZero
+                           withSegments:@[segment]
+                        analyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Expect pause and play on the full-length (corresponding to the segment being skipped)
+    
+    __block BOOL fullLengthPauseReceived = NO;
+    __block BOOL fullLengthPlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"pause"]) {
+            XCTAssertFalse(fullLengthPauseReceived);
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPauseReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return fullLengthPauseReceived && fullLengthPlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekToSegment:segment withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreSeekIntoBlockedSegment
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                 atTime:kCMTimeZero
+                           withSegments:@[segment]
+                        analyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Expect pause / play for the full-length
+    
+    __block BOOL fullLengthPauseReceived = NO;
+    __block BOOL fullLengthPlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"pause"]) {
+            XCTAssertFalse(fullLengthPauseReceived);
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPauseReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return fullLengthPauseReceived && fullLengthPlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekPreciselyToTime:CMTimeMakeWithSeconds(55., NSEC_PER_SEC) withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScorePlayStartingWithBlockedSegment
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Expect pause / play for the full-length
+    
+    __block BOOL fullLengthPauseReceived = NO;
+    __block BOOL fullLengthPlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"pause"]) {
+            XCTAssertFalse(fullLengthPauseReceived);
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPauseReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return fullLengthPauseReceived && fullLengthPlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekPreciselyToTime:CMTimeMakeWithSeconds(55., NSEC_PER_SEC) withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreBlockedSegmentPlaythrough
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                 atTime:kCMTimeZero
+                           withSegments:@[segment]
+                        analyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Play for a while. Expect pause / play for the full-length when skipping over the segment
+    
+    __block BOOL fullLengthPauseReceived = NO;
+    __block BOOL fullLengthPlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"pause"]) {
+            XCTAssertFalse(fullLengthPauseReceived);
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPauseReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(fullLengthPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            fullLengthPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return fullLengthPauseReceived && fullLengthPlayReceived;
+    }];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreConsecutiveMediaPlayback
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full1");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full1");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                 atTime:kCMTimeZero
+                           withSegments:nil
+                        analyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full1",
+                                           @"overridable_name" : @"full1" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Play other media. Expect end / play transition
+    
+    __block BOOL fullLength1EndReceived = NO;
+    __block BOOL fullLength2PlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"end"]) {
+            XCTAssertFalse(fullLength1EndReceived);
+            XCTAssertFalse(fullLength2PlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full1");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full1");
+            fullLength1EndReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(fullLength2PlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full2");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full2");
+            fullLength2PlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return fullLength1EndReceived && fullLength2PlayReceived;
+    }];
+    
+    [self.mediaPlayerController playURL:LiveTestURL()
+                                 atTime:kCMTimeZero
+                           withSegments:nil
+                        analyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full2",
+                                           @"overridable_name" : @"full2" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreConsecutiveMediaWithSegments
+{
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full1");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+        return YES;
+    }];
+    
+    Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment1]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full1",
+                                           @"overridable_name" : @"full1" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Play other media. Expect end / play transition with segment labels involved
+    
+    __block BOOL segment1EndReceived = NO;
+    __block BOOL segment2PlayReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"end"]) {
+            XCTAssertFalse(segment1EndReceived);
+            XCTAssertFalse(segment2PlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full1");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+            segment1EndReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(segment2PlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full2");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment2");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment2");
+            segment2PlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return segment1EndReceived && segment2PlayReceived;
+    }];
+    
+    Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:LiveTestURL()
+                                atIndex:0
+                             inSegments:@[segment2]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full2",
+                                           @"overridable_name" : @"full2" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreDisableTrackingWhileIdle
+{
+    // Play for a while. No stream events must be received
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when tracking has been disabled");
+    }];
+    
+    [self expectationForElapsedTimeInterval:5. withHandler:nil];
+    
+    self.mediaPlayerController.tracked = NO;
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+}
+
+- (void)testComScoreDisableTrackingWhilePreparing
+{
+    // Wait until the player is preparing to play
+    [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
+        XCTAssertEqual([notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue], SRGMediaPlayerPlaybackStatePreparing);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Play for a while. No stream events must be received
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when tracking has been disabled");
+    }];
+    
+    [self expectationForElapsedTimeInterval:5. withHandler:nil];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePreparing);
+    self.mediaPlayerController.tracked = NO;
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+}
+
+- (void)testComScoreDisableTrackingWhilePlaying
+{
+    // Wait until the media plays
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(event, @"play");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Stop tracking while playing. Expect an end to be received
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(event, @"end");
+        return YES;
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
+    self.mediaPlayerController.tracked = NO;
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreDisableTrackingWhilePlayingSegment
+{
+    // Wait until the media plays. Expect segment labels
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Stop tracking while playing. Expect an end to be received with segment labels
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
+    self.mediaPlayerController.tracked = NO;
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreDisableTrackingWhilePaused
+{
+    // Wait until the media plays
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(event, @"play");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Pause playback
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(event, @"pause");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Stop tracking while paused. Expect an end to be received
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(event, @"end");
+        return YES;
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePaused);
+    self.mediaPlayerController.tracked = NO;
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreDisableTrackingWhilePausedInSegment
+{
+    // Wait until the media plays. Expect segment labels
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Pause playback. Expect a pause with segment labels
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Stop tracking while paused. Expect an end to be received with segment labels
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePaused);
+    self.mediaPlayerController.tracked = NO;
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreEnableTrackingWhilePreparing
+{
+    // Wait until the player is preparing to play
+    [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
+        XCTAssertEqual([notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue], SRGMediaPlayerPlaybackStatePreparing);
+        return YES;
+    }];
+    
+    self.mediaPlayerController.tracked = NO;
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Enable tracking. Expect plays to be received
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(event, @"play");
+        return YES;
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePreparing);
+    self.mediaPlayerController.tracked = YES;
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreEnableTrackingWhilePreparingToPlaySegment
+{
+    // Wait until the player is preparing to play
+    [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
+        XCTAssertEqual([notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue], SRGMediaPlayerPlaybackStatePreparing);
+        return YES;
+    }];
+    
+    self.mediaPlayerController.tracked = NO;
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Enable tracking. Expect plays to be received
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePreparing);
+    self.mediaPlayerController.tracked = YES;
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreEnableTrackingWhilePlaying
+{
+    // Wait until the player is playing. No event must be received since tracking is not enabled yet
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when tracking has been disabled");
+    }];
+    
+    [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
+        return [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePlaying;
+    }];
+    
+    self.mediaPlayerController.tracked = NO;
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
+    // Enable tracking. Expect a play to be received
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        return YES;
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
+    self.mediaPlayerController.tracked = YES;
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreEnableTrackingWhilePlayingSegment
+{
+    // Wait until the player is playing. No event must be received since tracking is not enabled yet
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when tracking has been disabled");
+    }];
+    
+    [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
+        return [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePlaying;
+    }];
+    
+    self.mediaPlayerController.tracked = NO;
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment]
+                    withAnalyticsLabels:nil
+                comScoreAnalyticsLabels:@{ @"stream_name" : @"full",
+                                           @"overridable_name" : @"full" }
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
+    // Enable tracking. Expect a play to be received, with segment labels
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
+    self.mediaPlayerController.tracked = YES;
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreEnableTrackingWhilePaused
+{
+    // Wait until the player is playing. No event must be received since tracking is not enabled yet
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when tracking has been disabled");
+    }];
+    
+    [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
+        return [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePlaying;
+    }];
+    
+    self.mediaPlayerController.tracked = NO;
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
+    // Pause playback
+    [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
+        XCTAssertEqual([notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue], SRGMediaPlayerPlaybackStatePaused);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Wait a little bit in the paused state (to avoid the result of the pause notification immediately trapped below)
+    [self expectationForElapsedTimeInterval:3. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Enable tracking. Expect a play (because the tracker starts), then a pause (reflecting the current state of the player) to be received
+    __block BOOL playReceived = NO;
+    __block BOOL pauseReceived = NO;
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(playReceived);
+            XCTAssertFalse(pauseReceived);
+            playReceived = YES;
+        }
+        else if ([event isEqualToString:@"pause"]) {
+            XCTAssertFalse(pauseReceived);
+            pauseReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event received");
+        }
+        
+        return playReceived && pauseReceived;
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePaused);
+    self.mediaPlayerController.tracked = YES;
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testComScoreDisableTwiceTrackingWhilePlaying
+{
+    // Wait until the media plays
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(event, @"play");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Stop tracking twice while playing. Expect a single end to be received
+    __block NSInteger endEventCount = 0;
+    id endEventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"end"]) {
             ++endEventCount;
         }
@@ -1905,7 +3798,7 @@ static NSURL *DVRTestURL(void)
     XCTAssertEqual(endEventCount, 1);
 }
 
-- (void)testEnableTrackingWhilePlayingTwice
+- (void)testComScoreEnableTrackingTwiceWhilePlaying
 {
     // Wait until the media plays
     [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
@@ -1919,7 +3812,7 @@ static NSURL *DVRTestURL(void)
     
     // Start tracking twice while playing. Expect a single play to be received
     __block NSInteger playEventCount = 0;
-    id endEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id endEventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"play"]) {
             ++playEventCount;
         }

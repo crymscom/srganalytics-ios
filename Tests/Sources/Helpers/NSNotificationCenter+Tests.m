@@ -12,6 +12,20 @@
 
 - (id<NSObject>)addObserverForHiddenEventNotificationUsingBlock:(void (^)(NSString *event, NSDictionary *labels))block
 {
+    return [self addObserverForName:SRGAnalyticsRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
+        NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        
+        NSString *type = labels[@"hit_type"];
+        if ([type isEqualToString:@"screen"]) {
+            return;
+        }
+        
+        block(type, labels);
+    }];
+}
+
+- (id<NSObject>)addObserverForComScoreHiddenEventNotificationUsingBlock:(void (^)(NSString *event, NSDictionary *labels))block
+{
     return [self addObserverForName:SRGAnalyticsComScoreRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
         

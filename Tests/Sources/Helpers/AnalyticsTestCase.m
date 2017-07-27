@@ -14,6 +14,20 @@
 
 - (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(EventExpectationHandler)handler
 {
+    return [self expectationForNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+        NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        
+        NSString *type = labels[@"hit_type"];
+        if ([type isEqualToString:@"screen"]) {
+            return NO;
+        }
+        
+        return handler(type, labels);
+    }];
+}
+
+- (XCTestExpectation *)expectationForComScoreHiddenEventNotificationWithHandler:(EventExpectationHandler)handler
+{
     return [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
         

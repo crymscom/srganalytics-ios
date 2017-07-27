@@ -17,9 +17,9 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
 
 #pragma mark Tests
 
-- (void)testHiddenEvent
+- (void)testComScoreHiddenEvent
 {
-    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
         XCTAssertNil(type);
         XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
         XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
@@ -34,7 +34,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
 
 - (void)testHiddenEventWithLabels
 {
-    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
         XCTAssertNil(type);
         XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
         XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
@@ -52,7 +52,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
 
 - (void)testHiddenEventWithEmptyTitle
 {
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"Events with missing title must not be sent");
     }];
     
