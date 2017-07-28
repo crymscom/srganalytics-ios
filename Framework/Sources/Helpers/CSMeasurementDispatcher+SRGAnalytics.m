@@ -20,7 +20,7 @@
 
 @end
 
-@implementation CSMeasurementDispatcher (SRGNotification)
+@implementation CSMeasurementDispatcher (SRGAnalytics)
 
 #pragma mark Class methods
 

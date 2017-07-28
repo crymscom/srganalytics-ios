@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Internal category on a comScore class, used for swizzling purposes.
  */
-@interface CSMeasurementDispatcher (SRGNotification)
+@interface CSMeasurementDispatcher (SRGAnalytics)
 
 @end
 
