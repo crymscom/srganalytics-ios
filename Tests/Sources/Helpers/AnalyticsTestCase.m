@@ -18,7 +18,7 @@
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
         
         NSString *type = labels[@"hit_type"];
-        if ([type isEqualToString:@"screen"]) {
+        if ([type isEqualToString:@"screen"] || [type isEqualToString:@"buffer"] || [type isEqualToString:@"seek"] || [type isEqualToString:@"pos"] || [type isEqualToString:@"uptime"]) {
             return NO;
         }
         
