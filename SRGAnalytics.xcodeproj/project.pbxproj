@@ -44,6 +44,7 @@
 		6FB97FEB1E4AF1870014C4C2 /* MAKVONotificationCenter.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FB97FE31E4AF0270014C4C2 /* MAKVONotificationCenter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FB97FEF1E4B005B0014C4C2 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB97FEE1E4B005B0014C4C2 /* PlayerViewController.m */; };
 		6FB97FF11E4B00690014C4C2 /* PlayerViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FB97FF01E4B00690014C4C2 /* PlayerViewController.storyboard */; };
+		6FD86FF51F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD86FF41F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m */; };
 		6FD9B2461F0BC4E0004805D2 /* TCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2441F0BC4E0004805D2 /* TCCore.framework */; };
 		6FD9B2471F0BC4E0004805D2 /* TCSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */; };
 		6FD9B2481F0BC4FA004805D2 /* TCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2441F0BC4E0004805D2 /* TCCore.framework */; };
@@ -241,6 +242,7 @@
 		6FB97FED1E4B005B0014C4C2 /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
 		6FB97FEE1E4B005B0014C4C2 /* PlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
 		6FB97FF01E4B00690014C4C2 /* PlayerViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PlayerViewController.storyboard; sourceTree = "<group>"; };
+		6FD86FF41F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComScoreMediaPlayerTestCase.m; path = Tests/Sources/ComScoreMediaPlayerTestCase.m; sourceTree = SOURCE_ROOT; };
 		6FD9B2441F0BC4E0004805D2 /* TCCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCCore.framework; path = Carthage/Build/iOS/TCCore.framework; sourceTree = "<group>"; };
 		6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCSDK.framework; path = Carthage/Build/iOS/TCSDK.framework; sourceTree = "<group>"; };
 		6FF3E20E1D9CE68600EB4A30 /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 			isa = PBXGroup;
 			children = (
 				E65490CD1D816A18007D96E7 /* Helpers */,
+				6FD86FF41F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m */,
 				6FF3E22A1D9D2E9B00EB4A30 /* DataProviderTestCase.m */,
 				E65490B11D803CA2007D96E7 /* MediaPlayerTestCase.m */,
 				E600FE5C1D93C5ED000B8A1D /* TrackerTestCase.m */,
@@ -958,6 +961,7 @@
 				E600FE5D1D93C5ED000B8A1D /* TrackerTestCase.m in Sources */,
 				E6D609291DA7762600FA44EB /* AnalyticsTestCase.m in Sources */,
 				6FF3E22B1D9D2E9B00EB4A30 /* DataProviderTestCase.m in Sources */,
+				6FD86FF51F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m in Sources */,
 				E600FE7E1D943D96000B8A1D /* TrackerSingletonSetup.m in Sources */,
 				E65490B21D803CA2007D96E7 /* MediaPlayerTestCase.m in Sources */,
 				6FAF430B1EF7F5090074E033 /* NSString_AnalyticsTestCase.m in Sources */,
