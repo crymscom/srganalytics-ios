@@ -12,6 +12,8 @@
 
 #import <objc/runtime.h>
 
+static CSCore *s_fakeCore;
+
 // Private comScore methods
 @interface NSObject (SRGCSApplicationMeasurement)
 
@@ -19,6 +21,12 @@
 - (NSDictionary *)getLabels;
 
 @end
+
+__attribute__((constructor)) static void CSMeasurementDispatcherInit(void)
+{
+    // Create early enough since initialized asynchronously in comScore SDK (!)
+    s_fakeCore = [[CSCore alloc] init];
+}
 
 @implementation CSMeasurementDispatcher (SRGAnalytics)
 
@@ -43,28 +51,11 @@
         return;
     }
     
-    id core = object_getIvar(self, class_getInstanceVariable([self class], "_core"));
-    
-    // The application measurement creation below will crash if the AdSupport framework is linked with the project. We can
-    // apply a fix by forcing unique id generation, but this fix was discovered to lead to subtle internal comScore issues.
-    // We still keep this fix for the test BU, used in our test suite. Everything will be dropped when comScore is replaced,
-    // after all
-    if (NSClassFromString(@"ASIdentifierManager") != Nil) {
-        SRGAnalyticsLogWarning(@"notifications", @"comScore notifications are not sent when the AdSupport framework is linked "
-                               "to the project. Contact us if this support is really required in your case.");
-        
-        // To avoid internal comScore crashes, we force unique id generation. This might lead to instabilities, as we
-        // discovered, which is why we add a warning message to the logs. This is a test-only behavior, though, and
-        // comScore support will be dropped soon, we therefore don't need a better fix for the moment.
-        SEL selector = NSSelectorFromString(@"generateCrossPublisherUniqueId");
-        void (*methodImp)(id, SEL) = (void (*)(id, SEL))[core methodForSelector:selector];
-        methodImp(core, selector);
-    }
-    
-    // Labels are not complete. To get all labels we mimic the comScore SDK by creating the measurement object. Only the
-    // timestamp will not be identical to the timestamp of the real event which is sent afterwards
+    // Labels are not complete. To get (almost) all labels we mimic the comScore SDK by creating the measurement object. The
+    // timestamp will not be identical to the timestamp of the real event which is sent afterwards, and global labels will
+    // be missing.
     long long timestamp = [[NSDate date] timeIntervalSince1970];
-    id measurement = [NSClassFromString(@"CSApplicationMeasurement") newWithCore:core eventType:eventType labels:labels timestamp:timestamp];
+    id measurement = [NSClassFromString(@"CSApplicationMeasurement") newWithCore:s_fakeCore eventType:eventType labels:labels timestamp:timestamp];
     
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
     for (id label in [measurement getLabels].allValues) {

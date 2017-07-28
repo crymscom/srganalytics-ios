@@ -216,7 +216,6 @@ static NSDictionary *s_startLabels = nil;
 {
     [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
-        XCTAssertNotNil(labels[@"srg_test"]);
         return YES;
     }];
     
