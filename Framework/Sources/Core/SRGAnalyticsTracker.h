@@ -257,11 +257,17 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 
 @end
 
-/**
- *  @name Player tracking
- */
+@interface SRGAnalyticsTracker (Unavailable)
 
-@interface SRGAnalyticsTracker (PlayerTracking)
+- (instancetype)init NS_UNAVAILABLE;
+
+@end
+
+/**
+ *  Tracker for media playback consumption. This tracker ensures that the media analytics event sequences are always
+ *  reliable, guaranteeing correct measurements.
+ */
+@interface SRGAnalyticsMediaTracker : NSObject
 
 /**
  *  Track a media player event.
@@ -282,12 +288,6 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
               withLabels:(nullable NSDictionary<NSString *, NSString *> *)labels
           comScoreLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreLabels
    comScoreSegmentLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreSegmentLabels;
-
-@end
-
-@interface SRGAnalyticsTracker (Unavailable)
-
-- (instancetype)init NS_UNAVAILABLE;
 
 @end
 

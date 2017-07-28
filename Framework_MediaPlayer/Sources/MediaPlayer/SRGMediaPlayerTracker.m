@@ -29,6 +29,8 @@ static NSMutableDictionary *s_trackers = nil;
     BOOL _enabled;
 }
 
+@property (nonatomic) SRGAnalyticsMediaTracker *mediaTracker;
+
 // We must not retain the controller, so that its deallocation is not prevented (deallocation will ensure the idle state
 // is always reached before the player gets destroyed, and our tracker is removed when this state is reached). Since
 // returning to the idle state might occur during deallocation, we need a non-weak ref (which would otherwise be nilled
@@ -52,6 +54,7 @@ static NSMutableDictionary *s_trackers = nil;
 {
     if (self = [super init]) {
         self.mediaPlayerController = mediaPlayerController;
+        self.mediaTracker = [[SRGAnalyticsMediaTracker alloc] init];
     }
     return self;
 }
@@ -249,11 +252,11 @@ static NSMutableDictionary *s_trackers = nil;
         }
     }
     
-    [[SRGAnalyticsTracker sharedTracker] trackPlayerEvent:event
-                                               atPosition:self.currentPositionInMilliseconds
-                                               withLabels:[fullLabels copy]
-                                           comScoreLabels:[fullComScoreLabels copy]
-                                    comScoreSegmentLabels:[fullComScoreSegmentLabels copy]];
+    [self.mediaTracker trackPlayerEvent:event
+                             atPosition:self.currentPositionInMilliseconds
+                             withLabels:[fullLabels copy]
+                         comScoreLabels:[fullComScoreLabels copy]
+                  comScoreSegmentLabels:[fullComScoreSegmentLabels copy]];
 }
 
 // Convenience helper using current labels
@@ -501,11 +504,11 @@ static NSMutableDictionary *s_trackers = nil;
 - (void)heartbeat:(NSTimer *)timer
 {
     if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
-        [[SRGAnalyticsTracker sharedTracker] trackPlayerEvent:SRGAnalyticsPlayerEventHeartbeat
-                                                   atPosition:self.currentPositionInMilliseconds
-                                                   withLabels:nil
-                                               comScoreLabels:nil
-                                        comScoreSegmentLabels:nil];
+        [self.mediaTracker trackPlayerEvent:SRGAnalyticsPlayerEventHeartbeat
+                                 atPosition:self.currentPositionInMilliseconds
+                                 withLabels:nil
+                             comScoreLabels:nil
+                      comScoreSegmentLabels:nil];
     }
 }
 
