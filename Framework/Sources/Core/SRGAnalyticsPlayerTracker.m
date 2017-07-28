@@ -85,6 +85,8 @@
 {
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSString *> *s_actions;
+    static NSDictionary<NSNumber *, NSArray<NSNumber *> *> *s_allowedTransitions;
+    static NSArray<NSNumber *> *s_playerSingleHiddenEvents;
     dispatch_once(&s_onceToken, ^{
         s_actions = @{ @(SRGAnalyticsPlayerEventPlay) : @"play",
                        @(SRGAnalyticsPlayerEventPause) : @"pause",
@@ -92,7 +94,20 @@
                        @(SRGAnalyticsPlayerEventStop) : @"stop",
                        @(SRGAnalyticsPlayerEventEnd) : @"eof",
                        @(SRGAnalyticsPlayerEventHeartbeat) : @"pos",
-                       @(SRGAnalyticsPlayerEventHeartbeat) : @"uptime" };
+                       @(SRGAnalyticsPlayerEventLiveHeartbeat) : @"uptime" };
+        
+        // Allowed transitions from an event to an other event
+        s_allowedTransitions = @{ @(SRGAnalyticsPlayerEventPlay) : @[ @(SRGAnalyticsPlayerEventPause), @(SRGAnalyticsPlayerEventStop), @(SRGAnalyticsPlayerEventEnd), @(SRGAnalyticsPlayerEventHeartbeat), @(SRGAnalyticsPlayerEventLiveHeartbeat) ],
+                                  @(SRGAnalyticsPlayerEventPause) : @[ @(SRGAnalyticsPlayerEventPlay), @(SRGAnalyticsPlayerEventStop), @(SRGAnalyticsPlayerEventEnd) ],
+                                  @(SRGAnalyticsPlayerEventSeek) : @[ @(SRGAnalyticsPlayerEventPlay), @(SRGAnalyticsPlayerEventPause), @(SRGAnalyticsPlayerEventSeek), @(SRGAnalyticsPlayerEventStop), @(SRGAnalyticsPlayerEventEnd) ],
+                                  @(SRGAnalyticsPlayerEventStop) : @[ @(SRGAnalyticsPlayerEventPlay) ],
+                                  @(SRGAnalyticsPlayerEventEnd) : @[ @(SRGAnalyticsPlayerEventPlay) ],
+                                  @(SRGAnalyticsPlayerEventHeartbeat) : @[ @(SRGAnalyticsPlayerEventPause), @(SRGAnalyticsPlayerEventStop), @(SRGAnalyticsPlayerEventEnd), @(SRGAnalyticsPlayerEventHeartbeat), @(SRGAnalyticsPlayerEventLiveHeartbeat) ],
+                                  @(SRGAnalyticsPlayerEventHeartbeat) : @[ @(SRGAnalyticsPlayerEventPause), @(SRGAnalyticsPlayerEventStop), @(SRGAnalyticsPlayerEventEnd), @(SRGAnalyticsPlayerEventHeartbeat), @(SRGAnalyticsPlayerEventLiveHeartbeat) ] };
+        
+        // Don't send twice a player single event
+        s_playerSingleHiddenEvents = @[ @(SRGAnalyticsPlayerEventPlay), @(SRGAnalyticsPlayerEventPause), @(SRGAnalyticsPlayerEventStop), @(SRGAnalyticsPlayerEventEnd) ];
+
     });
     
     NSString *action = s_actions[@(event)];
@@ -101,48 +116,20 @@
         return;
     }
     
-    // Don't send an hearbeat events if not playing
-    if ((event == SRGAnalyticsPlayerEventHeartbeat || event == SRGAnalyticsPlayerEventLiveHeartbeat) &&
-        self.previousPlayerEvent != SRGAnalyticsPlayerEventPlay ) {
-        return;
-    }
-    
-    // Don't send a seek event if stop or end before
-    if (event == SRGAnalyticsPlayerEventSeek &&
-        (self.previousPlayerEvent == SRGAnalyticsPlayerEventStop || self.previousPlayerEvent == SRGAnalyticsPlayerEventEnd)) {
-        return;
-    }
-    
-    // If Seeking, try to track pause event before
+    // If seeking, send a pause event before
     if (event == SRGAnalyticsPlayerEventSeek) {
         [self trackTagCommanderPlayerEvent:SRGAnalyticsPlayerEventPause
                                 atPosition:position
                                 withLabels:labels];
     }
     
-    BOOL isASingleEvent = (event == SRGAnalyticsPlayerEventPlay) || (event == SRGAnalyticsPlayerEventPause) || (event == SRGAnalyticsPlayerEventStop) || (event == SRGAnalyticsPlayerEventEnd);
+    // Don't send an unallowed action
+    NSArray<NSNumber *> *allowTransitions = s_allowedTransitions[@(self.previousPlayerEvent)];
+    if (! [allowTransitions containsObject:@(event)]) {
+        return;
+    }
     
-    if (isASingleEvent) {
-        // Don't send twice the same single event
-        if (event == self.previousPlayerEvent) {
-            return;
-        }
-        
-        // Don't send pause if not playing before
-        if (event == SRGAnalyticsPlayerEventPause && self.previousPlayerEvent != SRGAnalyticsPlayerEventPlay) {
-            return;
-        }
-        
-        // Don't send stop if eof before
-        if (event == SRGAnalyticsPlayerEventStop && self.previousPlayerEvent == SRGAnalyticsPlayerEventEnd) {
-            return;
-        }
-        
-        // Don't send eof if end stop before
-        if (event == SRGAnalyticsPlayerEventEnd && self.previousPlayerEvent == SRGAnalyticsPlayerEventStop) {
-            return;
-        }
-        
+    if ([s_playerSingleHiddenEvents containsObject:@(event)]) {
         self.previousPlayerEvent = event;
     }
     
