@@ -18,11 +18,32 @@
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
         
         NSString *type = labels[@"hit_type"];
-        if ([type isEqualToString:@"screen"] || [type isEqualToString:@"buffer"] || [type isEqualToString:@"seek"] || [type isEqualToString:@"pos"] || [type isEqualToString:@"uptime"]) {
+        if ([type isEqualToString:@"screen"]) {
             return NO;
         }
         
         return handler(type, labels);
+    }];
+}
+
+- (XCTestExpectation *)expectationForPlayerSingleHiddenEventNotificationWithHandler:(EventExpectationHandler)handler
+{
+    return [self expectationForNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+        NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        
+        static dispatch_once_t s_onceToken;
+        static NSArray<NSString *> *s_playerSingleHiddenEvents;
+        dispatch_once(&s_onceToken, ^{
+            s_playerSingleHiddenEvents = @[@"play", @"pause", @"stop", @"eof"];
+        });
+        
+        NSString *type = labels[@"hit_type"];
+        if ([s_playerSingleHiddenEvents containsObject:type]) {
+            return handler(type, labels);
+        }
+        else {
+            return NO;
+        }
     }];
 }
 

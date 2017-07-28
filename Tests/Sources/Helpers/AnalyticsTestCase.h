@@ -19,6 +19,11 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
 - (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(EventExpectationHandler)handler;
 
 /**
+ *  Expectation for global TMS Player single hidden event notifications (ie: play, pause, stop, eof)
+ */
+- (XCTestExpectation *)expectationForPlayerSingleHiddenEventNotificationWithHandler:(EventExpectationHandler)handler;
+
+/**
  *  Expectation for global ComScore hidden event notifications
  */
 - (XCTestExpectation *)expectationForComScoreHiddenEventNotificationWithHandler:(EventExpectationHandler)handler;
