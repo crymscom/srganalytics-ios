@@ -136,6 +136,7 @@
     // Send the event
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
     [fullLabels srg_safelySetObject:action forKey:@"hit_type"];
+    [fullLabels srg_safelySetObject:@(position).stringValue forKey:@"media_position"];
     
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [fullLabels srg_safelySetObject:object forKey:key];
