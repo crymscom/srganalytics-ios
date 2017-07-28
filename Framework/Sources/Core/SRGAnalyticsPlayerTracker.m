@@ -15,6 +15,8 @@
 
 @property (nonatomic) CSStreamSense *streamSense;
 
+@property (nonatomic) SRGAnalyticsPlayerEvent previousPlayerEvent;
+
 @end
 
 @implementation SRGAnalyticsPlayerTracker
@@ -25,6 +27,8 @@
         // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
         self.streamSense = [[CSStreamSense alloc] init];
         [self.streamSense setKeepAliveInterval:9 * 60];
+        
+        self.previousPlayerEvent = SRGAnalyticsPlayerEventEnd;
     }
     return self;
 }
@@ -92,10 +96,57 @@
     });
     
     NSString *action = s_actions[@(event)];
+    // Don't send an unknown action
     if (! action) {
         return;
     }
     
+    // Don't send an hearbeat events if not playing
+    if ((event == SRGAnalyticsPlayerEventHeartbeat || event == SRGAnalyticsPlayerEventLiveHeartbeat) &&
+        self.previousPlayerEvent != SRGAnalyticsPlayerEventPlay ) {
+        return;
+    }
+    
+    // Don't send a seek event if stop or end before
+    if (event == SRGAnalyticsPlayerEventSeek &&
+        (self.previousPlayerEvent == SRGAnalyticsPlayerEventStop || self.previousPlayerEvent == SRGAnalyticsPlayerEventEnd)) {
+        return;
+    }
+    
+    // If Seeking, try to track pause event before
+    if (event == SRGAnalyticsPlayerEventSeek) {
+        [self trackTagCommanderPlayerEvent:SRGAnalyticsPlayerEventPause
+                                atPosition:position
+                                withLabels:labels];
+    }
+    
+    BOOL isASingleEvent = (event == SRGAnalyticsPlayerEventPlay) || (event == SRGAnalyticsPlayerEventPause) || (event == SRGAnalyticsPlayerEventStop) || (event == SRGAnalyticsPlayerEventEnd);
+    
+    if (isASingleEvent) {
+        // Don't send twice the same single event
+        if (event == self.previousPlayerEvent) {
+            return;
+        }
+        
+        // Don't send pause if not playing before
+        if (event == SRGAnalyticsPlayerEventPause && self.previousPlayerEvent != SRGAnalyticsPlayerEventPlay) {
+            return;
+        }
+        
+        // Don't send stop if eof before
+        if (event == SRGAnalyticsPlayerEventStop && self.previousPlayerEvent == SRGAnalyticsPlayerEventEnd) {
+            return;
+        }
+        
+        // Don't send eof if end stop before
+        if (event == SRGAnalyticsPlayerEventEnd && self.previousPlayerEvent == SRGAnalyticsPlayerEventStop) {
+            return;
+        }
+        
+        self.previousPlayerEvent = event;
+    }
+    
+    // Send the event
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
     [fullLabels srg_safelySetObject:action forKey:@"hit_type"];
     
