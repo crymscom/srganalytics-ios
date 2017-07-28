@@ -10,16 +10,16 @@
 
 static NSURL *ServiceTestURL(void)
 {
-    return [NSURL URLWithString:@"http://il.srgssr.ch"];
+    return [NSURL URLWithString:@"http://il-test.srgssr.ch"];
 }
 
-@interface DataProviderTestCase : AnalyticsTestCase
+@interface ComScoreDataProviderTestCase : AnalyticsTestCase
 
 @property (nonatomic) SRGMediaPlayerController *mediaPlayerController;
 
 @end
 
-@implementation DataProviderTestCase
+@implementation ComScoreDataProviderTestCase
 
 #pragma mark Setup and teardown
 
@@ -37,12 +37,12 @@ static NSURL *ServiceTestURL(void)
 
 #pragma mark Tests
 
-- (void)testPrepareToPlayMediaComposition
+- (void)testComScorePrepareToPlayMediaComposition
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSWI];
-    [[dataProvider videoMediaCompositionWithUid:@"42297626" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider videoMediaCompositionWithUid:@"42297626" completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
         [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
@@ -57,10 +57,10 @@ static NSURL *ServiceTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePaused);
     
     // Start playback and check labels
-    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
-//        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Archive footage of the man and his moods");
-//        XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Archive footage of the man and his moods");
+        XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
         return YES;
     }];
     
@@ -69,12 +69,12 @@ static NSURL *ServiceTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testPlayMediaComposition
+- (void)testComScorePlayMediaComposition
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSWI];
-    [[dataProvider videoMediaCompositionWithUid:@"42297626" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider videoMediaCompositionWithUid:@"42297626" completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
         [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
@@ -89,18 +89,18 @@ static NSURL *ServiceTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
 }
 
-- (void)testPlaySegmentInMediaComposition
+- (void)testComScorePlaySegmentInMediaComposition
 {
     // Use a segment id as video id, expect segment labels
-    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
-//        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"«26 minutes» – web first: Welsche Satire auf Hochdeutsch!");
-//        XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
+        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"«26 minutes» – web first: Welsche Satire auf Hochdeutsch!");
+        XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
         return YES;
     }];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSRF];
-    [[dataProvider videoMediaCompositionWithUid:@"99ac4dd4-8cd4-4883-8c80-0373d37cf0ad" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider videoMediaCompositionWithUid:@"99ac4dd4-8cd4-4883-8c80-0373d37cf0ad" completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
         [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
