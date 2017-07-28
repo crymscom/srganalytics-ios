@@ -14,8 +14,28 @@
 @interface SRGAnalyticsPlayerTracker ()
 
 @property (nonatomic) CSStreamSense *streamSense;
-
 @property (nonatomic) SRGAnalyticsPlayerEvent previousPlayerEvent;
+
+@end
+
+@implementation SRGAnalyticsPlayerTrackerLabels
+
+- (NSDictionary<NSString *, NSString *> *)dictionary
+{
+    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    [dictionary srg_safelySetString:self.playerName forKey:@"media_player_display"];
+    [dictionary srg_safelySetString:self.playerVersion forKey:@"media_player_version"];
+    [dictionary srg_safelySetString:self.subtitlesEnabled ? @"true" : @"false" forKey:@"media_subtitles_on"];
+    [dictionary srg_safelySetString:self.timeshiftInMilliseconds.stringValue forKey:@"media_timeshift_milliseconds"];
+    [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"media_bandwidth"];
+    [dictionary srg_safelySetString:self.volumeInPercent.stringValue forKey:@"media_volume"];
+    
+    [self.customValues enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull string, BOOL * _Nonnull stop) {
+        [dictionary srg_safelySetString:string forKey:key];
+    }];
+    
+    return [dictionary copy];
+}
 
 @end
 
@@ -35,7 +55,7 @@
 
 - (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
               atPosition:(NSTimeInterval)position
-              withLabels:(NSDictionary<NSString *, NSString *> *)labels
+              withLabels:(SRGAnalyticsPlayerTrackerLabels *)labels
           comScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
    comScoreSegmentLabels:(NSDictionary<NSString *, NSString *> *)comScoreSegmentLabels
 {
@@ -81,7 +101,7 @@
 
 - (void)trackTagCommanderPlayerEvent:(SRGAnalyticsPlayerEvent)event
                           atPosition:(NSTimeInterval)position
-                          withLabels:(NSDictionary<NSString *,NSString *> *)labels
+                          withLabels:(SRGAnalyticsPlayerTrackerLabels *)labels
 {
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSString *> *s_actions;
@@ -134,15 +154,16 @@
     }
     
     // Send the event
-    NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
-    [fullLabels srg_safelySetObject:action forKey:@"hit_type"];
-    [fullLabels srg_safelySetObject:@(position).stringValue forKey:@"media_position"];
+    NSMutableDictionary<NSString *, NSString *> *fullLabelsDictionary = [NSMutableDictionary dictionary];
+    [fullLabelsDictionary srg_safelySetString:action forKey:@"hit_type"];
+    [fullLabelsDictionary srg_safelySetString:@(position).stringValue forKey:@"media_position"];
     
-    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [fullLabels srg_safelySetObject:object forKey:key];
+    NSDictionary<NSString *, NSString *> *labelsDictionary = [labels dictionary];
+    [labelsDictionary enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [fullLabelsDictionary srg_safelySetString:object forKey:key];
     }];
     
-    [[SRGAnalyticsTracker sharedTracker] trackTagCommanderEventWithLabels:[fullLabels copy]];
+    [[SRGAnalyticsTracker sharedTracker] trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
 }
 
 @end

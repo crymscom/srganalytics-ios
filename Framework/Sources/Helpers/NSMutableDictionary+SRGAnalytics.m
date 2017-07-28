@@ -8,10 +8,10 @@
 
 @implementation NSMutableDictionary (SRGAnalytics)
 
-- (void)srg_safelySetObject:(id)object forKey:(NSString *)key
+- (void)srg_safelySetString:(NSString *)string forKey:(NSString *)key
 {
-    if (object && key) {
-        [self setObject:object forKey:key];
+    if (string && key) {
+        [self setObject:string forKey:key];
     }
     else {
         [self removeObjectForKey:key];

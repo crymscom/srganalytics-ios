@@ -218,13 +218,13 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSAssert(title.length != 0, @"A title is required");
     
     NSMutableDictionary *pageViewLabels = [NSMutableDictionary dictionary];
-    [pageViewLabels srg_safelySetObject:title forKey:@"srg_title"];
-    [pageViewLabels srg_safelySetObject:@(fromPushNotification) forKey:@"srg_ap_push"];
+    [pageViewLabels srg_safelySetString:title forKey:@"srg_title"];
+    [pageViewLabels srg_safelySetString:@(fromPushNotification).stringValue forKey:@"srg_ap_push"];
     
     NSString *category = @"app";
     
     if (! levels) {
-        [pageViewLabels srg_safelySetObject:category forKey:@"srg_n1"];
+        [pageViewLabels srg_safelySetString:category forKey:@"srg_n1"];
     }
     else if (levels.count > 0) {
         __block NSMutableString *levelsComScoreFormattedString = [NSMutableString new];
@@ -233,7 +233,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
             NSString *levelValue = [object description];
                         
             if (idx < 10) {
-                [pageViewLabels srg_safelySetObject:levelValue forKey:levelKey];
+                [pageViewLabels srg_safelySetString:levelValue forKey:levelKey];
             }
             
             if (levelsComScoreFormattedString.length > 0) {
@@ -245,11 +245,11 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         category = [levelsComScoreFormattedString copy];
     }
     
-    [pageViewLabels srg_safelySetObject:category forKey:@"category"];
-    [pageViewLabels srg_safelySetObject:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
+    [pageViewLabels srg_safelySetString:category forKey:@"category"];
+    [pageViewLabels srg_safelySetString:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
     
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [pageViewLabels srg_safelySetObject:object forKey:key];
+        [pageViewLabels srg_safelySetString:object forKey:key];
     }];
     
     [CSComScore viewWithLabels:pageViewLabels];
@@ -263,11 +263,11 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSAssert(title.length != 0, @"A title is required");
     
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
-    [fullLabels srg_safelySetObject:@"screen" forKey:@"hit_type"];
-    [fullLabels srg_safelySetObject:@"app" forKey:@"navigation_property_type"];
-    [fullLabels srg_safelySetObject:self.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
-    [fullLabels srg_safelySetObject:@"prod" forKey:@"navigation_environment"];          // TODO: Incorrect. Other value: preprod
-    [fullLabels srg_safelySetObject:fromPushNotification ? @"true" : @"false" forKey:@"accessed_after_push_notification"];
+    [fullLabels srg_safelySetString:@"screen" forKey:@"hit_type"];
+    [fullLabels srg_safelySetString:@"app" forKey:@"navigation_property_type"];
+    [fullLabels srg_safelySetString:self.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
+    [fullLabels srg_safelySetString:@"prod" forKey:@"navigation_environment"];          // TODO: Incorrect. Other value: preprod
+    [fullLabels srg_safelySetString:fromPushNotification ? @"true" : @"false" forKey:@"accessed_after_push_notification"];
     
     [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
         if (idx >= 7) {
@@ -276,11 +276,11 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         }
         
         NSString *levelKey = [NSString stringWithFormat:@"navigation_level_%@", @(idx + 1)];
-        [fullLabels srg_safelySetObject:object forKey:levelKey];
+        [fullLabels srg_safelySetString:object forKey:levelKey];
     }];
     
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [fullLabels srg_safelySetObject:object forKey:key];
+        [fullLabels srg_safelySetString:object forKey:key];
     }];
     
     [self trackTagCommanderEventWithLabels:[fullLabels copy]];
@@ -311,12 +311,12 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSAssert(title.length != 0, @"A title is required");
     
     NSMutableDictionary *hiddenEventLabels = [NSMutableDictionary dictionary];
-    [hiddenEventLabels srg_safelySetObject:title forKey:@"srg_title"];    
-    [hiddenEventLabels srg_safelySetObject:@"app" forKey:@"category"];
-    [hiddenEventLabels srg_safelySetObject:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];
+    [hiddenEventLabels srg_safelySetString:title forKey:@"srg_title"];    
+    [hiddenEventLabels srg_safelySetString:@"app" forKey:@"category"];
+    [hiddenEventLabels srg_safelySetString:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];
     
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [hiddenEventLabels srg_safelySetObject:object forKey:key];
+        [hiddenEventLabels srg_safelySetString:object forKey:key];
     }];
     
     [CSComScore hiddenWithLabels:hiddenEventLabels];
@@ -327,10 +327,10 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSAssert(title.length != 0, @"A title is required");
     
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
-    [fullLabels srg_safelySetObject:@"click" forKey:@"hit_type"];
+    [fullLabels srg_safelySetString:@"click" forKey:@"hit_type"];
     
     [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [fullLabels srg_safelySetObject:object forKey:key];
+        [fullLabels srg_safelySetString:object forKey:key];
     }];
     
     [self trackTagCommanderEventWithLabels:[fullLabels copy]];
