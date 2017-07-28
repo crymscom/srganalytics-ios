@@ -90,17 +90,6 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
                                       SRGAnalyticsBusinessUnitIdentifierSWI : @3670 };
         });
         self.tagCommander = [[TagCommander alloc] initWithSiteID:s_accountIdentifiers[self.businessUnitIdentifier].intValue andContainerID:(int)self.containerIdentifier];
-        
-        NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-        [self.tagCommander addPermanentData:@"app_name" withValue:applicationName];
-        
-        [self.tagCommander addPermanentData:@"app_os" withValue:@"iOS"];
-        
-        NSString *applicationBuildNumber = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-        [self.tagCommander addPermanentData:@"app_build_number" withValue:applicationBuildNumber];
-        
-        NSString *applicationVersionNumber = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-        [self.tagCommander addPermanentData:@"app_version_number" withValue:applicationVersionNumber];
     }
 }
 
