@@ -10,7 +10,7 @@
 FOUNDATION_EXPORT NSString * SRGAnalyticsMarketingVersion(void);
 
 // Public headers.
-#import "SRGAnalyticsMediaTracker.h"
 #import "SRGAnalyticsNotifications.h"
+#import "SRGAnalyticsPlayerTracker.h"
 #import "SRGAnalyticsTracker.h"
 #import "UIViewController+SRGAnalytics.h"

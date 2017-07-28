@@ -29,7 +29,7 @@ static NSMutableDictionary *s_trackers = nil;
     BOOL _enabled;
 }
 
-@property (nonatomic) SRGAnalyticsMediaTracker *mediaTracker;
+@property (nonatomic) SRGAnalyticsPlayerTracker *playerTracker;
 
 // We must not retain the controller, so that its deallocation is not prevented (deallocation will ensure the idle state
 // is always reached before the player gets destroyed, and our tracker is removed when this state is reached). Since
@@ -54,7 +54,7 @@ static NSMutableDictionary *s_trackers = nil;
 {
     if (self = [super init]) {
         self.mediaPlayerController = mediaPlayerController;
-        self.mediaTracker = [[SRGAnalyticsMediaTracker alloc] init];
+        self.playerTracker = [[SRGAnalyticsPlayerTracker alloc] init];
     }
     return self;
 }
@@ -252,7 +252,7 @@ static NSMutableDictionary *s_trackers = nil;
         }
     }
     
-    [self.mediaTracker trackPlayerEvent:event
+    [self.playerTracker trackPlayerEvent:event
                              atPosition:self.currentPositionInMilliseconds
                              withLabels:[fullLabels copy]
                          comScoreLabels:[fullComScoreLabels copy]
@@ -504,7 +504,7 @@ static NSMutableDictionary *s_trackers = nil;
 - (void)heartbeat:(NSTimer *)timer
 {
     if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
-        [self.mediaTracker trackPlayerEvent:SRGAnalyticsPlayerEventHeartbeat
+        [self.playerTracker trackPlayerEvent:SRGAnalyticsPlayerEventHeartbeat
                                  atPosition:self.currentPositionInMilliseconds
                                  withLabels:nil
                              comScoreLabels:nil

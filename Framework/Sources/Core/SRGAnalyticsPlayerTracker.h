@@ -50,7 +50,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *  Tracker for media playback consumption. This tracker ensures that the media analytics event sequences are always
  *  reliable, guaranteeing correct measurements.
  */
-@interface SRGAnalyticsMediaTracker : NSObject
+@interface SRGAnalyticsPlayerTracker : NSObject
 
 /**
  *  Track a media player event.

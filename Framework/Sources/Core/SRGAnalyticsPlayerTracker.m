@@ -4,20 +4,20 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGAnalyticsMediaTracker.h"
+#import "SRGAnalyticsPlayerTracker.h"
 
 #import "NSMutableDictionary+SRGAnalytics.h"
 #import "SRGAnalyticsTracker+Private.h"
 
 #import <ComScore/ComScore.h>
 
-@interface SRGAnalyticsMediaTracker ()
+@interface SRGAnalyticsPlayerTracker ()
 
 @property (nonatomic) CSStreamSense *streamSense;
 
 @end
 
-@implementation SRGAnalyticsMediaTracker
+@implementation SRGAnalyticsPlayerTracker
 
 - (instancetype)init
 {
