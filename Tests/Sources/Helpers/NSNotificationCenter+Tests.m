@@ -32,7 +32,7 @@
         static dispatch_once_t s_onceToken;
         static NSArray<NSString *> *s_playerSingleHiddenEvents;
         dispatch_once(&s_onceToken, ^{
-            s_playerSingleHiddenEvents = @[@"play", @"pause", @"stop", @"eof"];
+            s_playerSingleHiddenEvents = @[@"play", @"pause", @"seek", @"stop", @"eof"];
         });
         
         NSString *type = labels[@"hit_type"];
