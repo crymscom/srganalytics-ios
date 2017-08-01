@@ -59,8 +59,10 @@ static NSURL *ServiceTestURL(void)
     // Start playback and check labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"hit_type"], @"play");
-//        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Archive footage of the man and his moods");
-//        XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
+        
+        // TODO: Should be media_segment_name
+        XCTAssertEqualObjects(labels[@"media_segment"], @"Archive footage of the man and his moods");
+        XCTAssertEqualObjects(labels[@"media_streaming_quality"], @"HD");
         return YES;
     }];
     
@@ -94,8 +96,10 @@ static NSURL *ServiceTestURL(void)
     // Use a segment id as video id, expect segment labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"hit_type"], @"play");
-//        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"«26 minutes» – web first: Welsche Satire auf Hochdeutsch!");
-//        XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
+        
+        // TODO: Should be media_segment_name
+        XCTAssertEqualObjects(labels[@"media_segment"], @"«26 minutes» – web first: Welsche Satire auf Hochdeutsch!");
+        XCTAssertEqualObjects(labels[@"media_streaming_quality"], @"HD");
         return YES;
     }];
     

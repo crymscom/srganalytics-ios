@@ -218,8 +218,13 @@ withComScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
     labels.bandwidthInBitsPerSecond = [self bandwidthInBitsPerSecond];
     labels.volumeInPercent = [self volumeInPercent];
     
+    labels.customValues = self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey];
     if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
-        labels.customValues = [(id<SRGAnalyticsSegment>)segment srg_analyticsLabels];
+        NSDictionary<NSString *, NSString *> *mutableCustomValues = labels ? labels.mutableCopy : @{}.mutableCopy;
+        [[(id<SRGAnalyticsSegment>)segment srg_analyticsLabels] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+            [mutableCustomValues setValue:obj forKey:key];
+        }];
+        labels.customValues = mutableCustomValues.count ? mutableCustomValues.copy : nil;
     }
     
     // Global comScore labels
