@@ -11,6 +11,7 @@
 		0811A8541D800BBC00A9863B /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; };
 		0811A8551D800BBC00A9863B /* libextobjc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		083EE17C1F2B8B2700413A68 /* ComScoreDataProviderTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 083EE17A1F2B86B600413A68 /* ComScoreDataProviderTestCase.m */; };
+		08539C271F306E390033D406 /* ComScoreTrackerTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 08539C251F306CAF0033D406 /* ComScoreTrackerTestCase.m */; };
 		088700D51DA2540F00D4961A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 088700AF1DA2525800D4961A /* LaunchScreen.xib */; };
 		088700D71DA2542700D4961A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B51DA2528900D4961A /* AppDelegate.m */; };
 		088700D81DA2542700D4961A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 088700B61DA2528900D4961A /* main.m */; };
@@ -225,6 +226,7 @@
 /* Begin PBXFileReference section */
 		0811A8521D800BA000A9863B /* libextobjc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libextobjc.framework; path = Carthage/Build/iOS/libextobjc.framework; sourceTree = "<group>"; };
 		083EE17A1F2B86B600413A68 /* ComScoreDataProviderTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComScoreDataProviderTestCase.m; sourceTree = "<group>"; };
+		08539C251F306CAF0033D406 /* ComScoreTrackerTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComScoreTrackerTestCase.m; sourceTree = "<group>"; };
 		088700AF1DA2525800D4961A /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		088700B41DA2528900D4961A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		088700B51DA2528900D4961A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -579,6 +581,7 @@
 		E65490AE1D803C3E007D96E7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				08539C251F306CAF0033D406 /* ComScoreTrackerTestCase.m */,
 				083EE17A1F2B86B600413A68 /* ComScoreDataProviderTestCase.m */,
 				6FD86FF41F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m */,
 				6FF3E22A1D9D2E9B00EB4A30 /* DataProviderTestCase.m */,
@@ -974,6 +977,7 @@
 				E65490D51D816A18007D96E7 /* NSNotificationCenter+Tests.m in Sources */,
 				E600FE5D1D93C5ED000B8A1D /* TrackerTestCase.m in Sources */,
 				083EE17C1F2B8B2700413A68 /* ComScoreDataProviderTestCase.m in Sources */,
+				08539C271F306E390033D406 /* ComScoreTrackerTestCase.m in Sources */,
 				E6D609291DA7762600FA44EB /* AnalyticsTestCase.m in Sources */,
 				6FF3E22B1D9D2E9B00EB4A30 /* DataProviderTestCase.m in Sources */,
 				6FD86FF51F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m in Sources */,

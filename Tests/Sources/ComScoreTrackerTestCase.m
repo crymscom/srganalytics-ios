@@ -9,21 +9,21 @@
 
 typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
 
-@interface TrackerTestCase : AnalyticsTestCase
+@interface ComScoreTrackerTestCase : AnalyticsTestCase
 
 @end
 
-@implementation TrackerTestCase
+@implementation ComScoreTrackerTestCase
 
 #pragma mark Tests
 
-- (void)testHiddenEvent
+- (void)testComScoreHiddenEvent
 {
-    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        XCTAssertEqualObjects(type, @"click");
-//        XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
-//        XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
-//        XCTAssertEqualObjects(labels[@"category"], @"app");
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+        XCTAssertNil(type);
+        XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
+        XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
+        XCTAssertEqualObjects(labels[@"category"], @"app");
         return YES;
     }];
     
@@ -32,14 +32,14 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
-- (void)testHiddenEventWithLabels
+- (void)testComScoreHiddenEventWithLabels
 {
-    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        XCTAssertEqualObjects(type, @"click");
-//        XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
-//        XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
-//        XCTAssertEqualObjects(labels[@"category"], @"app");
-//        XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+        XCTAssertNil(type);
+        XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
+        XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
+        XCTAssertEqualObjects(labels[@"category"], @"app");
+        XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
         return YES;
     }];
     
@@ -50,9 +50,9 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
-- (void)testHiddenEventWithEmptyTitle
+- (void)testComScoreHiddenEventWithEmptyTitle
 {
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"Events with missing title must not be sent");
     }];
     
