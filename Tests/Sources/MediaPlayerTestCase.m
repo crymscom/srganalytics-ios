@@ -2116,4 +2116,62 @@ static NSURL *DVRTestURL(void)
     XCTAssertEqual(playEventCount, 1);
 }
 
+- (void)testHearbeat
+{
+    // for tests, 30 seconds is replace by 3 seconds.
+    
+    __block NSInteger hearbeatCount = 0;
+    __block NSInteger liveHearbeatCount = 0;
+    id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"pos"]) {
+            ++hearbeatCount;
+        }
+        else if ([event isEqualToString:@"uptime"]) {
+            ++liveHearbeatCount;
+        }
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:10. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+    }];
+    
+    // Check we have received 3 hearbeats
+    XCTAssertEqual(hearbeatCount, 3);
+    // Check we have received 0 live hearbeat
+    XCTAssertEqual(liveHearbeatCount, 0);
+}
+
+- (void)testLiveHearbeat
+{
+    // for tests, 30 seconds is replace by 3 seconds.
+    
+    __block NSInteger hearbeatCount = 0;
+    __block NSInteger liveHearbeatCount = 0;
+    id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"pos"]) {
+            ++hearbeatCount;
+        }
+        else if ([event isEqualToString:@"uptime"]) {
+            ++liveHearbeatCount;
+        }
+    }];
+    
+    [self.mediaPlayerController playURL:LiveTestURL()];
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:13. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+    }];
+    
+    // Check we have received 4 hearbeats
+    XCTAssertEqual(hearbeatCount, 4);
+    // Check we have received 2 live hearbeats
+    XCTAssertEqual(liveHearbeatCount, 2);
+}
+
 @end

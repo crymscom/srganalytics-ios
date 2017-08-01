@@ -44,6 +44,7 @@ static NSMutableDictionary *s_trackers = nil;
 @property (nonatomic) long currentPositionInMilliseconds;
 
 @property (nonatomic) NSTimer *heartbeatTimer;
+@property (nonatomic) NSUInteger heartbeatCount;
 
 @end
 
@@ -146,7 +147,9 @@ static NSMutableDictionary *s_trackers = nil;
         }
     }];
     
-    self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:30. target:self selector:@selector(heartbeat:) userInfo:nil repeats:YES];
+    self.heartbeatCount = 0;
+    NSTimeInterval timeInterval = ([[SRGAnalyticsTracker sharedTracker].businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) ? 3. : 30.;
+    self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(heartbeat:) userInfo:nil repeats:YES];
 }
 
 - (void)stopWithLabels:(NSDictionary<NSString *, NSString *> *)labels comScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
@@ -507,6 +510,18 @@ withComScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
                                   withLabels:nil
                               comScoreLabels:nil
                        comScoreSegmentLabels:nil];
+        
+        // Send a live hearbeat each minutes, after first 30 seconds for live and DVR only
+        if ((self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) &&
+        (self.heartbeatCount % 2 == 0)){
+            [self.playerTracker trackPlayerEvent:SRGAnalyticsPlayerEventLiveHeartbeat
+                                      atPosition:self.currentPositionInMilliseconds
+                                      withLabels:nil
+                                  comScoreLabels:nil
+                           comScoreSegmentLabels:nil];
+        }
+        
+        self.heartbeatCount += 1;
     }
 }
 
