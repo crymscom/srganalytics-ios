@@ -99,6 +99,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"hit_type"], @"seek");
+        XCTAssertEqualObjects(labels[@"media_position"], @"0");
         return YES;
     }];
     
