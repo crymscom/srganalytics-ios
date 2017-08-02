@@ -105,6 +105,7 @@ static NSMutableDictionary *s_trackers = nil;
 {
     [_heartbeatTimer invalidate];
     _heartbeatTimer = heartbeatTimer;
+    self.heartbeatCount = 0;
 }
 
 #pragma mark Tracker management
@@ -145,11 +146,9 @@ static NSMutableDictionary *s_trackers = nil;
                 [self trackEvent:SRGAnalyticsPlayerEventPause withSegment:self.mediaPlayerController.selectedSegment];
             }
         }
+        
+        [self updateHearbeatTimer];
     }];
-    
-    self.heartbeatCount = 0;
-    NSTimeInterval timeInterval = ([[SRGAnalyticsTracker sharedTracker].businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) ? 3. : 30.;
-    self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(heartbeat:) userInfo:nil repeats:YES];
 }
 
 - (void)stopWithLabels:(NSDictionary<NSString *, NSString *> *)labels comScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
@@ -173,6 +172,17 @@ static NSMutableDictionary *s_trackers = nil;
     [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
     
     self.mediaPlayerController = nil;
+}
+
+- (void)updateHearbeatTimer
+{
+    if ( self.mediaPlayerController.tracked && (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) && !self.heartbeatTimer) {
+        NSTimeInterval timeInterval = ([[SRGAnalyticsTracker sharedTracker].businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) ? 3. : 30.;
+        self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(heartbeat:) userInfo:nil repeats:YES];
+    }
+    else {
+        self.heartbeatTimer = nil;
+    }
 }
 
 #pragma mark Measurement methods (only sending events when the controller is tracked)
@@ -220,6 +230,7 @@ withComScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
     
     labels.customValues = self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey];
     if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
+        NSDictionary<NSString *, NSString *> *mutableCustomValues = labels.customValues ? labels.customValues.mutableCopy : @{}.mutableCopy;
         [[(id<SRGAnalyticsSegment>)segment srg_analyticsLabels] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
             [mutableCustomValues setValue:obj forKey:key];
         }];
@@ -471,6 +482,8 @@ withComScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
     }
     
     [self measureTrackedPlayerEvent:event withSegment:self.mediaPlayerController.selectedSegment];
+    
+    [self updateHearbeatTimer];
 }
 
 - (void)segmentDidStart:(NSNotification *)notification

@@ -2091,38 +2091,18 @@ static NSURL *DVRTestURL(void)
     XCTAssertEqual(playEventCount, 1);
 }
 
-- (void)testHearbeat
+- (void)testHearbeatPlayPausePlay
 {
-    // For tests, 30 seconds is replaced by 3 seconds.
-    
-    __block NSInteger hearbeatCount = 0;
-    __block NSInteger liveHearbeatCount = 0;
-    id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-        if ([event isEqualToString:@"pos"]) {
-            ++hearbeatCount;
-        }
-        else if ([event isEqualToString:@"uptime"]) {
-            ++liveHearbeatCount;
-        }
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+        return YES;
     }];
     
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
-    // Wait a little bit to collect potential events
-    [self expectationForElapsedTimeInterval:10. withHandler:nil];
-    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
-    }];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Check we have received 3 hearbeats
-    XCTAssertEqual(hearbeatCount, 3);
-    // Check we have received 0 live hearbeat
-    XCTAssertEqual(liveHearbeatCount, 0);
-}
-
-- (void)testLiveHearbeat
-{
-    // For tests, 30 seconds is replaced by 3 seconds.
+    // for tests, 30 seconds is replace by 3 seconds.
     
     __block NSInteger hearbeatCount = 0;
     __block NSInteger liveHearbeatCount = 0;
@@ -2135,7 +2115,103 @@ static NSURL *DVRTestURL(void)
         }
     }];
     
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:7. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+    }];
+    
+    // Check we have received 2 hearbeats
+    XCTAssertEqual(hearbeatCount, 2);
+    // Check we have received 0 live hearbeat
+    XCTAssertEqual(liveHearbeatCount, 0);
+    
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"hit_type"], @"pause");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    hearbeatCount = 0;
+    liveHearbeatCount = 0;
+    hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"pos"]) {
+            ++hearbeatCount;
+        }
+        else if ([event isEqualToString:@"uptime"]) {
+            ++liveHearbeatCount;
+        }
+    }];
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:4. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+    }];
+    
+    // Check we have received 0 hearbeat0
+    XCTAssertEqual(hearbeatCount, 0);
+    // Check we have received 0 live hearbeat
+    XCTAssertEqual(liveHearbeatCount, 0);
+    
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController play];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    hearbeatCount = 0;
+    liveHearbeatCount = 0;
+    hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"pos"]) {
+            ++hearbeatCount;
+        }
+        else if ([event isEqualToString:@"uptime"]) {
+            ++liveHearbeatCount;
+        }
+    }];
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:7. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+    }];
+    
+    // Check we have received 2 hearbeats
+    XCTAssertEqual(hearbeatCount, 2);
+    // Check we have received 0 live hearbeat
+    XCTAssertEqual(liveHearbeatCount, 0);
+}
+
+- (void)testLiveHearbeatPlay
+{
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+        return YES;
+    }];
+    
     [self.mediaPlayerController playURL:LiveTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // for tests, 30 seconds is replace by 3 seconds.
+    
+    __block NSInteger hearbeatCount = 0;
+    __block NSInteger liveHearbeatCount = 0;
+    id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"pos"]) {
+            ++hearbeatCount;
+        }
+        else if ([event isEqualToString:@"uptime"]) {
+            ++liveHearbeatCount;
+        }
+    }];
     
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:13. withHandler:nil];
