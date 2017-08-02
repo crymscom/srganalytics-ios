@@ -516,18 +516,17 @@ withComScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
                               comScoreLabels:nil
                        comScoreSegmentLabels:nil];
         
-        // Send a live hearbeat each minutes, after first 30 seconds for live and DVR only
-        if ((self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) &&
-        (self.heartbeatCount % 2 == 0)){
+        // Send a live hearbeat each minute
+        if (self.mediaPlayerController.live && self.heartbeatCount % 2 == 0) {
             [self.playerTracker trackPlayerEvent:SRGAnalyticsPlayerEventLiveHeartbeat
                                       atPosition:self.currentPositionInMilliseconds
                                       withLabels:nil
                                   comScoreLabels:nil
                            comScoreSegmentLabels:nil];
         }
-        
-        self.heartbeatCount += 1;
     }
+    
+    self.heartbeatCount += 1;
 }
 
 @end

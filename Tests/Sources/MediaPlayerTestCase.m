@@ -2093,7 +2093,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testHearbeat
 {
-    // for tests, 30 seconds is replace by 3 seconds.
+    // For tests, 30 seconds is replaced by 3 seconds.
     
     __block NSInteger hearbeatCount = 0;
     __block NSInteger liveHearbeatCount = 0;
@@ -2122,7 +2122,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testLiveHearbeat
 {
-    // for tests, 30 seconds is replace by 3 seconds.
+    // For tests, 30 seconds is replaced by 3 seconds.
     
     __block NSInteger hearbeatCount = 0;
     __block NSInteger liveHearbeatCount = 0;
