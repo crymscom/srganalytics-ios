@@ -41,7 +41,7 @@ static NSMutableDictionary *s_trackers = nil;
 // Keep track of the playback time. We would lose this information when the player is reset, but we still need it
 // in associated labels. The easiest is to store this information at the tracker level during playback.
 @property (nonatomic, weak) id periodicTimeObserver;
-@property (nonatomic) long currentPositionInMilliseconds;
+@property (nonatomic, readonly) long currentPositionInMilliseconds;
 
 @property (nonatomic) NSTimer *heartbeatTimer;
 @property (nonatomic) NSUInteger heartbeatCount;
@@ -83,21 +83,7 @@ static NSMutableDictionary *s_trackers = nil;
     @weakify(self)
     [mediaPlayerController addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1., NSEC_PER_SEC) queue:NULL usingBlock:^(CMTime time) {
         @strongify(self)
-        
-        // Live stream: Playhead position must be always 0
-        if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive
-                || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
-            self.currentPositionInMilliseconds = 0;
-        }
-        else {
-            CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
-            if (CMTIME_IS_INDEFINITE(currentTime) || CMTIME_IS_INVALID(currentTime)) {
-                self.currentPositionInMilliseconds = 0;
-            }
-            else {
-                self.currentPositionInMilliseconds = (long)floor(CMTimeGetSeconds(currentTime) * 1000.);
-            }
-        }
+        [self updateCurrentPositionInMilliseconds];
     }];
 }
 
@@ -106,6 +92,35 @@ static NSMutableDictionary *s_trackers = nil;
     [_heartbeatTimer invalidate];
     _heartbeatTimer = heartbeatTimer;
     self.heartbeatCount = 0;
+}
+
+@synthesize currentPositionInMilliseconds = _currentPositionInMilliseconds;
+- (long)currentPositionInMilliseconds
+{
+    SRGMediaPlayerPlaybackState playbackState = self.mediaPlayerController.playbackState;
+    if (playbackState != SRGMediaPlayerPlaybackStateIdle || playbackState != SRGMediaPlayerPlaybackStateEnded) {
+        [self updateCurrentPositionInMilliseconds];
+    }
+    
+    return _currentPositionInMilliseconds;
+}
+
+- (void)updateCurrentPositionInMilliseconds
+{
+    // Live stream: Playhead position must be always 0
+    if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive
+        || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
+        _currentPositionInMilliseconds = 0;
+    }
+    else {
+        CMTime currentTime = [self.mediaPlayerController.player.currentItem currentTime];
+        if (CMTIME_IS_INDEFINITE(currentTime) || CMTIME_IS_INVALID(currentTime)) {
+            _currentPositionInMilliseconds = 0;
+        }
+        else {
+            _currentPositionInMilliseconds = (long)floor(CMTimeGetSeconds(currentTime) * 1000.);
+        }
+    }
 }
 
 #pragma mark Tracker management
