@@ -47,9 +47,9 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 };
 
 /**
- *  Additional media playback measurement labels.
+ *  Additional playback measurement labels.
  */
-@interface SRGAnalyticsPlayerTrackerLabels : NSObject
+@interface SRGAnalyticsPlayerLabels : NSObject
 
 /**
  *  The media player display name, e.g. "AVPlayer" if you are using `AVPlayer` directly.
@@ -115,7 +115,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  */
 - (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
               atPosition:(NSTimeInterval)position
-              withLabels:(nullable SRGAnalyticsPlayerTrackerLabels *)labels
+              withLabels:(nullable SRGAnalyticsPlayerLabels *)labels
           comScoreLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreLabels
    comScoreSegmentLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreSegmentLabels;
 

@@ -18,7 +18,7 @@
 
 @end
 
-@implementation SRGAnalyticsPlayerTrackerLabels
+@implementation SRGAnalyticsPlayerLabels
 
 - (NSDictionary<NSString *, NSString *> *)dictionary
 {
@@ -55,7 +55,7 @@
 
 - (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
               atPosition:(NSTimeInterval)position
-              withLabels:(SRGAnalyticsPlayerTrackerLabels *)labels
+              withLabels:(SRGAnalyticsPlayerLabels *)labels
           comScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
    comScoreSegmentLabels:(NSDictionary<NSString *, NSString *> *)comScoreSegmentLabels
 {
@@ -101,7 +101,7 @@
 
 - (void)trackTagCommanderPlayerEvent:(SRGAnalyticsPlayerEvent)event
                           atPosition:(NSTimeInterval)position
-                          withLabels:(SRGAnalyticsPlayerTrackerLabels *)labels
+                          withLabels:(SRGAnalyticsPlayerLabels *)labels
 {
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSString *> *s_actions;

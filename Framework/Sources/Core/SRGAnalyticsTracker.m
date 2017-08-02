@@ -39,6 +39,24 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 @end
 
+@implementation SRGAnalyticsHiddenEventLabels
+
+- (NSDictionary<NSString *, NSString *> *)dictionary
+{
+    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    [dictionary srg_safelySetString:self.type forKey:@"event_type"];
+    [dictionary srg_safelySetString:self.value forKey:@"event_value"];
+    [dictionary srg_safelySetString:self.source forKey:@"event_source"];
+    
+    [self.customValues enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull string, BOOL * _Nonnull stop) {
+        [dictionary srg_safelySetString:string forKey:key];
+    }];
+    
+    return [dictionary copy];
+}
+
+@end
+
 @implementation SRGAnalyticsTracker
 
 #pragma mark Class methods
@@ -294,7 +312,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 }
 
 - (void)trackHiddenEventWithTitle:(NSString *)title
-                           labels:(NSDictionary<NSString *,NSString *> *)labels
+                           labels:(SRGAnalyticsHiddenEventLabels *)labels
                    comScoreLabels:(NSDictionary<NSString *,NSString *> *)comScoreLabels
 {
     if (title.length == 0) {
@@ -322,7 +340,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [CSComScore hiddenWithLabels:hiddenEventLabels];
 }
 
-- (void)trackTagCommanderHiddenEventWithTitle:(NSString *)title labels:(NSDictionary<NSString *, NSString *> *)labels
+- (void)trackTagCommanderHiddenEventWithTitle:(NSString *)title labels:(SRGAnalyticsHiddenEventLabels *)labels
 {
     NSAssert(title.length != 0, @"A title is required");
     

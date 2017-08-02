@@ -25,6 +25,40 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST;
 
 /**
+ *  Additional hidden event labels.
+ */
+@interface SRGAnalyticsHiddenEventLabels : NSObject
+
+/**
+ *  The event type (this concept is loosely defined, please discuss expected values for your application with the
+ *  measurement team).
+ */
+@property (nonatomic, copy, nullable) NSString *type;
+
+/**
+ *  The event value (this concept is loosely defined, please discuss expected values for your application with the
+ *  measurement team).
+ */
+@property (nonatomic, copy, nullable) NSString *value;
+
+/**
+ *  The event source (this concept is loosely defined, please discuss expected values for your application with the
+ *  measurement team).
+ */
+@property (nonatomic, copy, nullable) NSString *source;
+
+/**
+ *  Additional custom labels. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 for a full list.
+ *  You should only set very specific information which does not override official labels provided above.
+ *
+ *  @discussion If those labels are not defined on the TagCommander portal, they won't be saved. If you override one of the above
+ *              official labels in the process, the result is undefined.
+ */
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customValues;
+
+@end
+
+/**
  *  The analytics tracker is a singleton instance responsible of tracking usage of an application, sending measurements
  *  to TagCommander, comScore and NetMetrix. The usage data is simply a collection of key-values (both strings), named
  *  labels, which can then be used by data analysts.
@@ -165,7 +199,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *              using appropriate naming conventions (e.g. a prefix). If the title is `nil`, no event will be sent.
  */
 - (void)trackHiddenEventWithTitle:(NSString *)title
-                           labels:(nullable NSDictionary<NSString *, NSString *> *)labels
+                           labels:(nullable SRGAnalyticsHiddenEventLabels *)labels
                    comScoreLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreLabels;
 
 @end
