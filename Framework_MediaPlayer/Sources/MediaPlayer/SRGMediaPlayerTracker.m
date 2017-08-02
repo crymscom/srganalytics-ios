@@ -220,7 +220,6 @@ withComScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
     
     labels.customValues = self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey];
     if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
-        NSDictionary<NSString *, NSString *> *mutableCustomValues = labels ? labels.mutableCopy : @{}.mutableCopy;
         [[(id<SRGAnalyticsSegment>)segment srg_analyticsLabels] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
             [mutableCustomValues setValue:obj forKey:key];
         }];
