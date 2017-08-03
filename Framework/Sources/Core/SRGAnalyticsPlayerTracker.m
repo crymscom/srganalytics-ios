@@ -10,6 +10,7 @@
 #import "SRGAnalyticsTracker+Private.h"
 
 #import <ComScore/ComScore.h>
+#import <SRGAnalytics/SRGAnalytics.h>
 
 @interface SRGAnalyticsPlayerTracker ()
 
@@ -25,6 +26,7 @@
 - (NSDictionary<NSString *, NSString *> *)dictionary
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    
     [dictionary srg_safelySetString:self.playerName forKey:@"media_player_display"];
     [dictionary srg_safelySetString:self.playerVersion forKey:@"media_player_version"];
     [dictionary srg_safelySetString:self.subtitlesEnabled ? @"true" : @"false" forKey:@"media_subtitles_on"];
@@ -32,11 +34,91 @@
     [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"media_bandwidth"];
     [dictionary srg_safelySetString:self.volumeInPercent.stringValue forKey:@"media_volume"];
     
-    [self.customValues enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull string, BOOL * _Nonnull stop) {
-        [dictionary srg_safelySetString:string forKey:key];
-    }];
+    if (self.customValues) {
+        [dictionary addEntriesFromDictionary:self.customValues];
+    }
     
     return [dictionary copy];
+}
+
+- (NSDictionary<NSString *, NSString *> *)comScoreDictionary
+{
+    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    
+    [dictionary srg_safelySetString:SRGAnalyticsMarketingVersion() forKey:@"ns_st_pu"];
+    [dictionary srg_safelySetString:[SRGAnalyticsTracker sharedTracker].comScoreVirtualSite forKey:@"ns_vsite"];
+    [dictionary srg_safelySetString:@"c" forKey:@"ns_st_it"];
+    [dictionary srg_safelySetString:@"p_app_ios" forKey:@"srg_ptype"];
+    
+    [dictionary srg_safelySetString:self.playerName forKey:@"ns_st_mp"];
+    [dictionary srg_safelySetString:self.playerVersion forKey:@"ns_st_mv"];
+    [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"ns_st_br"];
+    [dictionary srg_safelySetString:self.volumeInPercent.stringValue forKey:@"ns_st_vo"];
+    
+    if (self.comScoreValues) {
+        [dictionary addEntriesFromDictionary:self.comScoreValues];
+    }
+    
+    return [dictionary copy];
+}
+
+- (NSDictionary<NSString *, NSString *> *)comScoreSegmentDictionary
+{
+    NSMutableDictionary <NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    
+    [dictionary srg_safelySetString:self.timeshiftInMilliseconds.stringValue forKey:@"srg_timeshift"];
+    
+    if (self.comScoreSegmentValues) {
+        [dictionary addEntriesFromDictionary:self.comScoreSegmentValues];
+    }
+    
+    return [dictionary copy];
+}
+
+#pragma mark Merging
+
+- (void)mergeWithLabels:(SRGAnalyticsPlayerLabels *)labels
+{
+    if (! labels) {
+        return;
+    }
+    
+    if (labels.playerName) {
+        self.playerName = labels.playerName;
+    }
+    if (labels.playerVersion) {
+        self.playerVersion = labels.playerVersion;
+    }
+    if (labels.subtitlesEnabled) {
+        self.subtitlesEnabled = labels.subtitlesEnabled;
+    }
+    if (labels.timeshiftInMilliseconds) {
+        self.timeshiftInMilliseconds = labels.timeshiftInMilliseconds;
+    }
+    if (labels.bandwidthInBitsPerSecond) {
+        self.bandwidthInBitsPerSecond = labels.bandwidthInBitsPerSecond;
+    }
+    if (labels.volumeInPercent) {
+        self.volumeInPercent = labels.volumeInPercent;
+    }
+    
+    NSMutableDictionary *customValues = [self.customValues mutableCopy];
+    if (labels.customValues) {
+        [customValues addEntriesFromDictionary:labels.customValues];
+    }
+    self.customValues = [customValues copy];
+    
+    NSMutableDictionary *comScoreValues = [self.comScoreValues mutableCopy];
+    if (labels.comScoreValues) {
+        [comScoreValues addEntriesFromDictionary:labels.comScoreValues];
+    }
+    self.comScoreValues = [comScoreValues copy];
+    
+    NSMutableDictionary *comScoreSegmentValues = [self.comScoreSegmentValues mutableCopy];
+    if (labels.comScoreSegmentValues) {
+        [comScoreSegmentValues addEntriesFromDictionary:labels.comScoreSegmentValues];
+    }
+    self.comScoreSegmentValues = [comScoreSegmentValues copy];
 }
 
 #pragma mark NSCopying protocol
@@ -51,6 +133,8 @@
     labels.bandwidthInBitsPerSecond = self.bandwidthInBitsPerSecond;
     labels.volumeInPercent = self.volumeInPercent;
     labels.customValues = self.customValues;
+    labels.comScoreValues = self.comScoreValues;
+    labels.comScoreSegmentValues = self.comScoreSegmentValues;
     return labels;
 }
 
@@ -73,17 +157,14 @@
 - (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
               atPosition:(NSTimeInterval)position
               withLabels:(SRGAnalyticsPlayerLabels *)labels
-          comScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
-   comScoreSegmentLabels:(NSDictionary<NSString *, NSString *> *)comScoreSegmentLabels
 {
     [self trackTagCommanderPlayerEvent:event atPosition:position withLabels:labels];
-    [self trackComScorePlayerEvent:event atPosition:position withLabels:comScoreLabels segmentLabels:comScoreSegmentLabels];
+    [self trackComScorePlayerEvent:event atPosition:position withLabels:labels];
 }
 
 - (void)trackComScorePlayerEvent:(SRGAnalyticsPlayerEvent)event
                       atPosition:(NSTimeInterval)position
-                      withLabels:(NSDictionary<NSString *, NSString *> *)labels
-                   segmentLabels:(NSDictionary<NSString *, NSString *> *)segmentLabels
+                      withLabels:(SRGAnalyticsPlayerLabels *)labels
 {
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSNumber *> *s_streamSenseEvents;
@@ -102,14 +183,14 @@
     }
     
     [[self.streamSense labels] removeAllObjects];
-    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [[labels comScoreDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [self.streamSense setLabel:key value:object];
     }];
     
     // Reset clip labels to avoid inheriting from a previous segment. This does not reset internal hidden comScore labels
     // (e.g. ns_st_pa), which would otherwise be incorrect
     [[[self.streamSense clip] labels] removeAllObjects];
-    [segmentLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [[labels comScoreSegmentDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [[self.streamSense clip] setLabel:key value:object];
     }];
     

@@ -48,13 +48,19 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 @property (nonatomic, copy, nullable) NSString *source;
 
 /**
- *  Additional custom labels. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 for a full list.
+ *  Additional custom values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 for a full list.
  *  You should only set very specific information which does not override official labels provided above.
  *
  *  @discussion If those labels are not defined on the TagCommander portal, they won't be saved. If you override one of the above
  *              official labels in the process, the result is undefined.
  */
 @property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customValues;
+
+/**
+ *  Additional custom values to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
+ *  for a full list. You should only set very specific information which does not override official labels.
+ */
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreValues;
 
 @end
 
@@ -192,15 +198,11 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *
  *  @param title          The event title.
  *  @param labels         Information to be sent along the event and which is meaningful for your application measurements.
- *  @param comScoreLabels comScore information to be sent along the event and which is meaningful for your application
- *                        measurements.
  *
- *  @discussion Be careful when using custom labels and ensure your custom keys do not match reserved values by
- *              using appropriate naming conventions (e.g. a prefix). If the title is `nil`, no event will be sent.
+ *  @discussion If the title is `nil`, no event will be sent.
  */
 - (void)trackHiddenEventWithTitle:(NSString *)title
-                           labels:(nullable SRGAnalyticsHiddenEventLabels *)labels
-                   comScoreLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreLabels;
+                           labels:(nullable SRGAnalyticsHiddenEventLabels *)labels;
 
 @end
 
@@ -213,16 +215,13 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 /**
  *  Track a page view (not associated with a push notification).
  *
- *  @param title                The page title.
+ *  @param title                The page title. If the title is `nil`, no event will be sent.
  *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy.
  *                              If the page view levels array is `nil` or empty, an 'app' default level will be used.
  *
  *  @discussion This method is primarily available for page view tracking not related to a view controller. If your page view
  *              is related to a view controller, the recommended way of tracking the view controller is by having it conform
  *              to the `SRGAnalyticsViewTracking` protocol.
- *
- *              Be careful when using custom labels and ensure your custom keys do not match reserved values by
- *              using appropriate naming conventions (e.g. a prefix). If the title is `nil`, no event will be sent.
  */
 - (void)trackPageViewWithTitle:(nullable NSString *)title
                         levels:(nullable NSArray<NSString *> *)levels;
@@ -230,20 +229,15 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 /**
  *  Track a page view.
  *
- *  @param title                The page title.
+ *  @param title                The page title. If the title is `nil`, no event will be sent.
  *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy. If the 
  *                              page view levels array is `nil` or empty, an 'app' default level will be used.
  *  @param labels               Additional custom labels.
- *  @param comScoreLabels       Custom comScore information to be sent along the event and which is meaningful for your application
- *                              measurements.
  *  @param fromPushNotification `YES` iff the view is opened from a push notification.
  *
  *  @discussion This method is primarily available for page view tracking not related to a view controller. If your page view
  *              is related to a view controller, the recommended way of tracking the view controller is by having it conform
  *              to the `SRGAnalyticsViewTracking` protocol.
- *
- *              Be careful when using custom labels and ensure your custom keys do not match reserved values by
- *              using appropriate naming conventions (e.g. a prefix). If the title is `nil`, no event will be sent.
  */
 - (void)trackPageViewWithTitle:(nullable NSString *)title
                         levels:(nullable NSArray<NSString *> *)levels

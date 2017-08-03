@@ -30,12 +30,8 @@
 {
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.customValues = self.analyticsLabels;
+    labels.comScoreValues = self.comScoreAnalyticsLabels;
     return labels;
-}
-
-- (NSDictionary<NSString *,NSString *> *)srg_comScoreAnalyticsLabels
-{
-    return self.comScoreAnalyticsLabels;
 }
 
 @end

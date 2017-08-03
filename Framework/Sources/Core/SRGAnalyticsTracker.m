@@ -44,12 +44,28 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 - (NSDictionary<NSString *, NSString *> *)dictionary
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    
     [dictionary srg_safelySetString:self.type forKey:@"event_type"];
     [dictionary srg_safelySetString:self.value forKey:@"event_value"];
     [dictionary srg_safelySetString:self.source forKey:@"event_source"];
     
     if (self.customValues) {
         [dictionary addEntriesFromDictionary:self.customValues];
+    }
+    
+    return [dictionary copy];
+}
+
+- (NSDictionary<NSString *, NSString *> *)comScoreDictionary
+{
+    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    
+    [dictionary srg_safelySetString:self.type forKey:@"srg_evgroup"];
+    [dictionary srg_safelySetString:self.value forKey:@"srg_evname"];
+    [dictionary srg_safelySetString:self.source forKey:@"srg_evsource"];
+    
+    if (self.comScoreValues) {
+        [dictionary addEntriesFromDictionary:self.comScoreValues];
     }
     
     return [dictionary copy];
@@ -168,7 +184,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     return [globalLabels copy];
 }
 
-#pragma mark General event tracking
+#pragma mark General event tracking (internal use only)
 
 - (void)trackEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
               comScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
@@ -308,12 +324,11 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)trackHiddenEventWithTitle:(NSString *)title
 {
-    [self trackHiddenEventWithTitle:title labels:nil comScoreLabels:nil];
+    [self trackHiddenEventWithTitle:title labels:nil];
 }
 
 - (void)trackHiddenEventWithTitle:(NSString *)title
                            labels:(SRGAnalyticsHiddenEventLabels *)labels
-                   comScoreLabels:(NSDictionary<NSString *,NSString *> *)comScoreLabels
 {
     if (title.length == 0) {
         SRGAnalyticsLogWarning(@"tracker", @"Missing title. No event will be sent");
@@ -321,10 +336,10 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     }
     
     [self trackTagCommanderHiddenEventWithTitle:title labels:labels];
-    [self trackComScoreHiddenEventWithTitle:title labels:comScoreLabels];
+    [self trackComScoreHiddenEventWithTitle:title labels:labels];
 }
 
-- (void)trackComScoreHiddenEventWithTitle:(NSString *)title labels:(NSDictionary<NSString *, NSString *> *)labels
+- (void)trackComScoreHiddenEventWithTitle:(NSString *)title labels:(SRGAnalyticsHiddenEventLabels *)labels
 {
     NSAssert(title.length != 0, @"A title is required");
     
@@ -332,7 +347,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [hiddenEventLabels srg_safelySetString:title forKey:@"srg_title"];    
     [hiddenEventLabels srg_safelySetString:@"app" forKey:@"category"];
     [hiddenEventLabels srg_safelySetString:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];
-    [hiddenEventLabels addEntriesFromDictionary:labels];
+    [hiddenEventLabels addEntriesFromDictionary:[labels comScoreDictionary]];
     
     [CSComScore hiddenWithLabels:hiddenEventLabels];
 }

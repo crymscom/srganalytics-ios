@@ -12,7 +12,7 @@
 
 NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
 
-typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsPlayerLabels * _Nullable analyticsLabels, NSDictionary<NSString *, NSString *> * _Nullable comScoreAnalyticsLabels, NSError * _Nullable error);
+typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsPlayerLabels * _Nullable analyticsLabels, NSError * _Nullable error);
 
 @implementation SRGMediaPlayerController (SRGAnalytics_DataProvider)
 
@@ -89,30 +89,34 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
             URL = resource.URL;
         }
         
-        NSMutableDictionary<NSString *, NSString *> *analyticsLabels = [NSMutableDictionary dictionary];
+        SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+        
+        NSMutableDictionary<NSString *, NSString *> *customValues = [NSMutableDictionary dictionary];
         if (mediaComposition.analyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:mediaComposition.analyticsLabels];
+            [customValues addEntriesFromDictionary:mediaComposition.analyticsLabels];
         }
         if (mediaComposition.mainChapter.analyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
+            [customValues addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
         }
         if (resource.analyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:resource.analyticsLabels];
+            [customValues addEntriesFromDictionary:resource.analyticsLabels];
         }
+        labels.customValues = [customValues copy];
         
-        NSMutableDictionary<NSString *, NSString *> *comScoreAnalyticsLabels = [NSMutableDictionary dictionary];
+        NSMutableDictionary<NSString *, NSString *> *comScoreValues = [NSMutableDictionary dictionary];
         if (mediaComposition.comScoreAnalyticsLabels) {
-            [comScoreAnalyticsLabels addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
+            [comScoreValues addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
         }
         if (mediaComposition.mainChapter.comScoreAnalyticsLabels) {
-            [comScoreAnalyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
+            [comScoreValues addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
         }
         if (resource.comScoreAnalyticsLabels) {
-            [comScoreAnalyticsLabels addEntriesFromDictionary:resource.comScoreAnalyticsLabels];
+            [comScoreValues addEntriesFromDictionary:resource.comScoreAnalyticsLabels];
         }
+        labels.comScoreValues = [comScoreValues copy];
         
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
-        completionBlock(URL, index, chapter.segments, [analyticsLabels copy], [comScoreAnalyticsLabels copy], nil);
+        completionBlock(URL, index, chapter.segments, labels, nil);
     }];
     if (resume) {
         [request resume];
@@ -130,14 +134,14 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                                        resume:(BOOL)resume
                             completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsPlayerLabels * _Nullable analyticsLabels, NSDictionary<NSString *,NSString *> * _Nullable comScoreAnalyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsPlayerLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
         }
         
         NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithMediaComposition:mediaComposition userInfo:userInfo];
-        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels comScoreAnalyticsLabels:comScoreAnalyticsLabels userInfo:fullUserInfo completionHandler:^{
+        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
             completionHandler ? completionHandler(nil) : nil;
         }];
     }];
@@ -151,14 +155,14 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                               resume:(BOOL)resume
                    completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsPlayerLabels * _Nullable analyticsLabels, NSDictionary<NSString *,NSString *> * _Nullable comScoreAnalyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsPlayerLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
         }
         
         NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithMediaComposition:mediaComposition userInfo:userInfo];
-        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels comScoreAnalyticsLabels:comScoreAnalyticsLabels userInfo:fullUserInfo completionHandler:^{
+        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
             [self play];
             completionHandler ? completionHandler(nil) : nil;
         }];

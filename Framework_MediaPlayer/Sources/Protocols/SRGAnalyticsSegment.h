@@ -22,11 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly, nullable) SRGAnalyticsPlayerLabels *srg_analyticsLabels;
 
-/**
- *  comScore analytics labels associated with the segments.
- */
-@property (nonatomic, readonly, nullable) NSDictionary<NSString *, NSString *> *srg_comScoreAnalyticsLabels;
-
 @end
 
 NS_ASSUME_NONNULL_END

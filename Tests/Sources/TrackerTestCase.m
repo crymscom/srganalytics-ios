@@ -46,8 +46,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
     SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
     labels.customValues = @{ @"custom_label" : @"custom_value" };
     [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Hidden event"
-                                                            labels:labels
-                                                    comScoreLabels:nil];
+                                                            labels:labels];
     
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }

@@ -17,15 +17,11 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 #pragma mark Helpers
 
 + (NSDictionary *)fullInfoWithAnalyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
-                      comScoreAnalyticsLabels:(NSDictionary<NSString *, NSString *> *)comScoreAnalyticsLabels
                                      userInfo:(NSDictionary *)userInfo
 {
     NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
     if (analyticsLabels) {
         fullUserInfo[SRGAnalyticsMediaPlayerLabelsKey] = analyticsLabels;
-    }
-    if (comScoreAnalyticsLabels) {
-        fullUserInfo[SRGAnalyticsMediaPlayerComScoreLabelsKey] = comScoreAnalyticsLabels;
     }
     if (userInfo) {
         [fullUserInfo addEntriesFromDictionary:userInfo];
@@ -39,11 +35,10 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
                   atTime:(CMTime)time
             withSegments:(NSArray<id<SRGSegment>> *)segments
          analyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
- comScoreAnalyticsLabels:(NSDictionary *)comScoreAnalyticsLabels
                 userInfo:(NSDictionary *)userInfo
        completionHandler:(void (^)(void))completionHandler
 {
-    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels comScoreAnalyticsLabels:comScoreAnalyticsLabels userInfo:userInfo];
+    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
     [self prepareToPlayURL:URL atTime:time withSegments:segments userInfo:fullUserInfo completionHandler:completionHandler];
 }
 
@@ -51,10 +46,9 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
          atTime:(CMTime)time
    withSegments:(NSArray<id<SRGSegment>> *)segments
 analyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
-comScoreAnalyticsLabels:(NSDictionary *)comScoreAnalyticsLabels
        userInfo:(NSDictionary *)userInfo
 {
-    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels comScoreAnalyticsLabels:comScoreAnalyticsLabels userInfo:userInfo];
+    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
     [self playURL:URL atTime:time withSegments:segments userInfo:fullUserInfo];
 }
 
@@ -62,11 +56,10 @@ comScoreAnalyticsLabels:(NSDictionary *)comScoreAnalyticsLabels
                  atIndex:(NSInteger)index
               inSegments:(NSArray<id<SRGSegment>> *)segments
      withAnalyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
- comScoreAnalyticsLabels:(NSDictionary *)comScoreAnalyticsLabels
                 userInfo:(NSDictionary *)userInfo
        completionHandler:(void (^)(void))completionHandler
 {
-    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels comScoreAnalyticsLabels:comScoreAnalyticsLabels userInfo:userInfo];
+    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
     [self prepareToPlayURL:URL atIndex:index inSegments:segments withUserInfo:fullUserInfo completionHandler:completionHandler];
 }
 
@@ -74,10 +67,9 @@ comScoreAnalyticsLabels:(NSDictionary *)comScoreAnalyticsLabels
         atIndex:(NSInteger)index
      inSegments:(NSArray<id<SRGSegment>> *)segments
 withAnalyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
-comScoreAnalyticsLabels:(NSDictionary *)comScoreAnalyticsLabels
        userInfo:(NSDictionary *)userInfo
 {
-    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels comScoreAnalyticsLabels:comScoreAnalyticsLabels userInfo:userInfo];
+    NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
     [self playURL:URL atIndex:index inSegments:segments withUserInfo:fullUserInfo];
 }
 

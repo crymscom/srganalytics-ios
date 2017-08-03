@@ -66,13 +66,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  analytics labels.
  *
  *  @param analyticsLabels        The analytics labels to send in stream events.
- *  @param comScorenalyticsLabels The comScore analytics labels to send in stream events.
  */
 - (void)prepareToPlayURL:(NSURL *)URL
                   atTime:(CMTime)time
             withSegments:(nullable NSArray<id<SRGSegment>> *)segments
          analyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
- comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
 
@@ -80,13 +78,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  Same as `-[SRGMediaPlayerController playURL:atTime:withSegments:userInfo:]`, but with optional analytics labels.
  *
  *  @param analyticsLabels        The analytics labels to send in stream events.
- *  @param comScorenalyticsLabels The comScore analytics labels to send in stream events.
  */
 - (void)playURL:(NSURL *)URL
          atTime:(CMTime)time
    withSegments:(nullable NSArray<id<SRGSegment>> *)segments
 analyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
-comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
@@ -94,13 +90,11 @@ comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
  *  optional analytics labels.
  *
  *  @param analyticsLabels        The analytics labels to send in stream events.
- *  @param comScorenalyticsLabels The comScore analytics labels to send in stream events.
  */
 - (void)prepareToPlayURL:(NSURL *)URL
                  atIndex:(NSInteger)index
               inSegments:(NSArray<id<SRGSegment>> *)segments
      withAnalyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
- comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
 
@@ -108,13 +102,11 @@ comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
  *  Same as `-[SRGMediaPlayerController playURL:atIndex:inSegments:withUserInfo:]`, but with optional analytics labels.
  *
  *  @param analyticsLabels        The analytics labels to send in stream events.
- *  @param comScorenalyticsLabels The comScore analytics labels to send in stream events.
  */
 - (void)playURL:(NSURL *)URL
         atIndex:(NSInteger)index
      inSegments:(NSArray<id<SRGSegment>> *)segments
 withAnalyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
-comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
