@@ -325,12 +325,13 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
     [fullLabels srg_safelySetString:@"screen" forKey:@"hit_type"];
     [fullLabels srg_safelySetString:@"app" forKey:@"navigation_property_type"];
+    [fullLabels srg_safelySetString:title forKey:@"content_title"];
     [fullLabels srg_safelySetString:self.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
     [fullLabels srg_safelySetString:@"prod" forKey:@"navigation_environment"];          // TODO: Incorrect. Other value: preprod
     [fullLabels srg_safelySetString:fromPushNotification ? @"true" : @"false" forKey:@"accessed_after_push_notification"];
     
     [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (idx >= 7) {
+        if (idx > 7) {
             *stop = YES;
             return;
         }
