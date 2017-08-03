@@ -424,6 +424,8 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)playbackStateDidChange:(NSNotification *)notification
 {
+    [self updateHearbeatTimer];
+    
     // Inhibit usual playback transitions occuring during segment selection
     if ([notification.userInfo[SRGMediaPlayerSelectionKey] boolValue]) {
         return;
@@ -467,8 +469,6 @@ static NSMutableDictionary *s_trackers = nil;
     }
     
     [self measureTrackedPlayerEvent:event withSegment:self.mediaPlayerController.selectedSegment];
-    
-    [self updateHearbeatTimer];
 }
 
 - (void)segmentDidStart:(NSNotification *)notification
