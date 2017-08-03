@@ -25,46 +25,6 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST;
 
 /**
- *  Additional hidden event labels.
- */
-@interface SRGAnalyticsHiddenEventLabels : NSObject
-
-/**
- *  The event type (this concept is loosely defined, please discuss expected values for your application with the
- *  measurement team).
- */
-@property (nonatomic, copy, nullable) NSString *type;
-
-/**
- *  The event value (this concept is loosely defined, please discuss expected values for your application with the
- *  measurement team).
- */
-@property (nonatomic, copy, nullable) NSString *value;
-
-/**
- *  The event source (this concept is loosely defined, please discuss expected values for your application with the
- *  measurement team).
- */
-@property (nonatomic, copy, nullable) NSString *source;
-
-/**
- *  Additional custom values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 for a full list.
- *  You should only set very specific information which does not override official labels provided above.
- *
- *  @discussion If those labels are not defined on the TagCommander portal, they won't be saved. If you override one of the above
- *              official labels in the process, the result is undefined.
- */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customValues;
-
-/**
- *  Additional custom values to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
- *  for a full list. You should only set very specific information which does not override official labels.
- */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreValues;
-
-@end
-
-/**
  *  The analytics tracker is a singleton instance responsible of tracking usage of an application, sending measurements
  *  to TagCommander, comScore and NetMetrix. The usage data is simply a collection of key-values (both strings), named
  *  labels, which can then be used by data analysts.
@@ -182,6 +142,46 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  @name Hidden event tracking
  */
 
+/**
+ *  Additional hidden event labels.
+ */
+@interface SRGAnalyticsHiddenEventLabels : NSObject
+
+/**
+ *  The event type (this concept is loosely defined, please discuss expected values for your application with the
+ *  measurement team).
+ */
+@property (nonatomic, copy, nullable) NSString *type;
+
+/**
+ *  The event value (this concept is loosely defined, please discuss expected values for your application with the
+ *  measurement team).
+ */
+@property (nonatomic, copy, nullable) NSString *value;
+
+/**
+ *  The event source (this concept is loosely defined, please discuss expected values for your application with the
+ *  measurement team).
+ */
+@property (nonatomic, copy, nullable) NSString *source;
+
+/**
+ *  Additional custom values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 for a full list.
+ *  You should only set very specific information which does not override official labels provided above.
+ *
+ *  @discussion If those labels are not defined on the TagCommander portal, they won't be saved. If you override one of the above
+ *              official labels in the process, the result is undefined.
+ */
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customValues;
+
+/**
+ *  Additional custom values to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
+ *  for a full list. You should only set very specific information which does not override official labels.
+ */
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreValues;
+
+@end
+
 @interface SRGAnalyticsTracker (HiddenEventTracking)
 
 /**
@@ -209,6 +209,28 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 /**
  *  @name Page view tracking
  */
+
+/**
+ *  Additional page view labels.
+ */
+@interface SRGAnalyticsPageViewLabels : NSObject
+
+/**
+ *  Additional custom values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 for a full list.
+ *  You should only set very specific information which does not override official labels provided above.
+ *
+ *  @discussion If those labels are not defined on the TagCommander portal, they won't be saved. If you override one of the above
+ *              official labels in the process, the result is undefined.
+ */
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customValues;
+
+/**
+ *  Additional custom values to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
+ *  for a full list. You should only set very specific information which does not override official labels.
+ */
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreValues;
+
+@end
 
 @interface SRGAnalyticsTracker (PageViewTracking)
 
@@ -241,8 +263,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  */
 - (void)trackPageViewWithTitle:(nullable NSString *)title
                         levels:(nullable NSArray<NSString *> *)levels
-                        labels:(nullable NSDictionary<NSString *, NSString *> *)labels
-                comScoreLabels:(nullable NSDictionary<NSString *, NSString *> *)comScoreLabels
+                        labels:(nullable SRGAnalyticsPageViewLabels *)labels
           fromPushNotification:(BOOL)fromPushNotification;
 
 @end

@@ -73,6 +73,32 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 @end
 
+@implementation SRGAnalyticsPageViewLabels
+
+- (NSDictionary<NSString *, NSString *> *)dictionary
+{
+    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    
+    if (self.customValues) {
+        [dictionary addEntriesFromDictionary:self.customValues];
+    }
+    
+    return [dictionary copy];
+}
+
+- (NSDictionary<NSString *, NSString *> *)comScoreDictionary
+{
+    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    
+    if (self.comScoreValues) {
+        [dictionary addEntriesFromDictionary:self.comScoreValues];
+    }
+    
+    return [dictionary copy];
+}
+
+@end
+
 @implementation SRGAnalyticsTracker
 
 #pragma mark Class methods
@@ -224,13 +250,12 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)trackPageViewWithTitle:(NSString *)title levels:(NSArray<NSString *> *)levels
 {
-    [self trackPageViewWithTitle:title levels:levels labels:nil comScoreLabels:nil fromPushNotification:NO];
+    [self trackPageViewWithTitle:title levels:levels labels:nil fromPushNotification:NO];
 }
 
 - (void)trackPageViewWithTitle:(NSString *)title
                         levels:(NSArray<NSString *> *)levels
-                        labels:(NSDictionary<NSString *, NSString *> *)labels
-                comScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
+                        labels:(SRGAnalyticsPageViewLabels *)labels
           fromPushNotification:(BOOL)fromPushNotification
 {
     if (title.length == 0) {
@@ -239,14 +264,14 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     }
     
     [self trackTagCommanderPageViewWithTitle:title levels:levels labels:labels fromPushNotification:fromPushNotification];
-    [self trackComScorePageViewWithTitle:title levels:levels labels:comScoreLabels fromPushNotification:fromPushNotification];
+    [self trackComScorePageViewWithTitle:title levels:levels labels:labels fromPushNotification:fromPushNotification];
     
     [self.netmetrixTracker trackView];
 }
 
 - (void)trackComScorePageViewWithTitle:(NSString *)title
                                 levels:(NSArray<NSString *> *)levels
-                                labels:(NSDictionary<NSString *, NSString *> *)labels
+                                labels:(SRGAnalyticsPageViewLabels *)labels
                   fromPushNotification:(BOOL)fromPushNotification
 {
     NSAssert(title.length != 0, @"A title is required");
@@ -282,8 +307,9 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [pageViewLabels srg_safelySetString:category forKey:@"category"];
     [pageViewLabels srg_safelySetString:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
     
-    if (labels) {
-        [pageViewLabels addEntriesFromDictionary:labels];
+    NSDictionary<NSString *, NSString *> *comScoreDictionary = [labels comScoreDictionary];
+    if (comScoreDictionary) {
+        [pageViewLabels addEntriesFromDictionary:comScoreDictionary];
     }
     
     [CSComScore viewWithLabels:pageViewLabels];
@@ -291,7 +317,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)trackTagCommanderPageViewWithTitle:(NSString *)title
                                     levels:(NSArray<NSString *> *)levels
-                                    labels:(NSDictionary<NSString *, NSString *> *)labels
+                                    labels:(SRGAnalyticsPageViewLabels *)labels
                       fromPushNotification:(BOOL)fromPushNotification
 {
     NSAssert(title.length != 0, @"A title is required");
@@ -313,9 +339,10 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         [fullLabels srg_safelySetString:object forKey:levelKey];
     }];
     
-    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [fullLabels srg_safelySetString:object forKey:key];
-    }];
+    NSDictionary<NSString *, NSString *> *dictionary = [labels dictionary];
+    if (dictionary) {
+        [fullLabels addEntriesFromDictionary:dictionary];
+    }
     
     [self trackTagCommanderEventWithLabels:[fullLabels copy]];
 }
@@ -347,7 +374,11 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [hiddenEventLabels srg_safelySetString:title forKey:@"srg_title"];    
     [hiddenEventLabels srg_safelySetString:@"app" forKey:@"category"];
     [hiddenEventLabels srg_safelySetString:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];
-    [hiddenEventLabels addEntriesFromDictionary:[labels comScoreDictionary]];
+    
+    NSDictionary<NSString *, NSString *> *comScoreDictionary = [labels comScoreDictionary];
+    if (comScoreDictionary) {
+        [hiddenEventLabels addEntriesFromDictionary:comScoreDictionary];
+    }
     
     [CSComScore hiddenWithLabels:hiddenEventLabels];
 }
@@ -359,8 +390,9 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
     [fullLabels srg_safelySetString:@"click" forKey:@"hit_type"];
     
-    if (labels.customValues) {
-        [fullLabels addEntriesFromDictionary:labels.customValues];
+    NSDictionary<NSString *, NSString *> *dictionary = [labels dictionary];
+    if (dictionary) {
+        [fullLabels addEntriesFromDictionary:dictionary];
     }
         
     [self trackTagCommanderEventWithLabels:[fullLabels copy]];

@@ -70,14 +70,12 @@
     return self.levels;
 }
 
-- (NSDictionary *)srg_pageViewLabels
+- (SRGAnalyticsPageViewLabels *)srg_pageViewLabels
 {
-    return self.labels;
-}
-
-- (NSDictionary<NSString *,NSString *> *)srg_pageViewComScoreLabels
-{
-    return self.labels;
+    SRGAnalyticsPageViewLabels *labels = [[SRGAnalyticsPageViewLabels alloc] init];
+    labels.customValues = self.labels;
+    labels.comScoreValues = self.labels;
+    return labels;
 }
 
 - (BOOL)srg_isOpenedFromPushNotification

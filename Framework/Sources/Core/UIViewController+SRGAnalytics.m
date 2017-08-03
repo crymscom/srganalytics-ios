@@ -45,7 +45,7 @@ static void swizzled_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL an
     if ([self conformsToProtocol:@protocol(SRGAnalyticsViewTracking)]) {
         id<SRGAnalyticsViewTracking> trackedSelf = (id<SRGAnalyticsViewTracking>)self;
         
-        if (!forced && [trackedSelf respondsToSelector:@selector(srg_isTrackedAutomatically)] && ! [trackedSelf srg_isTrackedAutomatically]) {
+        if (! forced && [trackedSelf respondsToSelector:@selector(srg_isTrackedAutomatically)] && ! [trackedSelf srg_isTrackedAutomatically]) {
             return;
         }
         
@@ -56,14 +56,9 @@ static void swizzled_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL an
             levels = [trackedSelf srg_pageViewLevels];
         }
         
-        NSDictionary<NSString *, NSString *> *labels = nil;
+        SRGAnalyticsPageViewLabels *labels = nil;
         if ([trackedSelf respondsToSelector:@selector(srg_pageViewLabels)]) {
             labels = [trackedSelf srg_pageViewLabels];
-        }
-        
-        NSDictionary<NSString *, NSString *> *comScoreLabels = nil;
-        if ([trackedSelf respondsToSelector:@selector(srg_pageViewComScoreLabels)]) {
-            comScoreLabels = [trackedSelf srg_pageViewComScoreLabels];
         }
         
         BOOL fromPushNotification = NO;
@@ -74,7 +69,6 @@ static void swizzled_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL an
         [[SRGAnalyticsTracker sharedTracker] trackPageViewWithTitle:title
                                                              levels:levels
                                                              labels:labels
-                                                     comScoreLabels:comScoreLabels
                                                fromPushNotification:fromPushNotification];
     }
 }

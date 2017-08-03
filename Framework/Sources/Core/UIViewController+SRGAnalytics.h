@@ -4,6 +4,8 @@
 //  License information is available from the LICENSE file.
 //
 
+#import "SRGAnalyticsTracker.h"
+
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -61,22 +63,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Additional information (labels) which must be sent with a view event. By default no custom labels are sent.
  *
- *  @return The dictionary of labels.
- *
  *  @discussion Be careful when using custom labels and ensure your custom keys do not match reserved values by
  *              using appropriate naming conventions (e.g. a prefix).
  */
-@property (nonatomic, readonly, nullable) NSDictionary<NSString *, NSString *> *srg_pageViewLabels;
-
-/**
- *  Additional information (labels) which must be sent with a comScore view event. By default no custom labels are sent.
- *
- *  @return The dictionary of labels.
- *
- *  @discussion Be careful when using custom labels and ensure your custom keys do not match reserved values by
- *              using appropriate naming conventions (e.g. a prefix).
- */
-@property (nonatomic, readonly, nullable) NSDictionary<NSString *, NSString *> *srg_pageViewComScoreLabels;
+@property (nonatomic, readonly, nullable) SRGAnalyticsPageViewLabels *srg_pageViewLabels;
 
 /**
  *  Return `YES` if the the view controller was opened from a push notification. If not implemented, it is assumed the
