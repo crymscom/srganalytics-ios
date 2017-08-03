@@ -20,6 +20,8 @@
 
 @implementation SRGAnalyticsPlayerLabels
 
+#pragma mark Getters and setters
+
 - (NSDictionary<NSString *, NSString *> *)dictionary
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
@@ -35,6 +37,21 @@
     }];
     
     return [dictionary copy];
+}
+
+#pragma mark NSCopying protocol
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    labels.playerName = self.playerName;
+    labels.playerVersion = self.playerVersion;
+    labels.subtitlesEnabled = self.subtitlesEnabled;
+    labels.timeshiftInMilliseconds = self.timeshiftInMilliseconds;
+    labels.bandwidthInBitsPerSecond = self.bandwidthInBitsPerSecond;
+    labels.volumeInPercent = self.volumeInPercent;
+    labels.customValues = self.customValues;
+    return labels;
 }
 
 @end

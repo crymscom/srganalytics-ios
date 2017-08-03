@@ -51,10 +51,12 @@
 
 #pragma mark SRGAnalyticsSegment protocol
 
-- (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
+- (SRGAnalyticsPlayerLabels *)srg_analyticsLabels
 {
-    return @{ @"segment_name" : self.name,
-              @"overridable_name" : self.name };
+    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    labels.customValues = @{ @"segment_name" : self.name,
+                             @"overridable_name" : self.name };
+    return labels;
 }
 
 - (NSDictionary<NSString *,NSString *> *)srg_comScoreAnalyticsLabels

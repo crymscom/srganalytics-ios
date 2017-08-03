@@ -26,9 +26,11 @@
     return self.hidden;
 }
 
-- (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
+- (SRGAnalyticsPlayerLabels *)srg_analyticsLabels
 {
-    return self.analyticsLabels;
+    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    labels.customValues = self.analyticsLabels;
+    return labels;
 }
 
 - (NSDictionary<NSString *,NSString *> *)srg_comScoreAnalyticsLabels

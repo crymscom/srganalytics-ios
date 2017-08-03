@@ -8,10 +8,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// Key under which media player labels are stored in the media player controller user information.
+// Key under which media player labels are stored in the media player controller user information (as `SRGAnalyticsPlayerLabels`).
 OBJC_EXTERN NSString * const SRGAnalyticsMediaPlayerLabelsKey;
 
-// Key under which media player comScore labels are stored in the media player controller user information.
+// Key under which media player comScore labels are stored in the media player controller user information (as `NSDictionary`).
 OBJC_EXTERN NSString * const SRGAnalyticsMediaPlayerComScoreLabelsKey;
 
 /**

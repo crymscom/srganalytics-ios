@@ -4,6 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
+#import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -70,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)prepareToPlayURL:(NSURL *)URL
                   atTime:(CMTime)time
             withSegments:(nullable NSArray<id<SRGSegment>> *)segments
-         analyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels
+         analyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
  comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
@@ -84,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)playURL:(NSURL *)URL
          atTime:(CMTime)time
    withSegments:(nullable NSArray<id<SRGSegment>> *)segments
-analyticsLabels:(nullable NSDictionary *)analyticsLabels
+analyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
 comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
@@ -98,7 +99,7 @@ comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
 - (void)prepareToPlayURL:(NSURL *)URL
                  atIndex:(NSInteger)index
               inSegments:(NSArray<id<SRGSegment>> *)segments
-     withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels
+     withAnalyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
  comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
@@ -112,7 +113,7 @@ comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
 - (void)playURL:(NSURL *)URL
         atIndex:(NSInteger)index
      inSegments:(NSArray<id<SRGSegment>> *)segments
-withAnalyticsLabels:(nullable NSDictionary *)analyticsLabels
+withAnalyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
 comScoreAnalyticsLabels:(nullable NSDictionary *)comScoreAnalyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 

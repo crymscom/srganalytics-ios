@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 /**
  *  Additional playback measurement labels.
  */
-@interface SRGAnalyticsPlayerLabels : NSObject
+@interface SRGAnalyticsPlayerLabels : NSObject <NSCopying>
 
 /**
  *  The media player display name, e.g. "AVPlayer" if you are using `AVPlayer` directly.

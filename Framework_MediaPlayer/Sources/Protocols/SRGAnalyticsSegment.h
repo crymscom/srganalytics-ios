@@ -5,6 +5,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGMediaplayer/SRGSegment.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Analytics labels associated with the segments.
  */
-@property (nonatomic, readonly, nullable) NSDictionary<NSString *, NSString *> *srg_analyticsLabels;
+@property (nonatomic, readonly, nullable) SRGAnalyticsPlayerLabels *srg_analyticsLabels;
 
 /**
  *  comScore analytics labels associated with the segments.

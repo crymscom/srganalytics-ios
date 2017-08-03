@@ -48,9 +48,9 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [dictionary srg_safelySetString:self.value forKey:@"event_value"];
     [dictionary srg_safelySetString:self.source forKey:@"event_source"];
     
-    [self.customValues enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull string, BOOL * _Nonnull stop) {
-        [dictionary srg_safelySetString:string forKey:key];
-    }];
+    if (self.customValues) {
+        [dictionary addEntriesFromDictionary:self.customValues];
+    }
     
     return [dictionary copy];
 }
@@ -266,9 +266,9 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [pageViewLabels srg_safelySetString:category forKey:@"category"];
     [pageViewLabels srg_safelySetString:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
     
-    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [pageViewLabels srg_safelySetString:object forKey:key];
-    }];
+    if (labels) {
+        [pageViewLabels addEntriesFromDictionary:labels];
+    }
     
     [CSComScore viewWithLabels:pageViewLabels];
 }
@@ -332,10 +332,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [hiddenEventLabels srg_safelySetString:title forKey:@"srg_title"];    
     [hiddenEventLabels srg_safelySetString:@"app" forKey:@"category"];
     [hiddenEventLabels srg_safelySetString:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];
-    
-    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [hiddenEventLabels srg_safelySetString:object forKey:key];
-    }];
+    [hiddenEventLabels addEntriesFromDictionary:labels];
     
     [CSComScore hiddenWithLabels:hiddenEventLabels];
 }
@@ -347,10 +344,10 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
     [fullLabels srg_safelySetString:@"click" forKey:@"hit_type"];
     
-    [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [fullLabels srg_safelySetString:object forKey:key];
-    }];
-    
+    if (labels.customValues) {
+        [fullLabels addEntriesFromDictionary:labels.customValues];
+    }
+        
     [self trackTagCommanderEventWithLabels:[fullLabels copy]];
 }
 

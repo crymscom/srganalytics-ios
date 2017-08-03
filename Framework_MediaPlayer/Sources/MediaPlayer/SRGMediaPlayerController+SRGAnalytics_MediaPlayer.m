@@ -16,7 +16,7 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 
 #pragma mark Helpers
 
-+ (NSDictionary *)fullInfoWithAnalyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels
++ (NSDictionary *)fullInfoWithAnalyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
                       comScoreAnalyticsLabels:(NSDictionary<NSString *, NSString *> *)comScoreAnalyticsLabels
                                      userInfo:(NSDictionary *)userInfo
 {
@@ -38,7 +38,7 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 - (void)prepareToPlayURL:(NSURL *)URL
                   atTime:(CMTime)time
             withSegments:(NSArray<id<SRGSegment>> *)segments
-         analyticsLabels:(NSDictionary *)analyticsLabels
+         analyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
  comScoreAnalyticsLabels:(NSDictionary *)comScoreAnalyticsLabels
                 userInfo:(NSDictionary *)userInfo
        completionHandler:(void (^)(void))completionHandler
@@ -50,7 +50,7 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 - (void)playURL:(NSURL *)URL
          atTime:(CMTime)time
    withSegments:(NSArray<id<SRGSegment>> *)segments
-analyticsLabels:(NSDictionary *)analyticsLabels
+analyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
 comScoreAnalyticsLabels:(NSDictionary *)comScoreAnalyticsLabels
        userInfo:(NSDictionary *)userInfo
 {
@@ -61,7 +61,7 @@ comScoreAnalyticsLabels:(NSDictionary *)comScoreAnalyticsLabels
 - (void)prepareToPlayURL:(NSURL *)URL
                  atIndex:(NSInteger)index
               inSegments:(NSArray<id<SRGSegment>> *)segments
-     withAnalyticsLabels:(NSDictionary *)analyticsLabels
+     withAnalyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
  comScoreAnalyticsLabels:(NSDictionary *)comScoreAnalyticsLabels
                 userInfo:(NSDictionary *)userInfo
        completionHandler:(void (^)(void))completionHandler
@@ -73,7 +73,7 @@ comScoreAnalyticsLabels:(NSDictionary *)comScoreAnalyticsLabels
 - (void)playURL:(NSURL *)URL
         atIndex:(NSInteger)index
      inSegments:(NSArray<id<SRGSegment>> *)segments
-withAnalyticsLabels:(NSDictionary *)analyticsLabels
+withAnalyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
 comScoreAnalyticsLabels:(NSDictionary *)comScoreAnalyticsLabels
        userInfo:(NSDictionary *)userInfo
 {
