@@ -53,7 +53,7 @@
     [dictionary srg_safelySetString:self.playerName forKey:@"ns_st_mp"];
     [dictionary srg_safelySetString:self.playerVersion forKey:@"ns_st_mv"];
     [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"ns_st_br"];
-    [dictionary srg_safelySetString:self.volumeInPercent.stringValue forKey:@"ns_st_vo"];
+    [dictionary srg_safelySetString:self.volumeInPercent.stringValue ?: @"0" forKey:@"ns_st_vo"];
     
     if (self.comScoreValues) {
         [dictionary addEntriesFromDictionary:self.comScoreValues];
