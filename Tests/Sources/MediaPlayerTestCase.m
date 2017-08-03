@@ -49,7 +49,7 @@ static NSURL *DVRTestURL(void)
     self.mediaPlayerController = nil;
 }
 
-#pragma mark TMS Tests
+#pragma mark Tests
 
 - (void)testPrepareToPlay
 {
@@ -73,7 +73,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"stop");
         return YES;
     }];
     
@@ -137,7 +137,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"stop");
         return YES;
     }];
     
@@ -158,7 +158,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"stop");
         return YES;
     }];
     
@@ -410,7 +410,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"stop");
         return YES;
     }];
     
@@ -426,7 +426,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
+        XCTAssertEqualObjects(labels[@"hit_type"], @"stop");
         return YES;
     }];
     
@@ -452,17 +452,13 @@ static NSURL *DVRTestURL(void)
     }];
 }
 
-- (void)testGlobalLabels
+- (void)testCommonLabels
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"hit_type"], @"play");
         
         XCTAssertEqualObjects(labels[@"media_player_display"], @"SRGMediaPlayer");
-//        XCTAssertEqualObjects(labels[@"ns_st_pu"], SRGAnalyticsMarketingVersion());
         XCTAssertEqualObjects(labels[@"media_player_version"], SRGMediaPlayerMarketingVersion());
-//        XCTAssertEqualObjects(labels[@"ns_st_it"], @"c");
-//        XCTAssertEqualObjects(labels[@"ns_vsite"], @"rts-app-test-v");
-//        XCTAssertEqualObjects(labels[@"srg_ptype"], @"p_app_ios");
         return YES;
     }];
     
@@ -473,22 +469,11 @@ static NSURL *DVRTestURL(void)
 
 - (void)testOnDemandLabels
 {
-    // Check that these labels are constant between states (for some, the value might differ, but they must
-    // in which case we test they are constantly availble or unavailable)
-    void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
-//        XCTAssertNotNil(labels[@"ns_st_br"]);
-//        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
-//        XCTAssertNotNil(labels[@"ns_st_vo"]);
-//        XCTAssertNil(labels[@"ns_ap_ot"]);
-//        
-//        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
-//        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
-    };
-    
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"hit_type"], @"play");
-//        XCTAssertNil(labels[@"srg_timeshift"]);
-        checkMainLabels(labels);
+        XCTAssertNil(labels[@"media_timeshift_milliseconds"]);
+        XCTAssertNotNil(labels[@"media_bandwidth"]);
+        XCTAssertNotNil(labels[@"media_volume"]);
         return YES;
     }];
     
@@ -498,8 +483,9 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"hit_type"], @"pause");
-//        XCTAssertNil(labels[@"srg_timeshift"]);
-        checkMainLabels(labels);
+        XCTAssertNil(labels[@"media_timeshift_milliseconds"]);
+        XCTAssertNotNil(labels[@"media_bandwidth"]);
+        XCTAssertNotNil(labels[@"media_volume"]);
         return YES;
     }];
     
@@ -508,9 +494,10 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"hit_type"], @"eof");
-//        XCTAssertNil(labels[@"srg_timeshift"]);
-        checkMainLabels(labels);
+        XCTAssertEqualObjects(labels[@"hit_type"], @"stop");
+        XCTAssertNil(labels[@"media_timeshift_milliseconds"]);
+        XCTAssertNil(labels[@"media_bandwidth"]);
+        XCTAssertNil(labels[@"media_volume"]);
         return YES;
     }];
     

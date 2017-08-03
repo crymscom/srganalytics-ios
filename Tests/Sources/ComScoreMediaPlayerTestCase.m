@@ -305,7 +305,7 @@ static NSURL *DVRTestURL(void)
     }];
 }
 
-- (void)testGlobalLabels
+- (void)testCommonLabels
 {
     [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
