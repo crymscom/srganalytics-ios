@@ -182,7 +182,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                     name:SRGMediaPlayerSegmentDidEndNotification
                                                   object:self.mediaPlayerController];
     
-    [self measureTrackedPlayerEvent:SRGAnalyticsPlayerEventEnd withLabels:labels segment:self.mediaPlayerController.selectedSegment];
+    [self measureTrackedPlayerEvent:SRGAnalyticsPlayerEventStop withLabels:labels segment:self.mediaPlayerController.selectedSegment];
     
     [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
     
