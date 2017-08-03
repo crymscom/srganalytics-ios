@@ -43,6 +43,8 @@ static NSMutableDictionary *s_trackers = nil;
 @property (nonatomic) NSTimer *heartbeatTimer;
 @property (nonatomic) NSUInteger heartbeatCount;
 
+@property (nonatomic) SRGAnalyticsPlayerLabels *recentLabels;
+
 @end
 
 @implementation SRGMediaPlayerTracker
@@ -184,6 +186,7 @@ static NSMutableDictionary *s_trackers = nil;
     
     [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
     
+    self.recentLabels = nil;
     self.mediaPlayerController = nil;
 }
 
@@ -257,6 +260,7 @@ static NSMutableDictionary *s_trackers = nil;
         [fullLabels mergeWithLabels:segmentLabels];
     }
     
+    self.recentLabels = fullLabels;
     [self.playerTracker trackPlayerEvent:event atPosition:self.currentPositionInMilliseconds withLabels:fullLabels];
 }
 
@@ -502,13 +506,12 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)heartbeat:(NSTimer *)timer
 {
-    // FIXME: Repeat labels in heartbeats
     if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
-        [self.playerTracker trackPlayerEvent:SRGAnalyticsPlayerEventHeartbeat atPosition:self.currentPositionInMilliseconds withLabels:nil];
+        [self.playerTracker trackPlayerEvent:SRGAnalyticsPlayerEventHeartbeat atPosition:self.currentPositionInMilliseconds withLabels:self.recentLabels];
         
         // Send a live hearbeat each minute
         if (self.mediaPlayerController.live && self.heartbeatCount % 2 == 0) {
-            [self.playerTracker trackPlayerEvent:SRGAnalyticsPlayerEventLiveHeartbeat atPosition:self.currentPositionInMilliseconds withLabels:nil];
+            [self.playerTracker trackPlayerEvent:SRGAnalyticsPlayerEventLiveHeartbeat atPosition:self.currentPositionInMilliseconds withLabels:self.recentLabels];
         }
     }
     

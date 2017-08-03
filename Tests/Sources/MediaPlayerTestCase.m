@@ -2152,22 +2152,28 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         return YES;
     }];
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    labels.customValues = @{ @"stream_name" : @"full" };
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // for tests, 30 seconds is replace by 3 seconds.
+    // For tests, heartbeats is set to 3 seconds.
     
     __block NSInteger hearbeatCount = 0;
     __block NSInteger liveHearbeatCount = 0;
     id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++hearbeatCount;
         }
         else if ([event isEqualToString:@"uptime"]) {
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++liveHearbeatCount;
         }
     }];
@@ -2178,13 +2184,12 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
     }];
     
-    // Check we have received 2 hearbeats
     XCTAssertEqual(hearbeatCount, 2);
-    // Check we have received 0 live hearbeat
     XCTAssertEqual(liveHearbeatCount, 0);
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"hit_type"], @"pause");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         return YES;
     }];
     
@@ -2196,9 +2201,11 @@ static NSURL *DVRTestURL(void)
     liveHearbeatCount = 0;
     hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++hearbeatCount;
         }
         else if ([event isEqualToString:@"uptime"]) {
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++liveHearbeatCount;
         }
     }];
@@ -2209,9 +2216,7 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
     }];
     
-    // Check we have received 0 hearbeat0
     XCTAssertEqual(hearbeatCount, 0);
-    // Check we have received 0 live hearbeat
     XCTAssertEqual(liveHearbeatCount, 0);
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -2227,9 +2232,11 @@ static NSURL *DVRTestURL(void)
     liveHearbeatCount = 0;
     hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++hearbeatCount;
         }
         else if ([event isEqualToString:@"uptime"]) {
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++liveHearbeatCount;
         }
     }];
@@ -2240,9 +2247,7 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
     }];
     
-    // Check we have received 2 hearbeats
     XCTAssertEqual(hearbeatCount, 2);
-    // Check we have received 0 live hearbeat
     XCTAssertEqual(liveHearbeatCount, 0);
 }
 
@@ -2250,22 +2255,28 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"hit_type"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         return YES;
     }];
     
-    [self.mediaPlayerController playURL:LiveTestURL()];
+    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    labels.customValues = @{ @"stream_name" : @"full" };
+    
+    [self.mediaPlayerController playURL:LiveTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // for tests, 30 seconds is replace by 3 seconds.
+    // For tests, heartbeats is set to 3 seconds.
     
     __block NSInteger hearbeatCount = 0;
     __block NSInteger liveHearbeatCount = 0;
     id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++hearbeatCount;
         }
         else if ([event isEqualToString:@"uptime"]) {
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++liveHearbeatCount;
         }
     }];
@@ -2276,9 +2287,7 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
     }];
     
-    // Check we have received 4 hearbeats
     XCTAssertEqual(hearbeatCount, 4);
-    // Check we have received 2 live hearbeats
     XCTAssertEqual(liveHearbeatCount, 2);
 }
 
