@@ -15,12 +15,12 @@
     return [self addObserverForName:SRGAnalyticsRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
         
-        NSString *type = labels[@"hit_type"];
-        if ([type isEqualToString:@"screen"]) {
+        NSString *event = labels[@"event_id"];
+        if ([event isEqualToString:@"screen"]) {
             return;
         }
         
-        block(type, labels);
+        block(event, labels);
     }];
 }
 
@@ -35,9 +35,9 @@
             s_playerSingleHiddenEvents = @[@"play", @"pause", @"seek", @"stop", @"eof"];
         });
         
-        NSString *type = labels[@"hit_type"];
-        if ([s_playerSingleHiddenEvents containsObject:type]) {
-            block(type, labels);
+        NSString *event = labels[@"event_id"];
+        if ([s_playerSingleHiddenEvents containsObject:event]) {
+            block(event, labels);
         }
         else {
             return;

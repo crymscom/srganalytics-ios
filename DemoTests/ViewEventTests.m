@@ -8,7 +8,7 @@
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <UIKit/UIKit.h>
 
-typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
+typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
 static NSDictionary *s_startLabels = nil;
 
@@ -34,12 +34,12 @@ static NSDictionary *s_startLabels = nil;
     return [self expectationForNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
         
-        NSString *type = labels[@"hit_type"];
-        if (! [type isEqualToString:@"screen"]) {
+        NSString *event = labels[@"event_id"];
+        if (! [event isEqualToString:@"screen"]) {
             return NO;
         }
         
-        return handler(type, labels);
+        return handler(event, labels);
     }];
 }
 
@@ -62,7 +62,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testAutomaticTracking
 {
-    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"navigation_property_type"], @"app");
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
         XCTAssertEqualObjects(labels[@"navigation_bu_distributer"], @"TEST");
@@ -87,7 +87,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testAutomaticTrackingWithLevels
 {
-    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
 //        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.level3.automatic-tracking-with-levels");
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
         XCTAssertEqualObjects(labels[@"navigation_level_1"], @"Level1");
@@ -110,7 +110,7 @@ static NSDictionary *s_startLabels = nil;
 - (void)testMaximumNumberOfLevels
 {
     // The SRG standard only has srg_nX fields up to 10. The full hierarchy is still obtained from the name and category labels, though
-    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
 //        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.level11.level12.automatic-tracking-with-many-levels");
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
         XCTAssertEqualObjects(labels[@"navigation_level_1"], @"Level1");
@@ -139,7 +139,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testAutomaticTrackingWithLevelsAndLabels
 {
-    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
 //        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.automatic-tracking-with-levels-and-labels");
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
         XCTAssertEqualObjects(labels[@"navigation_level_1"], @"Level1");
@@ -161,7 +161,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testManualTracking
 {
-    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
 //        XCTAssertEqualObjects(labels[@"name"], @"app.manual-tracking");
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
         XCTAssertEqualObjects(labels[@"navigation_property_type"], @"app");
@@ -199,7 +199,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testFromPushNotification
 {
-    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"true");
         return YES;
     }];

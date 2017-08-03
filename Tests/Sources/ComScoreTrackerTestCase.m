@@ -7,7 +7,7 @@
 #import "AnalyticsTestCase.h"
 #import "NSNotificationCenter+Tests.h"
 
-typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
+typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
 @interface ComScoreTrackerTestCase : AnalyticsTestCase
 
@@ -19,8 +19,8 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
 
 - (void)testComScoreHiddenEvent
 {
-    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        XCTAssertNil(type);
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertNil(event);
         XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
         XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
         XCTAssertEqualObjects(labels[@"category"], @"app");
@@ -34,8 +34,8 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
 
 - (void)testComScoreHiddenEventWithLabels
 {
-    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        XCTAssertNil(type);
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertNil(event);
         XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
         XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
         XCTAssertEqualObjects(labels[@"category"], @"app");

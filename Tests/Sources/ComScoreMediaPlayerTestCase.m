@@ -10,7 +10,7 @@
 
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 
-typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
+typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
 static NSURL *OnDemandTestURL(void)
 {
@@ -191,8 +191,8 @@ static NSURL *DVRTestURL(void)
         ++count1;
     }];
     
-    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        return [type isEqualToString:@"play"];
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        return [event isEqualToString:@"play"];
     }];
     
     [self.mediaPlayerController playURL:OnDemandTestURL()];
@@ -209,8 +209,8 @@ static NSURL *DVRTestURL(void)
         ++count2;
     }];
     
-    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        return [type isEqualToString:@"pause"];
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        return [event isEqualToString:@"pause"];
     }];
     
     [self.mediaPlayerController pause];
@@ -227,8 +227,8 @@ static NSURL *DVRTestURL(void)
         ++count3;
     }];
     
-    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        return [type isEqualToString:@"play"];
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        return [event isEqualToString:@"play"];
     }];
     
     [self.mediaPlayerController play];

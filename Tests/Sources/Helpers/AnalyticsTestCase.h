@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
+typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
 @interface AnalyticsTestCase : XCTestCase
 

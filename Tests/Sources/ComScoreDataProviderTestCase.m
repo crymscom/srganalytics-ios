@@ -57,7 +57,7 @@ static NSURL *ServiceTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePaused);
     
     // Start playback and check labels
-    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Archive footage of the man and his moods");
         XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
@@ -92,7 +92,7 @@ static NSURL *ServiceTestURL(void)
 - (void)testComScorePlaySegmentInMediaComposition
 {
     // Use a segment id as video id, expect segment labels
-    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         XCTAssertEqualObjects(labels[@"ns_st_ep"], @"«26 minutes» – web first: Welsche Satire auf Hochdeutsch!");
         XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");

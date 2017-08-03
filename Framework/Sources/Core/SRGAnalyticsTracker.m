@@ -323,7 +323,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSAssert(title.length != 0, @"A title is required");
     
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
-    [fullLabels srg_safelySetString:@"screen" forKey:@"hit_type"];
+    [fullLabels srg_safelySetString:@"screen" forKey:@"event_id"];
     [fullLabels srg_safelySetString:@"app" forKey:@"navigation_property_type"];
     [fullLabels srg_safelySetString:title forKey:@"content_title"];
     [fullLabels srg_safelySetString:self.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
@@ -389,7 +389,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSAssert(title.length != 0, @"A title is required");
     
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
-    [fullLabels srg_safelySetString:@"click" forKey:@"hit_type"];
+    [fullLabels srg_safelySetString:@"click" forKey:@"event_id"];
     [fullLabels srg_safelySetString:title forKey:@"event_name"];
     
     NSDictionary<NSString *, NSString *> *dictionary = [labels dictionary];

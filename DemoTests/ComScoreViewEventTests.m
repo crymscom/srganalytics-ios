@@ -8,7 +8,7 @@
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <UIKit/UIKit.h>
 
-typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
+typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
 static NSDictionary *s_startLabels = nil;
 
@@ -68,7 +68,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testAutomaticTracking
 {
-    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"name"], @"app.automatic-tracking");
         XCTAssertEqualObjects(labels[@"category"], @"app");
         XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
@@ -96,7 +96,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testAutomaticTrackingWithLevels
 {
-    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"name"], @"level1.level2.level3.automatic-tracking-with-levels");
         XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
         XCTAssertEqualObjects(labels[@"srg_n1"], @"Level1");
@@ -120,7 +120,7 @@ static NSDictionary *s_startLabels = nil;
 - (void)testMaximumNumberOfLevels
 {
     // The SRG standard only has srg_nX fields up to 10. The full hierarchy is still obtained from the name and category labels, though
-    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"name"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.level11.level12.automatic-tracking-with-many-levels");
         XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
         XCTAssertEqualObjects(labels[@"srg_n1"], @"Level1");
@@ -150,7 +150,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testAutomaticTrackingWithLevelsAndLabels
 {
-    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"name"], @"level1.level2.automatic-tracking-with-levels-and-labels");
         XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
         XCTAssertEqualObjects(labels[@"srg_n1"], @"Level1");
@@ -173,7 +173,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testManualTracking
 {
-    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"name"], @"app.manual-tracking");
         XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
         XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
@@ -214,7 +214,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testFromPushNotification
 {
-    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
+    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
         return YES;
     }];
