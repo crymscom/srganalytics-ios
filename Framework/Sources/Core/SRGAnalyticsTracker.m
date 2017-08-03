@@ -389,6 +389,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
     [fullLabels srg_safelySetString:@"click" forKey:@"hit_type"];
+    [fullLabels srg_safelySetString:title forKey:@"event_name"];
     
     NSDictionary<NSString *, NSString *> *dictionary = [labels dictionary];
     if (dictionary) {
@@ -468,10 +469,11 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
             
             NSArray *sortedInstalledApplications = [installedApplications.allObjects sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
             
-            // Same labels for TagCommander and comScore
-            NSDictionary *labels = @{ @"srg_evgroup" : @"Installed Apps",
-                                      @"srg_evname" : [sortedInstalledApplications componentsJoinedByString:@","] };
-            [self trackEventWithLabels:labels comScoreLabels:labels];
+            SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
+            labels.type = @"Installed Apps";
+            labels.value = [sortedInstalledApplications componentsJoinedByString:@","];
+            
+            [self trackHiddenEventWithTitle:@"overlap" labels:labels];
         });
     }] resume];
 }
