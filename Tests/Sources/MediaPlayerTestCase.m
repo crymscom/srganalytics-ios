@@ -633,9 +633,9 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertNil(labels[@"segment_name"]);
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -666,9 +666,9 @@ static NSURL *DVRTestURL(void)
     // Pause playback. Expect full-length information
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertNil(labels[@"segment_name"]);
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -679,9 +679,9 @@ static NSURL *DVRTestURL(void)
     // Resume playback. Expect full-length information
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertNil(labels[@"segment_name"]);
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -707,9 +707,9 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -729,9 +729,9 @@ static NSURL *DVRTestURL(void)
     // Pause playback. Expect segment information
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -742,9 +742,9 @@ static NSURL *DVRTestURL(void)
     // Resume playback. Expect segment information
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -758,9 +758,9 @@ static NSURL *DVRTestURL(void)
     // No end on full since we start with the segment, only a play for the segment
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -788,17 +788,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(segmentEndReceived);
             XCTAssertFalse(fullPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
             segmentEndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertNil(labels[@"segment_name"]);
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullPlayReceived = YES;
         }
         else {
@@ -815,9 +815,9 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertNil(labels[@"segment_name"]);
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -844,17 +844,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(fullEndReceived);
             XCTAssertFalse(segmentPlayReceived);
 
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertNil(labels[@"segment_name"]);
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullEndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(segmentPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
             segmentPlayReceived = YES;
         }
         else {
@@ -873,9 +873,9 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
         return YES;
     }];
     
@@ -904,17 +904,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(segment1EndReceived);
             XCTAssertFalse(segment2PlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
             segment1EndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(segment2PlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment2");
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment2");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment2");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment2");
             segment2PlayReceived = YES;
         }
         else {
@@ -933,9 +933,9 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
         return YES;
     }];
     
@@ -965,17 +965,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(segment1EndReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
             segment1EndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertNil(labels[@"segment_name"]);
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -992,9 +992,9 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1022,17 +1022,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(segmentEndReceived);
             XCTAssertFalse(segmentPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
             segmentEndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(segmentPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
             segmentPlayReceived = YES;
         }
         else {
@@ -1051,9 +1051,9 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
         return YES;
     }];
     
@@ -1085,26 +1085,26 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(segment1EndReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
             segment1SeekReceived = YES;
         }
         else if ([event isEqualToString:@"eof"]) {
             XCTAssertFalse(segment1EndReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
             segment1EndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertNil(labels[@"segment_name"]);
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         
@@ -1120,9 +1120,9 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1150,17 +1150,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(segmentSeekReceived);
             XCTAssertFalse(segmentPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
             segmentSeekReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(segmentPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
             segmentPlayReceived = YES;
         }
         else {
@@ -1182,9 +1182,9 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1215,17 +1215,17 @@ static NSURL *DVRTestURL(void)
                 XCTAssertFalse(fullLengthPlayReceived);
                 XCTAssertFalse(fullLengthEndReceived);
                 
-//                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//                XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//                XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+                XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+                XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
                 segmentEndReceived = YES;
             }
             else {
                 XCTAssertFalse(fullLengthEndReceived);
                 
-//                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//                XCTAssertNil(labels[@"segment_name"]);
-//                XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+                XCTAssertNil(labels[@"segment_name"]);
+                XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
                 fullLengthEndReceived = YES;
             }
         }
@@ -1233,9 +1233,9 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(fullLengthPlayReceived);
             XCTAssertFalse(fullLengthEndReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertNil(labels[@"segment_name"]);
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -1255,9 +1255,9 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1278,10 +1278,10 @@ static NSURL *DVRTestURL(void)
     // Expect end event with segment labels
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"event_id"], @"eof");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"event_id"], @"stop");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
         return YES;
     }];
     
@@ -1294,9 +1294,9 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertNil(labels[@"segment_name"]);
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -1323,17 +1323,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(fullLengthSeekReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertNil(labels[@"segment_name"]);
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthSeekReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertNil(labels[@"segment_name"]);
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -1352,9 +1352,9 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-//        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//        XCTAssertNil(labels[@"segment_name"]);
-//        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertNil(labels[@"segment_name"]);
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
         return YES;
     }];
     
@@ -1382,17 +1382,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(fullLengthSeekReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertNil(labels[@"segment_name"]);
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthSeekReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertNil(labels[@"segment_name"]);
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         else {
