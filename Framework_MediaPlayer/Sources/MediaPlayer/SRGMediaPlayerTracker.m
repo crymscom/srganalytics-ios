@@ -47,6 +47,8 @@ static NSMutableDictionary *s_trackers = nil;
 
 @implementation SRGMediaPlayerTracker
 
+@synthesize currentPositionInMilliseconds = _currentPositionInMilliseconds;
+
 #pragma mark Object lifecycle
 
 - (id)initWithMediaPlayerController:(SRGMediaPlayerController *)mediaPlayerController
@@ -91,7 +93,6 @@ static NSMutableDictionary *s_trackers = nil;
     self.heartbeatCount = 0;
 }
 
-@synthesize currentPositionInMilliseconds = _currentPositionInMilliseconds;
 - (long)currentPositionInMilliseconds
 {
     SRGMediaPlayerPlaybackState playbackState = self.mediaPlayerController.playbackState;
@@ -106,7 +107,7 @@ static NSMutableDictionary *s_trackers = nil;
 {
     // Live stream: Playhead position must be always 0
     if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive
-        || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
+            || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
         _currentPositionInMilliseconds = 0;
     }
     else {
@@ -248,7 +249,7 @@ static NSMutableDictionary *s_trackers = nil;
     [comScoreSegmentValues srg_safelySetString:[self screenType] forKey:@"srg_screen_type"];
     playerLabels.comScoreSegmentValues = [comScoreSegmentValues copy];
     
-    SRGAnalyticsPlayerLabels *fullLabels = [labels copy];
+    SRGAnalyticsPlayerLabels *fullLabels = labels ? [labels copy] : [[SRGAnalyticsPlayerLabels alloc] init];
     [fullLabels mergeWithLabels:playerLabels];
     
     if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {

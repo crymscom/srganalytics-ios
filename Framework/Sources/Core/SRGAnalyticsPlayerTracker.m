@@ -102,23 +102,23 @@
         self.volumeInPercent = labels.volumeInPercent;
     }
     
-    NSMutableDictionary *customValues = [self.customValues mutableCopy];
+    NSMutableDictionary *customValues = [self.customValues mutableCopy] ?: [NSMutableDictionary dictionary];
     if (labels.customValues) {
         [customValues addEntriesFromDictionary:labels.customValues];
     }
-    self.customValues = [customValues copy];
+    self.customValues = (customValues.count != 0) ? [customValues copy] : nil;
     
-    NSMutableDictionary *comScoreValues = [self.comScoreValues mutableCopy];
+    NSMutableDictionary *comScoreValues = [self.comScoreValues mutableCopy] ?: [NSMutableDictionary dictionary];
     if (labels.comScoreValues) {
         [comScoreValues addEntriesFromDictionary:labels.comScoreValues];
     }
-    self.comScoreValues = [comScoreValues copy];
+    self.comScoreValues = (comScoreValues.count != 0) ? [comScoreValues copy] : nil;
     
-    NSMutableDictionary *comScoreSegmentValues = [self.comScoreSegmentValues mutableCopy];
+    NSMutableDictionary *comScoreSegmentValues = [self.comScoreSegmentValues mutableCopy] ?: [NSMutableDictionary dictionary];
     if (labels.comScoreSegmentValues) {
         [comScoreSegmentValues addEntriesFromDictionary:labels.comScoreSegmentValues];
     }
-    self.comScoreSegmentValues = [comScoreSegmentValues copy];
+    self.comScoreSegmentValues = (comScoreSegmentValues.count != 0) ? [comScoreSegmentValues copy] : nil;
 }
 
 #pragma mark NSCopying protocol
