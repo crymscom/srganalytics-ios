@@ -8,6 +8,7 @@
 
 #import "NSMutableDictionary+SRGAnalytics.h"
 #import "NSString+SRGAnalytics.h"
+#import "SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsNetMetrixTracker.h"
 #import "SRGAnalyticsNotifications.h"
@@ -161,6 +162,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
                                       };
         });
         self.tagCommander = [[TagCommander alloc] initWithSiteID:s_accountIdentifiers[self.businessUnitIdentifier].intValue andContainerID:(int)self.containerIdentifier];
+        [self.tagCommander addPermanentData:@"app_library_version" withValue:SRGAnalyticsMarketingVersion()];
     }
 }
 
