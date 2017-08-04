@@ -88,9 +88,9 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  or stream events without starting the tracker has no effect.
  *
  *  For unit tests you can use the special `SRGAnalyticsBusinessUnitIdentifierTEST` business unit. This business unit:
- *    - Disables TagCommander (the container identifier is ignored).
- *    - Disables NetMetrix event sending.
- *    - Does not dissable comScore events, though.
+ *    - Disables TagCommander service calls, and reduces the heartbeat interval to 3 seconds.
+ *    - Disables NetMetrix service calls.
+ *    - Does not dissable comScore service calls, though.
  *    - Emits notifications which your tests can rely on, see `SRGAnalyticsNotifications.h`.
  
  *  @param businessUnitIdentifier The SRG SSR business unit for statistics measurements. Constants for the officially

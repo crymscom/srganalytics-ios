@@ -11,24 +11,21 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  View controllers whose use must be tracked to automatically emit a view event when displayed should conform 
- *  to the `SRGAnalyticsViewTracking` protocol, which describes the data to send with such events. The only method
- *  required by this protocol is `srg_pageViewTitle`, which provides the name to be used for the view events.
- *
- *  Optional methods can be implemented to provide more information and custom measurement information (labels).
+ *  View controllers whose usage must be tracked should conform to the `SRGAnalyticsViewTracking` protocol, which
+ *  describes the data to send with such events. The only method required by this protocol is `srg_pageViewTitle`, 
+ *  which provides the name to be used for the view events.
  *
  *  By default, if a view controller conforms to the `SRGAnalyticsViewTracking` protocol, a view event will
- *  automatically be sent when its `-viewDidAppear:` method is called (only when the view controller is added
- *  to the view controller hierarchy), or when the application returns from background while the view controller
- *  is visible.
+ *  automatically be sent when it is presented (when `-viewWillAppear:` is called), or when the application 
+ *  returns from background while the view controller is visible.
  *
- *  If you want to control when such events are sent, however, you can implement the optional `trackedAutomatically`
- *  property to return `NO`, disabling the mechanisms described above. In such cases, you are responsible of calling the
+ *  If you want to control when page view events are sent, however, you can implement the optional `srg_trackedAutomatically`
+ *  property to return `NO`, disabling the mechanism described above. In this case you are responsible of calling the
  *  `-[UIViewController trackPageView]` method appropriately when you want the measurement event to be recorded. This 
  *  approach is useful when the labels are not available at the time `-viewDidAppear:` is called, e.g. if they are 
  *  retrieved from a web service request started when the view controller gets displayed.
  *
- *  If you prefer, you can also perform page view tracking manually using the corresponding methods available from
+ *  If you prefer, you can also perform page view tracking using the corresponding methods available from
  *  `SRGAnalyticsTracker`.
  */
 @protocol SRGAnalyticsViewTracking <NSObject>
@@ -54,17 +51,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Return the levels (position in the view hierarchy) to be sent for view event measurement.
  *
- *  If the page view levels array is `nil` or empty, an 'app' default level will be used.
- *
  *  @return The array of levels, in increasing depth order.
  */
 @property (nonatomic, readonly, nullable) NSArray<NSString *> *srg_pageViewLevels;
 
 /**
  *  Additional information (labels) which must be sent with a view event. By default no custom labels are sent.
- *
- *  @discussion Be careful when using custom labels and ensure your custom keys do not match reserved values by
- *              using appropriate naming conventions (e.g. a prefix).
  */
 @property (nonatomic, readonly, nullable) SRGAnalyticsPageViewLabels *srg_pageViewLabels;
 

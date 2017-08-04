@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Protocol for segments conveying analytics information.
  *
- *  For more information, @see SRGMediaPlayerController+SRGAnalytics.h.
+ *  For more information, @see SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h.
  */
 @protocol SRGAnalyticsSegment <SRGSegment>
 

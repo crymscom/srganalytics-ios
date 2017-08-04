@@ -43,7 +43,7 @@
                 case 0: {
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Automatic tracking"
                                                                                 levels:nil
-                                                                                labels:nil
+                                                                            customInfo:nil
                                                             openedFromPushNotification:NO
                                                                   trackedAutomatically:YES];
                     break;
@@ -52,7 +52,7 @@
                 case 1: {
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Automatic tracking with levels"
                                                                                 levels:@[@"Level1", @"Level2", @"Level3"]
-                                                                                labels:nil
+                                                                            customInfo:nil
                                                             openedFromPushNotification:NO
                                                                   trackedAutomatically:YES];
                     break;
@@ -61,7 +61,7 @@
                 case 2: {
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Automatic tracking with many levels"
                                                                                 levels:@[@"Level1", @"Level2", @"Level3", @"Level4", @"Level5", @"Level6", @"Level7", @"Level8", @"Level9", @"Level10", @"Level11", @"Level12"]
-                                                                                labels:nil
+                                                                            customInfo:nil
                                                             openedFromPushNotification:NO
                                                                   trackedAutomatically:YES];
                     break;
@@ -70,7 +70,7 @@
                 case 3: {
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Automatic tracking with levels and labels"
                                                                                 levels:@[@"Level1", @"Level2"]
-                                                                                labels:@{ @"custom_label": @"custom_value" }
+                                                                            customInfo:@{ @"custom_label": @"custom_value" }
                                                             openedFromPushNotification:NO
                                                                   trackedAutomatically:YES];
                     break;
@@ -79,7 +79,7 @@
                 case 4: {
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@"Manual tracking"
                                                                                 levels:nil
-                                                                                labels:nil
+                                                                            customInfo:nil
                                                             openedFromPushNotification:NO
                                                                   trackedAutomatically:NO];
                     break;
@@ -88,7 +88,7 @@
                 case 5: {
                     simpleViewController = [[SimpleViewController alloc] initWithTitle:@""
                                                                                 levels:nil
-                                                                                labels:nil
+                                                                            customInfo:nil
                                                             openedFromPushNotification:NO
                                                                   trackedAutomatically:YES];
                     break;
@@ -121,7 +121,7 @@
                     URL = [NSURL URLWithString:@"https://wowza.jwplayer.com/live/jelly.stream/playlist.m3u8?DVR"];
                     break;
                 }
-
+                    
                     
                 default: {
                     return;
@@ -138,7 +138,7 @@
         case 2: {
             UIViewController *simpleViewController = [[SimpleViewController alloc] initWithTitle:@"From push notification"
                                                                                           levels:nil
-                                                                                          labels:nil
+                                                                                      customInfo:nil
                                                                       openedFromPushNotification:YES
                                                                             trackedAutomatically:YES];
             [self.navigationController pushViewController:simpleViewController animated:YES];

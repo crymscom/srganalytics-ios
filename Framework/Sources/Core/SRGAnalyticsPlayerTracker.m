@@ -23,7 +23,7 @@
 
 #pragma mark Getters and setters
 
-- (NSDictionary<NSString *, NSString *> *)labelsDictionary
+- (NSDictionary<NSString *, NSString *> *)customInfo
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -41,7 +41,7 @@
     return [dictionary copy];
 }
 
-- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
+- (NSDictionary<NSString *, NSString *> *)comScorecustomInfo
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -60,7 +60,7 @@
     return [dictionary copy];
 }
 
-- (NSDictionary<NSString *, NSString *> *)comScoreSegmentLabelsDictionary
+- (NSDictionary<NSString *, NSString *> *)comScoreSegmentcustomInfo
 {
     NSMutableDictionary <NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -181,14 +181,14 @@
     }
     
     [[self.streamSense labels] removeAllObjects];
-    [[labels comScoreLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [[labels comScorecustomInfo] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [self.streamSense setLabel:key value:object];
     }];
     
     // Reset clip labels to avoid inheriting from a previous segment. This does not reset internal hidden comScore labels
     // (e.g. ns_st_pa), which would otherwise be incorrect
     [[[self.streamSense clip] labels] removeAllObjects];
-    [[labels comScoreSegmentLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [[labels comScoreSegmentcustomInfo] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [[self.streamSense clip] setLabel:key value:object];
     }];
     
@@ -243,12 +243,12 @@
     }
     
     // Send the event
-    NSMutableDictionary<NSString *, NSString *> *fullLabelsDictionary = [NSMutableDictionary dictionary];
-    [fullLabelsDictionary srg_safelySetString:action forKey:@"event_id"];
-    [fullLabelsDictionary srg_safelySetString:@(position).stringValue forKey:@"media_position"];
-    [fullLabelsDictionary addEntriesFromDictionary:[labels labelsDictionary]];
+    NSMutableDictionary<NSString *, NSString *> *fullcustomInfo = [NSMutableDictionary dictionary];
+    [fullcustomInfo srg_safelySetString:action forKey:@"event_id"];
+    [fullcustomInfo srg_safelySetString:@(position).stringValue forKey:@"media_position"];
+    [fullcustomInfo addEntriesFromDictionary:[labels customInfo]];
     
-    [[SRGAnalyticsTracker sharedTracker] trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
+    [[SRGAnalyticsTracker sharedTracker] trackTagCommanderEventWithLabels:[fullcustomInfo copy]];
 }
 
 @end

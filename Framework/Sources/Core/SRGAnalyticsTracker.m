@@ -43,7 +43,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 @implementation SRGAnalyticsHiddenEventLabels
 
-- (NSDictionary<NSString *, NSString *> *)labelsDictionary
+- (NSDictionary<NSString *, NSString *> *)customInfo
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -58,7 +58,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     return [dictionary copy];
 }
 
-- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
+- (NSDictionary<NSString *, NSString *> *)comScorecustomInfo
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -77,7 +77,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 @implementation SRGAnalyticsPageViewLabels
 
-- (NSDictionary<NSString *, NSString *> *)labelsDictionary
+- (NSDictionary<NSString *, NSString *> *)customInfo
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -88,7 +88,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     return [dictionary copy];
 }
 
-- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
+- (NSDictionary<NSString *, NSString *> *)comScorecustomInfo
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -320,7 +320,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [pageViewLabels srg_safelySetString:category forKey:@"category"];
     [pageViewLabels srg_safelySetString:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
     
-    NSDictionary<NSString *, NSString *> *comScoreDictionary = [labels comScoreLabelsDictionary];
+    NSDictionary<NSString *, NSString *> *comScoreDictionary = [labels comScorecustomInfo];
     if (comScoreDictionary) {
         [pageViewLabels addEntriesFromDictionary:comScoreDictionary];
     }
@@ -352,7 +352,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         [fullLabels srg_safelySetString:object forKey:levelKey];
     }];
     
-    NSDictionary<NSString *, NSString *> *dictionary = [labels labelsDictionary];
+    NSDictionary<NSString *, NSString *> *dictionary = [labels customInfo];
     if (dictionary) {
         [fullLabels addEntriesFromDictionary:dictionary];
     }
@@ -388,7 +388,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [hiddenEventLabels srg_safelySetString:@"app" forKey:@"category"];
     [hiddenEventLabels srg_safelySetString:[NSString stringWithFormat:@"app.%@", name.srg_comScoreFormattedString] forKey:@"name"];
     
-    NSDictionary<NSString *, NSString *> *comScoreDictionary = [labels comScoreLabelsDictionary];
+    NSDictionary<NSString *, NSString *> *comScoreDictionary = [labels comScorecustomInfo];
     if (comScoreDictionary) {
         [hiddenEventLabels addEntriesFromDictionary:comScoreDictionary];
     }
@@ -404,7 +404,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [fullLabels srg_safelySetString:@"click" forKey:@"event_id"];
     [fullLabels srg_safelySetString:name forKey:@"event_name"];
     
-    NSDictionary<NSString *, NSString *> *dictionary = [labels labelsDictionary];
+    NSDictionary<NSString *, NSString *> *dictionary = [labels customInfo];
     if (dictionary) {
         [fullLabels addEntriesFromDictionary:dictionary];
     }
