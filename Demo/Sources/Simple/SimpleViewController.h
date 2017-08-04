@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithTitle:(nullable NSString *)title
                        levels:(nullable NSArray<NSString *> *)levels
-             customInfo:(nullable NSDictionary<NSString *, NSString *> *)customInfo
+                   customInfo:(nullable NSDictionary<NSString *, NSString *> *)customInfo
    openedFromPushNotification:(BOOL)openedFromPushNotification
          trackedAutomatically:(BOOL)trackedAutomatically NS_DESIGNATED_INITIALIZER;
 

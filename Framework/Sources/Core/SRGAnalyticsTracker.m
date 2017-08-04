@@ -43,7 +43,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 @implementation SRGAnalyticsHiddenEventLabels
 
-- (NSDictionary<NSString *, NSString *> *)customInfo
+- (NSDictionary<NSString *, NSString *> *)labelsDictionary
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -58,7 +58,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     return [dictionary copy];
 }
 
-- (NSDictionary<NSString *, NSString *> *)comScorecustomInfo
+- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -77,7 +77,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 @implementation SRGAnalyticsPageViewLabels
 
-- (NSDictionary<NSString *, NSString *> *)customInfo
+- (NSDictionary<NSString *, NSString *> *)labelsDictionary
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -88,7 +88,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     return [dictionary copy];
 }
 
-- (NSDictionary<NSString *, NSString *> *)comScorecustomInfo
+- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -320,9 +320,9 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [pageViewLabels srg_safelySetString:category forKey:@"category"];
     [pageViewLabels srg_safelySetString:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
     
-    NSDictionary<NSString *, NSString *> *comScoreDictionary = [labels comScorecustomInfo];
-    if (comScoreDictionary) {
-        [pageViewLabels addEntriesFromDictionary:comScoreDictionary];
+    NSDictionary<NSString *, NSString *> *comScoreLabelsDictionary = [labels comScoreLabelsDictionary];
+    if (comScoreLabelsDictionary) {
+        [pageViewLabels addEntriesFromDictionary:comScoreLabelsDictionary];
     }
     
     [CSComScore viewWithLabels:pageViewLabels];
@@ -352,9 +352,9 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         [fullLabels srg_safelySetString:object forKey:levelKey];
     }];
     
-    NSDictionary<NSString *, NSString *> *dictionary = [labels customInfo];
-    if (dictionary) {
-        [fullLabels addEntriesFromDictionary:dictionary];
+    NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
+    if (labelsDictionary) {
+        [fullLabels addEntriesFromDictionary:labelsDictionary];
     }
     
     [self trackTagCommanderEventWithLabels:[fullLabels copy]];
@@ -388,9 +388,9 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [hiddenEventLabels srg_safelySetString:@"app" forKey:@"category"];
     [hiddenEventLabels srg_safelySetString:[NSString stringWithFormat:@"app.%@", name.srg_comScoreFormattedString] forKey:@"name"];
     
-    NSDictionary<NSString *, NSString *> *comScoreDictionary = [labels comScorecustomInfo];
-    if (comScoreDictionary) {
-        [hiddenEventLabels addEntriesFromDictionary:comScoreDictionary];
+    NSDictionary<NSString *, NSString *> *comScoreLabelsDictionary = [labels comScoreLabelsDictionary];
+    if (comScoreLabelsDictionary) {
+        [hiddenEventLabels addEntriesFromDictionary:comScoreLabelsDictionary];
     }
     
     [CSComScore hiddenWithLabels:hiddenEventLabels];
@@ -404,9 +404,9 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [fullLabels srg_safelySetString:@"click" forKey:@"event_id"];
     [fullLabels srg_safelySetString:name forKey:@"event_name"];
     
-    NSDictionary<NSString *, NSString *> *dictionary = [labels customInfo];
-    if (dictionary) {
-        [fullLabels addEntriesFromDictionary:dictionary];
+    NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
+    if (labelsDictionary) {
+        [fullLabels addEntriesFromDictionary:labelsDictionary];
     }
     
     [self trackTagCommanderEventWithLabels:[fullLabels copy]];

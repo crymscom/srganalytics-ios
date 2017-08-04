@@ -23,7 +23,7 @@
 
 #pragma mark Getters and setters
 
-- (NSDictionary<NSString *, NSString *> *)customInfo
+- (NSDictionary<NSString *, NSString *> *)labelsDictionary
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -41,7 +41,7 @@
     return [dictionary copy];
 }
 
-- (NSDictionary<NSString *, NSString *> *)comScorecustomInfo
+- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -60,7 +60,7 @@
     return [dictionary copy];
 }
 
-- (NSDictionary<NSString *, NSString *> *)comScoreSegmentcustomInfo
+- (NSDictionary<NSString *, NSString *> *)comScoreSegmentLabelsDictionary
 {
     NSMutableDictionary <NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -181,14 +181,14 @@
     }
     
     [[self.streamSense labels] removeAllObjects];
-    [[labels comScorecustomInfo] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [[labels comScoreLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [self.streamSense setLabel:key value:object];
     }];
     
     // Reset clip labels to avoid inheriting from a previous segment. This does not reset internal hidden comScore labels
     // (e.g. ns_st_pa), which would otherwise be incorrect
     [[[self.streamSense clip] labels] removeAllObjects];
-    [[labels comScoreSegmentcustomInfo] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [[labels comScoreSegmentLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [[self.streamSense clip] setLabel:key value:object];
     }];
     
@@ -233,8 +233,7 @@
     }
     
     // Don't send an unallowed action
-    NSArray<NSNumber *> *allowTransitions = s_allowedTransitions[@(self.previousPlayerEvent)];
-    if (! [allowTransitions containsObject:@(event)]) {
+    if (! [s_allowedTransitions[@(self.previousPlayerEvent)] containsObject:@(event)]) {
         return;
     }
     
@@ -243,12 +242,16 @@
     }
     
     // Send the event
-    NSMutableDictionary<NSString *, NSString *> *fullcustomInfo = [NSMutableDictionary dictionary];
-    [fullcustomInfo srg_safelySetString:action forKey:@"event_id"];
-    [fullcustomInfo srg_safelySetString:@(position).stringValue forKey:@"media_position"];
-    [fullcustomInfo addEntriesFromDictionary:[labels customInfo]];
+    NSMutableDictionary<NSString *, NSString *> *fullLabelsDictionary = [NSMutableDictionary dictionary];
+    [fullLabelsDictionary srg_safelySetString:action forKey:@"event_id"];
+    [fullLabelsDictionary srg_safelySetString:@(position).stringValue forKey:@"media_position"];
     
-    [[SRGAnalyticsTracker sharedTracker] trackTagCommanderEventWithLabels:[fullcustomInfo copy]];
+    NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
+    if (labelsDictionary) {
+        [fullLabelsDictionary addEntriesFromDictionary:labelsDictionary];
+    }
+    
+    [[SRGAnalyticsTracker sharedTracker] trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
 }
 
 @end
