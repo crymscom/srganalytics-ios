@@ -29,7 +29,7 @@
     [TCDebug setDebugLevel:TCLogLevel_Verbose];
     [TCDebug setNotificationLog:YES];
     
-    [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierRTS
+    [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
                                                      containerIdentifier:2
                                                      comScoreVirtualSite:@"rts-app-test-v"
                                                      netMetrixIdentifier:@"test"];
