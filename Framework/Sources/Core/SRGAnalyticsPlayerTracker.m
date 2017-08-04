@@ -45,8 +45,6 @@
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
-    [dictionary srg_safelySetString:SRGAnalyticsMarketingVersion() forKey:@"ns_st_pu"];
-    [dictionary srg_safelySetString:[SRGAnalyticsTracker sharedTracker].comScoreVirtualSite forKey:@"ns_vsite"];
     [dictionary srg_safelySetString:@"c" forKey:@"ns_st_it"];
     [dictionary srg_safelySetString:@"p_app_ios" forKey:@"srg_ptype"];
     

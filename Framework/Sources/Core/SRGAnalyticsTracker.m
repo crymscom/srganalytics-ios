@@ -202,13 +202,14 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSString *appLanguage = mainBundle.preferredLocalizations.firstObject ?: @"fr";
     NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     
-    NSMutableDictionary<NSString *, NSString *> *globalLabels = [@{ @"ns_ap_an": appName,
-                                                                    @"ns_ap_lang": [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
-                                                                    @"ns_ap_ver": appVersion,
-                                                                    @"srg_unit": self.businessUnitIdentifier.uppercaseString,
-                                                                    @"srg_ap_push": @"0",
-                                                                    @"ns_site": @"mainsite",                                    // The 'mainsite' is a constant value. If wrong, everything is screwed.
-                                                                    @"ns_vsite": self.comScoreVirtualSite } mutableCopy];       // The virtual site 'vsite' is associated with the app. It is created by comScore
+    NSMutableDictionary<NSString *, NSString *> *globalLabels = [@{ @"ns_ap_an" : appName,
+                                                                    @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
+                                                                    @"ns_ap_ver" : appVersion,
+                                                                    @"srg_unit" : self.businessUnitIdentifier.uppercaseString,
+                                                                    @"srg_ap_push" : @"0",
+                                                                    @"ns_site" : @"mainsite",                                          // The 'mainsite' is a constant value. If wrong, everything is screwed.
+                                                                    @"ns_vsite" : self.comScoreVirtualSite,                            // The virtual site 'vsite' is associated with the app. It is created by comScore
+                                                                    @"ns_st_pu" : SRGAnalyticsMarketingVersion() } mutableCopy];
     
     if ([self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
         static NSString *s_debugTimestamp;
