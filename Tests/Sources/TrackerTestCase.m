@@ -20,10 +20,8 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 - (void)testHiddenEvent
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(event, @"click");
-//        XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
-//        XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
-//        XCTAssertEqualObjects(labels[@"category"], @"app");
+        XCTAssertEqualObjects(labels[@"event_id"], @"click");
+        XCTAssertEqualObjects(labels[@"event_name"], @"Hidden event");
         return YES;
     }];
     
@@ -35,11 +33,9 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 - (void)testHiddenEventWithLabels
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(event, @"click");
-//        XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
-//        XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
-//        XCTAssertEqualObjects(labels[@"category"], @"app");
-//        XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
+        XCTAssertEqualObjects(labels[@"event_id"], @"click");
+        XCTAssertEqualObjects(labels[@"event_name"], @"Hidden event");
+        XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
         return YES;
     }];
     
