@@ -23,7 +23,7 @@
 
 #pragma mark Getters and setters
 
-- (NSDictionary<NSString *, NSString *> *)dictionary
+- (NSDictionary<NSString *, NSString *> *)labelsDictionary
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -41,7 +41,7 @@
     return [dictionary copy];
 }
 
-- (NSDictionary<NSString *, NSString *> *)comScoreDictionary
+- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -62,7 +62,7 @@
     return [dictionary copy];
 }
 
-- (NSDictionary<NSString *, NSString *> *)comScoreSegmentDictionary
+- (NSDictionary<NSString *, NSString *> *)comScoreSegmentLabelsDictionary
 {
     NSMutableDictionary <NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
@@ -183,14 +183,14 @@
     }
     
     [[self.streamSense labels] removeAllObjects];
-    [[labels comScoreDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [[labels comScoreLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [self.streamSense setLabel:key value:object];
     }];
     
     // Reset clip labels to avoid inheriting from a previous segment. This does not reset internal hidden comScore labels
     // (e.g. ns_st_pa), which would otherwise be incorrect
     [[[self.streamSense clip] labels] removeAllObjects];
-    [[labels comScoreSegmentDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    [[labels comScoreSegmentLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [[self.streamSense clip] setLabel:key value:object];
     }];
     
@@ -249,7 +249,7 @@
     [fullLabelsDictionary srg_safelySetString:action forKey:@"event_id"];
     [fullLabelsDictionary srg_safelySetString:@(position).stringValue forKey:@"media_position"];
     
-    NSDictionary<NSString *, NSString *> *labelsDictionary = [labels dictionary];
+    NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
     [labelsDictionary enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [fullLabelsDictionary srg_safelySetString:object forKey:key];
     }];
