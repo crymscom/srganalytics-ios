@@ -62,7 +62,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
     [dictionary srg_safelySetString:self.type forKey:@"srg_evgroup"];
-    [dictionary srg_safelySetString:self.value forKey:@"srg_evname"];
+    [dictionary srg_safelySetString:self.value forKey:@"srg_evvalue"];
     [dictionary srg_safelySetString:self.source forKey:@"srg_evsource"];
     
     if (self.comScoreCustomInfo) {
@@ -363,31 +363,31 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 #pragma mark Hidden event tracking
 
-- (void)trackHiddenEventWithTitle:(NSString *)title
+- (void)trackHiddenEventWithName:(NSString *)name
 {
-    [self trackHiddenEventWithTitle:title labels:nil];
+    [self trackHiddenEventWithName:name labels:nil];
 }
 
-- (void)trackHiddenEventWithTitle:(NSString *)title
+- (void)trackHiddenEventWithName:(NSString *)name
                            labels:(SRGAnalyticsHiddenEventLabels *)labels
 {
-    if (title.length == 0) {
-        SRGAnalyticsLogWarning(@"tracker", @"Missing title. No event will be sent");
+    if (name.length == 0) {
+        SRGAnalyticsLogWarning(@"tracker", @"Missing name. No event will be sent");
         return;
     }
     
-    [self trackTagCommanderHiddenEventWithTitle:title labels:labels];
-    [self trackComScoreHiddenEventWithTitle:title labels:labels];
+    [self trackTagCommanderHiddenEventWithName:name labels:labels];
+    [self trackComScoreHiddenEventWithName:name labels:labels];
 }
 
-- (void)trackComScoreHiddenEventWithTitle:(NSString *)title labels:(SRGAnalyticsHiddenEventLabels *)labels
+- (void)trackComScoreHiddenEventWithName:(NSString *)name labels:(SRGAnalyticsHiddenEventLabels *)labels
 {
-    NSAssert(title.length != 0, @"A title is required");
+    NSAssert(name.length != 0, @"A name is required");
     
     NSMutableDictionary *hiddenEventLabels = [NSMutableDictionary dictionary];
-    [hiddenEventLabels srg_safelySetString:title forKey:@"srg_title"];    
+    [hiddenEventLabels srg_safelySetString:name forKey:@"srg_title"];
     [hiddenEventLabels srg_safelySetString:@"app" forKey:@"category"];
-    [hiddenEventLabels srg_safelySetString:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];
+    [hiddenEventLabels srg_safelySetString:[NSString stringWithFormat:@"app.%@", name.srg_comScoreFormattedString] forKey:@"name"];
     
     NSDictionary<NSString *, NSString *> *comScoreDictionary = [labels comScoreLabelsDictionary];
     if (comScoreDictionary) {
@@ -397,13 +397,13 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [CSComScore hiddenWithLabels:hiddenEventLabels];
 }
 
-- (void)trackTagCommanderHiddenEventWithTitle:(NSString *)title labels:(SRGAnalyticsHiddenEventLabels *)labels
+- (void)trackTagCommanderHiddenEventWithName:(NSString *)name labels:(SRGAnalyticsHiddenEventLabels *)labels
 {
-    NSAssert(title.length != 0, @"A title is required");
+    NSAssert(name.length != 0, @"A name is required");
     
     NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
     [fullLabels srg_safelySetString:@"click" forKey:@"event_id"];
-    [fullLabels srg_safelySetString:title forKey:@"event_name"];
+    [fullLabels srg_safelySetString:name forKey:@"event_name"];
     
     NSDictionary<NSString *, NSString *> *dictionary = [labels labelsDictionary];
     if (dictionary) {
@@ -488,6 +488,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
             labels.value = [sortedInstalledApplications componentsJoinedByString:@","];
             
             [self trackHiddenEventWithTitle:@"overlap" labels:labels];
+            [self trackHiddenEventWithName:@"overlap" labels:labels];
         });
     }] resume];
 }

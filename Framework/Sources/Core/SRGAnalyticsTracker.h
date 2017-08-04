@@ -182,23 +182,23 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 @interface SRGAnalyticsTracker (HiddenEventTracking)
 
 /**
- *  Send a hidden event with the specified title.
+ *  Send a hidden event with the specified name.
  *
- *  @param title The event title.
+ *  @param name The event name.
  *
- *  @discussion If the title is empty, no event will be sent.
+ *  @discussion If the name is empty, no event will be sent.
  */
-- (void)trackHiddenEventWithTitle:(NSString *)title;
+- (void)trackHiddenEventWithName:(NSString *)name;
 
 /**
- *  Send a hidden event with the specified title.
+ *  Send a hidden event with the specified name.
  *
- *  @param title          The event title.
+ *  @param name           The event name.
  *  @param labels         Information to be sent along the event and which is meaningful for your application measurements.
  *
- *  @discussion If the title is `nil`, no event will be sent.
+ *  @discussion If the name is `nil`, no event will be sent.
  */
-- (void)trackHiddenEventWithTitle:(NSString *)title
+- (void)trackHiddenEventWithName:(NSString *)name
                            labels:(nullable SRGAnalyticsHiddenEventLabels *)labels;
 
 @end
