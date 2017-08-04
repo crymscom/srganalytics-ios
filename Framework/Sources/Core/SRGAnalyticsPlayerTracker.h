@@ -83,28 +83,30 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @property (nonatomic, nullable) NSNumber *volumeInPercent;              // Long
 
 /**
- *  Additional custom values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 for a full list.
- *  You should only set very specific information which does not override official labels provided above.
+ *  Additional custom information, mapping variables to values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 
+ *  for a full list of possible variable names.
  *
- *  @discussion If those labels are not defined on the TagCommander portal, they won't be saved. If you override one of the above
- *              official labels in the process, the result is undefined.
+ *  You should rarely need to provide custom information with measurements, as this requires the variable name to be
+ *  declared on TagCommander portal first (otherwise the associated value will be discarded).
  */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customValues;
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customInfo;
 
 /**
- *  Additional custom values to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
- *  for a full list. You should only set very specific information which does not override official labels.
+ *  Additional custom information to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
+ *  for a full list of possible variable names.
  */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreValues;
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreInfo;
 
 /**
- *  Additional custom segment values to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
- *  for a full list. You should only set very specific information which does not override official labels.
+ *  Additional custom segment information to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
+ *  for a full list of possible variable names.
  */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreSegmentValues;
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreSegmentInfo;
 
 /**
  *  Merge the receiver with the provided labels (overriding values defined by it, otherwise keeping available ones).
+ *  Use this method when you need to override full-length labels with more specific segment labels (use `-copy` to
+ *  start with a copy if you don't want to preserve the original values for later).
  *
  *  @discussion Custom value dictionaries are merged as well.
  */
@@ -115,15 +117,26 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 /**
  *  Tracker for media playback consumption. This tracker ensures that the media analytics event sequences are always
  *  reliable, guaranteeing correct measurements.
+ *
+ *  When you need to track a new media playback, simply instantiate an `SRGAnalyticsPlayerTracker`, keeping a strong
+ *  reference to it, and call the tracking method when you need to record an event.
+ *
+ *  Implementing media player tracking is tricky to get right, and should only be required if your player is not based
+ *  on SRG MediaPlayer (e.g. if you use `AVPlayer` directly). Please refer to the official documentation more information:
+ *    https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/195595938/Implementation+Concept+-+draft
  */
 @interface SRGAnalyticsPlayerTracker : NSObject
 
 /**
  *  Track a media player event.
  *
- *  @param event                 The event type.
- *  @param position              The playback position at which the event occurs, in milliseconds.
- *  @param labels                Additional detailed event information.
+ *  @param event    The event type.
+ *  @param position The playback position at which the event occurs, in milliseconds.
+ *  @param labels   Additional detailed event information.
+ *
+ *  @discussion Depending on the service, calling this method might not always lead to an associated event. The possibility
+ *              of emitting an event might namely be constrained by the event which was emitted before it (if any). For
+ *              more information, refer to the official documentation.
  */
 - (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
               atPosition:(NSTimeInterval)position

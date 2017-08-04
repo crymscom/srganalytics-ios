@@ -96,29 +96,29 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         
         SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
         
-        NSMutableDictionary<NSString *, NSString *> *customValues = [NSMutableDictionary dictionary];
+        NSMutableDictionary<NSString *, NSString *> *customInfo = [NSMutableDictionary dictionary];
         if (mediaComposition.analyticsLabels) {
-            [customValues addEntriesFromDictionary:mediaComposition.analyticsLabels];
+            [customInfo addEntriesFromDictionary:mediaComposition.analyticsLabels];
         }
         if (mediaComposition.mainChapter.analyticsLabels) {
-            [customValues addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
+            [customInfo addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
         }
         if (resource.analyticsLabels) {
-            [customValues addEntriesFromDictionary:resource.analyticsLabels];
+            [customInfo addEntriesFromDictionary:resource.analyticsLabels];
         }
-        labels.customValues = [customValues copy];
+        labels.customInfo = [customInfo copy];
         
-        NSMutableDictionary<NSString *, NSString *> *comScoreValues = [NSMutableDictionary dictionary];
+        NSMutableDictionary<NSString *, NSString *> *comScoreInfo = [NSMutableDictionary dictionary];
         if (mediaComposition.comScoreAnalyticsLabels) {
-            [comScoreValues addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
+            [comScoreInfo addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
         }
         if (mediaComposition.mainChapter.comScoreAnalyticsLabels) {
-            [comScoreValues addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
+            [comScoreInfo addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
         }
         if (resource.comScoreAnalyticsLabels) {
-            [comScoreValues addEntriesFromDictionary:resource.comScoreAnalyticsLabels];
+            [comScoreInfo addEntriesFromDictionary:resource.comScoreAnalyticsLabels];
         }
-        labels.comScoreValues = [comScoreValues copy];
+        labels.comScoreInfo = [comScoreInfo copy];
         
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
         completionBlock(URL, index, chapter.segments, labels, nil);

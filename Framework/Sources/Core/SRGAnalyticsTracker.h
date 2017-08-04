@@ -166,19 +166,19 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 @property (nonatomic, copy, nullable) NSString *source;
 
 /**
- *  Additional custom values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 for a full list.
- *  You should only set very specific information which does not override official labels provided above.
+ *  Additional custom information, mapping variables to values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081
+ *  for a full list of possible variable names.
  *
- *  @discussion If those labels are not defined on the TagCommander portal, they won't be saved. If you override one of the above
- *              official labels in the process, the result is undefined.
+ *  You should rarely need to provide custom information with measurements, as this requires the variable name to be
+ *  declared on TagCommander portal first (otherwise the associated value will be discarded).
  */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customValues;
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customInfo;
 
 /**
- *  Additional custom values to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
- *  for a full list. You should only set very specific information which does not override official labels.
+ *  Additional custom information to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
+ *  for a full list of possible variable names.
  */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreValues;
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreInfo;
 
 @end
 
@@ -216,19 +216,19 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 @interface SRGAnalyticsPageViewLabels : NSObject
 
 /**
- *  Additional custom values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 for a full list.
- *  You should only set very specific information which does not override official labels provided above.
+ *  Additional custom information, mapping variables to values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081
+ *  for a full list of possible variable names.
  *
- *  @discussion If those labels are not defined on the TagCommander portal, they won't be saved. If you override one of the above
- *              official labels in the process, the result is undefined.
+ *  You should rarely need to provide custom information with measurements, as this requires the variable name to be
+ *  declared on TagCommander portal first (otherwise the associated value will be discarded).
  */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customValues;
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customInfo;
 
 /**
- *  Additional custom values to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
- *  for a full list. You should only set very specific information which does not override official labels.
+ *  Additional custom information to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
+ *  for a full list of possible variable names.
  */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreValues;
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreInfo;
 
 @end
 

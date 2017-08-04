@@ -34,8 +34,8 @@
     [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"media_bandwidth"];
     [dictionary srg_safelySetString:self.volumeInPercent.stringValue forKey:@"media_volume"];
     
-    if (self.customValues) {
-        [dictionary addEntriesFromDictionary:self.customValues];
+    if (self.customInfo) {
+        [dictionary addEntriesFromDictionary:self.customInfo];
     }
     
     return [dictionary copy];
@@ -55,8 +55,8 @@
     [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"ns_st_br"];
     [dictionary srg_safelySetString:self.volumeInPercent.stringValue ?: @"0" forKey:@"ns_st_vo"];
     
-    if (self.comScoreValues) {
-        [dictionary addEntriesFromDictionary:self.comScoreValues];
+    if (self.comScoreInfo) {
+        [dictionary addEntriesFromDictionary:self.comScoreInfo];
     }
     
     return [dictionary copy];
@@ -68,8 +68,8 @@
     
     [dictionary srg_safelySetString:self.timeshiftInMilliseconds.stringValue forKey:@"srg_timeshift"];
     
-    if (self.comScoreSegmentValues) {
-        [dictionary addEntriesFromDictionary:self.comScoreSegmentValues];
+    if (self.comScoreSegmentInfo) {
+        [dictionary addEntriesFromDictionary:self.comScoreSegmentInfo];
     }
     
     return [dictionary copy];
@@ -102,23 +102,23 @@
         self.volumeInPercent = labels.volumeInPercent;
     }
     
-    NSMutableDictionary *customValues = [self.customValues mutableCopy] ?: [NSMutableDictionary dictionary];
-    if (labels.customValues) {
-        [customValues addEntriesFromDictionary:labels.customValues];
+    NSMutableDictionary *customInfo = [self.customInfo mutableCopy] ?: [NSMutableDictionary dictionary];
+    if (labels.customInfo) {
+        [customInfo addEntriesFromDictionary:labels.customInfo];
     }
-    self.customValues = (customValues.count != 0) ? [customValues copy] : nil;
+    self.customInfo = (customInfo.count != 0) ? [customInfo copy] : nil;
     
-    NSMutableDictionary *comScoreValues = [self.comScoreValues mutableCopy] ?: [NSMutableDictionary dictionary];
-    if (labels.comScoreValues) {
-        [comScoreValues addEntriesFromDictionary:labels.comScoreValues];
+    NSMutableDictionary *comScoreInfo = [self.comScoreInfo mutableCopy] ?: [NSMutableDictionary dictionary];
+    if (labels.comScoreInfo) {
+        [comScoreInfo addEntriesFromDictionary:labels.comScoreInfo];
     }
-    self.comScoreValues = (comScoreValues.count != 0) ? [comScoreValues copy] : nil;
+    self.comScoreInfo = (comScoreInfo.count != 0) ? [comScoreInfo copy] : nil;
     
-    NSMutableDictionary *comScoreSegmentValues = [self.comScoreSegmentValues mutableCopy] ?: [NSMutableDictionary dictionary];
-    if (labels.comScoreSegmentValues) {
-        [comScoreSegmentValues addEntriesFromDictionary:labels.comScoreSegmentValues];
+    NSMutableDictionary *comScoreSegmentInfo = [self.comScoreSegmentInfo mutableCopy] ?: [NSMutableDictionary dictionary];
+    if (labels.comScoreSegmentInfo) {
+        [comScoreSegmentInfo addEntriesFromDictionary:labels.comScoreSegmentInfo];
     }
-    self.comScoreSegmentValues = (comScoreSegmentValues.count != 0) ? [comScoreSegmentValues copy] : nil;
+    self.comScoreSegmentInfo = (comScoreSegmentInfo.count != 0) ? [comScoreSegmentInfo copy] : nil;
 }
 
 #pragma mark NSCopying protocol
@@ -132,9 +132,9 @@
     labels.timeshiftInMilliseconds = self.timeshiftInMilliseconds;
     labels.bandwidthInBitsPerSecond = self.bandwidthInBitsPerSecond;
     labels.volumeInPercent = self.volumeInPercent;
-    labels.customValues = self.customValues;
-    labels.comScoreValues = self.comScoreValues;
-    labels.comScoreSegmentValues = self.comScoreSegmentValues;
+    labels.customInfo = self.customInfo;
+    labels.comScoreInfo = self.comScoreInfo;
+    labels.comScoreSegmentInfo = self.comScoreSegmentInfo;
     return labels;
 }
 

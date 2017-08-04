@@ -54,9 +54,9 @@
 - (SRGAnalyticsPlayerLabels *)srg_analyticsLabels
 {
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"segment_name" : self.name,
-                             @"overridable_name" : self.name };
-    labels.comScoreValues = @{ @"segment_name" : self.name,
+    labels.customInfo = @{ @"segment_name" : self.name,
+                           @"overridable_name" : self.name };
+    labels.comScoreInfo = @{ @"segment_name" : self.name,
                                @"overridable_name" : self.name };
     return labels;
 }

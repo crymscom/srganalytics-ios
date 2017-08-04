@@ -516,7 +516,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"test_info" : @"test" };
+    labels.customInfo = @{ @"test_info" : @"test" };
     
     [self.mediaPlayerController playURL:LiveTestURL()
                                  atTime:kCMTimeZero
@@ -640,8 +640,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL()
@@ -714,8 +714,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL()
@@ -765,8 +765,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL()
@@ -822,8 +822,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL()
@@ -843,7 +843,7 @@ static NSURL *DVRTestURL(void)
         if ([event isEqualToString:@"eof"]) {
             XCTAssertFalse(fullEndReceived);
             XCTAssertFalse(segmentPlayReceived);
-
+            
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             XCTAssertNil(labels[@"segment_name"]);
             XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
@@ -883,8 +883,8 @@ static NSURL *DVRTestURL(void)
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(100., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -943,8 +943,8 @@ static NSURL *DVRTestURL(void)
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(23., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1001,8 +1001,8 @@ static NSURL *DVRTestURL(void)
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1061,8 +1061,8 @@ static NSURL *DVRTestURL(void)
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(60., NSEC_PER_SEC), CMTimeMakeWithSeconds(20., NSEC_PER_SEC))];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1129,8 +1129,8 @@ static NSURL *DVRTestURL(void)
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1189,8 +1189,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1264,8 +1264,8 @@ static NSURL *DVRTestURL(void)
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1301,8 +1301,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL()
@@ -1361,8 +1361,8 @@ static NSURL *DVRTestURL(void)
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                  atTime:kCMTimeZero
@@ -1418,8 +1418,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL()
@@ -1440,17 +1440,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(fullLengthSeekReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertNil(labels[@"segment_name"]);
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            //            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            //            XCTAssertNil(labels[@"segment_name"]);
+            //            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthSeekReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
-//            
-//            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-//            XCTAssertNil(labels[@"segment_name"]);
-//            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            //
+            //            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            //            XCTAssertNil(labels[@"segment_name"]);
+            //            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -1478,8 +1478,8 @@ static NSURL *DVRTestURL(void)
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                  atTime:kCMTimeZero
@@ -1602,8 +1602,8 @@ static NSURL *DVRTestURL(void)
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1674,8 +1674,8 @@ static NSURL *DVRTestURL(void)
     }];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL()
@@ -1751,8 +1751,8 @@ static NSURL *DVRTestURL(void)
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1822,8 +1822,8 @@ static NSURL *DVRTestURL(void)
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1992,7 +1992,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:labels userInfo:nil];
     
@@ -2086,7 +2086,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
-    labels.customValues = @{ @"stream_name" : @"full" };
+    labels.customInfo = @{ @"stream_name" : @"full" };
     
     [self.mediaPlayerController playURL:LiveTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:labels userInfo:nil];
     
