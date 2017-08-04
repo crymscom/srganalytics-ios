@@ -94,12 +94,16 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 /**
  *  Additional custom information to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
  *  for a full list of possible variable names.
+ *
+ *  @discussion This information is sent in Stream Sense.
  */
 @property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreCustomInfo;
 
 /**
  *  Additional custom segment information to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
  *  for a full list of possible variable names.
+ *
+ *  @discussion This information is sent in StreamSense clips.
  */
 @property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreCustomSegmentInfo;
 

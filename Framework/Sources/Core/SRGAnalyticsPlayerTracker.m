@@ -248,11 +248,7 @@
     NSMutableDictionary<NSString *, NSString *> *fullLabelsDictionary = [NSMutableDictionary dictionary];
     [fullLabelsDictionary srg_safelySetString:action forKey:@"event_id"];
     [fullLabelsDictionary srg_safelySetString:@(position).stringValue forKey:@"media_position"];
-    
-    NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
-    [labelsDictionary enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [fullLabelsDictionary srg_safelySetString:object forKey:key];
-    }];
+    [fullLabelsDictionary addEntriesFromDictionary:[labels labelsDictionary]];
     
     [[SRGAnalyticsTracker sharedTracker] trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
 }

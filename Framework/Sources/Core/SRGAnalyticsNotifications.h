@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  The following notifications can be used if you need to track when TagCommander, comScore and NetMetrix 
- *  requests are made, and which information is actually sent to these services. These notifications are 
+ *  requests are made, and which information will be sent to these services. These notifications are
  *  only emitted when the business unit identifier has been set to `SRGAnalyticsBusinessUnitIdentifierTEST`, 
  *  and are therefore only suitable for test setups.
  */
