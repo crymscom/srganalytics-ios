@@ -311,10 +311,8 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         
         XCTAssertEqualObjects(labels[@"ns_st_mp"], @"SRGMediaPlayer");
-        XCTAssertEqualObjects(labels[@"ns_st_pu"], SRGAnalyticsMarketingVersion());
         XCTAssertEqualObjects(labels[@"ns_st_mv"], SRGMediaPlayerMarketingVersion());
         XCTAssertEqualObjects(labels[@"ns_st_it"], @"c");
-        XCTAssertEqualObjects(labels[@"ns_vsite"], @"rts-app-test-v");
         XCTAssertEqualObjects(labels[@"srg_ptype"], @"p_app_ios");
         return YES;
     }];
