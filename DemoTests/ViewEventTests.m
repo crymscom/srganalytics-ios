@@ -88,13 +88,11 @@ static NSDictionary *s_startLabels = nil;
 - (void)testAutomaticTrackingWithLevels
 {
     [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-//        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.level3.automatic-tracking-with-levels");
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
         XCTAssertEqualObjects(labels[@"navigation_level_1"], @"Level1");
         XCTAssertEqualObjects(labels[@"navigation_level_2"], @"Level2");
         XCTAssertEqualObjects(labels[@"navigation_level_3"], @"Level3");
         XCTAssertNil(labels[@"navigation_level_4"]);
-//        XCTAssertEqualObjects(labels[@"category"], @"level1.level2.level3");
         XCTAssertEqualObjects(labels[@"content_title"], @"Automatic tracking with levels");
         return YES;
     }];
@@ -111,7 +109,6 @@ static NSDictionary *s_startLabels = nil;
 {
     // The SRG standard only has srg_nX fields up to 10. The full hierarchy is still obtained from the name and category labels, though
     [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-//        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.level11.level12.automatic-tracking-with-many-levels");
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
         XCTAssertEqualObjects(labels[@"navigation_level_1"], @"Level1");
         XCTAssertEqualObjects(labels[@"navigation_level_2"], @"Level2");
@@ -124,7 +121,6 @@ static NSDictionary *s_startLabels = nil;
         XCTAssertNil(labels[@"navigation_level_9"]);
         XCTAssertNil(labels[@"navigation_level_10"]);
         XCTAssertNil(labels[@"navigation_level_11"]);
-//        XCTAssertEqualObjects(labels[@"category"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.level11.level12");
         XCTAssertEqualObjects(labels[@"content_title"], @"Automatic tracking with many levels");
         return YES;
     }];
@@ -140,12 +136,10 @@ static NSDictionary *s_startLabels = nil;
 - (void)testAutomaticTrackingWithLevelsAndLabels
 {
     [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-//        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.automatic-tracking-with-levels-and-labels");
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
         XCTAssertEqualObjects(labels[@"navigation_level_1"], @"Level1");
         XCTAssertEqualObjects(labels[@"navigation_level_2"], @"Level2");
         XCTAssertNil(labels[@"navigation_level_3"]);
-//        XCTAssertEqualObjects(labels[@"category"], @"level1.level2");
         XCTAssertEqualObjects(labels[@"content_title"], @"Automatic tracking with levels and labels");
         XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
         return YES;
@@ -162,7 +156,6 @@ static NSDictionary *s_startLabels = nil;
 - (void)testManualTracking
 {
     [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-//        XCTAssertEqualObjects(labels[@"name"], @"app.manual-tracking");
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
         XCTAssertEqualObjects(labels[@"navigation_property_type"], @"app");
         XCTAssertEqualObjects(labels[@"content_title"], @"Manual tracking");
