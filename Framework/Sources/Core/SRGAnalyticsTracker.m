@@ -113,6 +113,14 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     return s_sharedInstance;
 }
 
+#pragma mark Getters and setters
+
+// FIXME: Once the pilot phase is over, remove this implementation so that the container can be freely set
+- (NSInteger)containerIdentifier
+{
+    return 10;
+}
+
 #pragma mark Start
 
 - (void)startWithBusinessUnitIdentifier:(SRGAnalyticsBusinessUnitIdentifier)businessUnitIdentifier
@@ -142,12 +150,15 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         static NSDictionary<SRGAnalyticsBusinessUnitIdentifier, NSNumber *> *s_accountIdentifiers = nil;
         static dispatch_once_t s_onceToken;
         dispatch_once(&s_onceToken, ^{
-            s_accountIdentifiers = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @3668,
-                                      SRGAnalyticsBusinessUnitIdentifierRTR : @3666,       // Under the SRG umbrella
-                                      SRGAnalyticsBusinessUnitIdentifierRTS : @3669,
-                                      SRGAnalyticsBusinessUnitIdentifierSRF : @3667,
-                                      SRGAnalyticsBusinessUnitIdentifierSRG : @3666,
-                                      SRGAnalyticsBusinessUnitIdentifierSWI : @3670 };
+            // FIXME: Once the pilot phase is over and the official account identifiers are available, use them. For the
+            //        pilot phase, only 3601 is available
+            s_accountIdentifiers = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @3601,        // @3668,
+                                      SRGAnalyticsBusinessUnitIdentifierRTR : @3601,        // @3666,       // Under the SRG umbrella
+                                      SRGAnalyticsBusinessUnitIdentifierRTS : @3601,        // @3669,
+                                      SRGAnalyticsBusinessUnitIdentifierSRF : @3601,        // @3667,
+                                      SRGAnalyticsBusinessUnitIdentifierSRG : @3601,        // @3666,
+                                      SRGAnalyticsBusinessUnitIdentifierSWI : @3601         // @3670
+                                      };
         });
         self.tagCommander = [[TagCommander alloc] initWithSiteID:s_accountIdentifiers[self.businessUnitIdentifier].intValue andContainerID:(int)self.containerIdentifier];
     }
