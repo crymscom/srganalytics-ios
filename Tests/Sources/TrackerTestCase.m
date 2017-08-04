@@ -25,7 +25,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
         return YES;
     }];
     
-    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Hidden event"];
+    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@"Hidden event"];
     
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
@@ -35,13 +35,19 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"click");
         XCTAssertEqualObjects(labels[@"event_name"], @"Hidden event");
+        XCTAssertEqualObjects(labels[@"event_type"], @"toggle");
+        XCTAssertEqualObjects(labels[@"event_source"], @"favorite_list");
+        XCTAssertEqualObjects(labels[@"event_value"], @"true");
         XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
         return YES;
     }];
     
     SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
+    labels.type = @"toggle";
+    labels.source = @"favorite_list";
+    labels.value = @"true";
     labels.customInfo = @{ @"custom_label" : @"custom_value" };
-    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Hidden event"
+    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@"Hidden event"
                                                             labels:labels];
     
     [self waitForExpectationsWithTimeout:5. handler:nil];
@@ -55,7 +61,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
     
     [self expectationForElapsedTimeInterval:5. withHandler:nil];
     
-    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@""];
+    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@""];
     
     [self waitForExpectationsWithTimeout:5. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
