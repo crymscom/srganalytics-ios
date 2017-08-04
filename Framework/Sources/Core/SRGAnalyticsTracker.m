@@ -144,14 +144,12 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         static NSDictionary<SRGAnalyticsBusinessUnitIdentifier, NSNumber *> *s_accountIdentifiers = nil;
         static dispatch_once_t s_onceToken;
         dispatch_once(&s_onceToken, ^{
-            // FIXME: Once the pilot phase is over and the official account identifiers are available, use them. For the
-            //        pilot phase, only 3666 is available
-            s_accountIdentifiers = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @3666,        // @3668,
-                                      SRGAnalyticsBusinessUnitIdentifierRTR : @3666,        // @3666,       // Under the SRG umbrella
-                                      SRGAnalyticsBusinessUnitIdentifierRTS : @3666,        // @3669,
-                                      SRGAnalyticsBusinessUnitIdentifierSRF : @3666,        // @3667,
-                                      SRGAnalyticsBusinessUnitIdentifierSRG : @3666,        // @3666,
-                                      SRGAnalyticsBusinessUnitIdentifierSWI : @3666         // @3670
+            s_accountIdentifiers = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @3668,
+                                      SRGAnalyticsBusinessUnitIdentifierRTR : @3666,       // Under the SRG umbrella
+                                      SRGAnalyticsBusinessUnitIdentifierRTS : @3669,
+                                      SRGAnalyticsBusinessUnitIdentifierSRF : @3667,
+                                      SRGAnalyticsBusinessUnitIdentifierSRG : @3666,
+                                      SRGAnalyticsBusinessUnitIdentifierSWI : @3670
                                       };
         });
         self.tagCommander = [[TagCommander alloc] initWithSiteID:s_accountIdentifiers[self.businessUnitIdentifier].intValue andContainerID:(int)self.containerIdentifier];
