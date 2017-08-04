@@ -6,6 +6,7 @@
 
 #import "SRGMediaPlayerController+SRGAnalytics_DataProvider.h"
 
+#import "SRGAnalyticsMediaPlayerLogger.h"
 #import "SRGSubdivision+SRGAnalytics_DataProvider.h"
 
 #import <libextobjc/libextobjc.h>
@@ -69,6 +70,10 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         }
     }];
     SRGResource *resource = [[resources filteredArrayUsingPredicate:predicate] sortedArrayUsingDescriptors:@[sortDescriptor]].firstObject ?: [resources sortedArrayUsingDescriptors:@[sortDescriptor]].firstObject;
+    if (! resource) {
+        SRGAnalyticsMediaPlayerLogError(@"mediaplayer", @"No valid resource could be retrieved");
+        return nil;
+    }
     
     // Use the preferrred start bit rate is set. Currrently only supported by Akamai via a __b__ parameter (the actual
     // bitrate will be rounded to the nearest available quality)
