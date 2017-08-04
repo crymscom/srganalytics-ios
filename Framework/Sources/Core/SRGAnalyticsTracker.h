@@ -20,7 +20,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRG;
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI;
 
-// This special business unit can be used to test measurement information.
+// This special business unit can be used to test measurement information, especially in unit tests.
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST;
 
 /**
@@ -58,17 +58,22 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *     tailored to your needs, especially if the time at which the measurement is made (when the view appears) is 
  *     inappropriate. Please refer to the `SRGAnalyticsViewTracking` documentation for more information. If your
  *     application uses plain views (not view controllers) which must be tracked as well, you can still perform
- *     manual tracking via the `-[SRGAnalyticsTracker trackPageViewTitle:levels:labels:comScoreLabels:fromPushNotification:]` 
+ *     manual tracking via the `-[SRGAnalyticsTracker trackPageViewWithTitle:levels:labels:fromPushNotification:]`
  *     method.
  *  1. When you need to track specific functionalities in your application (e.g. the use of some interface button
  *     or of some feature of your application), send a hidden event using one of the `-trackHiddenEvent...` methods
  *     available from `SRGAnalyticsTracker`.
- *  1. If you need to track media playback, you must add the SRGAnalytics_MediaPlayer subframework to your project
- *     (@see `SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h` for more information). You are still responsible
- *     of providing most metadata associated with playback (e.g. title or duration of what is being played).
+ *  1. If you need to track playback using SRG MediaPlayer, you must add the SRGAnalytics_MediaPlayer subframework 
+ *     to your project (@see `SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h` for more information). You are 
+ *     still responsible of providing most metadata associated with playback (e.g. title or duration of what is 
+ *     being played) when calling one of the playback methods provided in this subframework.
  *  1. If medias you play are retrieved using our data provider library, you must add the SRGAnalytics_DataProvider 
  *     subframework to your project as well (@see `SRGMediaPlayerController+SRGAnalytics_DataProvider.h` for more 
- *     information). In this case, all mandatory stream measurement metadata will be automatically sent.
+ *     information). In this case, all mandatory stream measurement metadata will be automatically provided when
+ *     playing the content through one of the playback methods provided in this subframework.
+ *
+ *  You can also perform manual media player tracking when your player implementation does not rely on SRG MediaPlayer,
+ *  @see `SRGAnalyticsPlayerTracker` for more information.
  */
 @interface SRGAnalyticsTracker : NSObject
 
@@ -82,21 +87,15 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  where they must be sent on the comScore, NetMetrix and TagCommander services. Attempting to track view, hidden 
  *  or stream events without starting the tracker has no effect.
  *
- *  During tests, or if you do not want to pollute real measurements during development, you can use the special
- *  `SRGAnalyticsBusinessUnitIdentifierTEST` business unit. This business unit:
+ *  For unit tests you can use the special `SRGAnalyticsBusinessUnitIdentifierTEST` business unit. This business unit:
  *    - Disables TagCommander (the container identifier is ignored).
  *    - Disables NetMetrix event sending.
- *    - Still sends comScore events to the specified virtual site.
- *    - Adds an `srg_test` label to comScore measurements, specifying the time at which the tracker was started as a 
- *      timestamp (yyyy-MM-dd@HH:mm). This label can be used to identify application sesssions and to gather measurements 
- *      related to a session if needed.
- *
- *  The [JASS proxy](https://github.com/SRGSSR/jass) tool is provided to let you peek at the comScore analytics data sent 
- *  by your application during development or tests.
+ *    - Does not dissable comScore events, though.
+ *    - Emits notifications which your tests can rely on, see `SRGAnalyticsNotifications.h`.
  
  *  @param businessUnitIdentifier The SRG SSR business unit for statistics measurements. Constants for the officially
  *                                supported business units are provided at the top of this file. A constant for use
- *                                during development or tests is supplied as well.
+ *                                in unit tests is supplied as well.
  *  @param containerIdentifier    The TagCommander container identifier.
  *  @param comScoreVirtualSite    Virtual sites are where comScore measurements are collected. The virtual site you must
  *                                use is usually supplied by the team in charge of measurements for your application.
@@ -145,19 +144,19 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 @interface SRGAnalyticsHiddenEventLabels : NSObject
 
 /**
- *  The event type (this concept is loosely defined, please discuss expected values for your application with the
+ *  The event type (this concept is loosely defined, please discuss expected values for your application with your
  *  measurement team).
  */
 @property (nonatomic, copy, nullable) NSString *type;
 
 /**
- *  The event value (this concept is loosely defined, please discuss expected values for your application with the
+ *  The event value (this concept is loosely defined, please discuss expected values for your application with your
  *  measurement team).
  */
 @property (nonatomic, copy, nullable) NSString *value;
 
 /**
- *  The event source (this concept is loosely defined, please discuss expected values for your application with the
+ *  The event source (this concept is loosely defined, please discuss expected values for your application with your
  *  measurement team).
  */
 @property (nonatomic, copy, nullable) NSString *source;
@@ -199,7 +198,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  @discussion If the name is `nil`, no event will be sent.
  */
 - (void)trackHiddenEventWithName:(NSString *)name
-                           labels:(nullable SRGAnalyticsHiddenEventLabels *)labels;
+                          labels:(nullable SRGAnalyticsHiddenEventLabels *)labels;
 
 @end
 
@@ -236,7 +235,6 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *
  *  @param title                The page title. If the title is `nil`, no event will be sent.
  *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy.
- *                              If the page view levels array is `nil` or empty, an 'app' default level will be used.
  *
  *  @discussion This method is primarily available for page view tracking not related to a view controller. If your page view
  *              is related to a view controller, the recommended way of tracking the view controller is by having it conform
@@ -249,8 +247,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  Track a page view.
  *
  *  @param title                The page title. If the title is `nil`, no event will be sent.
- *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy. If the 
- *                              page view levels array is `nil` or empty, an 'app' default level will be used.
+ *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy.
  *  @param labels               Additional custom labels.
  *  @param fromPushNotification `YES` iff the view is opened from a push notification.
  *

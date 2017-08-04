@@ -305,7 +305,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
             NSString *levelKey = [NSString stringWithFormat:@"srg_n%@", @(idx + 1)];
             NSString *levelValue = [object description];
-                        
+            
             if (idx < 10) {
                 [pageViewLabels srg_safelySetString:levelValue forKey:levelKey];
             }
@@ -370,7 +370,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 }
 
 - (void)trackHiddenEventWithName:(NSString *)name
-                           labels:(SRGAnalyticsHiddenEventLabels *)labels
+                          labels:(SRGAnalyticsHiddenEventLabels *)labels
 {
     if (name.length == 0) {
         SRGAnalyticsLogWarning(@"tracker", @"Missing name. No event will be sent");
@@ -410,7 +410,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     if (dictionary) {
         [fullLabels addEntriesFromDictionary:dictionary];
     }
-        
+    
     [self trackTagCommanderEventWithLabels:[fullLabels copy]];
 }
 
