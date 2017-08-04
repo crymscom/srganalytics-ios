@@ -484,11 +484,11 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
             NSArray *sortedInstalledApplications = [installedApplications.allObjects sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
             
             SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
-            labels.type = @"Installed Apps";
             labels.value = [sortedInstalledApplications componentsJoinedByString:@","];
+            labels.comScoreCustomInfo = @{@"srg_evgroup": @"Installed Apps",
+                                          @"srg_evname": labels.value};
             
-            [self trackHiddenEventWithTitle:@"overlap" labels:labels];
-            [self trackHiddenEventWithName:@"overlap" labels:labels];
+            [self trackHiddenEventWithName:@"installed_apps" labels:labels];
         });
     }] resume];
 }
