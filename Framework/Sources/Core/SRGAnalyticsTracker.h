@@ -20,14 +20,13 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRG;
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI;
 
-// This special business unit can be used in test or debug builds of your application if you do not want to pollute
-// actual measurements while in development.
+// This special business unit can be used to test measurement information.
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST;
 
 /**
  *  The analytics tracker is a singleton instance responsible of tracking usage of an application, sending measurements
  *  to TagCommander, comScore and NetMetrix. The usage data is simply a collection of key-values (both strings), named
- *  labels, which can then be used by data analysts.
+ *  labels, which can then be used by data analysts in studies and reports.
  *
  *  The analytics tracker implementation follows the SRG SSRG guidelines for application measurements (mostly label name
  *  conventions) and is therefore only intended for use by applications produced under the SRG SSR umbrella.
@@ -39,17 +38,15 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *    - Hidden events: Custom events which can be used for measuresement of application functionalities.
  *    - Media playback events: Measurements for audio and video consumption.
  *
- *  All kinds of events can be supplied arbitrary information. This information is primarily meant for use by TagCommander
- *  and comScore, since NetMetrix currently only records view events in a fairly basic way.
- *
- *  During a transition phase, both TagCommander and comScore will be used for measurements. As a result, measurement
- *  methods expect TagCommander and comScore labels separately (since the conventions will differ between the services).
- *  At the end of this transition phase, comScore support will be entirely removed.
+ *  For all kinds of measurements, required information must be provided through mandatory parameters, and optional
+ *  labels can be provided through an optional labels object. In all cases, mandatory and optional information is
+ *  correctly routed to the analytics services. Raw dictionaries can also be filled with custom information if needed.
  *
  *  ## Usage
  *
- *  Using SRGAnalytics in your application is intended to be as easy as possible. Note that ince the analytics tracker is
+ *  Using SRGAnalytics in your application is intended to be as easy as possible. Note that since the analytics tracker is
  *  a singleton, you cannot currently perform measurements related to several business units within a single application.
+ *
  *  To track application usage:
  *
  *  1. Start the tracker early in your application lifecycle, for example in your application delegate
