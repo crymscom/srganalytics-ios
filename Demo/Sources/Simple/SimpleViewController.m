@@ -74,7 +74,7 @@
 {
     SRGAnalyticsPageViewLabels *labels = [[SRGAnalyticsPageViewLabels alloc] init];
     labels.customInfo = self.labels;
-    labels.comScoreInfo = self.labels;
+    labels.comScoreCustomInfo = self.labels;
     return labels;
 }
 

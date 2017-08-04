@@ -64,8 +64,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [dictionary srg_safelySetString:self.value forKey:@"srg_evname"];
     [dictionary srg_safelySetString:self.source forKey:@"srg_evsource"];
     
-    if (self.comScoreInfo) {
-        [dictionary addEntriesFromDictionary:self.comScoreInfo];
+    if (self.comScoreCustomInfo) {
+        [dictionary addEntriesFromDictionary:self.comScoreCustomInfo];
     }
     
     return [dictionary copy];
@@ -90,8 +90,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 {
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
-    if (self.comScoreInfo) {
-        [dictionary addEntriesFromDictionary:self.comScoreInfo];
+    if (self.comScoreCustomInfo) {
+        [dictionary addEntriesFromDictionary:self.comScoreCustomInfo];
     }
     
     return [dictionary copy];

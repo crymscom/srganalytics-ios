@@ -30,7 +30,7 @@
 {
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.customInfo = self.analyticsLabels;
-    labels.comScoreInfo = self.comScoreAnalyticsLabels;
+    labels.comScoreCustomInfo = self.comScoreAnalyticsLabels;
     return labels;
 }
 

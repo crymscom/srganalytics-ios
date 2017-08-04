@@ -108,17 +108,17 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         }
         labels.customInfo = [customInfo copy];
         
-        NSMutableDictionary<NSString *, NSString *> *comScoreInfo = [NSMutableDictionary dictionary];
+        NSMutableDictionary<NSString *, NSString *> *comScoreCustomInfo = [NSMutableDictionary dictionary];
         if (mediaComposition.comScoreAnalyticsLabels) {
-            [comScoreInfo addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
+            [comScoreCustomInfo addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
         }
         if (mediaComposition.mainChapter.comScoreAnalyticsLabels) {
-            [comScoreInfo addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
+            [comScoreCustomInfo addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
         }
         if (resource.comScoreAnalyticsLabels) {
-            [comScoreInfo addEntriesFromDictionary:resource.comScoreAnalyticsLabels];
+            [comScoreCustomInfo addEntriesFromDictionary:resource.comScoreAnalyticsLabels];
         }
-        labels.comScoreInfo = [comScoreInfo copy];
+        labels.comScoreCustomInfo = [comScoreCustomInfo copy];
         
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
         completionBlock(URL, index, chapter.segments, labels, nil);

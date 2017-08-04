@@ -55,8 +55,8 @@
     [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"ns_st_br"];
     [dictionary srg_safelySetString:self.volumeInPercent.stringValue ?: @"0" forKey:@"ns_st_vo"];
     
-    if (self.comScoreInfo) {
-        [dictionary addEntriesFromDictionary:self.comScoreInfo];
+    if (self.comScoreCustomInfo) {
+        [dictionary addEntriesFromDictionary:self.comScoreCustomInfo];
     }
     
     return [dictionary copy];
@@ -68,8 +68,8 @@
     
     [dictionary srg_safelySetString:self.timeshiftInMilliseconds.stringValue forKey:@"srg_timeshift"];
     
-    if (self.comScoreSegmentInfo) {
-        [dictionary addEntriesFromDictionary:self.comScoreSegmentInfo];
+    if (self.comScoreCustomSegmentInfo) {
+        [dictionary addEntriesFromDictionary:self.comScoreCustomSegmentInfo];
     }
     
     return [dictionary copy];
@@ -108,17 +108,17 @@
     }
     self.customInfo = (customInfo.count != 0) ? [customInfo copy] : nil;
     
-    NSMutableDictionary *comScoreInfo = [self.comScoreInfo mutableCopy] ?: [NSMutableDictionary dictionary];
-    if (labels.comScoreInfo) {
-        [comScoreInfo addEntriesFromDictionary:labels.comScoreInfo];
+    NSMutableDictionary *comScoreCustomInfo = [self.comScoreCustomInfo mutableCopy] ?: [NSMutableDictionary dictionary];
+    if (labels.comScoreCustomInfo) {
+        [comScoreCustomInfo addEntriesFromDictionary:labels.comScoreCustomInfo];
     }
-    self.comScoreInfo = (comScoreInfo.count != 0) ? [comScoreInfo copy] : nil;
+    self.comScoreCustomInfo = (comScoreCustomInfo.count != 0) ? [comScoreCustomInfo copy] : nil;
     
-    NSMutableDictionary *comScoreSegmentInfo = [self.comScoreSegmentInfo mutableCopy] ?: [NSMutableDictionary dictionary];
-    if (labels.comScoreSegmentInfo) {
-        [comScoreSegmentInfo addEntriesFromDictionary:labels.comScoreSegmentInfo];
+    NSMutableDictionary *comScoreCustomSegmentInfo = [self.comScoreCustomSegmentInfo mutableCopy] ?: [NSMutableDictionary dictionary];
+    if (labels.comScoreCustomSegmentInfo) {
+        [comScoreCustomSegmentInfo addEntriesFromDictionary:labels.comScoreCustomSegmentInfo];
     }
-    self.comScoreSegmentInfo = (comScoreSegmentInfo.count != 0) ? [comScoreSegmentInfo copy] : nil;
+    self.comScoreCustomSegmentInfo = (comScoreCustomSegmentInfo.count != 0) ? [comScoreCustomSegmentInfo copy] : nil;
 }
 
 #pragma mark NSCopying protocol
@@ -133,8 +133,8 @@
     labels.bandwidthInBitsPerSecond = self.bandwidthInBitsPerSecond;
     labels.volumeInPercent = self.volumeInPercent;
     labels.customInfo = self.customInfo;
-    labels.comScoreInfo = self.comScoreInfo;
-    labels.comScoreSegmentInfo = self.comScoreSegmentInfo;
+    labels.comScoreCustomInfo = self.comScoreCustomInfo;
+    labels.comScoreCustomSegmentInfo = self.comScoreCustomSegmentInfo;
     return labels;
 }
 

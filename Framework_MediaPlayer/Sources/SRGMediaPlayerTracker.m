@@ -240,17 +240,17 @@ static NSMutableDictionary *s_trackers = nil;
     playerLabels.volumeInPercent = [self volumeInPercent];
     
     // comScore-only labels
-    NSMutableDictionary<NSString *, NSString *> *comScoreInfo = [NSMutableDictionary dictionary];
-    [comScoreInfo srg_safelySetString:[self windowState] forKey:@"ns_st_ws"];
-    [comScoreInfo srg_safelySetString:[self scalingMode] forKey:@"ns_st_sg"];
-    [comScoreInfo srg_safelySetString:[self orientation] forKey:@"ns_ap_ot"];
-    playerLabels.comScoreInfo = [comScoreInfo copy];
+    NSMutableDictionary<NSString *, NSString *> *comScoreCustomInfo = [NSMutableDictionary dictionary];
+    [comScoreCustomInfo srg_safelySetString:[self windowState] forKey:@"ns_st_ws"];
+    [comScoreCustomInfo srg_safelySetString:[self scalingMode] forKey:@"ns_st_sg"];
+    [comScoreCustomInfo srg_safelySetString:[self orientation] forKey:@"ns_ap_ot"];
+    playerLabels.comScoreCustomInfo = [comScoreCustomInfo copy];
     
     // comScore-only clip labels
-    NSMutableDictionary<NSString *, NSString *> *comScoreSegmentInfo = [NSMutableDictionary dictionary];
-    [comScoreSegmentInfo srg_safelySetString:[self dimensions] forKey:@"ns_st_cs"];
-    [comScoreSegmentInfo srg_safelySetString:[self screenType] forKey:@"srg_screen_type"];
-    playerLabels.comScoreSegmentInfo = [comScoreSegmentInfo copy];
+    NSMutableDictionary<NSString *, NSString *> *comScoreCustomSegmentInfo = [NSMutableDictionary dictionary];
+    [comScoreCustomSegmentInfo srg_safelySetString:[self dimensions] forKey:@"ns_st_cs"];
+    [comScoreCustomSegmentInfo srg_safelySetString:[self screenType] forKey:@"srg_screen_type"];
+    playerLabels.comScoreCustomSegmentInfo = [comScoreCustomSegmentInfo copy];
     
     SRGAnalyticsPlayerLabels *fullLabels = labels ? [labels copy] : [[SRGAnalyticsPlayerLabels alloc] init];
     [fullLabels mergeWithLabels:playerLabels];

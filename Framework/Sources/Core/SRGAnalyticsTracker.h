@@ -178,7 +178,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  Additional custom information to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
  *  for a full list of possible variable names.
  */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreInfo;
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreCustomInfo;
 
 @end
 
@@ -228,7 +228,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  Additional custom information to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
  *  for a full list of possible variable names.
  */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreInfo;
+@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreCustomInfo;
 
 @end
 
