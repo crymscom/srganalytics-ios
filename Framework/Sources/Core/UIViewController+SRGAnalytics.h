@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  automatically be sent when it is presented (when `-viewWillAppear:` is called), or when the application 
  *  returns from background while the view controller is visible.
  *
- *  If you want to control when page view events are sent, however, you can implement the optional `srg_trackedAutomatically`
- *  property to return `NO`, disabling the mechanism described above. In this case you are responsible of calling the
+ *  If you want to control when page view events are sent, however, you can implement the optional `srg_isTrackedAutomatically`
+ *  method to return `NO`, disabling the mechanism described above. In this case you are responsible of calling the
  *  `-[UIViewController trackPageView]` method appropriately when you want the measurement event to be recorded. This 
  *  approach is useful when the labels are not available at the time `-viewDidAppear:` is called, e.g. if they are 
  *  retrieved from a web service request started when the view controller gets displayed.

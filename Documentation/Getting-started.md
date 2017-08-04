@@ -27,11 +27,7 @@ Before measurements can be collected, the tracker singleton responsible of all a
 
 The various setup parameters must be obtained by the team responsible of measurements for your application and are all mandatory. Once the tracker has been started, you can perform measurements.
 
-For tests or during development, you can use the special `SRGAnalyticsBusinessUnitIdentifierTEST` to avoid polluting real application measurements.
-
-## comScore to TagCommander transition
-
-For some transition period, measurement information must be sent both to the comScore (which will be discontinued end of 2017) service and to TagCommander. Tracker setup, as well as measurement methods, reflect this requirement by always providing separate ways to forward separate label lists to both services, as the list of measurement values might be different. Once comScore has been discontinued, a new version of the SRG Analytics library will be delivered, which will remove duplicate measurements and offer a simpler interface.
+For unit tests, you can use the special `SRGAnalyticsBusinessUnitIdentifierTEST` to emit notifications which can be used to check when analytics information is sent, and whether it is correct.
 
 ## Measurement information
 
@@ -43,7 +39,7 @@ Be careful when using custom labels, though, and ensure your custom keys do not 
 
 View controllers represent the units of screen interaction in an application, this is why page view measurements are primarily made on view controllers. All methods and protocols for view controller tracking have been gathered in the `UIViewController+SRGAnalytics.h` file.
 
-View controller measurement is an opt-in, in other words no view controller is tracked by default. For a view controller to be tracked, you need to have it conform to the `SRGAnalyticsViewTracking` protocol. This protocol requires a single method to be implemented, returning the view controller name to be used for measurements. By default, once a view controller implements the `SRGAnalyticsViewTracking` protocol, it automatically generates a page view when it appears on screen, or when the application wakes up from background with the view controller displayed.
+View controller measurement is an opt-in, in other words no view controller is tracked by default. For a view controller to be tracked, you the recommended approach is to have it conform to the `SRGAnalyticsViewTracking` protocol. This protocol requires a single method to be implemented, returning the view controller name to be used for measurements. By default, once a view controller implements the `SRGAnalyticsViewTracking` protocol, it automatically generates a page view when it appears on screen, or when the application wakes up from background with the view controller displayed.
 
 The `SRGAnalyticsViewTracking` protocol supplies optional methods to specify other custom measurement information (labels). If the required information is not available when the view controller appears, you can disable automatic tracking by implementing the optional `-srg_isTrackedAutomatically` protocol method, returning `NO`. You are then responsible of calling `-trackPageView` on the view controller when the data required by the page view is available.
 
@@ -51,7 +47,7 @@ If a view can be opened from a push notification, you must implement the `-srg_o
 
 #### Remark
 
-If your application needs to track views instead of view controllers, you can still perform tracking using the `-[SRGAnalyticsTracker trackPageViewTitle:levels:labels:comScoreLabels:fromPushNotification:]` method.
+If your application needs to track views instead of view controllers, you can still perform tracking using the `-[SRGAnalyticsTracker trackPageViewWithTitle:levels:labels:fromPushNotification:]` method.
 
 ### Example
 
@@ -74,15 +70,13 @@ and implement the methods you need to supply measurement information:
     return @"home";
 }
 
-- (NSDictionary<NSString *, NSString *> *)srg_pageViewLabels
+- (SRGAnalyticsPageViewLabels *)srg_pageViewLabels
 {
-    return @{ @"MYAPP_CATEGORY" : @"general",
-              @"MYAPP_TIME" : @"1499319314" };
-}
-
-- (NSDictionary<NSString *, NSString *> *)srg_pageViewComScoreLabels
-{
-    return @{ @"myapp_category" : @"gen" };
+    SRGAnalyticsPageViewLabels *labels = [[SRGAnalyticsPageViewLabels alloc] init];
+    labels.customInfo = @{ @"MYAPP_CATEGORY" : @"general",
+                           @"MYAPP_TIME" : @"1499319314" };
+    labels.comScoreCustomInfo = @{ @"myapp_category" : @"gen" };
+    return labels;
 }
 
 @end
@@ -90,19 +84,17 @@ and implement the methods you need to supply measurement information:
 
 When the view is opened or if the view is visible on screen when waking up the application, this information will be automatically sent.
 
-Note that the labels might differ depending on the service they are sent to. Be sure to apply the conventions required for measurements of your application.
+Note that the labels might differ depending on the service they are sent to. Be sure to apply the conventions required for measurements of your application. Moreover, custom information requires the corresponding variables to be defined for TagCommander first (unlike comScore information which can be freely defined).
 
 ## Measuring application functionalities
 
 To measure any kind of application functionality, you can use hidden events. Those can be emitted by calling the corresponding methods on the tracker singleton itself. For example, you could send the following event when the user taps on a video full-screen button within your application:
 
 ```objective-c
-[[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"full-screen"
-                                                        labels:@{ @"MYAPP_ENABLED" : @"true" }
-                                                comScoreLabels:@{ @"myapp_enabled" : @"1" }];
+[[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@"full-screen"];
 ```
 
-Custom labels can be used to send any additional measurement information you could need, and which might be different for TagCommander and comScore.
+Custom labels can also be used to send any additional measurement information you could need, and which might be different for TagCommander and comScore.
 
 ## Measuring SRG MediaPlayer media consumption
 
@@ -134,14 +126,12 @@ You could have a segment return the following information:
 
 @implementation Segment
 
-- (NSDictionary<NSString *, NSString *> *)srg_analyticsLabels
+- (SRGAnalyticsPlayerLabels *)srg_analyticsLabels
 {
-    return @{ @"MYAPP_MEDIA_ID" : self.name };
-}
-
-- (NSDictionary<NSString *, NSString *> *)srg_comScoreAnalyticsLabels
-{
-    return @{ @"myapp_media_id" : self.name };
+    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    labels.customInfo = @{ @"MYAPP_MEDIA_ID" : self.name };
+    labels.comScoreCustomInfo = @{ @"myapp_media_id" : self.name };
+    return labels;
 }
 
 // ...
@@ -156,12 +146,16 @@ and play some content, associating measurement labels with it:
 Segment *segment = [[Segment alloc] initWithName:@"Subject" timeRange:...];
 NSURL *URL = ...;
 
+SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+labels.customInfo = @{ @"MYAPP_MEDIA_ID" : @"My media". @"MYAPP_PRODUCER" : @"RTS" };
+labels.comScoreCustomInfo = @{ @"myapp_media_id" : self.name };
+
 SRGMediaPlayerController *mediaPlayerController = [[SRGMediaPlayerController alloc] init];
 [mediaPlayerController playURL:URL 
                         atTime:kCMTimeZero 
                   withSegments:@[segment] 
-               analyticsLabels:@{ @"MYAPP_MEDIA_ID" : @"My media". @"MYAPP_PRODUCER" : @"RTS" }
-       comScoreAnalyticsLabels:@{ @"myapp_media_id" : @"My media". @"myapp_producer" : @"RTS" } userInfo:nil];
+               analyticsLabels:labels
+                      userInfo:nil];
 ```
 
 When playing the content, tracking information sent to TagCommander will contain:
@@ -198,19 +192,19 @@ Nothing more is required for correct media consumption measurements. During play
 
 ## Measurements of other media players
 
-If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must perform media streaming measurements manually. The `SRGAnalyticsTracker` singleton provides a method which can be called when the state of your player changes, e.g. when starting to play content directly 6 seconds from its beginning:
+If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must perform media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsPlayerTracker` object and retain it somewhere during playback. When an event must be recorded, call the tracking method available from its public interface, specifying which kind of event must be generated and, optionally, additional labels. 
+
+For example, you can emit a play event 6 seconds after playback started by calling:
 
 ```objective-c
 [[SRGAnalyticsTracker sharedTracker] trackPlayerEvent:SRGAnalyticsPlayerEventPlay
                                            atPosition:6000
-                                           withLabels:@{ @"MYAPP_MEDIA_ID" : @"764329" }
-                                       comScoreLabels:@{ @"myapp_media_id" : @"764329" }
-                                comScoreSegmentLabels:nil];
+                                           withLabels:nil];
 ```
 
-In such cases, you are entirely responsible of following SRG SSR guidelines for playback measurements. For example, you need to supply correct segment labels if the user has chosen to play a specific part of your media (none in the example above). 
+When using this lower-level API, though, you are entirely responsible of following SRG SSR guidelines for playback measurements. For example, you need to supply correct segment labels if the user has chosen to play a specific part of your media (none in the example above). Read [our internal documentation](https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/195595938/Implementation+Concept+-+draft) for more information.
 
-Correctly conforming to all SRG SSR guidelines is not a trivial task. Contact us if you need help or more information.
+Correctly conforming to all SRG SSR guidelines is not a trivial task, though. Please contact us if you need help.
 
 ## Thread-safety
 

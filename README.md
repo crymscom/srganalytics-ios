@@ -6,7 +6,9 @@
 
 The SRG Analytics library for iOS makes it easy to add usage tracking information to your applications, following the SRG SSR standards.
 
-Measurements are based on events emitted by the application and collected by TagCommander, comScore and NetMetrix. comScore will be soon discontinued and replaced with TagCommander. During a transition period, both solutions will coexist to ensure that measurements, currently performed entirely with comScore, will remain consistent after migration to the TagCommander service.
+Measurements are based on events emitted by the application and collected by TagCommander, comScore and NetMetrix. 
+
+comScore will be soon discontinued and replaced with TagCommander, though. During a transition period, both solutions will coexist to ensure that measurements, currently performed entirely with comScore, will remain consistent after migration to the TagCommander service.
 
 The SRG Analytics library supports three kinds of measurements:
 
