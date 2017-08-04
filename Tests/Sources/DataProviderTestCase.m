@@ -61,6 +61,7 @@ static NSURL *ServiceTestURL(void)
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_segment"], @"Archive footage of the man and his moods");
         XCTAssertEqualObjects(labels[@"media_streaming_quality"], @"HD");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:swi:video:42297626");
         return YES;
     }];
     
@@ -96,6 +97,7 @@ static NSURL *ServiceTestURL(void)
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_segment"], @"«26 minutes» – web first: Welsche Satire auf Hochdeutsch!");
         XCTAssertEqualObjects(labels[@"media_streaming_quality"], @"HD");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:99ac4dd4-8cd4-4883-8c80-0373d37cf0ad");
         return YES;
     }];
     
