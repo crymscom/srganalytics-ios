@@ -242,9 +242,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)trackTagCommanderEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
-    SRGAnalyticsLogDebug(@"tracker", @"Event sent with labels: %@", labels);
-    
-    // TagCommander is not initialized in test mode
+    // TagCommander might not initialized (for the test business unit)
     if (self.tagCommander) {
         [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
             [self.tagCommander addData:key withValue:object];
@@ -486,8 +484,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
             
             SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
             labels.value = [sortedInstalledApplications componentsJoinedByString:@","];
-            labels.comScoreCustomInfo = @{@"srg_evgroup": @"Installed Apps",
-                                          @"srg_evname": labels.value};
+            labels.comScoreCustomInfo = @{ @"srg_evgroup": @"Installed Apps",
+                                           @"srg_evname": labels.value };
             
             [self trackHiddenEventWithName:@"installed_apps" labels:labels];
         });
