@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
      */
     SRGAnalyticsPlayerEventSeek,
     /**
-     *  The player was stopped.
+     *  The player was stopped (interrupting playback).
      */
     SRGAnalyticsPlayerEventStop,
     /**
@@ -37,11 +37,11 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
      */
     SRGAnalyticsPlayerEventEnd,
     /**
-     *  Heartbeat (VOD).
+     *  Normal heartbeat.
      */
     SRGAnalyticsPlayerEventHeartbeat,
     /**
-     *  Live hearbeat (send when live only).
+     *  Live hearbeat (to be sent when playing in live conditions only).
      */
     SRGAnalyticsPlayerEventLiveHeartbeat
 };
@@ -62,13 +62,13 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @property (nonatomic, copy, nullable) NSString *playerVersion;
 
 /**
- *  Set to @YES iff subtitles are enabled at the time the measurement is made.
+ *  Set to `@YES` iff subtitles are enabled at the time the measurement is made.
  */
 @property (nonatomic, nullable) NSNumber *subtitlesEnabled;             // BOOL
 
 /**
- *  Set to the current positive shift from live conditions, in milliseconds. Must be 0 for live streams without timeshift support, 
- *  and `nil` for on-demand streams.
+ *  Set to the current positive shift from live conditions, in milliseconds. Must be 0 for live streams without timeshift 
+ *  support, and `nil` for on-demand streams.
  */
 @property (nonatomic, nullable) NSNumber *timeshiftInMilliseconds;      // Long
 
