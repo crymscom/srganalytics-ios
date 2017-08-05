@@ -52,6 +52,11 @@
     return s_accountIdentifiers[businessUnitIdentifier].integerValue;
 }
 
+- (NSTimeInterval)heartbeatInterval
+{
+    return self.unitTesting ? 3. : 30.;
+}
+
 #pragma mark NSCopying protocol
 
 - (id)copyWithZone:(NSZone *)zone

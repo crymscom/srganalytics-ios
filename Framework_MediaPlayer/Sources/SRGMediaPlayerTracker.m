@@ -146,7 +146,7 @@ static NSMutableDictionary *s_trackers = nil;
     [self.mediaPlayerController addObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked) options:0 block:^(MAKVONotification *notification) {
         @strongify(self)
         
-        // Balance comScore events if the player is playing, so that all events can be properly emitted
+        // Balance events if the player is already playing, so that all events can be properly emitted afterwards
         if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
             SRGAnalyticsPlayerEvent event = self.mediaPlayerController.tracked ? SRGAnalyticsPlayerEventPlay : SRGAnalyticsPlayerEventStop;
             [self trackEvent:event withSegment:self.mediaPlayerController.selectedSegment];
@@ -194,8 +194,11 @@ static NSMutableDictionary *s_trackers = nil;
 {
     if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying && ! self.heartbeatTimer) {
         SRGAnalyticsConfiguration *configuration = [SRGAnalyticsTracker sharedTracker].configuration;
-        NSTimeInterval timeInterval = configuration.unitTesting ? 3. : 30.;
-        self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(heartbeat:) userInfo:nil repeats:YES];
+        self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:configuration.heartbeatInterval
+                                                               target:self
+                                                             selector:@selector(heartbeat:)
+                                                             userInfo:nil
+                                                              repeats:YES];
     }
     else {
         self.heartbeatTimer = nil;
@@ -387,8 +390,6 @@ static NSMutableDictionary *s_trackers = nil;
 
 + (void)playbackStateDidChange:(NSNotification *)notification
 {
-    // Avoid calling comScore methods when the tracker is not started (which usually leads to crashes because the virtual
-    // site has not been set)
     if (! [SRGAnalyticsTracker sharedTracker].configuration) {
         return;
     }
