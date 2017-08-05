@@ -45,9 +45,9 @@ __attribute__((constructor)) static void CSMeasurementDispatcherInit(void)
     // Call the original implementation
     [self swizzled_send:eventType labels:labels cache:cache background:background];
 
-    // Do not do anything when not running in test mode
-    SRGAnalyticsTracker *tracker = [SRGAnalyticsTracker sharedTracker];
-    if (! [tracker.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
+    // Do not do anything when not running for unit testing purposes.
+    SRGAnalyticsConfiguration *configuration = [SRGAnalyticsTracker sharedTracker].configuration;
+    if (! configuration.unitTesting) {
         return;
     }
     
@@ -64,7 +64,7 @@ __attribute__((constructor)) static void CSMeasurementDispatcherInit(void)
         fullLabels[name] = value;
     }
     
-    NSDictionary *userInfo = @{ SRGAnalyticsComScoreLabelsKey: [fullLabels copy] };
+    NSDictionary *userInfo = @{ SRGAnalyticsComScoreLabelsKey : [fullLabels copy] };
     
     void (^notificationBlock)(void) = ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestNotification object:self userInfo:userInfo];

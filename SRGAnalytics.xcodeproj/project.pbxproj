@@ -39,6 +39,8 @@
 		6FABE2F01D9C0268001C4E9A /* SRGMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */; };
 		6FABE2FD1D9C175E001C4E9A /* SRGSubdivision+SRGAnalytics_DataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FABE2FB1D9C175E001C4E9A /* SRGSubdivision+SRGAnalytics_DataProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6FABE2FE1D9C175E001C4E9A /* SRGSubdivision+SRGAnalytics_DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FABE2FC1D9C175E001C4E9A /* SRGSubdivision+SRGAnalytics_DataProvider.m */; };
+		6FAE25F21F34D87600874A53 /* SRGAnalyticsConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FAE25F01F34D87600874A53 /* SRGAnalyticsConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6FAE25F31F34D87600874A53 /* SRGAnalyticsConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FAE25F11F34D87600874A53 /* SRGAnalyticsConfiguration.m */; };
 		6FAF430B1EF7F5090074E033 /* NSString_AnalyticsTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FAF430A1EF7F5090074E033 /* NSString_AnalyticsTestCase.m */; };
 		6FB331ED1D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB331E61D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework */; };
 		6FB331EE1D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB331E61D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -248,6 +250,8 @@
 		6FA09D921D9EC66D00EDCA64 /* SRGAnalyticsDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsDataProvider.h; sourceTree = "<group>"; };
 		6FABE2FB1D9C175E001C4E9A /* SRGSubdivision+SRGAnalytics_DataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGSubdivision+SRGAnalytics_DataProvider.h"; sourceTree = "<group>"; };
 		6FABE2FC1D9C175E001C4E9A /* SRGSubdivision+SRGAnalytics_DataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGSubdivision+SRGAnalytics_DataProvider.m"; sourceTree = "<group>"; };
+		6FAE25F01F34D87600874A53 /* SRGAnalyticsConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsConfiguration.h; sourceTree = "<group>"; };
+		6FAE25F11F34D87600874A53 /* SRGAnalyticsConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsConfiguration.m; sourceTree = "<group>"; };
 		6FAF430A1EF7F5090074E033 /* NSString_AnalyticsTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSString_AnalyticsTestCase.m; path = Tests/Sources/NSString_AnalyticsTestCase.m; sourceTree = SOURCE_ROOT; };
 		6FB331E61D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics_DataProvider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FB331F51D9BFB77001469F2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -531,13 +535,15 @@
 		E61388891D916A9900218919 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				6FAE25F01F34D87600874A53 /* SRGAnalyticsConfiguration.h */,
+				6FAE25F11F34D87600874A53 /* SRGAnalyticsConfiguration.m */,
 				E613888A1D916A9900218919 /* SRGAnalyticsLogger.h */,
-				6FD86FF81F2B2A7F001ED20F /* SRGAnalyticsPlayerTracker.h */,
-				6FD86FF91F2B2A7F001ED20F /* SRGAnalyticsPlayerTracker.m */,
 				E613888C1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h */,
 				E613888D1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m */,
 				E61388B91D91903B00218919 /* SRGAnalyticsNotifications.h */,
 				E61388BA1D91903B00218919 /* SRGAnalyticsNotifications.m */,
+				6FD86FF81F2B2A7F001ED20F /* SRGAnalyticsPlayerTracker.h */,
+				6FD86FF91F2B2A7F001ED20F /* SRGAnalyticsPlayerTracker.m */,
 				E61388911D916A9900218919 /* SRGAnalyticsTracker.h */,
 				E61388921D916A9900218919 /* SRGAnalyticsTracker.m */,
 				6FD86FFD1F2B2CA9001ED20F /* SRGAnalyticsTracker+Private.h */,
@@ -725,6 +731,7 @@
 				E613889E1D916A9900218919 /* SRGAnalyticsLogger.h in Headers */,
 				E61388A91D916A9900218919 /* CSMeasurementDispatcher+SRGAnalytics.h in Headers */,
 				E61388AB1D916A9900218919 /* NSBundle+SRGAnalytics.h in Headers */,
+				6FAE25F21F34D87600874A53 /* SRGAnalyticsConfiguration.h in Headers */,
 				E61388A51D916A9900218919 /* SRGAnalyticsTracker.h in Headers */,
 				E61388BB1D91903B00218919 /* SRGAnalyticsNotifications.h in Headers */,
 				E61388AF1D916A9900218919 /* NSString+SRGAnalytics.h in Headers */,
@@ -1010,6 +1017,7 @@
 				E61388AC1D916A9900218919 /* NSBundle+SRGAnalytics.m in Sources */,
 				E61388AE1D916A9900218919 /* NSMutableDictionary+SRGAnalytics.m in Sources */,
 				E61388AA1D916A9900218919 /* CSMeasurementDispatcher+SRGAnalytics.m in Sources */,
+				6FAE25F31F34D87600874A53 /* SRGAnalyticsConfiguration.m in Sources */,
 				E61388B01D916A9900218919 /* NSString+SRGAnalytics.m in Sources */,
 				E61388BC1D91903B00218919 /* SRGAnalyticsNotifications.m in Sources */,
 				E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */,

@@ -14,8 +14,7 @@
 
 @interface SRGAnalyticsNetMetrixTracker ()
 
-@property (nonatomic, copy) NSString *identifier;
-@property (nonatomic, copy) NSString *businessUnitIdentifier;
+@property (nonatomic, copy) SRGAnalyticsConfiguration *configuration;
 
 @end
 
@@ -23,11 +22,10 @@
 
 #pragma mark Object lifecycle
 
-- (instancetype)initWithIdentifier:(NSString *)identifier businessUnitIdentifier:(NSString *)businessUnitIdentifier
+- (instancetype)initWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
     if (self = [super init]) {
-        self.identifier = identifier;
-        self.businessUnitIdentifier = businessUnitIdentifier;
+        self.configuration = configuration;
     }
     return self;
 }
@@ -46,25 +44,20 @@
                        SRGAnalyticsBusinessUnitIdentifierSRF : @"sftv-ssl",
                        SRGAnalyticsBusinessUnitIdentifierSWI : @"sinf-ssl" };
     });
-    return s_domains[self.businessUnitIdentifier] ?: self.businessUnitIdentifier;
+    NSString *domain = s_domains[self.configuration.businessUnitIdentifier];
+    NSAssert(domain, @"The NetMetrix domain must be defined for the specified business unit");
+    return domain;
 }
 
 #pragma mark View tracking
 
 - (void)trackView
 {
-    NSString *netMetrixURLString = [NSString stringWithFormat:@"https://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netMetrixDomain, self.identifier, self.device];
+    SRGAnalyticsConfiguration *configuration = self.configuration;
+    NSString *netMetrixURLString = [NSString stringWithFormat:@"https://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netMetrixDomain, configuration.netMetrixIdentifier, self.device];
     NSURL *netMetrixURL = [NSURL URLWithString:netMetrixURLString];
     
-    if ([self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
-        // Send the notification when the request is made (as is done with comScore). Notifications are intended to test
-        // whether events are properly sent, not whether they are properly received
-        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsNetmetrixRequestNotification
-                                                            object:nil
-                                                          userInfo:@{ SRGAnalyticsNetmetrixURLKey : netMetrixURL }];
-    }
-    
-    if (! [self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
+    if (! configuration.unitTesting) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:netMetrixURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.];
         [request setHTTPMethod:@"GET"];
         [request setValue:@"image/gif" forHTTPHeaderField:@"Accept"];
@@ -80,7 +73,11 @@
         }] resume];
     }
     else {
-        SRGAnalyticsLogDebug(@"NetMetrix", @"Requests are disabled for the test business unit");
+        // Send the notification when the request is made (as is done with comScore). Notifications are intended to test
+        // whether events are properly sent, not whether they are properly received
+        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsNetmetrixRequestNotification
+                                                            object:nil
+                                                          userInfo:@{ SRGAnalyticsNetmetrixURLKey : netMetrixURL }];
     }
 }
 

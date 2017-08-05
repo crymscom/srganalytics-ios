@@ -65,7 +65,7 @@ static NSDictionary *s_startLabels = nil;
     [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"navigation_property_type"], @"app");
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
-        XCTAssertEqualObjects(labels[@"navigation_bu_distributer"], @"TEST");
+        XCTAssertEqualObjects(labels[@"navigation_bu_distributer"], @"RTS");
         XCTAssertEqualObjects(labels[@"content_title"], @"Automatic tracking");
         return YES;
     }];

@@ -192,8 +192,9 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)updateHearbeatTimer
 {
-    if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying && !self.heartbeatTimer) {
-        NSTimeInterval timeInterval = ([[SRGAnalyticsTracker sharedTracker].businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) ? 3. : 30.;
+    if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying && ! self.heartbeatTimer) {
+        SRGAnalyticsConfiguration *configuration = [SRGAnalyticsTracker sharedTracker].configuration;
+        NSTimeInterval timeInterval = configuration.unitTesting ? 3. : 30.;
         self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(heartbeat:) userInfo:nil repeats:YES];
     }
     else {
@@ -388,7 +389,7 @@ static NSMutableDictionary *s_trackers = nil;
 {
     // Avoid calling comScore methods when the tracker is not started (which usually leads to crashes because the virtual
     // site has not been set)
-    if (! [SRGAnalyticsTracker sharedTracker].started) {
+    if (! [SRGAnalyticsTracker sharedTracker].configuration) {
         return;
     }
     

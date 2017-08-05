@@ -9,25 +9,28 @@ The SRG Analytics library is made of several frameworks:
 
 ## Starting the tracker
 
-Before measurements can be collected, the tracker singleton responsible of all analytics data gathering must be started. You should start the tracker as soon as possible, usually in your application delegate `-application:didFinishLaunchingWithOptions:` method implementation. For example:
+Before measurements can be collected, the tracker singleton responsible of all analytics data gathering must be started. You should start the tracker as soon as possible, usually in your application delegate `-application:didFinishLaunchingWithOptions:` method implementation. Startup requires a single configuration parameter to be provided:
 
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // ...
-
-    [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierSRF
-                                                     containerIdentifier:3
-                                                     comScoreVirtualSite:@"srg-vsite"
-                                                     netMetrixIdentifier:@"srf-app-identifier"];
+    
+    SRGAnalyticsConfiguration *configuration = [[SRGAnalyticsConfiguration alloc] initWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierSRF
+                                                                                                       container:3
+                                                                                             comScoreVirtualSite:@"srf-vsite"
+                                                                                             netMetrixIdentifier:@"srf-app-identifier"];
+    [[SRGAnalyticsTracker sharedTracker] startWithConfiguration:configuration];
                                                      
     // ...
 }
 ```
 
-The various setup parameters must be obtained by the team responsible of measurements for your application and are all mandatory. Once the tracker has been started, you can perform measurements.
+The various setup parameters to use must be obtained by the team responsible of measurements for your application. You must set the configuration `centralized` boolean to `YES` if measurements for your application are analyzed by the SRG SSR General direction. 
 
-For unit tests, you can use the special `SRGAnalyticsBusinessUnitIdentifierTEST` to emit notifications which can be used to check when analytics information is sent, and whether it is correct.
+For unit tests, you can also set the `unitTesting` flag to emit notifications which can be used to check when analytics information is sent, and whether it is correct.
+
+Once the tracker has been started, you can perform measurements.
 
 ## Measurement information
 

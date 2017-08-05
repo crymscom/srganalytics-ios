@@ -4,24 +4,11 @@
 //  License information is available from the LICENSE file.
 //
 
+#import "SRGAnalyticsConfiguration.h"
+
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-/**
- *  @name Supported business units
- */
-typedef NSString * SRGAnalyticsBusinessUnitIdentifier NS_STRING_ENUM;
-
-OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRSI;
-OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTR;
-OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTS;
-OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRF;
-OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRG;
-OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI;
-
-// This special business unit can be used to test measurement information, especially in unit tests.
-OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST;
 
 /**
  *  The analytics tracker is a singleton instance responsible of tracking usage of an application, sending measurements
@@ -50,9 +37,8 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  To track application usage:
  *
  *  1. Start the tracker early in your application lifecycle, for example in your application delegate
- *     `-application:didFinishLaunchingWithOptions:` implementation, by calling the
- *     `-startWithBusinessUnitIdentifier:containerIdentifier:comScoreVirtualSite:netMetrixIdentifier:`
- *     method.
+ *     `-application:didFinishLaunchingWithOptions:` implementation, by calling the `-startWithConfiguration:` method. 
+ *     This method expect a single configuration object containing all analytics setup information.
  *  1. To track page views related to view controllers, have them conform to the `SRGAnalyticsViewTracking` protocol.
  *     View controllers conforming to this protocol are automatically tracked by default, but this behavior can be
  *     tailored to your needs, especially if the time at which the measurement is made (when the view appears) is 
@@ -87,50 +73,14 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  where they must be sent on the comScore, NetMetrix and TagCommander services. Attempting to track view, hidden 
  *  or stream events without starting the tracker has no effect.
  *
- *  For unit tests you can use the special `SRGAnalyticsBusinessUnitIdentifierTEST` business unit. This business unit:
- *    - Disables TagCommander service calls, and reduces the heartbeat interval to 3 seconds.
- *    - Disables NetMetrix service calls.
- *    - Does not dissable comScore service calls, though.
- *    - Emits notifications which your tests can rely on, see `SRGAnalyticsNotifications.h`.
- 
- *  @param businessUnitIdentifier The SRG SSR business unit for statistics measurements. Constants for the officially
- *                                supported business units are provided at the top of this file. A constant for use
- *                                in unit tests is supplied as well.
- *  @param containerIdentifier    The TagCommander container identifier.
- *  @param comScoreVirtualSite    Virtual sites are where comScore measurements are collected. The virtual site you must
- *                                use is usually supplied by the team in charge of measurements for your application.
- *  @param netMetrixIdentifier    The identifier used to group NetMetrix measurements for your application. This value
- *                                is supplied by the team in charge of measurements for your applicatiom.
+ *  @param configuration The configuration to use. This configuration is copied and cannot be changed afterwards.
  */
-- (void)startWithBusinessUnitIdentifier:(SRGAnalyticsBusinessUnitIdentifier)businessUnitIdentifier
-                    containerIdentifier:(NSInteger)containerIdentifier
-                    comScoreVirtualSite:(NSString *)comScoreVirtualSite
-                    netMetrixIdentifier:(NSString *)netMetrixIdentifier;
+- (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration;
 
 /**
- *  The SRG SSR business unit which measurements are associated with.
+ *  The tracker configuration with which the tracker was started.
  */
-@property (nonatomic, readonly, copy, nullable) SRGAnalyticsBusinessUnitIdentifier businessUnitIdentifier;
-
-/**
- *  The TagCommander container identifier.
- */
-@property (nonatomic, readonly) NSInteger containerIdentifier;
-
-/**
- *  The comScore virtual site where statistics are gathered (`nil` if the tracker has not been started).
- */
-@property (nonatomic, readonly, copy, nullable) NSString *comScoreVirtualSite;
-
-/**
- *  The NetMetrix identifier which is used (`nil` if the tracker has not been started).
- */
-@property (nonatomic, readonly, copy, nullable) NSString *netMetrixIdentifier;
-
-/**
- *  Return `YES` iff the tracker has been started.
- */
-@property (nonatomic, readonly, getter=isStarted) BOOL started;
+@property (nonatomic, readonly, nullable) SRGAnalyticsConfiguration *configuration;
 
 @end
 

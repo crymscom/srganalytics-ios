@@ -25,15 +25,10 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTS =
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRF = @"srf";
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRG = @"srg";
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
-SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
 @interface SRGAnalyticsTracker ()
 
-@property (nonatomic, copy) NSString *businessUnitIdentifier;
-@property (nonatomic) NSInteger containerIdentifier;
-@property (nonatomic, copy) NSString *comScoreVirtualSite;
-@property (nonatomic, copy) NSString *netMetrixIdentifier;
-@property (nonatomic, getter=isStarted) BOOL started;
+@property (nonatomic) SRGAnalyticsConfiguration *configuration;
 
 @property (nonatomic) TagCommander *tagCommander;
 @property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
@@ -117,17 +112,9 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 #pragma mark Start
 
-- (void)startWithBusinessUnitIdentifier:(SRGAnalyticsBusinessUnitIdentifier)businessUnitIdentifier
-                    containerIdentifier:(NSInteger)containerIdentifier
-                    comScoreVirtualSite:(NSString *)comScoreVirtualSite
-                    netMetrixIdentifier:(NSString *)netMetrixIdentifier
+- (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
-    self.businessUnitIdentifier = businessUnitIdentifier;
-    self.containerIdentifier = containerIdentifier;
-    self.comScoreVirtualSite = comScoreVirtualSite;
-    self.netMetrixIdentifier = netMetrixIdentifier;
-    
-    self.started = YES;
+    self.configuration = [configuration copy];
     
     [self startTagCommanderTracker];
     [self startComscoreTracker];
@@ -138,21 +125,9 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)startTagCommanderTracker
 {
-    NSParameterAssert(self.businessUnitIdentifier);
-    
-    if (! [self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
-        static NSDictionary<SRGAnalyticsBusinessUnitIdentifier, NSNumber *> *s_accountIdentifiers = nil;
-        static dispatch_once_t s_onceToken;
-        dispatch_once(&s_onceToken, ^{
-            s_accountIdentifiers = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @3668,
-                                      SRGAnalyticsBusinessUnitIdentifierRTR : @3666,       // Under the SRG umbrella
-                                      SRGAnalyticsBusinessUnitIdentifierRTS : @3669,
-                                      SRGAnalyticsBusinessUnitIdentifierSRF : @3667,
-                                      SRGAnalyticsBusinessUnitIdentifierSRG : @3666,
-                                      SRGAnalyticsBusinessUnitIdentifierSWI : @3670
-                                      };
-        });
-        self.tagCommander = [[TagCommander alloc] initWithSiteID:s_accountIdentifiers[self.businessUnitIdentifier].intValue andContainerID:(int)self.containerIdentifier];
+    if (! self.configuration.unitTesting) {
+        SRGAnalyticsConfiguration *configuration = self.configuration;
+        self.tagCommander = [[TagCommander alloc] initWithSiteID:(int)configuration.site andContainerID:(int)configuration.container];
         [self.tagCommander addPermanentData:@"app_library_version" withValue:SRGAnalyticsMarketingVersion()];
         [self.tagCommander addPermanentData:@"navigation_environment" withValue:[NSBundle srg_isProductionVersion] ? @"prod" : @"preprod"];
     }
@@ -180,8 +155,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (void)startNetmetrixTracker
 {
-    self.netmetrixTracker = [[SRGAnalyticsNetMetrixTracker alloc] initWithIdentifier:self.netMetrixIdentifier
-                                                              businessUnitIdentifier:self.businessUnitIdentifier];
+    self.netmetrixTracker = [[SRGAnalyticsNetMetrixTracker alloc] initWithConfiguration:self.configuration];
 }
 
 #pragma mark Labels
@@ -194,16 +168,17 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSString *appLanguage = mainBundle.preferredLocalizations.firstObject ?: @"fr";
     NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     
+    SRGAnalyticsConfiguration *configuration = self.configuration;
     NSMutableDictionary<NSString *, NSString *> *globalLabels = [@{ @"ns_ap_an" : appName,
                                                                     @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
                                                                     @"ns_ap_ver" : appVersion,
-                                                                    @"srg_unit" : self.businessUnitIdentifier.uppercaseString,
+                                                                    @"srg_unit" : configuration.businessUnitIdentifier.uppercaseString,
                                                                     @"srg_ap_push" : @"0",
                                                                     @"ns_site" : @"mainsite",                                          // The 'mainsite' is a constant value. If wrong, everything is screwed.
-                                                                    @"ns_vsite" : self.comScoreVirtualSite,                            // The virtual site 'vsite' is associated with the app. It is created by comScore
+                                                                    @"ns_vsite" : configuration.comScoreVirtualSite,                   // The virtual site 'vsite' is associated with the app. It is created by comScore
                                                                     @"ns_st_pu" : SRGAnalyticsMarketingVersion() } mutableCopy];
     
-    if ([self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
+    if (configuration.unitTesting) {
         static NSString *s_debugTimestamp;
         static dispatch_once_t s_onceToken;
         dispatch_once(&s_onceToken, ^{
@@ -329,7 +304,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     [fullLabels srg_safelySetString:@"screen" forKey:@"event_id"];
     [fullLabels srg_safelySetString:@"app" forKey:@"navigation_property_type"];
     [fullLabels srg_safelySetString:title forKey:@"content_title"];
-    [fullLabels srg_safelySetString:self.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
+    [fullLabels srg_safelySetString:self.configuration.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
     [fullLabels srg_safelySetString:fromPushNotification ? @"true" : @"false" forKey:@"accessed_after_push_notification"];
     
     [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -486,13 +461,11 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
 
 - (NSString *)description
 {
-    if (self.started) {
-        return [NSString stringWithFormat:@"<%@: %p; businessUnitIdentifier: %@; comScoreVirtualSite: %@; netMetrixIdentifier: %@>",
+    if (self.configuration) {
+        return [NSString stringWithFormat:@"<%@: %p; configuration: %@>",
                 [self class],
                 self,
-                self.businessUnitIdentifier,
-                self.comScoreVirtualSite,
-                self.netMetrixIdentifier];
+                self.configuration];
     }
     else {
         return [NSString stringWithFormat:@"<%@: %p (not started yet)>", [self class], self];
