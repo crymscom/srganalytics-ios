@@ -57,8 +57,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  @discussion When unit testing is enabled, notifications are emitted so that unit tests can verify what information is
  *              being sent and when. Note that:
  *                - TagCommander service calls will be disabled, and the hearbeat will be reduced to 3 seconds.
- *                - NetMetrix service calls will be disabled.
- *                - comScore service calls are NOT disabled (for technical reasons).
+ *                - NetMetrix and comScore service calls will be disabled.
  */
 @property (nonatomic, getter=isUnitTesting) BOOL unitTesting;
 
