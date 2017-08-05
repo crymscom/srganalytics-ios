@@ -41,6 +41,7 @@
 		6FABE2FE1D9C175E001C4E9A /* SRGSubdivision+SRGAnalytics_DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FABE2FC1D9C175E001C4E9A /* SRGSubdivision+SRGAnalytics_DataProvider.m */; };
 		6FAE25F21F34D87600874A53 /* SRGAnalyticsConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FAE25F01F34D87600874A53 /* SRGAnalyticsConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6FAE25F31F34D87600874A53 /* SRGAnalyticsConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FAE25F11F34D87600874A53 /* SRGAnalyticsConfiguration.m */; };
+		6FAE25F81F364E8B00874A53 /* ConfigurationTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FAE25F71F364E8B00874A53 /* ConfigurationTestCase.m */; };
 		6FAF430B1EF7F5090074E033 /* NSString_AnalyticsTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FAF430A1EF7F5090074E033 /* NSString_AnalyticsTestCase.m */; };
 		6FB331ED1D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB331E61D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework */; };
 		6FB331EE1D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB331E61D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -252,6 +253,7 @@
 		6FABE2FC1D9C175E001C4E9A /* SRGSubdivision+SRGAnalytics_DataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGSubdivision+SRGAnalytics_DataProvider.m"; sourceTree = "<group>"; };
 		6FAE25F01F34D87600874A53 /* SRGAnalyticsConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsConfiguration.h; sourceTree = "<group>"; };
 		6FAE25F11F34D87600874A53 /* SRGAnalyticsConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsConfiguration.m; sourceTree = "<group>"; };
+		6FAE25F71F364E8B00874A53 /* ConfigurationTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationTestCase.m; sourceTree = "<group>"; };
 		6FAF430A1EF7F5090074E033 /* NSString_AnalyticsTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSString_AnalyticsTestCase.m; path = Tests/Sources/NSString_AnalyticsTestCase.m; sourceTree = SOURCE_ROOT; };
 		6FB331E61D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics_DataProvider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FB331F51D9BFB77001469F2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -605,6 +607,7 @@
 				08539C251F306CAF0033D406 /* ComScoreTrackerTestCase.m */,
 				083EE17A1F2B86B600413A68 /* ComScoreDataProviderTestCase.m */,
 				6FD86FF41F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m */,
+				6FAE25F71F364E8B00874A53 /* ConfigurationTestCase.m */,
 				6FF3E22A1D9D2E9B00EB4A30 /* DataProviderTestCase.m */,
 				E65490CD1D816A18007D96E7 /* Helpers */,
 				E65490B11D803CA2007D96E7 /* MediaPlayerTestCase.m */,
@@ -993,6 +996,7 @@
 				E6D609291DA7762600FA44EB /* AnalyticsTestCase.m in Sources */,
 				6FF3E22B1D9D2E9B00EB4A30 /* DataProviderTestCase.m in Sources */,
 				6FD86FF51F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m in Sources */,
+				6FAE25F81F364E8B00874A53 /* ConfigurationTestCase.m in Sources */,
 				E600FE7E1D943D96000B8A1D /* TrackerSingletonSetup.m in Sources */,
 				E65490B21D803CA2007D96E7 /* MediaPlayerTestCase.m in Sources */,
 				6FAF430B1EF7F5090074E033 /* NSString_AnalyticsTestCase.m in Sources */,
