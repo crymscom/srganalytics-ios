@@ -840,7 +840,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL segmentPlayReceived = NO;
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"eof"]) {
+        if ([event isEqualToString:@"stop"]) {
             XCTAssertFalse(fullEndReceived);
             XCTAssertFalse(segmentPlayReceived);
             
@@ -900,7 +900,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL segment2PlayReceived = NO;
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"eof"]) {
+        if ([event isEqualToString:@"stop"]) {
             XCTAssertFalse(segment1EndReceived);
             XCTAssertFalse(segment2PlayReceived);
             
@@ -1018,7 +1018,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL segmentPlayReceived = NO;
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"eof"]) {
+        if ([event isEqualToString:@"stop"]) {
             XCTAssertFalse(segmentEndReceived);
             XCTAssertFalse(segmentPlayReceived);
             
@@ -1073,16 +1073,16 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Expect transition into the full-length since, even if seeking resumes in another segment (since this segment has
-    // not been selected, we don't want to track it). Because of a seek, a pause in the segment is expected first
+    // not been selected, we don't want to track it)
     
     __block BOOL segment1SeekReceived = NO;
-    __block BOOL segment1EndReceived = NO;
+    __block BOOL segment1StopReceived = NO;
     __block BOOL fullLengthPlayReceived = NO;
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"seek"]) {
             XCTAssertFalse(segment1SeekReceived);
-            XCTAssertFalse(segment1EndReceived);
+            XCTAssertFalse(segment1StopReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
@@ -1090,14 +1090,14 @@ static NSURL *DVRTestURL(void)
             XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
             segment1SeekReceived = YES;
         }
-        else if ([event isEqualToString:@"eof"]) {
-            XCTAssertFalse(segment1EndReceived);
+        else if ([event isEqualToString:@"stop"]) {
+            XCTAssertFalse(segment1StopReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
             XCTAssertEqualObjects(labels[@"overridable_name"], @"segment1");
-            segment1EndReceived = YES;
+            segment1StopReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
@@ -1108,7 +1108,7 @@ static NSURL *DVRTestURL(void)
             fullLengthPlayReceived = YES;
         }
         
-        return segment1SeekReceived && segment1EndReceived && fullLengthPlayReceived;
+        return segment1SeekReceived && segment1StopReceived && fullLengthPlayReceived;
     }];
     
     [self.mediaPlayerController seekPreciselyToTime:CMTimeAdd(CMTimeRangeGetEnd(segment1.srg_timeRange), CMTimeMakeWithSeconds(10., NSEC_PER_SEC)) withCompletionHandler:nil];
@@ -1203,35 +1203,35 @@ static NSURL *DVRTestURL(void)
     XCTAssertEqualObjects(self.mediaPlayerController.currentSegment, segment);
     XCTAssertEqualObjects(self.mediaPlayerController.selectedSegment, segment);
     
-    // Expect end of segment and play / end for the full-length (which does not harm for statistics)
+    // Expect end of segment and play / eof for the full-length (which does not harm for statistics)
     
-    __block BOOL segmentEndReceived = NO;
+    __block BOOL segmentEofReceived = NO;
     __block BOOL fullLengthPlayReceived = NO;
-    __block BOOL fullLengthEndReceived = NO;
+    __block BOOL fullLengthEofReceived = NO;
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"eof"]) {
-            if (! segmentEndReceived) {
+            if (! segmentEofReceived) {
                 XCTAssertFalse(fullLengthPlayReceived);
-                XCTAssertFalse(fullLengthEndReceived);
+                XCTAssertFalse(fullLengthEofReceived);
                 
                 XCTAssertEqualObjects(labels[@"stream_name"], @"full");
                 XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
                 XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
-                segmentEndReceived = YES;
+                segmentEofReceived = YES;
             }
             else {
-                XCTAssertFalse(fullLengthEndReceived);
+                XCTAssertFalse(fullLengthEofReceived);
                 
                 XCTAssertEqualObjects(labels[@"stream_name"], @"full");
                 XCTAssertNil(labels[@"segment_name"]);
                 XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
-                fullLengthEndReceived = YES;
+                fullLengthEofReceived = YES;
             }
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
-            XCTAssertFalse(fullLengthEndReceived);
+            XCTAssertFalse(fullLengthEofReceived);
             
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             XCTAssertNil(labels[@"segment_name"]);
@@ -1242,7 +1242,7 @@ static NSURL *DVRTestURL(void)
             XCTFail(@"Unexpected event %@", event);
         }
         
-        return segmentEndReceived && fullLengthPlayReceived && fullLengthEndReceived;
+        return segmentEofReceived && fullLengthPlayReceived && fullLengthEofReceived;
     }];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -1275,7 +1275,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Expect end event with segment labels
+    // Expect stop event with segment labels
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
@@ -1313,7 +1313,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Expect pause and play on the full-length (corresponding to the segment being skipped)
+    // Expect seek and play on the full-length (corresponding to the segment being skipped)
     
     __block BOOL fullLengthSeekReceived = NO;
     __block BOOL fullLengthPlayReceived = NO;
@@ -1372,7 +1372,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Expect pause / play for the full-length
+    // Expect seek / play for the full-length
     
     __block BOOL fullLengthSeekReceived = NO;
     __block BOOL fullLengthPlayReceived = NO;
@@ -1440,17 +1440,17 @@ static NSURL *DVRTestURL(void)
             XCTAssertFalse(fullLengthSeekReceived);
             XCTAssertFalse(fullLengthPlayReceived);
             
-            //            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            //            XCTAssertNil(labels[@"segment_name"]);
-            //            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthSeekReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthPlayReceived);
-            //
-            //            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            //            XCTAssertNil(labels[@"segment_name"]);
-            //            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -1489,7 +1489,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Play for a while. Expect pause / play for the full-length when skipping over the segment
+    // Play for a while. Expect seek / play for the full-length when skipping over the segment
     
     __block BOOL fullLengthSeekReceived = NO;
     __block BOOL fullLengthPlayReceived = NO;
@@ -1576,7 +1576,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Stop tracking while playing. Expect an end to be received
+    // Stop tracking while playing. Expect a stop to be received
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"stop");
         return YES;
@@ -1613,7 +1613,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Stop tracking while playing. Expect an end to be received with segment labels
+    // Stop tracking while playing. Expect a stop to be received with segment labels
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
@@ -1650,7 +1650,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Stop tracking while paused. Expect an end to be received
+    // Stop tracking while paused. Expect a stop to be received
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"stop");
         return YES;
@@ -1699,7 +1699,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Stop tracking while paused. Expect an end to be received with segment labels
+    // Stop tracking while paused. Expect a stop to be received with segment labels
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
@@ -1727,7 +1727,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Enable tracking. Expect plays to be received
+    // Enable tracking. Expect a play to be received
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"play");
         return YES;
@@ -1762,7 +1762,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Enable tracking. Expect plays to be received
+    // Enable tracking. Expect a play to be received
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
@@ -1921,11 +1921,11 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // Stop tracking twice while playing. Expect a single end to be received
-    __block NSInteger endEventCount = 0;
+    // Stop tracking twice while playing. Expect a single stop to be received
+    __block NSInteger stopEventCount = 0;
     id endEventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"stop"]) {
-            ++endEventCount;
+            ++stopEventCount;
         }
         else {
             XCTFail(@"Unexpected event received");
@@ -1942,8 +1942,8 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:endEventObserver];
     }];
     
-    // Check we have received the end notification only once
-    XCTAssertEqual(endEventCount, 1);
+    // Check we have received the stop notification only once
+    XCTAssertEqual(stopEventCount, 1);
 }
 
 - (void)testEnableTrackingTwiceWhilePlaying
@@ -1979,7 +1979,7 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:endEventObserver];
     }];
     
-    // Check we have received the end notification only once
+    // Check we have received the play notification only once
     XCTAssertEqual(playEventCount, 1);
 }
 
