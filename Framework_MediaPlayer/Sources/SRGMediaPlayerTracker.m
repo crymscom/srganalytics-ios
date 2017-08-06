@@ -484,7 +484,7 @@ static NSMutableDictionary *s_trackers = nil;
         // Notify full-length end (only if not starting at the given segment, i.e. if the player is not preparing playback)
         id<SRGSegment> previousSegment = notification.userInfo[SRGMediaPlayerPreviousSegmentKey];
         if (! previousSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStatePreparing) {
-            [self measureTrackedPlayerEvent:SRGAnalyticsPlayerEventEnd withSegment:nil];
+            [self measureTrackedPlayerEvent:SRGAnalyticsPlayerEventStop withSegment:nil];
         }
         
         [self measureTrackedPlayerEvent:SRGAnalyticsPlayerEventPlay withSegment:segment];
@@ -497,11 +497,14 @@ static NSMutableDictionary *s_trackers = nil;
     if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
         
-        [self measureTrackedPlayerEvent:SRGAnalyticsPlayerEventEnd withSegment:segment];
-        
         // Notify full-length start if the transition was not due to another segment being selected
         if (! [notification.userInfo[SRGMediaPlayerSelectionKey] boolValue] && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
+            SRGAnalyticsPlayerEvent endEvent = [notification.userInfo[SRGMediaPlayerInterruptionKey] boolValue] ? SRGAnalyticsPlayerEventStop : SRGAnalyticsPlayerEventEnd;
+            [self measureTrackedPlayerEvent:endEvent withSegment:segment];
             [self measureTrackedPlayerEvent:SRGAnalyticsPlayerEventPlay withSegment:nil];
+        }
+        else {
+            [self measureTrackedPlayerEvent:SRGAnalyticsPlayerEventStop withSegment:segment];
         }
     }
 }
