@@ -15,8 +15,8 @@ static void (*s_viewDidAppear)(id, SEL, BOOL);
 static void (*s_viewWillDisappear)(id, SEL, BOOL);
 
 // Swizzled method implementations
-static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animated);
-static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL animated);
+static void swizzled_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animated);
+static void swizzled_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL animated);
 
 @implementation UIViewController (SRGAnalytics)
 
@@ -26,11 +26,11 @@ static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL ani
 {
     Method viewDidAppearMethod = class_getInstanceMethod(self, @selector(viewDidAppear:));
     s_viewDidAppear = (__typeof__(s_viewDidAppear))method_getImplementation(viewDidAppearMethod);
-    method_setImplementation(viewDidAppearMethod, (IMP)swizzed_viewDidAppear);
+    method_setImplementation(viewDidAppearMethod, (IMP)swizzled_viewDidAppear);
     
     Method viewWillDisappearMethod = class_getInstanceMethod(self, @selector(viewWillDisappear:));
     s_viewWillDisappear = (__typeof__(s_viewWillDisappear))method_getImplementation(viewWillDisappearMethod);
-    method_setImplementation(viewWillDisappearMethod, (IMP)swizzed_viewWillDisappear);
+    method_setImplementation(viewWillDisappearMethod, (IMP)swizzled_viewWillDisappear);
 }
 
 #pragma mark Tracking
@@ -45,7 +45,7 @@ static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL ani
     if ([self conformsToProtocol:@protocol(SRGAnalyticsViewTracking)]) {
         id<SRGAnalyticsViewTracking> trackedSelf = (id<SRGAnalyticsViewTracking>)self;
         
-        if (!forced && [trackedSelf respondsToSelector:@selector(srg_isTrackedAutomatically)] && ! [trackedSelf srg_isTrackedAutomatically]) {
+        if (! forced && [trackedSelf respondsToSelector:@selector(srg_isTrackedAutomatically)] && ! [trackedSelf srg_isTrackedAutomatically]) {
             return;
         }
         
@@ -56,9 +56,9 @@ static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL ani
             levels = [trackedSelf srg_pageViewLevels];
         }
         
-        NSDictionary<NSString *, NSString *> *customLabels = nil;
-        if ([trackedSelf respondsToSelector:@selector(srg_pageViewCustomLabels)]) {
-            customLabels = [trackedSelf srg_pageViewCustomLabels];
+        SRGAnalyticsPageViewLabels *labels = nil;
+        if ([trackedSelf respondsToSelector:@selector(srg_pageViewLabels)]) {
+            labels = [trackedSelf srg_pageViewLabels];
         }
         
         BOOL fromPushNotification = NO;
@@ -66,10 +66,10 @@ static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL ani
             fromPushNotification = [trackedSelf srg_isOpenedFromPushNotification];
         }
         
-        [[SRGAnalyticsTracker sharedTracker] trackPageViewTitle:title
-                                                         levels:levels
-                                                   customLabels:customLabels
-                                           fromPushNotification:fromPushNotification];
+        [[SRGAnalyticsTracker sharedTracker] trackPageViewWithTitle:title
+                                                             levels:levels
+                                                             labels:labels
+                                               fromPushNotification:fromPushNotification];
     }
 }
 
@@ -84,7 +84,7 @@ static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL ani
 
 #pragma mark Functions
 
-static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animated)
+static void swizzled_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animated)
 {
     s_viewDidAppear(self, _cmd, animated);
     
@@ -98,7 +98,7 @@ static void swizzed_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animate
                                                object:nil];
 }
 
-static void swizzed_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL animated)
+static void swizzled_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL animated)
 {
     s_viewWillDisappear(self, _cmd, animated);
     

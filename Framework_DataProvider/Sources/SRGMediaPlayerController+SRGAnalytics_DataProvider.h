@@ -10,9 +10,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Data provider compatibility additions to `SRGMediaPlayerController`.
+ *  Data provider compatibility additions to `SRGMediaPlayerController`. By playing medias with the methods provided
+ *  by this category, complete metadata is entirely retrieved from the Integration Layer and automatically managed
+ *  without additional work.
  *
- *  For more information about stream measurements, @see SRGMediaPlayerController+SRGAnalytics.h.
+ *  For more information about stream measurements, @see SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h.
  */
 @interface SRGMediaPlayerController (SRGAnalytics_DataProvider)
 
@@ -55,24 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  either by calling `-resume` on it or adding it to a request queue. If no exact match can be found for the specified
  *  settings, a recommended valid setup will be used instead.
  *
- *  @param mediaComposition  The media composition to play.
- *  @param streamingMethod   The streaming method to use. If `SRGStreamingMethodNone` or if the method is not
- *                           found, a recommended method will be used instead.
- *  @param quality           The quality to use. If `SRGQualityNone` or not found, the best available quality
- *                           is used.
- *  @param startBitRate      The bit rate the media should start playing with, in kbps. This parameter is a
- *                           recommendation with no result guarantee, though it should in general be applied. The
- *                           nearest available quality (larger or smaller than the requested size) will be used.
- *                           Usual SRG SSR valid bit ranges vary from 100 to 3000 kbps. Use 0 to start with the
- *                           lowest quality stream.
- *  @param userInfo          Optional dictionary conveying arbitrary information during playback.
- *  @param resume            Set to `YES` if you want the request to be started automatically.
- *  @param completionHandler The completion handler will be called once the player is prepared, or if a request
- *                           error is encountered (it will not be called if the player cannot play the content;
- *                           listen to `SRGMediaPlayerPlaybackDidFailNotification` to catch playback errors).
- *
- *  @return The playback request. If successful, the player will start on the chapter / segment specified by
- *          the media composition. The method might return `nil` if no protocol / quality combination is found.
+ *  For parameter and return value documentation, see above.
  */
 - (nullable SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
                  withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod

@@ -7,7 +7,7 @@
 #import "AnalyticsTestCase.h"
 #import "NSNotificationCenter+Tests.h"
 
-typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
+typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
 @interface TrackerTestCase : AnalyticsTestCase
 
@@ -19,31 +19,36 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
 
 - (void)testHiddenEvent
 {
-    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        XCTAssertNil(type);
-        XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
-        XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
-        XCTAssertEqualObjects(labels[@"category"], @"app");
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"click");
+        XCTAssertEqualObjects(labels[@"event_name"], @"Hidden event");
         return YES;
     }];
     
-    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Hidden event"];
+    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@"Hidden event"];
     
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
-- (void)testHiddenEventWithCustomLabels
+- (void)testHiddenEventWithLabels
 {
-    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *type, NSDictionary *labels) {
-        XCTAssertNil(type);
-        XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
-        XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
-        XCTAssertEqualObjects(labels[@"category"], @"app");
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"click");
+        XCTAssertEqualObjects(labels[@"event_name"], @"Hidden event");
+        XCTAssertEqualObjects(labels[@"event_type"], @"toggle");
+        XCTAssertEqualObjects(labels[@"event_source"], @"favorite_list");
+        XCTAssertEqualObjects(labels[@"event_value"], @"true");
         XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
         return YES;
     }];
     
-    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"Hidden event" customLabels:@{ @"custom_label" : @"custom_value" }];
+    SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
+    labels.type = @"toggle";
+    labels.source = @"favorite_list";
+    labels.value = @"true";
+    labels.customInfo = @{ @"custom_label" : @"custom_value" };
+    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@"Hidden event"
+                                                           labels:labels];
     
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
@@ -56,7 +61,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
     
     [self expectationForElapsedTimeInterval:5. withHandler:nil];
     
-    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"" customLabels:nil];
+    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@""];
     
     [self waitForExpectationsWithTimeout:5. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];

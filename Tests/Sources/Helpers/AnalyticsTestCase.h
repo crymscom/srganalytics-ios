@@ -9,14 +9,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef BOOL (^EventExpectationHandler)(NSString *type, NSDictionary *labels);
+typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
 @interface AnalyticsTestCase : XCTestCase
 
 /**
- *  Expectation for global comScore hidden event notifications
+ *  Expectation for global TMS hidden event notifications
  */
 - (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(EventExpectationHandler)handler;
+
+/**
+ *  Expectation for global TMS Player single hidden event notifications (ie: play, pause, stop, eof)
+ */
+- (XCTestExpectation *)expectationForPlayerSingleHiddenEventNotificationWithHandler:(EventExpectationHandler)handler;
+
+/**
+ *  Expectation for global ComScore hidden event notifications
+ */
+- (XCTestExpectation *)expectationForComScoreHiddenEventNotificationWithHandler:(EventExpectationHandler)handler;
 
 /**
  *  Expectation fulfilled after some given time interval (in seconds), calling the optionally provided handler. Can

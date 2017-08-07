@@ -12,6 +12,41 @@
 
 - (id<NSObject>)addObserverForHiddenEventNotificationUsingBlock:(void (^)(NSString *event, NSDictionary *labels))block
 {
+    return [self addObserverForName:SRGAnalyticsRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
+        NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        
+        NSString *event = labels[@"event_id"];
+        if ([event isEqualToString:@"screen"]) {
+            return;
+        }
+        
+        block(event, labels);
+    }];
+}
+
+- (id<NSObject>)addObserverForPlayerSingleHiddenEventNotificationUsingBlock:(void (^)(NSString *event, NSDictionary *labels))block
+{
+    return [self addObserverForName:SRGAnalyticsRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
+        NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        
+        static dispatch_once_t s_onceToken;
+        static NSArray<NSString *> *s_playerSingleHiddenEvents;
+        dispatch_once(&s_onceToken, ^{
+            s_playerSingleHiddenEvents = @[@"play", @"pause", @"seek", @"stop", @"eof"];
+        });
+        
+        NSString *event = labels[@"event_id"];
+        if ([s_playerSingleHiddenEvents containsObject:event]) {
+            block(event, labels);
+        }
+        else {
+            return;
+        }
+    }];
+}
+
+- (id<NSObject>)addObserverForComScoreHiddenEventNotificationUsingBlock:(void (^)(NSString *event, NSDictionary *labels))block
+{
     return [self addObserverForName:SRGAnalyticsComScoreRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
         

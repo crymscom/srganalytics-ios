@@ -4,9 +4,9 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGSubdivision+SRGAnalytics_DataProvider.h"
+#import "SRGChapter+SRGAnalytics_DataProvider.h"
 
-@implementation SRGSubdivision (SRGAnalytics_DataProvider)
+@implementation SRGChapter (SRGAnalytics_DataProvider)
 
 #pragma mark SRGAnalyticsSegment protocol
 
@@ -26,9 +26,12 @@
     return self.hidden;
 }
 
-- (NSDictionary<NSString *,NSString *> *)srg_analyticsLabels
+- (SRGAnalyticsPlayerLabels *)srg_analyticsLabels
 {
-    return self.comScoreAnalyticsLabels;
+    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    labels.customInfo = self.analyticsLabels;
+    labels.comScoreCustomInfo = self.comScoreAnalyticsLabels;
+    return labels;
 }
 
 @end
