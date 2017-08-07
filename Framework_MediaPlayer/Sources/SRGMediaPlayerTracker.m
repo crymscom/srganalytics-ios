@@ -9,6 +9,7 @@
 #import "NSMutableDictionary+SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsSegment.h"
+#import "SRGAnalyticsConfiguration+Private.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
 #import <ComScore/ComScore.h>

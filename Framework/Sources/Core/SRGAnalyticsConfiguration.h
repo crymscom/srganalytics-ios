@@ -86,11 +86,6 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  */
 @property (nonatomic, readonly, copy) NSString *netMetrixIdentifier;
 
-/**
- *  The heartbeat interval which will be applied.
- */
-@property (nonatomic, readonly) NSTimeInterval heartbeatInterval;
-
 @end
 
 @interface SRGAnalyticsConfiguration (Unavailable)
