@@ -6,6 +6,8 @@
 
 #import "AnalyticsTestCase.h"
 
+#import "SRGAnalyticsConfiguration+Private.h"
+
 @interface ConfigurationTestCase : AnalyticsTestCase
 
 @end

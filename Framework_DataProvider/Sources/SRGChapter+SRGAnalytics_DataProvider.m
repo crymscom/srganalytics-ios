@@ -4,9 +4,9 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGSubdivision+SRGAnalytics_DataProvider.h"
+#import "SRGChapter+SRGAnalytics_DataProvider.h"
 
-@implementation SRGSubdivision (SRGAnalytics_DataProvider)
+@implementation SRGChapter (SRGAnalytics_DataProvider)
 
 #pragma mark SRGAnalyticsSegment protocol
 

@@ -7,7 +7,8 @@
 #import "SRGMediaPlayerController+SRGAnalytics_DataProvider.h"
 
 #import "SRGAnalyticsMediaPlayerLogger.h"
-#import "SRGSubdivision+SRGAnalytics_DataProvider.h"
+#import "SRGChapter+SRGAnalytics_DataProvider.h"
+#import "SRGSegment+SRGAnalytics_DataProvider.h"
 
 #import <libextobjc/libextobjc.h>
 
