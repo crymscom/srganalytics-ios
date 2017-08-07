@@ -121,7 +121,7 @@ static NSMutableDictionary *s_trackers = nil;
             _currentPositionInMilliseconds = 0;
         }
         else {
-            _currentPositionInMilliseconds = (long)floor(CMTimeGetSeconds(currentTime) * 1000.);
+            _currentPositionInMilliseconds = (long)fmax(floor(CMTimeGetSeconds(currentTime) * 1000.), 0.);
         }
     }
 }
