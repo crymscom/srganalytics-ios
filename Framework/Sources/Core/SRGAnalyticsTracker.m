@@ -448,6 +448,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
             NSArray *sortedInstalledApplications = [installedApplications.allObjects sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
             
             SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
+            labels.type = @"hidden";
+            labels.source = @"SDK";
             labels.value = [sortedInstalledApplications componentsJoinedByString:@","];
             labels.comScoreCustomInfo = @{ @"srg_evgroup": @"Installed Apps",
                                            @"srg_evname": labels.value };
