@@ -474,6 +474,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"true");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -487,6 +488,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"true");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -500,6 +502,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNil(labels[@"media_bandwidth"]);
         XCTAssertNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -516,6 +519,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -536,6 +540,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -549,6 +554,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNil(labels[@"media_bandwidth"]);
         XCTAssertNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -565,6 +571,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -578,6 +585,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -594,6 +602,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -603,6 +612,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNil(labels[@"media_timeshift_milliseconds"]);
         XCTAssertNil(labels[@"media_bandwidth"]);
         XCTAssertNil(labels[@"media_volume"]);
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
