@@ -450,7 +450,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
             labels.comScoreCustomInfo = @{ @"srg_evgroup": @"Installed Apps",
                                            @"srg_evname": labels.value };
             
-            [self trackHiddenEventWithName:@"installed_apps" labels:labels];
+            [self trackHiddenEventWithName:@"Installed Apps" labels:labels];
         });
     }] resume];
 }
