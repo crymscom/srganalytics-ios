@@ -10,6 +10,7 @@
 #import "NSMutableDictionary+SRGAnalytics.h"
 #import "NSString+SRGAnalytics.h"
 #import "SRGAnalytics.h"
+#import "SRGAnalyticsConfiguration+Private.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsNetMetrixTracker.h"
 #import "SRGAnalyticsNotifications.h"

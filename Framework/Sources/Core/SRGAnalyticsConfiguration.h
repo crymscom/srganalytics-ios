@@ -67,11 +67,6 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 @property (nonatomic, readonly, copy) SRGAnalyticsBusinessUnitIdentifier businessUnitIdentifier;
 
 /**
- *  The TagCommand site which will be used.
- */
-@property (nonatomic, readonly) NSInteger site;
-
-/**
  *  The TagCommander container identifier.
  */
 @property (nonatomic, readonly) NSInteger container;

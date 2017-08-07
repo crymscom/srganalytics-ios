@@ -11,6 +11,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SRGAnalyticsConfiguration (Private)
 
 /**
+ *  The TagCommand site which will be used.
+ */
+@property (nonatomic, readonly) NSInteger site;
+
+/**
+ *  The NetMetrix domain.
+ */
+@property (nonatomic, readonly, copy, nullable) NSString *netMetrixDomain;
+
+/**
  *  The heartbeat interval which will be applied.
  */
 @property (nonatomic, readonly) NSTimeInterval heartbeatInterval;

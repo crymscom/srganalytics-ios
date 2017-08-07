@@ -6,6 +6,7 @@
 
 #import "SRGAnalyticsNetMetrixTracker.h"
 
+#import "SRGAnalyticsConfiguration+Private.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsNotifications.h"
 #import "SRGAnalyticsTracker.h"
@@ -30,31 +31,18 @@
     return self;
 }
 
-#pragma mark Getters and setters
-
-- (NSString *)netMetrixDomain
-{
-    // HTTPs domains as documented here: https://srfmmz.atlassian.net/wiki/display/SRGPLAY/HTTPS+Transition
-    static dispatch_once_t s_onceToken;
-    static NSDictionary<NSString *, NSString *> *s_domains;
-    dispatch_once(&s_onceToken, ^{
-        s_domains = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @"rsi-ssl",
-                       SRGAnalyticsBusinessUnitIdentifierRTR : @"rtr-ssl",
-                       SRGAnalyticsBusinessUnitIdentifierRTS : @"rts-ssl",
-                       SRGAnalyticsBusinessUnitIdentifierSRF : @"sftv-ssl",
-                       SRGAnalyticsBusinessUnitIdentifierSWI : @"sinf-ssl" };
-    });
-    NSString *domain = s_domains[self.configuration.businessUnitIdentifier];
-    NSAssert(domain, @"The NetMetrix domain must be defined for the specified business unit");
-    return domain;
-}
-
 #pragma mark View tracking
 
 - (void)trackView
 {
     SRGAnalyticsConfiguration *configuration = self.configuration;
-    NSString *netMetrixURLString = [NSString stringWithFormat:@"https://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netMetrixDomain, configuration.netMetrixIdentifier, self.device];
+    NSString *netMetrixDomain = configuration.netMetrixDomain;
+    if (! netMetrixDomain) {
+        SRGAnalyticsLogInfo(@"NetMetrix", @"No NetMetrix domain is defined for this configuration. No event will be recorded");
+        return;
+    }
+    
+    NSString *netMetrixURLString = [NSString stringWithFormat:@"https://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", netMetrixDomain, configuration.netMetrixIdentifier, self.device];
     NSURL *netMetrixURL = [NSURL URLWithString:netMetrixURLString];
     
     if (! configuration.unitTesting) {
