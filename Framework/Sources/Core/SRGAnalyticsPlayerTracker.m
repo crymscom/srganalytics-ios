@@ -29,7 +29,7 @@
     
     [dictionary srg_safelySetString:self.playerName forKey:@"media_player_display"];
     [dictionary srg_safelySetString:self.playerVersion forKey:@"media_player_version"];
-    [dictionary srg_safelySetString:self.subtitlesEnabled ? @"true" : @"false" forKey:@"media_subtitles_on"];
+    [dictionary srg_safelySetString:self.subtitlesEnabled.boolValue ? @"true" : @"false" forKey:@"media_subtitles_on"];
     [dictionary srg_safelySetString:self.timeshiftInMilliseconds.stringValue forKey:@"media_timeshift_milliseconds"];
     [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"media_bandwidth"];
     [dictionary srg_safelySetString:self.volumeInPercent.stringValue forKey:@"media_volume"];

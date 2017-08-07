@@ -473,6 +473,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNil(labels[@"media_timeshift_milliseconds"]);
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"true");
         return YES;
     }];
     
@@ -485,6 +486,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNil(labels[@"media_timeshift_milliseconds"]);
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"true");
         return YES;
     }];
     
@@ -497,6 +499,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNil(labels[@"media_timeshift_milliseconds"]);
         XCTAssertNil(labels[@"media_bandwidth"]);
         XCTAssertNil(labels[@"media_volume"]);
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         return YES;
     }];
     
@@ -512,6 +515,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"media_timeshift_milliseconds"], @"0");
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         return YES;
     }];
     
@@ -531,6 +535,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"media_timeshift_milliseconds"], @"0");
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         return YES;
     }];
     
@@ -543,6 +548,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNil(labels[@"media_timeshift_milliseconds"]);
         XCTAssertNil(labels[@"media_bandwidth"]);
         XCTAssertNil(labels[@"media_volume"]);
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         return YES;
     }];
     
@@ -558,6 +564,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"media_timeshift_milliseconds"], @"0");
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         return YES;
     }];
     
@@ -570,6 +577,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"media_timeshift_milliseconds"], @"0");
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         return YES;
     }];
     
@@ -585,6 +593,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertNotEqualObjects(labels[@"media_timeshift_milliseconds"], @"0");
         XCTAssertNotNil(labels[@"media_bandwidth"]);
         XCTAssertNotNil(labels[@"media_volume"]);
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         return YES;
     }];
     [self waitForExpectationsWithTimeout:20. handler:nil];
