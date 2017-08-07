@@ -8,8 +8,8 @@
 #import <SRGDataProvider/SRGDataProvider.h>
 
 /**
- *  Standard implementation of analytics for a chapter stemming from the data provider library.
+ *  Standard implementation of analytics for subdivision stemming from the data provider library.
  */
-@interface SRGChapter (SRGAnalytics_DataProvider) <SRGAnalyticsSegment>
+@interface SRGSubdivision (SRGAnalytics_DataProvider) <SRGAnalyticsSegment>
 
 @end
