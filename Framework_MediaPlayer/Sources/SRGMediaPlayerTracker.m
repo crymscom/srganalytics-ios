@@ -71,6 +71,8 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)dealloc
 {
+    self.heartbeatTimer = nil;      // Invalidate timer
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
