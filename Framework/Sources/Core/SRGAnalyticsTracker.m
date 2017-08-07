@@ -440,12 +440,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
                                      "update your Info.plist file to make this message disappear");
             }
             
-            if (installedApplications.count == 0) {
-                SRGAnalyticsLogWarning(@"tracker", @"No identified application installed. Nothing to be done");
-                return;
-            }
-            
-            NSArray *sortedInstalledApplications = [installedApplications.allObjects sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+            NSArray<NSString *> *sortedInstalledApplications = [installedApplications.allObjects sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
             
             SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
             labels.type = @"hidden";
