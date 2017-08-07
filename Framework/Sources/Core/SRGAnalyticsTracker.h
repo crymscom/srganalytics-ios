@@ -183,20 +183,20 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Track a page view (not associated with a push notification).
  *
- *  @param title                The page title. If the title is `nil`, no event will be sent.
+ *  @param title                The page title. If the title is empty, no event will be sent.
  *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy.
  *
  *  @discussion This method is primarily available for page view tracking not related to a view controller. If your page view
  *              is related to a view controller, the recommended way of tracking the view controller is by having it conform
  *              to the `SRGAnalyticsViewTracking` protocol.
  */
-- (void)trackPageViewWithTitle:(nullable NSString *)title
+- (void)trackPageViewWithTitle:(NSString *)title
                         levels:(nullable NSArray<NSString *> *)levels;
 
 /**
  *  Track a page view.
  *
- *  @param title                The page title. If the title is `nil`, no event will be sent.
+ *  @param title                The page title. If the title is empty, no event will be sent.
  *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy.
  *  @param labels               Additional custom labels.
  *  @param fromPushNotification `YES` iff the view is opened from a push notification.
@@ -205,7 +205,7 @@ NS_ASSUME_NONNULL_BEGIN
  *              is related to a view controller, the recommended way of tracking the view controller is by having it conform
  *              to the `SRGAnalyticsViewTracking` protocol.
  */
-- (void)trackPageViewWithTitle:(nullable NSString *)title
+- (void)trackPageViewWithTitle:(NSString *)title
                         levels:(nullable NSArray<NSString *> *)levels
                         labels:(nullable SRGAnalyticsPageViewLabels *)labels
           fromPushNotification:(BOOL)fromPushNotification;
