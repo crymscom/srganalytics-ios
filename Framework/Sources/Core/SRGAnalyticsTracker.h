@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The tracker configuration with which the tracker was started.
  */
-@property (nonatomic, readonly, nullable) SRGAnalyticsConfiguration *configuration;
+@property (nonatomic, readonly, copy, nullable) SRGAnalyticsConfiguration *configuration;
 
 @end
 

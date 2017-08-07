@@ -29,7 +29,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 
 @interface SRGAnalyticsTracker ()
 
-@property (nonatomic) SRGAnalyticsConfiguration *configuration;
+@property (nonatomic, copy) SRGAnalyticsConfiguration *configuration;
 
 @property (nonatomic) TagCommander *tagCommander;
 @property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
@@ -115,7 +115,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 
 - (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
-    self.configuration = [configuration copy];
+    self.configuration = configuration;
     
     [self startTagCommanderTracker];
     [self startComscoreTracker];
