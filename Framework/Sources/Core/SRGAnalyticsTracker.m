@@ -445,7 +445,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
             
             SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
             labels.type = @"hidden";
-            labels.source = @"SDK";
+            labels.source = @"SRGAnalytics";
             labels.value = [sortedInstalledApplications componentsJoinedByString:@","];
             labels.comScoreCustomInfo = @{ @"srg_evgroup": @"Installed Apps",
                                            @"srg_evname": labels.value };
