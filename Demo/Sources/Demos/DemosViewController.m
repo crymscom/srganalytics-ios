@@ -108,7 +108,7 @@
             
             switch (indexPath.row) {
                 case 0: {
-                    URL = [NSURL URLWithString:@"http://fr-par-iphone-2.cdn.hexaglobe.net/streaming/euronews_ewns/9-live.m3u8"];
+                    URL = [NSURL URLWithString:@"http://ndr_fs-lh.akamaihd.net/i/ndrfs_nds@119224/master.m3u8?dw=0"];
                     break;
                 }
                     
@@ -118,7 +118,7 @@
                 }
                     
                 case 2: {
-                    URL = [NSURL URLWithString:@"https://wowza.jwplayer.com/live/jelly.stream/playlist.m3u8?DVR"];
+                    URL = [NSURL URLWithString:@"http://tagesschau-lh.akamaihd.net/i/tagesschau_1@119231/master.m3u8"];
                     break;
                 }
                     
