@@ -830,6 +830,54 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testPrepareInitialSegmentSelectionAndPlaythrough
+{
+    // Prepare the player until it is paused. No event must be received
+    id prepareObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when preparing a player");
+    }];
+    
+    
+    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
+    [self.mediaPlayerController prepareToPlayURL:OnDemandTestURL()
+                                         atIndex:0
+                                      inSegments:@[segment]
+                             withAnalyticsLabels:labels
+                                        userInfo:nil
+                               completionHandler:^{
+                                   [[NSNotificationCenter defaultCenter] removeObserver:prepareObserver];
+                               }];
+    
+    // Now playing must trigger a play event
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController play];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"stop");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
 - (void)testSegmentSelectionAfterStartOnFullLength
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
