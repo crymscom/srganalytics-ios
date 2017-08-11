@@ -523,7 +523,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL()
@@ -599,7 +599,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -651,7 +651,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -709,7 +709,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                  atTime:kCMTimeZero
@@ -769,7 +769,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -829,7 +829,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -887,7 +887,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -947,7 +947,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1015,7 +1015,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1075,7 +1075,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1150,7 +1150,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1189,7 +1189,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                  atTime:kCMTimeZero
@@ -1248,7 +1248,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                  atTime:kCMTimeZero
@@ -1307,7 +1307,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1366,7 +1366,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                  atTime:kCMTimeZero
@@ -1492,7 +1492,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1566,7 +1566,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1642,7 +1642,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
@@ -1713,7 +1713,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.comScoreCustomInfo = @{ @"stream_name" : @"full",
-                             @"overridable_name" : @"full" };
+                                   @"overridable_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
