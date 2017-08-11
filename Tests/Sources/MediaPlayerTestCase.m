@@ -268,16 +268,16 @@ static NSURL *DVRTestURL(void)
         if ([event isEqualToString:@"seek"]) {
             XCTAssertFalse(seekReceived);
             XCTAssertFalse(playReceived);
-            XCTAssertNotNil(labels[@"media_position"]);
-            XCTAssertEqualObjects(@([labels[@"media_position"] integerValue]).stringValue, @"0");
+            
+            XCTAssertEqualObjects(labels[@"media_position"], @"0");
             seekReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
             XCTAssertTrue(seekReceived);
             XCTAssertFalse(playReceived);
+            
             // TODO: Works with breakpoint… not without
-            XCTAssertNotNil(labels[@"media_position"]);
-            XCTAssertEqualObjects(@([labels[@"media_position"] integerValue]).stringValue, @"2");
+            XCTAssertEqualObjects(labels[@"media_position"], @"2");
             playReceived = YES;
         }
         else {
@@ -362,13 +362,14 @@ static NSURL *DVRTestURL(void)
         if ([event isEqualToString:@"seek"]) {
             XCTAssertFalse(seekReceived);
             XCTAssertFalse(pauseReceived);
+            
+            XCTAssertEqualObjects(labels[@"media_position"], @"0");
             seekReceived = YES;
         }
         else if ([event isEqualToString:@"pause"]) {
             XCTAssertTrue(seekReceived);
             XCTAssertFalse(pauseReceived);
-            XCTAssertNotNil(labels[@"media_position"]);
-            XCTAssertEqualObjects(@([labels[@"media_position"] integerValue]).stringValue, @"2");
+            XCTAssertEqualObjects(labels[@"media_position"], @"2");
             pauseReceived = YES;
         }
         else {
