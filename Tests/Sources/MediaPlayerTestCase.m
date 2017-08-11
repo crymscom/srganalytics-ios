@@ -498,8 +498,6 @@ static NSURL *DVRTestURL(void)
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertNil(labels[@"media_timeshift"]);
-        XCTAssertNotNil(labels[@"media_bandwidth"]);
-        XCTAssertNotNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"true");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
@@ -512,8 +510,6 @@ static NSURL *DVRTestURL(void)
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
         XCTAssertNil(labels[@"media_timeshift"]);
-        XCTAssertNotNil(labels[@"media_bandwidth"]);
-        XCTAssertNotNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"true");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
@@ -526,8 +522,6 @@ static NSURL *DVRTestURL(void)
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertNil(labels[@"media_timeshift"]);
-        XCTAssertNil(labels[@"media_bandwidth"]);
-        XCTAssertNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
@@ -543,8 +537,6 @@ static NSURL *DVRTestURL(void)
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
-        XCTAssertNotNil(labels[@"media_bandwidth"]);
-        XCTAssertNotNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
@@ -564,8 +556,6 @@ static NSURL *DVRTestURL(void)
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
-        XCTAssertNotNil(labels[@"media_bandwidth"]);
-        XCTAssertNotNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
@@ -578,8 +568,6 @@ static NSURL *DVRTestURL(void)
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertNil(labels[@"media_timeshift"]);
-        XCTAssertNil(labels[@"media_bandwidth"]);
-        XCTAssertNil(labels[@"media_volume"]);
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
