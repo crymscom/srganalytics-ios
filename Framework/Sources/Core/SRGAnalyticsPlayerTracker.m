@@ -245,7 +245,7 @@
     // Send the event
     NSMutableDictionary<NSString *, NSString *> *fullLabelsDictionary = [NSMutableDictionary dictionary];
     [fullLabelsDictionary srg_safelySetString:action forKey:@"event_id"];
-    [fullLabelsDictionary srg_safelySetString:@(position).stringValue forKey:@"media_position"];
+    [fullLabelsDictionary srg_safelySetString:@(position / 1000).stringValue forKey:@"media_position"];
     
     NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
     if (labelsDictionary) {
