@@ -293,14 +293,12 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (NSNumber *)volumeInPercent
 {
-    if (! self.mediaPlayerController.player) {
-        return nil;
-    }
-    else if (self.mediaPlayerController.player.isMuted) {
+    if (self.mediaPlayerController.player && self.mediaPlayerController.player.isMuted) {
         return @0;
     }
     else {
-        return @(self.mediaPlayerController.player.volume * 100);
+        NSInteger volume = [AVAudioSession sharedInstance].outputVolume * 100;
+        return @(volume);
     }
 }
 
