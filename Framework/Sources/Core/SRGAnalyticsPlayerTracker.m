@@ -32,7 +32,7 @@
     [dictionary srg_safelySetString:self.playerName forKey:@"media_player_display"];
     [dictionary srg_safelySetString:self.playerVersion forKey:@"media_player_version"];
     [dictionary srg_safelySetString:self.subtitlesEnabled.boolValue ? @"true" : @"false" forKey:@"media_subtitles_on"];
-    [dictionary srg_safelySetString:(self.timeshiftInMilliseconds) ? @([self.timeshiftInMilliseconds integerValue] / 1000).stringValue : nil forKey:@"media_timeshift"];
+    [dictionary srg_safelySetString:(self.timeshiftInMilliseconds) ? @(round([self.timeshiftInMilliseconds integerValue] / 1000)).stringValue : nil forKey:@"media_timeshift"];
     [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"media_bandwidth"];
     [dictionary srg_safelySetString:self.volumeInPercent.stringValue forKey:@"media_volume"];
     
@@ -245,7 +245,7 @@
     // Send the event
     NSMutableDictionary<NSString *, NSString *> *fullLabelsDictionary = [NSMutableDictionary dictionary];
     [fullLabelsDictionary srg_safelySetString:action forKey:@"event_id"];
-    [fullLabelsDictionary srg_safelySetString:@(position / 1000).stringValue forKey:@"media_position"];
+    [fullLabelsDictionary srg_safelySetString:@(round(position / 1000)).stringValue forKey:@"media_position"];
     
     NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
     if (labelsDictionary) {
