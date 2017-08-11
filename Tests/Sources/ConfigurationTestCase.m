@@ -29,7 +29,6 @@
     XCTAssertEqual(configuration.container, 7);
     XCTAssertEqualObjects(configuration.comScoreVirtualSite, @"comscore-vsite");
     XCTAssertEqualObjects(configuration.netMetrixIdentifier, @"netmetrix-identifier");
-    XCTAssertEqual(configuration.heartbeatInterval, 30);
 }
 
 - (void)testCentralizedConfiguration
@@ -47,7 +46,6 @@
     XCTAssertEqual(configuration.container, 7);
     XCTAssertEqualObjects(configuration.comScoreVirtualSite, @"comscore-vsite");
     XCTAssertEqualObjects(configuration.netMetrixIdentifier, @"netmetrix-identifier");
-    XCTAssertEqual(configuration.heartbeatInterval, 30);
 }
 
 - (void)testUnitTestingConfiguration
@@ -65,7 +63,6 @@
     XCTAssertEqual(configuration.container, 7);
     XCTAssertEqualObjects(configuration.comScoreVirtualSite, @"comscore-vsite");
     XCTAssertEqualObjects(configuration.netMetrixIdentifier, @"netmetrix-identifier");
-    XCTAssertEqual(configuration.heartbeatInterval, 3);
 }
 
 - (void)testCopy
