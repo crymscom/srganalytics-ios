@@ -9,7 +9,6 @@
 #import "NSMutableDictionary+SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsSegment.h"
-#import "SRGAnalyticsConfiguration+Private.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
 #import <ComScore/ComScore.h>
@@ -197,7 +196,8 @@ static NSMutableDictionary *s_trackers = nil;
 {
     if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying && ! self.heartbeatTimer) {
         SRGAnalyticsConfiguration *configuration = [SRGAnalyticsTracker sharedTracker].configuration;
-        self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:configuration.heartbeatInterval
+        NSTimeInterval heartbeatInterval = configuration.unitTesting ? 3. : 30.;
+        self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:heartbeatInterval
                                                                target:self
                                                              selector:@selector(heartbeat:)
                                                              userInfo:nil

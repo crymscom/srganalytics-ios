@@ -67,11 +67,6 @@
     return s_domains[self.businessUnitIdentifier];
 }
 
-- (NSTimeInterval)heartbeatInterval
-{
-    return self.unitTesting ? 3. : 30.;
-}
-
 #pragma mark NSCopying protocol
 
 - (id)copyWithZone:(NSZone *)zone

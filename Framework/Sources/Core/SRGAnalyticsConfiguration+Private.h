@@ -20,11 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly, copy, nullable) NSString *netMetrixDomain;
 
-/**
- *  The heartbeat interval which will be applied.
- */
-@property (nonatomic, readonly) NSTimeInterval heartbeatInterval;
-
 @end
 
 NS_ASSUME_NONNULL_END
