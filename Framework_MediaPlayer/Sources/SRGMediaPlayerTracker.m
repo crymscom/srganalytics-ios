@@ -46,6 +46,7 @@ static NSMutableDictionary *s_trackers = nil;
 @property (nonatomic) NSUInteger heartbeatCount;
 
 @property (nonatomic) SRGAnalyticsPlayerLabels *recentLabels;
+@property (nonatomic) id<SRGSegment> recentSegment;
 
 @end
 
@@ -175,6 +176,8 @@ static NSMutableDictionary *s_trackers = nil;
     [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
     
     self.recentLabels = nil;
+    self.recentSegment = nil;
+    
     self.mediaPlayerController = nil;
 }
 
@@ -222,6 +225,9 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)trackEvent:(SRGAnalyticsPlayerEvent)event atPosition:(NSTimeInterval)position withLabels:(SRGAnalyticsPlayerLabels *)labels segment:(id<SRGSegment>)segment
 {
+    self.recentLabels = labels;
+    self.recentSegment = segment;
+    
     SRGAnalyticsPlayerLabels *playerLabels = [[SRGAnalyticsPlayerLabels alloc] init];
     playerLabels.playerName = @"SRGMediaPlayer";
     playerLabels.playerVersion = SRGMediaPlayerMarketingVersion();
@@ -256,7 +262,6 @@ static NSMutableDictionary *s_trackers = nil;
         [fullLabels mergeWithLabels:segmentLabels];
     }
     
-    self.recentLabels = fullLabels;
     [self.playerTracker trackPlayerEvent:event atPosition:position withLabels:fullLabels];
 }
 
@@ -509,11 +514,11 @@ static NSMutableDictionary *s_trackers = nil;
 - (void)heartbeat:(NSTimer *)timer
 {
     if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
-        [self.playerTracker trackPlayerEvent:SRGAnalyticsPlayerEventHeartbeat atPosition:self.currentPositionInMilliseconds withLabels:self.recentLabels];
+        [self trackEvent:SRGAnalyticsPlayerEventHeartbeat atPosition:self.currentPositionInMilliseconds withLabels:self.recentLabels segment:self.recentSegment];
         
         // Send a live hearbeat each minute
         if (self.mediaPlayerController.live && self.heartbeatCount % 2 == 0) {
-            [self.playerTracker trackPlayerEvent:SRGAnalyticsPlayerEventLiveHeartbeat atPosition:self.currentPositionInMilliseconds withLabels:self.recentLabels];
+            [self trackEvent:SRGAnalyticsPlayerEventLiveHeartbeat atPosition:self.currentPositionInMilliseconds withLabels:self.recentLabels segment:self.recentSegment];
         }
     }
     
