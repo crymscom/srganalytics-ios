@@ -300,7 +300,6 @@ static NSURL *DVRTestURL(void)
             XCTAssertTrue(seekReceived);
             XCTAssertFalse(playReceived);
             
-            // TODO: Works with breakpoint… not without
             XCTAssertEqualObjects(labels[@"media_position"], @"2");
             playReceived = YES;
         }
