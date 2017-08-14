@@ -914,6 +914,16 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
+    // Playing. No event must be received
+    id playObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when preparing a player");
+    }];
+    // Wait 2 seconds
+    [self expectationForElapsedTimeInterval:2. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:playObserver];
+    }];
+    
     // When selecting a segment, usual playback events due to seeking must be inhibited
     
     __block BOOL fullEndReceived = NO;
@@ -927,7 +937,7 @@ static NSURL *DVRTestURL(void)
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             XCTAssertNil(labels[@"segment_name"]);
             XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
-            XCTAssertEqualObjects(labels[@"media_position"], @"0");
+            XCTAssertEqualObjects(labels[@"media_position"], @"2");
             fullEndReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
@@ -1378,6 +1388,16 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
+    // Playing. No event must be received
+    id playObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when preparing a player");
+    }];
+    // Wait 2 seconds
+    [self expectationForElapsedTimeInterval:2. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:playObserver];
+    }];
+    
     // Expect stop event with segment labels
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -1385,7 +1405,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
         XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
-        XCTAssertEqualObjects(labels[@"media_position"], @"50");
+        XCTAssertEqualObjects(labels[@"media_position"], @"52");
         return YES;
     }];
     
