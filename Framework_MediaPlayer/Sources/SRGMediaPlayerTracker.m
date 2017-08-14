@@ -100,7 +100,7 @@ static NSMutableDictionary *s_trackers = nil;
 - (long)currentPositionInMilliseconds
 {
     SRGMediaPlayerPlaybackState playbackState = self.mediaPlayerController.playbackState;
-    if (playbackState != SRGMediaPlayerPlaybackStateIdle || playbackState != SRGMediaPlayerPlaybackStateEnded) {
+    if (playbackState != SRGMediaPlayerPlaybackStateIdle && playbackState != SRGMediaPlayerPlaybackStateEnded && playbackState != SRGMediaPlayerPlaybackStateEnded) {
         [self updateCurrentPositionInMilliseconds];
     }
     
