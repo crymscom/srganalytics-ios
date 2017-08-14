@@ -67,6 +67,7 @@ static NSDictionary *s_startLabels = nil;
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
         XCTAssertEqualObjects(labels[@"navigation_bu_distributer"], @"RTS");
         XCTAssertEqualObjects(labels[@"content_title"], @"Automatic tracking");
+        XCTAssertEqualObjects(labels[@"page_id"], @"app.automatic-tracking");
         return YES;
     }];
     
@@ -94,6 +95,7 @@ static NSDictionary *s_startLabels = nil;
         XCTAssertEqualObjects(labels[@"navigation_level_3"], @"Level3");
         XCTAssertNil(labels[@"navigation_level_4"]);
         XCTAssertEqualObjects(labels[@"content_title"], @"Automatic tracking with levels");
+        XCTAssertEqualObjects(labels[@"page_id"], @"level1.level2.level3.automatic-tracking-with-levels");
         return YES;
     }];
     
@@ -122,6 +124,7 @@ static NSDictionary *s_startLabels = nil;
         XCTAssertNil(labels[@"navigation_level_10"]);
         XCTAssertNil(labels[@"navigation_level_11"]);
         XCTAssertEqualObjects(labels[@"content_title"], @"Automatic tracking with many levels");
+        XCTAssertEqualObjects(labels[@"page_id"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.level11.level12.automatic-tracking-with-many-levels");
         return YES;
     }];
     
@@ -142,6 +145,7 @@ static NSDictionary *s_startLabels = nil;
         XCTAssertNil(labels[@"navigation_level_3"]);
         XCTAssertEqualObjects(labels[@"content_title"], @"Automatic tracking with levels and labels");
         XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
+        XCTAssertEqualObjects(labels[@"page_id"], @"level1.level2.automatic-tracking-with-levels-and-labels");
         return YES;
     }];
     
@@ -159,6 +163,7 @@ static NSDictionary *s_startLabels = nil;
         XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
         XCTAssertEqualObjects(labels[@"navigation_property_type"], @"app");
         XCTAssertEqualObjects(labels[@"content_title"], @"Manual tracking");
+        XCTAssertEqualObjects(labels[@"page_id"], @"app.manual-tracking");
         return YES;
     }];
     

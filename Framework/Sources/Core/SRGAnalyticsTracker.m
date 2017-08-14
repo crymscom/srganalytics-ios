@@ -192,6 +192,24 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
     return [globalLabels copy];
 }
 
+- (NSString *)pageIdWithTitle:(NSString *)title levels:(NSArray<NSString *> *)levels
+{
+    NSString *category = @"app";
+    
+    if (levels.count > 0) {
+        __block NSMutableString *levelsComScoreFormattedString = [NSMutableString new];
+        [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull level, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (levelsComScoreFormattedString.length > 0) {
+                [levelsComScoreFormattedString appendString:@"."];
+            }
+            [levelsComScoreFormattedString appendString:level.srg_comScoreFormattedString];
+        }];
+        category = [levelsComScoreFormattedString copy];
+    }
+    
+    return [NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString];
+}
+
 #pragma mark General event tracking (internal use only)
 
 - (void)trackEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
@@ -284,7 +302,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
     }
     
     [pageViewLabels srg_safelySetString:category forKey:@"category"];
-    [pageViewLabels srg_safelySetString:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
+    [pageViewLabels srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"name"];
     
     NSDictionary<NSString *, NSString *> *comScoreLabelsDictionary = [labels comScoreLabelsDictionary];
     if (comScoreLabelsDictionary) {
@@ -307,6 +325,8 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
     [fullLabels srg_safelySetString:title forKey:@"content_title"];
     [fullLabels srg_safelySetString:self.configuration.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
     [fullLabels srg_safelySetString:fromPushNotification ? @"true" : @"false" forKey:@"accessed_after_push_notification"];
+    [fullLabels srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"page_id"];
+
     
     [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
         if (idx > 7) {
