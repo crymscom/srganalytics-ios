@@ -840,7 +840,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testPrepareInitialSegmentSelectionAndPlaythrough
+- (void)testPrepareInitialSegmentSelectionAndPlayAndReset
 {
     // Prepare the player until it is paused. No event must be received
     id prepareObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
