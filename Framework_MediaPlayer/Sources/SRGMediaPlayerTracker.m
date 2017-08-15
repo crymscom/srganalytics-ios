@@ -20,6 +20,11 @@ static void *s_kvoContext = &s_kvoContext;
 
 NSString * const SRGAnalyticsMediaPlayerLabelsKey = @"SRGAnalyticsMediaPlayerLabelsKey";
 
+long SRGAnalyticsCMTimeToMilliseconds(CMTime time)
+{
+    return (long)fmax(floor(CMTimeGetSeconds(time) * 1000.), 0.);
+}
+
 static NSMutableDictionary *s_trackers = nil;
 
 @interface SRGMediaPlayerTracker () {
@@ -93,7 +98,7 @@ static NSMutableDictionary *s_trackers = nil;
             return 0;
         }
         else {
-            return (long)fmax(floor(CMTimeGetSeconds(currentTime) * 1000.), 0.);
+            return SRGAnalyticsCMTimeToMilliseconds(currentTime);
         }
     }
 }
@@ -395,7 +400,7 @@ static NSMutableDictionary *s_trackers = nil;
         
         NSDictionary *previousUserInfo = notification.userInfo[SRGMediaPlayerPreviousUserInfoKey];
         NSValue *lastPlaybackTimeValue = notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey];
-        NSTimeInterval lastPositionInMilliseconds = (long)fmax(floor(CMTimeGetSeconds([lastPlaybackTimeValue CMTimeValue]) * 1000.), 0.);
+        NSTimeInterval lastPositionInMilliseconds = SRGAnalyticsCMTimeToMilliseconds([lastPlaybackTimeValue CMTimeValue]);
         
         [tracker stopAtPosition:lastPositionInMilliseconds withLabels:previousUserInfo[SRGAnalyticsMediaPlayerLabelsKey]];
         
@@ -467,7 +472,7 @@ static NSMutableDictionary *s_trackers = nil;
         id<SRGSegment> previousSegment = notification.userInfo[SRGMediaPlayerPreviousSegmentKey];
         if (! previousSegment && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStatePreparing) {
             NSValue *lastPlaybackTimeValue = notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey];
-            NSTimeInterval lastPositionInMilliseconds = (long)fmax(floor(CMTimeGetSeconds([lastPlaybackTimeValue CMTimeValue]) * 1000.), 0.);
+            NSTimeInterval lastPositionInMilliseconds = SRGAnalyticsCMTimeToMilliseconds([lastPlaybackTimeValue CMTimeValue]);
             
             [self measureTrackedPlayerEvent:SRGAnalyticsPlayerEventStop atPosition:lastPositionInMilliseconds withSegment:nil];
         }
@@ -482,7 +487,7 @@ static NSMutableDictionary *s_trackers = nil;
     if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
         NSValue *lastPlaybackTimeValue = notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey];
-        NSTimeInterval lastPositionInMilliseconds = (long)fmax(floor(CMTimeGetSeconds([lastPlaybackTimeValue CMTimeValue]) * 1000.), 0.);
+        NSTimeInterval lastPositionInMilliseconds = SRGAnalyticsCMTimeToMilliseconds([lastPlaybackTimeValue CMTimeValue]);
         
         // Notify full-length start if the transition was not due to another segment being selected
         if (! [notification.userInfo[SRGMediaPlayerSelectionKey] boolValue] && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
