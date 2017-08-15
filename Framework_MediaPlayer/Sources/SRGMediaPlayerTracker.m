@@ -239,7 +239,7 @@ static NSMutableDictionary *s_trackers = nil;
     
     playerLabels.timeshiftInMilliseconds = [self timeshiftInMilliseconds];
     playerLabels.bandwidthInBitsPerSecond = [self bandwidthInBitsPerSecond];
-    playerLabels.volumeInPercent = [self volumeInPercent];
+    playerLabels.playerVolumeInPercent = [self playerVolumeInPercent];
     
     // comScore-only labels
     NSMutableDictionary<NSString *, NSString *> *comScoreCustomInfo = [NSMutableDictionary dictionary];
@@ -296,11 +296,16 @@ static NSMutableDictionary *s_trackers = nil;
     return roundf(size.width) == roundf(screenRect.size.width) && roundf(size.height) == roundf(screenRect.size.height) ? @"full" : @"norm";
 }
 
-- (NSNumber *)volumeInPercent
+- (NSNumber *)playerVolumeInPercent
 {
-    if (self.mediaPlayerController.player && self.mediaPlayerController.player.isMuted) {
+    // AVPlayer has a volume property, but its purpose is NOT end-user volume control (see documentation). This volume is
+    // therefore not relevant for our calculations.
+    AVPlayer *player = self.mediaPlayerController.player;
+    if (! player || player.muted) {
         return @0;
     }
+    // When we have a non-muted player, its volume is simply the system volume (note that this volume does not take
+    // into account the ringer status).
     else {
         NSInteger volume = [AVAudioSession sharedInstance].outputVolume * 100;
         return @(volume);

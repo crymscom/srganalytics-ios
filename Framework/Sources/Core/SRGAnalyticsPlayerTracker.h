@@ -78,9 +78,12 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @property (nonatomic, nullable) NSNumber *bandwidthInBitsPerSecond;     // Long
 
 /**
- *  The volume, on a scale from 0 to 100.
+ *  The volume of the player, on a scale from 0 to 100.
+ *
+ *  @discussion As the name suggests, this value must represent the volume of the player. If the player is not started or 
+ *              muted, this value must be set to 0.
  */
-@property (nonatomic, nullable) NSNumber *volumeInPercent;              // Long
+@property (nonatomic, nullable) NSNumber *playerVolumeInPercent;        // Long
 
 /**
  *  Additional custom information, mapping variables to values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 

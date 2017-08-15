@@ -34,7 +34,7 @@
     [dictionary srg_safelySetString:self.subtitlesEnabled.boolValue ? @"true" : @"false" forKey:@"media_subtitles_on"];
     [dictionary srg_safelySetString:(self.timeshiftInMilliseconds) ? @([self.timeshiftInMilliseconds integerValue] / 1000).stringValue : nil forKey:@"media_timeshift"];
     [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"media_bandwidth"];
-    [dictionary srg_safelySetString:self.volumeInPercent.stringValue forKey:@"media_volume"];
+    [dictionary srg_safelySetString:self.playerVolumeInPercent.stringValue forKey:@"media_volume"];
     
     if (self.customInfo) {
         [dictionary addEntriesFromDictionary:self.customInfo];
@@ -53,7 +53,7 @@
     [dictionary srg_safelySetString:self.playerName forKey:@"ns_st_mp"];
     [dictionary srg_safelySetString:self.playerVersion forKey:@"ns_st_mv"];
     [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"ns_st_br"];
-    [dictionary srg_safelySetString:self.volumeInPercent.stringValue ?: @"0" forKey:@"ns_st_vo"];
+    [dictionary srg_safelySetString:self.playerVolumeInPercent.stringValue ?: @"0" forKey:@"ns_st_vo"];
     
     if (self.comScoreCustomInfo) {
         [dictionary addEntriesFromDictionary:self.comScoreCustomInfo];
@@ -98,8 +98,8 @@
     if (labels.bandwidthInBitsPerSecond) {
         self.bandwidthInBitsPerSecond = labels.bandwidthInBitsPerSecond;
     }
-    if (labels.volumeInPercent) {
-        self.volumeInPercent = labels.volumeInPercent;
+    if (labels.playerVolumeInPercent) {
+        self.playerVolumeInPercent = labels.playerVolumeInPercent;
     }
     
     NSMutableDictionary *customInfo = [self.customInfo mutableCopy] ?: [NSMutableDictionary dictionary];
@@ -131,7 +131,7 @@
     labels.subtitlesEnabled = self.subtitlesEnabled;
     labels.timeshiftInMilliseconds = self.timeshiftInMilliseconds;
     labels.bandwidthInBitsPerSecond = self.bandwidthInBitsPerSecond;
-    labels.volumeInPercent = self.volumeInPercent;
+    labels.playerVolumeInPercent = self.playerVolumeInPercent;
     labels.customInfo = self.customInfo;
     labels.comScoreCustomInfo = self.comScoreCustomInfo;
     labels.comScoreCustomSegmentInfo = self.comScoreCustomSegmentInfo;
