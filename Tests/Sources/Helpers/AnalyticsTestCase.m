@@ -57,14 +57,8 @@
             return NO;
         }
         
-        NSString *event = labels[@"ns_st_ev"];
-        
-        // Discard null event (discover in test mode only
-        if (!event) {
-            return NO;
-        }
-        
         // Discard heartbeats (though hidden events, they are outside our control)
+        NSString *event = labels[@"ns_st_ev"];
         if ([event isEqualToString:@"hb"]) {
             return NO;
         }
