@@ -495,9 +495,9 @@ static NSMutableDictionary *s_trackers = nil;
         // Notify full-length start if the transition was not due to another segment being selected
         if (! [notification.userInfo[SRGMediaPlayerSelectionKey] boolValue] && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
             SRGAnalyticsPlayerEvent endEvent = [notification.userInfo[SRGMediaPlayerInterruptionKey] boolValue] ? SRGAnalyticsPlayerEventStop : SRGAnalyticsPlayerEventEnd;
-            NSTimeInterval endTimeInterval = (endEvent == SRGAnalyticsPlayerEventStop) ? lastPositionInMilliseconds : self.currentPositionInMilliseconds;
+            NSTimeInterval endPosition = (endEvent == SRGAnalyticsPlayerEventStop) ? lastPositionInMilliseconds : self.currentPositionInMilliseconds;
 
-            [self measureTrackedPlayerEvent:endEvent atPosition:endTimeInterval withSegment:segment];
+            [self measureTrackedPlayerEvent:endEvent atPosition:endPosition withSegment:segment];
             [self measureTrackedPlayerEvent:SRGAnalyticsPlayerEventPlay atPosition:self.currentPositionInMilliseconds withSegment:nil];
         }
         else {
