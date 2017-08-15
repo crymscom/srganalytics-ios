@@ -2272,7 +2272,11 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(4., NSEC_PER_SEC), CMTimeMakeWithSeconds(4., NSEC_PER_SEC))];
-    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 inSegments:@[segment] withAnalyticsLabels:nil userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                atIndex:0
+                             inSegments:@[segment]
+                    withAnalyticsLabels:nil
+                               userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
