@@ -131,8 +131,16 @@ static NSMutableDictionary *s_trackers = nil;
             SRGAnalyticsPlayerEvent event = self.mediaPlayerController.tracked ? SRGAnalyticsPlayerEventPlay : SRGAnalyticsPlayerEventStop;
             [self trackEvent:event withSegment:self.mediaPlayerController.selectedSegment];
         }
-        else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateSeeking
-                 || self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePaused) {
+        else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateSeeking) {
+            SRGAnalyticsPlayerEvent event = self.mediaPlayerController.tracked ? SRGAnalyticsPlayerEventPlay : SRGAnalyticsPlayerEventStop;
+            [self trackEvent:event withSegment:self.mediaPlayerController.selectedSegment];
+            
+            // Also send the seek event when starting tracking, so that the current player state is accurately reflected
+            if (self.mediaPlayerController.tracked) {
+                [self trackEvent:SRGAnalyticsPlayerEventSeek withSegment:self.mediaPlayerController.selectedSegment];
+            }
+        }
+        else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePaused) {
             SRGAnalyticsPlayerEvent event = self.mediaPlayerController.tracked ? SRGAnalyticsPlayerEventPlay : SRGAnalyticsPlayerEventStop;
             [self trackEvent:event withSegment:self.mediaPlayerController.selectedSegment];
             
