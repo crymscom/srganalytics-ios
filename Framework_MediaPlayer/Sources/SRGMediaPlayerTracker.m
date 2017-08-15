@@ -20,7 +20,7 @@ static void *s_kvoContext = &s_kvoContext;
 
 NSString * const SRGAnalyticsMediaPlayerLabelsKey = @"SRGAnalyticsMediaPlayerLabelsKey";
 
-long SRGAnalyticsCMTimeToMilliseconds(CMTime time)
+static long SRGAnalyticsCMTimeToMilliseconds(CMTime time)
 {
     return (long)fmax(floor(CMTimeGetSeconds(time) * 1000.), 0.);
 }
