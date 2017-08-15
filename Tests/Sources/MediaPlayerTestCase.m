@@ -2255,7 +2255,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     // Wait a little bit to collect potential events
-    [self expectationForElapsedTimeInterval:13. withHandler:nil];
+    [self expectationForElapsedTimeInterval:14. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
     }];
@@ -2292,7 +2292,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     // Wait a little bit to collect potential events
-    [self expectationForElapsedTimeInterval:13. withHandler:nil];
+    [self expectationForElapsedTimeInterval:14. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
     }];
