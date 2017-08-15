@@ -456,11 +456,6 @@ static NSMutableDictionary *s_trackers = nil;
             break;
         }
             
-        case SRGMediaPlayerPlaybackStateIdle: {
-            event = SRGAnalyticsPlayerEventStop;
-            break;
-        }
-            
         default: {
             return;
             break;
