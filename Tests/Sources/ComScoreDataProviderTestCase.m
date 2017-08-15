@@ -37,7 +37,7 @@ static NSURL *ServiceTestURL(void)
 
 #pragma mark Tests
 
-- (void)testComScorePrepareToPlayMediaComposition
+- (void)testPrepareToPlayMediaComposition
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
     
@@ -69,7 +69,7 @@ static NSURL *ServiceTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testComScorePlayMediaComposition
+- (void)testPlayMediaComposition
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
     
@@ -89,7 +89,7 @@ static NSURL *ServiceTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
 }
 
-- (void)testComScorePlaySegmentInMediaComposition
+- (void)testPlaySegmentInMediaComposition
 {
     // Use a segment id as video id, expect segment labels
     [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
