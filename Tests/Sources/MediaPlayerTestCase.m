@@ -2307,4 +2307,94 @@ static NSURL *DVRTestURL(void)
     XCTAssertEqual(segmentHeartbeatCount, 1);
 }
 
+- (void)testDVRLiveHearbeats
+{
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        return YES;
+    }];
+    
+    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    labels.customInfo = @{ @"stream_name" : @"full" };
+    
+    [self.mediaPlayerController playURL:DVRTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:labels userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // For tests, heartbeat interval is set to 3 seconds.
+    
+    __block NSInteger heartbeatCount = 0;
+    __block NSInteger liveheartbeatCount = 0;
+    id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"pos"]) {
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            ++heartbeatCount;
+        }
+        else if ([event isEqualToString:@"uptime"]) {
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            ++liveheartbeatCount;
+        }
+    }];
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:14. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+    }];
+    
+    XCTAssertEqual(heartbeatCount, 4);
+    XCTAssertEqual(liveheartbeatCount, 2);
+}
+
+- (void)testDVRTimeshiftHearbeats
+{
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        return YES;
+    }];
+    
+    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    labels.customInfo = @{ @"stream_name" : @"full" };
+    
+    [self.mediaPlayerController playURL:DVRTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:labels userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Seek to the past
+    
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        return [labels[@"event_id"] isEqualToString:@"play"];
+    }];
+    
+    [self.mediaPlayerController seekPreciselyToTime:CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(60., NSEC_PER_SEC)) withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // For tests, heartbeat interval is set to 3 seconds.
+    
+    __block NSInteger heartbeatCount = 0;
+    __block NSInteger liveheartbeatCount = 0;
+    id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"pos"]) {
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            ++heartbeatCount;
+        }
+        else if ([event isEqualToString:@"uptime"]) {
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            ++liveheartbeatCount;
+        }
+    }];
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:14. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+    }];
+    
+    XCTAssertEqual(heartbeatCount, 4);
+    XCTAssertEqual(liveheartbeatCount, 0);
+}
+
 @end
