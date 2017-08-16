@@ -16,6 +16,8 @@
 @interface SRGAnalyticsPlayerTracker ()
 
 @property (nonatomic) CSStreamSense *streamSense;
+
+@property (nonatomic, getter=isComScoreSessionAlive) BOOL comScoreSessionAlive;
 @property (nonatomic) SRGAnalyticsPlayerEvent previousPlayerEvent;
 
 @end
@@ -170,6 +172,12 @@
                       atPosition:(NSTimeInterval)position
                       withLabels:(SRGAnalyticsPlayerLabels *)labels
 {
+    // Ensure a play is emitted before events requiring a session to be opened (the comScore SDK does not open sessions
+    // automatically)
+    if (! self.comScoreSessionAlive && (event == SRGAnalyticsPlayerEventPause || event == SRGAnalyticsPlayerEventSeek)) {
+        [self trackComScorePlayerEvent:SRGAnalyticsPlayerEventPlay atPosition:position withLabels:labels];
+    }
+    
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSNumber *> *s_streamSenseEvents;
     dispatch_once(&s_onceToken, ^{
@@ -181,8 +189,8 @@
                                  @(SRGAnalyticsPlayerEventEnd) : @(CSStreamSenseEnd) };
     });
     
-    NSNumber *eventType = s_streamSenseEvents[@(event)];
-    if (! eventType) {
+    NSNumber *eventTypeValue = s_streamSenseEvents[@(event)];
+    if (! eventTypeValue) {
         return;
     }
     
@@ -198,13 +206,27 @@
         [[self.streamSense clip] setLabel:key value:object];
     }];
     
-    [self.streamSense notify:eventType.intValue position:position labels:nil /* already set on the stream and clip objects */];
+    CSStreamSenseEventType eventType = eventTypeValue.intValue;
+    [self.streamSense notify:eventType position:position labels:nil /* already set on the stream and clip objects */];
+    
+    if (eventType == CSStreamSensePlay) {
+        self.comScoreSessionAlive = YES;
+    }
+    else if (eventType == CSStreamSenseEnd) {
+        self.comScoreSessionAlive = NO;
+    }
 }
 
 - (void)trackTagCommanderPlayerEvent:(SRGAnalyticsPlayerEvent)event
                           atPosition:(NSTimeInterval)position
                           withLabels:(SRGAnalyticsPlayerLabels *)labels
 {
+    // Ensure a play is emitted before events requiring a session to be opened (the TagCommander SDK does not open sessions
+    // automatically)
+    if (self.previousPlayerEvent == SRGAnalyticsPlayerEventEnd && (event == SRGAnalyticsPlayerEventPause || event == SRGAnalyticsPlayerEventSeek)) {
+        [self trackTagCommanderPlayerEvent:SRGAnalyticsPlayerEventPlay atPosition:position withLabels:labels];
+    }
+    
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSString *> *s_actions;
     static NSDictionary<NSNumber *, NSArray<NSNumber *> *> *s_allowedTransitions;

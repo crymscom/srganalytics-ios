@@ -337,12 +337,6 @@ static NSMutableDictionary *s_trackers = nil;
             @strongify(mediaPlayerController)
             
             SRGAnalyticsPlayerEvent event = SRGAnalyticsPlayerEventForPlaybackState(mediaPlayerController.playbackState);
-            if (event != SRGAnalyticsPlayerEventPlay) {
-                [tracker trackEvent:SRGAnalyticsPlayerEventPlay
-                         atPosition:tracker.currentPositionInMilliseconds
-                         withLabels:mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
-                            segment:mediaPlayerController.selectedSegment];
-            }
             [tracker trackEvent:event
                      atPosition:tracker.currentPositionInMilliseconds
                      withLabels:mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
