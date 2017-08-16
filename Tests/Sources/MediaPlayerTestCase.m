@@ -654,6 +654,29 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testBandwidthLabel
+{
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertNotEqualObjects(labels[@"media_bandwidth"], @"0");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"stop");
+        XCTAssertEqualObjects(labels[@"media_bandwidth"], @"0");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
 - (void)testNonSelectedSegmentPlayback
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
