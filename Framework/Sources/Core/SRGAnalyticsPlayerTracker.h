@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
     /**
      *  The player started buffering.
      */
-    SRGAnalyticsPlayerEventBuffer,
+    SRGAnalyticsPlayerEventBuffer = 1,
     /**
      *  Playback started or resumed.
      */
