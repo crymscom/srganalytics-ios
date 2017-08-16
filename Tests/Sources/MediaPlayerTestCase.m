@@ -644,7 +644,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
-        XCTAssertNotEqualObjects(labels[@"media_volume"], @"0");
+        XCTAssertEqualObjects(labels[@"media_volume"], @"100");         // 100 when run with XCTest
         return YES;
     }];
     
