@@ -302,7 +302,7 @@ static NSMutableDictionary *s_trackers = nil;
     // therefore not relevant for our calculations.
     AVPlayer *player = self.mediaPlayerController.player;
     if (! player || player.muted) {
-        return @0;
+        return nil;
     }
     // When we have a non-muted player, its volume is simply the system volume (note that this volume does not take
     // into account the ringer status).

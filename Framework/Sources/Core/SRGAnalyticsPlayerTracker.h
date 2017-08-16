@@ -52,6 +52,10 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @interface SRGAnalyticsPlayerLabels : NSObject <NSCopying>
 
 /**
+ *  @name Player information
+ */
+
+/**
  *  The media player display name, e.g. "AVPlayer" if you are using `AVPlayer` directly.
  */
 @property (nonatomic, copy, nullable) NSString *playerName;
@@ -60,6 +64,18 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *  The media player version.
  */
 @property (nonatomic, copy, nullable) NSString *playerVersion;
+
+/**
+ *  The volume of the player, on a scale from 0 to 100.
+ *
+ *  @discussion As the name suggests, this value must represent the volume of the player. If the player is not started or
+ *              muted, this value must be set to 0.
+ */
+@property (nonatomic, nullable) NSNumber *playerVolumeInPercent;        // Long
+
+/**
+ *  @name Playback information
+ */
 
 /**
  *  Set to `@YES` iff subtitles are enabled at the time the measurement is made.
@@ -78,12 +94,8 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @property (nonatomic, nullable) NSNumber *bandwidthInBitsPerSecond;     // Long
 
 /**
- *  The volume of the player, on a scale from 0 to 100.
- *
- *  @discussion As the name suggests, this value must represent the volume of the player. If the player is not started or 
- *              muted, this value must be set to 0.
+ *  @name Custom information
  */
-@property (nonatomic, nullable) NSNumber *playerVolumeInPercent;        // Long
 
 /**
  *  Additional custom information, mapping variables to values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 
