@@ -2252,7 +2252,7 @@ static NSURL *DVRTestURL(void)
     // For tests, heartbeat interval is set to 3 seconds.
     
     __block NSInteger heartbeatCount = 0;
-    __block NSInteger liveheartbeatCount = 0;
+    __block NSInteger liveHeartbeatCount = 0;
     id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
@@ -2260,7 +2260,7 @@ static NSURL *DVRTestURL(void)
         }
         else if ([event isEqualToString:@"uptime"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            ++liveheartbeatCount;
+            ++liveHeartbeatCount;
         }
     }];
     
@@ -2271,7 +2271,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     XCTAssertEqual(heartbeatCount, 4);
-    XCTAssertEqual(liveheartbeatCount, 2);
+    XCTAssertEqual(liveHeartbeatCount, 2);
 }
 
 - (void)testHeartbeatWithSegmentPlayback
@@ -2333,7 +2333,7 @@ static NSURL *DVRTestURL(void)
     // For tests, heartbeat interval is set to 3 seconds.
     
     __block NSInteger heartbeatCount = 0;
-    __block NSInteger liveheartbeatCount = 0;
+    __block NSInteger liveHeartbeatCount = 0;
     id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
@@ -2341,7 +2341,7 @@ static NSURL *DVRTestURL(void)
         }
         else if ([event isEqualToString:@"uptime"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            ++liveheartbeatCount;
+            ++liveHeartbeatCount;
         }
     }];
     
@@ -2352,7 +2352,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     XCTAssertEqual(heartbeatCount, 4);
-    XCTAssertEqual(liveheartbeatCount, 2);
+    XCTAssertEqual(liveHeartbeatCount, 2);
 }
 
 - (void)testDVRTimeshiftHeartbeats
@@ -2383,7 +2383,7 @@ static NSURL *DVRTestURL(void)
     // For tests, heartbeat interval is set to 3 seconds.
     
     __block NSInteger heartbeatCount = 0;
-    __block NSInteger liveheartbeatCount = 0;
+    __block NSInteger liveHeartbeatCount = 0;
     id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
@@ -2391,7 +2391,7 @@ static NSURL *DVRTestURL(void)
         }
         else if ([event isEqualToString:@"uptime"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            ++liveheartbeatCount;
+            ++liveHeartbeatCount;
         }
     }];
     
@@ -2402,7 +2402,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     XCTAssertEqual(heartbeatCount, 4);
-    XCTAssertEqual(liveheartbeatCount, 0);
+    XCTAssertEqual(liveHeartbeatCount, 0);
 }
 
 @end
