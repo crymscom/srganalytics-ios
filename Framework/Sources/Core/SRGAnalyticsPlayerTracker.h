@@ -41,7 +41,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
      */
     SRGAnalyticsPlayerEventHeartbeat,
     /**
-     *  Live hearbeat (to be sent when playing in live conditions only).
+     *  Live heartbeat (to be sent when playing in live conditions only).
      */
     SRGAnalyticsPlayerEventLiveHeartbeat
 };

@@ -2150,7 +2150,7 @@ static NSURL *DVRTestURL(void)
     // For tests, heartbeat interval is set to 3 seconds.
     
     __block NSInteger heartbeatCount = 0;
-    id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++heartbeatCount;
@@ -2163,7 +2163,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:7. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 2);
@@ -2179,7 +2179,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     heartbeatCount = 0;
-    hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++heartbeatCount;
@@ -2192,7 +2192,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:4. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 0);
@@ -2207,7 +2207,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     heartbeatCount = 0;
-    hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++heartbeatCount;
@@ -2220,7 +2220,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:7. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 2);
@@ -2245,7 +2245,7 @@ static NSURL *DVRTestURL(void)
     
     __block NSInteger heartbeatCount = 0;
     __block NSInteger liveheartbeatCount = 0;
-    id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++heartbeatCount;
@@ -2259,7 +2259,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:14. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 4);
@@ -2286,7 +2286,7 @@ static NSURL *DVRTestURL(void)
     
     __block NSInteger heartbeatCount = 0;
     __block NSInteger segmentHeartbeatCount = 0;
-    id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             if ([labels[@"segment_name"] isEqualToString:@"segment"]) {
                 ++segmentHeartbeatCount;
@@ -2300,14 +2300,14 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:14. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 3);
     XCTAssertEqual(segmentHeartbeatCount, 1);
 }
 
-- (void)testDVRLiveHearbeats
+- (void)testDVRLiveHeartbeats
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
@@ -2326,7 +2326,7 @@ static NSURL *DVRTestURL(void)
     
     __block NSInteger heartbeatCount = 0;
     __block NSInteger liveheartbeatCount = 0;
-    id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++heartbeatCount;
@@ -2340,14 +2340,14 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:14. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 4);
     XCTAssertEqual(liveheartbeatCount, 2);
 }
 
-- (void)testDVRTimeshiftHearbeats
+- (void)testDVRTimeshiftHeartbeats
 {
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
@@ -2376,7 +2376,7 @@ static NSURL *DVRTestURL(void)
     
     __block NSInteger heartbeatCount = 0;
     __block NSInteger liveheartbeatCount = 0;
-    id hearbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++heartbeatCount;
@@ -2390,7 +2390,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:14. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:hearbeatEventObserver];
+        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 4);

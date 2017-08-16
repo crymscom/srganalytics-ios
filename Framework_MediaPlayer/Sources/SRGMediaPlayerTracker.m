@@ -158,8 +158,9 @@ static NSMutableDictionary *s_trackers = nil;
         [fullLabels mergeWithLabels:segmentLabels];
     }
     
-    if (self.mediaPlayerController.tracked && event != SRGAnalyticsPlayerEventStop) {
-        if (! self.heartbeatTimer && event == SRGAnalyticsPlayerEventPlay) {
+    // Restore the heartbeat timer when transitioning to play again
+    if (event == SRGAnalyticsPlayerEventPlay) {
+        if (! self.heartbeatTimer) {
             SRGAnalyticsConfiguration *configuration = [SRGAnalyticsTracker sharedTracker].configuration;
             NSTimeInterval heartbeatInterval = configuration.unitTesting ? 3. : 30.;
             self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:heartbeatInterval
@@ -168,15 +169,19 @@ static NSMutableDictionary *s_trackers = nil;
                                                                  userInfo:nil
                                                                   repeats:YES];
         }
-        
+    }
+    // Remove the heartbeat when not playing
+    else if (event != SRGAnalyticsPlayerEventHeartbeat && event != SRGAnalyticsPlayerEventLiveHeartbeat) {
+        self.heartbeatTimer = nil;
+    }
+    
+    if (self.mediaPlayerController.tracked && event != SRGAnalyticsPlayerEventStop) {
         self.recentLabels = labels;
         self.recentSegment = segment;
         
         [self.playerTracker trackPlayerEvent:event atPosition:position withLabels:fullLabels];
     }
     else {
-        self.heartbeatTimer = nil;
-        
         self.recentLabels = nil;
         self.recentSegment = nil;
         
@@ -456,13 +461,13 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)heartbeat:(NSTimer *)timer
 {
-    if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
-        [self trackEvent:SRGAnalyticsPlayerEventHeartbeat atPosition:self.currentPositionInMilliseconds withLabels:self.recentLabels segment:self.recentSegment];
-        
-        // Send a live hearbeat each minute
-        if (self.mediaPlayerController.live && self.heartbeatCount % 2 == 0) {
-            [self trackEvent:SRGAnalyticsPlayerEventLiveHeartbeat atPosition:self.currentPositionInMilliseconds withLabels:self.recentLabels segment:self.recentSegment];
-        }
+    NSAssert(self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying, @"Heartbeat timer is only active when playing by construction");
+    
+    [self trackEvent:SRGAnalyticsPlayerEventHeartbeat atPosition:self.currentPositionInMilliseconds withLabels:self.recentLabels segment:self.recentSegment];
+    
+    // Send a live heartbeat each minute
+    if (self.mediaPlayerController.live && self.heartbeatCount % 2 == 0) {
+        [self trackEvent:SRGAnalyticsPlayerEventLiveHeartbeat atPosition:self.currentPositionInMilliseconds withLabels:self.recentLabels segment:self.recentSegment];
     }
     
     self.heartbeatCount += 1;
