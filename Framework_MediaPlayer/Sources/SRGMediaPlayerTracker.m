@@ -333,10 +333,17 @@ static NSMutableDictionary *s_trackers = nil;
                                                    object:mediaPlayerController];
         
         @weakify(mediaPlayerController)
-        [mediaPlayerController addObserver:tracker keyPath:@keypath(SRGMediaPlayerController.new, tracked) options:0 block:^(MAKVONotification *notification) {
+        [mediaPlayerController addObserver:tracker keyPath:@keypath(mediaPlayerController.tracked) options:0 block:^(MAKVONotification *notification) {
             @strongify(mediaPlayerController)
             
-            [tracker trackEvent:SRGAnalyticsPlayerEventForPlaybackState(mediaPlayerController.playbackState)
+            SRGAnalyticsPlayerEvent event = SRGAnalyticsPlayerEventForPlaybackState(mediaPlayerController.playbackState);
+            if (event != SRGAnalyticsPlayerEventPlay) {
+                [tracker trackEvent:SRGAnalyticsPlayerEventPlay
+                         atPosition:tracker.currentPositionInMilliseconds
+                         withLabels:mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                            segment:mediaPlayerController.selectedSegment];
+            }
+            [tracker trackEvent:event
                      atPosition:tracker.currentPositionInMilliseconds
                      withLabels:mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                         segment:mediaPlayerController.selectedSegment];
@@ -363,7 +370,7 @@ static NSMutableDictionary *s_trackers = nil;
                                                         name:SRGMediaPlayerSegmentDidEndNotification
                                                       object:mediaPlayerController];
         
-        [mediaPlayerController removeObserver:tracker keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
+        [mediaPlayerController removeObserver:tracker keyPath:@keypath(mediaPlayerController.tracked)];
         
         NSDictionary *previousUserInfo = notification.userInfo[SRGMediaPlayerPreviousUserInfoKey];
         NSTimeInterval lastPosition = SRGAnalyticsCMTimeToMilliseconds([notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue]);
