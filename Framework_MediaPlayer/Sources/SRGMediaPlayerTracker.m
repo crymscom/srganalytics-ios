@@ -121,34 +121,29 @@ static NSMutableDictionary *s_trackers = nil;
                                                  name:SRGMediaPlayerSegmentDidEndNotification
                                                object:self.mediaPlayerController];
     
-    [self measureTrackedPlayerEvent:SRGAnalyticsPlayerEventBuffer atPosition:self.currentPositionInMilliseconds withSegment:nil];
-    
     @weakify(self)
     [self.mediaPlayerController addObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked) options:0 block:^(MAKVONotification *notification) {
         @strongify(self)
         
-        // Balance events if the player is already playing, so that all events can be properly emitted afterwards
-        if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
-            SRGAnalyticsPlayerEvent event = self.mediaPlayerController.tracked ? SRGAnalyticsPlayerEventPlay : SRGAnalyticsPlayerEventStop;
-            [self trackEvent:event withSegment:self.mediaPlayerController.selectedSegment];
-        }
-        else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateSeeking) {
-            SRGAnalyticsPlayerEvent event = self.mediaPlayerController.tracked ? SRGAnalyticsPlayerEventPlay : SRGAnalyticsPlayerEventStop;
-            [self trackEvent:event withSegment:self.mediaPlayerController.selectedSegment];
-            
-            // Also send the seek event when starting tracking, so that the current player state is accurately reflected
-            if (self.mediaPlayerController.tracked) {
+        if (self.mediaPlayerController.tracked) {
+            if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying) {
+                [self trackEvent:SRGAnalyticsPlayerEventPlay withSegment:self.mediaPlayerController.selectedSegment];
+            }
+            else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateSeeking) {
+                [self trackEvent:SRGAnalyticsPlayerEventPlay withSegment:self.mediaPlayerController.selectedSegment];
                 [self trackEvent:SRGAnalyticsPlayerEventSeek withSegment:self.mediaPlayerController.selectedSegment];
             }
-        }
-        else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePaused) {
-            SRGAnalyticsPlayerEvent event = self.mediaPlayerController.tracked ? SRGAnalyticsPlayerEventPlay : SRGAnalyticsPlayerEventStop;
-            [self trackEvent:event withSegment:self.mediaPlayerController.selectedSegment];
-            
-            // Also send the pause event when starting tracking, so that the current player state is accurately reflected
-            if (self.mediaPlayerController.tracked) {
+            else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePaused) {
+                [self trackEvent:SRGAnalyticsPlayerEventPlay withSegment:self.mediaPlayerController.selectedSegment];
                 [self trackEvent:SRGAnalyticsPlayerEventPause withSegment:self.mediaPlayerController.selectedSegment];
             }
+            else if (self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateStalled) {
+                [self trackEvent:SRGAnalyticsPlayerEventPlay withSegment:self.mediaPlayerController.selectedSegment];
+                [self trackEvent:SRGAnalyticsPlayerEventBuffer withSegment:self.mediaPlayerController.selectedSegment];
+            }
+        }
+        else {
+            [self trackEvent:SRGAnalyticsPlayerEventStop withSegment:self.mediaPlayerController.selectedSegment];
         }
         
         [self updateHearbeatTimer];
@@ -280,12 +275,12 @@ static NSMutableDictionary *s_trackers = nil;
         return nil;
     }
     
-    NSArray *events = currentItem.accessLog.events;
+    NSArray<AVPlayerItemAccessLogEvent *> *events = currentItem.accessLog.events;
     if (! events.lastObject) {
         return nil;
     }
     
-    double observedBitrate = [events.lastObject observedBitrate];
+    double observedBitrate = events.lastObject.observedBitrate;
     return @(observedBitrate);
 }
 
