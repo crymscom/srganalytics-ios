@@ -195,14 +195,14 @@ Nothing more is required for correct media consumption measurements. During play
 
 ## Measurements of other media players
 
-If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must perform media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsPlayerTracker` object and retain it somewhere during playback. When an event must be recorded, call the tracking method available from its public interface, specifying which kind of event must be generated and, optionally, additional labels. 
+If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must perform media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsPlayerTracker` object and retain it somewhere during playback. When the state of your player changes, call the tracking method available from its public interface, specifying which kind of event must be generated and, optionally, additional labels. 
 
 For example, you can emit a play event 6 seconds after playback started by calling:
 
 ```objective-c
-[[SRGAnalyticsTracker sharedTracker] trackPlayerEvent:SRGAnalyticsPlayerEventPlay
-                                           atPosition:6000
-                                           withLabels:nil];
+[[SRGAnalyticsTracker sharedTracker] updateWithPlayerEvent:SRGAnalyticsPlayerEventPlay
+                                                  position:6000
+                                                    labels:nil];
 ```
 
 When using this lower-level API, though, you are entirely responsible of following SRG SSR guidelines for playback measurements. For example, you need to supply correct segment labels if the user has chosen to play a specific part of your media (none in the example above). Read [our internal documentation](https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/195595938/Implementation+Concept+-+draft) for more information.
