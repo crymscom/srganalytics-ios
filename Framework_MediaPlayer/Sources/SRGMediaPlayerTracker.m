@@ -59,9 +59,6 @@ static NSMutableDictionary *s_trackers = nil;
 @property (nonatomic) NSTimer *heartbeatTimer;
 @property (nonatomic) NSUInteger heartbeatCount;
 
-@property (nonatomic) SRGAnalyticsPlayerLabels *recentLabels;
-@property (nonatomic) id<SRGSegment> recentSegment;
-
 @end
 
 @implementation SRGMediaPlayerTracker
@@ -213,14 +210,9 @@ static NSMutableDictionary *s_trackers = nil;
     
     // Update tracking information
     if (self.mediaPlayerController.tracked && event != SRGAnalyticsPlayerEventStop) {
-        self.recentSegment = segment;
-        
         [self.playerTracker updateWithPlayerEvent:event position:position labels:fullLabels];
     }
-    else {
-        self.recentLabels = nil;
-        self.recentSegment = nil;
-        
+    else {        
         [self.playerTracker updateWithPlayerEvent:SRGAnalyticsPlayerEventStop position:position labels:fullLabels];
     }
 }
@@ -489,14 +481,14 @@ static NSMutableDictionary *s_trackers = nil;
     
     [self updateWithEvent:SRGAnalyticsPlayerEventHeartbeat
                  position:[self currentPositionInMilliseconds]
-                  segment:self.recentSegment
+                  segment:self.mediaPlayerController.selectedSegment
                  userInfo:nil];
     
     // Send a live heartbeat each minute
     if (self.mediaPlayerController.live && self.heartbeatCount % 2 != 0) {
         [self updateWithEvent:SRGAnalyticsPlayerEventLiveHeartbeat
                      position:[self currentPositionInMilliseconds]
-                      segment:self.recentSegment
+                      segment:self.mediaPlayerController.selectedSegment
                      userInfo:nil];
     }
     
