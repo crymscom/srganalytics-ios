@@ -133,6 +133,14 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerState) {
 
 @end
 
+@protocol SRGAnalyticsPlayerTrackerDelegate <NSObject>
+
+- (NSTimeInterval)heartbeatPosition;
+
+- (nullable SRGAnalyticsPlayerLabels *)heartbeatLabels;
+
+@end
+
 /**
  *  Tracker for media playback consumption. This tracker ensures that the media analytics event sequences are always
  *  reliable, guaranteeing correct measurements.
@@ -153,6 +161,11 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerState) {
  *              be correct during playback.
  */
 @property (nonatomic, getter=isLivestream) BOOL livestream;
+
+/**
+ *  The tracker delegate.
+ */
+@property (nonatomic, weak) id<SRGAnalyticsPlayerTrackerDelegate> delegate;
 
 /**
  *  Update the tracker with the specified state and player information. An update will only result in an event when necessary.

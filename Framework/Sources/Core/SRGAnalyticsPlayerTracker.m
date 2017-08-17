@@ -23,6 +23,9 @@
 @property (nonatomic) NSTimeInterval playbackDuration;
 @property (nonatomic) NSDate *previousPlaybackDurationUpdateDate;
 
+@property (nonatomic) NSTimer *heartbeatTimer;
+@property (nonatomic) NSUInteger heartbeatCount;
+
 @end
 
 @implementation SRGAnalyticsPlayerLabels
@@ -151,6 +154,8 @@
 
 @implementation SRGAnalyticsPlayerTracker
 
+#pragma mark Object lifecycle
+
 - (instancetype)init
 {
     if (self = [super init]) {
@@ -162,6 +167,22 @@
     }
     return self;
 }
+
+- (void)dealloc
+{
+    self.heartbeatTimer = nil;      // Invalidate timer
+}
+
+#pragma mark Getters and setters
+
+- (void)setHeartbeatTimer:(NSTimer *)heartbeatTimer
+{
+    [_heartbeatTimer invalidate];
+    _heartbeatTimer = heartbeatTimer;
+    self.heartbeatCount = 0;
+}
+
+#pragma mark State updates
 
 - (void)updateWithPlayerState:(SRGAnalyticsPlayerState)state
                      position:(NSTimeInterval)position
@@ -295,6 +316,23 @@
         }
     }
     
+    // Restore the heartbeat timer when transitioning to play again
+    if (state == SRGAnalyticsPlayerStatePlaying) {
+        if (! self.heartbeatTimer) {
+            SRGAnalyticsConfiguration *configuration = [SRGAnalyticsTracker sharedTracker].configuration;
+            NSTimeInterval heartbeatInterval = configuration.unitTesting ? 3. : 30.;
+            self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:heartbeatInterval
+                                                                   target:self
+                                                                 selector:@selector(heartbeat:)
+                                                                 userInfo:nil
+                                                                  repeats:YES];
+        }
+    }
+    // Remove the heartbeat when not playing
+    else if (state != SRGAnalyticsPlayerStateHeartbeat && state != SRGAnalyticsPlayerStateLiveHeartbeat) {
+        self.heartbeatTimer = nil;
+    }
+    
     // Override position if it is a livestream
     if (self.livestream) {
         position = self.playbackDuration;
@@ -315,6 +353,22 @@
     }
     
     [[SRGAnalyticsTracker sharedTracker] trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
+}
+
+#pragma mark Timers
+
+- (void)heartbeat:(NSTimer *)timer
+{
+    NSAssert(self.previousPlayerState == SRGAnalyticsPlayerStatePlaying, @"Heartbeat timer is only active when playing by construction");
+    
+    [self updateTagCommanderWithPlayerState:SRGAnalyticsPlayerStateHeartbeat position:[self.delegate heartbeatPosition] labels:[self.delegate heartbeatLabels]];
+    
+    // Send a live heartbeat each minute
+    if (self.livestream && self.heartbeatCount % 2 == 0) {
+        [self updateTagCommanderWithPlayerState:SRGAnalyticsPlayerStateLiveHeartbeat position:[self.delegate heartbeatPosition] labels:[self.delegate heartbeatLabels]];
+    }
+    
+    self.heartbeatCount += 1;
 }
 
 @end

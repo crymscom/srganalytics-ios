@@ -14,7 +14,6 @@
 #import <ComScore/ComScore.h>
 #import <libextobjc/libextobjc.h>
 #import <MAKVONotificationCenter/MAKVONotificationCenter.h>
-#import <SRGAnalytics/SRGAnalytics.h>
 
 static void *s_kvoContext = &s_kvoContext;
 
@@ -56,9 +55,6 @@ static NSMutableDictionary *s_trackers = nil;
 // and thus not available when the tracker is stopped)
 @property (nonatomic, unsafe_unretained) SRGMediaPlayerController *mediaPlayerController;
 
-@property (nonatomic) NSTimer *heartbeatTimer;
-@property (nonatomic) NSUInteger heartbeatCount;
-
 @end
 
 @implementation SRGMediaPlayerTracker
@@ -70,6 +66,7 @@ static NSMutableDictionary *s_trackers = nil;
     if (self = [super init]) {
         self.mediaPlayerController = mediaPlayerController;
         self.playerTracker = [[SRGAnalyticsPlayerTracker alloc] init];
+        self.playerTracker.delegate = self;
     }
     return self;
 }
@@ -82,18 +79,7 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)dealloc
 {
-    self.heartbeatTimer = nil;      // Invalidate timer
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-#pragma mark Getters and setters
-
-- (void)setHeartbeatTimer:(NSTimer *)heartbeatTimer
-{
-    [_heartbeatTimer invalidate];
-    _heartbeatTimer = heartbeatTimer;
-    self.heartbeatCount = 0;
 }
 
 #pragma mark Tracking
@@ -189,23 +175,6 @@ static NSMutableDictionary *s_trackers = nil;
     if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
         SRGAnalyticsPlayerLabels *segmentLabels = [(id<SRGAnalyticsSegment>)segment srg_analyticsLabels];
         [fullLabels mergeWithLabels:segmentLabels];
-    }
-    
-    // Restore the heartbeat timer when transitioning to play again
-    if (state == SRGAnalyticsPlayerStatePlaying) {
-        if (! self.heartbeatTimer) {
-            SRGAnalyticsConfiguration *configuration = [SRGAnalyticsTracker sharedTracker].configuration;
-            NSTimeInterval heartbeatInterval = configuration.unitTesting ? 3. : 30.;
-            self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:heartbeatInterval
-                                                                   target:self
-                                                                 selector:@selector(heartbeat:)
-                                                                 userInfo:nil
-                                                                  repeats:YES];
-        }
-    }
-    // Remove the heartbeat when not playing
-    else if (state != SRGAnalyticsPlayerStateHeartbeat && state != SRGAnalyticsPlayerStateLiveHeartbeat) {
-        self.heartbeatTimer = nil;
     }
     
     // Update tracking information
@@ -350,6 +319,18 @@ static NSMutableDictionary *s_trackers = nil;
     }
 }
 
+#pragma mark SRGAnalyticsPlayerTrackerDelegate protocol
+
+- (NSTimeInterval)heartbeatPosition
+{
+    return [self currentPositionInMilliseconds];
+}
+
+- (SRGAnalyticsPlayerLabels *)heartbeatLabels
+{
+    return self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey];
+}
+
 #pragma mark Notifications
 
 + (void)playbackStateDidChange:(NSNotification *)notification
@@ -471,28 +452,6 @@ static NSMutableDictionary *s_trackers = nil;
                          userInfo:nil];
         }
     }
-}
-
-#pragma mark Timers
-
-- (void)heartbeat:(NSTimer *)timer
-{
-    NSAssert(self.mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePlaying, @"Heartbeat timer is only active when playing by construction");
-    
-    [self updateWithState:SRGAnalyticsPlayerStateHeartbeat 
-                 position:[self currentPositionInMilliseconds]
-                  segment:self.mediaPlayerController.selectedSegment
-                 userInfo:nil];
-    
-    // Send a live heartbeat each minute
-    if (self.mediaPlayerController.live && self.heartbeatCount % 2 == 0) {
-        [self updateWithState:SRGAnalyticsPlayerStateLiveHeartbeat
-                     position:[self currentPositionInMilliseconds] 
-                      segment:self.mediaPlayerController.selectedSegment
-                     userInfo:nil];
-    }
-    
-    self.heartbeatCount += 1;
 }
 
 @end
