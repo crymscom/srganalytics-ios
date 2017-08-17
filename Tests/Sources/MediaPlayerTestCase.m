@@ -2487,4 +2487,130 @@ static NSURL *DVRTestURL(void)
     XCTAssertEqual(liveHeartbeatCount, 0);
 }
 
+- (void)testHeartbeatAfterDisablingTracking
+{
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:LiveTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:nil userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // For tests, heartbeat interval is set to 3 seconds.
+    
+    __block NSInteger heartbeatCount1 = 0;
+    __block NSInteger liveHeartbeatCount1 = 0;
+    id heartbeatEventObserver1 = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"pos"]) {
+            ++heartbeatCount1;
+        }
+        else if ([event isEqualToString:@"uptime"]) {
+            ++liveHeartbeatCount1;
+        }
+    }];
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:7. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver1];
+    }];
+    
+    XCTAssertEqual(heartbeatCount1, 2);
+    XCTAssertEqual(liveHeartbeatCount1, 1);
+    
+    // Disable tracking. No heartbeats must be received anymore
+    self.mediaPlayerController.tracked = NO;
+    
+    __block NSInteger heartbeatCount2 = 0;
+    __block NSInteger liveHeartbeatCount2 = 0;
+    id heartbeatEventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"pos"]) {
+            ++heartbeatCount2;
+        }
+        else if ([event isEqualToString:@"uptime"]) {
+            ++liveHeartbeatCount2;
+        }
+    }];
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:7. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver2];
+    }];
+    
+    XCTAssertEqual(heartbeatCount2, 0);
+    XCTAssertEqual(liveHeartbeatCount2, 0);
+}
+
+- (void)testHeartbeatAfterEnablingTracking
+{
+    // Wait until the player is playing. No event must be received since tracking is not enabled yet
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when tracking has been disabled");
+    }];
+    
+    [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
+        return [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePlaying;
+    }];
+    
+    self.mediaPlayerController.tracked = NO;
+    [self.mediaPlayerController playURL:LiveTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
+    // Play a little bit. No heartbeats must be received
+    __block NSInteger heartbeatCount1 = 0;
+    __block NSInteger liveHeartbeatCount1 = 0;
+    id heartbeatEventObserver1 = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"pos"]) {
+            ++heartbeatCount1;
+        }
+        else if ([event isEqualToString:@"uptime"]) {
+            ++liveHeartbeatCount1;
+        }
+    }];
+    
+    [self expectationForElapsedTimeInterval:7. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver1];
+    }];
+    
+    XCTAssertEqual(heartbeatCount1, 0);
+    XCTAssertEqual(liveHeartbeatCount1, 0);
+    
+    // Enable tracking. Expect a play to be received
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        return YES;
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
+    self.mediaPlayerController.tracked = YES;
+    
+    // Heartbeats are now expected to be received
+    
+    __block NSInteger heartbeatCount2 = 0;
+    __block NSInteger liveHeartbeatCount2 = 0;
+    id heartbeatEventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"pos"]) {
+            ++heartbeatCount2;
+        }
+        else if ([event isEqualToString:@"uptime"]) {
+            ++liveHeartbeatCount2;
+        }
+    }];
+    
+    [self expectationForElapsedTimeInterval:7. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver2];
+    }];
+    
+    XCTAssertEqual(heartbeatCount2, 2);
+    XCTAssertEqual(liveHeartbeatCount2, 1);
+}
+
 @end
