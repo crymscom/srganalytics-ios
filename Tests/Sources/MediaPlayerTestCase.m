@@ -40,7 +40,6 @@ static NSURL *DVRTestURL(void)
 - (void)setUp
 {
     self.mediaPlayerController = [[SRGMediaPlayerController alloc] init];
-    self.mediaPlayerController.liveTolerance = 10.;
 }
 
 - (void)tearDown
@@ -2449,6 +2448,8 @@ static NSURL *DVRTestURL(void)
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+        XCTAssertEqualObjects(labels[@"media_position"], @"0");
+        XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         return YES;
     }];
     
@@ -2466,10 +2467,14 @@ static NSURL *DVRTestURL(void)
     id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertTrue(([labels[@"media_position"] integerValue] % 3) == 0);
+            XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
             ++heartbeatCount;
         }
         else if ([event isEqualToString:@"uptime"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertTrue(([labels[@"media_position"] integerValue] % 6) == 0);
+            XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
             ++liveHeartbeatCount;
         }
     }];

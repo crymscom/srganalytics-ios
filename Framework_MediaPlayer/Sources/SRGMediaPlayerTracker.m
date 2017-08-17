@@ -493,7 +493,7 @@ static NSMutableDictionary *s_trackers = nil;
                  userInfo:nil];
     
     // Send a live heartbeat each minute
-    if (self.mediaPlayerController.live && self.heartbeatCount % 2 == 0) {
+    if (self.mediaPlayerController.live && self.heartbeatCount % 2 != 0) {
         [self updateWithEvent:SRGAnalyticsPlayerEventLiveHeartbeat
                      position:[self currentPositionInMilliseconds]
                       segment:self.recentSegment
