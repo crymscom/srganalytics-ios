@@ -717,15 +717,14 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    // Live tolerance has been set to 10 for tests, duration of the DVR window for the test stream is about 45 seconds
-    CMTime pastTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(20., NSEC_PER_SEC));
+    CMTime pastTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(45., NSEC_PER_SEC));
     [self.mediaPlayerController seekPreciselyToTime:pastTime withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-        XCTAssertEqualObjects(labels[@"media_timeshift"], @"20");
+        XCTAssertEqualObjects(labels[@"media_timeshift"], @"45");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
@@ -745,7 +744,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
-        XCTAssertNotNil(labels[@"media_timeshift"]); // Can't compare to 20, because of chunk size
+        XCTAssertNotNil(labels[@"media_timeshift"]); // Can't compare to 45, because of chunk size
         XCTAssertEqualObjects(labels[@"media_position"], @"2");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;

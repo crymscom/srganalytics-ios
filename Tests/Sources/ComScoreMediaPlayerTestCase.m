@@ -457,8 +457,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    // Live tolerance has been set to 10 for tests, duration of the DVR window for the test stream is about 45 seconds
-    CMTime pastTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(20., NSEC_PER_SEC));
+    CMTime pastTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(45., NSEC_PER_SEC));
     [self.mediaPlayerController seekPreciselyToTime:pastTime withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -466,7 +465,7 @@ static NSURL *DVRTestURL(void)
     [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         XCTAssertNotNil(labels[@"srg_timeshift"]);
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"20000");
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"45000");
         checkMainLabels(labels);
         return YES;
     }];
@@ -474,7 +473,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"20000");
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"45000");
         checkMainLabels(labels);
         return YES;
     }];
