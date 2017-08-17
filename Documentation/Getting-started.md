@@ -195,9 +195,9 @@ Nothing more is required for correct media consumption measurements. During play
 
 ## Measurements of other media players
 
-If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must perform media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsPlayerTracker` object and retain it somewhere during playback. When the state of your player changes, call the tracking method available from the player tracker public interface, specifying the new state of the player and its current playback position (and additional optional labels if needed).
+If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must implement media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsPlayerTracker` object and retain it somewhere during playback. When the state of your player changes, call the update method available from the player tracker public interface, specifying the new state of the player and its current playback position (as well as additional optional labels if needed).
 
-Depending on valid state transitions, the tracker then automatically perform measurements transparently. You should update the state of your player when it changes, and as many times as needed so that the tracker has an accurate picture of its state.
+Depending on state transitions detected on the basis of state information, the tracker automatically generates measurements transparently. You should therefore update the state of your player when it changes, and as many times as needed so that the tracker can keep an accurate picture of the player state.
 
 For example, you can declare that the player is playing at the 6th second by calling:
 ```objective-c
