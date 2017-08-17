@@ -537,6 +537,7 @@ static NSURL *DVRTestURL(void)
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"media_position"], @"0");
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
@@ -553,9 +554,20 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
+    // Play for a while. No stream events must be received
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when playing");
+    }];
+    
+    [self expectationForElapsedTimeInterval:1. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"media_position"], @"1");
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
@@ -565,9 +577,102 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
+    // Pause for a while. No stream events must be received
+    eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when it's in pause");
+    }];
+    
+    [self expectationForElapsedTimeInterval:1. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertNil(labels[@"media_timeshift"]);
+        XCTAssertEqualObjects(labels[@"media_position"], @"1");
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testLiveStopLive
+{
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"media_position"], @"0");
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
+        return YES;
+    }];
+    
+    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    labels.customInfo = @{ @"test_info" : @"test" };
+    
+    [self.mediaPlayerController playURL:LiveTestURL()
+                                 atTime:kCMTimeZero
+                           withSegments:nil
+                        analyticsLabels:labels
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Play for a while. No stream events must be received
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when playing");
+    }];
+    
+    [self expectationForElapsedTimeInterval:1. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"stop");
+        XCTAssertNil(labels[@"media_timeshift"]);
+        XCTAssertEqualObjects(labels[@"media_position"], @"1");
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController stop];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"media_position"], @"0");
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController play];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Pause for a while. No stream events must be received
+    eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when it's in pause");
+    }];
+    
+    [self expectationForElapsedTimeInterval:1. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"stop");
+        XCTAssertNil(labels[@"media_timeshift"]);
+        XCTAssertEqualObjects(labels[@"media_position"], @"1");
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
@@ -583,6 +688,7 @@ static NSURL *DVRTestURL(void)
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"media_position"], @"0");
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
@@ -592,9 +698,20 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
+    // Play for a while. No stream events must be received
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when playing");
+    }];
+    
+    [self expectationForElapsedTimeInterval:1. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"seek");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"media_position"], @"1");
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
@@ -609,15 +726,27 @@ static NSURL *DVRTestURL(void)
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"20");
+        XCTAssertEqualObjects(labels[@"media_position"], @"1");
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
+    // Play for a while. No stream events must be received
+    eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when playing");
+    }];
+    
+    [self expectationForElapsedTimeInterval:1. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertNil(labels[@"media_timeshift"]);
+        XCTAssertEqualObjects(labels[@"media_position"], @"2");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];

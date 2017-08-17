@@ -20,6 +20,9 @@
 @property (nonatomic, getter=isComScoreSessionAlive) BOOL comScoreSessionAlive;
 @property (nonatomic) SRGAnalyticsPlayerEvent previousPlayerEvent;
 
+@property (nonatomic) NSTimeInterval playbackDuration;
+@property (nonatomic) NSDate *previousPlaybackDurationUpdateDate;
+
 @end
 
 @implementation SRGAnalyticsPlayerLabels
@@ -206,6 +209,10 @@
         [[self.streamSense clip] setLabel:key value:object];
     }];
     
+    if (self.livestream) {
+        position = 0;
+    }
+    
     CSStreamSenseEventType eventType = eventTypeValue.intValue;
     [self.streamSense notify:eventType position:position labels:nil /* already set on the stream and clip objects */];
     
@@ -264,8 +271,39 @@
         return;
     }
     
+    // Save the previous single event
     if ([s_playerSingleHiddenEvents containsObject:@(event)]) {
         self.previousPlayerEvent = event;
+    }
+    
+    // Cumulate playback duration only when playing
+    if (self.previousPlaybackDurationUpdateDate) {
+        self.playbackDuration += fabs([self.previousPlaybackDurationUpdateDate timeIntervalSinceNow] * 1000);
+    }
+    
+    switch (event) {
+        case SRGAnalyticsPlayerEventPlay:
+        case SRGAnalyticsPlayerEventHeartbeat:
+        case SRGAnalyticsPlayerEventLiveHeartbeat:
+        {
+            self.previousPlaybackDurationUpdateDate = NSDate.date;
+            break;
+        }
+            
+        default:
+        {
+            self.previousPlaybackDurationUpdateDate = nil;
+            break;
+        }
+    }
+    
+    // Override position if it is a livestream
+    if (self.livestream) {
+        position = self.playbackDuration;
+    }
+    
+    if (event == SRGAnalyticsPlayerEventStop || event == SRGAnalyticsPlayerEventEnd) {
+        self.playbackDuration = 0;
     }
     
     // Send the event

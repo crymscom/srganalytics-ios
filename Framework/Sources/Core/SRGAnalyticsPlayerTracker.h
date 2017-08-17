@@ -147,6 +147,14 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @interface SRGAnalyticsPlayerTracker : NSObject
 
 /**
+ *  State of the stream if it's a livestream or not (live DVR included)
+ *
+ *  @discussion This state should be changed before the first play event. Otherwise, the position won't be correct during
+ *              the playback
+ */
+@property (nonatomic, getter=isLivestream) BOOL livestream;
+
+/**
  *  Update the tracker with the specified player information. An update will only result in an even when necessary.
  *  You should update the state when appropriate (and as often as it seems fit) to accurately match the state of the 
  *  tracker player.
