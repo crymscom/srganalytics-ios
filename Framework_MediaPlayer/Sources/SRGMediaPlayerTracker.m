@@ -126,6 +126,18 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)updateWithState:(SRGAnalyticsPlayerState)state position:(NSTimeInterval)position segment:(id<SRGSegment>)segment userInfo:(NSDictionary *)userInfo
 {
+    SRGAnalyticsPlayerLabels *fullLabels = [self labelsWithUserInfo:userInfo segment:segment];
+    
+    if (self.mediaPlayerController.tracked && state != SRGAnalyticsPlayerStateStopped) {
+        [self.playerTracker updateWithPlayerState:state position:position labels:fullLabels];
+    }
+    else {
+        [self.playerTracker updateWithPlayerState:SRGAnalyticsPlayerStateStopped position:position labels:fullLabels];
+    }
+}
+
+- (SRGAnalyticsPlayerLabels *)labelsWithUserInfo:(NSDictionary *)userInfo segment:(id<SRGSegment>)segment
+{
     SRGAnalyticsPlayerLabels *playerLabels = [[SRGAnalyticsPlayerLabels alloc] init];
     playerLabels.playerName = @"SRGMediaPlayer";
     playerLabels.playerVersion = SRGMediaPlayerMarketingVersion();
@@ -175,13 +187,7 @@ static NSMutableDictionary *s_trackers = nil;
         [fullLabels mergeWithLabels:segmentLabels];
     }
     
-    // Update tracking information
-    if (self.mediaPlayerController.tracked && state != SRGAnalyticsPlayerStateStopped) {        
-        [self.playerTracker updateWithPlayerState:state position:position labels:fullLabels];
-    }
-    else {
-        [self.playerTracker updateWithPlayerState:SRGAnalyticsPlayerStateStopped position:position labels:fullLabels];
-    }
+    return fullLabels;
 }
 
 #pragma mark Playback data
@@ -331,7 +337,8 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (SRGAnalyticsPlayerLabels *)heartbeatLabels
 {
-    return self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey];
+    return [self labelsWithUserInfo:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                              segment:self.mediaPlayerController.selectedSegment];
 }
 
 #pragma mark Notifications
