@@ -125,7 +125,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerState) {
 @end
 
 /**
- *  Analytics player heartbeat delegate. Delegate methods are called when a heartbeat should be sent.
+ *  Analytics player tracker delegate.
  */
 @protocol SRGAnalyticsPlayerTrackerDelegate <NSObject>
 
