@@ -37,10 +37,10 @@
 
 - (NSInteger)site
 {
-    static NSDictionary<SRGAnalyticsBusinessUnitIdentifier, NSNumber *> *s_accountIdentifiers = nil;
+    static NSDictionary<SRGAnalyticsBusinessUnitIdentifier, NSNumber *> *s_sites = nil;
     static dispatch_once_t s_onceToken;
     dispatch_once(&s_onceToken, ^{
-        s_accountIdentifiers = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @3668,
+        s_sites = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @3668,
                                   SRGAnalyticsBusinessUnitIdentifierRTR : @3666,       // Under the SRG umbrella
                                   SRGAnalyticsBusinessUnitIdentifierRTS : @3669,
                                   SRGAnalyticsBusinessUnitIdentifierSRF : @3667,
@@ -49,7 +49,7 @@
     });
     
     NSString *businessUnitIdentifier = self.centralized ? SRGAnalyticsBusinessUnitIdentifierSRG : self.businessUnitIdentifier;
-    return s_accountIdentifiers[businessUnitIdentifier].integerValue;
+    return s_sites[businessUnitIdentifier].integerValue;
 }
 
 - (NSString *)netMetrixDomain

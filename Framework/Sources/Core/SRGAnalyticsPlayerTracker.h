@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
     /**
      *  The player started buffering.
      */
-    SRGAnalyticsPlayerEventBuffer,
+    SRGAnalyticsPlayerEventBuffer = 1,
     /**
      *  Playback started or resumed.
      */
@@ -41,7 +41,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
      */
     SRGAnalyticsPlayerEventHeartbeat,
     /**
-     *  Live hearbeat (to be sent when playing in live conditions only).
+     *  Live heartbeat (to be sent when playing in live conditions only).
      */
     SRGAnalyticsPlayerEventLiveHeartbeat
 };
@@ -52,6 +52,10 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @interface SRGAnalyticsPlayerLabels : NSObject <NSCopying>
 
 /**
+ *  @name Player information
+ */
+
+/**
  *  The media player display name, e.g. "AVPlayer" if you are using `AVPlayer` directly.
  */
 @property (nonatomic, copy, nullable) NSString *playerName;
@@ -60,6 +64,18 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
  *  The media player version.
  */
 @property (nonatomic, copy, nullable) NSString *playerVersion;
+
+/**
+ *  The volume of the player, on a scale from 0 to 100.
+ *
+ *  @discussion As the name suggests, this value must represent the volume of the player. If the player is not started or
+ *              muted, this value must be set to 0.
+ */
+@property (nonatomic, nullable) NSNumber *playerVolumeInPercent;        // Long
+
+/**
+ *  @name Playback information
+ */
 
 /**
  *  Set to `@YES` iff subtitles are enabled at the time the measurement is made.
@@ -78,9 +94,8 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @property (nonatomic, nullable) NSNumber *bandwidthInBitsPerSecond;     // Long
 
 /**
- *  The volume, on a scale from 0 to 100.
+ *  @name Custom information
  */
-@property (nonatomic, nullable) NSNumber *volumeInPercent;              // Long
 
 /**
  *  Additional custom information, mapping variables to values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081 
@@ -132,19 +147,17 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @interface SRGAnalyticsPlayerTracker : NSObject
 
 /**
- *  Track a media player event.
+ *  Update the tracker with the specified player information. An update will only result in an even when necessary.
+ *  You should update the state when appropriate (and as often as it seems fit) to accurately match the state of the 
+ *  tracker player.
  *
  *  @param event    The event type.
- *  @param position The playback position at which the event occurs, in milliseconds.
- *  @param labels   Additional detailed event information.
- *
- *  @discussion Depending on the service, calling this method might not always lead to an associated event. The possibility
- *              of emitting an event might namely be constrained by the event which was emitted before it (if any). For
- *              more information, refer to the official documentation.
+ *  @param position The current player playback position, in milliseconds.
+ *  @param labels   Additional detailed information.
  */
-- (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
-              atPosition:(NSTimeInterval)position
-              withLabels:(nullable SRGAnalyticsPlayerLabels *)labels;
+- (void)updateWithPlayerEvent:(SRGAnalyticsPlayerEvent)event
+                     position:(NSTimeInterval)position
+                       labels:(nullable SRGAnalyticsPlayerLabels *)labels;
 
 @end
 

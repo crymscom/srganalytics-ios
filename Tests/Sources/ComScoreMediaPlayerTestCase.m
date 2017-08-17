@@ -1295,7 +1295,13 @@ static NSURL *DVRTestURL(void)
 
 - (void)testPlayStartingWithBlockedSegment
 {
+    // The player must start playing at 60, wait until this position is reached
+    
     [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([labels[@"ns_st_po"] integerValue] / 1000 != 60) {
+            return NO;
+        }
+        
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);

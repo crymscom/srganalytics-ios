@@ -16,6 +16,8 @@
 @interface SRGAnalyticsPlayerTracker ()
 
 @property (nonatomic) CSStreamSense *streamSense;
+
+@property (nonatomic, getter=isComScoreSessionAlive) BOOL comScoreSessionAlive;
 @property (nonatomic) SRGAnalyticsPlayerEvent previousPlayerEvent;
 
 @end
@@ -29,12 +31,14 @@
     NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
     
     [dictionary srg_safelySetString:[NSBundle srg_isProductionVersion] ? @"prod" : @"preprod" forKey:@"media_embedding_environment"];
+    
     [dictionary srg_safelySetString:self.playerName forKey:@"media_player_display"];
     [dictionary srg_safelySetString:self.playerVersion forKey:@"media_player_version"];
+    [dictionary srg_safelySetString:self.playerVolumeInPercent.stringValue ?: @"0" forKey:@"media_volume"];
+    
     [dictionary srg_safelySetString:self.subtitlesEnabled.boolValue ? @"true" : @"false" forKey:@"media_subtitles_on"];
-    [dictionary srg_safelySetString:(self.timeshiftInMilliseconds) ? @([self.timeshiftInMilliseconds integerValue] / 1000).stringValue : nil forKey:@"media_timeshift"];
+    [dictionary srg_safelySetString:self.timeshiftInMilliseconds ? @(self.timeshiftInMilliseconds.integerValue / 1000).stringValue : nil forKey:@"media_timeshift"];
     [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"media_bandwidth"];
-    [dictionary srg_safelySetString:self.volumeInPercent.stringValue forKey:@"media_volume"];
     
     if (self.customInfo) {
         [dictionary addEntriesFromDictionary:self.customInfo];
@@ -52,8 +56,9 @@
     
     [dictionary srg_safelySetString:self.playerName forKey:@"ns_st_mp"];
     [dictionary srg_safelySetString:self.playerVersion forKey:@"ns_st_mv"];
+    [dictionary srg_safelySetString:self.playerVolumeInPercent.stringValue ?: @"0" forKey:@"ns_st_vo"];
+    
     [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"ns_st_br"];
-    [dictionary srg_safelySetString:self.volumeInPercent.stringValue ?: @"0" forKey:@"ns_st_vo"];
     
     if (self.comScoreCustomInfo) {
         [dictionary addEntriesFromDictionary:self.comScoreCustomInfo];
@@ -89,6 +94,10 @@
     if (labels.playerVersion) {
         self.playerVersion = labels.playerVersion;
     }
+    if (labels.playerVolumeInPercent) {
+        self.playerVolumeInPercent = labels.playerVolumeInPercent;
+    }
+    
     if (labels.subtitlesEnabled) {
         self.subtitlesEnabled = labels.subtitlesEnabled;
     }
@@ -97,9 +106,6 @@
     }
     if (labels.bandwidthInBitsPerSecond) {
         self.bandwidthInBitsPerSecond = labels.bandwidthInBitsPerSecond;
-    }
-    if (labels.volumeInPercent) {
-        self.volumeInPercent = labels.volumeInPercent;
     }
     
     NSMutableDictionary *customInfo = [self.customInfo mutableCopy] ?: [NSMutableDictionary dictionary];
@@ -128,10 +134,10 @@
     SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
     labels.playerName = self.playerName;
     labels.playerVersion = self.playerVersion;
+    labels.playerVolumeInPercent = self.playerVolumeInPercent;
     labels.subtitlesEnabled = self.subtitlesEnabled;
     labels.timeshiftInMilliseconds = self.timeshiftInMilliseconds;
     labels.bandwidthInBitsPerSecond = self.bandwidthInBitsPerSecond;
-    labels.volumeInPercent = self.volumeInPercent;
     labels.customInfo = self.customInfo;
     labels.comScoreCustomInfo = self.comScoreCustomInfo;
     labels.comScoreCustomSegmentInfo = self.comScoreCustomSegmentInfo;
@@ -154,18 +160,24 @@
     return self;
 }
 
-- (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
-              atPosition:(NSTimeInterval)position
-              withLabels:(SRGAnalyticsPlayerLabels *)labels
+- (void)updateWithPlayerEvent:(SRGAnalyticsPlayerEvent)event
+                     position:(NSTimeInterval)position
+                       labels:(SRGAnalyticsPlayerLabels *)labels
 {
-    [self trackTagCommanderPlayerEvent:event atPosition:position withLabels:labels];
-    [self trackComScorePlayerEvent:event atPosition:position withLabels:labels];
+    [self updateTagCommanderWithPlayerEvent:event position:position labels:labels];
+    [self updateComScoreWithPlayerEvent:event position:position labels:labels];
 }
 
-- (void)trackComScorePlayerEvent:(SRGAnalyticsPlayerEvent)event
-                      atPosition:(NSTimeInterval)position
-                      withLabels:(SRGAnalyticsPlayerLabels *)labels
+- (void)updateComScoreWithPlayerEvent:(SRGAnalyticsPlayerEvent)event
+                             position:(NSTimeInterval)position
+                               labels:(SRGAnalyticsPlayerLabels *)labels
 {
+    // Ensure a play is emitted before events requiring a session to be opened (the comScore SDK does not open sessions
+    // automatically)
+    if (! self.comScoreSessionAlive && (event == SRGAnalyticsPlayerEventPause || event == SRGAnalyticsPlayerEventSeek)) {
+        [self updateComScoreWithPlayerEvent:SRGAnalyticsPlayerEventPlay position:position labels:labels];
+    }
+    
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSNumber *> *s_streamSenseEvents;
     dispatch_once(&s_onceToken, ^{
@@ -177,8 +189,8 @@
                                  @(SRGAnalyticsPlayerEventEnd) : @(CSStreamSenseEnd) };
     });
     
-    NSNumber *eventType = s_streamSenseEvents[@(event)];
-    if (! eventType) {
+    NSNumber *eventTypeValue = s_streamSenseEvents[@(event)];
+    if (! eventTypeValue) {
         return;
     }
     
@@ -194,13 +206,27 @@
         [[self.streamSense clip] setLabel:key value:object];
     }];
     
-    [self.streamSense notify:eventType.intValue position:position labels:nil /* already set on the stream and clip objects */];
+    CSStreamSenseEventType eventType = eventTypeValue.intValue;
+    [self.streamSense notify:eventType position:position labels:nil /* already set on the stream and clip objects */];
+    
+    if (eventType == CSStreamSensePlay) {
+        self.comScoreSessionAlive = YES;
+    }
+    else if (eventType == CSStreamSenseEnd) {
+        self.comScoreSessionAlive = NO;
+    }
 }
 
-- (void)trackTagCommanderPlayerEvent:(SRGAnalyticsPlayerEvent)event
-                          atPosition:(NSTimeInterval)position
-                          withLabels:(SRGAnalyticsPlayerLabels *)labels
+- (void)updateTagCommanderWithPlayerEvent:(SRGAnalyticsPlayerEvent)event
+                                 position:(NSTimeInterval)position
+                                   labels:(SRGAnalyticsPlayerLabels *)labels
 {
+    // Ensure a play is emitted before events requiring a session to be opened (the TagCommander SDK does not open sessions
+    // automatically)
+    if (self.previousPlayerEvent == SRGAnalyticsPlayerEventEnd && (event == SRGAnalyticsPlayerEventPause || event == SRGAnalyticsPlayerEventSeek)) {
+        [self updateTagCommanderWithPlayerEvent:SRGAnalyticsPlayerEventPlay position:position labels:labels];
+    }
+    
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSString *> *s_actions;
     static NSDictionary<NSNumber *, NSArray<NSNumber *> *> *s_allowedTransitions;
