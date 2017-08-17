@@ -415,7 +415,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertNil(labels[@"srg_timeshift"]);
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
         checkMainLabels(labels);
         return YES;
     }];
@@ -466,7 +466,7 @@ static NSURL *DVRTestURL(void)
     [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         XCTAssertNotNil(labels[@"srg_timeshift"]);
-        XCTAssertNotEqualObjects(labels[@"srg_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"20000");
         checkMainLabels(labels);
         return YES;
     }];
@@ -474,7 +474,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertNil(labels[@"srg_timeshift"]);
+        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"20000");
         checkMainLabels(labels);
         return YES;
     }];

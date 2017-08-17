@@ -589,7 +589,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
-        XCTAssertNil(labels[@"media_timeshift"]);
+        XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
@@ -635,7 +635,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
-        XCTAssertNil(labels[@"media_timeshift"]);
+        XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
@@ -671,7 +671,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
-        XCTAssertNil(labels[@"media_timeshift"]);
+        XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
@@ -745,7 +745,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
-        XCTAssertNil(labels[@"media_timeshift"]);
+        XCTAssertNotNil(labels[@"media_timeshift"]); // Can't compare to 20, because of chunk size
         XCTAssertEqualObjects(labels[@"media_position"], @"2");
         XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;

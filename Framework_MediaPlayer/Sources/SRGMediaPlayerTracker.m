@@ -145,6 +145,11 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)updateWithEvent:(SRGAnalyticsPlayerEvent)event position:(NSTimeInterval)position labels:(SRGAnalyticsPlayerLabels *)labels segment:(id<SRGSegment>)segment
 {
+    [self updateWithEvent:event position:position labels:labels segment:segment userInfo:nil];
+}
+
+- (void)updateWithEvent:(SRGAnalyticsPlayerEvent)event position:(NSTimeInterval)position labels:(SRGAnalyticsPlayerLabels *)labels segment:(id<SRGSegment>)segment userInfo:(NSDictionary *)userInfo
+{
     SRGAnalyticsPlayerLabels *playerLabels = [[SRGAnalyticsPlayerLabels alloc] init];
     playerLabels.playerName = @"SRGMediaPlayer";
     playerLabels.playerVersion = SRGMediaPlayerMarketingVersion();
@@ -154,7 +159,14 @@ static NSMutableDictionary *s_trackers = nil;
     AVMediaSelectionOption *currentLegibleOption = [playerItem selectedMediaOptionInMediaSelectionGroup:legibleGroup];
     playerLabels.subtitlesEnabled = @(currentLegibleOption != nil);
     
-    playerLabels.timeshiftInMilliseconds = [self timeshiftInMilliseconds];
+    if (userInfo) {
+        playerLabels.timeshiftInMilliseconds = [self timeshiftInMillisecondsForStreamType:[userInfo[SRGMediaPlayerPreviousStreamTypeKey] integerValue]
+                                                                                   timeRange:[userInfo[SRGMediaPlayerPreviousTimeRangeKey] CMTimeRangeValue]
+                                                                                 currentTime:[userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue]];
+    }
+    else {
+        playerLabels.timeshiftInMilliseconds = [self timeshiftInMilliseconds];
+    }
     playerLabels.bandwidthInBitsPerSecond = [self bandwidthInBitsPerSecond];
     playerLabels.playerVolumeInPercent = [self playerVolumeInPercent];
     
@@ -287,9 +299,16 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (NSNumber *)timeshiftInMilliseconds
 {
+    return [self timeshiftInMillisecondsForStreamType:self.mediaPlayerController.streamType
+                                            timeRange:self.mediaPlayerController.timeRange
+                                          currentTime:self.mediaPlayerController.player.currentItem.currentTime];
+}
+
+- (NSNumber *)timeshiftInMillisecondsForStreamType:(SRGMediaPlayerStreamType)streamType timeRange:(CMTimeRange)timeRange currentTime:(CMTime)currentTime
+{
     // Do not return any value for non-live streams
-    if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
-        CMTime timeShift = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), self.mediaPlayerController.player.currentItem.currentTime);
+    if (streamType == SRGMediaPlayerStreamTypeDVR) {
+        CMTime timeShift = CMTimeSubtract(CMTimeRangeGetEnd(timeRange), currentTime);
         NSInteger timeShiftInSeconds = (NSInteger)fabs(CMTimeGetSeconds(timeShift));
         
         // Consider offsets smaller than the tolerance to be equivalent to live conditions, sending 0 instead of the real offset
@@ -300,7 +319,7 @@ static NSMutableDictionary *s_trackers = nil;
             return @(timeShiftInSeconds * 1000);
         }
     }
-    else if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive) {
+    else if (streamType == SRGMediaPlayerStreamTypeLive) {
         return @0;
     }
     else {
@@ -374,7 +393,8 @@ static NSMutableDictionary *s_trackers = nil;
         [tracker updateWithEvent:SRGAnalyticsPlayerEventStop
                         position:lastPosition
                           labels:previousUserInfo[SRGAnalyticsMediaPlayerLabelsKey]
-                         segment:mediaPlayerController.selectedSegment];
+                         segment:mediaPlayerController.selectedSegment
+                        userInfo:notification.userInfo];
         [tracker stop];
         
         [s_trackers removeObjectForKey:key];
