@@ -283,15 +283,8 @@
     
     self.previousPlayerState = state;
     
-    // Cumulate playback duration
-    if (self.previousPlaybackDurationUpdateDate) {
-        self.playbackDuration += fabs([self.previousPlaybackDurationUpdateDate timeIntervalSinceNow] * 1000);
-    }
-    
     // Restore the heartbeat timer when transitioning to play again
     if (state == SRGAnalyticsPlayerStatePlaying) {
-        self.previousPlaybackDurationUpdateDate = NSDate.date;
-        
         if (! self.heartbeatTimer) {
             SRGAnalyticsConfiguration *configuration = [SRGAnalyticsTracker sharedTracker].configuration;
             NSTimeInterval heartbeatInterval = configuration.unitTesting ? 3. : 30.;
@@ -304,17 +297,12 @@
     }
     // Remove the heartbeat when not playing
     else {
-        self.previousPlaybackDurationUpdateDate = nil;
         self.heartbeatTimer = nil;
     }
     
     // Override position if it is a livestream
     if (self.livestream) {
-        position = self.playbackDuration;
-    }
-    
-    if (state == SRGAnalyticsPlayerStateStopped || state == SRGAnalyticsPlayerStateEnded) {
-        self.playbackDuration = 0;
+        position = [self updatedPlaybackDurationWithState:state];
     }
     
     // Send the event
@@ -337,6 +325,32 @@
     [[SRGAnalyticsTracker sharedTracker] trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
 }
 
+#pragma mark Playback duration
+
+- (NSTimeInterval)updatedPlaybackDurationWithState:(SRGAnalyticsPlayerState)state
+{
+    NSAssert(self.livestream, @"Duration calculated for livestreams only");
+    
+    if (self.previousPlaybackDurationUpdateDate) {
+        self.playbackDuration += fabs([self.previousPlaybackDurationUpdateDate timeIntervalSinceNow] * 1000);
+    }
+    
+    if (state == SRGAnalyticsPlayerStatePlaying) {
+        self.previousPlaybackDurationUpdateDate = NSDate.date;
+    }
+    else {
+        self.previousPlaybackDurationUpdateDate = nil;
+    }
+    
+    NSTimeInterval playbackDuration = self.playbackDuration;
+    
+    if (state == SRGAnalyticsPlayerStateStopped || state == SRGAnalyticsPlayerStateEnded) {
+        self.playbackDuration = 0;
+    }
+    
+    return playbackDuration;
+}
+
 #pragma mark Timers
 
 - (void)heartbeat:(NSTimer *)timer
@@ -345,8 +359,13 @@
     
     if (self.delegate) {
         NSTimeInterval position = [self.delegate positionForPlayerTracker:self];
-        SRGAnalyticsPlayerLabels *labels = [self.delegate labelsForPlayerTracker:self];
         
+        // Override position if it is a livestream
+        if (self.livestream) {
+            position = [self updatedPlaybackDurationWithState:SRGAnalyticsPlayerStatePlaying];
+        }
+        
+        SRGAnalyticsPlayerLabels *labels = [self.delegate labelsForPlayerTracker:self];
         [self trackTagCommanderMediaPlayerEventWithUid:@"pos" withPosition:position labels:labels];
         
         // Send a live heartbeat each minute
