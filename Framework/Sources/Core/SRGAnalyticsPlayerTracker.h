@@ -13,13 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerState) {
     /**
-     *  The player is buffering.
-     */
-    SRGAnalyticsPlayerStateBuffering = 1,
-    /**
      *  The player is currently playing content.
      */
-    SRGAnalyticsPlayerStatePlaying,
+    SRGAnalyticsPlayerStatePlaying = 1,
     /**
      *  Playback is paused.
      */
@@ -35,15 +31,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerState) {
     /**
      *  Playback ended normally.
      */
-    SRGAnalyticsPlayerStateEnded,
-    /**
-     *  Normal heartbeat.
-     */
-    SRGAnalyticsPlayerStateHeartbeat,
-    /**
-     *  Live heartbeat (to be sent when playing in live conditions only).
-     */
-    SRGAnalyticsPlayerStateLiveHeartbeat
+    SRGAnalyticsPlayerStateEnded
 };
 
 /**
@@ -134,6 +122,8 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerState) {
 @end
 
 @protocol SRGAnalyticsPlayerTrackerDelegate <NSObject>
+
+- (BOOL)isLive;
 
 - (NSTimeInterval)heartbeatPosition;
 

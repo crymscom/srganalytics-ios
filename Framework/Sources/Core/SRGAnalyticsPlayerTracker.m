@@ -205,8 +205,7 @@
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSNumber *> *s_streamSenseEvents;
     dispatch_once(&s_onceToken, ^{
-        s_streamSenseEvents = @{ @(SRGAnalyticsPlayerStateBuffering) : @(CSStreamSenseBuffer),
-                                 @(SRGAnalyticsPlayerStatePlaying) : @(CSStreamSensePlay),
+        s_streamSenseEvents = @{ @(SRGAnalyticsPlayerStatePlaying) : @(CSStreamSensePlay),
                                  @(SRGAnalyticsPlayerStatePaused) : @(CSStreamSensePause),
                                  @(SRGAnalyticsPlayerStateSeeking) : @(CSStreamSensePause),
                                  @(SRGAnalyticsPlayerStateStopped) : @(CSStreamSenseEnd),
@@ -257,55 +256,40 @@
     
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSString *> *s_actions;
-    static NSDictionary<NSNumber *, NSArray<NSNumber *> *> *s_allowedTransitions;
-    static NSArray<NSNumber *> *s_playerSingleHiddenEvents;
+    static NSDictionary<NSNumber *, NSArray<NSNumber *> *> *s_transitions;
     dispatch_once(&s_onceToken, ^{
         s_actions = @{ @(SRGAnalyticsPlayerStatePlaying) : @"play",
                        @(SRGAnalyticsPlayerStatePaused) : @"pause",
                        @(SRGAnalyticsPlayerStateSeeking) : @"seek",
                        @(SRGAnalyticsPlayerStateStopped) : @"stop",
-                       @(SRGAnalyticsPlayerStateEnded) : @"eof",
-                       @(SRGAnalyticsPlayerStateHeartbeat) : @"pos",
-                       @(SRGAnalyticsPlayerStateLiveHeartbeat) : @"uptime" };
-        
-        // Allowed transitions from an event to an other event
-        s_allowedTransitions = @{ @(SRGAnalyticsPlayerStatePlaying) : @[ @(SRGAnalyticsPlayerStatePaused), @(SRGAnalyticsPlayerStateSeeking), @(SRGAnalyticsPlayerStateStopped), @(SRGAnalyticsPlayerStateEnded), @(SRGAnalyticsPlayerStateHeartbeat), @(SRGAnalyticsPlayerStateLiveHeartbeat) ],
-                                  @(SRGAnalyticsPlayerStatePaused) : @[ @(SRGAnalyticsPlayerStatePlaying), @(SRGAnalyticsPlayerStateSeeking), @(SRGAnalyticsPlayerStateStopped), @(SRGAnalyticsPlayerStateEnded) ],
-                                  @(SRGAnalyticsPlayerStateSeeking) : @[ @(SRGAnalyticsPlayerStatePlaying), @(SRGAnalyticsPlayerStatePaused), @(SRGAnalyticsPlayerStateStopped), @(SRGAnalyticsPlayerStateEnded) ],
-                                  @(SRGAnalyticsPlayerStateStopped) : @[ @(SRGAnalyticsPlayerStatePlaying) ],
-                                  @(SRGAnalyticsPlayerStateEnded) : @[ @(SRGAnalyticsPlayerStatePlaying) ],
-                                  @(SRGAnalyticsPlayerStateHeartbeat) : @[ @(SRGAnalyticsPlayerStatePaused), @(SRGAnalyticsPlayerStateSeeking), @(SRGAnalyticsPlayerStateStopped), @(SRGAnalyticsPlayerStateEnded), @(SRGAnalyticsPlayerStateHeartbeat), @(SRGAnalyticsPlayerStateLiveHeartbeat) ],
-                                  @(SRGAnalyticsPlayerStateLiveHeartbeat) : @[ @(SRGAnalyticsPlayerStatePaused), @(SRGAnalyticsPlayerStateSeeking), @(SRGAnalyticsPlayerStateStopped), @(SRGAnalyticsPlayerStateEnded), @(SRGAnalyticsPlayerStateHeartbeat), @(SRGAnalyticsPlayerStateLiveHeartbeat) ] };
-        
-        // Don't send twice a player single event
-        s_playerSingleHiddenEvents = @[ @(SRGAnalyticsPlayerStatePlaying), @(SRGAnalyticsPlayerStatePaused), @(SRGAnalyticsPlayerStateSeeking), @(SRGAnalyticsPlayerStateStopped), @(SRGAnalyticsPlayerStateEnded) ];
+                       @(SRGAnalyticsPlayerStateEnded) : @"eof" };
+        s_transitions = @{ @(SRGAnalyticsPlayerStatePlaying) : @[ @(SRGAnalyticsPlayerStatePaused), @(SRGAnalyticsPlayerStateSeeking), @(SRGAnalyticsPlayerStateStopped), @(SRGAnalyticsPlayerStateEnded) ],
+                           @(SRGAnalyticsPlayerStatePaused) : @[ @(SRGAnalyticsPlayerStatePlaying), @(SRGAnalyticsPlayerStateSeeking), @(SRGAnalyticsPlayerStateStopped), @(SRGAnalyticsPlayerStateEnded) ],
+                           @(SRGAnalyticsPlayerStateSeeking) : @[ @(SRGAnalyticsPlayerStatePlaying), @(SRGAnalyticsPlayerStatePaused), @(SRGAnalyticsPlayerStateStopped), @(SRGAnalyticsPlayerStateEnded) ],
+                           @(SRGAnalyticsPlayerStateStopped) : @[ @(SRGAnalyticsPlayerStatePlaying) ],
+                           @(SRGAnalyticsPlayerStateEnded) : @[ @(SRGAnalyticsPlayerStatePlaying) ] };
     });
     
-    NSString *action = s_actions[@(state)];
     // Don't send an unknown action
+    NSString *action = s_actions[@(state)];
     if (! action) {
         return;
     }
     
     // Don't send an unallowed action
-    if (! [s_allowedTransitions[@(self.previousPlayerState)] containsObject:@(state)]) {
+    if (! [s_transitions[@(self.previousPlayerState)] containsObject:@(state)]) {
         return;
     }
     
-    // Save the previous single event
-    if ([s_playerSingleHiddenEvents containsObject:@(state)]) {
-        self.previousPlayerState = state;
-    }
+    self.previousPlayerState = state;
     
-    // Cumulate playback duration only when playing
+    // Cumulate playback duration
     if (self.previousPlaybackDurationUpdateDate) {
         self.playbackDuration += fabs([self.previousPlaybackDurationUpdateDate timeIntervalSinceNow] * 1000);
     }
     
     switch (state) {
-        case SRGAnalyticsPlayerStatePlaying:
-        case SRGAnalyticsPlayerStateHeartbeat:
-        case SRGAnalyticsPlayerStateLiveHeartbeat: {
+        case SRGAnalyticsPlayerStatePlaying: {
             self.previousPlaybackDurationUpdateDate = NSDate.date;
             break;
         }
@@ -329,7 +313,7 @@
         }
     }
     // Remove the heartbeat when not playing
-    else if (state != SRGAnalyticsPlayerStateHeartbeat && state != SRGAnalyticsPlayerStateLiveHeartbeat) {
+    else {
         self.heartbeatTimer = nil;
     }
     
@@ -343,6 +327,13 @@
     }
     
     // Send the event
+    [self trackTagCommanderMediaPlayerEventForAction:action withPosition:position labels:labels];
+}
+
+- (void)trackTagCommanderMediaPlayerEventForAction:(NSString *)action withPosition:(NSTimeInterval)position labels:(SRGAnalyticsPlayerLabels *)labels
+{
+    NSAssert(action.length != 0, @"An action is required");
+    
     NSMutableDictionary<NSString *, NSString *> *fullLabelsDictionary = [NSMutableDictionary dictionary];
     [fullLabelsDictionary srg_safelySetString:action forKey:@"event_id"];
     [fullLabelsDictionary srg_safelySetString:@(round(position / 1000)).stringValue forKey:@"media_position"];
@@ -361,11 +352,11 @@
 {
     NSAssert(self.previousPlayerState == SRGAnalyticsPlayerStatePlaying, @"Heartbeat timer is only active when playing by construction");
     
-    [self updateTagCommanderWithPlayerState:SRGAnalyticsPlayerStateHeartbeat position:[self.delegate heartbeatPosition] labels:[self.delegate heartbeatLabels]];
+    [self trackTagCommanderMediaPlayerEventForAction:@"pos" withPosition:[self.delegate heartbeatPosition] labels:[self.delegate heartbeatLabels]];
     
     // Send a live heartbeat each minute
-    if (self.livestream && self.heartbeatCount % 2 == 0) {
-        [self updateTagCommanderWithPlayerState:SRGAnalyticsPlayerStateLiveHeartbeat position:[self.delegate heartbeatPosition] labels:[self.delegate heartbeatLabels]];
+    if ([self.delegate isLive] && self.heartbeatCount % 2 == 0) {
+        [self trackTagCommanderMediaPlayerEventForAction:@"uptime" withPosition:[self.delegate heartbeatPosition] labels:[self.delegate heartbeatLabels]];
     }
     
     self.heartbeatCount += 1;

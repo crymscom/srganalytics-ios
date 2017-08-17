@@ -30,11 +30,9 @@ static SRGAnalyticsPlayerState SRGAnalyticsPlayerStateForPlaybackState(SRGMediaP
     static NSDictionary<NSNumber *, NSNumber *> *s_playerStates;
     dispatch_once(&s_onceToken, ^{
         s_playerStates = @{ @(SRGMediaPlayerPlaybackStateIdle) : @(SRGAnalyticsPlayerStateStopped),
-                      @(SRGMediaPlayerPlaybackStatePreparing) : @(SRGAnalyticsPlayerStateBuffering),
                       @(SRGMediaPlayerPlaybackStatePlaying) : @(SRGAnalyticsPlayerStatePlaying),
                       @(SRGMediaPlayerPlaybackStateSeeking) : @(SRGAnalyticsPlayerStateSeeking),
                       @(SRGMediaPlayerPlaybackStatePaused) : @(SRGAnalyticsPlayerStatePaused),
-                      @(SRGMediaPlayerPlaybackStateStalled) : @(SRGAnalyticsPlayerStateBuffering),
                       @(SRGMediaPlayerPlaybackStateEnded) : @(SRGAnalyticsPlayerStateEnded) };
     });
     return s_playerStates[@(playbackState)].integerValue;
@@ -321,6 +319,11 @@ static NSMutableDictionary *s_trackers = nil;
 
 #pragma mark SRGAnalyticsPlayerTrackerDelegate protocol
 
+- (BOOL)isLive
+{
+    return self.mediaPlayerController.live;
+}
+
 - (NSTimeInterval)heartbeatPosition
 {
     return [self currentPositionInMilliseconds];
@@ -352,11 +355,7 @@ static NSMutableDictionary *s_trackers = nil;
         }
         
         [tracker start];
-        [tracker updateWithState:SRGAnalyticsPlayerStateBuffering
-                        position:0
-                         segment:mediaPlayerController.selectedSegment
-                        userInfo:nil];
-        
+                
         SRGAnalyticsLogInfo(@"PlayerTracker", @"Started tracking for %@", key);
     }
     else if (mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateIdle) {
