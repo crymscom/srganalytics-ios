@@ -122,6 +122,48 @@ static NSMutableDictionary *s_trackers = nil;
 
 #pragma mark Tracking
 
+- (void)start
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playbackStateDidChange:)
+                                                 name:SRGMediaPlayerPlaybackStateDidChangeNotification
+                                               object:self.mediaPlayerController];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(segmentDidStart:)
+                                                 name:SRGMediaPlayerSegmentDidStartNotification
+                                               object:self.mediaPlayerController];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(segmentDidEnd:)
+                                                 name:SRGMediaPlayerSegmentDidEndNotification
+                                               object:self.mediaPlayerController];
+    
+    @weakify(self)
+    [self.mediaPlayerController addObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked) options:0 block:^(MAKVONotification *notification) {
+        @strongify(self)
+        
+        SRGAnalyticsPlayerEvent event = SRGAnalyticsPlayerEventForPlaybackState(self.mediaPlayerController.playbackState);
+        [self trackEvent:event
+              atPosition:self.currentPositionInMilliseconds
+              withLabels:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
+                 segment:self.mediaPlayerController.selectedSegment];
+    }];
+}
+
+- (void)stop
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:SRGMediaPlayerPlaybackStateDidChangeNotification
+                                                  object:self.mediaPlayerController];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:SRGMediaPlayerSegmentDidStartNotification
+                                                  object:self.mediaPlayerController];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:SRGMediaPlayerSegmentDidEndNotification
+                                                  object:self.mediaPlayerController];
+    
+    [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
+}
+
 - (void)trackEvent:(SRGAnalyticsPlayerEvent)event atPosition:(NSTimeInterval)position withLabels:(SRGAnalyticsPlayerLabels *)labels segment:(id<SRGSegment>)segment
 {
     SRGAnalyticsPlayerLabels *playerLabels = [[SRGAnalyticsPlayerLabels alloc] init];
@@ -324,30 +366,7 @@ static NSMutableDictionary *s_trackers = nil;
             [CSComScore onUxActive];
         }
         
-        [[NSNotificationCenter defaultCenter] addObserver:tracker
-                                                 selector:@selector(playbackStateDidChange:)
-                                                     name:SRGMediaPlayerPlaybackStateDidChangeNotification
-                                                   object:mediaPlayerController];
-        [[NSNotificationCenter defaultCenter] addObserver:tracker
-                                                 selector:@selector(segmentDidStart:)
-                                                     name:SRGMediaPlayerSegmentDidStartNotification
-                                                   object:mediaPlayerController];
-        [[NSNotificationCenter defaultCenter] addObserver:tracker
-                                                 selector:@selector(segmentDidEnd:)
-                                                     name:SRGMediaPlayerSegmentDidEndNotification
-                                                   object:mediaPlayerController];
-        
-        @weakify(mediaPlayerController)
-        [mediaPlayerController addObserver:tracker keyPath:@keypath(mediaPlayerController.tracked) options:0 block:^(MAKVONotification *notification) {
-            @strongify(mediaPlayerController)
-            
-            SRGAnalyticsPlayerEvent event = SRGAnalyticsPlayerEventForPlaybackState(mediaPlayerController.playbackState);
-            [tracker trackEvent:event
-                     atPosition:tracker.currentPositionInMilliseconds
-                     withLabels:mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
-                        segment:mediaPlayerController.selectedSegment];
-        }];
-        
+        [tracker start];
         [tracker trackEvent:SRGAnalyticsPlayerEventBuffer
                  atPosition:0
                  withLabels:mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
@@ -359,24 +378,13 @@ static NSMutableDictionary *s_trackers = nil;
         SRGMediaPlayerTracker *tracker = s_trackers[key];
         NSAssert(tracker != nil, @"A tracker must exist");
         
-        [[NSNotificationCenter defaultCenter] removeObserver:tracker
-                                                        name:SRGMediaPlayerPlaybackStateDidChangeNotification
-                                                      object:mediaPlayerController];
-        [[NSNotificationCenter defaultCenter] removeObserver:tracker
-                                                        name:SRGMediaPlayerSegmentDidStartNotification
-                                                      object:mediaPlayerController];
-        [[NSNotificationCenter defaultCenter] removeObserver:tracker
-                                                        name:SRGMediaPlayerSegmentDidEndNotification
-                                                      object:mediaPlayerController];
-        
-        [mediaPlayerController removeObserver:tracker keyPath:@keypath(mediaPlayerController.tracked)];
-        
         NSDictionary *previousUserInfo = notification.userInfo[SRGMediaPlayerPreviousUserInfoKey];
         NSTimeInterval lastPosition = SRGAnalyticsCMTimeToMilliseconds([notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue]);
         [tracker trackEvent:SRGAnalyticsPlayerEventStop
                  atPosition:lastPosition
                  withLabels:previousUserInfo[SRGAnalyticsMediaPlayerLabelsKey]
                     segment:mediaPlayerController.selectedSegment];
+        [tracker stop];
         
         [s_trackers removeObjectForKey:key];
         if (s_trackers.count == 0) {
