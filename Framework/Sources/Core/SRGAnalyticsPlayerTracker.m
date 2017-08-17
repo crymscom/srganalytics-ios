@@ -15,6 +15,8 @@
 
 @interface SRGAnalyticsPlayerTracker ()
 
+@property (nonatomic, getter=isLivestream) BOOL livestream;
+
 @property (nonatomic) CSStreamSense *streamSense;
 
 @property (nonatomic, getter=isComScoreSessionAlive) BOOL comScoreSessionAlive;
@@ -156,9 +158,11 @@
 
 #pragma mark Object lifecycle
 
-- (instancetype)init
+- (instancetype)initForLivestream:(BOOL)livestream
 {
     if (self = [super init]) {
+        self.livestream = livestream;
+        
         // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
         self.streamSense = [[CSStreamSense alloc] init];
         [self.streamSense setKeepAliveInterval:9 * 60];
@@ -166,6 +170,11 @@
         self.previousPlayerState = SRGAnalyticsPlayerStateEnded;
     }
     return self;
+}
+
+- (instancetype)init
+{
+    return [self initForLivestream:NO];
 }
 
 - (void)dealloc

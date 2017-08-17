@@ -163,12 +163,11 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerState) {
 @interface SRGAnalyticsPlayerTracker : NSObject
 
 /**
- *  Set to `YES` when playing a livestream.
+ *  Create a tracker instance.
  *
- *  @discussion This state should be changed before the player state is updated to playing. Otherwise, the position won't 
- *              be correct during playback.
+ *  @discussion livestream Set to `YES` if the stream is a live
  */
-@property (nonatomic, getter=isLivestream) BOOL livestream;
+- (instancetype)initForLivestream:(BOOL)livestream;
 
 /**
  *  The tracker delegate.

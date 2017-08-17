@@ -63,8 +63,6 @@ static NSMutableDictionary *s_trackers = nil;
 {
     if (self = [super init]) {
         self.mediaPlayerController = mediaPlayerController;
-        self.playerTracker = [[SRGAnalyticsPlayerTracker alloc] init];
-        self.playerTracker.delegate = self;
     }
     return self;
 }
@@ -129,10 +127,17 @@ static NSMutableDictionary *s_trackers = nil;
     SRGAnalyticsPlayerLabels *fullLabels = [self labelsWithSegment:segment userInfo:userInfo];
     
     if (self.mediaPlayerController.tracked && state != SRGAnalyticsPlayerStateStopped) {
+        if (! self.playerTracker) {
+            BOOL isLivestream = (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR);
+            self.playerTracker = [[SRGAnalyticsPlayerTracker alloc] initForLivestream:isLivestream];
+            self.playerTracker.delegate = self;
+        }
+        
         [self.playerTracker updateWithPlayerState:state position:position labels:fullLabels];
     }
     else {
         [self.playerTracker updateWithPlayerState:SRGAnalyticsPlayerStateStopped position:position labels:fullLabels];
+        self.playerTracker = nil;
     }
 }
 
@@ -393,10 +398,6 @@ static NSMutableDictionary *s_trackers = nil;
     // Inhibit usual playback transitions occuring during segment selection
     if ([notification.userInfo[SRGMediaPlayerSelectionKey] boolValue]) {
         return;
-    }
-    
-    if (playbackState == SRGMediaPlayerPlaybackStatePlaying) {
-        self.playerTracker.livestream = (mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive) || (mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR);
     }
     
     [self updateWithState:SRGAnalyticsPlayerStateForPlaybackState(playbackState)
