@@ -352,11 +352,16 @@
 {
     NSAssert(self.previousPlayerState == SRGAnalyticsPlayerStatePlaying, @"Heartbeat timer is only active when playing by construction");
     
-    [self trackTagCommanderMediaPlayerEventForAction:@"pos" withPosition:[self.delegate heartbeatPosition] labels:[self.delegate heartbeatLabels]];
-    
-    // Send a live heartbeat each minute
-    if ([self.delegate isLive] && self.heartbeatCount % 2 == 0) {
-        [self trackTagCommanderMediaPlayerEventForAction:@"uptime" withPosition:[self.delegate heartbeatPosition] labels:[self.delegate heartbeatLabels]];
+    if (self.delegate) {
+        NSTimeInterval position = [self.delegate positionForPlayerTracker:self];
+        SRGAnalyticsPlayerLabels *labels = [self.delegate labelsForPlayerTracker:self];
+        
+        [self trackTagCommanderMediaPlayerEventForAction:@"pos" withPosition:position labels:labels];
+        
+        // Send a live heartbeat each minute
+        if ([self.delegate playerTrackerIsLive:self] && self.heartbeatCount % 2 != 0) {
+            [self trackTagCommanderMediaPlayerEventForAction:@"uptime" withPosition:position labels:labels];
+        }
     }
     
     self.heartbeatCount += 1;

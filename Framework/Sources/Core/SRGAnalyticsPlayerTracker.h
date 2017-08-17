@@ -34,6 +34,9 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerState) {
     SRGAnalyticsPlayerStateEnded
 };
 
+// Forward declarations
+@class SRGAnalyticsPlayerTracker;
+
 /**
  *  Additional playback measurement labels.
  */
@@ -121,22 +124,37 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerState) {
 
 @end
 
+/**
+ *  Analytics player heartbeat delegate. Delegate methods are called when a heartbeat should be sent.
+ */
 @protocol SRGAnalyticsPlayerTrackerDelegate <NSObject>
 
-- (BOOL)isLive;
+/**
+ *  Return `YES` iff playback is made in live conditions.
+ */
+- (BOOL)playerTrackerIsLive:(SRGAnalyticsPlayerTracker *)tracker;
 
-- (NSTimeInterval)heartbeatPosition;
+/**
+ *  The current playback position.
+ */
+- (NSTimeInterval)positionForPlayerTracker:(SRGAnalyticsPlayerTracker *)tracker;
 
-- (nullable SRGAnalyticsPlayerLabels *)heartbeatLabels;
+/**
+ *  Current labels associated with playback.
+ */
+- (nullable SRGAnalyticsPlayerLabels *)labelsForPlayerTracker:(SRGAnalyticsPlayerTracker *)tracker;
 
 @end
 
 /**
  *  Tracker for media playback consumption. This tracker ensures that the media analytics event sequences are always
- *  reliable, guaranteeing correct measurements.
+ *  reliable, guaranteeing correct measurements. It also transparently manages analytics heartbeats.
  *
  *  When you need to track a new media playback, simply instantiate an `SRGAnalyticsPlayerTracker`, keeping a strong
- *  reference to it, and call the tracking method when you need to record an event.
+ *  reference to it, and call the update method to keep the tracker informed about your player state.
+ *
+ *  Heartbeats are managed internally. To ensure heartbeat are correctly sent, attach a heartbeat delegate to the tracker
+ *  and implement the associated protocol so that heartbeats are provided with current playback information.
  *
  *  Implementing media player tracking is tricky to get right, and should only be required if your player is not based
  *  on SRG MediaPlayer (e.g. if you use `AVPlayer` directly). Please refer to the official documentation more information:
@@ -154,6 +172,8 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerState) {
 
 /**
  *  The tracker delegate.
+ *
+ *  @discussion No heartbeats are sent if no delegate has been assigned.
  */
 @property (nonatomic, weak) id<SRGAnalyticsPlayerTrackerDelegate> delegate;
 

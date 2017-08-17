@@ -190,7 +190,7 @@ static NSMutableDictionary *s_trackers = nil;
     return fullLabels;
 }
 
-#pragma mark Playback data
+#pragma mark Playback information
 
 - (NSNumber *)bandwidthInBitsPerSecond
 {
@@ -325,17 +325,17 @@ static NSMutableDictionary *s_trackers = nil;
 
 #pragma mark SRGAnalyticsPlayerTrackerDelegate protocol
 
-- (BOOL)isLive
+- (BOOL)playerTrackerIsLive:(SRGAnalyticsPlayerTracker *)tracker
 {
     return self.mediaPlayerController.live;
 }
 
-- (NSTimeInterval)heartbeatPosition
+- (NSTimeInterval)positionForPlayerTracker:(SRGAnalyticsPlayerTracker *)tracker
 {
     return [self currentPositionInMilliseconds];
 }
 
-- (SRGAnalyticsPlayerLabels *)heartbeatLabels
+- (SRGAnalyticsPlayerLabels *)labelsForPlayerTracker:(SRGAnalyticsPlayerTracker *)tracker
 {
     return [self labelsWithUserInfo:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
                               segment:self.mediaPlayerController.selectedSegment];
