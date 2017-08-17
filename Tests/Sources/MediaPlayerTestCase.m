@@ -1819,6 +1819,44 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testDisableTrackingWhileSeeking
+{
+    // Wait until the media plays
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(event, @"play");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Stop tracking while seeking. Expect a seek and a stop to be received in a row
+    __block BOOL fullLengthSeekReceived = NO;
+    __block BOOL fullLengthStopReceived = NO;
+    
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"seek"]) {
+            XCTAssertFalse(fullLengthStopReceived);
+            fullLengthSeekReceived = YES;
+        }
+        else if ([event isEqualToString:@"stop"]) {
+            fullLengthStopReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return fullLengthSeekReceived && fullLengthStopReceived;
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
+    [self.mediaPlayerController seekPreciselyToTime:CMTimeMakeWithSeconds(20., NSEC_PER_SEC) withCompletionHandler:nil];
+    self.mediaPlayerController.tracked = NO;
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
 - (void)testDisableTrackingWhilePausedInSegment
 {
     // Wait until the media plays. Expect segment labels
@@ -2002,6 +2040,50 @@ static NSURL *DVRTestURL(void)
     }];
     
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
+    self.mediaPlayerController.tracked = YES;
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testEnableTrackingWhileSeeking
+{
+    // Wait until the player is playing. No event must be received since tracking is not enabled yet
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when tracking has been disabled");
+    }];
+    
+    [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
+        return [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePlaying;
+    }];
+    
+    self.mediaPlayerController.tracked = NO;
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
+    // Enable tracking right after seeking. Expect a play to be received, and the initial seek reflecting the player state
+    __block BOOL fullLengthPlayReceived = NO;
+    __block BOOL fullLengthSeekReceived = NO;
+    
+    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(fullLengthSeekReceived);
+            fullLengthPlayReceived = YES;
+        }
+        else if ([event isEqualToString:@"seek"]) {
+            fullLengthSeekReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return fullLengthPlayReceived && fullLengthSeekReceived;
+    }];
+    
+    XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
+    [self.mediaPlayerController seekPreciselyToTime:CMTimeMakeWithSeconds(20., NSEC_PER_SEC) withCompletionHandler:nil];
     self.mediaPlayerController.tracked = YES;
     
     [self waitForExpectationsWithTimeout:20. handler:nil];

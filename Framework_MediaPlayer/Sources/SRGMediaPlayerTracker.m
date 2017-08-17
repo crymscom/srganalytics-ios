@@ -217,6 +217,7 @@ static NSMutableDictionary *s_trackers = nil;
         self.heartbeatTimer = nil;
     }
     
+    // Update tracking
     if (self.mediaPlayerController.tracked && event != SRGAnalyticsPlayerEventStop) {
         self.recentLabels = labels;
         self.recentSegment = segment;
