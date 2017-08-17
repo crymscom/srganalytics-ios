@@ -668,7 +668,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
-        XCTAssertEqualObjects(labels[@"media_bandwidth"], @"0");
+        XCTAssertNil(labels[@"media_bandwidth"]);
         return YES;
     }];
     

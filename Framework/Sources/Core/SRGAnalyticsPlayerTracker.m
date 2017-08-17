@@ -34,11 +34,11 @@
     
     [dictionary srg_safelySetString:self.playerName forKey:@"media_player_display"];
     [dictionary srg_safelySetString:self.playerVersion forKey:@"media_player_version"];
-    [dictionary srg_safelySetString:self.playerVolumeInPercent ? self.playerVolumeInPercent.stringValue : @"0" forKey:@"media_volume"];
+    [dictionary srg_safelySetString:self.playerVolumeInPercent.stringValue ?: @"0" forKey:@"media_volume"];
     
     [dictionary srg_safelySetString:self.subtitlesEnabled.boolValue ? @"true" : @"false" forKey:@"media_subtitles_on"];
     [dictionary srg_safelySetString:self.timeshiftInMilliseconds ? @(self.timeshiftInMilliseconds.integerValue / 1000).stringValue : nil forKey:@"media_timeshift"];
-    [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond ? self.bandwidthInBitsPerSecond.stringValue : @"0" forKey:@"media_bandwidth"];
+    [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"media_bandwidth"];
     
     if (self.customInfo) {
         [dictionary addEntriesFromDictionary:self.customInfo];
@@ -58,7 +58,7 @@
     [dictionary srg_safelySetString:self.playerVersion forKey:@"ns_st_mv"];
     [dictionary srg_safelySetString:self.playerVolumeInPercent.stringValue ?: @"0" forKey:@"ns_st_vo"];
     
-    [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue ?: @"0" forKey:@"ns_st_br"];
+    [dictionary srg_safelySetString:self.bandwidthInBitsPerSecond.stringValue forKey:@"ns_st_br"];
     
     if (self.comScoreCustomInfo) {
         [dictionary addEntriesFromDictionary:self.comScoreCustomInfo];
