@@ -147,19 +147,17 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @interface SRGAnalyticsPlayerTracker : NSObject
 
 /**
- *  Track a media player event.
+ *  Update the tracker with the specified player information. An update will only result in an even when necessary.
+ *  You should update the state when appropriate (and as often as it seems fit) to accurately match the state of the 
+ *  tracker player.
  *
  *  @param event    The event type.
- *  @param position The playback position at which the event occurs, in milliseconds.
- *  @param labels   Additional detailed event information.
- *
- *  @discussion Depending on the service, calling this method might not always lead to an associated event. The possibility
- *              of emitting an event might namely be constrained by the event which was emitted before it (if any). For
- *              more information, refer to the official documentation.
+ *  @param position The current player playback position, in milliseconds.
+ *  @param labels   Additional detailed information.
  */
-- (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
-              atPosition:(NSTimeInterval)position
-              withLabels:(nullable SRGAnalyticsPlayerLabels *)labels;
+- (void)updateWithPlayerEvent:(SRGAnalyticsPlayerEvent)event
+                     position:(NSTimeInterval)position
+                       labels:(nullable SRGAnalyticsPlayerLabels *)labels;
 
 @end
 

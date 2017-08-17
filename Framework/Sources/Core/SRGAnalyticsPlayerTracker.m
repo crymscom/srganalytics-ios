@@ -160,22 +160,22 @@
     return self;
 }
 
-- (void)trackPlayerEvent:(SRGAnalyticsPlayerEvent)event
-              atPosition:(NSTimeInterval)position
-              withLabels:(SRGAnalyticsPlayerLabels *)labels
+- (void)updateWithPlayerEvent:(SRGAnalyticsPlayerEvent)event
+                     position:(NSTimeInterval)position
+                       labels:(SRGAnalyticsPlayerLabels *)labels
 {
-    [self trackTagCommanderPlayerEvent:event atPosition:position withLabels:labels];
-    [self trackComScorePlayerEvent:event atPosition:position withLabels:labels];
+    [self updateTagCommanderWithPlayerEvent:event position:position labels:labels];
+    [self updateComScoreWithPlayerEvent:event position:position labels:labels];
 }
 
-- (void)trackComScorePlayerEvent:(SRGAnalyticsPlayerEvent)event
-                      atPosition:(NSTimeInterval)position
-                      withLabels:(SRGAnalyticsPlayerLabels *)labels
+- (void)updateComScoreWithPlayerEvent:(SRGAnalyticsPlayerEvent)event
+                             position:(NSTimeInterval)position
+                               labels:(SRGAnalyticsPlayerLabels *)labels
 {
     // Ensure a play is emitted before events requiring a session to be opened (the comScore SDK does not open sessions
     // automatically)
     if (! self.comScoreSessionAlive && (event == SRGAnalyticsPlayerEventPause || event == SRGAnalyticsPlayerEventSeek)) {
-        [self trackComScorePlayerEvent:SRGAnalyticsPlayerEventPlay atPosition:position withLabels:labels];
+        [self updateComScoreWithPlayerEvent:SRGAnalyticsPlayerEventPlay position:position labels:labels];
     }
     
     static dispatch_once_t s_onceToken;
@@ -217,14 +217,14 @@
     }
 }
 
-- (void)trackTagCommanderPlayerEvent:(SRGAnalyticsPlayerEvent)event
-                          atPosition:(NSTimeInterval)position
-                          withLabels:(SRGAnalyticsPlayerLabels *)labels
+- (void)updateTagCommanderWithPlayerEvent:(SRGAnalyticsPlayerEvent)event
+                                 position:(NSTimeInterval)position
+                                   labels:(SRGAnalyticsPlayerLabels *)labels
 {
     // Ensure a play is emitted before events requiring a session to be opened (the TagCommander SDK does not open sessions
     // automatically)
     if (self.previousPlayerEvent == SRGAnalyticsPlayerEventEnd && (event == SRGAnalyticsPlayerEventPause || event == SRGAnalyticsPlayerEventSeek)) {
-        [self trackTagCommanderPlayerEvent:SRGAnalyticsPlayerEventPlay atPosition:position withLabels:labels];
+        [self updateTagCommanderWithPlayerEvent:SRGAnalyticsPlayerEventPlay position:position labels:labels];
     }
     
     static dispatch_once_t s_onceToken;
