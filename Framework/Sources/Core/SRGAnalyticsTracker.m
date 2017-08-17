@@ -273,14 +273,14 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 {
     NSAssert(title.length != 0, @"A title is required");
     
-    NSMutableDictionary *pageViewLabels = [NSMutableDictionary dictionary];
-    [pageViewLabels srg_safelySetString:title forKey:@"srg_title"];
-    [pageViewLabels srg_safelySetString:@(fromPushNotification).stringValue forKey:@"srg_ap_push"];
+    NSMutableDictionary *pageViewLabelsDictionary = [NSMutableDictionary dictionary];
+    [pageViewLabelsDictionary srg_safelySetString:title forKey:@"srg_title"];
+    [pageViewLabelsDictionary srg_safelySetString:@(fromPushNotification).stringValue forKey:@"srg_ap_push"];
     
     NSString *category = @"app";
     
     if (! levels) {
-        [pageViewLabels srg_safelySetString:category forKey:@"srg_n1"];
+        [pageViewLabelsDictionary srg_safelySetString:category forKey:@"srg_n1"];
     }
     else if (levels.count > 0) {
         __block NSMutableString *levelsComScoreFormattedString = [NSMutableString new];
@@ -289,7 +289,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
             NSString *levelValue = [object description];
             
             if (idx < 10) {
-                [pageViewLabels srg_safelySetString:levelValue forKey:levelKey];
+                [pageViewLabelsDictionary srg_safelySetString:levelValue forKey:levelKey];
             }
             
             if (levelsComScoreFormattedString.length > 0) {
@@ -301,15 +301,15 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
         category = [levelsComScoreFormattedString copy];
     }
     
-    [pageViewLabels srg_safelySetString:category forKey:@"category"];
-    [pageViewLabels srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"name"];
+    [pageViewLabelsDictionary srg_safelySetString:category forKey:@"category"];
+    [pageViewLabelsDictionary srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"name"];
     
     NSDictionary<NSString *, NSString *> *comScoreLabelsDictionary = [labels comScoreLabelsDictionary];
     if (comScoreLabelsDictionary) {
-        [pageViewLabels addEntriesFromDictionary:comScoreLabelsDictionary];
+        [pageViewLabelsDictionary addEntriesFromDictionary:comScoreLabelsDictionary];
     }
     
-    [CSComScore viewWithLabels:pageViewLabels];
+    [CSComScore viewWithLabels:pageViewLabelsDictionary];
 }
 
 - (void)trackTagCommanderPageViewWithTitle:(NSString *)title
@@ -319,13 +319,13 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 {
     NSAssert(title.length != 0, @"A title is required");
     
-    NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
-    [fullLabels srg_safelySetString:@"screen" forKey:@"event_id"];
-    [fullLabels srg_safelySetString:@"app" forKey:@"navigation_property_type"];
-    [fullLabels srg_safelySetString:title forKey:@"content_title"];
-    [fullLabels srg_safelySetString:self.configuration.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
-    [fullLabels srg_safelySetString:fromPushNotification ? @"true" : @"false" forKey:@"accessed_after_push_notification"];
-    [fullLabels srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"page_id"];
+    NSMutableDictionary<NSString *, NSString *> *fullLabelsDictionary = [NSMutableDictionary dictionary];
+    [fullLabelsDictionary srg_safelySetString:@"screen" forKey:@"event_id"];
+    [fullLabelsDictionary srg_safelySetString:@"app" forKey:@"navigation_property_type"];
+    [fullLabelsDictionary srg_safelySetString:title forKey:@"content_title"];
+    [fullLabelsDictionary srg_safelySetString:self.configuration.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
+    [fullLabelsDictionary srg_safelySetString:fromPushNotification ? @"true" : @"false" forKey:@"accessed_after_push_notification"];
+    [fullLabelsDictionary srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"page_id"];
 
     
     [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -335,15 +335,15 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
         }
         
         NSString *levelKey = [NSString stringWithFormat:@"navigation_level_%@", @(idx + 1)];
-        [fullLabels srg_safelySetString:object forKey:levelKey];
+        [fullLabelsDictionary srg_safelySetString:object forKey:levelKey];
     }];
     
     NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
     if (labelsDictionary) {
-        [fullLabels addEntriesFromDictionary:labelsDictionary];
+        [fullLabelsDictionary addEntriesFromDictionary:labelsDictionary];
     }
     
-    [self trackTagCommanderEventWithLabels:[fullLabels copy]];
+    [self trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
 }
 
 #pragma mark Hidden event tracking
@@ -369,33 +369,33 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 {
     NSAssert(name.length != 0, @"A name is required");
     
-    NSMutableDictionary *hiddenEventLabels = [NSMutableDictionary dictionary];
-    [hiddenEventLabels srg_safelySetString:name forKey:@"srg_title"];
-    [hiddenEventLabels srg_safelySetString:@"app" forKey:@"category"];
-    [hiddenEventLabels srg_safelySetString:[NSString stringWithFormat:@"app.%@", name.srg_comScoreFormattedString] forKey:@"name"];
+    NSMutableDictionary *hiddenEventLabelsDictionary = [NSMutableDictionary dictionary];
+    [hiddenEventLabelsDictionary srg_safelySetString:name forKey:@"srg_title"];
+    [hiddenEventLabelsDictionary srg_safelySetString:@"app" forKey:@"category"];
+    [hiddenEventLabelsDictionary srg_safelySetString:[NSString stringWithFormat:@"app.%@", name.srg_comScoreFormattedString] forKey:@"name"];
     
     NSDictionary<NSString *, NSString *> *comScoreLabelsDictionary = [labels comScoreLabelsDictionary];
     if (comScoreLabelsDictionary) {
-        [hiddenEventLabels addEntriesFromDictionary:comScoreLabelsDictionary];
+        [hiddenEventLabelsDictionary addEntriesFromDictionary:comScoreLabelsDictionary];
     }
     
-    [CSComScore hiddenWithLabels:hiddenEventLabels];
+    [CSComScore hiddenWithLabels:hiddenEventLabelsDictionary];
 }
 
 - (void)trackTagCommanderHiddenEventWithName:(NSString *)name labels:(SRGAnalyticsHiddenEventLabels *)labels
 {
     NSAssert(name.length != 0, @"A name is required");
     
-    NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
-    [fullLabels srg_safelySetString:@"click" forKey:@"event_id"];
-    [fullLabels srg_safelySetString:name forKey:@"event_name"];
+    NSMutableDictionary<NSString *, NSString *> *fullLabelsDictionary = [NSMutableDictionary dictionary];
+    [fullLabelsDictionary srg_safelySetString:@"click" forKey:@"event_id"];
+    [fullLabelsDictionary srg_safelySetString:name forKey:@"event_name"];
     
     NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
     if (labelsDictionary) {
-        [fullLabels addEntriesFromDictionary:labelsDictionary];
+        [fullLabelsDictionary addEntriesFromDictionary:labelsDictionary];
     }
     
-    [self trackTagCommanderEventWithLabels:[fullLabels copy]];
+    [self trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
 }
 
 #pragma mark Application list measurement

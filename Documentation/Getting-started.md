@@ -195,17 +195,18 @@ Nothing more is required for correct media consumption measurements. During play
 
 ## Measurements of other media players
 
-If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must perform media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsPlayerTracker` object and retain it somewhere during playback. When the state of your player changes, call the tracking method available from its public interface, specifying which kind of event must be generated and, optionally, additional labels. 
+If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must implement media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsPlayerTracker` object and retain it somewhere during playback. When the state of your player changes, call the update method available from the player tracker public interface, specifying the new state of the player and its current playback position (as well as additional optional labels if needed).
 
-For example, you can emit a play event 6 seconds after playback started by calling:
+Depending on state transitions detected on the basis of state information, the tracker automatically generates measurements transparently. You should therefore update the state of your player when it changes, and as many times as needed so that the tracker can keep an accurate picture of the player state.
 
+For example, you can declare that the player is playing at the 6th second by calling:
 ```objective-c
-[[SRGAnalyticsTracker sharedTracker] updateWithPlayerEvent:SRGAnalyticsPlayerEventPlay
+[[SRGAnalyticsTracker sharedTracker] updateWithPlayerState:SRGAnalyticsPlayerStatePlaying
                                                   position:6000
                                                     labels:nil];
 ```
 
-When using this lower-level API, though, you are entirely responsible of following SRG SSR guidelines for playback measurements. For example, you need to supply correct segment labels if the user has chosen to play a specific part of your media (none in the example above). Read [our internal documentation](https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/195595938/Implementation+Concept+-+draft) for more information.
+When using this lower-level API, you are responsible of following SRG SSR guidelines for playback measurements. For example, you need to supply correct segment labels if the user has chosen to play a specific part of your media (none in the example above). Read [our internal documentation](https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/195595938/Implementation+Concept+-+draft) for more information.
 
 Correctly conforming to all SRG SSR guidelines is not a trivial task, though. Please contact us if you need help.
 

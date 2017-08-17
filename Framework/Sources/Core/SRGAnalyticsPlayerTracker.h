@@ -11,40 +11,31 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  @name Media player events
  */
-typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
+typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerState) {
     /**
-     *  The player started buffering.
+     *  The player is currently playing content.
      */
-    SRGAnalyticsPlayerEventBuffer = 1,
+    SRGAnalyticsPlayerStatePlaying = 1,
     /**
-     *  Playback started or resumed.
+     *  Playback is paused.
      */
-    SRGAnalyticsPlayerEventPlay,
+    SRGAnalyticsPlayerStatePaused,
     /**
-     *  Playback was paused.
+     *  The player is seeking.
      */
-    SRGAnalyticsPlayerEventPause,
+    SRGAnalyticsPlayerStateSeeking,
     /**
-     *  The player started seeking.
+     *  The player is stopped (interrupting playback).
      */
-    SRGAnalyticsPlayerEventSeek,
-    /**
-     *  The player was stopped (interrupting playback).
-     */
-    SRGAnalyticsPlayerEventStop,
+    SRGAnalyticsPlayerStateStopped,
     /**
      *  Playback ended normally.
      */
-    SRGAnalyticsPlayerEventEnd,
-    /**
-     *  Normal heartbeat.
-     */
-    SRGAnalyticsPlayerEventHeartbeat,
-    /**
-     *  Live heartbeat (to be sent when playing in live conditions only).
-     */
-    SRGAnalyticsPlayerEventLiveHeartbeat
+    SRGAnalyticsPlayerStateEnded
 };
+
+// Forward declarations
+@class SRGAnalyticsPlayerTracker;
 
 /**
  *  Additional playback measurement labels.
@@ -134,11 +125,36 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @end
 
 /**
+ *  Analytics player tracker delegate.
+ */
+@protocol SRGAnalyticsPlayerTrackerDelegate <NSObject>
+
+/**
+ *  Return `YES` iff playback is made in live conditions.
+ */
+- (BOOL)playerTrackerIsLive:(SRGAnalyticsPlayerTracker *)tracker;
+
+/**
+ *  The current playback position.
+ */
+- (NSTimeInterval)positionForPlayerTracker:(SRGAnalyticsPlayerTracker *)tracker;
+
+/**
+ *  Current labels associated with playback.
+ */
+- (nullable SRGAnalyticsPlayerLabels *)labelsForPlayerTracker:(SRGAnalyticsPlayerTracker *)tracker;
+
+@end
+
+/**
  *  Tracker for media playback consumption. This tracker ensures that the media analytics event sequences are always
- *  reliable, guaranteeing correct measurements.
+ *  reliable, guaranteeing correct measurements. It also transparently manages analytics heartbeats.
  *
  *  When you need to track a new media playback, simply instantiate an `SRGAnalyticsPlayerTracker`, keeping a strong
- *  reference to it, and call the tracking method when you need to record an event.
+ *  reference to it, and call the update method to keep the tracker informed about your player state.
+ *
+ *  Heartbeats are managed internally. To ensure heartbeat are correctly sent, attach a heartbeat delegate to the tracker
+ *  and implement the associated protocol so that heartbeats are provided with current playback information.
  *
  *  Implementing media player tracking is tricky to get right, and should only be required if your player is not based
  *  on SRG MediaPlayer (e.g. if you use `AVPlayer` directly). Please refer to the official documentation more information:
@@ -147,23 +163,29 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @interface SRGAnalyticsPlayerTracker : NSObject
 
 /**
- *  State of the stream if it's a livestream or not (live DVR included)
+ *  Set to `YES` when playing a livestream.
  *
- *  @discussion This state should be changed before the first play event. Otherwise, the position won't be correct during
- *              the playback
+ *  @discussion This state should be changed before the player state is updated to playing. Otherwise, the position won't 
+ *              be correct during playback.
  */
 @property (nonatomic, getter=isLivestream) BOOL livestream;
 
 /**
- *  Update the tracker with the specified player information. An update will only result in an even when necessary.
- *  You should update the state when appropriate (and as often as it seems fit) to accurately match the state of the 
- *  tracker player.
+ *  The tracker delegate.
  *
- *  @param event    The event type.
+ *  @discussion No heartbeats are sent if no delegate has been assigned.
+ */
+@property (nonatomic, weak) id<SRGAnalyticsPlayerTrackerDelegate> delegate;
+
+/**
+ *  Update the tracker with the specified state and player information. An update will only result in an event when necessary.
+ *  You should update the state when appropriate (and as often as it is fit) to accurately match the state of the player.
+ *
+ *  @param state    The current player state.
  *  @param position The current player playback position, in milliseconds.
  *  @param labels   Additional detailed information.
  */
-- (void)updateWithPlayerEvent:(SRGAnalyticsPlayerEvent)event
+- (void)updateWithPlayerState:(SRGAnalyticsPlayerState)state
                      position:(NSTimeInterval)position
                        labels:(nullable SRGAnalyticsPlayerLabels *)labels;
 
