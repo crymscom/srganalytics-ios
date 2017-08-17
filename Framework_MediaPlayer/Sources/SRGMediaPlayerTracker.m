@@ -30,10 +30,10 @@ static SRGAnalyticsPlayerState SRGAnalyticsPlayerStateForPlaybackState(SRGMediaP
     static NSDictionary<NSNumber *, NSNumber *> *s_playerStates;
     dispatch_once(&s_onceToken, ^{
         s_playerStates = @{ @(SRGMediaPlayerPlaybackStateIdle) : @(SRGAnalyticsPlayerStateStopped),
-                      @(SRGMediaPlayerPlaybackStatePlaying) : @(SRGAnalyticsPlayerStatePlaying),
-                      @(SRGMediaPlayerPlaybackStateSeeking) : @(SRGAnalyticsPlayerStateSeeking),
-                      @(SRGMediaPlayerPlaybackStatePaused) : @(SRGAnalyticsPlayerStatePaused),
-                      @(SRGMediaPlayerPlaybackStateEnded) : @(SRGAnalyticsPlayerStateEnded) };
+                            @(SRGMediaPlayerPlaybackStatePlaying) : @(SRGAnalyticsPlayerStatePlaying),
+                            @(SRGMediaPlayerPlaybackStateSeeking) : @(SRGAnalyticsPlayerStateSeeking),
+                            @(SRGMediaPlayerPlaybackStatePaused) : @(SRGAnalyticsPlayerStatePaused),
+                            @(SRGMediaPlayerPlaybackStateEnded) : @(SRGAnalyticsPlayerStateEnded) };
     });
     return s_playerStates[@(playbackState)].integerValue;
 }
@@ -126,7 +126,7 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)updateWithState:(SRGAnalyticsPlayerState)state position:(NSTimeInterval)position segment:(id<SRGSegment>)segment userInfo:(NSDictionary *)userInfo
 {
-    SRGAnalyticsPlayerLabels *fullLabels = [self labelsWithUserInfo:userInfo segment:segment];
+    SRGAnalyticsPlayerLabels *fullLabels = [self labelsWithSegment:segment userInfo:userInfo];
     
     if (self.mediaPlayerController.tracked && state != SRGAnalyticsPlayerStateStopped) {
         [self.playerTracker updateWithPlayerState:state position:position labels:fullLabels];
@@ -136,7 +136,7 @@ static NSMutableDictionary *s_trackers = nil;
     }
 }
 
-- (SRGAnalyticsPlayerLabels *)labelsWithUserInfo:(NSDictionary *)userInfo segment:(id<SRGSegment>)segment
+- (SRGAnalyticsPlayerLabels *)labelsWithSegment:(id<SRGSegment>)segment userInfo:(NSDictionary *)userInfo
 {
     SRGAnalyticsPlayerLabels *playerLabels = [[SRGAnalyticsPlayerLabels alloc] init];
     playerLabels.playerName = @"SRGMediaPlayer";
@@ -149,8 +149,8 @@ static NSMutableDictionary *s_trackers = nil;
     
     if (userInfo) {
         playerLabels.timeshiftInMilliseconds = [self timeshiftInMillisecondsForStreamType:[userInfo[SRGMediaPlayerPreviousStreamTypeKey] integerValue]
-                                                                                   timeRange:[userInfo[SRGMediaPlayerPreviousTimeRangeKey] CMTimeRangeValue]
-                                                                                 currentTime:[userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue]];
+                                                                                timeRange:[userInfo[SRGMediaPlayerPreviousTimeRangeKey] CMTimeRangeValue]
+                                                                              currentTime:[userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue]];
     }
     else {
         playerLabels.timeshiftInMilliseconds = [self timeshiftInMilliseconds];
@@ -337,8 +337,7 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (SRGAnalyticsPlayerLabels *)labelsForPlayerTracker:(SRGAnalyticsPlayerTracker *)tracker
 {
-    return [self labelsWithUserInfo:self.mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey]
-                              segment:self.mediaPlayerController.selectedSegment];
+    return [self labelsWithSegment:self.mediaPlayerController.selectedSegment userInfo:nil];
 }
 
 #pragma mark Notifications
@@ -362,7 +361,7 @@ static NSMutableDictionary *s_trackers = nil;
         }
         
         [tracker start];
-                
+        
         SRGAnalyticsLogInfo(@"PlayerTracker", @"Started tracking for %@", key);
     }
     else if (mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateIdle) {
