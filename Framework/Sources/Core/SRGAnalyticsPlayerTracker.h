@@ -11,39 +11,39 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  @name Media player events
  */
-typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
+typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerState) {
     /**
-     *  The player started buffering.
+     *  The player is buffering.
      */
-    SRGAnalyticsPlayerEventBuffer = 1,
+    SRGAnalyticsPlayerStateBuffering = 1,
     /**
-     *  Playback started or resumed.
+     *  The player is currently playing content.
      */
-    SRGAnalyticsPlayerEventPlay,
+    SRGAnalyticsPlayerStatePlaying,
     /**
-     *  Playback was paused.
+     *  Playback is paused.
      */
-    SRGAnalyticsPlayerEventPause,
+    SRGAnalyticsPlayerStatePaused,
     /**
-     *  The player started seeking.
+     *  The player is seeking.
      */
-    SRGAnalyticsPlayerEventSeek,
+    SRGAnalyticsPlayerStateSeeking,
     /**
-     *  The player was stopped (interrupting playback).
+     *  The player is stopped (interrupting playback).
      */
-    SRGAnalyticsPlayerEventStop,
+    SRGAnalyticsPlayerStateStopped,
     /**
      *  Playback ended normally.
      */
-    SRGAnalyticsPlayerEventEnd,
+    SRGAnalyticsPlayerStateEnded,
     /**
      *  Normal heartbeat.
      */
-    SRGAnalyticsPlayerEventHeartbeat,
+    SRGAnalyticsPlayerStateHeartbeat,
     /**
      *  Live heartbeat (to be sent when playing in live conditions only).
      */
-    SRGAnalyticsPlayerEventLiveHeartbeat
+    SRGAnalyticsPlayerStateLiveHeartbeat
 };
 
 /**
@@ -147,23 +147,22 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsPlayerEvent) {
 @interface SRGAnalyticsPlayerTracker : NSObject
 
 /**
- *  State of the stream if it's a livestream or not (live DVR included)
+ *  Set to `YES` when playing a livestream.
  *
- *  @discussion This state should be changed before the first play event. Otherwise, the position won't be correct during
- *              the playback
+ *  @discussion This state should be changed before the player state is updated to playing. Otherwise, the position won't 
+ *              be correct during playback.
  */
 @property (nonatomic, getter=isLivestream) BOOL livestream;
 
 /**
- *  Update the tracker with the specified player information. An update will only result in an even when necessary.
- *  You should update the state when appropriate (and as often as it seems fit) to accurately match the state of the 
- *  tracker player.
+ *  Update the tracker with the specified state and player information. An update will only result in an event when necessary.
+ *  You should update the state when appropriate (and as often as it is fit) to accurately match the state of the player.
  *
- *  @param event    The event type.
+ *  @param state    The current player state.
  *  @param position The current player playback position, in milliseconds.
  *  @param labels   Additional detailed information.
  */
-- (void)updateWithPlayerEvent:(SRGAnalyticsPlayerEvent)event
+- (void)updateWithPlayerState:(SRGAnalyticsPlayerState)state
                      position:(NSTimeInterval)position
                        labels:(nullable SRGAnalyticsPlayerLabels *)labels;
 
