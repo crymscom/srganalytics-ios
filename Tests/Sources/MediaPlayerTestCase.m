@@ -1727,18 +1727,49 @@ static NSURL *DVRTestURL(void)
 
 - (void)testPlayStartingWithBlockedSegment
 {
-    // The player must start playing at 60, wait until this position is reached
+    // Expect a play attempt at 50, then a seek / play transition to 60 because of the blocked segment
+    
+    __block BOOL fullLengthPlayAt50Received = NO;
+    __block BOOL fullLengthSeekAt50Received = NO;
+    __block BOOL fullLengthPlayAt60Received = NO;
     
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if (! [labels[@"media_position"] isEqualToString:@"60"]) {
-            return NO;
+        if ([event isEqualToString:@"play"]) {
+            if ([labels[@"media_position"] isEqualToString:@"50"]) {
+                XCTAssertFalse(fullLengthSeekAt50Received);
+                XCTAssertFalse(fullLengthPlayAt60Received);
+                
+                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+                XCTAssertNil(labels[@"segment_name"]);
+                XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+                
+                fullLengthPlayAt50Received = YES;
+            }
+            else if ([labels[@"media_position"] isEqualToString:@"60"]) {
+                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+                XCTAssertNil(labels[@"segment_name"]);
+                XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+                
+                fullLengthPlayAt60Received = YES;
+            }
+            else {
+                XCTFail(@"Unexpected event %@", event);
+            }
+        }
+        else if ([event isEqualToString:@"seek"]) {
+            XCTAssertFalse(fullLengthPlayAt60Received);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            
+            fullLengthSeekAt50Received = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
         }
         
-        XCTAssertEqualObjects(labels[@"event_id"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertNil(labels[@"segment_name"]);
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
-        return YES;
+        return fullLengthPlayAt50Received && fullLengthSeekAt50Received && fullLengthPlayAt60Received;
     }];
     
     SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
@@ -1751,42 +1782,6 @@ static NSURL *DVRTestURL(void)
                              inSegments:@[segment]
                     withAnalyticsLabels:labels
                                userInfo:nil];
-    
-    [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    // Expect pause / play for the full-length
-    
-    __block BOOL fullLengthSeekReceived = NO;
-    __block BOOL fullLengthPlayReceived = NO;
-    
-    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"seek"]) {
-            XCTAssertFalse(fullLengthSeekReceived);
-            XCTAssertFalse(fullLengthPlayReceived);
-            
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
-            XCTAssertEqualObjects(labels[@"media_position"], @"60");
-            fullLengthSeekReceived = YES;
-        }
-        else if ([event isEqualToString:@"play"]) {
-            XCTAssertFalse(fullLengthPlayReceived);
-            
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
-            XCTAssertEqualObjects(labels[@"media_position"], @"60");
-            fullLengthPlayReceived = YES;
-        }
-        else {
-            XCTFail(@"Unexpected event %@", event);
-        }
-        
-        return fullLengthSeekReceived && fullLengthPlayReceived;
-    }];
-    
-    [self.mediaPlayerController seekPreciselyToTime:CMTimeMakeWithSeconds(55., NSEC_PER_SEC) withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
