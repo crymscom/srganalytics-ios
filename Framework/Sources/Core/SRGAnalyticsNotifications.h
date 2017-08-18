@@ -10,11 +10,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  The following notifications can be used if you need to track when TagCommander, comScore and NetMetrix 
- *  requests are made, and which information will be sent to these services. These notifications are
- *  only emitted when enabling the `unitTesting` tracker configuration flag.
+ *  requests are made, and which information will be sent to these services, for unit testing purposes. 
+ *
+ *  These notifications are only emitted when enabling the `unitTesting` tracker configuration flag, @see
+ *  `SRGAnalyticsConfiguration`.
  */
 
-// Notification sent when analytics are sent.
+// Notification sent when TagCommander analytics are sent.
 OBJC_EXTERN NSString * const SRGAnalyticsRequestNotification;
 
 // Information available for `SRGAnalyticsRequestNotification`.

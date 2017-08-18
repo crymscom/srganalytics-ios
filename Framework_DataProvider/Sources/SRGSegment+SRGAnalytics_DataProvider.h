@@ -10,7 +10,7 @@
 #import <SRGDataProvider/SRGDataProvider.h>
 
 /**
- *  Standard implementation of analytics for a segment stemming from the data provider library.
+ *  Standard implementation of analytics for a segment stemming from the SRG DataProvider library.
  */
 @interface SRGSegment (SRGAnalytics_DataProvider)
 

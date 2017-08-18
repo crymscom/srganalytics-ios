@@ -26,9 +26,9 @@
     return self.hidden;
 }
 
-- (SRGAnalyticsPlayerLabels *)srg_analyticsLabels
+- (SRGAnalyticsStreamLabels *)srg_analyticsLabels
 {
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = self.analyticsLabels;
     labels.comScoreCustomInfo = self.comScoreAnalyticsLabels;
     return labels;

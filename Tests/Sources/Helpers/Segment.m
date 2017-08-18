@@ -51,9 +51,9 @@
 
 #pragma mark SRGAnalyticsSegment protocol
 
-- (SRGAnalyticsPlayerLabels *)srg_analyticsLabels
+- (SRGAnalyticsStreamLabels *)srg_analyticsLabels
 {
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"segment_name" : self.name,
                            @"overridable_name" : self.name };
     labels.comScoreCustomInfo = @{ @"segment_name" : self.name,

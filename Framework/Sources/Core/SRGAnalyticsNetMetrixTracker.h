@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SRGAnalyticsNetMetrixTracker : NSObject
 
 /**
- *  Create a tracker sending events for the specified NetMetrix identifier and business unit.
+ *  Create a tracker sending events for the specified configuration.
  *
  *  @param configuration The configuration to use.
  *
