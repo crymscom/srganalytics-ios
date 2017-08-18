@@ -132,9 +132,9 @@ This logger either automatically integrates with your own logger, or can be easi
 
 To test what the library is capable of, run the associated demo.
 
-## Migration from versions 1.x
+## Migration from previous major versions
 
-For information about changes introduced with version 2 of the library, please read the [migration guide](Documentation/Migration-guide.md).
+For information about migration from older major library versions, please read the [migration guide](Documentation/Migration-guide.md).
 
 ## License
 
