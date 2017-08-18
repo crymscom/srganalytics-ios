@@ -357,7 +357,6 @@ static NSMutableDictionary *s_trackers = nil;
     
     NSValue *key = [NSValue valueWithNonretainedObject:mediaPlayerController];
     if (mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStatePreparing) {
-        NSAssert(s_trackers[key] == nil, @"No tracker must exist");
         SRGMediaPlayerTracker *tracker = [[SRGMediaPlayerTracker alloc] initWithMediaPlayerController:mediaPlayerController];
         
         s_trackers[key] = tracker;
@@ -371,21 +370,21 @@ static NSMutableDictionary *s_trackers = nil;
     }
     else if (mediaPlayerController.playbackState == SRGMediaPlayerPlaybackStateIdle) {
         SRGMediaPlayerTracker *tracker = s_trackers[key];
-        NSAssert(tracker != nil, @"A tracker must exist");
-        
-        NSTimeInterval lastPosition = SRGAnalyticsCMTimeToMilliseconds([notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue]);
-        [tracker updateWithState:SRGAnalyticsStreamStateStopped
-                        position:lastPosition
-                         segment:mediaPlayerController.selectedSegment
-                        userInfo:notification.userInfo];
-        [tracker stop];
-        
-        [s_trackers removeObjectForKey:key];
-        if (s_trackers.count == 0) {
-            [CSComScore onUxInactive];
+        if (tracker) {
+            NSTimeInterval lastPosition = SRGAnalyticsCMTimeToMilliseconds([notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue]);
+            [tracker updateWithState:SRGAnalyticsStreamStateStopped
+                            position:lastPosition
+                             segment:mediaPlayerController.selectedSegment
+                            userInfo:notification.userInfo];
+            [tracker stop];
+            
+            [s_trackers removeObjectForKey:key];
+            if (s_trackers.count == 0) {
+                [CSComScore onUxInactive];
+            }
+            
+            SRGAnalyticsLogInfo(@"PlayerTracker", @"Stopped tracking for %@", key);
         }
-        
-        SRGAnalyticsLogInfo(@"PlayerTracker", @"Stopped tracking for %@", key);
     }
 }
 
