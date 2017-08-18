@@ -6,7 +6,6 @@
 
 #import "SRGAnalyticsNetMetrixTracker.h"
 
-#import "SRGAnalyticsConfiguration+Private.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsNotifications.h"
 #import "SRGAnalyticsTracker.h"
@@ -50,7 +49,7 @@
         [request setHTTPMethod:@"GET"];
         [request setValue:@"image/gif" forHTTPHeaderField:@"Accept"];
         
-        // Which User-Agent MUST be used is defined on http://www.net-metrix.ch/fr/produits/net-metrix-mobile/reglement/directives
+        // Which User-Agent MUST be used is defined at http://www.net-metrix.ch/fr/produits/net-metrix-mobile/reglement/directives
         NSString *systemVersion = [[[UIDevice currentDevice] systemVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
         NSString *userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (iOS-%@; CPU %@ %@ like Mac OS X)", self.device, self.operatingSystem, systemVersion];
         [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
@@ -61,8 +60,6 @@
         }] resume];
     }
     else {
-        // Send the notification when the request is made (as is done with comScore). Notifications are intended to test
-        // whether events are properly sent, not whether they are properly received
         [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsNetmetrixRequestNotification
                                                             object:nil
                                                           userInfo:@{ SRGAnalyticsNetmetrixURLKey : netMetrixURL }];

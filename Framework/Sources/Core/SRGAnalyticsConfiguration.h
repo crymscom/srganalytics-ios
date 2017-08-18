@@ -23,18 +23,14 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 @interface SRGAnalyticsConfiguration : NSObject <NSCopying>
 
 /**
- *  Create a measurement configuration.
+ *  Create a measurement configuration. Check with the team responsible for measurements of your application to get 
+ *  the correct settings to use for your application.
  *
  *  @param businessUnitIdentifier The identifier of the business unit which measurements are made for. Usually the
  *                                business unit which publishes the application.
- *  @param container              The TagCommander container identifier to which measurements will be sent. Check with
- *                                the team responsible for measurements of your application to get the correct container
- *                                to use.
- *  @param comScoreVirtualSite    The comScore virtual site to which measurements must be sent. Check with
- *                                the team responsible for measurements of your application to get the correct site to use.
- *  @param netMetrixIdenfifier    The NetMetrix application identifier to send measurements for. Check with
- *                                the team responsible for measurements of your application to get the correct identifier
- *                                to use.
+ *  @param container              The TagCommander container identifier to which measurements will be sent.
+ *  @param comScoreVirtualSite    The comScore virtual site to which measurements must be sent.
+ *  @param netMetrixIdenfifier    The NetMetrix application identifier to send measurements for.
  */
 - (instancetype)initWithBusinessUnitIdentifier:(SRGAnalyticsBusinessUnitIdentifier)businessUnitIdentifier
                                      container:(NSInteger)container
@@ -42,7 +38,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
                            netMetrixIdentifier:(NSString *)netMetrixIdentifier;
 
 /**
- *  Set to `YES` if measurements are studied by the General SRG SSR Direction, to `NO` if the business
+ *  Set to `YES` if measurements are studied by the General SRG SSR Direction, or to `NO` if the business
  *  unit itself will perform the studies.
  *
  *  Default value is `NO`.
@@ -55,7 +51,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  Default value is `NO`.
  *
  *  @discussion When unit testing is enabled, notifications are emitted so that unit tests can verify what information is
- *              being sent and when. Note that:
+ *              being sent and when. In addition:
  *                - TagCommander service calls will be disabled, and the heartbeat will be reduced to 3 seconds.
  *                - NetMetrix and comScore service calls will be disabled.
  */
@@ -65,6 +61,11 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  The SRG SSR business unit which measurements are associated with.
  */
 @property (nonatomic, readonly, copy) SRGAnalyticsBusinessUnitIdentifier businessUnitIdentifier;
+
+/**
+ *  The TagCommander site.
+ */
+@property (nonatomic, readonly) NSInteger site;
 
 /**
  *  The TagCommander container identifier.
@@ -77,7 +78,12 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
 @property (nonatomic, readonly, copy) NSString *comScoreVirtualSite;
 
 /**
- *  The NetMetrix identifier which is used.
+ *  The NetMetrix domain.
+ */
+@property (nonatomic, readonly, copy, nullable) NSString *netMetrixDomain;
+
+/**
+ *  The NetMetrix application identifier.
  */
 @property (nonatomic, readonly, copy) NSString *netMetrixIdentifier;
 

@@ -10,11 +10,11 @@
 
 #pragma mark Overrides
 
-- (SRGAnalyticsPlayerLabels *)srg_analyticsLabels
+- (SRGAnalyticsStreamLabels *)srg_analyticsLabels
 {
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = self.analyticsLabels;
-    labels.comScoreCustomSegmentInfo = self.comScoreAnalyticsLabels;        // Stored in segment info
+    labels.comScoreCustomSegmentInfo = self.comScoreAnalyticsLabels;
     return labels;
 }
 

@@ -23,11 +23,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  The SRG Analytics library supports three kinds of measurements:
  *    - View events: Appearance of views (page views), which makes it possible to track which content is seen by users.
  *    - Hidden events: Custom events which can be used for measuresement of application functionalities.
- *    - Media playback events: Measurements for audio and video consumption.
+ *    - Stream playback events: Measurements for audio and video consumption.
  *
  *  For all kinds of measurements, required information must be provided through mandatory parameters, and optional
  *  labels can be provided through an optional labels object. In all cases, mandatory and optional information is
- *  correctly routed to the analytics services. Raw dictionaries can also be filled with custom information if needed.
+ *  transparently routed to the analytics services.
  *
  *  ## Usage
  *
@@ -49,17 +49,17 @@ NS_ASSUME_NONNULL_BEGIN
  *  1. When you need to track specific functionalities in your application (e.g. the use of some interface button
  *     or of some feature of your application), send a hidden event using one of the `-trackHiddenEvent...` methods
  *     available from `SRGAnalyticsTracker`.
- *  1. If you need to track playback using SRG MediaPlayer, you must add the SRGAnalytics_MediaPlayer subframework 
+ *  1. If you need to track media playback using SRG MediaPlayer, you must add the SRGAnalytics_MediaPlayer subframework
  *     to your project (@see `SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h` for more information). You are 
  *     still responsible of providing most metadata associated with playback (e.g. title or duration of what is 
- *     being played) when calling one of the playback methods provided in this subframework.
- *  1. If medias you play are retrieved using our data provider library, you must add the SRGAnalytics_DataProvider 
+ *     being played) when calling one of the playback methods provided by this subframework.
+ *  1. If medias you play are retrieved using our SRG DataProvider library, you must add the SRGAnalytics_DataProvider
  *     subframework to your project as well (@see `SRGMediaPlayerController+SRGAnalytics_DataProvider.h` for more 
  *     information). In this case, all mandatory stream measurement metadata will be automatically provided when
  *     playing the content through one of the playback methods provided in this subframework.
  *
- *  You can also perform manual media player tracking when your player implementation does not rely on SRG MediaPlayer,
- *  @see `SRGAnalyticsPlayerTracker` for more information.
+ *  You can also perform manual stream playback tracking when your player implementation does not rely on SRG MediaPlayer,
+ *  @see `SRGAnalyticsStreamTracker` for more information.
  */
 @interface SRGAnalyticsTracker : NSObject
 
@@ -183,8 +183,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Track a page view (not associated with a push notification).
  *
- *  @param title                The page title. If the title is empty, no event will be sent.
- *  @param levels               An array of levels in increasing order, describing the position of the view in the hierarchy.
+ *  @param title  The page title. If the title is empty, no event will be sent.
+ *  @param levels An array of levels in increasing order, describing the position of the view in the hierarchy.
  *
  *  @discussion This method is primarily available for page view tracking not related to a view controller. If your page view
  *              is related to a view controller, the recommended way of tracking the view controller is by having it conform

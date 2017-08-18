@@ -18,9 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol SRGAnalyticsSegment <SRGSegment>
 
 /**
- *  Analytics labels associated with the segments.
+ *  Analytics labels associated with the segment.
  */
-@property (nonatomic, readonly, nullable) SRGAnalyticsPlayerLabels *srg_analyticsLabels;
+@property (nonatomic, readonly, nullable) SRGAnalyticsStreamLabels *srg_analyticsLabels;
 
 @end
 

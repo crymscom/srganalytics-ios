@@ -4,7 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "SRGAnalyticsPlayerTracker.h"
+#import "SRGAnalyticsStreamTracker.h"
 
 #import "NSBundle+SRGAnalytics.h"
 #import "NSMutableDictionary+SRGAnalytics.h"
@@ -13,12 +13,14 @@
 #import <ComScore/ComScore.h>
 #import <SRGAnalytics/SRGAnalytics.h>
 
-@interface SRGAnalyticsPlayerTracker ()
+@interface SRGAnalyticsStreamTracker ()
+
+@property (nonatomic, getter=isLivestream) BOOL livestream;
 
 @property (nonatomic) CSStreamSense *streamSense;
 
 @property (nonatomic, getter=isComScoreSessionAlive) BOOL comScoreSessionAlive;
-@property (nonatomic) SRGAnalyticsPlayerState previousPlayerState;
+@property (nonatomic) SRGAnalyticsStreamState previousPlayerState;
 
 @property (nonatomic) NSTimeInterval playbackDuration;
 @property (nonatomic) NSDate *previousPlaybackDurationUpdateDate;
@@ -28,7 +30,7 @@
 
 @end
 
-@implementation SRGAnalyticsPlayerLabels
+@implementation SRGAnalyticsStreamLabels
 
 #pragma mark Getters and setters
 
@@ -88,7 +90,7 @@
 
 #pragma mark Merging
 
-- (void)mergeWithLabels:(SRGAnalyticsPlayerLabels *)labels
+- (void)mergeWithLabels:(SRGAnalyticsStreamLabels *)labels
 {
     if (! labels) {
         return;
@@ -137,7 +139,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.playerName = self.playerName;
     labels.playerVersion = self.playerVersion;
     labels.playerVolumeInPercent = self.playerVolumeInPercent;
@@ -152,20 +154,27 @@
 
 @end
 
-@implementation SRGAnalyticsPlayerTracker
+@implementation SRGAnalyticsStreamTracker
 
 #pragma mark Object lifecycle
 
-- (instancetype)init
+- (instancetype)initForLivestream:(BOOL)livestream
 {
     if (self = [super init]) {
+        self.livestream = livestream;
+        
         // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
         self.streamSense = [[CSStreamSense alloc] init];
         [self.streamSense setKeepAliveInterval:9 * 60];
         
-        self.previousPlayerState = SRGAnalyticsPlayerStateEnded;
+        self.previousPlayerState = SRGAnalyticsStreamStateEnded;
     }
     return self;
+}
+
+- (instancetype)init
+{
+    return [self initForLivestream:NO];
 }
 
 - (void)dealloc
@@ -182,34 +191,34 @@
     self.heartbeatCount = 0;
 }
 
-#pragma mark State updates
+#pragma mark Tracking
 
-- (void)updateWithPlayerState:(SRGAnalyticsPlayerState)state
+- (void)updateWithStreamState:(SRGAnalyticsStreamState)state
                      position:(NSTimeInterval)position
-                       labels:(SRGAnalyticsPlayerLabels *)labels
+                       labels:(SRGAnalyticsStreamLabels *)labels
 {
-    [self updateTagCommanderWithPlayerState:state position:position labels:labels];
-    [self updateComScoreWithPlayerState:state position:position labels:labels];
+    [self updateTagCommanderWithStreamState:state position:position labels:labels];
+    [self updateComScoreWithStreamState:state position:position labels:labels];
 }
 
-- (void)updateComScoreWithPlayerState:(SRGAnalyticsPlayerState)state
+- (void)updateComScoreWithStreamState:(SRGAnalyticsStreamState)state
                              position:(NSTimeInterval)position
-                               labels:(SRGAnalyticsPlayerLabels *)labels
+                               labels:(SRGAnalyticsStreamLabels *)labels
 {
     // Ensure a play is emitted before events requiring a session to be opened (the comScore SDK does not open sessions
     // automatically)
-    if (! self.comScoreSessionAlive && (state == SRGAnalyticsPlayerStatePaused || state == SRGAnalyticsPlayerStateSeeking)) {
-        [self updateComScoreWithPlayerState:SRGAnalyticsPlayerStatePlaying position:position labels:labels];
+    if (! self.comScoreSessionAlive && (state == SRGAnalyticsStreamStatePaused || state == SRGAnalyticsStreamStateSeeking)) {
+        [self updateComScoreWithStreamState:SRGAnalyticsStreamStatePlaying position:position labels:labels];
     }
     
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSNumber *> *s_streamSenseEvents;
     dispatch_once(&s_onceToken, ^{
-        s_streamSenseEvents = @{ @(SRGAnalyticsPlayerStatePlaying) : @(CSStreamSensePlay),
-                                 @(SRGAnalyticsPlayerStatePaused) : @(CSStreamSensePause),
-                                 @(SRGAnalyticsPlayerStateSeeking) : @(CSStreamSensePause),
-                                 @(SRGAnalyticsPlayerStateStopped) : @(CSStreamSenseEnd),
-                                 @(SRGAnalyticsPlayerStateEnded) : @(CSStreamSenseEnd) };
+        s_streamSenseEvents = @{ @(SRGAnalyticsStreamStatePlaying) : @(CSStreamSensePlay),
+                                 @(SRGAnalyticsStreamStatePaused) : @(CSStreamSensePause),
+                                 @(SRGAnalyticsStreamStateSeeking) : @(CSStreamSensePause),
+                                 @(SRGAnalyticsStreamStateStopped) : @(CSStreamSenseEnd),
+                                 @(SRGAnalyticsStreamStateEnded) : @(CSStreamSenseEnd) };
     });
     
     NSNumber *eventTypeValue = s_streamSenseEvents[@(state)];
@@ -244,30 +253,30 @@
     }
 }
 
-- (void)updateTagCommanderWithPlayerState:(SRGAnalyticsPlayerState)state
+- (void)updateTagCommanderWithStreamState:(SRGAnalyticsStreamState)state
                                  position:(NSTimeInterval)position
-                                   labels:(SRGAnalyticsPlayerLabels *)labels
+                                   labels:(SRGAnalyticsStreamLabels *)labels
 {
     // Ensure a play is emitted before events requiring a session to be opened (the TagCommander SDK does not open sessions
     // automatically)
-    if (self.previousPlayerState == SRGAnalyticsPlayerStateEnded && (state == SRGAnalyticsPlayerStatePaused || state == SRGAnalyticsPlayerStateSeeking)) {
-        [self updateTagCommanderWithPlayerState:SRGAnalyticsPlayerStatePlaying position:position labels:labels];
+    if (self.previousPlayerState == SRGAnalyticsStreamStateEnded && (state == SRGAnalyticsStreamStatePaused || state == SRGAnalyticsStreamStateSeeking)) {
+        [self updateTagCommanderWithStreamState:SRGAnalyticsStreamStatePlaying position:position labels:labels];
     }
     
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSString *> *s_eventUids;
     static NSDictionary<NSNumber *, NSArray<NSNumber *> *> *s_transitions;
     dispatch_once(&s_onceToken, ^{
-        s_eventUids = @{ @(SRGAnalyticsPlayerStatePlaying) : @"play",
-                         @(SRGAnalyticsPlayerStatePaused) : @"pause",
-                         @(SRGAnalyticsPlayerStateSeeking) : @"seek",
-                         @(SRGAnalyticsPlayerStateStopped) : @"stop",
-                         @(SRGAnalyticsPlayerStateEnded) : @"eof" };
-        s_transitions = @{ @(SRGAnalyticsPlayerStatePlaying) : @[ @(SRGAnalyticsPlayerStatePaused), @(SRGAnalyticsPlayerStateSeeking), @(SRGAnalyticsPlayerStateStopped), @(SRGAnalyticsPlayerStateEnded) ],
-                           @(SRGAnalyticsPlayerStatePaused) : @[ @(SRGAnalyticsPlayerStatePlaying), @(SRGAnalyticsPlayerStateSeeking), @(SRGAnalyticsPlayerStateStopped), @(SRGAnalyticsPlayerStateEnded) ],
-                           @(SRGAnalyticsPlayerStateSeeking) : @[ @(SRGAnalyticsPlayerStatePlaying), @(SRGAnalyticsPlayerStatePaused), @(SRGAnalyticsPlayerStateStopped), @(SRGAnalyticsPlayerStateEnded) ],
-                           @(SRGAnalyticsPlayerStateStopped) : @[ @(SRGAnalyticsPlayerStatePlaying) ],
-                           @(SRGAnalyticsPlayerStateEnded) : @[ @(SRGAnalyticsPlayerStatePlaying) ] };
+        s_eventUids = @{ @(SRGAnalyticsStreamStatePlaying) : @"play",
+                         @(SRGAnalyticsStreamStatePaused) : @"pause",
+                         @(SRGAnalyticsStreamStateSeeking) : @"seek",
+                         @(SRGAnalyticsStreamStateStopped) : @"stop",
+                         @(SRGAnalyticsStreamStateEnded) : @"eof" };
+        s_transitions = @{ @(SRGAnalyticsStreamStatePlaying) : @[ @(SRGAnalyticsStreamStatePaused), @(SRGAnalyticsStreamStateSeeking), @(SRGAnalyticsStreamStateStopped), @(SRGAnalyticsStreamStateEnded) ],
+                           @(SRGAnalyticsStreamStatePaused) : @[ @(SRGAnalyticsStreamStatePlaying), @(SRGAnalyticsStreamStateSeeking), @(SRGAnalyticsStreamStateStopped), @(SRGAnalyticsStreamStateEnded) ],
+                           @(SRGAnalyticsStreamStateSeeking) : @[ @(SRGAnalyticsStreamStatePlaying), @(SRGAnalyticsStreamStatePaused), @(SRGAnalyticsStreamStateStopped), @(SRGAnalyticsStreamStateEnded) ],
+                           @(SRGAnalyticsStreamStateStopped) : @[ @(SRGAnalyticsStreamStatePlaying) ],
+                           @(SRGAnalyticsStreamStateEnded) : @[ @(SRGAnalyticsStreamStatePlaying) ] };
     });
     
     // Don't send an unknown action
@@ -283,8 +292,8 @@
     
     self.previousPlayerState = state;
     
-    // Restore the heartbeat timer when transitioning to play again
-    if (state == SRGAnalyticsPlayerStatePlaying) {
+    // Restore the heartbeat timer when transitioning to play again.
+    if (state == SRGAnalyticsStreamStatePlaying) {
         if (! self.heartbeatTimer) {
             SRGAnalyticsConfiguration *configuration = [SRGAnalyticsTracker sharedTracker].configuration;
             NSTimeInterval heartbeatInterval = configuration.unitTesting ? 3. : 30.;
@@ -309,7 +318,7 @@
     [self trackTagCommanderMediaPlayerEventWithUid:action withPosition:position labels:labels];
 }
 
-- (void)trackTagCommanderMediaPlayerEventWithUid:(NSString *)eventUid withPosition:(NSTimeInterval)position labels:(SRGAnalyticsPlayerLabels *)labels
+- (void)trackTagCommanderMediaPlayerEventWithUid:(NSString *)eventUid withPosition:(NSTimeInterval)position labels:(SRGAnalyticsStreamLabels *)labels
 {
     NSAssert(eventUid.length != 0, @"An event uid is required");
     
@@ -327,15 +336,15 @@
 
 #pragma mark Playback duration
 
-- (NSTimeInterval)updatedPlaybackDurationWithState:(SRGAnalyticsPlayerState)state
+- (NSTimeInterval)updatedPlaybackDurationWithState:(SRGAnalyticsStreamState)state
 {
     NSAssert(self.livestream, @"Duration calculated for livestreams only");
     
     if (self.previousPlaybackDurationUpdateDate) {
-        self.playbackDuration += fabs([self.previousPlaybackDurationUpdateDate timeIntervalSinceNow] * 1000);
+        self.playbackDuration -= [self.previousPlaybackDurationUpdateDate timeIntervalSinceNow] * 1000;
     }
     
-    if (state == SRGAnalyticsPlayerStatePlaying) {
+    if (state == SRGAnalyticsStreamStatePlaying) {
         self.previousPlaybackDurationUpdateDate = NSDate.date;
     }
     else {
@@ -344,7 +353,7 @@
     
     NSTimeInterval playbackDuration = self.playbackDuration;
     
-    if (state == SRGAnalyticsPlayerStateStopped || state == SRGAnalyticsPlayerStateEnded) {
+    if (state == SRGAnalyticsStreamStateStopped || state == SRGAnalyticsStreamStateEnded) {
         self.playbackDuration = 0;
     }
     
@@ -355,21 +364,21 @@
 
 - (void)heartbeat:(NSTimer *)timer
 {
-    NSAssert(self.previousPlayerState == SRGAnalyticsPlayerStatePlaying, @"Heartbeat timer is only active when playing by construction");
+    NSAssert(self.previousPlayerState == SRGAnalyticsStreamStatePlaying, @"Heartbeat timer is only active when playing by construction");
     
     if (self.delegate) {
-        NSTimeInterval position = [self.delegate positionForPlayerTracker:self];
+        NSTimeInterval position = [self.delegate positionForStreamTracker:self];
         
         // Override position if it is a livestream
         if (self.livestream) {
-            position = [self updatedPlaybackDurationWithState:SRGAnalyticsPlayerStatePlaying];
+            position = [self updatedPlaybackDurationWithState:SRGAnalyticsStreamStatePlaying];
         }
         
-        SRGAnalyticsPlayerLabels *labels = [self.delegate labelsForPlayerTracker:self];
+        SRGAnalyticsStreamLabels *labels = [self.delegate labelsForStreamTracker:self];
         [self trackTagCommanderMediaPlayerEventWithUid:@"pos" withPosition:position labels:labels];
         
         // Send a live heartbeat each minute
-        if ([self.delegate playerTrackerIsLive:self] && self.heartbeatCount % 2 != 0) {
+        if ([self.delegate streamTrackerIsPlayingLive:self] && self.heartbeatCount % 2 != 0) {
             [self trackTagCommanderMediaPlayerEventWithUid:@"uptime" withPosition:position labels:labels];
         }
     }

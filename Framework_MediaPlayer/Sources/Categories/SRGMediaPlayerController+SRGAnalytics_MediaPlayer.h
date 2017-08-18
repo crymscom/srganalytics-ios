@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Streaming measurement additions to SRGAnalytics. The SRGAnalytics_MediaPlayer framework is an optional SRGAnalytics
  *  companion framework which can be used to easily measure audio and video consumption in applications powered by 
  *  the SRG MediaPlayer library. If you need to implement streaming measurements for other players, use an instance of
- *  `SRGAnalyticsPlayerTracker`.
+ *  `SRGAnalyticsStreamTracker`.
  *
  *  When playing a media, two levels of analytics information (labels) are consolidated:
  *    - Labels associated with the content URL being played.
@@ -31,8 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
  * 
  *  By default, provided a tracker has been started, all SRG MediaPlayer controllers are automatically tracked without any
  *  additional work. You can disable this behavior by setting the `SRGMediaPlayerController` `tracked` property to `NO`.
- *  If you do not want any events to be emitted by a player, you should set this property to `NO` before beginning
- *  playback.
  *
  *  By default, standard SRG playback information (playhead position, type of event, etc.) is sent in stream events.
  *  To supply additional measurement information (e.g. title or duration), you must use custom labels.
@@ -40,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  ## Additional measurement labels
  *
  *  You can supply additional custom measurement labels with stream events sent from your application. These labels
- *  are provided through `SRGAnalyticsPlayerLabels` instances whose properties can be set depending on which information
+ *  are provided through `SRGAnalyticsStreamLabels` instances whose properties can be set depending on which information
  *  is needed.
  *
  *  Custom information can be added to both content and segment labels. When playing a segment, its labels are merged
@@ -68,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)prepareToPlayURL:(NSURL *)URL
                   atTime:(CMTime)time
             withSegments:(nullable NSArray<id<SRGSegment>> *)segments
-         analyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
+         analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
 
@@ -80,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)playURL:(NSURL *)URL
          atTime:(CMTime)time
    withSegments:(nullable NSArray<id<SRGSegment>> *)segments
-analyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
+analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
@@ -92,7 +90,7 @@ analyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
 - (void)prepareToPlayURL:(NSURL *)URL
                  atIndex:(NSInteger)index
               inSegments:(NSArray<id<SRGSegment>> *)segments
-     withAnalyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
+     withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
 
@@ -104,7 +102,7 @@ analyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
 - (void)playURL:(NSURL *)URL
         atIndex:(NSInteger)index
      inSegments:(NSArray<id<SRGSegment>> *)segments
-withAnalyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
+withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
@@ -113,7 +111,7 @@ withAnalyticsLabels:(nullable SRGAnalyticsPlayerLabels *)analyticsLabels
  *  @discussion Media players are tracked between the time they prepare a media for playback and the time they return to
  *              the idle state. You can start and stop tracking at any time, which will automatically send the required
  *              stream events. If you do not want to track a player at all, be sure that you set this property to `NO`
- *              before starting playback
+ *              before starting playback.
  */
 @property (nonatomic, getter=isTracked) BOOL tracked;
 

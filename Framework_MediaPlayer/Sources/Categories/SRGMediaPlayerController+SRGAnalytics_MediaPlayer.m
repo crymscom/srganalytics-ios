@@ -16,7 +16,7 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 
 #pragma mark Helpers
 
-+ (NSDictionary *)fullInfoWithAnalyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
++ (NSDictionary *)fullInfoWithAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
                                      userInfo:(NSDictionary *)userInfo
 {
     NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
@@ -34,7 +34,7 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 - (void)prepareToPlayURL:(NSURL *)URL
                   atTime:(CMTime)time
             withSegments:(NSArray<id<SRGSegment>> *)segments
-         analyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
+         analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
                 userInfo:(NSDictionary *)userInfo
        completionHandler:(void (^)(void))completionHandler
 {
@@ -45,7 +45,7 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
 - (void)playURL:(NSURL *)URL
          atTime:(CMTime)time
    withSegments:(NSArray<id<SRGSegment>> *)segments
-analyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
+analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
        userInfo:(NSDictionary *)userInfo
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
@@ -55,7 +55,7 @@ analyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
 - (void)prepareToPlayURL:(NSURL *)URL
                  atIndex:(NSInteger)index
               inSegments:(NSArray<id<SRGSegment>> *)segments
-     withAnalyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
+     withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
                 userInfo:(NSDictionary *)userInfo
        completionHandler:(void (^)(void))completionHandler
 {
@@ -66,7 +66,7 @@ analyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
 - (void)playURL:(NSURL *)URL
         atIndex:(NSInteger)index
      inSegments:(NSArray<id<SRGSegment>> *)segments
-withAnalyticsLabels:(SRGAnalyticsPlayerLabels *)analyticsLabels
+withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
        userInfo:(NSDictionary *)userInfo
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];

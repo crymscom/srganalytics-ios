@@ -34,15 +34,15 @@ Once the tracker has been started, you can perform measurements.
 
 ## Measurement information
 
-Measurement information, often referred to as labels, is provided in the form of string dictionaries. Part of the information sent in events follows SRG measurement guidelines and is handled internally, but you can add arbitrary information for your own measurement purposes if needed (see below how this is done for the various events your application can generate).
+Measurement information, often referred to as labels, is provided in the form of dictionaries mapping strings to strings. Part of the information sent in events follows SRG measurement guidelines and is handled internally, but you can add arbitrary information for your own measurement purposes if needed (see below how this is done for the various events your application can generate).
 
-Be careful when using custom labels, though, and ensure your custom keys do not match reserved values by using appropriate naming conventions (e.g. a prefix).
+Be careful when using custom labels, though, and ensure your custom keys do not match reserved values by using appropriate naming conventions (e.g. a prefix). Also check with the measurement team whether the custom labels you are using is supported.
 
 ## Measuring page views
 
 View controllers represent the units of screen interaction in an application, this is why page view measurements are primarily made on view controllers. All methods and protocols for view controller tracking have been gathered in the `UIViewController+SRGAnalytics.h` file.
 
-View controller measurement is an opt-in, in other words no view controller is tracked by default. For a view controller to be tracked, you the recommended approach is to have it conform to the `SRGAnalyticsViewTracking` protocol. This protocol requires a single method to be implemented, returning the view controller name to be used for measurements. By default, once a view controller implements the `SRGAnalyticsViewTracking` protocol, it automatically generates a page view when it appears on screen, or when the application wakes up from background with the view controller displayed.
+View controller measurement is an opt-in, in other words no view controller is tracked by default. For a view controller to be tracked, the recommended approach is to have it conform to the `SRGAnalyticsViewTracking` protocol. This protocol requires a single method to be implemented, returning the view controller title to be used for measurements. By default, once a view controller implements the `SRGAnalyticsViewTracking` protocol, it automatically generates a page view when it appears on screen, or when the application wakes up from background with the view controller displayed.
 
 The `SRGAnalyticsViewTracking` protocol supplies optional methods to specify other custom measurement information (labels). If the required information is not available when the view controller appears, you can disable automatic tracking by implementing the optional `-srg_isTrackedAutomatically` protocol method, returning `NO`. You are then responsible of calling `-trackPageView` on the view controller when the data required by the page view is available.
 
@@ -91,7 +91,7 @@ Note that the labels might differ depending on the service they are sent to. Be 
 
 ## Measuring application functionalities
 
-To measure any kind of application functionality, you can use hidden events. Those can be emitted by calling the corresponding methods on the tracker singleton itself. For example, you could send the following event when the user taps on a video full-screen button within your application:
+To measure any kind of application functionality, you can use hidden events. Those can be emitted by calling the corresponding methods on the tracker singleton itself. For example, you could send the following event when the user taps on a player full-screen button within your application:
 
 ```objective-c
 [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@"full-screen"];
@@ -108,7 +108,7 @@ You can disable tracking by setting the `SRGMediaPlayerController` `tracked` pro
 Two levels of measurement information (labels) can be provided:
 
 * Labels associated with the content being played, and which can be supplied when playing the media. Dedicated methods are available from `SRGMediaPlayerController+SRGAnalytics.h`.
-* Labels associated with a segment being played, and which are supplied by having segments implement the `SRGAnalyticsSegment` protocol instead of `SRGSegment`.
+* Labels associated with a segment being played, and which are supplied by having segments implement the `SRGAnalyticsSegment` protocol.
 
 When playing a segment, segment labels are superimposed to content labels. You can therefore decide to selectively override content labels by having segments return labels with matching names, if needed. 
 
@@ -179,7 +179,7 @@ The mechanism is the same for information sent to comScore.
 
 ## Automatic media consumption measurement labels using the SRG DataProvider library
 
-Our services directly supply the custom analytics labels which need to be sent with media consumption measurements. If you are using [our SRG DataProvider library](https://github.com/SRGSSR/srgdataprovider-ios) in your application, be sure to add the `SRGAnalytics_SRGDataProvider.framework` companion framework to your project as well, which will take care of all the process for you.
+Our services directly supply the custom analytics labels which need to be sent with media consumption measurements. If you are using our [SRG DataProvider library](https://github.com/SRGSSR/srgdataprovider-ios) in your application, be sure to add the `SRGAnalytics_SRGDataProvider.framework` companion framework to your project as well, which will take care of all the process for you.
 
 This framework adds a category `SRGMediaPlayerController (SRGAnalytics_DataProvider)`, which adds playback methods for media compositions to `SRGMediaPlayerController`. To play a media composition retrieved from an `SRGDataProvider` and have all measurement information automatically associated with the playback, simply call:
 
@@ -195,20 +195,27 @@ Nothing more is required for correct media consumption measurements. During play
 
 ## Measurements of other media players
 
-If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must implement media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsPlayerTracker` object and retain it somewhere during playback. When the state of your player changes, call the update method available from the player tracker public interface, specifying the new state of the player and its current playback position (as well as additional optional labels if needed).
+If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must implement media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsStreamTracker` object and retain it somewhere during media playback. 
 
-Depending on state transitions detected on the basis of state information, the tracker automatically generates measurements transparently. You should therefore update the state of your player when it changes, and as many times as needed so that the tracker can keep an accurate picture of the player state.
-
-For example, you can declare that the player is playing at the 6th second by calling:
 ```objective-c
-[[SRGAnalyticsTracker sharedTracker] updateWithPlayerState:SRGAnalyticsPlayerStatePlaying
-                                                  position:6000
-                                                    labels:nil];
+self.streamTracker = [[SRGAnalyticsStreamTracker alloc] initWithLivestream:NO];
+```
+
+The initializer requires a livestream parameter, specifying whether the stream is a livestream or not. This distinction is important, as measurements are performed slightly differently for livestreams. The tracker must therefore only be instantiated once this information is known.
+
+When the state of the playback changes, call the update method available from the stream tracker public interface, specifying information about the new state of the stream. When transitions occur on the basis of this state information, the tracker automatically generates streaming measurements transparently. You should therefore update the state of your player when it changes, so that the tracker can keep an accurate picture of the stream state.
+
+For example, you can declare that the stream is being played at the 6th second by calling:
+
+```objective-c
+[self.streamTracker updateWithStreamState:SRGAnalyticsPlayerStatePlaying
+                                 position:6000
+                                   labels:nil];
 ```
 
 When using this lower-level API, you are responsible of following SRG SSR guidelines for playback measurements. For example, you need to supply correct segment labels if the user has chosen to play a specific part of your media (none in the example above). Read [our internal documentation](https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/195595938/Implementation+Concept+-+draft) for more information.
 
-Correctly conforming to all SRG SSR guidelines is not a trivial task, though. Please contact us if you need help.
+Correctly conforming to all SRG SSR guidelines is not a trivial task, though. Please contact us if you need help in implementing correct stream statistics for a custom player.
 
 ## Thread-safety
 

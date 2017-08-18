@@ -62,7 +62,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     // Now playing must trigger a play event
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         return YES;
     }];
@@ -71,7 +71,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         return YES;
     }];
@@ -83,7 +83,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testPlaybackToEnd
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_position"], @"0");
         return YES;
@@ -93,7 +93,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"seek");
         XCTAssertEqualObjects(labels[@"media_position"], @"0");
         return YES;
@@ -105,7 +105,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertNotEqualObjects(labels[@"media_position"], @"0");
         return YES;
@@ -115,7 +115,7 @@ static NSURL *DVRTestURL(void)
     
     // Let playback finish normally
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"eof");
         XCTAssertNotEqualObjects(labels[@"media_position"], @"0");
         return YES;
@@ -126,7 +126,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testPlayStop
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_position"], @"0");
         return YES;
@@ -146,7 +146,7 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
         return YES;
@@ -159,7 +159,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testPlayReset
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_position"], @"0");
         return YES;
@@ -179,7 +179,7 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
         return YES;
@@ -197,7 +197,7 @@ static NSURL *DVRTestURL(void)
         ++count1;
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         return [event isEqualToString:@"play"];
     }];
     
@@ -215,7 +215,7 @@ static NSURL *DVRTestURL(void)
         ++count2;
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         return [event isEqualToString:@"pause"];
     }];
     
@@ -233,7 +233,7 @@ static NSURL *DVRTestURL(void)
         ++count3;
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         return [event isEqualToString:@"play"];
     }];
     
@@ -264,7 +264,7 @@ static NSURL *DVRTestURL(void)
         ++count1;
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         return [event isEqualToString:@"play"];
     }];
     
@@ -287,7 +287,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL seekReceived = NO;
     __block BOOL playReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"seek"]) {
             XCTAssertFalse(seekReceived);
             XCTAssertFalse(playReceived);
@@ -339,7 +339,7 @@ static NSURL *DVRTestURL(void)
         ++count1;
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         return [event isEqualToString:@"play"];
     }];
     
@@ -357,7 +357,7 @@ static NSURL *DVRTestURL(void)
         ++count2;
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         return [event isEqualToString:@"pause"];
     }];
     
@@ -380,7 +380,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL seekReceived = NO;
     __block BOOL pauseReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"seek"]) {
             XCTAssertFalse(seekReceived);
             XCTAssertFalse(pauseReceived);
@@ -426,7 +426,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testConsecutiveMedia
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         return YES;
     }];
@@ -435,7 +435,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         return YES;
     }];
@@ -444,14 +444,14 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         return YES;
     }];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         return YES;
     }];
@@ -480,7 +480,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testCommonLabels
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_player_display"], @"SRGMediaPlayer");
         XCTAssertEqualObjects(labels[@"media_player_version"], SRGMediaPlayerMarketingVersion());
@@ -494,11 +494,9 @@ static NSURL *DVRTestURL(void)
 
 - (void)testOnDemandLabels
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertNil(labels[@"media_timeshift"]);
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"true");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -506,11 +504,9 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
         XCTAssertNil(labels[@"media_timeshift"]);
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"true");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -518,11 +514,9 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertNil(labels[@"media_timeshift"]);
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -533,16 +527,14 @@ static NSURL *DVRTestURL(void)
 
 - (void)testLiveLabels
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"0");
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"test_info" : @"test" };
     
     [self.mediaPlayerController playURL:LiveTestURL()
@@ -563,12 +555,10 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -586,12 +576,10 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -602,16 +590,14 @@ static NSURL *DVRTestURL(void)
 
 - (void)testLiveStopLive
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"0");
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"test_info" : @"test" };
     
     [self.mediaPlayerController playURL:LiveTestURL()
@@ -632,12 +618,10 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -645,12 +629,10 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"0");
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -668,12 +650,10 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -684,12 +664,10 @@ static NSURL *DVRTestURL(void)
 
 - (void)testDVRLabels
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"0");
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -707,12 +685,10 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"seek");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -721,12 +697,10 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"45");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
-        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -741,11 +715,10 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
     }];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertNotNil(labels[@"media_timeshift"]); // Can't compare to 45, because of chunk size
         XCTAssertEqualObjects(labels[@"media_position"], @"2");
-        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
         return YES;
     }];
     
@@ -756,7 +729,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testVolumeLabel
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_volume"], @"0");
         return YES;
@@ -769,7 +742,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
         XCTAssertEqualObjects(labels[@"media_volume"], @"100");         // 100 when run with XCTest
         return YES;
@@ -783,7 +756,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testBandwidthLabel
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertNotEqualObjects(labels[@"media_bandwidth"], @"0");
         return YES;
@@ -793,7 +766,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertNil(labels[@"media_bandwidth"]);
         return YES;
@@ -804,9 +777,78 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testEnvironment
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"stop");
+        XCTAssertEqualObjects(labels[@"media_embedding_environment"], @"preprod");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testSubtitles
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"true");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"stop");
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testNoSubtitles
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:LiveTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"stop");
+        XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
 - (void)testNonSelectedSegmentPlayback
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
@@ -814,7 +856,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -839,7 +881,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     // Pause playback. Expect full-length information
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
@@ -852,7 +894,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Resume playback. Expect full-length information
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
@@ -880,7 +922,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testSelectedSegmentPlayback
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -889,7 +931,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -903,7 +945,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Pause playback. Expect segment information
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -917,7 +959,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Resume playback. Expect segment information
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -934,7 +976,7 @@ static NSURL *DVRTestURL(void)
 - (void)testInitialSegmentSelectionAndPlaythrough
 {
     // No end on full since we start with the segment, only a play for the segment
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -943,7 +985,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -962,7 +1004,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL segmentEndReceived = NO;
     __block BOOL fullPlayReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"eof"]) {
             XCTAssertFalse(segmentEndReceived);
             XCTAssertFalse(fullPlayReceived);
@@ -1000,7 +1042,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1015,7 +1057,7 @@ static NSURL *DVRTestURL(void)
                                }];
     
     // Now playing must trigger a play event
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -1028,7 +1070,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -1044,7 +1086,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testSegmentSelectionAfterStartOnFullLength
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
@@ -1053,7 +1095,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1081,7 +1123,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL fullEndReceived = NO;
     __block BOOL segmentPlayReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"stop"]) {
             XCTAssertFalse(fullEndReceived);
             XCTAssertFalse(segmentPlayReceived);
@@ -1115,7 +1157,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testSegmentSelectionWhilePlayingSelectedSegment
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
@@ -1127,7 +1169,7 @@ static NSURL *DVRTestURL(void)
     Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(100., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1144,7 +1186,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL segment1EndReceived = NO;
     __block BOOL segment2PlayReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"stop"]) {
             XCTAssertFalse(segment1EndReceived);
             XCTAssertFalse(segment2PlayReceived);
@@ -1178,7 +1220,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testTransitionFromSelectedSegmentIntoNonSelectedContiguousSegment
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
@@ -1190,7 +1232,7 @@ static NSURL *DVRTestURL(void)
     Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(20., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(23., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1208,7 +1250,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL segment1EndReceived = NO;
     __block BOOL fullLengthPlayReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"eof"]) {
             XCTAssertFalse(segment1EndReceived);
             XCTAssertFalse(fullLengthPlayReceived);
@@ -1240,7 +1282,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testSegmentRepeatedSelection
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -1251,7 +1293,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1268,7 +1310,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL segmentEndReceived = NO;
     __block BOOL segmentPlayReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"stop"]) {
             XCTAssertFalse(segmentEndReceived);
             XCTAssertFalse(segmentPlayReceived);
@@ -1302,7 +1344,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testSeekOutsideSelectedSegment
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment1");
@@ -1314,7 +1356,7 @@ static NSURL *DVRTestURL(void)
     Segment *segment1 = [Segment segmentWithName:@"segment1" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     Segment *segment2 = [Segment segmentWithName:@"segment2" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(60., NSEC_PER_SEC), CMTimeMakeWithSeconds(20., NSEC_PER_SEC))];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1333,7 +1375,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL segment1StopReceived = NO;
     __block BOOL fullLengthPlayReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"seek"]) {
             XCTAssertFalse(segment1SeekReceived);
             XCTAssertFalse(segment1StopReceived);
@@ -1375,7 +1417,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testSeekWithinSelectedSegment
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -1386,7 +1428,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1403,7 +1445,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL segmentSeekReceived = NO;
     __block BOOL segmentPlayReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"seek"]) {
             XCTAssertFalse(segmentSeekReceived);
             XCTAssertFalse(segmentPlayReceived);
@@ -1440,7 +1482,7 @@ static NSURL *DVRTestURL(void)
     // Precise timing information gathered from the stream itself
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(1795.045, NSEC_PER_SEC), CMTimeMakeWithSeconds(5., NSEC_PER_SEC))];
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -1449,7 +1491,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1470,7 +1512,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL fullLengthPlayReceived = NO;
     __block BOOL fullLengthEofReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"eof"]) {
             if (! segmentEofReceived) {
                 XCTAssertFalse(fullLengthPlayReceived);
@@ -1517,7 +1559,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testResetWhilePlayingSegment
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -1528,7 +1570,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1552,7 +1594,7 @@ static NSURL *DVRTestURL(void)
     
     // Expect stop event with segment labels
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -1568,7 +1610,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testBlockedSegmentSelection
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
@@ -1576,7 +1618,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1594,7 +1636,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL fullLengthSeekReceived = NO;
     __block BOOL fullLengthPlayReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"seek"]) {
             XCTAssertFalse(fullLengthSeekReceived);
             XCTAssertFalse(fullLengthPlayReceived);
@@ -1626,7 +1668,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testSeekIntoBlockedSegment
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
@@ -1636,7 +1678,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1653,7 +1695,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL fullLengthSeekReceived = NO;
     __block BOOL fullLengthPlayReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"seek"]) {
             XCTAssertFalse(fullLengthSeekReceived);
             XCTAssertFalse(fullLengthPlayReceived);
@@ -1685,21 +1727,52 @@ static NSURL *DVRTestURL(void)
 
 - (void)testPlayStartingWithBlockedSegment
 {
-    // The player must start playing at 60, wait until this position is reached
+    // Expect a play attempt at 50, then a seek / play transition to 60 because of the blocked segment
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if (! [labels[@"media_position"] isEqualToString:@"60"]) {
-            return NO;
+    __block BOOL fullLengthPlayAt50Received = NO;
+    __block BOOL fullLengthSeekAt50Received = NO;
+    __block BOOL fullLengthPlayAt60Received = NO;
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"play"]) {
+            if ([labels[@"media_position"] isEqualToString:@"50"]) {
+                XCTAssertFalse(fullLengthSeekAt50Received);
+                XCTAssertFalse(fullLengthPlayAt60Received);
+                
+                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+                XCTAssertNil(labels[@"segment_name"]);
+                XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+                
+                fullLengthPlayAt50Received = YES;
+            }
+            else if ([labels[@"media_position"] isEqualToString:@"60"]) {
+                XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+                XCTAssertNil(labels[@"segment_name"]);
+                XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+                
+                fullLengthPlayAt60Received = YES;
+            }
+            else {
+                XCTFail(@"Unexpected event %@", event);
+            }
+        }
+        else if ([event isEqualToString:@"seek"]) {
+            XCTAssertFalse(fullLengthPlayAt60Received);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            
+            fullLengthSeekAt50Received = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
         }
         
-        XCTAssertEqualObjects(labels[@"event_id"], @"play");
-        XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-        XCTAssertNil(labels[@"segment_name"]);
-        XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
-        return YES;
+        return fullLengthPlayAt50Received && fullLengthSeekAt50Received && fullLengthPlayAt60Received;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1711,47 +1784,11 @@ static NSURL *DVRTestURL(void)
                                userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    // Expect pause / play for the full-length
-    
-    __block BOOL fullLengthSeekReceived = NO;
-    __block BOOL fullLengthPlayReceived = NO;
-    
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        if ([event isEqualToString:@"seek"]) {
-            XCTAssertFalse(fullLengthSeekReceived);
-            XCTAssertFalse(fullLengthPlayReceived);
-            
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
-            XCTAssertEqualObjects(labels[@"media_position"], @"60");
-            fullLengthSeekReceived = YES;
-        }
-        else if ([event isEqualToString:@"play"]) {
-            XCTAssertFalse(fullLengthPlayReceived);
-            
-            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
-            XCTAssertNil(labels[@"segment_name"]);
-            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
-            XCTAssertEqualObjects(labels[@"media_position"], @"60");
-            fullLengthPlayReceived = YES;
-        }
-        else {
-            XCTFail(@"Unexpected event %@", event);
-        }
-        
-        return fullLengthSeekReceived && fullLengthPlayReceived;
-    }];
-    
-    [self.mediaPlayerController seekPreciselyToTime:CMTimeMakeWithSeconds(55., NSEC_PER_SEC) withCompletionHandler:nil];
-    
-    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 - (void)testBlockedSegmentPlaythrough
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
@@ -1761,7 +1798,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1778,7 +1815,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL fullLengthSeekReceived = NO;
     __block BOOL fullLengthPlayReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"seek"]) {
             XCTAssertFalse(fullLengthSeekReceived);
             XCTAssertFalse(fullLengthPlayReceived);
@@ -1851,7 +1888,7 @@ static NSURL *DVRTestURL(void)
 - (void)testDisableTrackingWhilePlaying
 {
     // Wait until the media plays
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"play");
         return YES;
     }];
@@ -1861,7 +1898,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Stop tracking while playing. Expect a stop to be received
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"stop");
         return YES;
     }];
@@ -1875,7 +1912,7 @@ static NSURL *DVRTestURL(void)
 - (void)testDisableTrackingWhilePlayingSegment
 {
     // Wait until the media plays. Expect segment labels
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -1885,7 +1922,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -1898,7 +1935,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Stop tracking while playing. Expect a stop to be received with segment labels
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -1915,7 +1952,7 @@ static NSURL *DVRTestURL(void)
 - (void)testDisableTrackingWhilePaused
 {
     // Wait until the media plays
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"play");
         return YES;
     }];
@@ -1925,7 +1962,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Pause playback
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"pause");
         return YES;
     }];
@@ -1935,7 +1972,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Stop tracking while paused. Expect a stop to be received
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"stop");
         return YES;
     }];
@@ -1949,7 +1986,7 @@ static NSURL *DVRTestURL(void)
 - (void)testDisableTrackingWhileSeeking
 {
     // Wait until the media plays
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"play");
         return YES;
     }];
@@ -1962,7 +1999,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL fullLengthSeekReceived = NO;
     __block BOOL fullLengthStopReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"seek"]) {
             XCTAssertFalse(fullLengthStopReceived);
             fullLengthSeekReceived = YES;
@@ -1987,7 +2024,7 @@ static NSURL *DVRTestURL(void)
 - (void)testDisableTrackingWhilePausedInSegment
 {
     // Wait until the media plays. Expect segment labels
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -1995,7 +2032,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -2009,7 +2046,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Pause playback. Expect a pause with segment labels
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -2022,7 +2059,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Stop tracking while paused. Expect a stop to be received with segment labels
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -2050,7 +2087,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Enable tracking. Expect a play to be received
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"play");
         return YES;
     }];
@@ -2072,7 +2109,7 @@ static NSURL *DVRTestURL(void)
     self.mediaPlayerController.tracked = NO;
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -2085,7 +2122,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Enable tracking. Expect a play to be received
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -2118,7 +2155,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     // Enable tracking. Expect a play to be received
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         return YES;
     }];
@@ -2143,7 +2180,7 @@ static NSURL *DVRTestURL(void)
     self.mediaPlayerController.tracked = NO;
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
@@ -2158,7 +2195,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     // Enable tracking. Expect a play to be received, with segment labels
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
@@ -2194,7 +2231,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL fullLengthPlayReceived = NO;
     __block BOOL fullLengthSeekReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(fullLengthSeekReceived);
             fullLengthPlayReceived = YES;
@@ -2252,7 +2289,7 @@ static NSURL *DVRTestURL(void)
     __block BOOL playReceived = NO;
     __block BOOL pauseReceived = NO;
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"play"]) {
             XCTAssertFalse(playReceived);
             XCTAssertFalse(pauseReceived);
@@ -2278,7 +2315,7 @@ static NSURL *DVRTestURL(void)
 - (void)testDisableTrackingTwiceWhilePlaying
 {
     // Wait until the media plays
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"play");
         return YES;
     }];
@@ -2351,13 +2388,13 @@ static NSURL *DVRTestURL(void)
 
 - (void)testOnDemandHeartbeatPlayPausePlay
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full" };
     
     [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:labels userInfo:nil];
@@ -2385,7 +2422,7 @@ static NSURL *DVRTestURL(void)
     
     XCTAssertEqual(heartbeatCount, 2);
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         return YES;
@@ -2414,7 +2451,7 @@ static NSURL *DVRTestURL(void)
     
     XCTAssertEqual(heartbeatCount, 0);
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         return YES;
     }];
@@ -2445,7 +2482,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testLivestreamHeartbeatPlay
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"media_position"], @"0");
@@ -2453,7 +2490,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full" };
     
     [self.mediaPlayerController playURL:LiveTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:labels userInfo:nil];
@@ -2491,7 +2528,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testHeartbeatWithSegmentPlayback
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         return YES;
     }];
@@ -2532,13 +2569,13 @@ static NSURL *DVRTestURL(void)
 
 - (void)testDVRLiveHeartbeats
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full" };
     
     [self.mediaPlayerController playURL:DVRTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:labels userInfo:nil];
@@ -2572,13 +2609,13 @@ static NSURL *DVRTestURL(void)
 
 - (void)testDVRTimeshiftHeartbeats
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         return YES;
     }];
     
-    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full" };
     
     [self.mediaPlayerController playURL:DVRTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:labels userInfo:nil];
@@ -2587,7 +2624,7 @@ static NSURL *DVRTestURL(void)
     
     // Seek to the past
     
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         return [labels[@"event_id"] isEqualToString:@"play"];
     }];
     
@@ -2622,7 +2659,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testHeartbeatAfterDisablingTracking
 {
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         return YES;
     }];
@@ -2716,7 +2753,7 @@ static NSURL *DVRTestURL(void)
     XCTAssertEqual(liveHeartbeatCount1, 0);
     
     // Enable tracking. Expect a play to be received
-    [self expectationForPlayerSingleHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         return YES;
     }];

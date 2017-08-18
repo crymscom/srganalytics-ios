@@ -13,7 +13,7 @@
 
 NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
 
-typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsPlayerLabels * _Nullable analyticsLabels, NSError * _Nullable error);
+typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error);
 
 @implementation SRGMediaPlayerController (SRGAnalytics_DataProvider)
 
@@ -94,7 +94,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
             URL = resource.URL;
         }
         
-        SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+        SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
         
         NSMutableDictionary<NSString *, NSString *> *customInfo = [NSMutableDictionary dictionary];
         if (mediaComposition.analyticsLabels) {
@@ -139,7 +139,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                                        resume:(BOOL)resume
                             completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsPlayerLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
@@ -160,7 +160,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                               resume:(BOOL)resume
                    completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsPlayerLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
