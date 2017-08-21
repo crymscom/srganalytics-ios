@@ -116,24 +116,24 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 {
     self.configuration = configuration;
     
-    [self startTagCommanderTracker];
-    [self startComscoreTracker];
-    [self startNetmetrixTracker];
+    [self startTagCommanderTrackerWithConfiguration:configuration];
+    [self startComscoreTrackerWithConfiguration:configuration];
+    [self startNetmetrixTrackerWithConfiguration:configuration];
     
     [self sendApplicationList];
 }
 
-- (void)startTagCommanderTracker
+- (void)startTagCommanderTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
-    if (! self.configuration.unitTesting) {
-        SRGAnalyticsConfiguration *configuration = self.configuration;
+    if (! configuration.unitTesting) {
         self.tagCommander = [[TagCommander alloc] initWithSiteID:(int)configuration.site andContainerID:(int)configuration.container];
         [self.tagCommander addPermanentData:@"app_library_version" withValue:SRGAnalyticsMarketingVersion()];
+        [self.tagCommander addPermanentData:@"navigation_app_site_name" withValue:configuration.comScoreVirtualSite];
         [self.tagCommander addPermanentData:@"navigation_environment" withValue:[NSBundle srg_isProductionVersion] ? @"prod" : @"preprod"];
     }
 }
 
-- (void)startComscoreTracker
+- (void)startComscoreTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
     [CSComScore setAppContext];
     [CSComScore setSecure:YES];
@@ -146,21 +146,21 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
         [CSComScore setAutoStartLabels:@{ @"name": applicationName }];
     }
     
-    [CSComScore setLabels:[self comscoreGlobalLabels]];
+    [CSComScore setLabels:[self comscoreGlobalLabelsWithConfiguration:configuration]];
     
     // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
     self.streamSense = [[CSStreamSense alloc] init];
     [self.streamSense setKeepAliveInterval:9 * 60];
 }
 
-- (void)startNetmetrixTracker
+- (void)startNetmetrixTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
-    self.netmetrixTracker = [[SRGAnalyticsNetMetrixTracker alloc] initWithConfiguration:self.configuration];
+    self.netmetrixTracker = [[SRGAnalyticsNetMetrixTracker alloc] initWithConfiguration:configuration];
 }
 
 #pragma mark Labels
 
-- (NSDictionary<NSString *, NSString *> *)comscoreGlobalLabels
+- (NSDictionary<NSString *, NSString *> *)comscoreGlobalLabelsWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
     NSBundle *mainBundle = [NSBundle mainBundle];
     
@@ -168,7 +168,6 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
     NSString *appLanguage = mainBundle.preferredLocalizations.firstObject ?: @"fr";
     NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     
-    SRGAnalyticsConfiguration *configuration = self.configuration;
     NSMutableDictionary<NSString *, NSString *> *globalLabels = [@{ @"ns_ap_an" : appName,
                                                                     @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
                                                                     @"ns_ap_ver" : appVersion,
