@@ -465,9 +465,9 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
             SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
             labels.type = @"hidden";
             labels.source = @"SRGAnalytics";
-            labels.value = [sortedInstalledApplications componentsJoinedByString:@","];
+            labels.value = [sortedInstalledApplications componentsJoinedByString:@";"];
             labels.comScoreCustomInfo = @{ @"srg_evgroup": @"Installed Apps",
-                                           @"srg_evname": labels.value };
+                                           @"srg_evname": [sortedInstalledApplications componentsJoinedByString:@","] };
             
             [self trackHiddenEventWithName:@"Installed Apps" labels:labels];
         });
