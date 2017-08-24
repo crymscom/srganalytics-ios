@@ -20,7 +20,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 - (void)testHiddenEvent
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"event_id"], @"click");
+        XCTAssertEqualObjects(labels[@"event_id"], @"hidden_event");
         XCTAssertEqualObjects(labels[@"event_name"], @"Hidden event");
         return YES;
     }];
@@ -33,7 +33,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 - (void)testHiddenEventWithLabels
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"event_id"], @"click");
+        XCTAssertEqualObjects(labels[@"event_id"], @"hidden_event");
         XCTAssertEqualObjects(labels[@"event_name"], @"Hidden event");
         XCTAssertEqualObjects(labels[@"event_type"], @"toggle");
         XCTAssertEqualObjects(labels[@"event_source"], @"favorite_list");

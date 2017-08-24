@@ -385,7 +385,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
     NSAssert(name.length != 0, @"A name is required");
     
     NSMutableDictionary<NSString *, NSString *> *fullLabelsDictionary = [NSMutableDictionary dictionary];
-    [fullLabelsDictionary srg_safelySetString:@"click" forKey:@"event_id"];
+    [fullLabelsDictionary srg_safelySetString:@"hidden_event" forKey:@"event_id"];
     [fullLabelsDictionary srg_safelySetString:name forKey:@"event_name"];
     
     NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
