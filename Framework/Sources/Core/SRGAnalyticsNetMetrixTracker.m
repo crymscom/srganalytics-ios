@@ -49,9 +49,8 @@
         [request setHTTPMethod:@"GET"];
         [request setValue:@"image/gif" forHTTPHeaderField:@"Accept"];
         
-        // Which User-Agent MUST be used is defined at http://www.net-metrix.ch/fr/produits/net-metrix-mobile/reglement/directives
-        NSString *systemVersion = [[[UIDevice currentDevice] systemVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
-        NSString *userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (iOS-%@; CPU %@ %@ like Mac OS X)", self.device, self.operatingSystem, systemVersion];
+        // Which User-Agent MUST be used is defined at https://www.net-metrix.ch/fr/service/directives/directives-supplementaires-pour-les-applications
+        NSString *userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (iOS-%@; U; CPU %@ like Mac OS X)", self.device, self.operatingSystem];
         [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
         
         SRGAnalyticsLogDebug(@"NetMetrix", @"Request %@ started", request.URL);
