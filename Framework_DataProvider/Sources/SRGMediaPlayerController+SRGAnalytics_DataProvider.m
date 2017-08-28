@@ -6,13 +6,14 @@
 
 #import "SRGMediaPlayerController+SRGAnalytics_DataProvider.h"
 
+#import "SRGAnalyticsMediaPlayerLogger.h"
 #import "SRGSubdivision+SRGAnalytics_DataProvider.h"
 
 #import <libextobjc/libextobjc.h>
 
 NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
 
-typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *, NSString *> * _Nullable analyticsLabels, NSError * _Nullable error);
+typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error);
 
 @implementation SRGMediaPlayerController (SRGAnalytics_DataProvider)
 
@@ -69,6 +70,10 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         }
     }];
     SRGResource *resource = [[resources filteredArrayUsingPredicate:predicate] sortedArrayUsingDescriptors:@[sortDescriptor]].firstObject ?: [resources sortedArrayUsingDescriptors:@[sortDescriptor]].firstObject;
+    if (! resource) {
+        SRGAnalyticsMediaPlayerLogError(@"mediaplayer", @"No valid resource could be retrieved");
+        return nil;
+    }
     
     // Use the preferrred start bit rate is set. Currrently only supported by Akamai via a __b__ parameter (the actual
     // bitrate will be rounded to the nearest available quality)
@@ -89,19 +94,34 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
             URL = resource.URL;
         }
         
-        NSMutableDictionary<NSString *, NSString *> *analyticsLabels = [NSMutableDictionary dictionary];
+        SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
+        
+        NSMutableDictionary<NSString *, NSString *> *customInfo = [NSMutableDictionary dictionary];
+        if (mediaComposition.analyticsLabels) {
+            [customInfo addEntriesFromDictionary:mediaComposition.analyticsLabels];
+        }
+        if (mediaComposition.mainChapter.analyticsLabels) {
+            [customInfo addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
+        }
+        if (resource.analyticsLabels) {
+            [customInfo addEntriesFromDictionary:resource.analyticsLabels];
+        }
+        labels.customInfo = [customInfo copy];
+        
+        NSMutableDictionary<NSString *, NSString *> *comScoreCustomInfo = [NSMutableDictionary dictionary];
         if (mediaComposition.comScoreAnalyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
+            [comScoreCustomInfo addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
         }
         if (mediaComposition.mainChapter.comScoreAnalyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
+            [comScoreCustomInfo addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
         }
         if (resource.comScoreAnalyticsLabels) {
-            [analyticsLabels addEntriesFromDictionary:resource.comScoreAnalyticsLabels ];
+            [comScoreCustomInfo addEntriesFromDictionary:resource.comScoreAnalyticsLabels];
         }
+        labels.comScoreCustomInfo = [comScoreCustomInfo copy];
         
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
-        completionBlock(URL, index, chapter.segments, [analyticsLabels copy], nil);
+        completionBlock(URL, index, chapter.segments, labels, nil);
     }];
     if (resume) {
         [request resume];
@@ -119,7 +139,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                                        resume:(BOOL)resume
                             completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
@@ -140,7 +160,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                               resume:(BOOL)resume
                    completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, NSDictionary<NSString *,NSString *> * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;

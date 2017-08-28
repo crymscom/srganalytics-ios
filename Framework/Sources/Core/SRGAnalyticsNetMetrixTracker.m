@@ -14,8 +14,7 @@
 
 @interface SRGAnalyticsNetMetrixTracker ()
 
-@property (nonatomic, copy) NSString *identifier;
-@property (nonatomic, copy) NSString *businessUnitIdentifier;
+@property (nonatomic, copy) SRGAnalyticsConfiguration *configuration;
 
 @end
 
@@ -23,56 +22,42 @@
 
 #pragma mark Object lifecycle
 
-- (instancetype)initWithIdentifier:(NSString *)identifier businessUnitIdentifier:(NSString *)businessUnitIdentifier
+- (instancetype)initWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
     if (self = [super init]) {
-        self.identifier = identifier;
-        self.businessUnitIdentifier = businessUnitIdentifier;
+        self.configuration = configuration;
     }
     return self;
-}
-
-#pragma mark Getters and setters
-
-- (NSString *)netMetrixDomain
-{
-    // HTTPs domains as documented here: https://srfmmz.atlassian.net/wiki/display/SRGPLAY/HTTPS+Transition
-    static dispatch_once_t s_onceToken;
-    static NSDictionary<NSString *, NSString *> *s_domains;
-    dispatch_once(&s_onceToken, ^{
-        s_domains = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @"rsi-ssl",
-                       SRGAnalyticsBusinessUnitIdentifierRTR : @"rtr-ssl",
-                       SRGAnalyticsBusinessUnitIdentifierRTS : @"rts-ssl",
-                       SRGAnalyticsBusinessUnitIdentifierSRF : @"sftv-ssl",
-                       SRGAnalyticsBusinessUnitIdentifierSWI : @"sinf-ssl" };
-    });
-    return s_domains[self.businessUnitIdentifier] ?: self.businessUnitIdentifier;
 }
 
 #pragma mark View tracking
 
 - (void)trackView
 {
-    NSString *netMetrixURLString = [NSString stringWithFormat:@"https://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", self.netMetrixDomain, self.identifier, self.device];
-    NSURL *netMetrixURL = [NSURL URLWithString:netMetrixURLString];
-    
-    if ([self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
-        // Send the notification when the request is made (as is done with comScore). Notifications are intended to test
-        // whether events are properly sent, not whether they are properly received
-        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsNetmetrixRequestNotification
-                                                            object:nil
-                                                          userInfo:@{ SRGAnalyticsNetmetrixURLKey : netMetrixURL }];
+    SRGAnalyticsConfiguration *configuration = self.configuration;
+    NSString *netMetrixDomain = configuration.netMetrixDomain;
+    if (! netMetrixDomain) {
+        SRGAnalyticsLogInfo(@"NetMetrix", @"No NetMetrix domain is defined for this configuration. No event will be recorded");
+        return;
     }
     
-    if (! [self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:netMetrixURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.];
+    NSString *netMetrixURLString = [NSString stringWithFormat:@"https://%@.wemfbox.ch/cgi-bin/ivw/CP/apps/%@/ios/%@", netMetrixDomain, configuration.netMetrixIdentifier, self.device];
+    NSURL *netMetrixURL = [NSURL URLWithString:netMetrixURLString];
+    
+    if (! configuration.unitTesting) {
+        NSURLComponents *URLComponents = [NSURLComponents componentsWithURL:netMetrixURL resolvingAgainstBaseURL:NO];
+        URLComponents.queryItems = @[ [NSURLQueryItem queryItemWithName:@"d" value:@(arc4random()).stringValue] ];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URLComponents.URL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.];
         [request setHTTPMethod:@"GET"];
         [request setValue:@"image/gif" forHTTPHeaderField:@"Accept"];
         
-        // Which User-Agent MUST be used is defined on http://www.net-metrix.ch/fr/produits/net-metrix-mobile/reglement/directives
-        NSString *systemVersion = [[[UIDevice currentDevice] systemVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
-        NSString *userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (iOS-%@; CPU %@ %@ like Mac OS X)", self.device, self.operatingSystem, systemVersion];
+        // Which User-Agent MUST be used is defined at https://www.net-metrix.ch/fr/service/directives/directives-supplementaires-pour-les-applications
+        NSString *userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (iOS-%@; U; CPU %@ like Mac OS X)", self.device, self.operatingSystem];
         [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
+        
+        // The app language must be sent, not the device language. This is sadly not documented in https://www.net-metrix.ch/fr/service/directives/directives-supplementaires-pour-les-applications,
+        // but this information was obtained from a NetMetrix technician.
+        [request setValue:[NSBundle mainBundle].preferredLocalizations.firstObject forHTTPHeaderField:@"Accept-Language"];
         
         SRGAnalyticsLogDebug(@"NetMetrix", @"Request %@ started", request.URL);
         [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -80,7 +65,9 @@
         }] resume];
     }
     else {
-        SRGAnalyticsLogDebug(@"NetMetrix", @"Requests are disabled for the test business unit");
+        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsNetmetrixRequestNotification
+                                                            object:nil
+                                                          userInfo:@{ SRGAnalyticsNetmetrixURLKey : netMetrixURL }];
     }
 }
 

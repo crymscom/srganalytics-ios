@@ -9,7 +9,7 @@
 @interface SimpleViewController ()
 
 @property (nonatomic) NSArray<NSString *> *levels;
-@property (nonatomic) NSDictionary<NSString *, NSString *> *customLabels;
+@property (nonatomic) NSDictionary<NSString *, NSString *> *customInfo;
 @property (nonatomic, getter=isOpenedFromPushNotification) BOOL openedFromPushNotification;
 @property (nonatomic, getter=isTrackedAutomatically) BOOL trackedAutomatically;
 
@@ -22,13 +22,17 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-designated-initializers"
 
-- (instancetype)initWithTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *,NSString *> *)customLabels openedFromPushNotification:(BOOL)openedFromPushNotification trackedAutomatically:(BOOL)trackedAutomatically
+- (instancetype)initWithTitle:(NSString *)title
+                       levels:(NSArray<NSString *> *)levels
+                   customInfo:(NSDictionary<NSString *, NSString *> *)customInfo
+   openedFromPushNotification:(BOOL)openedFromPushNotification
+         trackedAutomatically:(BOOL)trackedAutomatically
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:NSStringFromClass([self class]) bundle:nil];
     SimpleViewController *viewController = [storyboard instantiateInitialViewController];
     viewController.title = title;
     viewController.levels = levels;
-    viewController.customLabels = customLabels;
+    viewController.customInfo = customInfo;
     viewController.openedFromPushNotification = openedFromPushNotification;
     viewController.trackedAutomatically = trackedAutomatically;
     return viewController;
@@ -37,13 +41,13 @@
 - (instancetype)init
 {
     [self doesNotRecognizeSelector:_cmd];
-    return [self initWithTitle:nil levels:nil customLabels:nil openedFromPushNotification:NO trackedAutomatically:YES];
+    return [self initWithTitle:nil levels:nil customInfo:nil openedFromPushNotification:NO trackedAutomatically:YES];
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     [self doesNotRecognizeSelector:_cmd];
-    return [self initWithTitle:nil levels:nil customLabels:nil openedFromPushNotification:NO trackedAutomatically:YES];
+    return [self initWithTitle:nil levels:nil customInfo:nil openedFromPushNotification:NO trackedAutomatically:YES];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -70,9 +74,12 @@
     return self.levels;
 }
 
-- (NSDictionary *)srg_pageViewCustomLabels
+- (SRGAnalyticsPageViewLabels *)srg_pageViewLabels
 {
-    return self.customLabels;
+    SRGAnalyticsPageViewLabels *labels = [[SRGAnalyticsPageViewLabels alloc] init];
+    labels.customInfo = self.customInfo;
+    labels.comScoreCustomInfo = self.customInfo;
+    return labels;
 }
 
 - (BOOL)srg_isOpenedFromPushNotification

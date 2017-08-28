@@ -12,6 +12,7 @@
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 #import <SRGLogger/SRGLogger.h>
+#import <TCCore/TCCore.h>
 
 @implementation AppDelegate
 
@@ -25,9 +26,15 @@
     
     [SRGLogger setLogHandler:SRGNSLogHandler()];
     
-    [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierTEST
-                                                     comScoreVirtualSite:@"rts-app-test-v"
-                                                     netMetrixIdentifier:@"test"];
+    [TCDebug setDebugLevel:TCLogLevel_Verbose];
+    [TCDebug setNotificationLog:YES];
+    
+    SRGAnalyticsConfiguration *configuration = [[SRGAnalyticsConfiguration alloc] initWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierRTS
+                                                                                                       container:10
+                                                                                             comScoreVirtualSite:@"rts-app-test-v"
+                                                                                             netMetrixIdentifier:@"test"];
+    configuration.unitTesting = (NSClassFromString(@"XCTestCase") != Nil);
+    [[SRGAnalyticsTracker sharedTracker] startWithConfiguration:configuration];
     
     DemosViewController *demosViewController = [[DemosViewController alloc] init];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:demosViewController];

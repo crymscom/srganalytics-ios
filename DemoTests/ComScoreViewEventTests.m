@@ -12,11 +12,11 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
 static NSDictionary *s_startLabels = nil;
 
-@interface ViewEventTests : KIFTestCase
+@interface ComScoreViewEventTests : KIFTestCase
 
 @end
 
-@implementation ViewEventTests
+@implementation ComScoreViewEventTests
 
 #pragma mark Setup and tear down
 
@@ -29,13 +29,19 @@ static NSDictionary *s_startLabels = nil;
 
 #pragma mark Helpers
 
-- (XCTestExpectation *)expectationForViewEventNotificationWithHandler:(EventExpectationHandler)handler
+- (XCTestExpectation *)expectationForComScoreViewEventNotificationWithHandler:(EventExpectationHandler)handler
 {
-    return [self expectationForNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
-        NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+    return [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+        NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
         
-        NSString *event = labels[@"event_id"];
-        if (! [event isEqualToString:@"screen"]) {
+        NSString *type = labels[@"ns_type"];
+        if (! [type isEqualToString:@"view"]) {
+            return NO;
+        }
+        
+        // Discard start events (outside our control)
+        NSString *event = labels[@"ns_ap_ev"];
+        if ([event isEqualToString:@"start"]) {
             return NO;
         }
         
@@ -62,12 +68,14 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testAutomaticTracking
 {
-    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"navigation_property_type"], @"app");
-        XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
-        XCTAssertEqualObjects(labels[@"navigation_bu_distributer"], @"RTS");
-        XCTAssertEqualObjects(labels[@"content_title"], @"Automatic tracking");
-        XCTAssertEqualObjects(labels[@"page_id"], @"app.automatic-tracking");
+    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"name"], @"app.automatic-tracking");
+        XCTAssertEqualObjects(labels[@"category"], @"app");
+        XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+        XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
+        XCTAssertNil(labels[@"srg_n2"]);
+        XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking");
+        XCTAssertEqualObjects(labels[@"ns_type"], @"view");
         return YES;
     }];
     
@@ -88,14 +96,16 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testAutomaticTrackingWithLevels
 {
-    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
-        XCTAssertEqualObjects(labels[@"navigation_level_1"], @"Level1");
-        XCTAssertEqualObjects(labels[@"navigation_level_2"], @"Level2");
-        XCTAssertEqualObjects(labels[@"navigation_level_3"], @"Level3");
-        XCTAssertNil(labels[@"navigation_level_4"]);
-        XCTAssertEqualObjects(labels[@"content_title"], @"Automatic tracking with levels");
-        XCTAssertEqualObjects(labels[@"page_id"], @"level1.level2.level3.automatic-tracking-with-levels");
+    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.level3.automatic-tracking-with-levels");
+        XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+        XCTAssertEqualObjects(labels[@"srg_n1"], @"Level1");
+        XCTAssertEqualObjects(labels[@"srg_n2"], @"Level2");
+        XCTAssertEqualObjects(labels[@"srg_n3"], @"Level3");
+        XCTAssertNil(labels[@"srg_n4"]);
+        XCTAssertEqualObjects(labels[@"category"], @"level1.level2.level3");
+        XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking with levels");
+        XCTAssertEqualObjects(labels[@"ns_type"], @"view");
         return YES;
     }];
     
@@ -110,21 +120,23 @@ static NSDictionary *s_startLabels = nil;
 - (void)testMaximumNumberOfLevels
 {
     // The SRG standard only has srg_nX fields up to 10. The full hierarchy is still obtained from the name and category labels, though
-    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
-        XCTAssertEqualObjects(labels[@"navigation_level_1"], @"Level1");
-        XCTAssertEqualObjects(labels[@"navigation_level_2"], @"Level2");
-        XCTAssertEqualObjects(labels[@"navigation_level_3"], @"Level3");
-        XCTAssertEqualObjects(labels[@"navigation_level_4"], @"Level4");
-        XCTAssertEqualObjects(labels[@"navigation_level_5"], @"Level5");
-        XCTAssertEqualObjects(labels[@"navigation_level_6"], @"Level6");
-        XCTAssertEqualObjects(labels[@"navigation_level_7"], @"Level7");
-        XCTAssertEqualObjects(labels[@"navigation_level_8"], @"Level8");
-        XCTAssertNil(labels[@"navigation_level_9"]);
-        XCTAssertNil(labels[@"navigation_level_10"]);
-        XCTAssertNil(labels[@"navigation_level_11"]);
-        XCTAssertEqualObjects(labels[@"content_title"], @"Automatic tracking with many levels");
-        XCTAssertEqualObjects(labels[@"page_id"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.level11.level12.automatic-tracking-with-many-levels");
+    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.level11.level12.automatic-tracking-with-many-levels");
+        XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+        XCTAssertEqualObjects(labels[@"srg_n1"], @"Level1");
+        XCTAssertEqualObjects(labels[@"srg_n2"], @"Level2");
+        XCTAssertEqualObjects(labels[@"srg_n3"], @"Level3");
+        XCTAssertEqualObjects(labels[@"srg_n4"], @"Level4");
+        XCTAssertEqualObjects(labels[@"srg_n5"], @"Level5");
+        XCTAssertEqualObjects(labels[@"srg_n6"], @"Level6");
+        XCTAssertEqualObjects(labels[@"srg_n7"], @"Level7");
+        XCTAssertEqualObjects(labels[@"srg_n8"], @"Level8");
+        XCTAssertEqualObjects(labels[@"srg_n9"], @"Level9");
+        XCTAssertEqualObjects(labels[@"srg_n10"], @"Level10");
+        XCTAssertNil(labels[@"srg_n11"]);
+        XCTAssertEqualObjects(labels[@"category"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.level11.level12");
+        XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking with many levels");
+        XCTAssertEqualObjects(labels[@"ns_type"], @"view");
         return YES;
     }];
     
@@ -138,14 +150,16 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testAutomaticTrackingWithLevelsAndLabels
 {
-    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
-        XCTAssertEqualObjects(labels[@"navigation_level_1"], @"Level1");
-        XCTAssertEqualObjects(labels[@"navigation_level_2"], @"Level2");
-        XCTAssertNil(labels[@"navigation_level_3"]);
-        XCTAssertEqualObjects(labels[@"content_title"], @"Automatic tracking with levels and labels");
+    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"name"], @"level1.level2.automatic-tracking-with-levels-and-labels");
+        XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+        XCTAssertEqualObjects(labels[@"srg_n1"], @"Level1");
+        XCTAssertEqualObjects(labels[@"srg_n2"], @"Level2");
+        XCTAssertNil(labels[@"srg_n3"]);
+        XCTAssertEqualObjects(labels[@"category"], @"level1.level2");
+        XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking with levels and labels");
+        XCTAssertEqualObjects(labels[@"ns_type"], @"view");
         XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
-        XCTAssertEqualObjects(labels[@"page_id"], @"level1.level2.automatic-tracking-with-levels-and-labels");
         return YES;
     }];
     
@@ -159,11 +173,14 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testManualTracking
 {
-    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"false");
-        XCTAssertEqualObjects(labels[@"navigation_property_type"], @"app");
-        XCTAssertEqualObjects(labels[@"content_title"], @"Manual tracking");
-        XCTAssertEqualObjects(labels[@"page_id"], @"app.manual-tracking");
+    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"name"], @"app.manual-tracking");
+        XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
+        XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
+        XCTAssertNil(labels[@"srg_n2"]);
+        XCTAssertEqualObjects(labels[@"category"], @"app");
+        XCTAssertEqualObjects(labels[@"srg_title"], @"Manual tracking");
+        XCTAssertEqualObjects(labels[@"ns_type"], @"view");
         return YES;
     }];
     
@@ -179,7 +196,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testMissingTitle
 {
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForName:SRGAnalyticsRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForName:SRGAnalyticsComScoreRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         XCTFail(@"No event must be sent when the title is empty");
     }];
     
@@ -197,8 +214,8 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testFromPushNotification
 {
-    [self expectationForViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"accessed_after_push_notification"], @"true");
+    [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"srg_ap_push"], @"1");
         return YES;
     }];
     

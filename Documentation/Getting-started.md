@@ -4,47 +4,53 @@ Getting started
 The SRG Analytics library is made of several frameworks:
 
 * A main `SRGAnalytics.framework` which supplies the singleton responsible of gathering measurements (tracker).
-* A companion optional `SRGAnalytics_MediaPlayer.framework` responsible of stream measurements for applications using our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS).
-* A companion optional `SRGAnalytics_DataProvider.framework` transparently forwarding analytics labels received when using our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios).
+* A companion optional `SRGAnalytics_MediaPlayer.framework` responsible of stream measurements for applications using our [SRG MediaPlayer library](https://github.com/SRGSSR/SRGMediaPlayer-iOS).
+* A companion optional `SRGAnalytics_DataProvider.framework` transparently forwarding stream measurement analytics labels received from Integration Layer services by the [SRG DataProvider library](https://github.com/SRGSSR/srgdataprovider-ios).
 
 ## Starting the tracker
 
-Before measurements can be collected, the tracker singleton responsible of all analytics data gathering must be started. You should start the tracker as soon as possible, usually in your application delegate `-application:didFinishLaunchingWithOptions:` method implementation. For example:
+Before measurements can be collected, the tracker singleton responsible of all analytics data gathering must be started. You should start the tracker as soon as possible, usually in your application delegate `-application:didFinishLaunchingWithOptions:` method implementation. Startup requires a single configuration parameter to be provided:
 
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // ...
-
-    [[SRGAnalyticsTracker sharedTracker] startWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierSRF
-                                                     comScoreVirtualSite:@"srg-vsite"
-                                                     netMetrixIdentifier:@"srf-app-identifier"];
+    
+    SRGAnalyticsConfiguration *configuration = [[SRGAnalyticsConfiguration alloc] initWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierSRF
+                                                                                                       container:3
+                                                                                             comScoreVirtualSite:@"srf-vsite"
+                                                                                             netMetrixIdentifier:@"srf-app-identifier"];
+    [[SRGAnalyticsTracker sharedTracker] startWithConfiguration:configuration];
                                                      
     // ...
 }
 ```
 
-Once the tracker has been started, you can perform measurements. You can use the special `SRGAnalyticsBusinessUnitIdentifierTEST` for tests or during development to avoid polluting real application measurements.
+The various setup parameters to use must be obtained by the team responsible of measurements for your application. You must set the configuration `centralized` boolean to `YES` if measurements for your application are analyzed by the SRG SSR General direction. 
+
+For unit tests, you can also set the `unitTesting` flag to emit notifications which can be used to check when analytics information is sent, and whether it is correct.
+
+Once the tracker has been started, you can perform measurements.
 
 ## Measurement information
 
-Measurement information is often referred to as labels. Labels are plain dictionaries of string keys and values. Part of the information sent in events follows SRG measurement guidelines and is handled internally, but you can add arbitrary information for your own measurement purposes, if needed (see below how this is done for the various events your application can generate).
+Measurement information, often referred to as labels, is provided in the form of dictionaries mapping strings to strings. Part of the information sent in events follows SRG measurement guidelines and is handled internally, but you can add arbitrary information for your own measurement purposes if needed (see below how this is done for the various events your application can generate).
 
-Be careful when using custom labels, though, and ensure your custom keys do not match reserved values by using appropriate naming conventions (e.g. a prefix).
+Be careful when using custom labels, though, and ensure your custom keys do not match reserved values by using appropriate naming conventions (e.g. a prefix). Also check with the measurement team whether the custom labels you are using is supported.
 
 ## Measuring page views
 
 View controllers represent the units of screen interaction in an application, this is why page view measurements are primarily made on view controllers. All methods and protocols for view controller tracking have been gathered in the `UIViewController+SRGAnalytics.h` file.
 
-View controller measurement is an opt-in, in other words no view controller is tracked by default. For a view controller to be tracked, you need to have it conform to the `SRGAnalyticsViewTracking` protocol. This protocol requires a single method to be implemented, returning the view controller name to be used for measurements. By default, once a view controller implements the `SRGAnalyticsViewTracking` protocol, it automatically generates a page view when it did appear on screen (after insertion into the view controller hierarchy), or if it is already displayed when the application wakes up from background.
+View controller measurement is an opt-in, in other words no view controller is tracked by default. For a view controller to be tracked, the recommended approach is to have it conform to the `SRGAnalyticsViewTracking` protocol. This protocol requires a single method to be implemented, returning the view controller title to be used for measurements. By default, once a view controller implements the `SRGAnalyticsViewTracking` protocol, it automatically generates a page view when it appears on screen, or when the application wakes up from background with the view controller displayed.
 
-The `SRGAnalyticsViewTracking` protocol supplies optional methods to specify other custom measurement information (labels). If this information (or the title to be used) is not available when the view controller appears, you can disable automatic tracking by implementing the optional `-srg_isTrackedAutomatically` protocol method, returning `NO`. You are then responsible of calling `-trackPageView` on the view controller when you want to perform measurements.
+The `SRGAnalyticsViewTracking` protocol supplies optional methods to specify other custom measurement information (labels). If the required information is not available when the view controller appears, you can disable automatic tracking by implementing the optional `-srg_isTrackedAutomatically` protocol method, returning `NO`. You are then responsible of calling `-trackPageView` on the view controller when the data required by the page view is available.
 
 If a view can be opened from a push notification, you must implement the `-srg_openedFromPushNotification` method and return `YES` when the view controller was actually opened from a push notification.
 
 #### Remark
 
-If your application needs to track views instead of view controllers, you can still perform tracking using the `-[SRGAnalyticsTracker trackPageViewTitle:levels:customLabels:fromPushNotification:]` method.
+If your application needs to track views instead of view controllers, you can still perform tracking using the `-[SRGAnalyticsTracker trackPageViewWithTitle:levels:labels:fromPushNotification:]` method.
 
 ### Example
 
@@ -67,9 +73,13 @@ and implement the methods you need to supply measurement information:
     return @"home";
 }
 
-- (NSDictionary<NSString *, NSString *> *)srg_pageViewCustomLabels
+- (SRGAnalyticsPageViewLabels *)srg_pageViewLabels
 {
-    return @{ @"myapp_category" : @"general" };
+    SRGAnalyticsPageViewLabels *labels = [[SRGAnalyticsPageViewLabels alloc] init];
+    labels.customInfo = @{ @"MYAPP_CATEGORY" : @"general",
+                           @"MYAPP_TIME" : @"1499319314" };
+    labels.comScoreCustomInfo = @{ @"myapp_category" : @"gen" };
+    return labels;
 }
 
 @end
@@ -77,26 +87,28 @@ and implement the methods you need to supply measurement information:
 
 When the view is opened or if the view is visible on screen when waking up the application, this information will be automatically sent.
 
+Note that the labels might differ depending on the service they are sent to. Be sure to apply the conventions required for measurements of your application. Moreover, custom information requires the corresponding variables to be defined for TagCommander first (unlike comScore information which can be freely defined).
+
 ## Measuring application functionalities
 
-To measure the use of other application functionalities, you can use hidden events. Those can be emitted by calling the corresponding methods on the tracker singleton itself. For example, you could send the following event when the user taps on a video full-screen button within your application:
+To measure any kind of application functionality, you can use hidden events. Those can be emitted by calling the corresponding methods on the tracker singleton itself. For example, you could send the following event when the user taps on a player full-screen button within your application:
 
 ```objective-c
-[[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithTitle:@"full-screen" customLabels:@{ @"myapp_enabled" : @"true" }];
+[[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@"full-screen"];
 ```
 
-Custom labels can be used to send any additional measurement information you could need.
+Custom labels can also be used to send any additional measurement information you could need, and which might be different for TagCommander and comScore.
 
-## Measuring media consumption
+## Measuring SRG MediaPlayer media consumption
 
-To measure media consumption, you need to add the `SRGAnalytics_MediaPlayer.framework` companion framework to your project. As soon the framework has been added, it starts tracking any `SRGMediaPlayerController` instance by default. 
+To measure media consumption for [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) controllers, you need to add the `SRGAnalytics_MediaPlayer.framework` companion framework to your project. As soon the framework has been added, it starts tracking any `SRGMediaPlayerController` instance by default. 
 
 You can disable tracking by setting the `SRGMediaPlayerController` `tracked` property to `NO`. If you don't want the player to send any media playback events, you should perform this setup before actually beginning playback. You can still toggle the property on or off at any time if needed.
 
 Two levels of measurement information (labels) can be provided:
 
 * Labels associated with the content being played, and which can be supplied when playing the media. Dedicated methods are available from `SRGMediaPlayerController+SRGAnalytics.h`.
-* Labels associated with a segment being played, and which are supplied by having segments implement the `SRGAnalyticsSegment` protocol instead of `SRGSegment`.
+* Labels associated with a segment being played, and which are supplied by having segments implement the `SRGAnalyticsSegment` protocol.
 
 When playing a segment, segment labels are superimposed to content labels. You can therefore decide to selectively override content labels by having segments return labels with matching names, if needed. 
 
@@ -117,9 +129,12 @@ You could have a segment return the following information:
 
 @implementation Segment
 
-- (NSDictionary<NSString *, NSString *> *)srg_analyticsLabels
+- (SRGAnalyticsPlayerLabels *)srg_analyticsLabels
 {
-    return @{ @"myapp_media_id" : self.name };
+    SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+    labels.customInfo = @{ @"MYAPP_MEDIA_ID" : self.name };
+    labels.comScoreCustomInfo = @{ @"myapp_media_id" : self.name };
+    return labels;
 }
 
 // ...
@@ -128,44 +143,79 @@ You could have a segment return the following information:
 
 ```
 
-and play the content with the following labels:
+and play some content, associating measurement labels with it:
 
 ```objective-c
 Segment *segment = [[Segment alloc] initWithName:@"Subject" timeRange:...];
 NSURL *URL = ...;
 
+SRGAnalyticsPlayerLabels *labels = [[SRGAnalyticsPlayerLabels alloc] init];
+labels.customInfo = @{ @"MYAPP_MEDIA_ID" : @"My media". @"MYAPP_PRODUCER" : @"RTS" };
+labels.comScoreCustomInfo = @{ @"myapp_media_id" : self.name };
+
 SRGMediaPlayerController *mediaPlayerController = [[SRGMediaPlayerController alloc] init];
-[mediaPlayerController playURL:URL atTime:kCMTimeZero withSegments:@[segment] analyticsLabels:@{ @"myapp_media_id" : @"My media". @"myapp_producer" : @"RTS" } userInfo:nil];
+[mediaPlayerController playURL:URL 
+                        atTime:kCMTimeZero 
+                  withSegments:@[segment] 
+               analyticsLabels:labels
+                      userInfo:nil];
 ```
 
-When playing the content, tracking information will contain:
+When playing the content, tracking information sent to TagCommander will contain:
 
 ```
-myapp_media_id = My media
-myapp_producer = RTS
+MYAPP_MEDIA_ID = My media
+MYAPP_PRODUCER = RTS
 ```
 
 but when playing the segment (after the user selects it), this information will be overridden as follows:
 
 ```
-myapp_media_id = Subject
-myapp_producer = RTS
+MYAPP_MEDIA_ID = Subject
+MYAPP_PRODUCER = RTS
 ```
 
-## Automatic media consumption measurement labels using SRG SSR data provider library
+The mechanism is the same for information sent to comScore.
 
-Our services directly supply the custom analytics labels which need to be sent to the analytics services when tracking media consumption. If you are using [our data provider library](https://github.com/SRGSSR/srgdataprovider-ios) to connect to our services, be sure to add the `SRGAnalytics_SRGDataProvider.framework` companion framework to your project as well, which will take care of this process for you.
+## Automatic media consumption measurement labels using the SRG DataProvider library
 
-This framework adds a category `SRGMediaPlayerController (SRGAnalytics_DataProvider)`, which adds playback methods for media compositions to `SRGMediaPlayerController`. To play a media composition retrieved from an `SRGDataProvider`, simply call:
+Our services directly supply the custom analytics labels which need to be sent with media consumption measurements. If you are using our [SRG DataProvider library](https://github.com/SRGSSR/srgdataprovider-ios) in your application, be sure to add the `SRGAnalytics_SRGDataProvider.framework` companion framework to your project as well, which will take care of all the process for you.
+
+This framework adds a category `SRGMediaPlayerController (SRGAnalytics_DataProvider)`, which adds playback methods for media compositions to `SRGMediaPlayerController`. To play a media composition retrieved from an `SRGDataProvider` and have all measurement information automatically associated with the playback, simply call:
 
 ```objective-c
 SRGRequest *request = [mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodHLS quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
     // Deal with errors, or play the URL with a media player
 }];
 ```
+
 on an `SRGMediaPlayerController` instance. Note that the play method returns an `SRGRequest` which must be resumed so that a token is retrieved before attempting to play the media.
 
-Nothing more is required for correct media consumption measurements. During playback, all analytics labels for the content and its segments are then transparently managed for you.
+Nothing more is required for correct media consumption measurements. During playback, all analytics labels for the content and its segments will be transparently managed for you.
+
+## Measurements of other media players
+
+If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must implement media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsStreamTracker` object and retain it somewhere during media playback. 
+
+```objective-c
+self.streamTracker = [[SRGAnalyticsStreamTracker alloc] initWithLivestream:NO];
+```
+
+The initializer requires a livestream parameter, specifying whether the stream is a livestream or not. This distinction is important, as measurements are performed slightly differently for livestreams. The tracker must therefore only be instantiated once this information is known.
+
+When the state of the playback changes, call the update method available from the stream tracker public interface, specifying information about the new state of the stream. When transitions occur on the basis of this state information, the tracker automatically generates streaming measurements transparently. You should therefore update the state of your player when it changes, so that the tracker can keep an accurate picture of the stream state.
+
+For example, you can declare that the stream is being played at the 6th second by calling:
+
+```objective-c
+[self.streamTracker updateWithStreamState:SRGAnalyticsPlayerStatePlaying
+                                 position:6000
+                                   labels:nil];
+```
+
+When using this lower-level API, you are responsible of following SRG SSR guidelines for playback measurements. For example, you need to supply correct segment labels if the user has chosen to play a specific part of your media (none in the example above). Read [our internal documentation](https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/195595938/Implementation+Concept+-+draft) for more information.
+
+Correctly conforming to all SRG SSR guidelines is not a trivial task, though. Please contact us if you need help in implementing correct stream statistics for a custom player.
 
 ## Thread-safety
 

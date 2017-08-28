@@ -8,12 +8,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSDictionary (SRGAnalytics)
+@interface NSMutableDictionary (SRGAnalytics)
 
 /**
- *  Set value and key iff both are non-`nil`.
+ *  Set string and key iff both are non-`nil`.
  */
-- (void)safeSetValue:(nullable id)value forKey:(nullable NSString *)key;
+- (void)srg_safelySetString:(nullable NSString *)string forKey:(nullable NSString *)key;
 
 @end
 

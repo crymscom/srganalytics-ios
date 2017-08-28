@@ -15,6 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSBundle *)srg_analyticsBundle;
 
+/**
+ *  Return `YES` iff the application bundle corresponds to an AppStore or TestFlight release.
+ */
++ (BOOL)srg_isProductionVersion;
+
 @end
 
 NS_ASSUME_NONNULL_END

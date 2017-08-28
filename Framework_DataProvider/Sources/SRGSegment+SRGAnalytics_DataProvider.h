@@ -4,12 +4,14 @@
 //  License information is available from the LICENSE file.
 //
 
+#import "SRGSegment+SRGAnalytics_DataProvider.h"
+
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 #import <SRGDataProvider/SRGDataProvider.h>
 
 /**
- *  Standard implementation of analytics for subdivision stemming from the data provider library.
+ *  Standard implementation of analytics for a segment stemming from the SRG DataProvider library.
  */
-@interface SRGSubdivision (SRGAnalytics_DataProvider) <SRGAnalyticsSegment>
+@interface SRGSegment (SRGAnalytics_DataProvider)
 
 @end

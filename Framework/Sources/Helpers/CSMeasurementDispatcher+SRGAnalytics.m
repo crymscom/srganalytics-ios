@@ -12,6 +12,8 @@
 
 #import <objc/runtime.h>
 
+static CSCore *s_fakeCore;
+
 // Private comScore methods
 @interface NSObject (SRGCSApplicationMeasurement)
 
@@ -20,7 +22,13 @@
 
 @end
 
-@implementation CSMeasurementDispatcher (SRGNotification)
+__attribute__((constructor)) static void CSMeasurementDispatcherInit(void)
+{
+    // Create early enough since initialized asynchronously in comScore SDK (!)
+    s_fakeCore = [[CSCore alloc] init];
+}
+
+@implementation CSMeasurementDispatcher (SRGAnalytics)
 
 #pragma mark Class methods
 
@@ -34,56 +42,37 @@
 
 - (void)swizzled_send:(CSApplicationEventType)eventType labels:(NSDictionary *)labels cache:(BOOL)cache background:(BOOL)background
 {
-    // Call the original implementation
-    [self swizzled_send:eventType labels:labels cache:cache background:background];
-
-    // Do not do anything when not running in test mode
-    SRGAnalyticsTracker *tracker = [SRGAnalyticsTracker sharedTracker];
-    if (! [tracker.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
-        return;
-    }
-    
-    id core = object_getIvar(self, class_getInstanceVariable([self class], "_core"));
-    
-    // The application measurement creation below will crash if the AdSupport framework is linked with the project. We can
-    // apply a fix by forcing unique id generation, but this fix was discovered to lead to subtle internal comScore issues.
-    // We still keep this fix for the test BU, used in our test suite. Everything will be dropped when comScore is replaced,
-    // after all
-    if (NSClassFromString(@"ASIdentifierManager") != Nil) {
-        SRGAnalyticsLogWarning(@"notifications", @"comScore notifications are not sent when the AdSupport framework is linked "
-                               "to the project. Contact us if this support is really required in your case.");
+    SRGAnalyticsConfiguration *configuration = [SRGAnalyticsTracker sharedTracker].configuration;
+    if (configuration.unitTesting) {
+        // Labels are not complete. To get (almost) all labels we mimic the comScore SDK by creating the measurement object. The
+        // timestamp will not be identical to the timestamp of the real event which is sent afterwards, and global labels will
+        // be missing.
+        long long timestamp = [[NSDate date] timeIntervalSince1970];
+        id measurement = [NSClassFromString(@"CSApplicationMeasurement") newWithCore:s_fakeCore eventType:eventType labels:labels timestamp:timestamp];
         
-        // To avoid internal comScore crashes, we force unique id generation. This might lead to instabilities, as we
-        // discovered, which is why we add a warning message to the logs. This is a test-only behavior, though, and
-        // comScore support will be dropped soon, we therefore don't need a better fix for the moment.
-        SEL selector = NSSelectorFromString(@"generateCrossPublisherUniqueId");
-        void (*methodImp)(id, SEL) = (void (*)(id, SEL))[core methodForSelector:selector];
-        methodImp(core, selector);
-    }
-    
-    // Labels are not complete. To get all labels we mimic the comScore SDK by creating the measurement object. Only the
-    // timestamp will not be identical to the timestamp of the real event which is sent afterwards
-    long long timestamp = [[NSDate date] timeIntervalSince1970];
-    id measurement = [NSClassFromString(@"CSApplicationMeasurement") newWithCore:core eventType:eventType labels:labels timestamp:timestamp];
-    
-    NSMutableDictionary<NSString *, NSString *> *completeLabels = [NSMutableDictionary dictionary];
-    for (id label in [measurement getLabels].allValues) {
-        NSString *name = [label valueForKey:@"name"];
-        NSString *value = [label valueForKey:@"value"];
-        completeLabels[name] = value;
-    }
-    
-    NSDictionary *userInfo = @{ SRGAnalyticsComScoreLabelsKey: [completeLabels copy] };
-    
-    void (^notificationBlock)(void) = ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestNotification object:self userInfo:userInfo];
-    };
-    
-    if (! [NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), notificationBlock);
+        NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
+        for (id label in [measurement getLabels].allValues) {
+            NSString *name = [label valueForKey:@"name"];
+            NSString *value = [label valueForKey:@"value"];
+            fullLabels[name] = value;
+        }
+        
+        NSDictionary *userInfo = @{ SRGAnalyticsComScoreLabelsKey : [fullLabels copy] };
+        
+        void (^notificationBlock)(void) = ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestNotification object:self userInfo:userInfo];
+        };
+        
+        if (! [NSThread isMainThread]) {
+            dispatch_async(dispatch_get_main_queue(), notificationBlock);
+        }
+        else {
+            notificationBlock();
+        }
     }
     else {
-        notificationBlock();
+        // Call the original implementation
+        [self swizzled_send:eventType labels:labels cache:cache background:background];
     }
 }
 

@@ -6,30 +6,93 @@
 
 #import "SRGAnalyticsTracker.h"
 
-#import "NSDictionary+SRGAnalytics.h"
+#import "NSBundle+SRGAnalytics.h"
+#import "NSMutableDictionary+SRGAnalytics.h"
 #import "NSString+SRGAnalytics.h"
+#import "SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsNetMetrixTracker.h"
 #import "SRGAnalyticsNotifications.h"
 #import "UIViewController+SRGAnalytics.h"
 
+#import <ComScore/ComScore.h>
 #import <ComScore/CSTaskExecutor.h>
+#import <TCSDK/TCSDK.h>
 
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRSI = @"rsi";
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTR = @"rtr";
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTS = @"rts";
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRF = @"srf";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRG = @"srg";
 SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
-SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST = @"test";
 
 @interface SRGAnalyticsTracker ()
 
-@property (nonatomic, copy) NSString *businessUnitIdentifier;
-@property (nonatomic, copy) NSString *comScoreVirtualSite;
-@property (nonatomic, copy) NSString *netMetrixIdentifier;
-@property (nonatomic, getter=isStarted) BOOL started;
+@property (nonatomic, copy) SRGAnalyticsConfiguration *configuration;
 
+@property (nonatomic) TagCommander *tagCommander;
 @property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
+@property (nonatomic) CSStreamSense *streamSense;
+
+@end
+
+@implementation SRGAnalyticsHiddenEventLabels
+
+- (NSDictionary<NSString *, NSString *> *)labelsDictionary
+{
+    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    
+    [dictionary srg_safelySetString:self.type forKey:@"event_type"];
+    [dictionary srg_safelySetString:self.value forKey:@"event_value"];
+    [dictionary srg_safelySetString:self.source forKey:@"event_source"];
+    
+    if (self.customInfo) {
+        [dictionary addEntriesFromDictionary:self.customInfo];
+    }
+    
+    return [dictionary copy];
+}
+
+- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
+{
+    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    
+    [dictionary srg_safelySetString:self.type forKey:@"srg_evgroup"];
+    [dictionary srg_safelySetString:self.value forKey:@"srg_evvalue"];
+    [dictionary srg_safelySetString:self.source forKey:@"srg_evsource"];
+    
+    if (self.comScoreCustomInfo) {
+        [dictionary addEntriesFromDictionary:self.comScoreCustomInfo];
+    }
+    
+    return [dictionary copy];
+}
+
+@end
+
+@implementation SRGAnalyticsPageViewLabels
+
+- (NSDictionary<NSString *, NSString *> *)labelsDictionary
+{
+    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    
+    if (self.customInfo) {
+        [dictionary addEntriesFromDictionary:self.customInfo];
+    }
+    
+    return [dictionary copy];
+}
+
+- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
+{
+    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
+    
+    if (self.comScoreCustomInfo) {
+        [dictionary addEntriesFromDictionary:self.comScoreCustomInfo];
+    }
+    
+    return [dictionary copy];
+}
 
 @end
 
@@ -47,55 +110,57 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     return s_sharedInstance;
 }
 
-#pragma mark Object lifecycle
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 #pragma mark Start
 
-- (void)startWithBusinessUnitIdentifier:(NSString *)businessUnitIdentifier
-                    comScoreVirtualSite:(NSString *)comScoreVirtualSite
-                    netMetrixIdentifier:(NSString *)netMetrixIdentifier
-{    
-    self.businessUnitIdentifier = businessUnitIdentifier;
-    self.comScoreVirtualSite = comScoreVirtualSite;
-    self.netMetrixIdentifier = netMetrixIdentifier;
+- (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration
+{
+    self.configuration = configuration;
     
-    self.started = YES;
+    [self startTagCommanderTrackerWithConfiguration:configuration];
+    [self startComscoreTrackerWithConfiguration:configuration];
+    [self startNetmetrixTrackerWithConfiguration:configuration];
     
-    [self startComscoreTracker];
-    [self startNetmetrixTracker];
+    [self sendApplicationList];
 }
 
-- (void)startComscoreTracker
+- (void)startTagCommanderTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
+{
+    if (! configuration.unitTesting) {
+        self.tagCommander = [[TagCommander alloc] initWithSiteID:(int)configuration.site andContainerID:(int)configuration.container];
+        [self.tagCommander addPermanentData:@"app_library_version" withValue:SRGAnalyticsMarketingVersion()];
+        [self.tagCommander addPermanentData:@"navigation_app_site_name" withValue:configuration.comScoreVirtualSite];
+        [self.tagCommander addPermanentData:@"navigation_environment" withValue:[NSBundle srg_isProductionVersion] ? @"prod" : @"preprod"];
+    }
+}
+
+- (void)startComscoreTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
     [CSComScore setAppContext];
     [CSComScore setSecure:YES];
     [CSComScore setCustomerC2:@"6036016"];
     [CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
     [CSComScore enableAutoUpdate:60 foregroundOnly:NO];     //60 is the Comscore default interval value
-    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-    if (appName) {
-        [CSComScore setAutoStartLabels:@{ @"name": appName }];
-    }
-    [CSComScore setLabels:[self comscoreGlobalLabels]];
     
-    [self startLoggingInternalComScoreTasks];
-    [self sendApplicationList];
+    NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+    if (applicationName) {
+        [CSComScore setAutoStartLabels:@{ @"name": applicationName }];
+    }
+    
+    [CSComScore setLabels:[self comscoreGlobalLabelsWithConfiguration:configuration]];
+    
+    // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
+    self.streamSense = [[CSStreamSense alloc] init];
+    [self.streamSense setKeepAliveInterval:9 * 60];
 }
 
-- (void)startNetmetrixTracker
+- (void)startNetmetrixTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
-    self.netmetrixTracker = [[SRGAnalyticsNetMetrixTracker alloc] initWithIdentifier:self.netMetrixIdentifier
-                                                              businessUnitIdentifier:self.businessUnitIdentifier];
+    self.netmetrixTracker = [[SRGAnalyticsNetMetrixTracker alloc] initWithConfiguration:configuration];
 }
 
 #pragma mark Labels
 
-- (NSDictionary<NSString *, NSString *> *)comscoreGlobalLabels
+- (NSDictionary<NSString *, NSString *> *)comscoreGlobalLabelsWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
     NSBundle *mainBundle = [NSBundle mainBundle];
     
@@ -103,15 +168,16 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     NSString *appLanguage = mainBundle.preferredLocalizations.firstObject ?: @"fr";
     NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     
-    NSMutableDictionary<NSString *, NSString *> *globalLabels = [@{ @"ns_ap_an": appName,
-                                                                    @"ns_ap_lang": [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
-                                                                    @"ns_ap_ver": appVersion,
-                                                                    @"srg_unit": self.businessUnitIdentifier.uppercaseString,
-                                                                    @"srg_ap_push": @"0",
-                                                                    @"ns_site": @"mainsite",                                    // The 'mainsite' is a constant value. If wrong, everything is screwed.
-                                                                    @"ns_vsite": self.comScoreVirtualSite } mutableCopy];       // The virtual site 'vsite' is associated with the app. It is created by comScore
+    NSMutableDictionary<NSString *, NSString *> *globalLabels = [@{ @"ns_ap_an" : appName,
+                                                                    @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
+                                                                    @"ns_ap_ver" : appVersion,
+                                                                    @"srg_unit" : configuration.businessUnitIdentifier.uppercaseString,
+                                                                    @"srg_ap_push" : @"0",
+                                                                    @"ns_site" : @"mainsite",                                          // The 'mainsite' is a constant value. If wrong, everything is screwed.
+                                                                    @"ns_vsite" : configuration.comScoreVirtualSite,                   // The virtual site 'vsite' is associated with the app. It is created by comScore
+                                                                    @"ns_st_pu" : SRGAnalyticsMarketingVersion() } mutableCopy];
     
-    if ([self.businessUnitIdentifier isEqualToString:SRGAnalyticsBusinessUnitIdentifierTEST]) {
+    if (configuration.unitTesting) {
         static NSString *s_debugTimestamp;
         static dispatch_once_t s_onceToken;
         dispatch_once(&s_onceToken, ^{
@@ -124,32 +190,104 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
     return [globalLabels copy];
 }
 
-#pragma mark Page view tracking (private)
+- (NSString *)pageIdWithTitle:(NSString *)title levels:(NSArray<NSString *> *)levels
+{
+    NSString *category = @"app";
+    
+    if (levels.count > 0) {
+        __block NSMutableString *levelsComScoreFormattedString = [NSMutableString new];
+        [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull level, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (levelsComScoreFormattedString.length > 0) {
+                [levelsComScoreFormattedString appendString:@"."];
+            }
+            [levelsComScoreFormattedString appendString:level.srg_comScoreFormattedString];
+        }];
+        category = [levelsComScoreFormattedString copy];
+    }
+    
+    return [NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString];
+}
 
-- (void)trackPageViewTitle:(NSString *)title levels:(NSArray<NSString *> *)levels customLabels:(NSDictionary<NSString *, NSString *> *)customLabels fromPushNotification:(BOOL)fromPushNotification;
+#pragma mark General event tracking (internal use only)
+
+- (void)trackEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
+              comScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
+{
+    [self trackTagCommanderEventWithLabels:labels];
+    [self trackComScoreEventWithLabels:comScoreLabels];
+}
+
+- (void)trackComScoreEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
+{
+    [CSComScore hiddenWithLabels:labels];
+}
+
+- (void)trackTagCommanderEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
+{
+    // TagCommander might not initialized (for the test business unit)
+    if (self.tagCommander) {
+        [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+            [self.tagCommander addData:key withValue:object];
+        }];
+        [self.tagCommander sendData];
+    }
+    else {
+        // Only custom labels are sent in the notification userInfo. Internal predefined TagCommander variables are not sent,
+        // as they are not needed for tests (they are part of what is guaranteed by the TagCommander SDK). For a complete list of
+        // predefined variables, see https://github.com/TagCommander/pods/blob/master/TCSDK/PredefinedVariables.md
+        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsRequestNotification
+                                                            object:self
+                                                          userInfo:@{ SRGAnalyticsLabelsKey : labels }];
+    }
+}
+
+#pragma mark Page view tracking
+
+- (void)trackPageViewWithTitle:(NSString *)title levels:(NSArray<NSString *> *)levels
+{
+    [self trackPageViewWithTitle:title levels:levels labels:nil fromPushNotification:NO];
+}
+
+- (void)trackPageViewWithTitle:(NSString *)title
+                        levels:(NSArray<NSString *> *)levels
+                        labels:(SRGAnalyticsPageViewLabels *)labels
+          fromPushNotification:(BOOL)fromPushNotification
 {
     if (title.length == 0) {
         SRGAnalyticsLogWarning(@"tracker", @"Missing title. No event will be sent");
         return;
     }
     
-    NSMutableDictionary *labels = [NSMutableDictionary dictionary];
-    [labels safeSetValue:title forKey:@"srg_title"];
-    [labels safeSetValue:@(fromPushNotification) forKey:@"srg_ap_push"];
+    [self trackTagCommanderPageViewWithTitle:title levels:levels labels:labels fromPushNotification:fromPushNotification];
+    [self trackComScorePageViewWithTitle:title levels:levels labels:labels fromPushNotification:fromPushNotification];
+    
+    [self.netmetrixTracker trackView];
+}
+
+- (void)trackComScorePageViewWithTitle:(NSString *)title
+                                levels:(NSArray<NSString *> *)levels
+                                labels:(SRGAnalyticsPageViewLabels *)labels
+                  fromPushNotification:(BOOL)fromPushNotification
+{
+    NSAssert(title.length != 0, @"A title is required");
+    
+    NSMutableDictionary *pageViewLabelsDictionary = [NSMutableDictionary dictionary];
+    [pageViewLabelsDictionary srg_safelySetString:title forKey:@"srg_title"];
+    [pageViewLabelsDictionary srg_safelySetString:@(fromPushNotification).stringValue forKey:@"srg_ap_push"];
     
     NSString *category = @"app";
     
     if (! levels) {
-        [labels safeSetValue:category forKey:@"srg_n1"];
+        [pageViewLabelsDictionary srg_safelySetString:category forKey:@"srg_n1"];
     }
     else if (levels.count > 0) {
         __block NSMutableString *levelsComScoreFormattedString = [NSMutableString new];
-        [levels enumerateObjectsUsingBlock:^(id value, NSUInteger idx, BOOL *stop) {
+        [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
             NSString *levelKey = [NSString stringWithFormat:@"srg_n%@", @(idx + 1)];
-            NSString *levelValue = [value description];
+            NSString *levelValue = [object description];
             
             if (idx < 10) {
-                [labels safeSetValue:levelValue forKey:levelKey];
+                [pageViewLabelsDictionary srg_safelySetString:levelValue forKey:levelKey];
             }
             
             if (levelsComScoreFormattedString.length > 0) {
@@ -161,43 +299,101 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
         category = [levelsComScoreFormattedString copy];
     }
     
-    [labels safeSetValue:category forKey:@"category"];
-    [labels safeSetValue:[NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString] forKey:@"name"];
+    [pageViewLabelsDictionary srg_safelySetString:category forKey:@"category"];
+    [pageViewLabelsDictionary srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"name"];
     
-    [customLabels enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [labels safeSetValue:[obj description] forKey:[key description]];
+    NSDictionary<NSString *, NSString *> *comScoreLabelsDictionary = [labels comScoreLabelsDictionary];
+    if (comScoreLabelsDictionary) {
+        [pageViewLabelsDictionary addEntriesFromDictionary:comScoreLabelsDictionary];
+    }
+    
+    [CSComScore viewWithLabels:pageViewLabelsDictionary];
+}
+
+- (void)trackTagCommanderPageViewWithTitle:(NSString *)title
+                                    levels:(NSArray<NSString *> *)levels
+                                    labels:(SRGAnalyticsPageViewLabels *)labels
+                      fromPushNotification:(BOOL)fromPushNotification
+{
+    NSAssert(title.length != 0, @"A title is required");
+    
+    NSMutableDictionary<NSString *, NSString *> *fullLabelsDictionary = [NSMutableDictionary dictionary];
+    [fullLabelsDictionary srg_safelySetString:@"screen" forKey:@"event_id"];
+    [fullLabelsDictionary srg_safelySetString:@"app" forKey:@"navigation_property_type"];
+    [fullLabelsDictionary srg_safelySetString:title forKey:@"content_title"];
+    [fullLabelsDictionary srg_safelySetString:self.configuration.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
+    [fullLabelsDictionary srg_safelySetString:fromPushNotification ? @"true" : @"false" forKey:@"accessed_after_push_notification"];
+    [fullLabelsDictionary srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"page_id"];
+
+    
+    [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx > 7) {
+            *stop = YES;
+            return;
+        }
+        
+        NSString *levelKey = [NSString stringWithFormat:@"navigation_level_%@", @(idx + 1)];
+        [fullLabelsDictionary srg_safelySetString:object forKey:levelKey];
     }];
     
-    [CSComScore viewWithLabels:labels];
+    NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
+    if (labelsDictionary) {
+        [fullLabelsDictionary addEntriesFromDictionary:labelsDictionary];
+    }
     
-    [self.netmetrixTracker trackView];
+    [self trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
 }
 
 #pragma mark Hidden event tracking
 
-- (void)trackHiddenEventWithTitle:(NSString *)title
+- (void)trackHiddenEventWithName:(NSString *)name
 {
-    [self trackHiddenEventWithTitle:title customLabels:nil];
+    [self trackHiddenEventWithName:name labels:nil];
 }
 
-- (void)trackHiddenEventWithTitle:(NSString *)title customLabels:(NSDictionary *)customLabels
+- (void)trackHiddenEventWithName:(NSString *)name
+                          labels:(SRGAnalyticsHiddenEventLabels *)labels
 {
-    if (title.length == 0) {
-        SRGAnalyticsLogWarning(@"tracker", @"Missing title. No event will be sent");
+    if (name.length == 0) {
+        SRGAnalyticsLogWarning(@"tracker", @"Missing name. No event will be sent");
         return;
     }
     
-    NSMutableDictionary *labels = [NSMutableDictionary dictionary];
-    [labels safeSetValue:title forKey:@"srg_title"];
+    [self trackTagCommanderHiddenEventWithName:name labels:labels];
+    [self trackComScoreHiddenEventWithName:name labels:labels];
+}
+
+- (void)trackComScoreHiddenEventWithName:(NSString *)name labels:(SRGAnalyticsHiddenEventLabels *)labels
+{
+    NSAssert(name.length != 0, @"A name is required");
     
-    [labels safeSetValue:@"app" forKey:@"category"];
-    [labels safeSetValue:[NSString stringWithFormat:@"app.%@", title.srg_comScoreFormattedString] forKey:@"name"];
+    NSMutableDictionary *hiddenEventLabelsDictionary = [NSMutableDictionary dictionary];
+    [hiddenEventLabelsDictionary srg_safelySetString:name forKey:@"srg_title"];
+    [hiddenEventLabelsDictionary srg_safelySetString:@"app" forKey:@"category"];
+    [hiddenEventLabelsDictionary srg_safelySetString:[NSString stringWithFormat:@"app.%@", name.srg_comScoreFormattedString] forKey:@"name"];
     
-    [customLabels enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [labels safeSetValue:[obj description] forKey:[key description]];
-    }];
+    NSDictionary<NSString *, NSString *> *comScoreLabelsDictionary = [labels comScoreLabelsDictionary];
+    if (comScoreLabelsDictionary) {
+        [hiddenEventLabelsDictionary addEntriesFromDictionary:comScoreLabelsDictionary];
+    }
     
-    [CSComScore hiddenWithLabels:labels];
+    [CSComScore hiddenWithLabels:hiddenEventLabelsDictionary];
+}
+
+- (void)trackTagCommanderHiddenEventWithName:(NSString *)name labels:(SRGAnalyticsHiddenEventLabels *)labels
+{
+    NSAssert(name.length != 0, @"A name is required");
+    
+    NSMutableDictionary<NSString *, NSString *> *fullLabelsDictionary = [NSMutableDictionary dictionary];
+    [fullLabelsDictionary srg_safelySetString:@"hidden_event" forKey:@"event_id"];
+    [fullLabelsDictionary srg_safelySetString:name forKey:@"event_name"];
+    
+    NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
+    if (labelsDictionary) {
+        [fullLabelsDictionary addEntriesFromDictionary:labelsDictionary];
+    }
+    
+    [self trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
 }
 
 #pragma mark Application list measurement
@@ -263,94 +459,29 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierTEST 
                                      "update your Info.plist file to make this message disappear");
             }
             
-            if (installedApplications.count == 0) {
-                SRGAnalyticsLogWarning(@"tracker", @"No identified application installed. Nothing to be done");
-                return;
-            }
+            NSArray<NSString *> *sortedInstalledApplications = [installedApplications.allObjects sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
             
-            NSArray *sortedInstalledApplications = [installedApplications.allObjects sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-            NSDictionary *labels = @{ @"srg_evgroup" : @"Installed Apps",
-                                      @"srg_evname" : [sortedInstalledApplications componentsJoinedByString:@","] };
-            [CSComScore hiddenWithLabels:labels];
+            SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
+            labels.type = @"hidden";
+            labels.source = @"SRGAnalytics";
+            labels.value = [sortedInstalledApplications componentsJoinedByString:@";"];
+            labels.comScoreCustomInfo = @{ @"srg_evgroup": @"Installed Apps",
+                                           @"srg_evname": [sortedInstalledApplications componentsJoinedByString:@","] };
+            
+            [self trackHiddenEventWithName:@"Installed Apps" labels:labels];
         });
     }] resume];
-}
-
-#pragma mark Logging
-
-- (void)startLoggingInternalComScoreTasks
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(comScoreRequestDidFinish:)
-                                                 name:SRGAnalyticsComScoreRequestNotification
-                                               object:nil];
-    
-    // +[CSComScore setPixelURL:] is dispatched on an internal comScore queue, so calling +[CSComScore pixelURL]
-    // right after doesn’t work, we must also dispatch it on the same queue!
-    [[[CSComScore core] taskExecutor] execute:^{
-        const SEL selectors[] = {
-            @selector(appName),
-            @selector(pixelURL),
-            @selector(publisherSecret),
-            @selector(customerC2),
-            @selector(version),
-            @selector(labels)
-        };
-        
-        NSMutableString *message = [NSMutableString new];
-        for (NSUInteger i = 0; i < sizeof(selectors) / sizeof(selectors[0]); i++) {
-            SEL selector = selectors[i];
-            [message appendFormat:@"%@: %@\n", NSStringFromSelector(selector), [CSComScore performSelector:selector]];
-        }
-        [message deleteCharactersInRange:NSMakeRange(message.length - 1, 1)];
-        SRGAnalyticsLogDebug(@"tracker", @"%@", message);
-    } background:YES];
-}
-
-#pragma mark Notifications
-
-- (void)comScoreRequestDidFinish:(NSNotification *)notification
-{
-    NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
-    NSUInteger maxKeyLength = [[[labels allKeys] valueForKeyPath:@"@max.length"] unsignedIntegerValue];
-    
-    NSMutableString *dictionaryRepresentation = [NSMutableString new];
-    for (NSString *key in [[labels allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
-        [dictionaryRepresentation appendFormat:@"%@ = %@\n", [key stringByPaddingToLength:maxKeyLength withString:@" " startingAtIndex:0], labels[key]];
-    }
-    
-    NSString *ns_st_ev = labels[@"ns_st_ev"];
-    NSString *ns_ap_ev = labels[@"ns_ap_ev"];
-    NSString *type = labels[@"ns_st_ty"];
-    NSString *typeSymbol = @"\U00002753"; // BLACK QUESTION MARK ORNAMENT
-    
-    if ([type.lowercaseString isEqual:@"audio"]) {
-        typeSymbol = @"\U0001F4FB"; // RADIO
-    }
-    else if ([type.lowercaseString isEqual:@"video"]) {
-        typeSymbol = @"\U0001F4FA"; // TELEVISION
-    }
-    
-    if ([labels[@"ns_st_li"] boolValue]) {
-        typeSymbol = [typeSymbol stringByAppendingString:@"\U0001F6A8"];
-    }
-    
-    NSString *event = ns_st_ev ? [typeSymbol stringByAppendingFormat:@" %@", ns_st_ev] : ns_ap_ev;
-    NSString *name = ns_st_ev ? [NSString stringWithFormat:@"%@ / %@", labels[@"ns_st_pl"], labels[@"ns_st_ep"]] : labels[@"name"];
-    SRGAnalyticsLogDebug(@"tracker", @"Event %@ with name %@ and labels %@", event, name, labels);
 }
 
 #pragma mark Description
 
 - (NSString *)description
 {
-    if (self.started) {
-        return [NSString stringWithFormat:@"<%@: %p; businessUnitIdentifier: %@; comScoreVirtualSite: %@; netMetrixIdentifier: %@>",
+    if (self.configuration) {
+        return [NSString stringWithFormat:@"<%@: %p; configuration: %@>",
                 [self class],
                 self,
-                self.businessUnitIdentifier,
-                self.comScoreVirtualSite,
-                self.netMetrixIdentifier];
+                self.configuration];
     }
     else {
         return [NSString stringWithFormat:@"<%@: %p (not started yet)>", [self class], self];

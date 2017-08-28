@@ -1,4 +1,33 @@
-Migrating from version 1.x to version 2
+Migrating from version 2 to version 3
+=======================================
+
+Version 3 of the SRG Analytics library introduces TagCommander support, as well as breaking changes requiring you to migrate your existing code base.
+
+## Dependencies
+
+TagCommander `TCCore.framework` and `TCSDK.framework` now need to be linked with your project.
+
+## Tracker initialization
+
+Tracker setup is now performed via a configuration object. A container identifier is required for TagCommander measurements. Contact your measurement team for more information about which one your application must use.
+
+## Labels
+
+You need to migrate custom data you previously sent to comScore so that it is now sent to TagCommander. 
+
+Since TagCommander requires variables to be explicitly defined on its portal to collect the associated data, you might need to discuss custom labels you previously used with your measurement team. 
+
+In particular, hidden events are therefore now provided with three predefined variables (type, value and source) which you should now use most of the time to convey custom data. There is still possibility to send arbitrary values to TagCommander, but those need to be discussed with your measurement team first.
+
+## comScore to TagCommander transition
+
+During the initial comScore to TagCommander transition, both services will coexist. Labels you currently send to comScore must therefore still be transmitted during the transition phase, so that analysts can check the consistency of the reports they produce.
+
+New label classes `SRGAnalyticsHiddenEventLabels` and `SRGAnalyticsPageViewLabels` have been introduced to send this information to both services with a single unified formalism. All tracking methods and protocols have been updated and now work with such objects instead of the raw dictionaries used in version 2.
+
+When the transition is complete, a minor version of the SRG Analytics library will be released, at which point you will be able to remove all comScore-related logic from your project.
+
+Migrating from version 1 to version 2
 =======================================
 
 Version 2 of the SRG Analytics library introduces several changes which require you to migrate your existing code base. 
