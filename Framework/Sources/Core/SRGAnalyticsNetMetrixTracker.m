@@ -55,6 +55,10 @@
         NSString *userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (iOS-%@; U; CPU %@ like Mac OS X)", self.device, self.operatingSystem];
         [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
         
+        // The app language must be sent, not the device language. This is sadly not documented in https://www.net-metrix.ch/fr/service/directives/directives-supplementaires-pour-les-applications,
+        // but this information was obtained from a NetMetrix technician.
+        [request setValue:[NSBundle mainBundle].preferredLocalizations.firstObject forHTTPHeaderField:@"Accept-Language"];
+        
         SRGAnalyticsLogDebug(@"NetMetrix", @"Request %@ started", request.URL);
         [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             SRGAnalyticsLogDebug(@"NetMetrix", @"Request %@ ended with error %@", request.URL, error);
