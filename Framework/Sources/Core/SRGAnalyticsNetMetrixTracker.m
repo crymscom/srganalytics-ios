@@ -45,7 +45,9 @@
     NSURL *netMetrixURL = [NSURL URLWithString:netMetrixURLString];
     
     if (! configuration.unitTesting) {
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:netMetrixURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.];
+        NSURLComponents *URLComponents = [NSURLComponents componentsWithURL:netMetrixURL resolvingAgainstBaseURL:NO];
+        URLComponents.queryItems = @[ [NSURLQueryItem queryItemWithName:@"d" value:@(arc4random()).stringValue] ];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URLComponents.URL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.];
         [request setHTTPMethod:@"GET"];
         [request setValue:@"image/gif" forHTTPHeaderField:@"Accept"];
         
