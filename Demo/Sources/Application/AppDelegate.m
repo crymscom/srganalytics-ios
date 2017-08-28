@@ -33,7 +33,7 @@
                                                                                                        container:10
                                                                                              comScoreVirtualSite:@"rts-app-test-v"
                                                                                              netMetrixIdentifier:@"test"];
-    configuration.unitTesting = YES;
+    configuration.unitTesting = (NSClassFromString(@"XCTestCase") != Nil);
     [[SRGAnalyticsTracker sharedTracker] startWithConfiguration:configuration];
     
     DemosViewController *demosViewController = [[DemosViewController alloc] init];
