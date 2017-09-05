@@ -36,6 +36,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
         self.container = container;
         self.comScoreVirtualSite = comScoreVirtualSite;
         self.netMetrixIdentifier = netMetrixIdentifier;
+        self.centralized = YES;
     }
     return self;
 }

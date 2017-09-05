@@ -41,7 +41,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *  Set to `YES` if measurements are studied by the General SRG SSR Direction, or to `NO` if the business
  *  unit itself will perform the studies.
  *
- *  Default value is `NO`.
+ *  Default value is `YES`.
  */
 @property (nonatomic, getter=isCentralized) BOOL centralized;
 
