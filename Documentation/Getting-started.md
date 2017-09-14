@@ -26,11 +26,15 @@ Before measurements can be collected, the tracker singleton responsible of all a
 }
 ```
 
-The various setup parameters to use must be obtained by the team responsible of measurements for your application. You must set the configuration `centralized` boolean to `YES` if measurements for your application are analyzed by the SRG SSR General direction. 
+The various setup parameters to use must be obtained by the team responsible of measurements for your application.
 
-For unit tests, you can also set the `unitTesting` flag to emit notifications which can be used to check when analytics information is sent, and whether it is correct.
+For unit tests, you can set the `unitTesting` flag to emit notifications which can be used to check when analytics information is sent, and whether it is correct.
 
 Once the tracker has been started, you can perform measurements.
+
+#### Remark
+
+If and only if your application data will be analyzed by your business unit (and not by the SRG SSR General Direction), set the configuration `centralized` boolean to `NO`. Otherwise leave the default value as is, which means your application data will be analyzed according to the SRG SSR General Direction rules.
 
 ## Measurement information
 

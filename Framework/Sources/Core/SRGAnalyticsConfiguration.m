@@ -6,6 +6,13 @@
 
 #import "SRGAnalyticsConfiguration.h"
 
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRSI = @"rsi";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTR = @"rtr";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTS = @"rts";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRF = @"srf";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRG = @"srg";
+SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
+
 @interface SRGAnalyticsConfiguration ()
 
 @property (nonatomic, copy) SRGAnalyticsBusinessUnitIdentifier businessUnitIdentifier;
@@ -29,6 +36,7 @@
         self.container = container;
         self.comScoreVirtualSite = comScoreVirtualSite;
         self.netMetrixIdentifier = netMetrixIdentifier;
+        self.centralized = YES;
     }
     return self;
 }

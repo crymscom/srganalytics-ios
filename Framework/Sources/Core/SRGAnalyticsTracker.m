@@ -17,14 +17,13 @@
 
 #import <ComScore/ComScore.h>
 #import <ComScore/CSTaskExecutor.h>
+#import <TCCore/TCCore.h>
 #import <TCSDK/TCSDK.h>
 
-SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRSI = @"rsi";
-SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTR = @"rtr";
-SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTS = @"rts";
-SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRF = @"srf";
-SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSRG = @"srg";
-SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI = @"swi";
+__attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
+{
+    [TCDebug setDebugLevel:TCLogLevel_None];
+}
 
 @interface SRGAnalyticsTracker ()
 

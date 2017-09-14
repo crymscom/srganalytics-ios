@@ -19,10 +19,7 @@ platform :ios do
       platform: "iOS",
       use_ssh: true
     )
-
-    # Do a carthage bootstrap in the Demo project too, for UI test (hidden events on view)
-    sh "cd ../Demo; carthage bootstrap --platform iOS --use-ssh"
-
+    
   end
 
   desc "Run library tests"

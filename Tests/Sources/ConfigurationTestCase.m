@@ -20,27 +20,27 @@
                                                                                                        container:7
                                                                                              comScoreVirtualSite:@"comscore-vsite"
                                                                                              netMetrixIdentifier:@"netmetrix-identifier"];
-    XCTAssertFalse(configuration.centralized);
+    XCTAssertTrue(configuration.centralized);
     XCTAssertFalse(configuration.unitTesting);
     XCTAssertEqualObjects(configuration.businessUnitIdentifier, SRGAnalyticsBusinessUnitIdentifierSRF);
-    XCTAssertEqual(configuration.site, 3667);
+    XCTAssertEqual(configuration.site, 3666);
     XCTAssertEqual(configuration.container, 7);
     XCTAssertEqualObjects(configuration.comScoreVirtualSite, @"comscore-vsite");
     XCTAssertEqualObjects(configuration.netMetrixIdentifier, @"netmetrix-identifier");
 }
 
-- (void)testCentralizedConfiguration
+- (void)testBusinessUnitSpecificConfiguration
 {
     SRGAnalyticsConfiguration *configuration = [[SRGAnalyticsConfiguration alloc] initWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierSRF
                                                                                                        container:7
                                                                                              comScoreVirtualSite:@"comscore-vsite"
                                                                                              netMetrixIdentifier:@"netmetrix-identifier"];
-    configuration.centralized = YES;
+    configuration.centralized = NO;
     
-    XCTAssertTrue(configuration.centralized);
+    XCTAssertFalse(configuration.centralized);
     XCTAssertFalse(configuration.unitTesting);
     XCTAssertEqualObjects(configuration.businessUnitIdentifier, SRGAnalyticsBusinessUnitIdentifierSRF);
-    XCTAssertEqual(configuration.site, 3666);
+    XCTAssertEqual(configuration.site, 3667);
     XCTAssertEqual(configuration.container, 7);
     XCTAssertEqualObjects(configuration.comScoreVirtualSite, @"comscore-vsite");
     XCTAssertEqualObjects(configuration.netMetrixIdentifier, @"netmetrix-identifier");
@@ -54,10 +54,10 @@
                                                                                              netMetrixIdentifier:@"netmetrix-identifier"];
     configuration.unitTesting = YES;
     
-    XCTAssertFalse(configuration.centralized);
+    XCTAssertTrue(configuration.centralized);
     XCTAssertTrue(configuration.unitTesting);
     XCTAssertEqualObjects(configuration.businessUnitIdentifier, SRGAnalyticsBusinessUnitIdentifierSRF);
-    XCTAssertEqual(configuration.site, 3667);
+    XCTAssertEqual(configuration.site, 3666);
     XCTAssertEqual(configuration.container, 7);
     XCTAssertEqualObjects(configuration.comScoreVirtualSite, @"comscore-vsite");
     XCTAssertEqualObjects(configuration.netMetrixIdentifier, @"netmetrix-identifier");
