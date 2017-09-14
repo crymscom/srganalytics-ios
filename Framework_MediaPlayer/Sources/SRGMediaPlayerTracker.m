@@ -273,7 +273,7 @@ static NSMutableDictionary *s_trackers = nil;
 {
     return [self timeshiftInMillisecondsForStreamType:self.mediaPlayerController.streamType
                                             timeRange:self.mediaPlayerController.timeRange
-                                          currentTime:self.mediaPlayerController.player.currentItem.currentTime];
+                                          currentTime:self.mediaPlayerController.currentTime];
 }
 
 - (NSNumber *)timeshiftInMillisecondsForStreamType:(SRGMediaPlayerStreamType)streamType timeRange:(CMTimeRange)timeRange currentTime:(CMTime)currentTime
