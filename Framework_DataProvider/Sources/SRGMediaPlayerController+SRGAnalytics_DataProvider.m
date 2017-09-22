@@ -120,8 +120,10 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         }
         labels.comScoreCustomInfo = [comScoreCustomInfo copy];
         
-        NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
-        completionBlock(URL, index, chapter.segments, labels, nil);
+        // Don't load segments and ignore segment selection in the media player controller preparation if it's a live or a live DVR.
+        NSInteger index = (resource.streamType == SRGStreamTypeOnDemand) ? [chapter.segments indexOfObject:mediaComposition.mainSegment] : NSNotFound;
+        NSArray<id<SRGSegment>> *segments = (resource.streamType == SRGStreamTypeOnDemand) ? chapter.segments : nil;
+        completionBlock(URL, index, segments, labels, nil);
     }];
     if (resume) {
         [request resume];
