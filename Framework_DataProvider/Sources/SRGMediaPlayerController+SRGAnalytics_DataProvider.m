@@ -13,7 +13,7 @@
 
 NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
 
-typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error);
+typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, SRGStreamType streamType, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error);
 
 @implementation SRGMediaPlayerController (SRGAnalytics_DataProvider)
 
@@ -120,10 +120,8 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         }
         labels.comScoreCustomInfo = [comScoreCustomInfo copy];
         
-        // Don't load segments and ignore segment selection in the media player controller preparation if it's a live or a live DVR.
-        NSInteger index = (resource.streamType == SRGStreamTypeOnDemand) ? [chapter.segments indexOfObject:mediaComposition.mainSegment] : NSNotFound;
-        NSArray<id<SRGSegment>> *segments = (resource.streamType == SRGStreamTypeOnDemand) ? chapter.segments : nil;
-        completionBlock(URL, index, segments, labels, nil);
+        NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
+        completionBlock(URL, resource.streamType, index, chapter.segments, labels, nil);
     }];
     if (resume) {
         [request resume];
@@ -141,16 +139,29 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                                        resume:(BOOL)resume
                             completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, SRGStreamType streamType, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
         }
         
         NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithMediaComposition:mediaComposition userInfo:userInfo];
-        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
-            completionHandler ? completionHandler(nil) : nil;
-        }];
+        
+        if (streamType == SRGStreamTypeOnDemand) {
+            [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
+                completionHandler ? completionHandler(nil) : nil;
+            }];
+        }
+        // Don't load segments in the media player controller preparation if it's a live stream or a DVR stream.
+        else {
+            CMTime time = kCMTimeZero;
+            if (streamType == SRGStreamTypeDVR && index != NSNotFound) {
+                time = segments[index].srg_timeRange.start;
+            }
+            [self prepareToPlayURL:URL atTime:time withSegments:nil analyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
+                completionHandler ? completionHandler(nil) : nil;
+            }];
+        }
     }];
 }
 
@@ -162,17 +173,31 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                               resume:(BOOL)resume
                    completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, SRGStreamType streamType, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
         }
         
         NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithMediaComposition:mediaComposition userInfo:userInfo];
-        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
-            [self play];
-            completionHandler ? completionHandler(nil) : nil;
-        }];
+        
+        if (streamType == SRGStreamTypeOnDemand) {
+            [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
+                [self play];
+                completionHandler ? completionHandler(nil) : nil;
+            }];
+        }
+        // Don't load segments in the media player controller preparation if it's a live stream or a DVR stream.
+        else {
+            CMTime time = kCMTimeZero;
+            if (streamType == SRGStreamTypeDVR && index != NSNotFound) {
+                time = segments[index].srg_timeRange.start;
+            }
+            [self prepareToPlayURL:URL atTime:time withSegments:nil analyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
+                [self play];
+                completionHandler ? completionHandler(nil) : nil;
+            }];
+        }
     }];
 }
 
