@@ -152,7 +152,6 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                 completionHandler ? completionHandler(nil) : nil;
             }];
         }
-        // Don't load segments in the media player controller preparation if it's a live stream or a DVR stream.
         else {
             CMTime time = kCMTimeZero;
             if (streamType == SRGStreamTypeDVR && index != NSNotFound) {
@@ -173,32 +172,20 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                               resume:(BOOL)resume
                    completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, SRGStreamType streamType, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
-        if (error) {
-            completionHandler ? completionHandler(error) : nil;
-            return;
+    void (^playCompletionHandler)(NSError * _Nullable) = ^(NSError * _Nullable error) {
+        if (! error) {
+            [self play];
         }
-        
-        NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithMediaComposition:mediaComposition userInfo:userInfo];
-        
-        if (streamType == SRGStreamTypeOnDemand) {
-            [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
-                [self play];
-                completionHandler ? completionHandler(nil) : nil;
-            }];
-        }
-        // Don't load segments in the media player controller preparation if it's a live stream or a DVR stream.
-        else {
-            CMTime time = kCMTimeZero;
-            if (streamType == SRGStreamTypeDVR && index != NSNotFound) {
-                time = segments[index].srg_timeRange.start;
-            }
-            [self prepareToPlayURL:URL atTime:time withSegments:nil analyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
-                [self play];
-                completionHandler ? completionHandler(nil) : nil;
-            }];
-        }
-    }];
+        completionHandler ? completionHandler(error) : nil;
+    };
+    
+    return [self prepareToPlayMediaComposition:mediaComposition
+                  withPreferredStreamingMethod:streamingMethod
+                                       quality:quality
+                                  startBitRate:startBitRate
+                                      userInfo:userInfo
+                                        resume:resume
+                             completionHandler:playCompletionHandler];
 }
 
 #pragma mark Getters and setters
