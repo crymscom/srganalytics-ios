@@ -115,9 +115,8 @@ static NSURL *ServiceTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testPlayLiveStreamInMediaComposition
+- (void)testPlayLivestreamInMediaComposition
 {
-    // Use a segment id as video id, expect segment labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_segment"], @"Livestream");

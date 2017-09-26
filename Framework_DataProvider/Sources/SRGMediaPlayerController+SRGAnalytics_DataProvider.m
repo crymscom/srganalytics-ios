@@ -153,6 +153,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
             }];
         }
         else {
+            // Never load associate segments with livestreams (only use segment start time to begin playback of a DVR stream)
             CMTime time = kCMTimeZero;
             if (streamType == SRGStreamTypeDVR && index != NSNotFound) {
                 time = segments[index].srg_timeRange.start;
