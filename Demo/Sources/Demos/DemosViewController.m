@@ -108,7 +108,7 @@
             
             switch (indexPath.row) {
                 case 0: {
-                    URL = [NSURL URLWithString:@"http://ndr_fs-lh.akamaihd.net/i/ndrfs_nds@119224/master.m3u8?dw=0"];
+                    URL = [NSURL URLWithString:@"http://tagesschau-lh.akamaihd.net/i/tagesschau_1@119231/master.m3u8?dw=0"];
                     break;
                 }
                     
