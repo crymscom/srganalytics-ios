@@ -122,7 +122,8 @@ withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
 /**
  *  The analytics labels associated with the playback.
  *
- *  @discussion Labels will be discarded when the player is reset.
+ *  @discussion Labels will be discarded when the player is reset. These labels are stored within the `userInfo`
+ *              dictionary.
  */
 @property (nonatomic, nullable, copy) SRGAnalyticsStreamLabels *analyticsLabels;
 

@@ -50,6 +50,26 @@ static NSURL *DVRTestURL(void)
 
 #pragma mark Tests
 
+- (void)testMetadata
+{
+    XCTAssertNil(self.mediaPlayerController.userInfo);
+    XCTAssertNil(self.mediaPlayerController.analyticsLabels);
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        return [labels[@"event_id"] isEqualToString:@"play"];
+    }];
+    
+    SRGAnalyticsStreamLabels *analyticsLabels = [[SRGAnalyticsStreamLabels alloc] init];
+    analyticsLabels.playerName = @"player_name";
+    
+    NSDictionary *userInfo = @{ @"key" : @"value" };
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:analyticsLabels userInfo:userInfo];
+    XCTAssertEqualObjects([self.mediaPlayerController.userInfo dictionaryWithValuesForKeys:userInfo.allKeys], userInfo);
+    XCTAssertEqualObjects(self.mediaPlayerController.analyticsLabels, analyticsLabels);
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
 - (void)testPrepareToPlay
 {
     // Prepare the player until it is paused. No event must be received
