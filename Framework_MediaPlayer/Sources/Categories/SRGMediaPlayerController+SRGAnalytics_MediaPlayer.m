@@ -10,11 +10,11 @@
 
 #import <objc/runtime.h>
 
-static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
+static void *s_trackedKey = &s_trackedKey;
 
 @implementation SRGMediaPlayerController (SRGAnalytics_MediaPlayer)
 
-#pragma mark Helpers
+#pragma mark Class methods
 
 + (NSDictionary *)fullInfoWithAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
                                      userInfo:(NSDictionary *)userInfo
@@ -75,13 +75,25 @@ withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
 
 - (BOOL)isTracked
 {
-    NSNumber *isTracked = objc_getAssociatedObject(self, SRGAnalyticsTrackedKey);
+    NSNumber *isTracked = objc_getAssociatedObject(self, s_trackedKey);
     return isTracked ? [isTracked boolValue] : YES;
 }
 
 - (void)setTracked:(BOOL)tracked
 {
-    objc_setAssociatedObject(self, SRGAnalyticsTrackedKey, @(tracked), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, s_trackedKey, @(tracked), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (SRGAnalyticsStreamLabels *)analyticsLabels
+{
+    return self.userInfo[SRGAnalyticsMediaPlayerLabelsKey];
+}
+
+- (void)setAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+{
+    NSMutableDictionary *userInfo = [self.userInfo mutableCopy] ?: [NSMutableDictionary dictionary];
+    userInfo[SRGAnalyticsMediaPlayerLabelsKey] = analyticsLabels;
+    self.userInfo = [userInfo copy];
 }
 
 @end

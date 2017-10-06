@@ -119,6 +119,13 @@ withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
  */
 @property (nonatomic, getter=isTracked) BOOL tracked;
 
+/**
+ *  The analytics labels associated with the playback.
+ *
+ *  @discussion Labels will be discarded when the player is reset.
+ */
+@property (nonatomic, nullable, copy) SRGAnalyticsStreamLabels *analyticsLabels;
+
 @end
 
 NS_ASSUME_NONNULL_END
