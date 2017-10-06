@@ -146,22 +146,9 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         }
         
         NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithMediaComposition:mediaComposition userInfo:userInfo];
-        
-        if (streamType == SRGStreamTypeOnDemand) {
-            [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
-                completionHandler ? completionHandler(nil) : nil;
-            }];
-        }
-        else {
-            // Never load associate segments with livestreams (only use segment start time to begin playback of a DVR stream)
-            CMTime time = kCMTimeZero;
-            if (streamType == SRGStreamTypeDVR && index != NSNotFound) {
-                time = segments[index].srg_timeRange.start;
-            }
-            [self prepareToPlayURL:URL atTime:time withSegments:nil analyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
-                completionHandler ? completionHandler(nil) : nil;
-            }];
-        }
+        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
+            completionHandler ? completionHandler(nil) : nil;
+        }];
     }];
 }
 
