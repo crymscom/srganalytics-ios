@@ -35,66 +35,6 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 @end
 
-@implementation SRGAnalyticsHiddenEventLabels
-
-- (NSDictionary<NSString *, NSString *> *)labelsDictionary
-{
-    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
-    
-    [dictionary srg_safelySetString:self.type forKey:@"event_type"];
-    [dictionary srg_safelySetString:self.value forKey:@"event_value"];
-    [dictionary srg_safelySetString:self.source forKey:@"event_source"];
-    
-    if (self.customInfo) {
-        [dictionary addEntriesFromDictionary:self.customInfo];
-    }
-    
-    return [dictionary copy];
-}
-
-- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
-{
-    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
-    
-    [dictionary srg_safelySetString:self.type forKey:@"srg_evgroup"];
-    [dictionary srg_safelySetString:self.value forKey:@"srg_evvalue"];
-    [dictionary srg_safelySetString:self.source forKey:@"srg_evsource"];
-    
-    if (self.comScoreCustomInfo) {
-        [dictionary addEntriesFromDictionary:self.comScoreCustomInfo];
-    }
-    
-    return [dictionary copy];
-}
-
-@end
-
-@implementation SRGAnalyticsPageViewLabels
-
-- (NSDictionary<NSString *, NSString *> *)labelsDictionary
-{
-    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
-    
-    if (self.customInfo) {
-        [dictionary addEntriesFromDictionary:self.customInfo];
-    }
-    
-    return [dictionary copy];
-}
-
-- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
-{
-    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
-    
-    if (self.comScoreCustomInfo) {
-        [dictionary addEntriesFromDictionary:self.comScoreCustomInfo];
-    }
-    
-    return [dictionary copy];
-}
-
-@end
-
 @implementation SRGAnalyticsTracker
 
 #pragma mark Class methods

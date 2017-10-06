@@ -61,7 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atTime:withSegments:userInfo:completionHandler:]`, but with optional
  *  analytics labels.
  *
- *  @param analyticsLabels The analytics labels to send in stream events.
+ *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
+ *                         changes. Use the `analyticsLabels` property to update them if needed.
  */
 - (void)prepareToPlayURL:(NSURL *)URL
                   atTime:(CMTime)time
@@ -73,7 +74,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Same as `-[SRGMediaPlayerController playURL:atTime:withSegments:userInfo:]`, but with optional analytics labels.
  *
- *  @param analyticsLabels The analytics labels to send in stream events.
+ *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
+ *                         changes. Use the `analyticsLabels` property to update them if needed.
  */
 - (void)playURL:(NSURL *)URL
          atTime:(CMTime)time
@@ -85,7 +87,8 @@ analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
  *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atIndex:inSegments:withUserInfo:completionHandler:]`, but with 
  *  optional analytics labels.
  *
- *  @param analyticsLabels The analytics labels to send in stream events.
+ *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
+ *                         changes. Use the `analyticsLabels` property to update them if needed.
  */
 - (void)prepareToPlayURL:(NSURL *)URL
                  atIndex:(NSInteger)index
@@ -97,7 +100,8 @@ analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
 /**
  *  Same as `-[SRGMediaPlayerController playURL:atIndex:inSegments:withUserInfo:]`, but with optional analytics labels.
  *
- *  @param analyticsLabels The analytics labels to send in stream events.
+ *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
+ *                         changes. Use the `analyticsLabels` property to update them if needed.
  */
 - (void)playURL:(NSURL *)URL
         atIndex:(NSInteger)index

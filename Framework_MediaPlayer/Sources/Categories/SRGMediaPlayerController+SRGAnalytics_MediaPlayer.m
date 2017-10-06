@@ -20,9 +20,7 @@ static void *SRGAnalyticsTrackedKey = &SRGAnalyticsTrackedKey;
                                      userInfo:(NSDictionary *)userInfo
 {
     NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
-    if (analyticsLabels) {
-        fullUserInfo[SRGAnalyticsMediaPlayerLabelsKey] = analyticsLabels;
-    }
+    fullUserInfo[SRGAnalyticsMediaPlayerLabelsKey] = [analyticsLabels copy];
     if (userInfo) {
         [fullUserInfo addEntriesFromDictionary:userInfo];
     }
