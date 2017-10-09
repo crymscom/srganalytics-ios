@@ -554,13 +554,10 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
-    labels.customInfo = @{ @"test_info" : @"test" };
-    
     [self.mediaPlayerController playURL:LiveTestURL()
                                  atTime:kCMTimeZero
                            withSegments:nil
-                        analyticsLabels:labels
+                        analyticsLabels:nil
                                userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -617,13 +614,10 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
-    labels.customInfo = @{ @"test_info" : @"test" };
-    
     [self.mediaPlayerController playURL:LiveTestURL()
                                  atTime:kCMTimeZero
                            withSegments:nil
-                        analyticsLabels:labels
+                        analyticsLabels:nil
                                userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
