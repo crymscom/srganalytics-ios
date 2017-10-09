@@ -140,4 +140,37 @@ static NSURL *ServiceTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testMetadata
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Play"];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSRF];
+    [[dataProvider videoMediaCompositionWithUid:@"c4927fcf-e1a0-0001-7edd-1ef01d441651" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        NSDictionary *userInfo = @{ @"key" : @"value" };
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:userInfo resume:YES completionHandler:^(NSError * _Nonnull error) {
+            XCTAssertEqualObjects([self.mediaPlayerController.userInfo dictionaryWithValuesForKeys:userInfo.allKeys], userInfo);
+            [expectation fulfill];
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testUpdateWithoutMediaComposition
+{
+    
+}
+
+- (void)testMediaCompositionUpdateWithDifferentChapter
+{
+    
+}
+
+- (void)testMediaCompositionUpdateWithDifferentSegment
+{
+    
+}
+
 @end
