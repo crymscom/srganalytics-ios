@@ -39,6 +39,7 @@
 		6F788E141E9BA56500D22495 /* KIF.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6F69505A1E9BA32B008FE8FA /* KIF.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6F8F25961F0BD797009B116E /* TCCore.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FD9B2441F0BC4E0004805D2 /* TCCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6F8F25971F0BD797009B116E /* TCSDK.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6F971F781F87EAED007C5049 /* PageViewLabelsTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F971F771F87EAED007C5049 /* PageViewLabelsTestCase.m */; };
 		6FA09D891D9EC4BC00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8A1D9EC4CF00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8B1D9EC4DB00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
@@ -80,6 +81,7 @@
 		6FD9B24E1F0BC513004805D2 /* TCSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */; };
 		6FD9B24F1F0BC513004805D2 /* TCSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FD9B2501F0BC551004805D2 /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0811A8521D800BA000A9863B /* libextobjc.framework */; };
+		6FEBF9381F8B5815005DD291 /* HiddenEventLabelsTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FEBF9371F8B5815005DD291 /* HiddenEventLabelsTestCase.m */; };
 		6FF3E20F1D9CE68600EB4A30 /* Mantle.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FF3E20E1D9CE68600EB4A30 /* Mantle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FF3E2111D9CE6CF00EB4A30 /* SRGDataProvider.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FF3E2101D9CE6CF00EB4A30 /* SRGDataProvider.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FF3E2161D9CF57600EB4A30 /* SRGDataProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF3E2101D9CE6CF00EB4A30 /* SRGDataProvider.framework */; };
@@ -90,6 +92,7 @@
 		6FF3E21D1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF3E21B1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m */; };
 		6FF3E22B1D9D2E9B00EB4A30 /* DataProviderTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF3E22A1D9D2E9B00EB4A30 /* DataProviderTestCase.m */; };
 		6FF3E22C1D9D330700EB4A30 /* SRGAnalytics_DataProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB331E61D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework */; };
+		6FF4CB811F8B5B500082534E /* StreamLabelsTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF4CB801F8B5B500082534E /* StreamLabelsTestCase.m */; };
 		E600FE5D1D93C5ED000B8A1D /* TrackerTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = E600FE5C1D93C5ED000B8A1D /* TrackerTestCase.m */; };
 		E600FE7E1D943D96000B8A1D /* TrackerSingletonSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = E600FE7D1D943D96000B8A1D /* TrackerSingletonSetup.m */; };
 		E613889E1D916A9900218919 /* SRGAnalyticsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E613888A1D916A9900218919 /* SRGAnalyticsLogger.h */; };
@@ -269,6 +272,7 @@
 		6F4ED9B11F38A50200E3EA51 /* SRGSubdivision+SRGAnalytics_DataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGSubdivision+SRGAnalytics_DataProvider.h"; sourceTree = "<group>"; };
 		6F4ED9B21F38A50200E3EA51 /* SRGSubdivision+SRGAnalytics_DataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGSubdivision+SRGAnalytics_DataProvider.m"; sourceTree = "<group>"; };
 		6F69505A1E9BA32B008FE8FA /* KIF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KIF.framework; path = Carthage/Build/iOS/KIF.framework; sourceTree = "<group>"; };
+		6F971F771F87EAED007C5049 /* PageViewLabelsTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageViewLabelsTestCase.m; sourceTree = "<group>"; };
 		6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGLogger.framework; path = Carthage/Build/iOS/SRGLogger.framework; sourceTree = "<group>"; };
 		6FA09D921D9EC66D00EDCA64 /* SRGAnalyticsDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsDataProvider.h; sourceTree = "<group>"; };
 		6FAE25F01F34D87600874A53 /* SRGAnalyticsConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsConfiguration.h; sourceTree = "<group>"; };
@@ -288,11 +292,13 @@
 		6FD86FFD1F2B2CA9001ED20F /* SRGAnalyticsTracker+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGAnalyticsTracker+Private.h"; sourceTree = "<group>"; };
 		6FD9B2441F0BC4E0004805D2 /* TCCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCCore.framework; path = Carthage/Build/iOS/TCCore.framework; sourceTree = "<group>"; };
 		6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCSDK.framework; path = Carthage/Build/iOS/TCSDK.framework; sourceTree = "<group>"; };
+		6FEBF9371F8B5815005DD291 /* HiddenEventLabelsTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HiddenEventLabelsTestCase.m; sourceTree = "<group>"; };
 		6FF3E20E1D9CE68600EB4A30 /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
 		6FF3E2101D9CE6CF00EB4A30 /* SRGDataProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGDataProvider.framework; path = Carthage/Build/iOS/SRGDataProvider.framework; sourceTree = "<group>"; };
 		6FF3E21A1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGMediaPlayerController+SRGAnalytics_DataProvider.h"; sourceTree = "<group>"; };
 		6FF3E21B1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGMediaPlayerController+SRGAnalytics_DataProvider.m"; sourceTree = "<group>"; };
 		6FF3E22A1D9D2E9B00EB4A30 /* DataProviderTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataProviderTestCase.m; sourceTree = "<group>"; };
+		6FF4CB801F8B5B500082534E /* StreamLabelsTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StreamLabelsTestCase.m; sourceTree = "<group>"; };
 		9F1519211AC422AE00AE051D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F1519231AC422B800AE051D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -634,13 +640,16 @@
 		E65490AE1D803C3E007D96E7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				08539C251F306CAF0033D406 /* ComScoreTrackerTestCase.m */,
 				083EE17A1F2B86B600413A68 /* ComScoreDataProviderTestCase.m */,
 				6FD86FF41F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m */,
+				08539C251F306CAF0033D406 /* ComScoreTrackerTestCase.m */,
 				6FAE25F71F364E8B00874A53 /* ConfigurationTestCase.m */,
 				6FF3E22A1D9D2E9B00EB4A30 /* DataProviderTestCase.m */,
 				E65490CD1D816A18007D96E7 /* Helpers */,
+				6FEBF9371F8B5815005DD291 /* HiddenEventLabelsTestCase.m */,
 				E65490B11D803CA2007D96E7 /* MediaPlayerTestCase.m */,
+				6F971F771F87EAED007C5049 /* PageViewLabelsTestCase.m */,
+				6FF4CB801F8B5B500082534E /* StreamLabelsTestCase.m */,
 				E600FE5C1D93C5ED000B8A1D /* TrackerTestCase.m */,
 			);
 			path = Sources;
@@ -1026,6 +1035,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E65490D51D816A18007D96E7 /* NSNotificationCenter+Tests.m in Sources */,
+				6FEBF9381F8B5815005DD291 /* HiddenEventLabelsTestCase.m in Sources */,
 				E600FE5D1D93C5ED000B8A1D /* TrackerTestCase.m in Sources */,
 				083EE17C1F2B8B2700413A68 /* ComScoreDataProviderTestCase.m in Sources */,
 				08539C271F306E390033D406 /* ComScoreTrackerTestCase.m in Sources */,
@@ -1035,6 +1045,8 @@
 				6FAE25F81F364E8B00874A53 /* ConfigurationTestCase.m in Sources */,
 				E600FE7E1D943D96000B8A1D /* TrackerSingletonSetup.m in Sources */,
 				E65490B21D803CA2007D96E7 /* MediaPlayerTestCase.m in Sources */,
+				6F971F781F87EAED007C5049 /* PageViewLabelsTestCase.m in Sources */,
+				6FF4CB811F8B5B500082534E /* StreamLabelsTestCase.m in Sources */,
 				6FAF430B1EF7F5090074E033 /* NSString_AnalyticsTestCase.m in Sources */,
 				E65490D41D816A18007D96E7 /* BundleFix.m in Sources */,
 				E64B11071D82D4F400CAD97B /* Segment.m in Sources */,
