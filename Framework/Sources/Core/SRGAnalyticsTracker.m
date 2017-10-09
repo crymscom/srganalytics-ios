@@ -392,10 +392,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
             NSSet<NSString *> *declaredURLSchemes = declaredURLSchemesArray ? [NSSet setWithArray:declaredURLSchemesArray] : [NSSet set];
             if (! [URLSchemes isSubsetOfSet:declaredURLSchemes]) {
                 SRGAnalyticsLogError(@"tracker", @"The URL schemes declared in your application Info.plist file under the "
-                                     "'LSApplicationQueriesSchemes' key must at list contain the scheme list available at "
+                                     "'LSApplicationQueriesSchemes' key must at least contain the scheme list available at "
                                      "https://pastebin.com/raw/RnZYEWCA (the schemes are found under the 'ios' key, or "
-                                     "a script is available in the SRGAnalytics repository to collect it). Please "
-                                     "update your Info.plist file to make this message disappear");
+                                     "a script is available in the SRGAnalytics repository to extract them). Please "
+                                     "update your Info.plist file accordingly to make this message disappear.");
             }
             
             NSArray<NSString *> *sortedInstalledApplications = [installedApplications.allObjects sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
