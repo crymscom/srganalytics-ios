@@ -48,6 +48,8 @@ static NSURL *ServiceTestURL(void)
         [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
+            XCTAssertEqual(self.mediaPlayerController.streamingMethod, SRGStreamingMethodHLS);
+            XCTAssertEqual(self.mediaPlayerController.quality, SRGQualityHD);
             [expectation fulfill];
         }];
     }] resume];
