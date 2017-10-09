@@ -183,15 +183,12 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 
 - (void)setMediaComposition:(SRGMediaComposition *)mediaComposition
 {
-    if (! mediaComposition) {
+    SRGMediaComposition *currentMediaComposition = self.userInfo[SRGAnalyticsMediaPlayerMediaCompositionKey];
+    if (! currentMediaComposition || ! mediaComposition) {
         return;
     }
     
-    if (! [self.mediaComposition.mainChapter isEqual:mediaComposition.mainChapter]) {
-        return;
-    }
-    
-    if (self.mediaComposition.mainSegment && ! [self.mediaComposition.mainSegment isEqual:mediaComposition.mainSegment]) {
+    if (! [currentMediaComposition.mainChapter isEqual:mediaComposition.mainChapter]) {
         return;
     }
     

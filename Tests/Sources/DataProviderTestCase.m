@@ -194,12 +194,12 @@ static NSURL *MMFTestURL(void)
         XCTAssertNotNil(mediaComposition);
         
         self.mediaPlayerController.mediaComposition = mediaComposition;
+        XCTAssertNotEqualObjects(self.mediaPlayerController.mediaComposition.mainChapter.title, originalTitle);
+        
         [expectation2 fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertNotEqualObjects(self.mediaPlayerController.mediaComposition.mainChapter.title, originalTitle);
 }
 
 - (void)testUpdateWithoutMediaComposition
@@ -280,9 +280,7 @@ static NSURL *MMFTestURL(void)
         XCTAssertNotNil(mediaComposition);
         
         self.mediaPlayerController.mediaComposition = mediaComposition;
-        
-        // Incompatible media composition. No update must have taken place
-        XCTAssertEqualObjects(self.mediaPlayerController.mediaComposition, mediaComposition1);
+        XCTAssertEqualObjects(self.mediaPlayerController.mediaComposition, mediaComposition);
         
         [expectation2 fulfill];
     }] resume];

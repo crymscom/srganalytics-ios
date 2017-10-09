@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  The media composition currently played, if any.
  *
  *  @discussion This property can also be used to update the media composition currently being played. Only media compositions with
- *              identical main chapter and segment will be taken into account.
+ *              identical main chapters will be taken into account.
  */
 @property (nonatomic, nullable) SRGMediaComposition *mediaComposition;
 
