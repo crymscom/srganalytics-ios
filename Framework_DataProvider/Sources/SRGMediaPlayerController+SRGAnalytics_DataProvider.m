@@ -11,7 +11,9 @@
 
 #import <libextobjc/libextobjc.h>
 
-NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
+static NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
+static NSString * const SRGAnalyticsMediaPlayerStreamingMethodKey = @"SRGAnalyticsMediaPlayerStreamingMethodKey";
+static NSString * const SRGAnalyticsMediaPlayerQualityKey = @"SRGAnalyticsMediaPlayerQualityKey";
 
 typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable URL, SRGStreamType streamType, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error);
 
@@ -19,16 +21,35 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 
 #pragma mark Helpers
 
-+ (NSDictionary *)fullInfoWithMediaComposition:(SRGMediaComposition *)mediaComposition userInfo:(NSDictionary *)userInfo
++ (SRGAnalyticsStreamLabels *)analyticsLabelsForMediaComposition:(SRGMediaComposition *)mediaComposition resource:(SRGResource *)resource
 {
-    NSParameterAssert(mediaComposition);
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     
-    NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
-    fullUserInfo[SRGAnalyticsMediaPlayerMediaCompositionKey] = mediaComposition;
-    if (userInfo) {
-        [fullUserInfo addEntriesFromDictionary:userInfo];
+    NSMutableDictionary<NSString *, NSString *> *customInfo = [NSMutableDictionary dictionary];
+    if (mediaComposition.analyticsLabels) {
+        [customInfo addEntriesFromDictionary:mediaComposition.analyticsLabels];
     }
-    return [fullUserInfo copy];
+    if (mediaComposition.mainChapter.analyticsLabels) {
+        [customInfo addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
+    }
+    if (resource.analyticsLabels) {
+        [customInfo addEntriesFromDictionary:resource.analyticsLabels];
+    }
+    labels.customInfo = [customInfo copy];
+    
+    NSMutableDictionary<NSString *, NSString *> *comScoreCustomInfo = [NSMutableDictionary dictionary];
+    if (mediaComposition.comScoreAnalyticsLabels) {
+        [comScoreCustomInfo addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
+    }
+    if (mediaComposition.mainChapter.comScoreAnalyticsLabels) {
+        [comScoreCustomInfo addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
+    }
+    if (resource.comScoreAnalyticsLabels) {
+        [comScoreCustomInfo addEntriesFromDictionary:resource.comScoreAnalyticsLabels];
+    }
+    labels.comScoreCustomInfo = [comScoreCustomInfo copy];
+    
+    return labels;
 }
 
 - (SRGRequest *)loadMediaComposition:(SRGMediaComposition *)mediaComposition
@@ -94,32 +115,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
             URL = resource.URL;
         }
         
-        SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
-        
-        NSMutableDictionary<NSString *, NSString *> *customInfo = [NSMutableDictionary dictionary];
-        if (mediaComposition.analyticsLabels) {
-            [customInfo addEntriesFromDictionary:mediaComposition.analyticsLabels];
-        }
-        if (mediaComposition.mainChapter.analyticsLabels) {
-            [customInfo addEntriesFromDictionary:mediaComposition.mainChapter.analyticsLabels];
-        }
-        if (resource.analyticsLabels) {
-            [customInfo addEntriesFromDictionary:resource.analyticsLabels];
-        }
-        labels.customInfo = [customInfo copy];
-        
-        NSMutableDictionary<NSString *, NSString *> *comScoreCustomInfo = [NSMutableDictionary dictionary];
-        if (mediaComposition.comScoreAnalyticsLabels) {
-            [comScoreCustomInfo addEntriesFromDictionary:mediaComposition.comScoreAnalyticsLabels];
-        }
-        if (mediaComposition.mainChapter.comScoreAnalyticsLabels) {
-            [comScoreCustomInfo addEntriesFromDictionary:mediaComposition.mainChapter.comScoreAnalyticsLabels];
-        }
-        if (resource.comScoreAnalyticsLabels) {
-            [comScoreCustomInfo addEntriesFromDictionary:resource.comScoreAnalyticsLabels];
-        }
-        labels.comScoreCustomInfo = [comScoreCustomInfo copy];
-        
+        SRGAnalyticsStreamLabels *labels = [SRGMediaPlayerController analyticsLabelsForMediaComposition:mediaComposition resource:resource];
         NSInteger index = [chapter.segments indexOfObject:mediaComposition.mainSegment];
         completionBlock(URL, resource.streamType, index, chapter.segments, labels, nil);
     }];
@@ -145,8 +141,15 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
             return;
         }
         
-        NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithMediaComposition:mediaComposition userInfo:userInfo];
-        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:fullUserInfo completionHandler:^{
+        NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
+        fullUserInfo[SRGAnalyticsMediaPlayerMediaCompositionKey] = mediaComposition;
+        fullUserInfo[SRGAnalyticsMediaPlayerStreamingMethodKey] = @(streamingMethod);
+        fullUserInfo[SRGAnalyticsMediaPlayerQualityKey] = @(quality);
+        if (userInfo) {
+            [fullUserInfo addEntriesFromDictionary:userInfo];
+        }
+        
+        [self prepareToPlayURL:URL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
             completionHandler ? completionHandler(nil) : nil;
         }];
     }];
@@ -178,9 +181,43 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 
 #pragma mark Getters and setters
 
+- (void)setMediaComposition:(SRGMediaComposition *)mediaComposition
+{
+    if (! mediaComposition) {
+        return;
+    }
+    
+    if (! [self.mediaComposition.mainChapter isEqual:mediaComposition.mainChapter]) {
+        return;
+    }
+    
+    if (self.mediaComposition.mainSegment && ! [self.mediaComposition.mainSegment isEqual:mediaComposition.mainSegment]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [self.userInfo mutableCopy];
+    userInfo[SRGAnalyticsMediaPlayerMediaCompositionKey] = mediaComposition;
+    self.userInfo = [userInfo copy];
+    
+    // Synchronize analytics labels
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(self.quality)];
+    SRGResource *resource = [[mediaComposition.mainChapter resourcesForStreamingMethod:self.streamingMethod] filteredArrayUsingPredicate:predicate].firstObject;
+    self.analyticsLabels = [SRGMediaPlayerController analyticsLabelsForMediaComposition:mediaComposition resource:resource];
+}
+
 - (SRGMediaComposition *)mediaComposition
 {
     return self.userInfo[SRGAnalyticsMediaPlayerMediaCompositionKey];
+}
+
+- (SRGStreamingMethod)streamingMethod
+{
+    return [self.userInfo[SRGAnalyticsMediaPlayerStreamingMethodKey] integerValue];
+}
+
+- (SRGQuality)quality
+{
+    return [self.userInfo[SRGAnalyticsMediaPlayerQualityKey] integerValue];
 }
 
 @end
