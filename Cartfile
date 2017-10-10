@@ -1,4 +1,4 @@
-github "SRGSSR/SRGMediaPlayer-iOS" "feature/metadata-updates"
-github "SRGSSR/srgdataprovider-ios" "42a0ed4706c9904875dc7939d5ff50f708d59540"
+github "SRGSSR/SRGMediaPlayer-iOS" "f5510b690062d111e1a61ad074719896ebed7330"
+github "SRGSSR/srgdataprovider-ios" "e05a3c881aa6d2d4b44c70171f064e4794ee658d"
 github "SRGSSR/tagcommander-ios" "4.1.3_4.1.1"
 github "comScore/ComScore-iOS-SDK" "92f34897cd7659d56bb5a3e9e85b808cf3758bda"
