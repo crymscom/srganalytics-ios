@@ -534,13 +534,10 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
-    labels.customInfo = @{ @"test_info" : @"test" };
-    
     [self.mediaPlayerController playURL:LiveTestURL()
                                  atTime:kCMTimeZero
                            withSegments:nil
-                        analyticsLabels:labels
+                        analyticsLabels:nil
                                userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -597,13 +594,10 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
-    labels.customInfo = @{ @"test_info" : @"test" };
-    
     [self.mediaPlayerController playURL:LiveTestURL()
                                  atTime:kCMTimeZero
                            withSegments:nil
-                        analyticsLabels:labels
+                        analyticsLabels:nil
                                userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -2781,6 +2775,97 @@ static NSURL *DVRTestURL(void)
     
     XCTAssertEqual(heartbeatCount2, 2);
     XCTAssertEqual(liveHeartbeatCount2, 1);
+}
+
+- (void)testMetadata
+{
+    XCTAssertNil(self.mediaPlayerController.userInfo);
+    XCTAssertNil(self.mediaPlayerController.analyticsLabels);
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        return [labels[@"event_id"] isEqualToString:@"play"];
+    }];
+    
+    SRGAnalyticsStreamLabels *analyticsLabels = [[SRGAnalyticsStreamLabels alloc] init];
+    analyticsLabels.playerName = @"player_name";
+    
+    NSDictionary *userInfo = @{ @"key" : @"value" };
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:analyticsLabels userInfo:userInfo];
+    XCTAssertEqualObjects([self.mediaPlayerController.userInfo dictionaryWithValuesForKeys:userInfo.allKeys], userInfo);
+    XCTAssertEqualObjects(self.mediaPlayerController.analyticsLabels, analyticsLabels);
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testAnalyticsLabelsUpdates
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if (! [labels[@"event_id"] isEqualToString:@"play"]) {
+            return NO;
+        }
+        
+        XCTAssertEqualObjects(labels[@"custom_key"], @"custom_value");
+        return YES;
+    }];
+    
+    SRGAnalyticsStreamLabels *analyticsLabels = [[SRGAnalyticsStreamLabels alloc] init];
+    analyticsLabels.customInfo = @{ @"custom_key" : @"custom_value" };
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:analyticsLabels userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if (! [labels[@"event_id"] isEqualToString:@"pause"]) {
+            return NO;
+        }
+        
+        XCTAssertNil(labels[@"custom_key"]);
+        XCTAssertEqualObjects(labels[@"other_custom_key"], @"other_custom_value");
+        return YES;
+    }];
+    
+    SRGAnalyticsStreamLabels *updatedAnalyticsLabels = [[SRGAnalyticsStreamLabels alloc] init];
+    updatedAnalyticsLabels.customInfo = @{ @"other_custom_key" : @"other_custom_value" };
+    
+    self.mediaPlayerController.analyticsLabels = updatedAnalyticsLabels;
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testAnalyticsLabelsIndirectChangeResilience
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if (! [labels[@"event_id"] isEqualToString:@"play"]) {
+            return NO;
+        }
+        
+        XCTAssertEqualObjects(labels[@"custom_key"], @"custom_value");
+        return YES;
+    }];
+    
+    SRGAnalyticsStreamLabels *analyticsLabels = [[SRGAnalyticsStreamLabels alloc] init];
+    analyticsLabels.customInfo = @{ @"custom_key" : @"custom_value" };
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:analyticsLabels userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if (! [labels[@"event_id"] isEqualToString:@"pause"]) {
+            return NO;
+        }
+        
+        XCTAssertNil(labels[@"updated_key"]);
+        XCTAssertEqualObjects(labels[@"custom_key"], @"custom_value");
+        return YES;
+    }];
+    
+    // Change the original labels. Labels attached to the controller must not be affected
+    analyticsLabels.customInfo = @{ @"updated_key" : @"updated_value" };
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 @end

@@ -68,9 +68,22 @@ NS_ASSUME_NONNULL_BEGIN
                             completionHandler:(nullable void (^)(NSError * _Nullable error))completionHandler;
 
 /**
- *  Return the media composition currently played, if any.
+ *  The media composition currently played, if any.
+ *
+ *  @discussion This property can also be used to update the media composition currently being played. Only media compositions with
+ *              identical main chapters will be taken into account.
  */
-@property (nonatomic, readonly, nullable) SRGMediaComposition *mediaComposition;
+@property (nonatomic, nullable) SRGMediaComposition *mediaComposition;
+
+/**
+ *  The streaming method used for playback, `SRGStreamingMethodNone` if none.
+ */
+@property (nonatomic, readonly) SRGStreamingMethod streamingMethod;
+
+/**
+ *  The quality used for playback, `SRGQualityNone` if none.
+ */
+@property (nonatomic, readonly) SRGQuality quality;
 
 @end
 

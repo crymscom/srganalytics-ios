@@ -35,66 +35,6 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 @end
 
-@implementation SRGAnalyticsHiddenEventLabels
-
-- (NSDictionary<NSString *, NSString *> *)labelsDictionary
-{
-    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
-    
-    [dictionary srg_safelySetString:self.type forKey:@"event_type"];
-    [dictionary srg_safelySetString:self.value forKey:@"event_value"];
-    [dictionary srg_safelySetString:self.source forKey:@"event_source"];
-    
-    if (self.customInfo) {
-        [dictionary addEntriesFromDictionary:self.customInfo];
-    }
-    
-    return [dictionary copy];
-}
-
-- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
-{
-    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
-    
-    [dictionary srg_safelySetString:self.type forKey:@"srg_evgroup"];
-    [dictionary srg_safelySetString:self.value forKey:@"srg_evvalue"];
-    [dictionary srg_safelySetString:self.source forKey:@"srg_evsource"];
-    
-    if (self.comScoreCustomInfo) {
-        [dictionary addEntriesFromDictionary:self.comScoreCustomInfo];
-    }
-    
-    return [dictionary copy];
-}
-
-@end
-
-@implementation SRGAnalyticsPageViewLabels
-
-- (NSDictionary<NSString *, NSString *> *)labelsDictionary
-{
-    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
-    
-    if (self.customInfo) {
-        [dictionary addEntriesFromDictionary:self.customInfo];
-    }
-    
-    return [dictionary copy];
-}
-
-- (NSDictionary<NSString *, NSString *> *)comScoreLabelsDictionary
-{
-    NSMutableDictionary<NSString *, NSString *> *dictionary = [NSMutableDictionary dictionary];
-    
-    if (self.comScoreCustomInfo) {
-        [dictionary addEntriesFromDictionary:self.comScoreCustomInfo];
-    }
-    
-    return [dictionary copy];
-}
-
-@end
-
 @implementation SRGAnalyticsTracker
 
 #pragma mark Class methods
@@ -452,10 +392,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
             NSSet<NSString *> *declaredURLSchemes = declaredURLSchemesArray ? [NSSet setWithArray:declaredURLSchemesArray] : [NSSet set];
             if (! [URLSchemes isSubsetOfSet:declaredURLSchemes]) {
                 SRGAnalyticsLogError(@"tracker", @"The URL schemes declared in your application Info.plist file under the "
-                                     "'LSApplicationQueriesSchemes' key must at list contain the scheme list available at "
+                                     "'LSApplicationQueriesSchemes' key must at least contain the scheme list available at "
                                      "https://pastebin.com/raw/RnZYEWCA (the schemes are found under the 'ios' key, or "
-                                     "a script is available in the SRGAnalytics repository to collect it). Please "
-                                     "update your Info.plist file to make this message disappear");
+                                     "a script is available in the SRGAnalytics repository to extract them). Please "
+                                     "update your Info.plist file accordingly to make this message disappear.");
             }
             
             NSArray<NSString *> *sortedInstalledApplications = [installedApplications.allObjects sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];

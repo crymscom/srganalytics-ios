@@ -79,7 +79,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    SRGAnalyticsConfiguration *configuration = [SRGAnalyticsConfiguration new];
+    SRGAnalyticsConfiguration *configuration = [[self class] allocWithZone:zone];
     configuration.businessUnitIdentifier = self.businessUnitIdentifier;
     configuration.container = self.container;
     configuration.comScoreVirtualSite = self.comScoreVirtualSite;
