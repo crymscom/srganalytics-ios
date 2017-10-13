@@ -208,7 +208,7 @@ static NSURL *MMFTestURL(void)
     
     __block SRGMediaComposition *fetchedMediaComposition = nil;
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSRF];
-    [[dataProvider videoMediaCompositionWithUid:@"2b1bf779-6442-4f78-969e-2194020ae263" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider videoMediaCompositionWithUid:@"c4927fcf-e1a0-0001-7edd-1ef01d441651" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         fetchedMediaComposition = mediaComposition;
         
@@ -221,6 +221,7 @@ static NSURL *MMFTestURL(void)
     
     self.mediaPlayerController.mediaComposition = nil;
     XCTAssertEqualObjects(self.mediaPlayerController.mediaComposition, fetchedMediaComposition);
+    XCTAssertEqualObjects(self.mediaPlayerController.segments, fetchedMediaComposition.mainChapter.segments);
 }
 
 - (void)testMediaCompositionUpdateWithDifferentChapter
@@ -249,6 +250,7 @@ static NSURL *MMFTestURL(void)
         
         // Incompatible media composition. No update must have taken place
         XCTAssertEqualObjects(self.mediaPlayerController.mediaComposition, mediaComposition1);
+        XCTAssertEqualObjects(self.mediaPlayerController.segments, mediaComposition1.mainChapter.segments);
         
         [expectation2 fulfill];
     }] resume];
@@ -256,14 +258,14 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testMediaCompositionUpdateWithDifferentSegment
+- (void)testMediaCompositionUpdateWithDifferentMainSegment
 {
     // Retrieve two media compositions of segments belonging to the same media composition
     XCTestExpectation *expectation1 = [self expectationWithDescription:@"Play"];
     
     __block SRGMediaComposition *mediaComposition1 = nil;
-    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSRF];
-    [[dataProvider videoMediaCompositionWithUid:@"2b1bf779-6442-4f78-969e-2194020ae263" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierRTS];
+    [[dataProvider videoMediaCompositionWithUid:@"8995306" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         mediaComposition1 = mediaComposition;
         
@@ -274,14 +276,16 @@ static NSURL *MMFTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
+    XCTAssertEqualObjects(self.mediaPlayerController.segments, mediaComposition1.mainChapter.segments);
+    
     XCTestExpectation *expectation2 = [self expectationWithDescription:@"Update"];
     
-    [[dataProvider videoMediaCompositionWithUid:@"197d52e6-7836-45e0-92f1-74862cc0873a" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider videoMediaCompositionWithUid:@"8995308" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
         self.mediaPlayerController.mediaComposition = mediaComposition;
         XCTAssertEqualObjects(self.mediaPlayerController.mediaComposition, mediaComposition);
-        
+        XCTAssertEqualObjects(self.mediaPlayerController.segments, mediaComposition.mainChapter.segments);
         [expectation2 fulfill];
     }] resume];
     
