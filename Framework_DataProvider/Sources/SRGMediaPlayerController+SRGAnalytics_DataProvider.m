@@ -200,6 +200,8 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(self.quality)];
     SRGResource *resource = [[mediaComposition.mainChapter resourcesForStreamingMethod:self.streamingMethod] filteredArrayUsingPredicate:predicate].firstObject;
     self.analyticsLabels = [SRGMediaPlayerController analyticsLabelsForMediaComposition:mediaComposition resource:resource];
+    
+    self.segments = mediaComposition.mainChapter.segments;
 }
 
 - (SRGMediaComposition *)mediaComposition

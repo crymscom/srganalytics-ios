@@ -292,4 +292,45 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testMediaCompositionUpdateWithNewSegment
+{
+    XCTestExpectation *expectation1 = [self expectationWithDescription:@"Play"];
+    
+    __block SRGMediaComposition *mediaComposition1 = nil;
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierRTS];
+    NSDate *startDate = [[NSDate date] dateByAddingTimeInterval:-6];
+    NSDate *endDate = [startDate dateByAddingTimeInterval:20];
+    NSString *URNString = [NSString stringWithFormat:@"urn:rts:video:_rts_info_fulldvr_%@_%@", @((NSInteger)[startDate timeIntervalSince1970]), @((NSInteger)[endDate timeIntervalSince1970])];
+    SRGMediaURN *URN = [SRGMediaURN mediaURNWithString:URNString];
+    [[dataProvider mediaCompositionWithURN:URN chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        mediaComposition1 = mediaComposition;
+        
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+            XCTAssertEqualObjects(self.mediaPlayerController.segments, mediaComposition.mainChapter.segments);
+            [expectation1 fulfill];
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // The fulldvr adds an hilight each 5 seconds. Wait a little bit to detect a change.
+    [self expectationForElapsedTimeInterval:5. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    XCTestExpectation *expectation2 = [self expectationWithDescription:@"Update"];
+    
+    [[dataProvider mediaCompositionWithURN:URN chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        XCTAssertTrue(mediaComposition1.mainChapter.segments.count != mediaComposition.mainChapter.segments.count);
+
+        self.mediaPlayerController.mediaComposition = mediaComposition;
+        XCTAssertEqualObjects(self.mediaPlayerController.mediaComposition, mediaComposition);
+        XCTAssertEqualObjects(self.mediaPlayerController.segments, mediaComposition.mainChapter.segments);
+        [expectation2 fulfill];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
 @end
