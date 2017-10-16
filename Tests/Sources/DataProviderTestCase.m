@@ -314,7 +314,7 @@ static NSURL *MMFTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // The fulldvr adds an hilight each 5 seconds. Wait a little bit to detect a change.
+    // The full DVR adds a highlight every 5 seconds. Wait a little bit to detect a change.
     [self expectationForElapsedTimeInterval:5. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
