@@ -64,8 +64,6 @@
 		6FB97FE81E4AF0D60014C4C2 /* MAKVONotificationCenter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB97FE31E4AF0270014C4C2 /* MAKVONotificationCenter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FB97FEA1E4AF1800014C4C2 /* MAKVONotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB97FE31E4AF0270014C4C2 /* MAKVONotificationCenter.framework */; };
 		6FB97FEB1E4AF1870014C4C2 /* MAKVONotificationCenter.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FB97FE31E4AF0270014C4C2 /* MAKVONotificationCenter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6FB97FEF1E4B005B0014C4C2 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB97FEE1E4B005B0014C4C2 /* PlayerViewController.m */; };
-		6FB97FF11E4B00690014C4C2 /* PlayerViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FB97FF01E4B00690014C4C2 /* PlayerViewController.storyboard */; };
 		6FD86FF51F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD86FF41F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m */; };
 		6FD86FFA1F2B2A7F001ED20F /* SRGAnalyticsStreamTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD86FF81F2B2A7F001ED20F /* SRGAnalyticsStreamTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6FD86FFB1F2B2A7F001ED20F /* SRGAnalyticsStreamTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD86FF91F2B2A7F001ED20F /* SRGAnalyticsStreamTracker.m */; };
@@ -283,9 +281,6 @@
 		6FB331F51D9BFB77001469F2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6FB331F71D9BFB77001469F2 /* SRGAnalytics_DataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalytics_DataProvider.h; sourceTree = "<group>"; };
 		6FB97FE31E4AF0270014C4C2 /* MAKVONotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MAKVONotificationCenter.framework; path = Carthage/Build/iOS/MAKVONotificationCenter.framework; sourceTree = "<group>"; };
-		6FB97FED1E4B005B0014C4C2 /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
-		6FB97FEE1E4B005B0014C4C2 /* PlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
-		6FB97FF01E4B00690014C4C2 /* PlayerViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PlayerViewController.storyboard; sourceTree = "<group>"; };
 		6FD86FF41F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComScoreMediaPlayerTestCase.m; path = Tests/Sources/ComScoreMediaPlayerTestCase.m; sourceTree = SOURCE_ROOT; };
 		6FD86FF81F2B2A7F001ED20F /* SRGAnalyticsStreamTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsStreamTracker.h; sourceTree = "<group>"; };
 		6FD86FF91F2B2A7F001ED20F /* SRGAnalyticsStreamTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsStreamTracker.m; sourceTree = "<group>"; };
@@ -502,16 +497,6 @@
 				6F4ED9B21F38A50200E3EA51 /* SRGSubdivision+SRGAnalytics_DataProvider.m */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		6FB97FEC1E4B00420014C4C2 /* Player */ = {
-			isa = PBXGroup;
-			children = (
-				6FB97FED1E4B005B0014C4C2 /* PlayerViewController.h */,
-				6FB97FEE1E4B005B0014C4C2 /* PlayerViewController.m */,
-				6FB97FF01E4B00690014C4C2 /* PlayerViewController.storyboard */,
-			);
-			path = Player;
 			sourceTree = "<group>";
 		};
 		9F1518B21AC2F1CE00AE051D = {
@@ -733,7 +718,6 @@
 			children = (
 				088700B31DA2528900D4961A /* Application */,
 				088700B71DA2528900D4961A /* Demos */,
-				6FB97FEC1E4B00420014C4C2 /* Player */,
 				088700C31DA2528900D4961A /* Simple */,
 			);
 			path = Sources;
@@ -1001,7 +985,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				088700D51DA2540F00D4961A /* LaunchScreen.xib in Resources */,
-				6FB97FF11E4B00690014C4C2 /* PlayerViewController.storyboard in Resources */,
 				E6296E881DA6205200E33C32 /* SimpleViewController.storyboard in Resources */,
 				E6296E861DA60CE700E33C32 /* DemosViewController.storyboard in Resources */,
 				E6FC7F1D1D61FA4700A55085 /* Images.xcassets in Resources */,
@@ -1092,7 +1075,6 @@
 				088700D71DA2542700D4961A /* AppDelegate.m in Sources */,
 				088700DF1DA2543800D4961A /* SimpleViewController.m in Sources */,
 				088700D91DA2542D00D4961A /* DemosViewController.m in Sources */,
-				6FB97FEF1E4B005B0014C4C2 /* PlayerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
