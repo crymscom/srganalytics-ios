@@ -738,7 +738,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
-        XCTAssertEqualObjects(labels[@"media_volume"], @"100");         // 100 when run with XCTest
+        XCTAssertNotNil(labels[@"media_volume"]);
         return YES;
     }];
     
