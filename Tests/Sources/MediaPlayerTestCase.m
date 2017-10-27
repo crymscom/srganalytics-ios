@@ -14,12 +14,12 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
 static NSURL *OnDemandTestURL(void)
 {
-    return [NSURL URLWithString:@"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"];
+    return [NSURL URLWithString:@"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"];
 }
 
 static NSURL *LiveTestURL(void)
 {
-    return [NSURL URLWithString:@"http://ndr_fs-lh.akamaihd.net/i/ndrfs_nds@119224/master.m3u8?dw=0"];
+    return [NSURL URLWithString:@"http://tagesschau-lh.akamaihd.net/i/tagesschau_1@119231/master.m3u8?dw=0"];
 }
 
 static NSURL *DVRTestURL(void)
@@ -534,13 +534,10 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
-    labels.customInfo = @{ @"test_info" : @"test" };
-    
     [self.mediaPlayerController playURL:LiveTestURL()
                                  atTime:kCMTimeZero
                            withSegments:nil
-                        analyticsLabels:labels
+                        analyticsLabels:nil
                                userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -597,13 +594,10 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
-    labels.customInfo = @{ @"test_info" : @"test" };
-    
     [self.mediaPlayerController playURL:LiveTestURL()
                                  atTime:kCMTimeZero
                            withSegments:nil
-                        analyticsLabels:labels
+                        analyticsLabels:nil
                                userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -744,7 +738,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
-        XCTAssertEqualObjects(labels[@"media_volume"], @"100");         // 100 when run with XCTest
+        XCTAssertNotNil(labels[@"media_volume"]);
         return YES;
     }];
     
@@ -2781,6 +2775,97 @@ static NSURL *DVRTestURL(void)
     
     XCTAssertEqual(heartbeatCount2, 2);
     XCTAssertEqual(liveHeartbeatCount2, 1);
+}
+
+- (void)testMetadata
+{
+    XCTAssertNil(self.mediaPlayerController.userInfo);
+    XCTAssertNil(self.mediaPlayerController.analyticsLabels);
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        return [labels[@"event_id"] isEqualToString:@"play"];
+    }];
+    
+    SRGAnalyticsStreamLabels *analyticsLabels = [[SRGAnalyticsStreamLabels alloc] init];
+    analyticsLabels.playerName = @"player_name";
+    
+    NSDictionary *userInfo = @{ @"key" : @"value" };
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:analyticsLabels userInfo:userInfo];
+    XCTAssertEqualObjects([self.mediaPlayerController.userInfo dictionaryWithValuesForKeys:userInfo.allKeys], userInfo);
+    XCTAssertEqualObjects(self.mediaPlayerController.analyticsLabels, analyticsLabels);
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testAnalyticsLabelsUpdates
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if (! [labels[@"event_id"] isEqualToString:@"play"]) {
+            return NO;
+        }
+        
+        XCTAssertEqualObjects(labels[@"custom_key"], @"custom_value");
+        return YES;
+    }];
+    
+    SRGAnalyticsStreamLabels *analyticsLabels = [[SRGAnalyticsStreamLabels alloc] init];
+    analyticsLabels.customInfo = @{ @"custom_key" : @"custom_value" };
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:analyticsLabels userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if (! [labels[@"event_id"] isEqualToString:@"pause"]) {
+            return NO;
+        }
+        
+        XCTAssertNil(labels[@"custom_key"]);
+        XCTAssertEqualObjects(labels[@"other_custom_key"], @"other_custom_value");
+        return YES;
+    }];
+    
+    SRGAnalyticsStreamLabels *updatedAnalyticsLabels = [[SRGAnalyticsStreamLabels alloc] init];
+    updatedAnalyticsLabels.customInfo = @{ @"other_custom_key" : @"other_custom_value" };
+    
+    self.mediaPlayerController.analyticsLabels = updatedAnalyticsLabels;
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testAnalyticsLabelsIndirectChangeResilience
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if (! [labels[@"event_id"] isEqualToString:@"play"]) {
+            return NO;
+        }
+        
+        XCTAssertEqualObjects(labels[@"custom_key"], @"custom_value");
+        return YES;
+    }];
+    
+    SRGAnalyticsStreamLabels *analyticsLabels = [[SRGAnalyticsStreamLabels alloc] init];
+    analyticsLabels.customInfo = @{ @"custom_key" : @"custom_value" };
+    [self.mediaPlayerController playURL:OnDemandTestURL() atTime:kCMTimeZero withSegments:nil analyticsLabels:analyticsLabels userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if (! [labels[@"event_id"] isEqualToString:@"pause"]) {
+            return NO;
+        }
+        
+        XCTAssertNil(labels[@"updated_key"]);
+        XCTAssertEqualObjects(labels[@"custom_key"], @"custom_value");
+        return YES;
+    }];
+    
+    // Change the original labels. Labels attached to the controller must not be affected
+    analyticsLabels.customInfo = @{ @"updated_key" : @"updated_value" };
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 @end

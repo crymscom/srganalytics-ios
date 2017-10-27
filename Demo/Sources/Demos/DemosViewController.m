@@ -7,7 +7,6 @@
 #import "DemosViewController.h"
 
 #import "AppDelegate.h"
-#import "PlayerViewController.h"
 #import "SimpleViewController.h"
 
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
@@ -108,7 +107,7 @@
             
             switch (indexPath.row) {
                 case 0: {
-                    URL = [NSURL URLWithString:@"http://ndr_fs-lh.akamaihd.net/i/ndrfs_nds@119224/master.m3u8?dw=0"];
+                    URL = [NSURL URLWithString:@"http://tagesschau-lh.akamaihd.net/i/tagesschau_1@119231/master.m3u8?dw=0"];
                     break;
                 }
                     
@@ -128,9 +127,9 @@
                 }
             }
             
-            PlayerViewController *playerViewController = [[PlayerViewController alloc] initWithURL:URL];
-            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:playerViewController];
-            [self presentViewController:navigationController animated:YES completion:nil];
+            SRGMediaPlayerViewController *playerViewController = [[SRGMediaPlayerViewController alloc] init];
+            [playerViewController.controller playURL:URL];
+            [self presentViewController:playerViewController animated:YES completion:nil];
             break;
         }
             

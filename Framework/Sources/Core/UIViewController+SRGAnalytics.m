@@ -10,6 +10,9 @@
 
 #import <objc/runtime.h>
 
+// Associated object keys
+static void *s_observerKey = &s_observerKey;
+
 // Swizzled method original implementations
 static void (*s_viewDidAppear)(id, SEL, BOOL);
 static void (*s_viewWillDisappear)(id, SEL, BOOL);
@@ -73,13 +76,6 @@ static void swizzled_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL an
     }
 }
 
-#pragma mark Notifications
-
-- (void)srg_viewController_analytics_applicationWillEnterForeground:(NSNotification *)notification
-{
-    [self srg_trackPageViewForced:NO];
-}
-
 @end
 
 #pragma mark Functions
@@ -92,17 +88,20 @@ static void swizzled_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animat
         [self srg_trackPageViewForced:NO];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(srg_viewController_analytics_applicationWillEnterForeground:)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
+    // An anonymous observer (conveniently created with the notification center registration method taking a block as
+    // parameter) is required. If we simply registered `self` as observer, removal in `-viewWillDisappear:` would also
+    // remove all other registrations of the view controller for the same notifications!
+    id observer = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
+        [self srg_trackPageViewForced:NO];
+    }];
+    objc_setAssociatedObject(self, s_observerKey, observer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 static void swizzled_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL animated)
 {
     s_viewWillDisappear(self, _cmd, animated);
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
+    id observer = objc_getAssociatedObject(self, s_observerKey);
+    [[NSNotificationCenter defaultCenter] removeObserver:observer];
+    objc_setAssociatedObject(self, s_observerKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }

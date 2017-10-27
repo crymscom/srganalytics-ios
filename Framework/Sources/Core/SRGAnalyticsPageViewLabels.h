@@ -4,14 +4,16 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <UIKit/UIKit.h>
+#import "SRGAnalyticsLabels.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PlayerViewController : UIViewController
-
-- (instancetype)initWithURL:(NSURL *)URL;
+/**
+ *  Additional page view labels.
+ */
+@interface SRGAnalyticsPageViewLabels : SRGAnalyticsLabels
 
 @end
 
 NS_ASSUME_NONNULL_END
+

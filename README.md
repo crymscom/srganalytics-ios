@@ -23,7 +23,7 @@ The library can be used independently, but also seamlessly integrates with our [
  
 ## Compatibility
 
-The library is suitable for applications running on iOS 8 and above. The project is meant to be opened with the latest Xcode version (currently Xcode 8).
+The library is suitable for applications running on iOS 9 and above. The project is meant to be opened with the latest Xcode version (currently Xcode 9).
 
 ## Installation
 
@@ -127,6 +127,10 @@ The library internally uses the [SRG Logger](https://github.com/SRGSSR/srglogger
 * `ch.srgssr.analytics.dataprovider` for `SRGAnalytics_DataProvider.framework` events.
 
 This logger either automatically integrates with your own logger, or can be easily integrated with it. Refer to the SRG Logger documentation for more information.
+
+## Advertising Identifier (IDFA)
+
+Neither the SRG Analytics SDK, nor its dependencies, involve the use of the Advertising Identifier (IDFA). Provided all other components your application depends on do not use the IDFA, you can therefore safely answer 'No' to the corresponding question when submitting your binaries through iTunes Connect.
 
 ## Demo project
 

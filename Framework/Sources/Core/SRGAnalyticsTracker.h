@@ -5,6 +5,8 @@
 //
 
 #import "SRGAnalyticsConfiguration.h"
+#import "SRGAnalyticsHiddenEventLabels.h"
+#import "SRGAnalyticsPageViewLabels.h"
 
 #import <Foundation/Foundation.h>
 
@@ -87,47 +89,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  @name Hidden event tracking
  */
-
-/**
- *  Additional hidden event labels.
- */
-@interface SRGAnalyticsHiddenEventLabels : NSObject
-
-/**
- *  The event type (this concept is loosely defined, please discuss expected values for your application with your
- *  measurement team).
- */
-@property (nonatomic, copy, nullable) NSString *type;
-
-/**
- *  The event value (this concept is loosely defined, please discuss expected values for your application with your
- *  measurement team).
- */
-@property (nonatomic, copy, nullable) NSString *value;
-
-/**
- *  The event source (this concept is loosely defined, please discuss expected values for your application with your
- *  measurement team).
- */
-@property (nonatomic, copy, nullable) NSString *source;
-
-/**
- *  Additional custom information, mapping variables to values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081
- *  for a full list of possible variable names.
- *
- *  You should rarely need to provide custom information with measurements, as this requires the variable name to be
- *  declared on TagCommander portal first (otherwise the associated value will be discarded).
- */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customInfo;
-
-/**
- *  Additional custom information to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
- *  for a full list of possible variable names.
- */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreCustomInfo;
-
-@end
-
 @interface SRGAnalyticsTracker (HiddenEventTracking)
 
 /**
@@ -155,29 +116,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  @name Page view tracking
  */
-
-/**
- *  Additional page view labels.
- */
-@interface SRGAnalyticsPageViewLabels : NSObject
-
-/**
- *  Additional custom information, mapping variables to values. See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/197019081
- *  for a full list of possible variable names.
- *
- *  You should rarely need to provide custom information with measurements, as this requires the variable name to be
- *  declared on TagCommander portal first (otherwise the associated value will be discarded).
- */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *customInfo;
-
-/**
- *  Additional custom information to be sent to comScore. See https://srfmmz.atlassian.net/wiki/spaces/SRGPLAY/pages/36077617/Measurement+of+SRG+Player+Apps
- *  for a full list of possible variable names.
- */
-@property (nonatomic, nullable) NSDictionary<NSString *, NSString *> *comScoreCustomInfo;
-
-@end
-
 @interface SRGAnalyticsTracker (PageViewTracking)
 
 /**
