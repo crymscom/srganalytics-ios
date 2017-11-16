@@ -262,7 +262,6 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
     [fullLabelsDictionary srg_safelySetString:title forKey:@"content_title"];
     [fullLabelsDictionary srg_safelySetString:self.configuration.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
     [fullLabelsDictionary srg_safelySetString:fromPushNotification ? @"true" : @"false" forKey:@"accessed_after_push_notification"];
-    [fullLabelsDictionary srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"page_id"];
 
     [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
         if (idx > 7) {
