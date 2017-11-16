@@ -73,11 +73,6 @@ static NSMutableDictionary *s_trackers = nil;
     return [self initWithMediaPlayerController:nil];
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 #pragma mark Tracking
 
 - (void)start
