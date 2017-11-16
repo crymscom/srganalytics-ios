@@ -177,5 +177,23 @@
     XCTAssertEqualObjects(mainLabels.labelsDictionary, labelsDictionary);
 }
 
-@end
+- (void)testCustomInfoOverrides
+{
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
+    labels.playerName = @"player";
+    labels.playerVersion = @"1.0";
+    labels.playerVolumeInPercent = @80;
+    labels.subtitlesEnabled = @YES;
+    labels.timeshiftInMilliseconds = @3000.350;
+    labels.bandwidthInBitsPerSecond = @1024.567;
+    labels.customInfo = @{ @"media_embedding_environment" : @"overridden",
+                           @"media_player_display" : @"overridden",
+                           @"media_player_version" : @"overridden",
+                           @"media_volume" : @"overridden",
+                           @"media_subtitles_on" : @"overridden",
+                           @"media_timeshift" : @"overridden",
+                           @"media_bandwidth" : @"overridden" };
+    XCTAssertEqualObjects(labels.labelsDictionary, labels.customInfo);
+}
 
+@end
