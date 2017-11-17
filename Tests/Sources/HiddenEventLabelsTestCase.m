@@ -91,5 +91,16 @@
     XCTAssertEqualObjects(labels, labelsCopy);
 }
 
-@end
+- (void)testCustomInfoOverrides
+{
+    SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
+    labels.type = @"type";
+    labels.value = @"value";
+    labels.source = @"source";
+    labels.customInfo = @{ @"event_type" : @"overridden",
+                           @"event_value" : @"overridden",
+                           @"event_source" : @"overridden" };
+    XCTAssertEqualObjects(labels.labelsDictionary, labels.customInfo);
+}
 
+@end
