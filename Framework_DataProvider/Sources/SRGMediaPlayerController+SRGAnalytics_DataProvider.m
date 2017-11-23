@@ -54,6 +54,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 
 - (SRGRequest *)loadMediaComposition:(SRGMediaComposition *)mediaComposition
         withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                          streamType:(SRGStreamType)streamType
                              quality:(SRGQuality)quality
                         startBitRate:(NSInteger)startBitRate
                               resume:(BOOL)resume
@@ -129,13 +130,14 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 
 - (SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
                  withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                                   streamType:(SRGStreamType)streamType
                                       quality:(SRGQuality)quality
                                  startBitRate:(NSInteger)startBitRate
                                      userInfo:(NSDictionary *)userInfo
                                        resume:(BOOL)resume
                             completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, SRGResource *resource, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, SRGResource *resource, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
@@ -157,6 +159,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
 
 - (SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
         withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                          streamType:(SRGStreamType)streamType
                              quality:(SRGQuality)quality
                         startBitRate:(NSInteger)startBitRate
                             userInfo:(NSDictionary *)userInfo
@@ -172,6 +175,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     
     return [self prepareToPlayMediaComposition:mediaComposition
                   withPreferredStreamingMethod:streamingMethod
+                                    streamType:streamType
                                        quality:quality
                                   startBitRate:startBitRate
                                       userInfo:userInfo

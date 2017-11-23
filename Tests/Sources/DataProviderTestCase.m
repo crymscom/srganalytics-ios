@@ -50,7 +50,7 @@ static NSURL *MMFTestURL(void)
     [[dataProvider videoMediaCompositionWithUid:@"42297626" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeDVR quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             XCTAssertEqual(self.mediaPlayerController.streamingMethod, SRGStreamingMethodHLS);
@@ -85,7 +85,7 @@ static NSURL *MMFTestURL(void)
     [[dataProvider videoMediaCompositionWithUid:@"42297626" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             [expectation fulfill];
@@ -112,7 +112,7 @@ static NSURL *MMFTestURL(void)
     [[dataProvider videoMediaCompositionWithUid:@"27af89ad-2408-40e5-8318-96e25d3e003b" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             XCTAssertEqual(self.mediaPlayerController.segments.count, mediaComposition.mainChapter.segments.count);
@@ -135,7 +135,7 @@ static NSURL *MMFTestURL(void)
     [[dataProvider videoMediaCompositionWithUid:@"c4927fcf-e1a0-0001-7edd-1ef01d441651" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             XCTAssertNil(self.mediaPlayerController.segments);
@@ -154,7 +154,7 @@ static NSURL *MMFTestURL(void)
         XCTAssertNotNil(mediaComposition);
         
         NSDictionary *userInfo = @{ @"key" : @"value" };
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:userInfo resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:userInfo resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertEqualObjects([self.mediaPlayerController.userInfo dictionaryWithValuesForKeys:userInfo.allKeys], userInfo);
             [expectation fulfill];
         }];
@@ -177,7 +177,7 @@ static NSURL *MMFTestURL(void)
         XCTAssertNotNil(mediaComposition);
         originalTitle = mediaComposition.mainChapter.title;
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             [expectation1 fulfill];
         }];
     }] resume];
@@ -212,7 +212,7 @@ static NSURL *MMFTestURL(void)
         XCTAssertNotNil(mediaComposition);
         fetchedMediaComposition = mediaComposition;
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             [expectation fulfill];
         }];
     }] resume];
@@ -234,7 +234,7 @@ static NSURL *MMFTestURL(void)
         XCTAssertNotNil(mediaComposition);
         mediaComposition1 = mediaComposition;
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             [expectation1 fulfill];
         }];
     }] resume];
@@ -269,7 +269,7 @@ static NSURL *MMFTestURL(void)
         XCTAssertNotNil(mediaComposition);
         mediaComposition1 = mediaComposition;
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             [expectation1 fulfill];
         }];
     }] resume];
@@ -306,7 +306,7 @@ static NSURL *MMFTestURL(void)
         XCTAssertNotNil(mediaComposition);
         mediaComposition1 = mediaComposition;
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertEqualObjects(self.mediaPlayerController.segments, mediaComposition.mainChapter.segments);
             [expectation1 fulfill];
         }];
