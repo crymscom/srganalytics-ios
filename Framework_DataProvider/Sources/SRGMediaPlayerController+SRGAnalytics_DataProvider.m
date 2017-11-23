@@ -72,13 +72,20 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         streamingMethod = chapter.recommendedStreamingMethod;
     }
     
-    // Find the best resource subset matching the streaming method and quality. Prefer DVR streams to live streams.
     NSArray<SRGResource *> *resources = [chapter resourcesForStreamingMethod:streamingMethod];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(quality)];
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, streamType) ascending:YES comparator:^(NSNumber * _Nonnull streamType1, NSNumber * _Nonnull streamType2) {
-        // Don't simply compare enum values as integers, since their order might change.
-        NSArray<NSNumber *> *orderedStreamTypes = @[ @(SRGStreamTypeDVR), @(SRGStreamTypeLive), @(SRGStreamTypeOnDemand) ];
-        
+    if (resources.count == 0) {
+        resources = [chapter resourcesForStreamingMethod:chapter.recommendedStreamingMethod];
+    }
+    
+    // Determine the stream type order to use (start with a default setup, overridden if a preferred type has been set),
+    // from the lowest to the highest priority.
+    NSArray<NSNumber *> *orderedStreamTypes = @[@(SRGStreamTypeOnDemand), @(SRGStreamTypeLive), @(SRGStreamTypeDVR)];
+    if (streamType != SRGStreamTypeNone) {
+        orderedStreamTypes = [[orderedStreamTypes mtl_arrayByRemovingObject:@(streamType)] arrayByAddingObject:@(streamType)];
+    }
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, streamType) ascending:NO comparator:^(NSNumber * _Nonnull streamType1, NSNumber * _Nonnull streamType2) {
+        // Don't simply compare enum values as integers since their order might change.
         NSUInteger index1 = [orderedStreamTypes indexOfObject:streamType1];
         NSUInteger index2 = [orderedStreamTypes indexOfObject:streamType2];
         if (index1 == index2) {
@@ -91,7 +98,13 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
             return NSOrderedDescending;
         }
     }];
-    SRGResource *resource = [[resources filteredArrayUsingPredicate:predicate] sortedArrayUsingDescriptors:@[sortDescriptor]].firstObject ?: [resources sortedArrayUsingDescriptors:@[sortDescriptor]].firstObject;
+    resources = [resources sortedArrayUsingDescriptors:@[sortDescriptor]];
+    
+    // Resources are initially ordered by quality (see `-resourcesForStreamingMethod:` documentation), and this order
+    // is kept stable by the stream type sort descriptor above. We therefore attempt to find a proper match for the specified
+    // quality, otherwise we just use the first resource available.
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(quality)];
+    SRGResource *resource = [resources filteredArrayUsingPredicate:predicate].firstObject ?: resources.firstObject;
     if (! resource) {
         SRGAnalyticsMediaPlayerLogError(@"mediaplayer", @"No valid resource could be retrieved");
         return nil;

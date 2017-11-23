@@ -44,6 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return The playback request. If successful, the player will be paused on the chapter / segment specified by
  *          the media composition. The method might return `nil` if no protocol / quality combination is found.
+ *          Resource lookup is performed so that a matching streaming method is found first, then a matching
+ *          stream type, and finally a quality.
  */
 - (nullable SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
                           withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod

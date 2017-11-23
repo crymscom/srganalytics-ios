@@ -333,7 +333,7 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testDefaultPreferredStreamingMethod
+- (void)testDefaultStreamingMethod
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
     
@@ -393,7 +393,7 @@ static NSURL *MMFTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.streamingMethod, SRGStreamingMethodHLS);
 }
 
-- (void)testDefaultPreferredStreamType
+- (void)testDefaultStreamType
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
     
@@ -453,7 +453,7 @@ static NSURL *MMFTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.streamType, SRGStreamTypeDVR);
 }
 
-- (void)testDefaultPreferredQuality
+- (void)testDefaultQuality
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
     
@@ -493,7 +493,7 @@ static NSURL *MMFTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.quality, SRGQualitySD);
 }
 
-- (void)testNonExistinQuality
+- (void)testNonExistingQuality
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
     
