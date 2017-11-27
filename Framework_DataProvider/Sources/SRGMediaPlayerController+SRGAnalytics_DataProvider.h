@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param mediaComposition  The media composition to prepare.
  *  @param streamingMethod   The streaming method to use. If `SRGStreamingMethodNone` or if the method is not
  *                           found, a recommended method will be used instead.
- *  @param streamType        The stream type to use. If `SRGStreamTypeNone` or not found, the most flexible stream
+ *  @param streamType        The stream type to use. If `SRGStreamTypeNone` or not found, the optimal available stream
  *                           type is used.
  *  @param quality           The quality to use. If `SRGQualityNone` or not found, the best available quality
  *                           is used.
