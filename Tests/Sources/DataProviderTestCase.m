@@ -86,9 +86,28 @@ static NSURL *MMFTestURL(void)
     [[dataProvider videoMediaCompositionWithUid:@"8414077" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeDVR quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeMonoscopic);
+            [expectation fulfill];
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testPrepareToPlay360VideoAlreadyStereoscopic
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierRTS];
+    [[dataProvider videoMediaCompositionWithUid:@"8414077" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        self.mediaPlayerController.view.viewMode = SRGMediaPlayerViewModeStereoscopic;
+        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+            XCTAssertNil(error);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeStereoscopic);
             [expectation fulfill];
         }];
     }] resume];
