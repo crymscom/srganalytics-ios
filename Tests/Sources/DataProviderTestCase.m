@@ -78,6 +78,24 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testPrepareToPlay360Video
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierRTS];
+    [[dataProvider videoMediaCompositionWithUid:@"8414077" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeDVR quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+            XCTAssertNil(error);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeMonoscopic);
+            [expectation fulfill];
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
 - (void)testPlayMediaComposition
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
