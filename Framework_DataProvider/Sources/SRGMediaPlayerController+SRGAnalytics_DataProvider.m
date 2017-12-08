@@ -110,6 +110,15 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         return nil;
     }
     
+    if (resource.presentation == SRGPresentation360) {
+        if (self.view.viewMode != SRGMediaPlayerViewModeMonoscopic && self.view.viewMode != SRGMediaPlayerViewModeStereoscopic) {
+            self.view.viewMode = SRGMediaPlayerViewModeMonoscopic;
+        }
+    }
+    else {
+        self.view.viewMode = SRGMediaPlayerViewModeFlat;
+    }
+    
     // Use the preferrred start bit rate is set. Currrently only supported by Akamai via a __b__ parameter (the actual
     // bitrate will be rounded to the nearest available quality)
     NSURL *URL = resource.URL;

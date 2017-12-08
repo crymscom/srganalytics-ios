@@ -55,6 +55,7 @@ static NSURL *MMFTestURL(void)
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             XCTAssertEqual(self.mediaPlayerController.streamingMethod, SRGStreamingMethodHLS);
             XCTAssertEqual(self.mediaPlayerController.quality, SRGQualityHD);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeFlat);
             [expectation fulfill];
         }];
     }] resume];
@@ -77,6 +78,43 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testPrepareToPlay360Video
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierRTS];
+    [[dataProvider videoMediaCompositionWithUid:@"8414077" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+            XCTAssertNil(error);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeMonoscopic);
+            [expectation fulfill];
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testPrepareToPlay360VideoAlreadyStereoscopic
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierRTS];
+    [[dataProvider videoMediaCompositionWithUid:@"8414077" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        self.mediaPlayerController.view.viewMode = SRGMediaPlayerViewModeStereoscopic;
+        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+            XCTAssertNil(error);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeStereoscopic);
+            [expectation fulfill];
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
 - (void)testPlayMediaComposition
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
@@ -88,6 +126,7 @@ static NSURL *MMFTestURL(void)
         [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeFlat);
             [expectation fulfill];
         }];
     }] resume];
@@ -116,6 +155,7 @@ static NSURL *MMFTestURL(void)
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             XCTAssertEqual(self.mediaPlayerController.segments.count, mediaComposition.mainChapter.segments.count);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeFlat);
         }];
     }] resume];
     
@@ -139,6 +179,143 @@ static NSURL *MMFTestURL(void)
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             XCTAssertNil(self.mediaPlayerController.segments);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeFlat);
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testPlay360InMediaComposition
+{
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_segment"], @"360 Gothard");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:rts:video:8414077");
+        return YES;
+    }];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierRTS];
+    [[dataProvider videoMediaCompositionWithUid:@"8414077" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+            XCTAssertNil(error);
+            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeMonoscopic);
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testPlay360AndFlatInMediaComposition
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(event, @"play");
+        return YES;
+    }];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierRTS];
+    [[dataProvider videoMediaCompositionWithUid:@"_gothard" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+            XCTAssertNil(error);
+            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeMonoscopic);
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    __block BOOL stopReceived = NO;
+    __block BOOL playReceived = NO;
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"stop"]) {
+            stopReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(playReceived);
+            playReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return stopReceived && playReceived;
+    }];
+    
+    [[dataProvider videoMediaCompositionWithUid:@"_fifa_russia_2017" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+            XCTAssertNil(error);
+            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeMonoscopic);
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    self.mediaPlayerController.view.viewMode = SRGMediaPlayerViewModeStereoscopic;
+    
+    stopReceived = NO;
+    playReceived = NO;
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"stop"]) {
+            stopReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(playReceived);
+            playReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return stopReceived && playReceived;
+    }];
+    
+    [[dataProvider videoMediaCompositionWithUid:@"_gothard" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+            XCTAssertNil(error);
+            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeStereoscopic);
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    stopReceived = NO;
+    playReceived = NO;
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"stop"]) {
+            stopReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(playReceived);
+            playReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return stopReceived && playReceived;
+    }];
+    
+    [[dataProvider videoMediaCompositionWithUid:@"_rts_info" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+            XCTAssertNil(error);
+            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
+            XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeFlat);
         }];
     }] resume];
     
