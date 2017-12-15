@@ -224,3 +224,9 @@ Correctly conforming to all SRG SSR guidelines is not a trivial task, though. Pl
 ## Thread-safety
 
 The library is intended to be used from the main thread only. Trying to use if from background threads results in undefined behavior.
+
+## App Transport Security (ATS)
+
+In a near future, Apple will favor HTTPS over HTTP, and require applications to explicitly declare potentially insecure connections. These guidelines are referred to as [App Transport Security (ATS)](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW33).
+
+For information about how you should configure your application to access our services, please refer to the dedicated [SRG Data Provider wiki topic](https://github.com/SRGSSR/srgdataprovider-ios/wiki/App-Transport-Security-(ATS)).
