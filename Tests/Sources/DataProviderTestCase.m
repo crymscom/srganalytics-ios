@@ -190,7 +190,6 @@ static NSURL *MMFTestURL(void)
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-        XCTAssertEqualObjects(labels[@"media_segment"], @"360 Gothard");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:rts:video:8414077");
         return YES;
     }];
