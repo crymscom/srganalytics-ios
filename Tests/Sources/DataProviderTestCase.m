@@ -190,7 +190,6 @@ static NSURL *MMFTestURL(void)
 {
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-        XCTAssertEqualObjects(labels[@"media_segment"], @"360 Gothard");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:rts:video:8414077");
         return YES;
     }];
@@ -688,6 +687,26 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     XCTAssertEqual(self.mediaPlayerController.quality, SRGQualityHD);
+}
+
+- (void)testPreferHTTPSResources
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    
+    // The following audio has two equivalent resources for the playback default settings (one in HTTP, the other in HTTPS). The order of these resources in the JSON is not reliable,
+    // but we want to select always the HTTPS resource first
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSRF];
+    [[dataProvider audioMediaCompositionWithUid:@"d7dd9454-23c8-4160-81ff-ace459dd53c0" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
+            [expectation fulfill];
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    XCTAssertEqualObjects(self.mediaPlayerController.contentURL.scheme, @"https");
 }
 
 @end

@@ -84,7 +84,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         orderedStreamTypes = [[orderedStreamTypes mtl_arrayByRemovingObject:@(streamType)] arrayByAddingObject:@(streamType)];
     }
     
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, streamType) ascending:NO comparator:^(NSNumber * _Nonnull streamType1, NSNumber * _Nonnull streamType2) {
+    NSSortDescriptor *streamTypeSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, streamType) ascending:NO comparator:^(NSNumber * _Nonnull streamType1, NSNumber * _Nonnull streamType2) {
         // Don't simply compare enum values as integers since their order might change.
         NSUInteger index1 = [orderedStreamTypes indexOfObject:streamType1];
         NSUInteger index2 = [orderedStreamTypes indexOfObject:streamType2];
@@ -98,7 +98,32 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
             return NSOrderedDescending;
         }
     }];
-    resources = [resources sortedArrayUsingDescriptors:@[sortDescriptor]];
+    
+    NSSortDescriptor *URLSchemeSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, URL) ascending:NO comparator:^NSComparisonResult(NSURL * _Nonnull URL1, NSURL * _Nonnull URL2) {
+        // Only declare ordering for important URL schemes. For other schemes the initial order will be preserved
+        NSArray<NSString *> *orderedURLSchemes = @[@"http", @"https"];
+        
+        NSUInteger index1 = [orderedURLSchemes indexOfObject:URL1.scheme];
+        NSUInteger index2 = [orderedURLSchemes indexOfObject:URL2.scheme];
+        if (index1 == index2) {
+            return NSOrderedSame;
+        }
+        // Unknown scheme < known scheme
+        else if (index1 == NSNotFound) {
+            return NSOrderedAscending;
+        }
+        // Known scheme > unknown scheme
+        else if (index2 == NSNotFound) {
+            return NSOrderedDescending;
+        }
+        else if (index1 < index2) {
+            return NSOrderedAscending;
+        }
+        else {
+            return NSOrderedDescending;
+        }
+    }];
+    resources = [resources sortedArrayUsingDescriptors:@[streamTypeSortDescriptor, URLSchemeSortDescriptor]];
     
     // Resources are initially ordered by quality (see `-resourcesForStreamingMethod:` documentation), and this order
     // is kept stable by the stream type sort descriptor above. We therefore attempt to find a proper match for the specified
