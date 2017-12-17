@@ -29,7 +29,7 @@ static NSString * const SRGAnalyticsMediaPlayerQualityKey = @"SRGAnalyticsMediaP
                                        resume:(BOOL)resume
                             completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [mediaComposition resourceURLWithPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, SRGResource *resource, NSArray<id<SRGSegment>> *segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
+    SRGRequest *request = [mediaComposition resourceURLWithPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality startBitRate:startBitRate completionBlock:^(NSURL * _Nullable URL, SRGResource *resource, NSArray<id<SRGSegment>> *segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
@@ -56,6 +56,10 @@ static NSString * const SRGAnalyticsMediaPlayerQualityKey = @"SRGAnalyticsMediaP
             completionHandler ? completionHandler(nil) : nil;
         }];
     }];
+    if (resume) {
+        [request resume];
+    }
+    return request;
 }
 
 - (SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition

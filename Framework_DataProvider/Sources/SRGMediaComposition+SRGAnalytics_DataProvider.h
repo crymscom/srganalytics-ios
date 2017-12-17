@@ -17,9 +17,7 @@ typedef void (^SRGResourceURLCompletionBlock)(NSURL * _Nullable URL, SRGResource
 
 /**
  *  Return a request to retrieve a playable resource URL for the receiver, trying to use the specified preferred settings.
- *  The request can be started automatically if `resume` is set to `YES`. If set to `NO`, you are responsible of starting the
- *  request, either by calling `-resume` on it or adding it to a request queue. If no exact match can be found for the specified
- *  settings, a recommended valid setup will be used instead.
+ *  If no exact match can be found for the specified settings, a recommended valid setup will be used instead.
  *
  *  @param streamingMethod   The streaming method to use. If `SRGStreamingMethodNone` or if the method is not
  *                           found, a recommended method will be used instead.
@@ -33,7 +31,6 @@ typedef void (^SRGResourceURLCompletionBlock)(NSURL * _Nullable URL, SRGResource
  *                           Usual SRG SSR valid bit ranges vary from 100 to 3000 kbps. Use 0 to start with the
  *                           lowest quality stream.
  *  @param userInfo          Optional dictionary conveying arbitrary information during playback.
- *  @param resume            Set to `YES` if you want the request to be started automatically.
  *  @param completionHandler The completion handler, returning the URL, the associated resource, the segments associated
  *                           with the media, the segment index to start with, as well as consolidated analytics labels.
  *
@@ -44,7 +41,6 @@ typedef void (^SRGResourceURLCompletionBlock)(NSURL * _Nullable URL, SRGResource
                                                       streamType:(SRGStreamType)streamType
                                                          quality:(SRGQuality)quality
                                                     startBitRate:(NSInteger)startBitRate
-                                                          resume:(BOOL)resume
                                                  completionBlock:(SRGResourceURLCompletionBlock)completionBlock;
 
 @end

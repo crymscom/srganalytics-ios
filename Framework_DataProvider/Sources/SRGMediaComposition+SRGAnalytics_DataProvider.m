@@ -50,7 +50,6 @@
                                              streamType:(SRGStreamType)streamType
                                                 quality:(SRGQuality)quality
                                            startBitRate:(NSInteger)startBitRate
-                                                 resume:(BOOL)resume
                                         completionBlock:(SRGResourceURLCompletionBlock)completionBlock
 {
     if (startBitRate < 0) {
@@ -149,9 +148,6 @@
         NSInteger index = [chapter.segments indexOfObject:self.mainSegment];
         completionBlock(URL, resource, chapter.segments, index, labels, nil);
     }];
-    if (resume) {
-        [request resume];
-    }
     return request;
 }
 
