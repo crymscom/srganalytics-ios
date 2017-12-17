@@ -52,7 +52,7 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
     return labels;
 }
 
-- (SRGRequest *)loadMediaComposition:(SRGMediaComposition *)mediaComposition
++ (SRGRequest *)loadMediaComposition:(SRGMediaComposition *)mediaComposition
         withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                           streamType:(SRGStreamType)streamType
                              quality:(SRGQuality)quality
@@ -135,15 +135,6 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
         return nil;
     }
     
-    if (resource.presentation == SRGPresentation360) {
-        if (self.view.viewMode != SRGMediaPlayerViewModeMonoscopic && self.view.viewMode != SRGMediaPlayerViewModeStereoscopic) {
-            self.view.viewMode = SRGMediaPlayerViewModeMonoscopic;
-        }
-    }
-    else {
-        self.view.viewMode = SRGMediaPlayerViewModeFlat;
-    }
-    
     // Use the preferrred start bit rate is set. Currrently only supported by Akamai via a __b__ parameter (the actual
     // bitrate will be rounded to the nearest available quality)
     NSURL *URL = resource.URL;
@@ -184,10 +175,19 @@ typedef void (^SRGMediaPlayerDataProviderLoadCompletionBlock)(NSURL * _Nullable 
                                        resume:(BOOL)resume
                             completionHandler:(void (^)(NSError * _Nullable))completionHandler
 {
-    return [self loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, SRGResource *resource, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
+    return [SRGMediaPlayerController loadMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality startBitRate:startBitRate resume:resume completionBlock:^(NSURL * _Nullable URL, SRGResource *resource, NSInteger index, NSArray<id<SRGSegment>> *segments, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
         if (error) {
             completionHandler ? completionHandler(error) : nil;
             return;
+        }
+        
+        if (resource.presentation == SRGPresentation360) {
+            if (self.view.viewMode != SRGMediaPlayerViewModeMonoscopic && self.view.viewMode != SRGMediaPlayerViewModeStereoscopic) {
+                self.view.viewMode = SRGMediaPlayerViewModeMonoscopic;
+            }
+        }
+        else {
+            self.view.viewMode = SRGMediaPlayerViewModeFlat;
         }
         
         NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
