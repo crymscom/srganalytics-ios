@@ -10,12 +10,6 @@
 
 #pragma mark SRGAnalyticsSegment protocol
 
-- (CMTimeRange)srg_timeRange
-{
-    return CMTimeRangeMake(CMTimeMakeWithSeconds(self.markIn / 1000., NSEC_PER_SEC),
-                           CMTimeMakeWithSeconds(self.duration / 1000., NSEC_PER_SEC));
-}
-
 - (BOOL)srg_isBlocked
 {
     return [self blockingReasonAtDate:[NSDate date]] != SRGBlockingReasonNone;
@@ -32,6 +26,14 @@
     labels.customInfo = self.analyticsLabels;
     labels.comScoreCustomSegmentInfo = self.comScoreAnalyticsLabels;
     return labels;
+}
+
+#pragma mark Overrides
+
+- (CMTimeRange)srg_timeRange
+{
+    return CMTimeRangeMake(CMTimeMakeWithSeconds(self.markIn / 1000., NSEC_PER_SEC),
+                           CMTimeMakeWithSeconds(self.duration / 1000., NSEC_PER_SEC));
 }
 
 @end
