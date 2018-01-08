@@ -12,6 +12,6 @@
 /**
  *  Standard implementation of analytics for a segment stemming from the SRG DataProvider library.
  */
-@interface SRGSegment (SRGAnalytics_DataProvider)
+@interface SRGSegment (SRGAnalytics_DataProvider) <SRGAnalyticsSegment>
 
 @end

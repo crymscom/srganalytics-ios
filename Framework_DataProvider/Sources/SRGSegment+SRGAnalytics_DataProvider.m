@@ -8,7 +8,23 @@
 
 @implementation SRGSegment (SRGAnalytics_DataProvider)
 
-#pragma mark Overrides
+#pragma mark SRGAnalyticsSegment protocol
+
+- (CMTimeRange)srg_timeRange
+{
+    return CMTimeRangeMake(CMTimeMakeWithSeconds(self.markIn / 1000., NSEC_PER_SEC),
+                           CMTimeMakeWithSeconds(self.duration / 1000., NSEC_PER_SEC));
+}
+
+- (BOOL)srg_isBlocked
+{
+    return [self blockingReasonAtDate:[NSDate date]] != SRGBlockingReasonNone;
+}
+
+- (BOOL)srg_isHidden
+{
+    return self.hidden;
+}
 
 - (SRGAnalyticsStreamLabels *)srg_analyticsLabels
 {
