@@ -32,7 +32,7 @@
 		6F3C401A1F87AF5E00FFEA85 /* SRGAnalyticsPageViewLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C40141F87AF5E00FFEA85 /* SRGAnalyticsPageViewLabels.m */; };
 		6F3C401B1F87AF5E00FFEA85 /* SRGAnalyticsPageViewLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3C40151F87AF5E00FFEA85 /* SRGAnalyticsPageViewLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F3C401C1F87AF5E00FFEA85 /* SRGAnalyticsLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C40161F87AF5E00FFEA85 /* SRGAnalyticsLabels.m */; };
-		6F4ED9B31F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F4ED9AF1F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F4ED9B31F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F4ED9AF1F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.h */; };
 		6F4ED9B41F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4ED9B01F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.m */; };
 		6F788E141E9BA56500D22495 /* KIF.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6F69505A1E9BA32B008FE8FA /* KIF.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6F8F25961F0BD797009B116E /* TCCore.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FD9B2441F0BC4E0004805D2 /* TCCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
