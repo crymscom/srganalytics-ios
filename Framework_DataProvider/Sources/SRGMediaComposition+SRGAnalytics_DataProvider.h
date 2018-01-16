@@ -11,12 +11,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // Completion block signatures.
-typedef void (^SRGResourceURLCompletionBlock)(NSURL * _Nullable URL, SRGResource *resource, NSArray<id<SRGSegment>> *segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error);
+typedef void (^SRGResourceCompletionBlock)(NSURL * _Nullable URL, SRGResource *resource, NSArray<id<SRGSegment>> *segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error);
 
 @interface SRGMediaComposition (SRGAnalytics_DataProvider)
 
 /**
- *  Return a request to retrieve a playable resource URL for the receiver, trying to use the specified preferred settings.
+ *  Return a request to retrieve a playable resource for the receiver, trying to use the specified preferred settings.
  *  If no exact match can be found for the specified settings, a recommended valid setup will be used instead.
  *
  *  @param streamingMethod   The streaming method to use. If `SRGStreamingMethodNone` or if the method is not
@@ -37,11 +37,11 @@ typedef void (^SRGResourceURLCompletionBlock)(NSURL * _Nullable URL, SRGResource
  *  @return The method might return `nil` if no protocol / quality combination is found. Resource lookup is performed so
  *          that a matching streaming method is found first, then a matching stream type, and finally a quality.
  */
-- (nullable SRGRequest *)resourceURLWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                                                      streamType:(SRGStreamType)streamType
-                                                         quality:(SRGQuality)quality
-                                                    startBitRate:(NSInteger)startBitRate
-                                                 completionBlock:(SRGResourceURLCompletionBlock)completionBlock;
+- (nullable SRGRequest *)resourceWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                                                   streamType:(SRGStreamType)streamType
+                                                      quality:(SRGQuality)quality
+                                                 startBitRate:(NSInteger)startBitRate
+                                              completionBlock:(SRGResourceCompletionBlock)completionBlock;
 
 @end
 
