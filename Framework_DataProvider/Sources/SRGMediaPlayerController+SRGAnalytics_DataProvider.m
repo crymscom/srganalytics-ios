@@ -13,8 +13,7 @@
 #import <libextobjc/libextobjc.h>
 
 static NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
-static NSString * const SRGAnalyticsMediaPlayerStreamingMethodKey = @"SRGAnalyticsMediaPlayerStreamingMethodKey";
-static NSString * const SRGAnalyticsMediaPlayerQualityKey = @"SRGAnalyticsMediaPlayerQualityKey";
+static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMediaPlayerResource";
 
 @implementation SRGMediaPlayerController (SRGAnalytics_DataProvider)
 
@@ -46,8 +45,7 @@ static NSString * const SRGAnalyticsMediaPlayerQualityKey = @"SRGAnalyticsMediaP
         
         NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
         fullUserInfo[SRGAnalyticsMediaPlayerMediaCompositionKey] = mediaComposition;
-        fullUserInfo[SRGAnalyticsMediaPlayerStreamingMethodKey] = @(resource.streamingMethod);
-        fullUserInfo[SRGAnalyticsMediaPlayerQualityKey] = @(resource.quality);
+        fullUserInfo[SRGAnalyticsMediaPlayerResourceKey] = resource;
         if (userInfo) {
             [fullUserInfo addEntriesFromDictionary:userInfo];
         }
@@ -106,8 +104,8 @@ static NSString * const SRGAnalyticsMediaPlayerQualityKey = @"SRGAnalyticsMediaP
     self.userInfo = [userInfo copy];
     
     // Synchronize analytics labels
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(self.quality)];
-    SRGResource *resource = [[mediaComposition.mainChapter resourcesForStreamingMethod:self.streamingMethod] filteredArrayUsingPredicate:predicate].firstObject;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(self.resource.quality)];
+    SRGResource *resource = [[mediaComposition.mainChapter resourcesForStreamingMethod:self.resource.streamingMethod] filteredArrayUsingPredicate:predicate].firstObject;
     self.analyticsLabels = [mediaComposition analyticsLabelsForResource:resource];
     
     self.segments = mediaComposition.mainChapter.segments;
@@ -118,14 +116,9 @@ static NSString * const SRGAnalyticsMediaPlayerQualityKey = @"SRGAnalyticsMediaP
     return self.userInfo[SRGAnalyticsMediaPlayerMediaCompositionKey];
 }
 
-- (SRGStreamingMethod)streamingMethod
+- (SRGResource *)resource
 {
-    return [self.userInfo[SRGAnalyticsMediaPlayerStreamingMethodKey] integerValue];
-}
-
-- (SRGQuality)quality
-{
-    return [self.userInfo[SRGAnalyticsMediaPlayerQualityKey] integerValue];
+    return self.userInfo[SRGAnalyticsMediaPlayerResourceKey];
 }
 
 @end
