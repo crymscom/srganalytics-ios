@@ -2536,6 +2536,9 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
+    Segment *updatedSegment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(4., NSEC_PER_SEC), CMTimeMakeWithSeconds(7., NSEC_PER_SEC))];
+    self.mediaPlayerController.segments = @[updatedSegment];
+    
     // For tests, heartbeat interval is set to 3 seconds.
     
     __block NSInteger fullLengthHeartbeatCount = 0;
@@ -2626,6 +2629,9 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController seekToSegment:segment withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    Segment *updatedSegment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(7., NSEC_PER_SEC))];
+    self.mediaPlayerController.segments = @[updatedSegment];
     
     // For tests, heartbeat interval is set to 3 seconds.
     

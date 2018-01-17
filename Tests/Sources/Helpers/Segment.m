@@ -61,6 +61,23 @@
     return labels;
 }
 
+#pragma mark Equality
+
+- (BOOL)isEqual:(id)object
+{
+    if (! object || ! [object isKindOfClass:[self class]]) {
+        return NO;
+    }
+    
+    Segment *otherSegment = object;
+    return [self.name isEqual:otherSegment.name] && CMTimeRangeEqual(self.srg_timeRange, otherSegment.srg_timeRange) && self.srg_blocked == otherSegment.srg_blocked;
+}
+
+- (NSUInteger)hash
+{
+    return [NSString stringWithFormat:@"%@_%@_%@_%@", @(self.name.hash), @(CMTimeGetSeconds(self.srg_timeRange.start)), @(CMTimeGetSeconds(self.srg_timeRange.duration)), @(self.srg_blocked)].hash;
+}
+
 #pragma mark Description
 
 - (NSString *)description
