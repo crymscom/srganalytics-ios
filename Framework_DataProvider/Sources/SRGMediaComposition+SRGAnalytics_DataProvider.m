@@ -46,11 +46,11 @@
     return labels;
 }
 
-- (SRGRequest *)resourceURLWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                                             streamType:(SRGStreamType)streamType
-                                                quality:(SRGQuality)quality
-                                           startBitRate:(NSInteger)startBitRate
-                                        completionBlock:(SRGResourceURLCompletionBlock)completionBlock
+- (SRGRequest *)resourceWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                                          streamType:(SRGStreamType)streamType
+                                             quality:(SRGQuality)quality
+                                        startBitRate:(NSInteger)startBitRate
+                                     completionBlock:(SRGResourceCompletionBlock)completionBlock
 {
     if (startBitRate < 0) {
         startBitRate = 0;
