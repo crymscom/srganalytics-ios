@@ -70,7 +70,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         [self.tagCommander addPermanentData:@"app_library_version" withValue:SRGAnalyticsMarketingVersion()];
         [self.tagCommander addPermanentData:@"navigation_app_site_name" withValue:configuration.comScoreVirtualSite];
         [self.tagCommander addPermanentData:@"navigation_environment" withValue:[NSBundle srg_isProductionVersion] ? @"prod" : @"preprod"];
-        [self.tagCommander addPermanentData:@"navigation_device" withValue:[self deviceLabel]];
+        [self.tagCommander addPermanentData:@"navigation_device" withValue:[self device]];
     }
 }
 
@@ -149,7 +149,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
     return [NSString stringWithFormat:@"%@.%@", category, title.srg_comScoreFormattedString];
 }
 
-- (NSString *)deviceLabel
+- (NSString *)device
 {
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         return @"phone";
