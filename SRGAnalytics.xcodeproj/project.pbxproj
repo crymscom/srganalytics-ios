@@ -498,8 +498,6 @@
 				6FF3E21B1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m */,
 				6F4ED9AF1F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.h */,
 				6F4ED9B01F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.m */,
-				6F4ED9B11F38A50200E3EA51 /* SRGSubdivision+SRGAnalytics_DataProvider.h */,
-				6F4ED9B21F38A50200E3EA51 /* SRGSubdivision+SRGAnalytics_DataProvider.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -737,7 +735,6 @@
 			files = (
 				6F4ED9B31F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.h in Headers */,
 				6FF3E21C1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.h in Headers */,
-				6F4ED9B51F38A50200E3EA51 /* SRGSubdivision+SRGAnalytics_DataProvider.h in Headers */,
 				6FD31A661FE6D8C300D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.h in Headers */,
 				6FD31A691FE6E34300D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider_Private.h in Headers */,
 				6FB331F91D9BFB77001469F2 /* SRGAnalytics_DataProvider.h in Headers */,
@@ -1212,7 +1209,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MARKETING_VERSION = 3.2.2;
+				MARKETING_VERSION = 3.3;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -1259,7 +1256,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MARKETING_VERSION = 3.2.2;
+				MARKETING_VERSION = 3.3;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
