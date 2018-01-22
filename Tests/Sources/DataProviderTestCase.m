@@ -53,8 +53,8 @@ static NSURL *MMFTestURL(void)
         [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeDVR quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
             XCTAssertNil(error);
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            XCTAssertEqual(self.mediaPlayerController.streamingMethod, SRGStreamingMethodHLS);
-            XCTAssertEqual(self.mediaPlayerController.quality, SRGQualityHD);
+            XCTAssertEqual(self.mediaPlayerController.resource.streamingMethod, SRGStreamingMethodHLS);
+            XCTAssertEqual(self.mediaPlayerController.resource.quality, SRGQualityHD);
             XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeFlat);
             [expectation fulfill];
         }];
@@ -526,7 +526,7 @@ static NSURL *MMFTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    XCTAssertEqual(self.mediaPlayerController.streamingMethod, SRGStreamingMethodHLS);
+    XCTAssertEqual(self.mediaPlayerController.resource.streamingMethod, SRGStreamingMethodHLS);
 }
 
 - (void)testPreferredStreamingMethod
@@ -546,7 +546,7 @@ static NSURL *MMFTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    XCTAssertEqual(self.mediaPlayerController.streamingMethod, SRGStreamingMethodProgressive);
+    XCTAssertEqual(self.mediaPlayerController.resource.streamingMethod, SRGStreamingMethodProgressive);
 }
 
 - (void)testNonExistingStreamingMethod
@@ -566,7 +566,7 @@ static NSURL *MMFTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    XCTAssertEqual(self.mediaPlayerController.streamingMethod, SRGStreamingMethodHLS);
+    XCTAssertEqual(self.mediaPlayerController.resource.streamingMethod, SRGStreamingMethodHLS);
 }
 
 - (void)testDefaultStreamType
@@ -646,7 +646,7 @@ static NSURL *MMFTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    XCTAssertEqual(self.mediaPlayerController.quality, SRGQualityHD);
+    XCTAssertEqual(self.mediaPlayerController.resource.quality, SRGQualityHD);
 }
 
 - (void)testPreferredQuality
@@ -666,7 +666,7 @@ static NSURL *MMFTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    XCTAssertEqual(self.mediaPlayerController.quality, SRGQualitySD);
+    XCTAssertEqual(self.mediaPlayerController.resource.quality, SRGQualitySD);
 }
 
 - (void)testNonExistingQuality
@@ -686,7 +686,7 @@ static NSURL *MMFTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    XCTAssertEqual(self.mediaPlayerController.quality, SRGQualityHD);
+    XCTAssertEqual(self.mediaPlayerController.resource.quality, SRGQualityHD);
 }
 
 - (void)testPreferHTTPSResources

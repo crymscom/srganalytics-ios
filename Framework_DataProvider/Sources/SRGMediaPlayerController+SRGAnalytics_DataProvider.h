@@ -82,14 +82,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable) SRGMediaComposition *mediaComposition;
 
 /**
- *  The streaming method used for playback, `SRGStreamingMethodNone` if none.
+ *  The resource used for playback, `nil` if none.
  */
-@property (nonatomic, readonly) SRGStreamingMethod streamingMethod;
-
-/**
- *  The quality used for playback, `SRGQualityNone` if none.
- */
-@property (nonatomic, readonly) SRGQuality quality;
+@property (nonatomic, readonly, nullable) SRGResource *resource;
 
 @end
 
