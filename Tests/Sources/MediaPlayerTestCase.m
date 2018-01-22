@@ -2520,14 +2520,14 @@ static NSURL *DVRTestURL(void)
     XCTAssertEqual(liveHeartbeatCount, 2);
 }
 
-- (void)testHeartbeatWithSegmentPlayback
+- (void)testHeartbeatWithInitialSegmentSelectionAndPlaythrough
 {
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         return YES;
     }];
     
-    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(4., NSEC_PER_SEC), CMTimeMakeWithSeconds(4., NSEC_PER_SEC))];
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(4., NSEC_PER_SEC), CMTimeMakeWithSeconds(7., NSEC_PER_SEC))];
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
                              inSegments:@[segment]
@@ -2536,9 +2536,12 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
+    Segment *updatedSegment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(4., NSEC_PER_SEC), CMTimeMakeWithSeconds(7., NSEC_PER_SEC))];
+    self.mediaPlayerController.segments = @[updatedSegment];
+    
     // For tests, heartbeat interval is set to 3 seconds.
     
-    __block NSInteger heartbeatCount = 0;
+    __block NSInteger fullLengthHeartbeatCount = 0;
     __block NSInteger segmentHeartbeatCount = 0;
     id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
@@ -2546,7 +2549,7 @@ static NSURL *DVRTestURL(void)
                 ++segmentHeartbeatCount;
             }
             else {
-                ++heartbeatCount;
+                ++fullLengthHeartbeatCount;
             }
         }
     }];
@@ -2557,8 +2560,102 @@ static NSURL *DVRTestURL(void)
         [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
     }];
     
-    XCTAssertEqual(heartbeatCount, 3);
-    XCTAssertEqual(segmentHeartbeatCount, 1);
+    XCTAssertEqual(fullLengthHeartbeatCount, 2);
+    XCTAssertEqual(segmentHeartbeatCount, 2);
+}
+
+- (void)testHeartbeatWithSegmentSelectionAfterStartOnFullLength
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        return YES;
+    }];
+    
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
+    labels.customInfo = @{ @"stream_name" : @"full",
+                           @"overridable_name" : @"full" };
+    
+    Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(7., NSEC_PER_SEC))];
+    [self.mediaPlayerController playURL:OnDemandTestURL()
+                                 atTime:kCMTimeZero
+                           withSegments:@[segment]
+                        analyticsLabels:labels
+                               userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Play for a while. No stream events must be received
+    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when playing");
+    }];
+    
+    [self expectationForElapsedTimeInterval:1. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+    }];
+    
+    // When selecting a segment, usual playback events due to seeking must be inhibited
+    
+    __block BOOL fullEndReceived = NO;
+    __block BOOL segmentPlayReceived = NO;
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"stop"]) {
+            XCTAssertFalse(fullEndReceived);
+            XCTAssertFalse(segmentPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertNil(labels[@"segment_name"]);
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"media_position"], @"1");
+            fullEndReceived = YES;
+        }
+        else if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(segmentPlayReceived);
+            
+            XCTAssertEqualObjects(labels[@"stream_name"], @"full");
+            XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+            XCTAssertEqualObjects(labels[@"media_position"], @"50");
+            segmentPlayReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event %@", event);
+        }
+        
+        return fullEndReceived && segmentPlayReceived;
+    }];
+    
+    [self.mediaPlayerController seekToSegment:segment withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    Segment *updatedSegment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(7., NSEC_PER_SEC))];
+    self.mediaPlayerController.segments = @[updatedSegment];
+    
+    // For tests, heartbeat interval is set to 3 seconds.
+    
+    __block NSInteger fullLengthHeartbeatCount = 0;
+    __block NSInteger segmentHeartbeatCount = 0;
+    id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        if ([event isEqualToString:@"pos"]) {
+            if ([labels[@"segment_name"] isEqualToString:@"segment"]) {
+                ++segmentHeartbeatCount;
+            }
+            else {
+                ++fullLengthHeartbeatCount;
+            }
+        }
+    }];
+    
+    // Wait a little bit to collect potential events
+    [self expectationForElapsedTimeInterval:15. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
+    }];
+    
+    XCTAssertEqual(fullLengthHeartbeatCount, 2);
+    XCTAssertEqual(segmentHeartbeatCount, 2);
 }
 
 - (void)testDVRLiveHeartbeats
