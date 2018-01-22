@@ -2546,11 +2546,11 @@ static NSURL *DVRTestURL(void)
     id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             if ([labels[@"segment_name"] isEqualToString:@"segment"]) {
-                    ++segmentHeartbeatCount;
-                }
-                else {
-                    ++fullLengthHeartbeatCount;
-                }
+                ++segmentHeartbeatCount;
+            }
+            else {
+                ++fullLengthHeartbeatCount;
+            }
         }
     }];
     
