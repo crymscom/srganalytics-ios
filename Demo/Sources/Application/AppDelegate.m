@@ -9,6 +9,7 @@
 #import "DemosViewController.h"
 #import "SimpleViewController.h"
 
+#import <AkamaiMediaAnalytics/AkamaiMediaAnalytics.h>
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 #import <SRGLogger/SRGLogger.h>
@@ -28,6 +29,8 @@
     
     [TCDebug setDebugLevel:TCLogLevel_Verbose];
     [TCDebug setNotificationLog:YES];
+    
+    [AKAMMediaAnalytics_Av setDebugLogging:YES];
     
     SRGAnalyticsConfiguration *configuration = [[SRGAnalyticsConfiguration alloc] initWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierRTS
                                                                                                        container:10
