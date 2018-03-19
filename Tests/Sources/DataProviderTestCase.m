@@ -141,14 +141,14 @@ static NSURL *MMFTestURL(void)
     // Use a segment id as video id, expect segment labels
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-        XCTAssertEqualObjects(labels[@"media_segment"], @"Schweizer Pioniere: Die Fitnessbloggerin in der Türkei");
+        XCTAssertEqualObjects(labels[@"media_segment"], @"Newsflash");
         XCTAssertEqualObjects(labels[@"media_streaming_quality"], @"HD");
-        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:27af89ad-2408-40e5-8318-96e25d3e003b");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:985aa94a-587c-494e-b484-3cd746032264");
         return YES;
     }];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSRF];
-    [[dataProvider videoMediaCompositionWithUid:@"27af89ad-2408-40e5-8318-96e25d3e003b" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider videoMediaCompositionWithUid:@"985aa94a-587c-494e-b484-3cd746032264" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
         [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
