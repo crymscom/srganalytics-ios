@@ -112,7 +112,7 @@
                 }
                     
                 case 1: {
-                    URL = [NSURL URLWithString:@"http://stream-i.rts.ch/i/tp/1993/tp_10071993-,450,k.mp4.csmil/master.m3u8"];
+                    URL = [NSURL URLWithString:@"https://rtsvodww-vh.akamaihd.net/i/journ-12h45/2018/journ-12h45_20180220_full_555600-,301k,101k,701k,1201k,2001k,3501k,6001k,.mp4.csmil/master.m3u8?__b__=800"];
                     break;
                 }
                     
