@@ -6,11 +6,13 @@
 
 #import "SRGMediaPlayerTracker.h"
 
+#import "NSBundle+SRGAnalytics_MediaPlayer.h"
 #import "NSMutableDictionary+SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsSegment.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
+#import <AkamaiMediaAnalytics/AkamaiMediaAnalytics.h>
 #import <ComScore/ComScore.h>
 #import <libextobjc/libextobjc.h>
 #import <MAKVONotificationCenter/MAKVONotificationCenter.h>
@@ -467,4 +469,8 @@ __attribute__((constructor)) static void SRGMediaPlayerTrackerInit(void)
                                                object:nil];
     
     s_trackers = [NSMutableDictionary dictionary];
+    
+    // Akamai media analytics SDK initialization
+    NSURL *akamaiConfigurationFileURL = [[NSBundle srg_analyticsMediaPlayerBundle] URLForResource:@"akamai-media-analytics-configuration" withExtension:@"xml"];
+    [AKAMMediaAnalytics_Av initWithConfigURL:akamaiConfigurationFileURL];
 }
