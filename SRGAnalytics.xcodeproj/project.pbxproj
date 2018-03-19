@@ -45,6 +45,7 @@
 		6F9EA14E205F931B0088820F /* NSBundle+SRGAnalytics_MediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9EA14C205F93190088820F /* NSBundle+SRGAnalytics_MediaPlayer.m */; };
 		6F9EA152205FA2D10088820F /* SRGAkamaiAnalyticsTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F9EA150205FA2D10088820F /* SRGAkamaiAnalyticsTracker.h */; };
 		6F9EA153205FA2D10088820F /* SRGAkamaiAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9EA151205FA2D10088820F /* SRGAkamaiAnalyticsTracker.m */; };
+		6F9EA154205FB2B50088820F /* AkamaiMediaAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9EA143205F91BD0088820F /* AkamaiMediaAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FA09D891D9EC4BC00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8A1D9EC4CF00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8B1D9EC4DB00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
@@ -230,6 +231,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6F9EA154205FB2B50088820F /* AkamaiMediaAnalytics.framework in Embed Frameworks */,
 				E6FC7EAA1D61F99100A55085 /* SRGMediaPlayer.framework in Embed Frameworks */,
 				E672EA521D62F19E00CFB080 /* ComScore.framework in Embed Frameworks */,
 				E6FC7EA61D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Embed Frameworks */,
