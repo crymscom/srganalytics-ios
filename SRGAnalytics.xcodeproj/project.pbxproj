@@ -43,6 +43,8 @@
 		6F9EA14A205F92D30088820F /* akamai-media-analytics-configuration.xml in Resources */ = {isa = PBXBuildFile; fileRef = 6F9EA149205F92D30088820F /* akamai-media-analytics-configuration.xml */; };
 		6F9EA14D205F931B0088820F /* NSBundle+SRGAnalytics_MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F9EA14B205F93190088820F /* NSBundle+SRGAnalytics_MediaPlayer.h */; };
 		6F9EA14E205F931B0088820F /* NSBundle+SRGAnalytics_MediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9EA14C205F93190088820F /* NSBundle+SRGAnalytics_MediaPlayer.m */; };
+		6F9EA152205FA2D10088820F /* SRGAkamaiAnalyticsTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F9EA150205FA2D10088820F /* SRGAkamaiAnalyticsTracker.h */; };
+		6F9EA153205FA2D10088820F /* SRGAkamaiAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9EA151205FA2D10088820F /* SRGAkamaiAnalyticsTracker.m */; };
 		6FA09D891D9EC4BC00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8A1D9EC4CF00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8B1D9EC4DB00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
@@ -280,6 +282,8 @@
 		6F9EA149205F92D30088820F /* akamai-media-analytics-configuration.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "akamai-media-analytics-configuration.xml"; sourceTree = "<group>"; };
 		6F9EA14B205F93190088820F /* NSBundle+SRGAnalytics_MediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SRGAnalytics_MediaPlayer.h"; sourceTree = "<group>"; };
 		6F9EA14C205F93190088820F /* NSBundle+SRGAnalytics_MediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SRGAnalytics_MediaPlayer.m"; sourceTree = "<group>"; };
+		6F9EA150205FA2D10088820F /* SRGAkamaiAnalyticsTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGAkamaiAnalyticsTracker.h; sourceTree = "<group>"; };
+		6F9EA151205FA2D10088820F /* SRGAkamaiAnalyticsTracker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGAkamaiAnalyticsTracker.m; sourceTree = "<group>"; };
 		6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGLogger.framework; path = Carthage/Build/iOS/SRGLogger.framework; sourceTree = "<group>"; };
 		6FA09D921D9EC66D00EDCA64 /* SRGAnalyticsDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsDataProvider.h; sourceTree = "<group>"; };
 		6FAE25F01F34D87600874A53 /* SRGAnalyticsConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsConfiguration.h; sourceTree = "<group>"; };
@@ -498,6 +502,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		6F9EA14F205FA2B30088820F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				6F9EA150205FA2D10088820F /* SRGAkamaiAnalyticsTracker.h */,
+				6F9EA151205FA2D10088820F /* SRGAkamaiAnalyticsTracker.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		6FB331F41D9BFB77001469F2 /* Framework_DataProvider */ = {
 			isa = PBXGroup;
 			children = (
@@ -631,6 +644,7 @@
 			isa = PBXGroup;
 			children = (
 				6F0498591F343C7A00E88BEC /* Categories */,
+				6F9EA14F205FA2B30088820F /* Helpers */,
 				E6B8E9FC1D92868D000D6904 /* Protocols */,
 				6F04985C1F343C7A00E88BEC /* SRGAnalyticsMediaPlayerLogger.h */,
 				6F04985D1F343C7A00E88BEC /* SRGMediaPlayerTracker.h */,
@@ -774,6 +788,7 @@
 				E6B8EA041D92868D000D6904 /* SRGAnalyticsSegment.h in Headers */,
 				6F0498621F343C7A00E88BEC /* SRGMediaPlayerTracker.h in Headers */,
 				6F9EA14D205F931B0088820F /* NSBundle+SRGAnalytics_MediaPlayer.h in Headers */,
+				6F9EA152205FA2D10088820F /* SRGAkamaiAnalyticsTracker.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1039,6 +1054,7 @@
 			files = (
 				6F0498601F343C7A00E88BEC /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m in Sources */,
 				6F0498631F343C7A00E88BEC /* SRGMediaPlayerTracker.m in Sources */,
+				6F9EA153205FA2D10088820F /* SRGAkamaiAnalyticsTracker.m in Sources */,
 				6F9EA14E205F931B0088820F /* NSBundle+SRGAnalytics_MediaPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -6,13 +6,11 @@
 
 #import "SRGMediaPlayerTracker.h"
 
-#import "NSBundle+SRGAnalytics_MediaPlayer.h"
 #import "NSMutableDictionary+SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsSegment.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
-#import <AkamaiMediaAnalytics/AkamaiMediaAnalytics.h>
 #import <ComScore/ComScore.h>
 #import <libextobjc/libextobjc.h>
 #import <MAKVONotificationCenter/MAKVONotificationCenter.h>
@@ -385,11 +383,6 @@ static NSMutableDictionary *s_trackers = nil;
     }
 }
 
-+ (void)applicationWillTerminate:(NSNotification *)notification
-{
-    [AKAMMediaAnalytics_Av deinitMASDK];
-}
-
 - (void)playbackStateDidChange:(NSNotification *)notification
 {
     SRGMediaPlayerController *mediaPlayerController = self.mediaPlayerController;
@@ -467,18 +460,10 @@ static NSMutableDictionary *s_trackers = nil;
 
 __attribute__((constructor)) static void SRGMediaPlayerTrackerInit(void)
 {
-    // Akamai media analytics SDK initialization
-    NSURL *akamaiConfigurationFileURL = [[NSBundle srg_analyticsMediaPlayerBundle] URLForResource:@"akamai-media-analytics-configuration" withExtension:@"xml"];
-    [AKAMMediaAnalytics_Av initWithConfigURL:akamaiConfigurationFileURL];
-    
     // Observe state changes for all media player controllers to create and remove trackers on the fly
     [[NSNotificationCenter defaultCenter] addObserver:[SRGMediaPlayerTracker class]
                                              selector:@selector(playbackStateDidChange:)
                                                  name:SRGMediaPlayerPlaybackStateDidChangeNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:[SRGMediaPlayerTracker class]
-                                             selector:@selector(applicationWillTerminate:)
-                                                 name:UIApplicationWillTerminateNotification
                                                object:nil];
     
     s_trackers = [NSMutableDictionary dictionary];
