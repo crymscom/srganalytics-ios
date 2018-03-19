@@ -44,6 +44,7 @@ Then run `carthage update --platform iOS` to update the dependencies. You will n
   * `TCCore`: The core TagCommander framework.
   * `TCSDK`: The main TagCommander SDK framework.
 * If you use our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS) and want automatic media consumption tracking as well, add the following frameworks to your project:
+  * `AkamaiMediaAnalytics`: Akamai media analytics framework.
   * `ComScore`: comScore framework.
   * `libextobjc`: A utility framework.
   * `MAKVONotificationCenter`: A safe KVO framework.
@@ -53,6 +54,7 @@ Then run `carthage update --platform iOS` to update the dependencies. You will n
   * `TCCore`: The core TagCommander framework.
   * `TCSDK`: The main TagCommander SDK framework.
 * If you use our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios) to retrieve and play medias, add the following frameworks to your project:
+  * `AkamaiMediaAnalytics`: Akamai media analytics framework.
   * `ComScore`: comScore framework.
   * `libextobjc`: A utility framework.
   * `MAKVONotificationCenter`: A safe KVO framework.

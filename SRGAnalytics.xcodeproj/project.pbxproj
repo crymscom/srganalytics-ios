@@ -38,6 +38,8 @@
 		6F8F25961F0BD797009B116E /* TCCore.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FD9B2441F0BC4E0004805D2 /* TCCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6F8F25971F0BD797009B116E /* TCSDK.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6F971F781F87EAED007C5049 /* PageViewLabelsTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F971F771F87EAED007C5049 /* PageViewLabelsTestCase.m */; };
+		6F9EA144205F91BD0088820F /* AkamaiMediaAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9EA143205F91BD0088820F /* AkamaiMediaAnalytics.framework */; };
+		6F9EA147205F92380088820F /* AkamaiMediaAnalytics.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6F9EA143205F91BD0088820F /* AkamaiMediaAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FA09D891D9EC4BC00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8A1D9EC4CF00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8B1D9EC4DB00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
@@ -203,6 +205,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6F9EA147205F92380088820F /* AkamaiMediaAnalytics.framework in Copy Frameworks Into Test Bundle */,
 				6F8F25961F0BD797009B116E /* TCCore.framework in Copy Frameworks Into Test Bundle */,
 				6F8F25971F0BD797009B116E /* TCSDK.framework in Copy Frameworks Into Test Bundle */,
 				6FB97FEB1E4AF1870014C4C2 /* MAKVONotificationCenter.framework in Copy Frameworks Into Test Bundle */,
@@ -270,6 +273,7 @@
 		6F4ED9B01F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SRGSegment+SRGAnalytics_DataProvider.m"; sourceTree = "<group>"; };
 		6F69505A1E9BA32B008FE8FA /* KIF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KIF.framework; path = Carthage/Build/iOS/KIF.framework; sourceTree = "<group>"; };
 		6F971F771F87EAED007C5049 /* PageViewLabelsTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageViewLabelsTestCase.m; sourceTree = "<group>"; };
+		6F9EA143205F91BD0088820F /* AkamaiMediaAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AkamaiMediaAnalytics.framework; path = Carthage/Build/iOS/AkamaiMediaAnalytics.framework; sourceTree = "<group>"; };
 		6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGLogger.framework; path = Carthage/Build/iOS/SRGLogger.framework; sourceTree = "<group>"; };
 		6FA09D921D9EC66D00EDCA64 /* SRGAnalyticsDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsDataProvider.h; sourceTree = "<group>"; };
 		6FAE25F01F34D87600874A53 /* SRGAnalyticsConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsConfiguration.h; sourceTree = "<group>"; };
@@ -369,6 +373,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F9EA144205F91BD0088820F /* AkamaiMediaAnalytics.framework in Frameworks */,
 				6FD9B2481F0BC4FA004805D2 /* TCCore.framework in Frameworks */,
 				6FD9B2491F0BC4FA004805D2 /* TCSDK.framework in Frameworks */,
 				6FB97FE51E4AF0B50014C4C2 /* MAKVONotificationCenter.framework in Frameworks */,
@@ -532,6 +537,7 @@
 		AC99606425BE818BA71D7E4D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6F9EA143205F91BD0088820F /* AkamaiMediaAnalytics.framework */,
 				9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */,
 				E672EA461D62EE5D00CFB080 /* ComScore.framework */,
 				9F1519231AC422B800AE051D /* Foundation.framework */,
