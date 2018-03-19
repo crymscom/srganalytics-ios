@@ -56,8 +56,8 @@
 __attribute__((constructor)) static void SRGAkamaiAnalyticsTrackerInit(void)
 {
     // Akamai media analytics SDK initialization
-    NSURL *akamaiConfigurationFileURL = [[NSBundle srg_analyticsMediaPlayerBundle] URLForResource:@"akamai-media-analytics-configuration" withExtension:@"xml"];
-    [AKAMMediaAnalytics_Av initWithConfigURL:akamaiConfigurationFileURL];
+    NSURL *akamaiConfigurationURL = [NSURL URLWithString:@"https://raw.githubusercontent.com/SRGSSR/srg-player-videojs/master/ext/AkamaiQosBeacon.xml?token=AAKY2TvDYcbXv83_58oDzgPpzfTf66izks5auLsMwA%3D%3D"];
+    [AKAMMediaAnalytics_Av initWithConfigURL:akamaiConfigurationURL];
 
     [[NSNotificationCenter defaultCenter] addObserver:[SRGAkamaiAnalyticsTracker class]
                                              selector:@selector(playbackStateDidChange:)
