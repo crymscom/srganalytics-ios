@@ -40,6 +40,9 @@
 		6F971F781F87EAED007C5049 /* PageViewLabelsTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F971F771F87EAED007C5049 /* PageViewLabelsTestCase.m */; };
 		6F9EA144205F91BD0088820F /* AkamaiMediaAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9EA143205F91BD0088820F /* AkamaiMediaAnalytics.framework */; };
 		6F9EA147205F92380088820F /* AkamaiMediaAnalytics.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6F9EA143205F91BD0088820F /* AkamaiMediaAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6F9EA14A205F92D30088820F /* akamai-media-analytics-configuration.xml in Resources */ = {isa = PBXBuildFile; fileRef = 6F9EA149205F92D30088820F /* akamai-media-analytics-configuration.xml */; };
+		6F9EA14D205F931B0088820F /* NSBundle+SRGAnalytics_MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F9EA14B205F93190088820F /* NSBundle+SRGAnalytics_MediaPlayer.h */; };
+		6F9EA14E205F931B0088820F /* NSBundle+SRGAnalytics_MediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9EA14C205F93190088820F /* NSBundle+SRGAnalytics_MediaPlayer.m */; };
 		6FA09D891D9EC4BC00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8A1D9EC4CF00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D8B1D9EC4DB00EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
@@ -274,6 +277,9 @@
 		6F69505A1E9BA32B008FE8FA /* KIF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KIF.framework; path = Carthage/Build/iOS/KIF.framework; sourceTree = "<group>"; };
 		6F971F771F87EAED007C5049 /* PageViewLabelsTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageViewLabelsTestCase.m; sourceTree = "<group>"; };
 		6F9EA143205F91BD0088820F /* AkamaiMediaAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AkamaiMediaAnalytics.framework; path = Carthage/Build/iOS/AkamaiMediaAnalytics.framework; sourceTree = "<group>"; };
+		6F9EA149205F92D30088820F /* akamai-media-analytics-configuration.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "akamai-media-analytics-configuration.xml"; sourceTree = "<group>"; };
+		6F9EA14B205F93190088820F /* NSBundle+SRGAnalytics_MediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SRGAnalytics_MediaPlayer.h"; sourceTree = "<group>"; };
+		6F9EA14C205F93190088820F /* NSBundle+SRGAnalytics_MediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SRGAnalytics_MediaPlayer.m"; sourceTree = "<group>"; };
 		6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGLogger.framework; path = Carthage/Build/iOS/SRGLogger.framework; sourceTree = "<group>"; };
 		6FA09D921D9EC66D00EDCA64 /* SRGAnalyticsDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsDataProvider.h; sourceTree = "<group>"; };
 		6FAE25F01F34D87600874A53 /* SRGAnalyticsConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsConfiguration.h; sourceTree = "<group>"; };
@@ -476,17 +482,27 @@
 		6F0498591F343C7A00E88BEC /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				6F9EA14B205F93190088820F /* NSBundle+SRGAnalytics_MediaPlayer.h */,
+				6F9EA14C205F93190088820F /* NSBundle+SRGAnalytics_MediaPlayer.m */,
 				6F04985A1F343C7A00E88BEC /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h */,
 				6F04985B1F343C7A00E88BEC /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		6F9EA148205F92D30088820F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6F9EA149205F92D30088820F /* akamai-media-analytics-configuration.xml */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		6FB331F41D9BFB77001469F2 /* Framework_DataProvider */ = {
 			isa = PBXGroup;
 			children = (
-				6FB331F51D9BFB77001469F2 /* Info.plist */,
 				6FB331F61D9BFB77001469F2 /* Sources */,
+				6FB331F51D9BFB77001469F2 /* Info.plist */,
 				6FB331F71D9BFB77001469F2 /* SRGAnalytics_DataProvider.h */,
 			);
 			path = Framework_DataProvider;
@@ -603,8 +619,9 @@
 		E61C0D5E1D61EFD200AEAE6D /* Framework_MediaPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				E61C0D5F1D61EFD200AEAE6D /* Info.plist */,
+				6F9EA148205F92D30088820F /* Resources */,
 				E61C0D601D61EFD200AEAE6D /* Sources */,
+				E61C0D5F1D61EFD200AEAE6D /* Info.plist */,
 				E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */,
 			);
 			path = Framework_MediaPlayer;
@@ -756,6 +773,7 @@
 				6F0498611F343C7A00E88BEC /* SRGAnalyticsMediaPlayerLogger.h in Headers */,
 				E6B8EA041D92868D000D6904 /* SRGAnalyticsSegment.h in Headers */,
 				6F0498621F343C7A00E88BEC /* SRGMediaPlayerTracker.h in Headers */,
+				6F9EA14D205F931B0088820F /* NSBundle+SRGAnalytics_MediaPlayer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -966,6 +984,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F9EA14A205F92D30088820F /* akamai-media-analytics-configuration.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1020,6 +1039,7 @@
 			files = (
 				6F0498601F343C7A00E88BEC /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m in Sources */,
 				6F0498631F343C7A00E88BEC /* SRGMediaPlayerTracker.m in Sources */,
+				6F9EA14E205F931B0088820F /* NSBundle+SRGAnalytics_MediaPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

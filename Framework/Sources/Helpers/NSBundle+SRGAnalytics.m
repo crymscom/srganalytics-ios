@@ -12,14 +12,14 @@
 
 @implementation NSBundle (SRGAnalytics)
 
-+ (instancetype)srg_analyticsBundle
++ (NSBundle *)srg_analyticsBundle
 {
-    static NSBundle *bundle;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        bundle = [NSBundle bundleForClass:[SRGAnalyticsTracker class]];
+    static NSBundle *s_bundle;
+    static dispatch_once_t s_once;
+    dispatch_once(&s_once, ^{
+        s_bundle = [NSBundle bundleForClass:[SRGAnalyticsTracker class]];
     });
-    return bundle;
+    return s_bundle;
 }
 
 + (BOOL)srg_isProductionVersion
