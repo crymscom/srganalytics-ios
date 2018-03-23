@@ -116,7 +116,7 @@ The number of URL schemes an application declares is limited to 50. Please conta
 
 ### Working with the library
 
-To learn about how the library can be used, have a look at the [getting started guide](Documentation/Getting-started.md).
+To learn about how the library can be used, have a look at the [getting started guide](Getting-started.md).
 
 ### Logging
 
@@ -138,8 +138,8 @@ To test what the library is capable of, run the associated demo.
 
 ## Migration from previous major versions
 
-For information about migration from older major library versions, please read the [migration guide](Documentation/Migration-guide.md).
+For information about migration from older major library versions, please read the [migration guide](Migration-guide.md).
 
 ## License
 
-See the [LICENSE](LICENSE) file for more information.
+See the [LICENSE](../LICENSE) file for more information.

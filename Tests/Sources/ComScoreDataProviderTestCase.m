@@ -94,13 +94,13 @@ static NSURL *ServiceTestURL(void)
     // Use a segment id as video id, expect segment labels
     [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Schweizer Pioniere: Die Fitnessbloggerin in der Türkei");
+        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Newsflash");
         XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
         return YES;
     }];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierSRF];
-    [[dataProvider videoMediaCompositionWithUid:@"27af89ad-2408-40e5-8318-96e25d3e003b" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider videoMediaCompositionWithUid:@"985aa94a-587c-494e-b484-3cd746032264" chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
         [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
