@@ -67,11 +67,16 @@ static NSMutableDictionary *s_trackers = nil;
     return self;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
 - (id)init
 {
     [self doesNotRecognizeSelector:_cmd];
     return [self initWithMediaPlayerController:nil];
 }
+
+#pragma clang diagnostic pop
 
 #pragma mark Tracking
 
