@@ -347,8 +347,7 @@ static NSURL *MMFTestURL(void)
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierRTS];
     NSDate *startDate = [NSDate date];
     NSDate *endDate = [startDate dateByAddingTimeInterval:200];
-    NSString *URNString = [NSString stringWithFormat:@"urn:rts:video:_bipbop_advanced_delay_%@_%@", @((NSInteger)[startDate timeIntervalSince1970]), @((NSInteger)[endDate timeIntervalSince1970])];
-    SRGMediaURN *URN = [SRGMediaURN mediaURNWithString:URNString];
+    NSString *URN = [NSString stringWithFormat:@"urn:rts:video:_bipbop_advanced_delay_%@_%@", @((NSInteger)[startDate timeIntervalSince1970]), @((NSInteger)[endDate timeIntervalSince1970])];
     [[dataProvider mediaCompositionWithURN:URN chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         originalTitle = mediaComposition.mainChapter.title;
@@ -476,8 +475,7 @@ static NSURL *MMFTestURL(void)
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL() businessUnitIdentifier:SRGDataProviderBusinessUnitIdentifierRTS];
     NSDate *startDate = [[NSDate date] dateByAddingTimeInterval:-6];
     NSDate *endDate = [startDate dateByAddingTimeInterval:20];
-    NSString *URNString = [NSString stringWithFormat:@"urn:rts:video:_rts_info_fulldvr_%@_%@", @((NSInteger)[startDate timeIntervalSince1970]), @((NSInteger)[endDate timeIntervalSince1970])];
-    SRGMediaURN *URN = [SRGMediaURN mediaURNWithString:URNString];
+    NSString *URN = [NSString stringWithFormat:@"urn:rts:video:_rts_info_fulldvr_%@_%@", @((NSInteger)[startDate timeIntervalSince1970]), @((NSInteger)[endDate timeIntervalSince1970])];
     [[dataProvider mediaCompositionWithURN:URN chaptersOnly:NO completionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         mediaComposition1 = mediaComposition;
