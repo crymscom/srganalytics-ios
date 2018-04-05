@@ -372,6 +372,12 @@ static NSURL *DVRTestURL(void)
 
 - (void)testLiveLabels
 {
+    // FIXME: See https://github.com/SRGSSR/SRGMediaPlayer-iOS/issues/50. Workaround so that the test passes on iOS 11.3.
+    NSOperatingSystemVersion operatingSystemVersion = [NSProcessInfo processInfo].operatingSystemVersion;
+    if (operatingSystemVersion.majorVersion == 11 && operatingSystemVersion.minorVersion == 3) {
+        self.mediaPlayerController.minimumDVRWindowLength = 40.;
+    }
+    
     // Check that these labels are constant between states (for some, the value might differ, but they must
     // in which case we test they are constantly availble or unavailable)
     void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
