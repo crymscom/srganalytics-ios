@@ -120,6 +120,20 @@ withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
 @property (nonatomic, getter=isTracked) BOOL tracked;
 
 /**
+ *  The analytics player name label associated with the player.
+ *
+ *  @discussion Default value is `SRGMediaPlayer`. Can be override.
+ */
+@property (nonatomic, copy) NSString *analyticsPlayerName;
+
+/**
+ *  The analytics player version label associated with the player.
+ *
+ *  @discussion Default value is `SRGMediaPlayerMarketingVersion()`. Can be override.
+ */
+@property (nonatomic, copy) NSString *analyticsPlayerVersion;
+
+/**
  *  The analytics labels associated with the playback.
  *
  *  @discussion Labels will be discarded when the player is reset. These labels are stored within the `userInfo`
