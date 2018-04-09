@@ -122,16 +122,16 @@ withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
 /**
  *  The analytics player name label associated with the player.
  *
- *  @discussion Default value is `SRGMediaPlayer`. Can be override.
+ *  @discussion Default value is `SRGMediaPlayer`.
  */
-@property (nonatomic, copy) NSString *analyticsPlayerName;
+@property (nonatomic, copy, null_resettable) NSString *analyticsPlayerName;
 
 /**
  *  The analytics player version label associated with the player.
  *
- *  @discussion Default value is `SRGMediaPlayerMarketingVersion()`. Can be override.
+ *  @discussion Default value is `SRGMediaPlayerMarketingVersion()`.
  */
-@property (nonatomic, copy) NSString *analyticsPlayerVersion;
+@property (nonatomic, copy, null_resettable) NSString *analyticsPlayerVersion;
 
 /**
  *  The analytics labels associated with the playback.
