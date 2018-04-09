@@ -144,8 +144,8 @@ static NSMutableDictionary *s_trackers = nil;
 - (SRGAnalyticsStreamLabels *)labelsWithSegment:(id<SRGSegment>)segment userInfo:(NSDictionary *)userInfo
 {
     SRGAnalyticsStreamLabels *playerLabels = [[SRGAnalyticsStreamLabels alloc] init];
-    playerLabels.playerName = @"SRGMediaPlayer";
-    playerLabels.playerVersion = SRGMediaPlayerMarketingVersion();
+    playerLabels.playerName = self.mediaPlayerController.analyticsPlayerName;
+    playerLabels.playerVersion = self.mediaPlayerController.analyticsPlayerVersion;
     
     AVPlayerItem *playerItem = self.mediaPlayerController.player.currentItem;
     AVMediaSelectionGroup *legibleGroup = [playerItem.asset mediaSelectionGroupForMediaCharacteristic:AVMediaCharacteristicLegible];
