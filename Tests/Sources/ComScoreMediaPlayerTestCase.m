@@ -359,6 +359,20 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
+        XCTAssertEqualObjects(labels[@"ns_st_mp"], @"SRGMediaPlayer");
+        XCTAssertEqualObjects(labels[@"ns_st_mv"], SRGMediaPlayerMarketingVersion());
+        return YES;
+    }];
+    
+    self.mediaPlayerController.analyticsPlayerName = nil;
+    self.mediaPlayerController.analyticsPlayerVersion = nil;
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 - (void)testOnDemandLabels
