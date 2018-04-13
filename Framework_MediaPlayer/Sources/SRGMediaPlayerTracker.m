@@ -67,11 +67,16 @@ static NSMutableDictionary *s_trackers = nil;
     return self;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
 - (id)init
 {
     [self doesNotRecognizeSelector:_cmd];
     return [self initWithMediaPlayerController:nil];
 }
+
+#pragma clang diagnostic pop
 
 #pragma mark Tracking
 
@@ -139,8 +144,8 @@ static NSMutableDictionary *s_trackers = nil;
 - (SRGAnalyticsStreamLabels *)labelsWithSegment:(id<SRGSegment>)segment userInfo:(NSDictionary *)userInfo
 {
     SRGAnalyticsStreamLabels *playerLabels = [[SRGAnalyticsStreamLabels alloc] init];
-    playerLabels.playerName = @"SRGMediaPlayer";
-    playerLabels.playerVersion = SRGMediaPlayerMarketingVersion();
+    playerLabels.playerName = self.mediaPlayerController.analyticsPlayerName;
+    playerLabels.playerVersion = self.mediaPlayerController.analyticsPlayerVersion;
     
     AVPlayerItem *playerItem = self.mediaPlayerController.player.currentItem;
     AVMediaSelectionGroup *legibleGroup = [playerItem.asset mediaSelectionGroupForMediaCharacteristic:AVMediaCharacteristicLegible];
