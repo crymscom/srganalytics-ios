@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  @name Supported business units
  */
-typedef NSString * SRGAnalyticsBusinessUnitIdentifier NS_STRING_ENUM;
+typedef NSString * SRGAnalyticsBusinessUnitIdentifier NS_TYPED_ENUM;
 
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRSI;
 OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierRTR;
