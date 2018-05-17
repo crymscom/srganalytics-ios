@@ -13,6 +13,7 @@
 
 // Associated object keys
 static void *s_observerKey = &s_observerKey;
+static void *s_appearedOnce = &s_appearedOnce;
 
 // Swizzled method original implementations
 static void (*s_viewDidAppear)(id, SEL, BOOL);
@@ -41,15 +42,15 @@ static void swizzled_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL an
 
 - (void)srg_trackPageView
 {
-    return [self srg_trackPageViewForced:YES];
+    return [self srg_trackPageViewAutomatic:NO];
 }
 
-- (void)srg_trackPageViewForced:(BOOL)forced
+- (void)srg_trackPageViewAutomatic:(BOOL)automatic
 {
     if ([self conformsToProtocol:@protocol(SRGAnalyticsViewTracking)]) {
         id<SRGAnalyticsViewTracking> trackedSelf = (id<SRGAnalyticsViewTracking>)self;
         
-        if (! forced && [trackedSelf respondsToSelector:@selector(srg_isTrackedAutomatically)] && ! [trackedSelf srg_isTrackedAutomatically]) {
+        if (automatic && [trackedSelf respondsToSelector:@selector(srg_isTrackedAutomatically)] && ! [trackedSelf srg_isTrackedAutomatically]) {
             return;
         }
         
@@ -85,8 +86,14 @@ static void swizzled_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animat
 {
     s_viewDidAppear(self, _cmd, animated);
     
-    if ([self isMovingToParentViewController] || [self isBeingPresented]) {
-        [self srg_trackPageViewForced:NO];
+    // Track a view controller at most once automatically when appearing. This covers all possible appearance scenarios,
+    // e.g.
+    //    - Moving to a parent view controller
+    //    - Modal presentation
+    //    - View controller revealed after having been initially hidden behind a modal view controller
+    if (! [objc_getAssociatedObject(self, s_appearedOnce) boolValue]) {
+        [self srg_trackPageViewAutomatic:YES];
+        objc_setAssociatedObject(self, s_appearedOnce, @YES, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
     // An anonymous observer (conveniently created with the notification center registration method taking a block as
@@ -96,7 +103,7 @@ static void swizzled_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animat
     id observer = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
         @strongify(self)
         
-        [self srg_trackPageViewForced:NO];
+        [self srg_trackPageViewAutomatic:YES];
     }];
     objc_setAssociatedObject(self, s_observerKey, observer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }

@@ -15,13 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  describes the data to send with such events. The only method required by this protocol is `srg_pageViewTitle`, 
  *  which provides the name to be used for the view events.
  *
- *  By default, if a view controller conforms to the `SRGAnalyticsViewTracking` protocol, a view event will
- *  automatically be sent when it is presented (when `-viewWillAppear:` is called), or when the application 
- *  returns from background while the view controller is visible.
+ *  By default, if a view controller conforms to the `SRGAnalyticsViewTracking` protocol, a page view event will
+ *  automatically be sent when it is presented for the first time (i.e. when `-viewDidAppear:` is called for
+ *  the first time). In addition, a page view event will be automatically sent every time the application returns
+ *  from background while the view controller is visible.
  *
  *  If you want to control when page view events are sent, however, you can implement the optional `srg_isTrackedAutomatically`
- *  method to return `NO`, disabling the mechanism described above. In this case you are responsible of calling the
- *  `-[UIViewController trackPageView]` method appropriately when you want the measurement event to be recorded. This 
+ *  method to return `NO`, disabling the mechanisms described above. In this case you are responsible of calling the
+ *  `-[UIViewController trackPageView]` method appropriately when you want the measurement events to be recorded. This
  *  approach is useful when the labels are not available at the time `-viewDidAppear:` is called, e.g. if they are 
  *  retrieved from a web service request started when the view controller gets displayed.
  *
@@ -45,6 +46,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  the `-[UIViewController trackPageView]` method manually when a view event must be recorded.
  *
  *  @return `YES` iff automatic tracking must be enabled, `NO` otherwise.
+ *
+ *  @discussion Automatic apparition tracking is considered only the first time a view controller is displayed. If
+ *              the value returned by `srg_trackedAutomatically` is changed after a view controller was already displayed,
+ *              no page view will be automatically sent afterwards. For this reason, it is recommended that the value
+ *              returned by `srg_trackedAutomatically` should never be dynamic: Either return `YES` or `NO` depending
+ *              on which kind of tracking you need.
  */
 @property (nonatomic, readonly, getter=srg_isTrackedAutomatically) BOOL srg_trackedAutomatically;
 
