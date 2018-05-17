@@ -85,7 +85,7 @@ static void swizzled_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animat
 {
     s_viewDidAppear(self, _cmd, animated);
     
-    if ([self isMovingToParentViewController]) {
+    if ([self isMovingToParentViewController] || [self isBeingPresented]) {
         [self srg_trackPageViewForced:NO];
     }
     
