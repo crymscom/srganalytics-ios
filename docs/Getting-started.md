@@ -46,7 +46,7 @@ Be careful when using custom labels, though, and ensure your custom keys do not 
 
 View controllers represent the units of screen interaction in an application, this is why page view measurements are primarily made on view controllers. All methods and protocols for view controller tracking have been gathered in the `UIViewController+SRGAnalytics.h` file.
 
-View controller measurement is an opt-in, in other words no view controller is tracked by default. For a view controller to be tracked, the recommended approach is to have it conform to the `SRGAnalyticsViewTracking` protocol. This protocol requires a single method to be implemented, returning the view controller title to be used for measurements. By default, once a view controller implements the `SRGAnalyticsViewTracking` protocol, it automatically generates a page view when it appears on screen, or when the application wakes up from background with the view controller displayed.
+View controller measurement is an opt-in, in other words no view controller is tracked by default. For a view controller to be tracked, the recommended approach is to have it conform to the `SRGAnalyticsViewTracking` protocol. This protocol requires a single method to be implemented, returning the view controller title to be used for measurements. By default, once a view controller implements the `SRGAnalyticsViewTracking` protocol, it automatically generates a page view when it first appears on screen, or when the application wakes up from background with the view controller displayed.
 
 The `SRGAnalyticsViewTracking` protocol supplies optional methods to specify other custom measurement information (labels). If the required information is not available when the view controller appears, you can disable automatic tracking by implementing the optional `-srg_isTrackedAutomatically` protocol method, returning `NO`. You are then responsible of calling `-trackPageView` on the view controller when the data required by the page view is available.
 
@@ -89,7 +89,7 @@ and implement the methods you need to supply measurement information:
 @end
 ```
 
-When the view is opened or if the view is visible on screen when waking up the application, this information will be automatically sent.
+When the view is opened for the first time, or if the view is visible on screen when waking up the application, this information will be automatically sent.
 
 Note that the labels might differ depending on the service they are sent to. Be sure to apply the conventions required for measurements of your application. Moreover, custom information requires the corresponding variables to be defined for TagCommander first (unlike comScore information which can be freely defined).
 
