@@ -11,6 +11,7 @@
 #import "SRGSegment+SRGAnalytics_DataProvider.h"
 
 #import <libextobjc/libextobjc.h>
+#import <SRGContentProtection/SRGContentProtection.h>
 
 static NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
 static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMediaPlayerResource";
@@ -44,7 +45,10 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
             [fullUserInfo addEntriesFromDictionary:userInfo];
         }
         
-        [self prepareToPlayURL:streamURL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
+        // TODO: Use content protection declared by the media composition
+        AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL contentProtection:SRGContentProtectionAkamaiToken];
+        AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
+        [self prepareToPlayItem:playerItem atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
             completionHandler ? completionHandler() : nil;
         }];
     }];
