@@ -46,11 +46,11 @@
     return labels;
 }
 
-- (SRGRequest *)resourceWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                                          streamType:(SRGStreamType)streamType
-                                             quality:(SRGQuality)quality
-                                        startBitRate:(NSInteger)startBitRate
-                                     completionBlock:(SRGResourceCompletionBlock)completionBlock
+- (void)playbackContextWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                                         streamType:(SRGStreamType)streamType
+                                            quality:(SRGQuality)quality
+                                       startBitRate:(NSInteger)startBitRate
+                                       contextBlock:(SRGPlaybackContextBlock)contextBlock
 {
     if (startBitRate < 0) {
         startBitRate = 0;
@@ -122,7 +122,8 @@
     SRGResource *resource = [resources filteredArrayUsingPredicate:predicate].firstObject ?: resources.firstObject;
     if (! resource) {
         SRGAnalyticsMediaPlayerLogError(@"mediaplayer", @"No valid resource could be retrieved");
-        return nil;
+        contextBlock(nil, nil, nil, NSNotFound, nil);
+        return;
     }
     
     // Use the preferrred start bit rate is set. Currrently only supported by Akamai via a __b__ parameter (the actual
@@ -138,17 +139,9 @@
         URL = URLComponents.URL;
     }
     
-    SRGRequest *request = [SRGDataProvider tokenizeURL:URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
-        // Bypass token server response, if an error occurred. We don't want to block the media player here
-        if (error) {
-            URL = resource.URL;
-        }
-        
-        SRGAnalyticsStreamLabels *labels = [self analyticsLabelsForResource:resource];
-        NSInteger index = [chapter.segments indexOfObject:self.mainSegment];
-        completionBlock(URL, resource, chapter.segments, index, labels, nil);
-    }];
-    return request;
+    SRGAnalyticsStreamLabels *labels = [self analyticsLabelsForResource:resource];
+    NSInteger index = [chapter.segments indexOfObject:self.mainSegment];
+    contextBlock(URL, resource, chapter.segments, index, labels);
 }
 
 @end

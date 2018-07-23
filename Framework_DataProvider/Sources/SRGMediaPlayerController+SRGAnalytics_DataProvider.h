@@ -19,10 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SRGMediaPlayerController (SRGAnalytics_DataProvider)
 
 /**
- *  Return a request for preparing to play a media composition, trying to use the specified preferred settings. The request 
- *  can be started automatically if `resume` is set to `YES`. If set to `NO`, you are responsible of starting the request,
- *  either by calling `-resume` on it or adding it to a request queue. If no exact match can be found for the specified
- *  settings, a recommended valid setup will be used instead.
+ *  Play a media composition, trying to use the specified preferred settings. If no exact match can be found for the
+ *  specified settings, a recommended valid setup will be used instead.
  *
  *  @param mediaComposition  The media composition to prepare.
  *  @param streamingMethod   The streaming method to use. If `SRGStreamingMethodNone` or if the method is not
@@ -37,41 +35,30 @@ NS_ASSUME_NONNULL_BEGIN
  *                           Usual SRG SSR valid bit ranges vary from 100 to 3000 kbps. Use 0 to start with the
  *                           lowest quality stream.
  *  @param userInfo          Optional dictionary conveying arbitrary information during playback.
- *  @param resume            Set to `YES` if you want the request to be started automatically.
- *  @param completionHandler The completion handler will be called once the player is prepared, or if a request
- *                           error is encountered (it will not be called if the player cannot play the content;
- *                           listen to `SRGMediaPlayerPlaybackDidFailNotification` to catch playback errors).
+ *  @param completionHandler The completion block to be called after the player has finished preparing the media. This
+ *                           block will only be called if the media could be loaded.
  *
- *  @return The playback request. If successful, the player will be paused on the chapter / segment specified by
- *          the media composition. The method might return `nil` if no protocol / quality combination is found.
- *          Resource lookup is performed so that a matching streaming method is found first, then a matching
- *          stream type, and finally a quality.
+ *  @return The method does nothing if no protocol / quality combination is found. Resource lookup is performed so that
+ *          a matching streaming method is found first, then a matching stream type, and finally a quality.
  */
-- (nullable SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
-                          withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                                            streamType:(SRGStreamType)streamType
-                                               quality:(SRGQuality)quality
-                                          startBitRate:(NSInteger)startBitRate
-                                              userInfo:(nullable NSDictionary *)userInfo
-                                                resume:(BOOL)resume
-                                     completionHandler:(nullable void (^)(NSError * _Nullable error))completionHandler;
+- (void)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
+         withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                           streamType:(SRGStreamType)streamType
+                              quality:(SRGQuality)quality
+                         startBitRate:(NSInteger)startBitRate
+                             userInfo:(nullable NSDictionary *)userInfo
+                    completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
- *  Return a request for playing a media composition, trying to use the specified preferred settings. The request can
- *  be started automatically if `resume` is set to `YES`. If set to `NO`, you are responsible of starting the request,
- *  either by calling `-resume` on it or adding it to a request queue. If no exact match can be found for the specified
- *  settings, a recommended valid setup will be used instead.
- *
- *  For parameter and return value documentation, see above.
+ *  Same as `-prepareToPlayMediaComposition:withPreferredStreamingMethod:streamType:quality:startBitRate:userInfo:completionHandler:`,
+ *  but automatically starting playback once the player has been prepared.
  */
-- (nullable SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
-                 withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                                   streamType:(SRGStreamType)streamType
-                                      quality:(SRGQuality)quality
-                                 startBitRate:(NSInteger)startBitRate
-                                     userInfo:(nullable NSDictionary *)userInfo
-                                       resume:(BOOL)resume
-                            completionHandler:(nullable void (^)(NSError * _Nullable error))completionHandler;
+- (void)playMediaComposition:(SRGMediaComposition *)mediaComposition
+withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                  streamType:(SRGStreamType)streamType
+                     quality:(SRGQuality)quality
+                startBitRate:(NSInteger)startBitRate
+                    userInfo:(nullable NSDictionary *)userInfo;
 
 /**
  *  The media composition currently played, if any.
