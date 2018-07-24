@@ -29,6 +29,10 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
                     completionHandler:(void (^)(void))completionHandler
 {
     [mediaComposition playbackContextWithPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality startBitRate:startBitRate contextBlock:^(NSURL * _Nullable streamURL, SRGResource * _Nullable resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+        if (! resource) {
+            return;
+        }
+        
         if (resource.presentation == SRGPresentation360) {
             if (self.view.viewMode != SRGMediaPlayerViewModeMonoscopic && self.view.viewMode != SRGMediaPlayerViewModeStereoscopic) {
                 self.view.viewMode = SRGMediaPlayerViewModeMonoscopic;
@@ -45,8 +49,14 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
             [fullUserInfo addEntriesFromDictionary:userInfo];
         }
         
-        // TODO: Use content protection declared by the media composition
-        AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL contentProtection:SRGContentProtectionAkamaiToken];
+        // TODO: For DRMs, use content protection declared in the media composition. We should also introduce a resource
+        //       convenience property to get the protection, instead of doing
+        SRGContentProtection contentProtection = SRGContentProtectionNone;
+        if (resource.streamingMethod == SRGStreamingMethodHLS && [streamURL.absoluteString containsString:@"akamai"]) {
+            contentProtection = SRGContentProtectionAkamaiToken;
+        }
+        
+        AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL contentProtection:contentProtection];
         AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
         [self prepareToPlayItem:playerItem atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
             completionHandler ? completionHandler() : nil;
