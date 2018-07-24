@@ -20,7 +20,7 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
 
 #pragma mark Playback methods
 
-- (void)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
+- (BOOL)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
          withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                            streamType:(SRGStreamType)streamType
                               quality:(SRGQuality)quality
@@ -28,8 +28,10 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
                              userInfo:(NSDictionary *)userInfo
                     completionHandler:(void (^)(void))completionHandler
 {
+    __block BOOL success = YES;
     [mediaComposition playbackContextWithPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality startBitRate:startBitRate contextBlock:^(NSURL * _Nullable streamURL, SRGResource * _Nullable resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
         if (! resource) {
+            success = NO;
             return;
         }
         
@@ -62,9 +64,10 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
             completionHandler ? completionHandler() : nil;
         }];
     }];
+    return success;
 }
 
-- (void)playMediaComposition:(SRGMediaComposition *)mediaComposition
+- (BOOL)playMediaComposition:(SRGMediaComposition *)mediaComposition
 withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                   streamType:(SRGStreamType)streamType
                      quality:(SRGQuality)quality

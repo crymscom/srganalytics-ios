@@ -38,10 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param completionHandler The completion block to be called after the player has finished preparing the media. This
  *                           block will only be called if the media could be loaded.
  *
- *  @return The method does nothing if no protocol / quality combination is found. Resource lookup is performed so that
- *          a matching streaming method is found first, then a matching stream type, and finally a quality.
+ *  @return Returns `YES` if playback could be started. Resource lookup is performed so that a matching streaming method
+ *                  is found first, then a matching stream type, and finally a quality. The method returns `NO` and does
+ *                  nothing if no protocol / quality combination is found.
  */
-- (void)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
+- (BOOL)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
          withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                            streamType:(SRGStreamType)streamType
                               quality:(SRGQuality)quality
@@ -53,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Same as `-prepareToPlayMediaComposition:withPreferredStreamingMethod:streamType:quality:startBitRate:userInfo:completionHandler:`,
  *  but automatically starting playback once the player has been prepared.
  */
-- (void)playMediaComposition:(SRGMediaComposition *)mediaComposition
+- (BOOL)playMediaComposition:(SRGMediaComposition *)mediaComposition
 withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                   streamType:(SRGStreamType)streamType
                      quality:(SRGQuality)quality
