@@ -47,6 +47,7 @@
 }
 
 - (BOOL)playbackContextWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                                  contentProtection:(SRGContentProtection)contentProtection
                                          streamType:(SRGStreamType)streamType
                                             quality:(SRGQuality)quality
                                        startBitRate:(NSInteger)startBitRate
@@ -140,6 +141,7 @@
     SRGAnalyticsStreamLabels *labels = [self analyticsLabelsForResource:resource];
     NSInteger index = [chapter.segments indexOfObject:self.mainSegment];
     contextBlock(URL, resource, chapter.segments, index, labels);
+    return YES;
 }
 
 @end

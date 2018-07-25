@@ -45,7 +45,7 @@ static NSURL *ServiceTestURL(void)
     [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
+        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             [expectation fulfill];
         }];
@@ -81,7 +81,7 @@ static NSURL *ServiceTestURL(void)
         XCTAssertNotNil(mediaComposition);
         fetchedMediaComposition = mediaComposition;
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil];
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -107,7 +107,7 @@ static NSURL *ServiceTestURL(void)
         XCTAssertNotNil(mediaComposition);
         fetchedMediaComposition = mediaComposition;
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil];
+        [self.mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];

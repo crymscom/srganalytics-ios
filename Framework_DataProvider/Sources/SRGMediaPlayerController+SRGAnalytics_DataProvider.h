@@ -4,6 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
+#import <SRGContentProtection/SRGContentProtection.h>
 #import <SRGDataProvider/SRGDataProvider.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
@@ -25,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param mediaComposition  The media composition to prepare.
  *  @param streamingMethod   The streaming method to use. If `SRGStreamingMethodNone` or if the method is not
  *                           found, a recommended method will be used instead.
+ If `SRGContentProtectionNone` or not found, the most restrictive content protection
+ *                           is used.
  *  @param streamType        The stream type to use. If `SRGStreamTypeNone` or not found, the optimal available stream
  *                           type is used.
  *  @param quality           The quality to use. If `SRGQualityNone` or not found, the best available quality
@@ -38,12 +41,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param completionHandler The completion block to be called after the player has finished preparing the media. This
  *                           block will only be called if the media could be loaded.
  *
- *  @return Returns `YES` if playback could be started. Resource lookup is performed so that a matching streaming method
- *                  is found first, then a matching stream type, and finally a quality. The method returns `NO` and does
- *                  nothing if no protocol / quality combination is found.
+ *  @return Returns `YES` if playback could be started.
+ *
+ *  @discussion Resource lookup is performed in the order of the parameters (streaming method first, then quality last).
  */
 - (BOOL)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
          withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                    contentProtection:(SRGContentProtection)contentProtection
                            streamType:(SRGStreamType)streamType
                               quality:(SRGQuality)quality
                          startBitRate:(NSInteger)startBitRate
@@ -56,6 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)playMediaComposition:(SRGMediaComposition *)mediaComposition
 withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+           contentProtection:(SRGContentProtection)contentProtection
                   streamType:(SRGStreamType)streamType
                      quality:(SRGQuality)quality
                 startBitRate:(NSInteger)startBitRate

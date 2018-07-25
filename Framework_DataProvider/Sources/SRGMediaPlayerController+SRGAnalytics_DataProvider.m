@@ -11,7 +11,6 @@
 #import "SRGSegment+SRGAnalytics_DataProvider.h"
 
 #import <libextobjc/libextobjc.h>
-#import <SRGContentProtection/SRGContentProtection.h>
 
 static NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
 static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMediaPlayerResource";
@@ -22,13 +21,14 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
 
 - (BOOL)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
          withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                    contentProtection:(SRGContentProtection)contentProtection
                            streamType:(SRGStreamType)streamType
                               quality:(SRGQuality)quality
                          startBitRate:(NSInteger)startBitRate
                              userInfo:(NSDictionary *)userInfo
                     completionHandler:(void (^)(void))completionHandler
 {
-    return [mediaComposition playbackContextWithPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality startBitRate:startBitRate contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+    return [mediaComposition playbackContextWithPreferredStreamingMethod:streamingMethod contentProtection:contentProtection streamType:streamType quality:quality startBitRate:startBitRate contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
         if (resource.presentation == SRGPresentation360) {
             if (self.view.viewMode != SRGMediaPlayerViewModeMonoscopic && self.view.viewMode != SRGMediaPlayerViewModeStereoscopic) {
                 self.view.viewMode = SRGMediaPlayerViewModeMonoscopic;
@@ -62,12 +62,13 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
 
 - (BOOL)playMediaComposition:(SRGMediaComposition *)mediaComposition
 withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+           contentProtection:(SRGContentProtection)contentProtection
                   streamType:(SRGStreamType)streamType
                      quality:(SRGQuality)quality
                 startBitRate:(NSInteger)startBitRate
                     userInfo:(NSDictionary *)userInfo
 {
-    return [self prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality startBitRate:startBitRate userInfo:userInfo completionHandler:^{
+    return [self prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod contentProtection:contentProtection streamType:streamType quality:quality startBitRate:startBitRate userInfo:userInfo completionHandler:^{
         [self play];
     }];
 }
