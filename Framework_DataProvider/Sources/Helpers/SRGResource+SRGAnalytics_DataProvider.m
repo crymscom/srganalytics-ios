@@ -12,7 +12,7 @@
 
 - (SRGContentProtection)srg_recommendedContentProtection
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%@ == %@", @keypath(SRGDRM.new, type), @(SRGDRMTypeFairPlay)];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGDRM.new, type), @(SRGDRMTypeFairPlay)];
     if ([self.DRMs filteredArrayUsingPredicate:predicate].count != 0) {
         return SRGContentProtectionFairPlay;
     }
