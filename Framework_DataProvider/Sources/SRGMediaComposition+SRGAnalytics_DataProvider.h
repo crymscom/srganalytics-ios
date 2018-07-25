@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // Completion block signatures.
-typedef void (^SRGPlaybackContextBlock)(NSURL *streamURL, SRGResource *resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels);
+typedef void (^SRGPlaybackContextBlock)(NSURL *streamURL, SRGResource *resource, SRGDRM * _Nullable DRM, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels);
 
 @interface SRGMediaComposition (SRGAnalytics_DataProvider)
 
@@ -35,7 +35,7 @@ typedef void (^SRGPlaybackContextBlock)(NSURL *streamURL, SRGResource *resource,
  *                           Usual SRG SSR valid bit ranges vary from 100 to 3000 kbps. Use 0 to start with the
  *                           lowest quality stream.
  *  @param userInfo          Optional dictionary conveying arbitrary information during playback.
- *  @param resultBlock       The block called to return the resolved resource context (stream URL, resource, segments
+ *  @param resultBlock       The block called to return the resolved resource context (stream URL, resource, DRM, segments
  *                           associated with the media, segment index to start at, as well as consolidated analytics labels).
  *
  *  @return `YES` if a playback context can be resolved, in which case the context block is called. If no context can

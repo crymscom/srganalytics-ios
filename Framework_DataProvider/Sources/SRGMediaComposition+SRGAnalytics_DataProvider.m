@@ -161,7 +161,7 @@
     
     SRGAnalyticsStreamLabels *labels = [self analyticsLabelsForResource:resource];
     NSInteger index = [chapter.segments indexOfObject:self.mainSegment];
-    contextBlock(URL, resource, chapter.segments, index, labels);
+    contextBlock(URL, resource, [resource DRMWithType:SRGDRMTypeFairPlay], chapter.segments, index, labels);
     return YES;
 }
 

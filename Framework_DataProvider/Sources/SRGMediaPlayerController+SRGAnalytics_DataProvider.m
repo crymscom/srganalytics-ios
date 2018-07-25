@@ -28,7 +28,7 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
                              userInfo:(NSDictionary *)userInfo
                     completionHandler:(void (^)(void))completionHandler
 {
-    return [mediaComposition playbackContextWithPreferredStreamingMethod:streamingMethod contentProtection:contentProtection streamType:streamType quality:quality startBitRate:startBitRate contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+    return [mediaComposition playbackContextWithPreferredStreamingMethod:streamingMethod contentProtection:contentProtection streamType:streamType quality:quality startBitRate:startBitRate contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, SRGDRM * _Nullable DRM, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
         if (resource.presentation == SRGPresentation360) {
             if (self.view.viewMode != SRGMediaPlayerViewModeMonoscopic && self.view.viewMode != SRGMediaPlayerViewModeStereoscopic) {
                 self.view.viewMode = SRGMediaPlayerViewModeMonoscopic;

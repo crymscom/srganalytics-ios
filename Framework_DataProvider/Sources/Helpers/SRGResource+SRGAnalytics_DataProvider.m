@@ -12,8 +12,8 @@
 
 - (SRGContentProtection)srg_recommendedContentProtection
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGDRM.new, type), @(SRGDRMTypeFairPlay)];
-    if ([self.DRMs filteredArrayUsingPredicate:predicate].count != 0) {
+    SRGDRM *fairPlayDRM = [self DRMWithType:SRGDRMTypeFairPlay];
+    if (fairPlayDRM) {
         return SRGContentProtectionFairPlay;
     }
     else if (self.streamingMethod == SRGStreamingMethodHLS && [self.URL.absoluteString containsString:@"akamai"]) {
