@@ -41,6 +41,8 @@ typedef void (^SRGPlaybackContextBlock)(NSURL *streamURL, SRGResource *resource,
  *          be resolved, the method returns `NO` and the context block is not called.
  *
  *  @discussion Resource lookup is performed in the order of the parameters (streaming method first, then quality last).
+ *              If the playback resource has an `srg_recommendedContentProtection` value of `SRGContentProtectionAkamaiToken`,
+ *              use `SRGAkamaiTokenService` from `SRGContentProtection.framework` to retrieve a playable tokenized URL.
  */
 - (BOOL)playbackContextWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                                   contentProtection:(SRGContentProtection)contentProtection
