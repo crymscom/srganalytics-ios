@@ -34,10 +34,12 @@ typedef void (^SRGPlaybackContextBlock)(NSURL * _Nullable streamURL, SRGResource
  *  @param resultBlock      The block called to return the resolved resource context (stream URL, resource, segments
  *                          associated with the media, segment index to start at, as well as consolidated analytics labels).
  *
- *  @discussion Resource lookup is performed so that a matching streaming method is found first, then a matching stream type,
- *              and finally a quality. If no context can be found, the returned URL, resource and segments are `nil`.
+ *  @return `YES` if a playback context can be resolved, in which case the context block is called. If no context can
+ *          be resolved, the method returns `NO` and the context block is not called.
+ *
+ *  @discussion Resource lookup is performed in the order of the parameters (streaming method first, then quality last).
  */
-- (void)playbackContextWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+- (BOOL)playbackContextWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                                          streamType:(SRGStreamType)streamType
                                             quality:(SRGQuality)quality
                                        startBitRate:(NSInteger)startBitRate

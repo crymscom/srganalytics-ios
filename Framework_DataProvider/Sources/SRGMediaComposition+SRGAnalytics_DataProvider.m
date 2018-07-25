@@ -46,7 +46,7 @@
     return labels;
 }
 
-- (void)playbackContextWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+- (BOOL)playbackContextWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                                          streamType:(SRGStreamType)streamType
                                             quality:(SRGQuality)quality
                                        startBitRate:(NSInteger)startBitRate
@@ -121,9 +121,7 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(quality)];
     SRGResource *resource = [resources filteredArrayUsingPredicate:predicate].firstObject ?: resources.firstObject;
     if (! resource) {
-        SRGAnalyticsMediaPlayerLogError(@"mediaplayer", @"No valid resource could be retrieved");
-        contextBlock(nil, nil, nil, NSNotFound, nil);
-        return;
+        return NO;
     }
     
     // Use the preferrred start bit rate is set. Currrently only supported by Akamai via a __b__ parameter (the actual
