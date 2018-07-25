@@ -53,9 +53,7 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
             }
                 
             case SRGContentProtectionFairPlay: {
-                // TODO:
-                NSURL *certificateURL = [NSURL URLWithString:@"certif://todo"];
-                asset = [AVURLAsset srg_fairPlayProtectedAssetWithURL:streamURL certificateURL:certificateURL];
+                asset = DRM.licenseURL ? [AVURLAsset srg_fairPlayProtectedAssetWithURL:streamURL certificateURL:DRM.licenseURL] : [AVURLAsset assetWithURL:streamURL];
                 break;
             }
                 
