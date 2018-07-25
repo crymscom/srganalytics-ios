@@ -4,7 +4,8 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <SRGContentProtection/SRGContentProtection.h>
+#import "SRGResource+SRGAnalytics_DataProvider.h"
+
 #import <SRGDataProvider/SRGDataProvider.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 

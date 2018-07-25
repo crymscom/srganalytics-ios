@@ -45,14 +45,26 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
             [fullUserInfo addEntriesFromDictionary:userInfo];
         }
         
-        // TODO: For DRMs, use content protection declared in the media composition. We should also introduce a resource
-        //       convenience property to get the protection, instead of doing
-        SRGContentProtection contentProtection = SRGContentProtectionNone;
-        if (resource.streamingMethod == SRGStreamingMethodHLS && [streamURL.absoluteString containsString:@"akamai"]) {
-            contentProtection = SRGContentProtectionAkamaiToken;
+        AVURLAsset *asset = nil;
+        switch (resource.srg_recommendedContentProtection) {
+            case SRGContentProtectionAkamaiToken: {
+                asset = [AVURLAsset srg_akamaiTokenProtectedAssetWithURL:streamURL];
+                break;
+            }
+                
+            case SRGContentProtectionFairPlay: {
+                // TODO:
+                NSURL *certificateURL = [NSURL URLWithString:@"certif://todo"];
+                asset = [AVURLAsset srg_fairPlayProtectedAssetWithURL:streamURL certificateURL:certificateURL];
+                break;
+            }
+                
+            default: {
+                asset = [AVURLAsset assetWithURL:streamURL];
+                break;
+            }
         }
         
-        AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL contentProtection:contentProtection];
         AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
         [self prepareToPlayItem:playerItem atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
             completionHandler ? completionHandler() : nil;
