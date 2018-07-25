@@ -22,9 +22,8 @@ typedef void (^SRGPlaybackContextBlock)(NSURL *streamURL, SRGResource *resource,
  *
  *  @param streamingMethod   The streaming method to use. If `SRGStreamingMethodNone` or if the method is not
  *                           found, a recommended method will be used instead.
- *  @param contentProtection The content protection to be applied if available, otherwise a lower setting will be
- *                           used. If `SRGContentProtectionNone` or not found, the most restrictive content protection
- *                           is used.
+ *  @param contentProtection The content protection to be applied if available. If `SRGContentProtectionNone` or if the
+ *                           content protection is not supported, a recommended protection will be used instead.
  *  @param streamType        The stream type to use. If `SRGStreamTypeNone` or not found, the optimal available stream
  *                           type is used.
  *  @param quality           The quality to use. If `SRGQualityNone` or not found, the best available quality

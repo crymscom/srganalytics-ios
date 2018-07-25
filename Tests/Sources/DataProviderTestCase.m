@@ -8,6 +8,9 @@
 
 #import <SRGAnalytics_DataProvider/SRGAnalytics_DataProvider.h>
 
+// Private headers
+#import "SRGResource+SRGAnalytics_DataProvider.h"
+
 static NSURL *ServiceTestURL(void)
 {
     return [NSURL URLWithString:@"http://il.srgssr.ch"];
@@ -573,6 +576,63 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     XCTAssertEqual(self.mediaPlayerController.resource.streamingMethod, SRGStreamingMethodHLS);
+}
+
+- (void)testDefaultContentProtection
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
+    [[dataProvider mediaCompositionForURN:@"urn:rts:audio:3262320" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
+            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
+            [expectation fulfill];
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    XCTAssertEqual(self.mediaPlayerController.resource.srg_recommendedContentProtection, SRGContentProtectionFree);
+}
+
+- (void)testPreferredContentProtection
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
+    [[dataProvider mediaCompositionForURN:@"urn:rts:video:3608506" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionAkamaiToken streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
+            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
+            [expectation fulfill];
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    XCTAssertEqual(self.mediaPlayerController.resource.srg_recommendedContentProtection, SRGContentProtectionAkamaiToken);
+}
+
+- (void)testNonSupportedContentProtection
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
+    [[dataProvider mediaCompositionForURN:@"urn:rts:video:3608506" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionFree streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
+            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
+            [expectation fulfill];
+        }];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    XCTAssertEqual(self.mediaPlayerController.resource.srg_recommendedContentProtection, SRGContentProtectionAkamaiToken);
 }
 
 - (void)testDefaultStreamType

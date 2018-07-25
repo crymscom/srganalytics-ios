@@ -7,6 +7,7 @@
 #import "SRGMediaComposition+SRGAnalytics_DataProvider.h"
 
 #import "SRGAnalyticsMediaPlayerLogger.h"
+#import "SRGResource+SRGAnalytics_DataProvider.h"
 #import "SRGSegment+SRGAnalytics_DataProvider.h"
 
 #import <libextobjc/libextobjc.h>
@@ -68,28 +69,6 @@
         resources = [chapter resourcesForStreamingMethod:chapter.recommendedStreamingMethod];
     }
     
-    // Determine the stream type order to use (start with a default setup, overridden if a preferred type has been set),
-    // from the lowest to the highest priority.
-    NSArray<NSNumber *> *orderedStreamTypes = @[@(SRGStreamTypeOnDemand), @(SRGStreamTypeLive), @(SRGStreamTypeDVR)];
-    if (streamType != SRGStreamTypeNone) {
-        orderedStreamTypes = [[orderedStreamTypes mtl_arrayByRemovingObject:@(streamType)] arrayByAddingObject:@(streamType)];
-    }
-    
-    NSSortDescriptor *streamTypeSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, streamType) ascending:NO comparator:^(NSNumber * _Nonnull streamType1, NSNumber * _Nonnull streamType2) {
-        // Don't simply compare enum values as integers since their order might change.
-        NSUInteger index1 = [orderedStreamTypes indexOfObject:streamType1];
-        NSUInteger index2 = [orderedStreamTypes indexOfObject:streamType2];
-        if (index1 == index2) {
-            return NSOrderedSame;
-        }
-        else if (index1 < index2) {
-            return NSOrderedAscending;
-        }
-        else {
-            return NSOrderedDescending;
-        }
-    }];
-    
     NSSortDescriptor *URLSchemeSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, URL) ascending:NO comparator:^NSComparisonResult(NSURL * _Nonnull URL1, NSURL * _Nonnull URL2) {
         // Only declare ordering for important URL schemes. For other schemes the initial order will be preserved
         NSArray<NSString *> *orderedURLSchemes = @[@"http", @"https"];
@@ -114,7 +93,49 @@
             return NSOrderedDescending;
         }
     }];
-    resources = [resources sortedArrayUsingDescriptors:@[streamTypeSortDescriptor, URLSchemeSortDescriptor]];
+    
+    // Determine the content protection order to use (start with a default setup, overridden if a preferred value has been set).
+    NSArray<NSNumber *> *orderedContentProtections = @[@(SRGContentProtectionFree), @(SRGContentProtectionAkamaiToken), @(SRGContentProtectionFairPlay)];
+    if (contentProtection != SRGContentProtectionNone) {
+        orderedContentProtections = [[orderedContentProtections mtl_arrayByRemovingObject:@(contentProtection)] arrayByAddingObject:@(contentProtection)];
+    }
+    
+    NSSortDescriptor *contentProtectionSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, srg_recommendedContentProtection) ascending:NO comparator:^NSComparisonResult(NSNumber * _Nonnull contentProtection1, NSNumber * _Nonnull contentProtection2) {
+        // Don't simply compare enum values as integers since their order might change.
+        NSUInteger index1 = [orderedContentProtections indexOfObject:contentProtection1];
+        NSUInteger index2 = [orderedContentProtections indexOfObject:contentProtection2];
+        if (index1 == index2) {
+            return NSOrderedSame;
+        }
+        else if (index1 < index2) {
+            return NSOrderedAscending;
+        }
+        else {
+            return NSOrderedDescending;
+        }
+    }];
+    
+    // Determine the stream type order to use (start with a default setup, overridden if a preferred value has been set).
+    NSArray<NSNumber *> *orderedStreamTypes = @[@(SRGStreamTypeOnDemand), @(SRGStreamTypeLive), @(SRGStreamTypeDVR)];
+    if (streamType != SRGStreamTypeNone) {
+        orderedStreamTypes = [[orderedStreamTypes mtl_arrayByRemovingObject:@(streamType)] arrayByAddingObject:@(streamType)];
+    }
+    
+    NSSortDescriptor *streamTypeSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, streamType) ascending:NO comparator:^(NSNumber * _Nonnull streamType1, NSNumber * _Nonnull streamType2) {
+        // Don't simply compare enum values as integers since their order might change.
+        NSUInteger index1 = [orderedStreamTypes indexOfObject:streamType1];
+        NSUInteger index2 = [orderedStreamTypes indexOfObject:streamType2];
+        if (index1 == index2) {
+            return NSOrderedSame;
+        }
+        else if (index1 < index2) {
+            return NSOrderedAscending;
+        }
+        else {
+            return NSOrderedDescending;
+        }
+    }];
+    resources = [resources sortedArrayUsingDescriptors:@[URLSchemeSortDescriptor, contentProtectionSortDescriptor, streamTypeSortDescriptor]];
     
     // Resources are initially ordered by quality (see `-resourcesForStreamingMethod:` documentation), and this order
     // is kept stable by the stream type sort descriptor above. We therefore attempt to find a proper match for the specified
