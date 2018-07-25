@@ -523,257 +523,215 @@ static NSURL *MMFTestURL(void)
 
 - (void)testDefaultStreamingMethod
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:audio:3262320" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
-            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            [expectation fulfill];
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.streamingMethod, SRGStreamingMethodHLS);
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqual(self.mediaPlayerController.resource.streamingMethod, SRGStreamingMethodHLS);
 }
 
 - (void)testPreferredStreamingMethod
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:audio:3262320" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodProgressive contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
-            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            [expectation fulfill];
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodProgressive contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.streamingMethod, SRGStreamingMethodProgressive);
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqual(self.mediaPlayerController.resource.streamingMethod, SRGStreamingMethodProgressive);
 }
 
 - (void)testNonExistingStreamingMethod
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:audio:3262320" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodHTTP contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
-            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            [expectation fulfill];
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodHTTP contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.streamingMethod, SRGStreamingMethodHLS);
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqual(self.mediaPlayerController.resource.streamingMethod, SRGStreamingMethodHLS);
 }
 
 - (void)testDefaultContentProtection
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
-    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
-    [[dataProvider mediaCompositionForURN:@"urn:rts:audio:3262320" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
-            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            [expectation fulfill];
+    // TODO: Use production IL when DRM streams are provided on it
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
+    [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18_akamai_mixed" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.srg_recommendedContentProtection, SRGContentProtectionFairPlay);
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqual(self.mediaPlayerController.resource.srg_recommendedContentProtection, SRGContentProtectionFree);
 }
 
 - (void)testPreferredContentProtection
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
-    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
-    [[dataProvider mediaCompositionForURN:@"urn:rts:video:3608506" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionAkamaiToken streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
-            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            [expectation fulfill];
+    // TODO: Use production IL when DRM streams are provided on it
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
+    [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18_akamai_mixed" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionAkamaiToken streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.srg_recommendedContentProtection, SRGContentProtectionAkamaiToken);
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqual(self.mediaPlayerController.resource.srg_recommendedContentProtection, SRGContentProtectionAkamaiToken);
 }
 
 - (void)testNonSupportedContentProtection
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
-    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
-    [[dataProvider mediaCompositionForURN:@"urn:rts:video:3608506" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionFree streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
-            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            [expectation fulfill];
+    // TODO: Use production IL when DRM streams are provided on it
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
+    [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18_akamai_mixed" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionFree streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.srg_recommendedContentProtection, SRGContentProtectionFairPlay);
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqual(self.mediaPlayerController.resource.srg_recommendedContentProtection, SRGContentProtectionAkamaiToken);
 }
 
 - (void)testDefaultStreamType
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:video:3608506" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
-            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            [expectation fulfill];
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.streamType, SRGStreamTypeDVR);
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqual(self.mediaPlayerController.streamType, SRGStreamTypeDVR);
 }
 
 - (void)testPreferredStreamType
 {
-    // FIXME: See https://github.com/SRGSSR/SRGMediaPlayer-iOS/issues/50. Workaround so that the test passes on iOS >= 11.3.
-    NSOperatingSystemVersion operatingSystemVersion = [NSProcessInfo processInfo].operatingSystemVersion;
-    if (operatingSystemVersion.majorVersion == 11 && operatingSystemVersion.minorVersion >= 3) {
-        self.mediaPlayerController.minimumDVRWindowLength = 40.;
-    }
-    
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:video:3608506" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeLive quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
-            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            [expectation fulfill];
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeLive quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.streamType, SRGStreamTypeLive);
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqual(self.mediaPlayerController.streamType, SRGStreamTypeLive);
 }
 
 - (void)testNonExistingStreamType
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:video:3608506" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeOnDemand quality:SRGQualityHD startBitRate:0 userInfo:nil completionHandler:^{
-            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            [expectation fulfill];
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeOnDemand quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.streamType, SRGStreamTypeDVR);
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqual(self.mediaPlayerController.streamType, SRGStreamTypeDVR);
 }
 
 - (void)testDefaultQuality
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 userInfo:nil completionHandler:^{
-            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            [expectation fulfill];
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.quality, SRGQualityHD);
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqual(self.mediaPlayerController.resource.quality, SRGQualityHD);
 }
 
 - (void)testPreferredQuality
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualitySD startBitRate:0 userInfo:nil completionHandler:^{
-            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            [expectation fulfill];
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualitySD startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.quality, SRGQualitySD);
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqual(self.mediaPlayerController.resource.quality, SRGQualitySD);
 }
 
 - (void)testNonExistingQuality
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityHQ startBitRate:0 userInfo:nil completionHandler:^{
-            XCTAssertNil(error);
-            XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
-            [expectation fulfill];
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityHQ startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.quality, SRGQualityHD);
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqual(self.mediaPlayerController.resource.quality, SRGQualityHD);
 }
 
 - (void)testPreferHTTPSResources
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
     // The following audio has two equivalent resources for the playback default settings (one in HTTP, the other in HTTPS). The order of these resources in the JSON is not reliable,
     // but we want to select always the HTTPS resource first
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:srf:audio:d7dd9454-23c8-4160-81ff-ace459dd53c0" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
-        XCTAssertNotNil(mediaComposition);
-        
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 userInfo:nil completionHandler:^{
-            [expectation fulfill];
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone contentProtection:SRGContentProtectionNone streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqualObjects(resource.URL.scheme, @"https");
         }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    XCTAssertEqualObjects(self.mediaPlayerController.contentURL.scheme, @"https");
 }
 
 @end
