@@ -8,9 +8,6 @@
 
 #import <SRGAnalytics_DataProvider/SRGAnalytics_DataProvider.h>
 
-// Private headers
-#import "SRGResource+SRGAnalytics_DataProvider.h"
-
 static NSURL *ServiceTestURL(void)
 {
     return [NSURL URLWithString:@"http://il.srgssr.ch"];
