@@ -4,24 +4,27 @@
 //  License information is available from the LICENSE file.
 //
 
+#import "SRGResource+SRGAnalytics_DataProvider.h"
+
 #import <SRGAnalytics/SRGAnalytics.h>
-#import <SRGMediaPlayer/SRGMediaPlayer.h>
 #import <SRGDataProvider/SRGDataProvider.h>
+#import <SRGMediaPlayer/SRGMediaPlayer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 // Completion block signatures.
-typedef void (^SRGResourceCompletionBlock)(NSURL * _Nullable tokenizedURL, SRGResource *resource, NSArray<id<SRGSegment>> *segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error);
+typedef void (^SRGPlaybackContextBlock)(NSURL *streamURL, SRGResource *resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels);
 
 @interface SRGMediaComposition (SRGAnalytics_DataProvider)
 
 /**
- *  Return a request to retrieve a playable resource for the receiver, trying to use the specified preferred settings.
- *  If no exact match can be found for the specified settings, a recommended valid setup will be used instead. A
- *  readily tokenized URL (playable for a limited time only) is also provided to the completion block.
+ *  Retrieve a playback context for the receiver, trying to use the specified preferred settings. If no exact match can
+ *  be found for the specified settings, a recommended valid setup will be used instead.
  *
  *  @param streamingMethod   The streaming method to use. If `SRGStreamingMethodNone` or if the method is not
  *                           found, a recommended method will be used instead.
+ *  @param contentProtection The content protection to be applied if available. If `SRGContentProtectionNone` or if the
+ *                           content protection is not supported, a recommended protection will be used instead.
  *  @param streamType        The stream type to use. If `SRGStreamTypeNone` or not found, the optimal available stream
  *                           type is used.
  *  @param quality           The quality to use. If `SRGQualityNone` or not found, the best available quality
@@ -32,17 +35,22 @@ typedef void (^SRGResourceCompletionBlock)(NSURL * _Nullable tokenizedURL, SRGRe
  *                           Usual SRG SSR valid bit ranges vary from 100 to 3000 kbps. Use 0 to start with the
  *                           lowest quality stream.
  *  @param userInfo          Optional dictionary conveying arbitrary information during playback.
- *  @param completionHandler The completion handler, returning the URL, the associated resource, the segments associated
- *                           with the media, the segment index to start with, as well as consolidated analytics labels.
+ *  @param resultBlock       The block called to return the resolved resource context (stream URL, resource, segments
+ *                           associated with the media, segment index to start at, as well as consolidated analytics labels).
  *
- *  @return The method might return `nil` if no protocol / quality combination is found. Resource lookup is performed so
- *          that a matching streaming method is found first, then a matching stream type, and finally a quality.
+ *  @return `YES` if a playback context can be resolved, in which case the context block is called. If no context can
+ *          be resolved, the method returns `NO` and the context block is not called.
+ *
+ *  @discussion Resource lookup is performed in the order of the parameters (streaming method first, then quality last).
+ *              If the playback resource has an `srg_recommendedContentProtection` value of `SRGContentProtectionAkamaiToken`,
+ *              use `SRGAkamaiToken` from `SRGContentProtection.framework` to retrieve a playable tokenized URL.
  */
-- (nullable SRGRequest *)resourceWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                                                   streamType:(SRGStreamType)streamType
-                                                      quality:(SRGQuality)quality
-                                                 startBitRate:(NSInteger)startBitRate
-                                              completionBlock:(SRGResourceCompletionBlock)completionBlock;
+- (BOOL)playbackContextWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                                  contentProtection:(SRGContentProtection)contentProtection
+                                         streamType:(SRGStreamType)streamType
+                                            quality:(SRGQuality)quality
+                                       startBitRate:(NSInteger)startBitRate
+                                       contextBlock:(NS_NOESCAPE SRGPlaybackContextBlock)contextBlock;
 
 @end
 

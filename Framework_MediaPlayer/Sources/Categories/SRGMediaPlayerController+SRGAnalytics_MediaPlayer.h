@@ -72,6 +72,20 @@ NS_ASSUME_NONNULL_BEGIN
        completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
+ *  Same as `-[SRGMediaPlayerController prepareToPlayItem:atTime:withSegments:userInfo:completionHandler:]`, but with optional
+ *  analytics labels.
+ *
+ *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
+ *                         changes. Use the `analyticsLabels` property to update them if needed.
+ */
+- (void)prepareToPlayItem:(AVPlayerItem *)item
+                   atTime:(CMTime)time
+             withSegments:(nullable NSArray<id<SRGSegment>> *)segments
+          analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
+                 userInfo:(nullable NSDictionary *)userInfo
+        completionHandler:(nullable void (^)(void))completionHandler;
+
+/**
  *  Same as `-[SRGMediaPlayerController playURL:atTime:withSegments:userInfo:]`, but with optional analytics labels.
  *
  *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
@@ -82,6 +96,18 @@ NS_ASSUME_NONNULL_BEGIN
    withSegments:(nullable NSArray<id<SRGSegment>> *)segments
 analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
+
+/**
+ *  Same as `-[SRGMediaPlayerController playItem:atTime:withSegments:userInfo:]`, but with optional analytics labels.
+ *
+ *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
+ *                         changes. Use the `analyticsLabels` property to update them if needed.
+ */
+- (void)playItem:(AVPlayerItem *)item
+          atTime:(CMTime)time
+    withSegments:(nullable NSArray<id<SRGSegment>> *)segments
+ analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
+        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
  *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atIndex:inSegments:withUserInfo:completionHandler:]`, but with 
@@ -98,6 +124,20 @@ analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
        completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
+ *  Same as `-[SRGMediaPlayerController prepareToPlayItem:atIndex:inSegments:withUserInfo:completionHandler:]`, but with
+ *  optional analytics labels.
+ *
+ *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
+ *                         changes. Use the `analyticsLabels` property to update them if needed.
+ */
+- (void)prepareToPlayItem:(AVPlayerItem *)item
+                  atIndex:(NSInteger)index
+               inSegments:(NSArray<id<SRGSegment>> *)segments
+      withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
+                 userInfo:(nullable NSDictionary *)userInfo
+        completionHandler:(nullable void (^)(void))completionHandler;
+
+/**
  *  Same as `-[SRGMediaPlayerController playURL:atIndex:inSegments:withUserInfo:]`, but with optional analytics labels.
  *
  *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
@@ -108,6 +148,18 @@ analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
      inSegments:(NSArray<id<SRGSegment>> *)segments
 withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
+
+/**
+ *  Same as `-[SRGMediaPlayerController playItem:atIndex:inSegments:withUserInfo:]`, but with optional analytics labels.
+ *
+ *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
+ *                         changes. Use the `analyticsLabels` property to update them if needed.
+ */
+- (void)playItem:(AVPlayerItem *)item
+         atIndex:(NSInteger)index
+      inSegments:(NSArray<id<SRGSegment>> *)segments
+withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
+        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
  *  Set to `NO` to disable automatic player controller tracking. The default value is `YES`.

@@ -181,19 +181,19 @@ MYAPP_PRODUCER = RTS
 
 The mechanism is the same for information sent to comScore.
 
-## Automatic media consumption measurement labels using the SRG DataProvider library
+## Automatic media consumption measurement labels using the SRG Data Provider library
 
 Our services directly supply the custom analytics labels which need to be sent with media consumption measurements. If you are using our [SRG DataProvider library](https://github.com/SRGSSR/srgdataprovider-ios) in your application, be sure to add the `SRGAnalytics_SRGDataProvider.framework` companion framework to your project as well, which will take care of all the process for you.
 
 This framework adds a category `SRGMediaPlayerController (SRGAnalytics_DataProvider)`, which adds playback methods for media compositions to `SRGMediaPlayerController`. To play a media composition retrieved from an `SRGDataProvider` and have all measurement information automatically associated with the playback, simply call:
 
 ```objective-c
-SRGRequest *request = [mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodHLS streamtype:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
-    // Deal with errors, or play the URL with a media player
+[mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodHLS streamtype:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^{
+    // ...
 }];
 ```
 
-on an `SRGMediaPlayerController` instance. Note that the play method returns an `SRGRequest` which must be resumed so that a token is retrieved before attempting to play the media.
+on an `SRGMediaPlayerController` instance.
 
 Nothing more is required for correct media consumption measurements. During playback, all analytics labels for the content and its segments will be transparently managed for you.
 
@@ -220,6 +220,12 @@ For example, you can declare that the stream is being played at the 6th second b
 When using this lower-level API, you are responsible of following SRG SSR guidelines for playback measurements. For example, you need to supply correct segment labels if the user has chosen to play a specific part of your media (none in the example above). Read [our internal documentation](https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/195595938/Implementation+Concept+-+draft) for more information.
 
 Correctly conforming to all SRG SSR guidelines is not a trivial task, though. Please contact us if you need help in implementing correct stream statistics for a custom player.
+
+## Manual resource retrieval
+
+Using the `SRGAnalytics_DataProvider.framework` companion framework is all you need to play a media with complete analytics information, right within an SRG Media Player controller instance.
+
+In the case you need to play a resource without an SRG Media Player controller instance (e.g. with Google Cast), the companion framework provides the `-[SRGMediaComposition playbackContextWithPreferredStreamingMethod:contentProtection:streamType:quality:startBitRate:contextBlock:]` method, with which you can find the proper resource to play.
 
 ## Thread-safety
 

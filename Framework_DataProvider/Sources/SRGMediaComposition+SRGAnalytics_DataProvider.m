@@ -7,6 +7,7 @@
 #import "SRGMediaComposition+SRGAnalytics_DataProvider.h"
 
 #import "SRGAnalyticsMediaPlayerLogger.h"
+#import "SRGResource+SRGAnalytics_DataProvider.h"
 #import "SRGSegment+SRGAnalytics_DataProvider.h"
 
 #import <libextobjc/libextobjc.h>
@@ -46,11 +47,12 @@
     return labels;
 }
 
-- (SRGRequest *)resourceWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                                          streamType:(SRGStreamType)streamType
-                                             quality:(SRGQuality)quality
-                                        startBitRate:(NSInteger)startBitRate
-                                     completionBlock:(SRGResourceCompletionBlock)completionBlock
+- (BOOL)playbackContextWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                                  contentProtection:(SRGContentProtection)contentProtection
+                                         streamType:(SRGStreamType)streamType
+                                            quality:(SRGQuality)quality
+                                       startBitRate:(NSInteger)startBitRate
+                                       contextBlock:(SRGPlaybackContextBlock)contextBlock
 {
     if (startBitRate < 0) {
         startBitRate = 0;
@@ -66,28 +68,6 @@
     if (resources.count == 0) {
         resources = [chapter resourcesForStreamingMethod:chapter.recommendedStreamingMethod];
     }
-    
-    // Determine the stream type order to use (start with a default setup, overridden if a preferred type has been set),
-    // from the lowest to the highest priority.
-    NSArray<NSNumber *> *orderedStreamTypes = @[@(SRGStreamTypeOnDemand), @(SRGStreamTypeLive), @(SRGStreamTypeDVR)];
-    if (streamType != SRGStreamTypeNone) {
-        orderedStreamTypes = [[orderedStreamTypes mtl_arrayByRemovingObject:@(streamType)] arrayByAddingObject:@(streamType)];
-    }
-    
-    NSSortDescriptor *streamTypeSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, streamType) ascending:NO comparator:^(NSNumber * _Nonnull streamType1, NSNumber * _Nonnull streamType2) {
-        // Don't simply compare enum values as integers since their order might change.
-        NSUInteger index1 = [orderedStreamTypes indexOfObject:streamType1];
-        NSUInteger index2 = [orderedStreamTypes indexOfObject:streamType2];
-        if (index1 == index2) {
-            return NSOrderedSame;
-        }
-        else if (index1 < index2) {
-            return NSOrderedAscending;
-        }
-        else {
-            return NSOrderedDescending;
-        }
-    }];
     
     NSSortDescriptor *URLSchemeSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, URL) ascending:NO comparator:^NSComparisonResult(NSURL * _Nonnull URL1, NSURL * _Nonnull URL2) {
         // Only declare ordering for important URL schemes. For other schemes the initial order will be preserved
@@ -113,7 +93,49 @@
             return NSOrderedDescending;
         }
     }];
-    resources = [resources sortedArrayUsingDescriptors:@[streamTypeSortDescriptor, URLSchemeSortDescriptor]];
+    
+    // Determine the content protection order to use (start with a default setup, overridden if a preferred value has been set).
+    NSArray<NSNumber *> *orderedContentProtections = @[@(SRGContentProtectionFree), @(SRGContentProtectionAkamaiToken), @(SRGContentProtectionFairPlay)];
+    if (contentProtection != SRGContentProtectionNone) {
+        orderedContentProtections = [[orderedContentProtections mtl_arrayByRemovingObject:@(contentProtection)] arrayByAddingObject:@(contentProtection)];
+    }
+    
+    NSSortDescriptor *contentProtectionSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, srg_recommendedContentProtection) ascending:NO comparator:^NSComparisonResult(NSNumber * _Nonnull contentProtection1, NSNumber * _Nonnull contentProtection2) {
+        // Don't simply compare enum values as integers since their order might change.
+        NSUInteger index1 = [orderedContentProtections indexOfObject:contentProtection1];
+        NSUInteger index2 = [orderedContentProtections indexOfObject:contentProtection2];
+        if (index1 == index2) {
+            return NSOrderedSame;
+        }
+        else if (index1 < index2) {
+            return NSOrderedAscending;
+        }
+        else {
+            return NSOrderedDescending;
+        }
+    }];
+    
+    // Determine the stream type order to use (start with a default setup, overridden if a preferred value has been set).
+    NSArray<NSNumber *> *orderedStreamTypes = @[@(SRGStreamTypeOnDemand), @(SRGStreamTypeLive), @(SRGStreamTypeDVR)];
+    if (streamType != SRGStreamTypeNone) {
+        orderedStreamTypes = [[orderedStreamTypes mtl_arrayByRemovingObject:@(streamType)] arrayByAddingObject:@(streamType)];
+    }
+    
+    NSSortDescriptor *streamTypeSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, streamType) ascending:NO comparator:^(NSNumber * _Nonnull streamType1, NSNumber * _Nonnull streamType2) {
+        // Don't simply compare enum values as integers since their order might change.
+        NSUInteger index1 = [orderedStreamTypes indexOfObject:streamType1];
+        NSUInteger index2 = [orderedStreamTypes indexOfObject:streamType2];
+        if (index1 == index2) {
+            return NSOrderedSame;
+        }
+        else if (index1 < index2) {
+            return NSOrderedAscending;
+        }
+        else {
+            return NSOrderedDescending;
+        }
+    }];
+    resources = [resources sortedArrayUsingDescriptors:@[URLSchemeSortDescriptor, contentProtectionSortDescriptor, streamTypeSortDescriptor]];
     
     // Resources are initially ordered by quality (see `-resourcesForStreamingMethod:` documentation), and this order
     // is kept stable by the stream type sort descriptor above. We therefore attempt to find a proper match for the specified
@@ -121,8 +143,7 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(quality)];
     SRGResource *resource = [resources filteredArrayUsingPredicate:predicate].firstObject ?: resources.firstObject;
     if (! resource) {
-        SRGAnalyticsMediaPlayerLogError(@"mediaplayer", @"No valid resource could be retrieved");
-        return nil;
+        return NO;
     }
     
     // Use the preferrred start bit rate is set. Currrently only supported by Akamai via a __b__ parameter (the actual
@@ -138,17 +159,10 @@
         URL = URLComponents.URL;
     }
     
-    SRGRequest *request = [SRGDataProvider tokenizeURL:URL withCompletionBlock:^(NSURL * _Nullable URL, NSError * _Nullable error) {
-        // Bypass token server response, if an error occurred. We don't want to block the media player here
-        if (error) {
-            URL = resource.URL;
-        }
-        
-        SRGAnalyticsStreamLabels *labels = [self analyticsLabelsForResource:resource];
-        NSInteger index = [chapter.segments indexOfObject:self.mainSegment];
-        completionBlock(URL, resource, chapter.segments, index, labels, nil);
-    }];
-    return request;
+    SRGAnalyticsStreamLabels *labels = [self analyticsLabelsForResource:resource];
+    NSInteger index = [chapter.segments indexOfObject:self.mainSegment];
+    contextBlock(URL, resource, chapter.segments, index, labels);
+    return YES;
 }
 
 @end

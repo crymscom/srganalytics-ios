@@ -60,8 +60,10 @@ Then run `carthage update --platform iOS` to update the dependencies. You will n
   * `SRGAnalytics`: The main analytics framework.
   * `SRGAnalytics_DataProvider`: The data provider analytics companion framework.
   * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework.
+  * `SRGContentProtection`: The framework to enable playback of protected medias.
   * `SRGLogger`: The framework used for internal logging.
   * `SRGMediaPlayer`: The media player framework (if not already in your project).
+  * `SRGNetwork`: A networking framework.
   * `TCCore`: The core TagCommander framework.
   * `TCSDK`: The main TagCommander SDK framework.
   
