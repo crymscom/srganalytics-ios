@@ -11,6 +11,7 @@
 #import "SRGSegment+SRGAnalytics_DataProvider.h"
 
 #import <libextobjc/libextobjc.h>
+#import <SRGContentProtection/SRGContentProtection.h>
 
 static NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
 static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMediaPlayerResource";

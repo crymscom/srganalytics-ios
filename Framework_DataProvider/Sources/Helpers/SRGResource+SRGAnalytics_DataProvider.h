@@ -5,7 +5,6 @@
 //
 
 #import <SRGDataProvider/SRGDataProvider.h>
-#import <SRGContentProtection/SRGContentProtection.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
