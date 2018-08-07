@@ -19,6 +19,12 @@
     else if (self.streamingMethod == SRGStreamingMethodHLS && [self.URL.absoluteString containsString:@"akamai"]) {
         return SRGContentProtectionAkamaiToken;
     }
+    else if ([self DRMWithType:SRGDRMTypeWidevine]) {
+        return SRGContentProtectionWidevine;
+    }
+    else if ([self DRMWithType:SRGDRMTypePlayReady]) {
+        return SRGContentProtectionPlayReady;
+    }
     else {
         return SRGContentProtectionFree;
     }

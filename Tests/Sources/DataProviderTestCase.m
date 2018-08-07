@@ -617,6 +617,40 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testWidevineContentProtection
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
+    
+    // TODO: Use production IL when DRM streams are provided on it
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
+    [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodDASH contentProtection:SRGContentProtectionWidevine streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.srg_recommendedContentProtection, SRGContentProtectionWidevine);
+        }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testPlayReadyContentProtection
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
+    
+    // TODO: Use production IL when DRM streams are provided on it
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
+    [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodDASH contentProtection:SRGContentProtectionPlayReady streamType:SRGStreamTypeNone quality:SRGQualityNone startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.srg_recommendedContentProtection, SRGContentProtectionWidevine);            // Still recommend to use Widevine since also available for this stream
+        }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
 - (void)testDefaultStreamType
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];

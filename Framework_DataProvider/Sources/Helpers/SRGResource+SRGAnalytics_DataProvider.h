@@ -27,7 +27,15 @@ typedef NS_ENUM(NSInteger, SRGContentProtection) {
     /**
      *  FairPlay encryption.
      */
-    SRGContentProtectionFairPlay
+    SRGContentProtectionFairPlay,
+    /**
+     *  Widevine encryption. Not supported natively on iOS, but useful for Google Cast receivers.
+     */
+    SRGContentProtectionWidevine,
+    /**
+     *  PlayReady encryption. Not supported natively on iOS, but useful for Google Cast receivers.
+     */
+    SRGContentProtectionPlayReady
 };
 
 @interface SRGResource (SRGAnalytics_DataProvider)
