@@ -48,9 +48,9 @@
 }
 
 - (BOOL)playbackContextWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                                  contentProtection:(SRGContentProtection)contentProtection
                                          streamType:(SRGStreamType)streamType
                                             quality:(SRGQuality)quality
+                                                DRM:(BOOL)DRM
                                        startBitRate:(NSInteger)startBitRate
                                        contextBlock:(SRGPlaybackContextBlock)contextBlock
 {
@@ -94,27 +94,6 @@
         }
     }];
     
-    // Determine the content protection order to use (start with a default setup, overridden if a preferred value has been set).
-    NSArray<NSNumber *> *orderedContentProtections = @[@(SRGContentProtectionFree), @(SRGContentProtectionAkamaiToken), @(SRGContentProtectionFairPlay), @(SRGContentProtectionPlayReady), @(SRGContentProtectionWidevine)];
-    if (contentProtection != SRGContentProtectionNone) {
-        orderedContentProtections = [[orderedContentProtections mtl_arrayByRemovingObject:@(contentProtection)] arrayByAddingObject:@(contentProtection)];
-    }
-    
-    NSSortDescriptor *contentProtectionSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, srg_recommendedContentProtection) ascending:NO comparator:^NSComparisonResult(NSNumber * _Nonnull contentProtection1, NSNumber * _Nonnull contentProtection2) {
-        // Don't simply compare enum values as integers since their order might change.
-        NSUInteger index1 = [orderedContentProtections indexOfObject:contentProtection1];
-        NSUInteger index2 = [orderedContentProtections indexOfObject:contentProtection2];
-        if (index1 == index2) {
-            return NSOrderedSame;
-        }
-        else if (index1 < index2) {
-            return NSOrderedAscending;
-        }
-        else {
-            return NSOrderedDescending;
-        }
-    }];
-    
     // Determine the stream type order to use (start with a default setup, overridden if a preferred value has been set).
     NSArray<NSNumber *> *orderedStreamTypes = @[@(SRGStreamTypeOnDemand), @(SRGStreamTypeLive), @(SRGStreamTypeDVR)];
     if (streamType != SRGStreamTypeNone) {
@@ -135,13 +114,43 @@
             return NSOrderedDescending;
         }
     }];
-    resources = [resources sortedArrayUsingDescriptors:@[URLSchemeSortDescriptor, contentProtectionSortDescriptor, streamTypeSortDescriptor]];
     
-    // Resources are initially ordered by quality (see `-resourcesForStreamingMethod:` documentation), and this order
-    // is kept stable by the stream type sort descriptor above. We therefore attempt to find a proper match for the specified
-    // quality, otherwise we just use the first resource available.
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(quality)];
-    SRGResource *resource = [resources filteredArrayUsingPredicate:predicate].firstObject ?: resources.firstObject;
+    // Determine the quality to use (start with a default setup, overridden if a preferred value has been set).
+    NSArray<NSNumber *> *orderedQualities = @[@(SRGQualitySD), @(SRGQualityHD), @(SRGQualityHQ)];
+    if (quality != SRGQualityNone) {
+        orderedQualities = [[orderedQualities mtl_arrayByRemovingObject:@(quality)] arrayByAddingObject:@(quality)];
+    }
+    
+    NSSortDescriptor *qualitySortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, quality) ascending:NO comparator:^(NSNumber * _Nonnull quality1, NSNumber * _Nonnull quality2) {
+        // Don't simply compare enum values as integers since their order might change.
+        NSUInteger index1 = [orderedQualities indexOfObject:quality1];
+        NSUInteger index2 = [orderedQualities indexOfObject:quality2];
+        if (index1 == index2) {
+            return NSOrderedSame;
+        }
+        else if (index1 < index2) {
+            return NSOrderedAscending;
+        }
+        else {
+            return NSOrderedDescending;
+        }
+    }];
+    
+    // Order resources in order to favor DRM resources or not
+    NSSortDescriptor *DRMSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, srg_requiresDRM) ascending:! DRM comparator:^NSComparisonResult(NSNumber * _Nonnull requiresDRM1, NSNumber * _Nonnull requiresDRM2) {
+        if (requiresDRM1 == requiresDRM2) {
+            return NSOrderedSame;
+        }
+        else if (requiresDRM2) {
+            return NSOrderedAscending;
+        }
+        else {
+            return NSOrderedDescending;
+        }
+    }];
+    resources = [resources sortedArrayUsingDescriptors:@[URLSchemeSortDescriptor, streamTypeSortDescriptor, qualitySortDescriptor, DRMSortDescriptor]];
+    
+    SRGResource *resource = resources.firstObject;
     if (! resource) {
         return NO;
     }

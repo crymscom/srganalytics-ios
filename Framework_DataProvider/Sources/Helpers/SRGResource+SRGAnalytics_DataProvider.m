@@ -10,24 +10,9 @@
 
 @implementation SRGResource (SRGAnalytics_DataProvider)
 
-- (SRGContentProtection)srg_recommendedContentProtection
+- (BOOL)srg_requiresDRM
 {
-    SRGDRM *fairPlayDRM = [self DRMWithType:SRGDRMTypeFairPlay];
-    if (fairPlayDRM) {
-        return SRGContentProtectionFairPlay;
-    }
-    else if (self.streamingMethod == SRGStreamingMethodHLS && [self.URL.absoluteString containsString:@"akamai"]) {
-        return SRGContentProtectionAkamaiToken;
-    }
-    else if ([self DRMWithType:SRGDRMTypePlayReady]) {
-        return SRGContentProtectionPlayReady;
-    }
-    else if ([self DRMWithType:SRGDRMTypeWidevine]) {
-        return SRGContentProtectionWidevine;
-    }
-    else {
-        return SRGContentProtectionFree;
-    }
+    return self.DRMs.count != 0;
 }
 
 @end
