@@ -95,7 +95,7 @@
     }];
     
     // Determine the content protection order to use (start with a default setup, overridden if a preferred value has been set).
-    NSArray<NSNumber *> *orderedContentProtections = @[@(SRGContentProtectionFree), @(SRGContentProtectionAkamaiToken), @(SRGContentProtectionFairPlay), @(SRGContentProtectionWidevine), @(SRGContentProtectionPlayReady)];
+    NSArray<NSNumber *> *orderedContentProtections = @[@(SRGContentProtectionFree), @(SRGContentProtectionAkamaiToken), @(SRGContentProtectionFairPlay), @(SRGContentProtectionPlayReady), @(SRGContentProtectionWidevine)];
     if (contentProtection != SRGContentProtectionNone) {
         orderedContentProtections = [[orderedContentProtections mtl_arrayByRemovingObject:@(contentProtection)] arrayByAddingObject:@(contentProtection)];
     }
