@@ -46,7 +46,7 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
             [fullUserInfo addEntriesFromDictionary:userInfo];
         }
         
-        SRGDRM *fairPlayDRM = DRM ? [resource DRMWithType:SRGDRMTypeFairPlay] : nil;
+        SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
         AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL licenseURL:fairPlayDRM.licenseURL];
         AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
         [self prepareToPlayItem:playerItem atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
