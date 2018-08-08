@@ -577,6 +577,7 @@ static NSURL *MMFTestURL(void)
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18_special_3" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityNone DRM:NO startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.streamingMethod, SRGStreamingMethodHLS);
             XCTAssertFalse(resource.srg_requiresDRM);
         }];
         XCTAssertTrue(success);
@@ -594,6 +595,7 @@ static NSURL *MMFTestURL(void)
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18_special_3" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityNone DRM:YES startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.streamingMethod, SRGStreamingMethodHLS);
             XCTAssertTrue(resource.srg_requiresDRM);
         }];
         XCTAssertTrue(success);
@@ -611,6 +613,7 @@ static NSURL *MMFTestURL(void)
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityNone DRM:NO startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.streamingMethod, SRGStreamingMethodHLS);
             XCTAssertTrue(resource.srg_requiresDRM);
         }];
         XCTAssertTrue(success);
@@ -627,7 +630,26 @@ static NSURL *MMFTestURL(void)
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:video:3608506" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
         BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityNone DRM:YES startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.streamingMethod, SRGStreamingMethodHLS);
             XCTAssertFalse(resource.srg_requiresDRM);
+        }];
+        XCTAssertTrue(success);
+        [expectation fulfill];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testPrefersDASHResourceWithDRM
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
+    
+    // TODO: Use production IL when DRM streams are provided on it
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
+    [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+        BOOL success = [mediaComposition playbackContextWithPreferredStreamingMethod:SRGStreamingMethodDASH streamType:SRGStreamTypeNone quality:SRGQualityNone DRM:NO startBitRate:0 contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+            XCTAssertEqual(resource.streamingMethod, SRGStreamingMethodDASH);
+            XCTAssertTrue(resource.srg_requiresDRM);
         }];
         XCTAssertTrue(success);
         [expectation fulfill];
