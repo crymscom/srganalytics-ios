@@ -138,10 +138,10 @@
     
     // Order resources in order to favor DRM resources or not
     NSSortDescriptor *DRMSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, srg_requiresDRM) ascending:! DRM comparator:^NSComparisonResult(NSNumber * _Nonnull requiresDRM1, NSNumber * _Nonnull requiresDRM2) {
-        if (requiresDRM1 == requiresDRM2) {
+        if (requiresDRM1.boolValue == requiresDRM2.boolValue) {
             return NSOrderedSame;
         }
-        else if (requiresDRM2) {
+        else if (requiresDRM2.boolValue) {
             return NSOrderedAscending;
         }
         else {
