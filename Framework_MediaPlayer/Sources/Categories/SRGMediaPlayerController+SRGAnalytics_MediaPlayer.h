@@ -110,7 +110,7 @@ analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
         userInfo:(nullable NSDictionary *)userInfo;
 
 /**
- *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atIndex:inSegments:withUserInfo:completionHandler:]`, but with 
+ *  Same as `-[SRGMediaPlayerController prepareToPlayURL:atIndex:time:inSegments:withUserInfo:completionHandler:]`, but with
  *  optional analytics labels.
  *
  *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
@@ -118,13 +118,14 @@ analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
  */
 - (void)prepareToPlayURL:(NSURL *)URL
                  atIndex:(NSInteger)index
+                    time:(CMTime)time
               inSegments:(NSArray<id<SRGSegment>> *)segments
      withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
- *  Same as `-[SRGMediaPlayerController prepareToPlayItem:atIndex:inSegments:withUserInfo:completionHandler:]`, but with
+ *  Same as `-[SRGMediaPlayerController prepareToPlayItem:atIndex:time:inSegments:withUserInfo:completionHandler:]`, but with
  *  optional analytics labels.
  *
  *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
@@ -132,31 +133,34 @@ analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
  */
 - (void)prepareToPlayItem:(AVPlayerItem *)item
                   atIndex:(NSInteger)index
+                     time:(CMTime)time
                inSegments:(NSArray<id<SRGSegment>> *)segments
       withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
                  userInfo:(nullable NSDictionary *)userInfo
         completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
- *  Same as `-[SRGMediaPlayerController playURL:atIndex:inSegments:withUserInfo:]`, but with optional analytics labels.
+ *  Same as `-[SRGMediaPlayerController playURL:atIndex:time:inSegments:withUserInfo:]`, but with optional analytics labels.
  *
  *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
  *                         changes. Use the `analyticsLabels` property to update them if needed.
  */
 - (void)playURL:(NSURL *)URL
         atIndex:(NSInteger)index
+           time:(CMTime)time
      inSegments:(NSArray<id<SRGSegment>> *)segments
 withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
- *  Same as `-[SRGMediaPlayerController playItem:atIndex:inSegments:withUserInfo:]`, but with optional analytics labels.
+ *  Same as `-[SRGMediaPlayerController playItem:atIndex:time:inSegments:withUserInfo:]`, but with optional analytics labels.
  *
  *  @param analyticsLabels The analytics labels to send in stream events. Labels are copied to prevent further
  *                         changes. Use the `analyticsLabels` property to update them if needed.
  */
 - (void)playItem:(AVPlayerItem *)item
          atIndex:(NSInteger)index
+            time:(CMTime)time
       inSegments:(NSArray<id<SRGSegment>> *)segments
 withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
         userInfo:(nullable NSDictionary *)userInfo;

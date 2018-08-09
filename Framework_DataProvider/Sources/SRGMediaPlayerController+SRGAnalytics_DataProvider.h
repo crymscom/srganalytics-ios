@@ -23,6 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  specified settings, a recommended valid setup will be used instead.
  *
  *  @param mediaComposition  The media composition to prepare.
+ *  @param time              The time to start at. Use `kCMTimeZero` to start at the default location. If the time
+ *                           lies outside the playback range, playback will start at the nearest location (default
+ *                           location or end time). If the media composition involves segment playback, the reference
+ *                           playback range is the one of the segment.
  *  @param streamingMethod   The streaming method to use. If `SRGStreamingMethodNone` or if the method is not
  *                           found, a recommended method will be used instead.
  *  @param streamType        The stream type to use. If `SRGStreamTypeNone` or not found, the optimal available stream
@@ -45,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @discussion Resource lookup is performed in the order of the parameters (streaming method first, then quality last).
  */
 - (BOOL)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
+                               atTime:(CMTime)time
          withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                            streamType:(SRGStreamType)streamType
                               quality:(SRGQuality)quality
@@ -54,10 +59,11 @@ NS_ASSUME_NONNULL_BEGIN
                     completionHandler:(nullable void (^)(void))completionHandler;
 
 /**
- *  Same as `-prepareToPlayMediaComposition:withPreferredStreamingMethod:streamType:DRM:quality:startBitRate:userInfo:completionHandler:`,
+ *  Same as `-prepareToPlayMediaComposition:atTime:withPreferredStreamingMethod:streamType:quality:DRM:startBitRate:userInfo:completionHandler:`,
  *  but automatically starting playback once the player has been prepared.
  */
 - (BOOL)playMediaComposition:(SRGMediaComposition *)mediaComposition
+                      atTime:(CMTime)time
 withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                   streamType:(SRGStreamType)streamType
                      quality:(SRGQuality)quality

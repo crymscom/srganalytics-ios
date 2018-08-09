@@ -658,6 +658,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -710,6 +711,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -804,7 +806,7 @@ static NSURL *DVRTestURL(void)
         return fullEndReceived && segmentPlayReceived;
     }];
     
-    [self.mediaPlayerController seekToSegment:segment withCompletionHandler:nil];
+    [self.mediaPlayerController seekToTime:kCMTimeZero inSegment:segment withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -828,6 +830,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment1, segment2]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -864,7 +867,7 @@ static NSURL *DVRTestURL(void)
         return segment1EndReceived && segment2PlayReceived;
     }];
     
-    [self.mediaPlayerController seekToSegment:segment2 withCompletionHandler:nil];
+    [self.mediaPlayerController seekToTime:kCMTimeZero inSegment:segment2 withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -888,6 +891,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment1, segment2]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -946,6 +950,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -982,7 +987,7 @@ static NSURL *DVRTestURL(void)
         return segmentEndReceived && segmentPlayReceived;
     }];
     
-    [self.mediaPlayerController seekToSegment:segment withCompletionHandler:nil];
+    [self.mediaPlayerController seekToTime:kCMTimeZero inSegment:segment withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -1006,6 +1011,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment1, segment2]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -1074,6 +1080,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -1134,6 +1141,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -1209,6 +1217,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -1284,7 +1293,7 @@ static NSURL *DVRTestURL(void)
         return fullLengthPauseReceived && fullLengthPlayReceived;
     }];
     
-    [self.mediaPlayerController seekToSegment:segment withCompletionHandler:nil];
+    [self.mediaPlayerController seekToTime:kCMTimeZero inSegment:segment withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -1404,6 +1413,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -1555,6 +1565,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -1629,6 +1640,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -1705,6 +1717,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment]
                     withAnalyticsLabels:labels
                                userInfo:nil];
@@ -1776,6 +1789,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()
                                 atIndex:0
+                                   time:kCMTimeZero
                              inSegments:@[segment]
                     withAnalyticsLabels:labels
                                userInfo:nil];
