@@ -27,7 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
  *                           found, a recommended method will be used instead.
  *  @param streamType        The stream type to use. If `SRGStreamTypeNone` or not found, the optimal available stream
  *                           type is used.
- *  @param DRM               Set to `YES` if DRM-protected streams should be favored over non-protected ones.
+ *  @param DRM               Set to `YES` if DRM-protected streams should be favored over non-protected ones. If set
+ *                           to `NO`, the first matching resource is used, based on their original order.
  *  @param quality           The quality to use. If `SRGQualityNone` or not found, the best available quality
  *                           is used.
  *  @param startBitRate      The bit rate the media should start playing with, in kbps. This parameter is a

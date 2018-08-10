@@ -569,7 +569,7 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testPrefersNoDRMWithHybridStream
+- (void)testNoDRMPreferenceWithHybridStream
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
@@ -587,7 +587,7 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testPrefersDRMWithHybridStream
+- (void)testDRMPreferenceWithHybridStream
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
@@ -605,7 +605,7 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testPrefersNoDRMWithDRMStream
+- (void)testNoDRMPreferenceWithDRMStream
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
@@ -623,7 +623,7 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testPrefersDRMWithStandardStream
+- (void)testDRMPreferenceWithStandardStream
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
@@ -640,7 +640,7 @@ static NSURL *MMFTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testPrefersDASHResourceWithDRM
+- (void)testDRMPreferenceWithDASHResource
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     

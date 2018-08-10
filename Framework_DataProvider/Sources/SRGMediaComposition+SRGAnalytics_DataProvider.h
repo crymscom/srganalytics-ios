@@ -25,7 +25,8 @@ typedef void (^SRGPlaybackContextBlock)(NSURL *streamURL, SRGResource *resource,
  *                           type is used.
  *  @param quality           The quality to use. If `SRGQualityNone` or not found, the best available quality
  *                           is used.
- *  @param DRM               Set to `YES` if DRM-protected streams should be favored over non-protected ones.
+ *  @param DRM               Set to `YES` if DRM-protected streams should be favored over non-protected ones. If set
+ *                           to `NO`, the first matching resource is used, based on their original order.
  *  @param startBitRate      The bit rate the media should start playing with, in kbps. This parameter is a
  *                           recommendation with no result guarantee, though it should in general be applied. The
  *                           nearest available quality (larger or smaller than the requested size) will be used.
