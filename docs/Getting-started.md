@@ -225,7 +225,7 @@ Correctly conforming to all SRG SSR guidelines is not a trivial task, though. Pl
 
 Using the `SRGAnalytics_DataProvider.framework` companion framework is all you need to play a media with complete analytics information, right within an SRG Media Player controller instance.
 
-In the case you need to play a resource without an SRG Media Player controller instance (e.g. with Google Cast), the companion framework provides the `-[SRGMediaComposition playbackContextWithPreferredStreamingMethod:streamType:quality:DRM:startBitRate:contextBlock:]` method, with which you can find the proper resource to play.
+In the case you need to play a resource without an SRG Media Player controller instance (e.g. with Google Cast default receiver), the companion framework provides the `-[SRGMediaComposition playbackContextWithPreferredStreamingMethod:streamType:quality:DRM:startBitRate:contextBlock:]` method, with which you can find the proper resource to play.
 
 ## Thread-safety
 
