@@ -8,35 +8,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  Content protection types.
- */
-typedef NS_ENUM(NSInteger, SRGContentProtection) {
-    /**
-     *  Not specified.
-     */
-    SRGContentProtectionNone = 0,
-    /**
-     *  Free from any content protection mechanism.
-     */
-    SRGContentProtectionFree,
-    /**
-     *  Akamai token-based protection.
-     */
-    SRGContentProtectionAkamaiToken,
-    /**
-     *  FairPlay encryption.
-     */
-    SRGContentProtectionFairPlay
-};
-
 @interface SRGResource (SRGAnalytics_DataProvider)
 
 /**
- *  The recommended content protection to apply when attempting to play the receiver URL. Attempting to play the
- *  resource with another content protection type might work but is not guaranteed.
+ *  Returns `YES` iff the resource requires DRM.
  */
-@property (nonatomic, readonly) SRGContentProtection srg_recommendedContentProtection;
+@property (nonatomic, readonly) BOOL srg_requiresDRM;
 
 @end
 

@@ -22,14 +22,14 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
 
 - (BOOL)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
          withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                    contentProtection:(SRGContentProtection)contentProtection
                            streamType:(SRGStreamType)streamType
                               quality:(SRGQuality)quality
+                                  DRM:(BOOL)DRM
                          startBitRate:(NSInteger)startBitRate
                              userInfo:(NSDictionary *)userInfo
                     completionHandler:(void (^)(void))completionHandler
 {
-    return [mediaComposition playbackContextWithPreferredStreamingMethod:streamingMethod contentProtection:contentProtection streamType:streamType quality:quality startBitRate:startBitRate contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+    return [mediaComposition playbackContextWithPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality DRM:DRM startBitRate:startBitRate contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
         if (resource.presentation == SRGPresentation360) {
             if (self.view.viewMode != SRGMediaPlayerViewModeMonoscopic && self.view.viewMode != SRGMediaPlayerViewModeStereoscopic) {
                 self.view.viewMode = SRGMediaPlayerViewModeMonoscopic;
@@ -46,25 +46,8 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
             [fullUserInfo addEntriesFromDictionary:userInfo];
         }
         
-        AVURLAsset *asset = nil;
-        switch (resource.srg_recommendedContentProtection) {
-            case SRGContentProtectionAkamaiToken: {
-                asset = [AVURLAsset srg_akamaiTokenProtectedAssetWithURL:streamURL];
-                break;
-            }
-                
-            case SRGContentProtectionFairPlay: {
-                NSURL *licenseURL = [resource DRMWithType:SRGDRMTypeFairPlay].licenseURL;
-                asset = licenseURL ? [AVURLAsset srg_fairPlayProtectedAssetWithURL:streamURL certificateURL:licenseURL] : [AVURLAsset assetWithURL:streamURL];
-                break;
-            }
-                
-            default: {
-                asset = [AVURLAsset assetWithURL:streamURL];
-                break;
-            }
-        }
-        
+        SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
+        AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL licenseURL:fairPlayDRM.licenseURL];
         AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
         [self prepareToPlayItem:playerItem atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
             completionHandler ? completionHandler() : nil;
@@ -74,13 +57,13 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
 
 - (BOOL)playMediaComposition:(SRGMediaComposition *)mediaComposition
 withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-           contentProtection:(SRGContentProtection)contentProtection
                   streamType:(SRGStreamType)streamType
                      quality:(SRGQuality)quality
+                         DRM:(BOOL)DRM
                 startBitRate:(NSInteger)startBitRate
                     userInfo:(NSDictionary *)userInfo
 {
-    return [self prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod contentProtection:contentProtection streamType:streamType quality:quality startBitRate:startBitRate userInfo:userInfo completionHandler:^{
+    return [self prepareToPlayMediaComposition:mediaComposition withPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality DRM:DRM startBitRate:startBitRate userInfo:userInfo completionHandler:^{
         [self play];
     }];
 }
