@@ -163,7 +163,7 @@
     // Use the preferrred start bit rate is set. Currrently only supported for HLS streams by Akamai, via a __b__ parameter
     // (the actual bitrate will be rounded to the nearest available quality)
     NSURL *URL = resource.URL;
-    if (startBitRate != 0 && [URL.host containsString:@"akamai"] && [URL.absoluteString.pathExtension isEqualToString:@"m3u8"]) {
+    if (startBitRate != 0 && [URL.host containsString:@"akamai"] && [URL.path.pathExtension isEqualToString:@"m3u8"]) {
         NSURLComponents *URLComponents = [NSURLComponents componentsWithURL:URL resolvingAgainstBaseURL:NO];
         
         NSMutableArray<NSURLQueryItem *> *queryItems = [URLComponents.queryItems mutableCopy] ?: [NSMutableArray array];
