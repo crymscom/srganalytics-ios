@@ -41,7 +41,7 @@ For more information about Carthage and its use, refer to the [official document
 
 Depending on your needs, the library requires the following frameworks to be added to any target requiring it:
 
-* If you need analytics only, add the following frameworks to your project:
+* If you need analytics only, add the following frameworks to your target:
   * `ComScore`: comScore framework.
   * `libextobjc`: A utility framework.
   * `MAKVONotificationCenter`: A safe KVO framework.
@@ -49,7 +49,7 @@ Depending on your needs, the library requires the following frameworks to be add
   * `SRGLogger`: The framework used for internal logging.
   * `TCCore`: The core TagCommander framework.
   * `TCSDK`: The main TagCommander SDK framework.
-* If you use our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS) and want automatic media consumption tracking as well, add the following frameworks to your project:
+* If you use our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS) and want automatic media consumption tracking as well, add the following frameworks to your target:
   * `ComScore`: comScore framework.
   * `libextobjc`: A utility framework.
   * `MAKVONotificationCenter`: A safe KVO framework.
@@ -58,7 +58,7 @@ Depending on your needs, the library requires the following frameworks to be add
   * `SRGLogger`: The framework used for internal logging.
   * `TCCore`: The core TagCommander framework.
   * `TCSDK`: The main TagCommander SDK framework.
-* If you use our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios) to retrieve and play medias, add the following frameworks to your project:
+* If you use our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios) to retrieve and play medias, add the following frameworks to your target:
   * `ComScore`: comScore framework.
   * `libextobjc`: A utility framework.
   * `MAKVONotificationCenter`: A safe KVO framework.
@@ -87,7 +87,7 @@ If your target is building an application, a few more steps are required:
 
 1. Run `carthage update --configuration Release-static` to update the dependencies. 
 2. Add the frameworks listed above and generated in the `Carthage/Build/iOS/Static` folder to the _Linked frameworks and libraries_ list of your target.
-3. Also add any resource bundle `.bundle` found within the `.framework` folders to your project directly.
+3. Also add any resource bundle `.bundle` found within the `.framework` folders to your target directly.
 4. Some non-statically built framework dependencies are built in the `Carthage/Build/iOS` folder. Add them by following the _Dynamic framework integration_ instructions above.
 5. Add the `-all_load` flag to your target _Other linker flags_.
 
