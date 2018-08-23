@@ -160,10 +160,14 @@ labels.comScoreCustomInfo = @{ @"myapp_media_id" : self.name };
 SRGMediaPlayerController *mediaPlayerController = [[SRGMediaPlayerController alloc] init];
 [mediaPlayerController playURL:URL 
                         atTime:kCMTimeZero 
-                  withSegments:@[segment] 
+           withToleranceBefore:kCMTimeZero
+                toleranceAfter:kCMTimeZero
+                      segments:@[segment] 
                analyticsLabels:labels
                       userInfo:nil];
 ```
+
+You can adjust tolerances to have precise but slower startup at the specified location (`kCMTimeZero`, like in the example above), or faster startup at around the specified location (`kCMTimePositiveInfinity` or some bounded positive value).
 
 When playing the content, tracking information sent to TagCommander will contain:
 
@@ -188,9 +192,16 @@ Our services directly supply the custom analytics labels which need to be sent w
 This framework adds a category `SRGMediaPlayerController (SRGAnalytics_DataProvider)`, which adds playback methods for media compositions to `SRGMediaPlayerController`. To play a media composition retrieved from an `SRGDataProvider` and have all measurement information automatically associated with the playback, simply call:
 
 ```objective-c
-[mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodHLS streamtype:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^{
-    // ...
-}];
+[mediaPlayerController playMediaComposition:mediaComposition
+                                    atTime:kCMTimeZero
+                       withToleranceBefore:kCMTimeZero
+                            toleranceAfter:kCMTimeZero 
+                  preferredStreamingMethod:SRGStreamingMethodHLS
+                                streamType:SRGStreamTypeNone 
+                                   quality:SRGQualityHD
+                                       DRM:YES
+                              startBitRate:0
+                                  userInfo:nil];
 ```
 
 on an `SRGMediaPlayerController` instance.
