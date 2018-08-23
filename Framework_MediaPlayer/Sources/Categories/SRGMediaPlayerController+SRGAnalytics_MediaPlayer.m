@@ -33,90 +33,106 @@ static void *s_analyticsPlayerVersionKey = &s_analyticsPlayerVersionKey;
 
 - (void)prepareToPlayURL:(NSURL *)URL
                   atTime:(CMTime)time
-            withSegments:(NSArray<id<SRGSegment>> *)segments
+     withToleranceBefore:(CMTime)toleranceBefore
+          toleranceAfter:(CMTime)toleranceAfter
+                segments:(NSArray<id<SRGSegment>> *)segments
          analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
                 userInfo:(NSDictionary *)userInfo
        completionHandler:(void (^)(void))completionHandler
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
-    [self prepareToPlayURL:URL atTime:time withSegments:segments userInfo:fullUserInfo completionHandler:completionHandler];
+    [self prepareToPlayURL:URL atTime:time withToleranceBefore:toleranceBefore toleranceAfter:toleranceAfter segments:segments userInfo:fullUserInfo completionHandler:completionHandler];
 }
 
 - (void)prepareToPlayItem:(AVPlayerItem *)item
                    atTime:(CMTime)time
-             withSegments:(NSArray<id<SRGSegment>> *)segments
+      withToleranceBefore:(CMTime)toleranceBefore
+           toleranceAfter:(CMTime)toleranceAfter
+                 segments:(NSArray<id<SRGSegment>> *)segments
           analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
                  userInfo:(NSDictionary *)userInfo
         completionHandler:(void (^)(void))completionHandler
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
-    [self prepareToPlayItem:item atTime:time withSegments:segments userInfo:fullUserInfo completionHandler:completionHandler];
+    [self prepareToPlayItem:item atTime:time withToleranceBefore:toleranceBefore toleranceAfter:toleranceAfter segments:segments userInfo:fullUserInfo completionHandler:completionHandler];
 }
 
 - (void)playURL:(NSURL *)URL
          atTime:(CMTime)time
-   withSegments:(NSArray<id<SRGSegment>> *)segments
+withToleranceBefore:(CMTime)toleranceBefore
+ toleranceAfter:(CMTime)toleranceAfter
+       segments:(NSArray<id<SRGSegment>> *)segments
 analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
        userInfo:(NSDictionary *)userInfo
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
-    [self playURL:URL atTime:time withSegments:segments userInfo:fullUserInfo];
+    [self playURL:URL atTime:time withToleranceBefore:toleranceBefore toleranceAfter:toleranceAfter segments:segments userInfo:fullUserInfo];
 }
 
 - (void)playItem:(AVPlayerItem *)item
           atTime:(CMTime)time
-    withSegments:(NSArray<id<SRGSegment>> *)segments
+withToleranceBefore:(CMTime)toleranceBefore
+  toleranceAfter:(CMTime)toleranceAfter
+        segments:(NSArray<id<SRGSegment>> *)segments
  analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
         userInfo:(NSDictionary *)userInfo
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
-    [self playItem:item atTime:time withSegments:segments userInfo:fullUserInfo];
+    [self playItem:item atTime:time withToleranceBefore:toleranceBefore toleranceAfter:toleranceAfter segments:segments userInfo:fullUserInfo];
 }
 
 - (void)prepareToPlayURL:(NSURL *)URL
                  atIndex:(NSInteger)index
                     time:(CMTime)time
               inSegments:(NSArray<id<SRGSegment>> *)segments
-     withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+     withToleranceBefore:(CMTime)toleranceBefore
+          toleranceAfter:(CMTime)toleranceAfter
+         analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
                 userInfo:(NSDictionary *)userInfo
        completionHandler:(void (^)(void))completionHandler
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
-    [self prepareToPlayURL:URL atIndex:index time:time inSegments:segments withUserInfo:fullUserInfo completionHandler:completionHandler];
+    [self prepareToPlayURL:URL atIndex:index time:time inSegments:segments withToleranceBefore:toleranceBefore toleranceAfter:toleranceAfter userInfo:fullUserInfo completionHandler:completionHandler];
 }
 
 - (void)prepareToPlayItem:(AVPlayerItem *)item
                   atIndex:(NSInteger)index
                      time:(CMTime)time
                inSegments:(NSArray<id<SRGSegment>> *)segments
-      withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+      withToleranceBefore:(CMTime)toleranceBefore
+           toleranceAfter:(CMTime)toleranceAfter
+          analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
                  userInfo:(NSDictionary *)userInfo
         completionHandler:(void (^)(void))completionHandler
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
-    [self prepareToPlayItem:item atIndex:index time:time inSegments:segments withUserInfo:fullUserInfo completionHandler:completionHandler];
+    [self prepareToPlayItem:item atIndex:index time:time inSegments:segments withToleranceBefore:toleranceBefore toleranceAfter:toleranceAfter userInfo:fullUserInfo completionHandler:completionHandler];
 }
 
 - (void)playURL:(NSURL *)URL
         atIndex:(NSInteger)index
            time:(CMTime)time
      inSegments:(NSArray<id<SRGSegment>> *)segments
-withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+withToleranceBefore:(CMTime)toleranceBefore
+ toleranceAfter:(CMTime)toleranceAfter
+analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
        userInfo:(NSDictionary *)userInfo
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
-    [self playURL:URL atIndex:index time:time inSegments:segments withUserInfo:fullUserInfo];
+    [self playURL:URL atIndex:index time:time inSegments:segments withToleranceBefore:toleranceBefore toleranceAfter:toleranceAfter userInfo:fullUserInfo];
 }
 
 - (void)playItem:(AVPlayerItem *)item
          atIndex:(NSInteger)index
             time:(CMTime)time
       inSegments:(NSArray<id<SRGSegment>> *)segments
-withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+withToleranceBefore:(CMTime)toleranceBefore
+  toleranceAfter:(CMTime)toleranceAfter
+ analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
         userInfo:(NSDictionary *)userInfo
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
-    [self playItem:item atIndex:index time:time inSegments:segments withUserInfo:fullUserInfo];
+    [self playItem:item atIndex:index time:time inSegments:segments withToleranceBefore:toleranceBefore toleranceAfter:toleranceAfter userInfo:fullUserInfo];
 }
 
 #pragma mark Getters and setters

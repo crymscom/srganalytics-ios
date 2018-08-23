@@ -27,6 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
  *                           lies outside the playback range, playback will start at the nearest location (default
  *                           location or end time). If the media composition involves segment playback, the reference
  *                           playback range is the one of the segment.
+ *  @param toleranceBefore   The tolerance allowed before `time`. Use `kCMTimePositiveInfinity` for no tolerance
+ *                           requirements.
+ *  @param toleranceAfter    The tolerance allowed after `time`. Use `kCMTimePositiveInfinity` for no tolerance
+ *                           requirements.
  *  @param streamingMethod   The streaming method to use. If `SRGStreamingMethodNone` or if the method is not
  *                           found, a recommended method will be used instead.
  *  @param streamType        The stream type to use. If `SRGStreamTypeNone` or not found, the optimal available stream
@@ -50,7 +54,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
                                atTime:(CMTime)time
-         withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                  withToleranceBefore:(CMTime)toleranceBefore
+                       toleranceAfter:(CMTime)toleranceAfter
+             preferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                            streamType:(SRGStreamType)streamType
                               quality:(SRGQuality)quality
                                   DRM:(BOOL)DRM
@@ -64,7 +70,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)playMediaComposition:(SRGMediaComposition *)mediaComposition
                       atTime:(CMTime)time
-withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+         withToleranceBefore:(CMTime)toleranceBefore
+              toleranceAfter:(CMTime)toleranceAfter
+    preferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                   streamType:(SRGStreamType)streamType
                      quality:(SRGQuality)quality
                          DRM:(BOOL)DRM
