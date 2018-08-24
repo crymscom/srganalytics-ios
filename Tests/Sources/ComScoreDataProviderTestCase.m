@@ -42,7 +42,7 @@ static NSURL *ServiceTestURL(void)
     XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
-    [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
         [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition atTime:kCMTimeZero withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD DRM:NO startBitRate:0 userInfo:nil completionHandler:^{
@@ -77,7 +77,7 @@ static NSURL *ServiceTestURL(void)
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     
     __block SRGMediaComposition *fetchedMediaComposition = nil;
-    [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         fetchedMediaComposition = mediaComposition;
         
@@ -103,7 +103,7 @@ static NSURL *ServiceTestURL(void)
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     
     __block SRGMediaComposition *fetchedMediaComposition = nil;
-    [[dataProvider mediaCompositionForURN:@"urn:srf:video:985aa94a-587c-494e-b484-3cd746032264" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSError * _Nullable error) {
+    [[dataProvider mediaCompositionForURN:@"urn:srf:video:985aa94a-587c-494e-b484-3cd746032264" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         fetchedMediaComposition = mediaComposition;
         
