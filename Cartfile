@@ -1,5 +1,5 @@
 github "SRGSSR/srgcontentprotection-ios" "5d512eab4391fdf4f915e96d9b6419859d427f66"
-github "SRGSSR/srgdataprovider-ios" "19f878a2460d34200c1c2fdafe775061fe7ba836"
+github "SRGSSR/srgdataprovider-ios" "feature/expose-url-response"
 github "SRGSSR/SRGMediaPlayer-iOS" "57586661c8240c3cbb276ed71f7ad4f962d25cef"
 github "SRGSSR/tagcommander-ios" "4.1.5_4.1.3"
 github "comScore/ComScore-iOS-SDK" "92f34897cd7659d56bb5a3e9e85b808cf3758bda"

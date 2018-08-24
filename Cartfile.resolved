@@ -3,7 +3,7 @@ github "SRGSSR/MAKVONotificationCenter" "120fb5550aee8e9b4c92439bf34533020cc43c4
 github "SRGSSR/SRGMediaPlayer-iOS" "57586661c8240c3cbb276ed71f7ad4f962d25cef"
 github "SRGSSR/libextobjc" "80a882742fea920587df5c9377af68faa22be5d0"
 github "SRGSSR/srgcontentprotection-ios" "5d512eab4391fdf4f915e96d9b6419859d427f66"
-github "SRGSSR/srgdataprovider-ios" "19f878a2460d34200c1c2fdafe775061fe7ba836"
+github "SRGSSR/srgdataprovider-ios" "d34e2fee19bf8e0a9f015a268a858782026b290c"
 github "SRGSSR/srglogger-ios" "bccb78ae57b879087e819172267fd3f38f73237a"
 github "SRGSSR/srgnetwork-ios" "e6cc6dd5bfe9d7db2010ddbda15105b63e48280b"
 github "SRGSSR/tagcommander-ios" "4.1.5_4.1.3"
