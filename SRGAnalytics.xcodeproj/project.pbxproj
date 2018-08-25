@@ -522,9 +522,8 @@
 		6FB331F41D9BFB77001469F2 /* Framework_DataProvider */ = {
 			isa = PBXGroup;
 			children = (
-				6FB331F51D9BFB77001469F2 /* Info.plist */,
 				6FB331F61D9BFB77001469F2 /* Sources */,
-				6FB331F71D9BFB77001469F2 /* SRGAnalytics_DataProvider.h */,
+				6FB331F51D9BFB77001469F2 /* Info.plist */,
 			);
 			path = Framework_DataProvider;
 			sourceTree = "<group>";
@@ -533,6 +532,7 @@
 			isa = PBXGroup;
 			children = (
 				6FE021E32119D58200DF6617 /* Helpers */,
+				6FB331F71D9BFB77001469F2 /* SRGAnalytics_DataProvider.h */,
 				6FA09D921D9EC66D00EDCA64 /* SRGAnalyticsDataProvider.h */,
 				6FD31A681FE6E34200D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider_Private.h */,
 				6FD31A641FE6D8C200D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.h */,
@@ -541,6 +541,15 @@
 				6FF3E21B1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m */,
 				6F4ED9AF1F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.h */,
 				6F4ED9B01F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.m */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		6FBDD1A821319A41001E4398 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				08EB669B1F3352A300E9D7CA /* ComScoreViewEventTests.m */,
+				E66F8A721D62DC570004EB58 /* ViewEventTests.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -652,9 +661,8 @@
 		E61C0D5E1D61EFD200AEAE6D /* Framework_MediaPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				E61C0D5F1D61EFD200AEAE6D /* Info.plist */,
 				E61C0D601D61EFD200AEAE6D /* Sources */,
-				E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */,
+				E61C0D5F1D61EFD200AEAE6D /* Info.plist */,
 			);
 			path = Framework_MediaPlayer;
 			sourceTree = "<group>";
@@ -664,6 +672,7 @@
 			children = (
 				6F0498591F343C7A00E88BEC /* Categories */,
 				E6B8E9FC1D92868D000D6904 /* Protocols */,
+				E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */,
 				6F04985C1F343C7A00E88BEC /* SRGAnalyticsMediaPlayerLogger.h */,
 				6F04985D1F343C7A00E88BEC /* SRGMediaPlayerTracker.h */,
 				6F04985E1F343C7A00E88BEC /* SRGMediaPlayerTracker.m */,
@@ -674,8 +683,8 @@
 		E65490AC1D803C3E007D96E7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				E65490AD1D803C3E007D96E7 /* Info.plist */,
 				E65490AE1D803C3E007D96E7 /* Sources */,
+				E65490AD1D803C3E007D96E7 /* Info.plist */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -717,9 +726,8 @@
 		E66F8A701D62DC570004EB58 /* DemoTests */ = {
 			isa = PBXGroup;
 			children = (
-				08EB669B1F3352A300E9D7CA /* ComScoreViewEventTests.m */,
+				6FBDD1A821319A41001E4398 /* Sources */,
 				E66F8A711D62DC570004EB58 /* Info.plist */,
-				E66F8A721D62DC570004EB58 /* ViewEventTests.m */,
 			);
 			path = DemoTests;
 			sourceTree = "<group>";
@@ -729,8 +737,6 @@
 			children = (
 				E69A202F1D61E5E80064E6C1 /* Sources */,
 				E69A202E1D61E5E80064E6C1 /* Info.plist */,
-				E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */,
-				E69A20481D61E5E80064E6C1 /* SRGAnalytics.h */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -740,6 +746,8 @@
 			children = (
 				E61388891D916A9900218919 /* Core */,
 				E61388951D916A9900218919 /* Helpers */,
+				E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */,
+				E69A20481D61E5E80064E6C1 /* SRGAnalytics.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -755,9 +763,9 @@
 		E6FC7F031D61FA4700A55085 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				E6FC7F041D61FA4700A55085 /* Info.plist */,
-				E6FC7F051D61FA4700A55085 /* Resources */,
 				E6FC7F091D61FA4700A55085 /* Sources */,
+				E6FC7F051D61FA4700A55085 /* Resources */,
+				E6FC7F041D61FA4700A55085 /* Info.plist */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
