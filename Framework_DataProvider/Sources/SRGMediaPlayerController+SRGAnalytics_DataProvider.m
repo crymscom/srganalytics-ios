@@ -21,10 +21,8 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
 #pragma mark Playback methods
 
 - (BOOL)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
-                               atTime:(CMTime)time
-                  withToleranceBefore:(CMTime)toleranceBefore
-                       toleranceAfter:(CMTime)toleranceAfter
-             preferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                           atPosition:(SRGPosition *)position
+         withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                            streamType:(SRGStreamType)streamType
                               quality:(SRGQuality)quality
                                   DRM:(BOOL)DRM
@@ -52,24 +50,22 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
         SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
         AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL licenseURL:fairPlayDRM.licenseURL];
         AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
-        [self prepareToPlayItem:playerItem atIndex:index time:time inSegments:segments withToleranceBefore:toleranceBefore toleranceAfter:toleranceAfter analyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
+        [self prepareToPlayItem:playerItem atIndex:index position:position inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
             completionHandler ? completionHandler() : nil;
         }];
     }];
 }
 
 - (BOOL)playMediaComposition:(SRGMediaComposition *)mediaComposition
-                      atTime:(CMTime)time
-         withToleranceBefore:(CMTime)toleranceBefore
-              toleranceAfter:(CMTime)toleranceAfter
-    preferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                  atPosition:(SRGPosition *)position
+withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                   streamType:(SRGStreamType)streamType
                      quality:(SRGQuality)quality
                          DRM:(BOOL)DRM
                 startBitRate:(NSInteger)startBitRate
                     userInfo:(NSDictionary *)userInfo
 {
-    return [self prepareToPlayMediaComposition:mediaComposition atTime:time withToleranceBefore:toleranceBefore toleranceAfter:toleranceAfter preferredStreamingMethod:streamingMethod streamType:streamType quality:quality DRM:DRM startBitRate:startBitRate userInfo:userInfo completionHandler:^{
+    return [self prepareToPlayMediaComposition:mediaComposition atPosition:position withPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality DRM:DRM startBitRate:startBitRate userInfo:userInfo completionHandler:^{
         [self play];
     }];
 }

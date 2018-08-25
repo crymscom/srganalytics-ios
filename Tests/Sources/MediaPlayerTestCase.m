@@ -101,7 +101,7 @@ static NSURL *DVRTestURL(void)
     
     // Seek near the end of the video
     CMTime pastTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(5., NSEC_PER_SEC));
-    [self.mediaPlayerController seekPreciselyToTime:pastTime withCompletionHandler:nil];
+    [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTime:pastTime] withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -309,7 +309,7 @@ static NSURL *DVRTestURL(void)
         return seekReceived && playReceived;
     }];
     
-    [self.mediaPlayerController seekPreciselyToTime:CMTimeMakeWithSeconds(2., NSEC_PER_SEC) withCompletionHandler:nil];
+    [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTimeInSeconds:2.] withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver2];
@@ -401,7 +401,7 @@ static NSURL *DVRTestURL(void)
         return seekReceived && pauseReceived;
     }];
     
-    [self.mediaPlayerController seekPreciselyToTime:CMTimeMakeWithSeconds(2., NSEC_PER_SEC) withCompletionHandler:nil];
+    [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTimeInSeconds:2.] withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver3];
@@ -587,13 +587,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    [self.mediaPlayerController playURL:LiveTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:nil
-                        analyticsLabels:nil
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:LiveTestURL() atPosition:nil withSegments:nil analyticsLabels:nil userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -649,13 +643,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    [self.mediaPlayerController playURL:LiveTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:nil
-                        analyticsLabels:nil
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:LiveTestURL() atPosition:nil withSegments:nil analyticsLabels:nil userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -744,7 +732,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     CMTime pastTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(45., NSEC_PER_SEC));
-    [self.mediaPlayerController seekPreciselyToTime:pastTime withCompletionHandler:nil];
+    [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTime:pastTime] withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -912,13 +900,7 @@ static NSURL *DVRTestURL(void)
                            @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:@[segment]
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atPosition:nil withSegments:@[segment] analyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -989,14 +971,7 @@ static NSURL *DVRTestURL(void)
                            @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1046,14 +1021,7 @@ static NSURL *DVRTestURL(void)
                            @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1106,17 +1074,9 @@ static NSURL *DVRTestURL(void)
                            @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    [self.mediaPlayerController prepareToPlayURL:OnDemandTestURL()
-                                         atIndex:0
-                                            time:kCMTimeZero
-                                      inSegments:@[segment]
-                             withToleranceBefore:kCMTimeZero
-                                  toleranceAfter:kCMTimeZero
-                                 analyticsLabels:labels
-                                        userInfo:nil
-                               completionHandler:^{
-                                   [[NSNotificationCenter defaultCenter] removeObserver:prepareObserver];
-                               }];
+    [self.mediaPlayerController prepareToPlayURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil completionHandler:^{
+        [[NSNotificationCenter defaultCenter] removeObserver:prepareObserver];
+    }];
     
     // Now playing must trigger a play event
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -1162,13 +1122,7 @@ static NSURL *DVRTestURL(void)
                            @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:@[segment]
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atPosition:nil withSegments:@[segment] analyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1214,11 +1168,7 @@ static NSURL *DVRTestURL(void)
         return fullEndReceived && segmentPlayReceived;
     }];
     
-    [self.mediaPlayerController seekToTime:kCMTimeZero
-                                 inSegment:segment
-                       withToleranceBefore:kCMTimeZero
-                            toleranceAfter:kCMTimeZero
-                         completionHandler:nil];
+    [self.mediaPlayerController seekToPosition:nil inSegment:segment withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -1241,14 +1191,7 @@ static NSURL *DVRTestURL(void)
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment1, segment2]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment1, segment2] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1284,11 +1227,7 @@ static NSURL *DVRTestURL(void)
         return segment1EndReceived && segment2PlayReceived;
     }];
     
-    [self.mediaPlayerController seekToTime:kCMTimeZero
-                                 inSegment:segment2
-                       withToleranceBefore:kCMTimeZero
-                            toleranceAfter:kCMTimeZero
-                         completionHandler:nil];
+    [self.mediaPlayerController seekToPosition:nil inSegment:segment2 withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -1311,14 +1250,7 @@ static NSURL *DVRTestURL(void)
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment1, segment2]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment1, segment2] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1375,14 +1307,7 @@ static NSURL *DVRTestURL(void)
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1418,11 +1343,7 @@ static NSURL *DVRTestURL(void)
         return segmentEndReceived && segmentPlayReceived;
     }];
     
-    [self.mediaPlayerController seekToTime:kCMTimeZero
-                                 inSegment:segment
-                       withToleranceBefore:kCMTimeZero
-                            toleranceAfter:kCMTimeZero
-                         completionHandler:nil];
+    [self.mediaPlayerController seekToPosition:nil inSegment:segment withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -1445,14 +1366,7 @@ static NSURL *DVRTestURL(void)
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment1, segment2]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment1, segment2] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1498,7 +1412,8 @@ static NSURL *DVRTestURL(void)
         return segment1SeekReceived && segment1StopReceived && fullLengthPlayReceived;
     }];
     
-    [self.mediaPlayerController seekPreciselyToTime:CMTimeAdd(CMTimeRangeGetEnd(segment1.srg_timeRange), CMTimeMakeWithSeconds(10., NSEC_PER_SEC)) withCompletionHandler:nil];
+    CMTime seekTime = CMTimeAdd(CMTimeRangeGetEnd(segment1.srg_timeRange), CMTimeMakeWithSeconds(10., NSEC_PER_SEC));
+    [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTime:seekTime] withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -1520,14 +1435,7 @@ static NSURL *DVRTestURL(void)
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1563,7 +1471,8 @@ static NSURL *DVRTestURL(void)
         return segmentSeekReceived && segmentPlayReceived;
     }];
     
-    [self.mediaPlayerController seekPreciselyToTime:CMTimeAdd(segment.srg_timeRange.start, CMTimeMakeWithSeconds(3., NSEC_PER_SEC)) withCompletionHandler:nil];
+    CMTime seekTime = CMTimeAdd(segment.srg_timeRange.start, CMTimeMakeWithSeconds(3., NSEC_PER_SEC));
+    [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTime:seekTime] withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -1586,14 +1495,7 @@ static NSURL *DVRTestURL(void)
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1668,14 +1570,7 @@ static NSURL *DVRTestURL(void)
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1720,13 +1615,7 @@ static NSURL *DVRTestURL(void)
                            @"overridable_name" : @"full" };
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:@[segment]
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atPosition:nil withSegments:@[segment] analyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1760,11 +1649,7 @@ static NSURL *DVRTestURL(void)
         return fullLengthSeekReceived && fullLengthPlayReceived;
     }];
     
-    [self.mediaPlayerController seekToTime:kCMTimeZero
-                                 inSegment:segment
-                       withToleranceBefore:kCMTimeZero
-                            toleranceAfter:kCMTimeZero
-                         completionHandler:nil];
+    [self.mediaPlayerController seekToPosition:nil inSegment:segment withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -1785,13 +1670,7 @@ static NSURL *DVRTestURL(void)
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:@[segment]
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atPosition:nil withSegments:@[segment] analyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -1825,7 +1704,7 @@ static NSURL *DVRTestURL(void)
         return fullLengthSeekReceived && fullLengthPlayReceived;
     }];
     
-    [self.mediaPlayerController seekPreciselyToTime:CMTimeMakeWithSeconds(55., NSEC_PER_SEC) withCompletionHandler:nil];
+    [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTimeInSeconds:55.] withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -1882,14 +1761,7 @@ static NSURL *DVRTestURL(void)
                            @"overridable_name" : @"full" };
     
     Segment *segment = [Segment blockedSegmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(10., NSEC_PER_SEC))];
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
@@ -1910,13 +1782,7 @@ static NSURL *DVRTestURL(void)
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:@[segment]
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atPosition:nil withSegments:@[segment] analyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -2036,14 +1902,7 @@ static NSURL *DVRTestURL(void)
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -2128,7 +1987,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
-    [self.mediaPlayerController seekPreciselyToTime:CMTimeMakeWithSeconds(20., NSEC_PER_SEC) withCompletionHandler:nil];
+    [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTimeInSeconds:20.] withCompletionHandler:nil];
     self.mediaPlayerController.tracked = NO;
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -2150,14 +2009,7 @@ static NSURL *DVRTestURL(void)
                            @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(2., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -2229,14 +2081,7 @@ static NSURL *DVRTestURL(void)
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -2303,14 +2148,7 @@ static NSURL *DVRTestURL(void)
     labels.customInfo = @{ @"stream_name" : @"full",
                            @"overridable_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
@@ -2369,7 +2207,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePlaying);
-    [self.mediaPlayerController seekPreciselyToTime:CMTimeMakeWithSeconds(20., NSEC_PER_SEC) withCompletionHandler:nil];
+    [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTimeInSeconds:20.] withCompletionHandler:nil];
     self.mediaPlayerController.tracked = YES;
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -2519,13 +2357,7 @@ static NSURL *DVRTestURL(void)
     SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full" };
     
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:nil
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atPosition:nil withSegments:nil analyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -2621,13 +2453,7 @@ static NSURL *DVRTestURL(void)
     SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full" };
     
-    [self.mediaPlayerController playURL:LiveTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:nil
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:LiveTestURL() atPosition:nil withSegments:nil analyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -2668,14 +2494,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(4., NSEC_PER_SEC), CMTimeMakeWithSeconds(7., NSEC_PER_SEC))];
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                atIndex:0
-                                   time:kCMTimeZero
-                             inSegments:@[segment]
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                        analyticsLabels:nil
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:nil userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -2719,13 +2538,7 @@ static NSURL *DVRTestURL(void)
                            @"overridable_name" : @"full" };
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(7., NSEC_PER_SEC))];
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:@[segment]
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atPosition:nil withSegments:@[segment] analyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -2771,11 +2584,7 @@ static NSURL *DVRTestURL(void)
         return fullEndReceived && segmentPlayReceived;
     }];
     
-    [self.mediaPlayerController seekToTime:kCMTimeZero
-                                 inSegment:segment
-                       withToleranceBefore:kCMTimeZero
-                            toleranceAfter:kCMTimeZero
-                         completionHandler:nil];
+    [self.mediaPlayerController seekToPosition:nil inSegment:segment withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -2818,13 +2627,7 @@ static NSURL *DVRTestURL(void)
     SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full" };
     
-    [self.mediaPlayerController playURL:DVRTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:nil
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:DVRTestURL() atPosition:nil withSegments:nil analyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -2864,13 +2667,7 @@ static NSURL *DVRTestURL(void)
     SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
     labels.customInfo = @{ @"stream_name" : @"full" };
     
-    [self.mediaPlayerController playURL:DVRTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:nil
-                        analyticsLabels:labels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:DVRTestURL() atPosition:nil withSegments:nil analyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -2880,7 +2677,8 @@ static NSURL *DVRTestURL(void)
         return [labels[@"event_id"] isEqualToString:@"play"];
     }];
     
-    [self.mediaPlayerController seekPreciselyToTime:CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(60., NSEC_PER_SEC)) withCompletionHandler:nil];
+    CMTime seekTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(60., NSEC_PER_SEC));
+    [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTime:seekTime] withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -2916,13 +2714,7 @@ static NSURL *DVRTestURL(void)
         return YES;
     }];
     
-    [self.mediaPlayerController playURL:LiveTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:nil
-                        analyticsLabels:nil
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:LiveTestURL() atPosition:nil withSegments:nil analyticsLabels:nil userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -3054,13 +2846,7 @@ static NSURL *DVRTestURL(void)
     analyticsLabels.playerName = @"player_name";
     
     NSDictionary *userInfo = @{ @"key" : @"value" };
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:nil
-                        analyticsLabels:analyticsLabels
-                               userInfo:userInfo];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atPosition:nil withSegments:nil analyticsLabels:analyticsLabels userInfo:userInfo];
     XCTAssertEqualObjects([self.mediaPlayerController.userInfo dictionaryWithValuesForKeys:userInfo.allKeys], userInfo);
     XCTAssertEqualObjects(self.mediaPlayerController.analyticsLabels, analyticsLabels);
     
@@ -3080,13 +2866,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsStreamLabels *analyticsLabels = [[SRGAnalyticsStreamLabels alloc] init];
     analyticsLabels.customInfo = @{ @"custom_key" : @"custom_value" };
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:nil
-                        analyticsLabels:analyticsLabels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atPosition:nil withSegments:nil analyticsLabels:analyticsLabels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
@@ -3122,13 +2902,7 @@ static NSURL *DVRTestURL(void)
     
     SRGAnalyticsStreamLabels *analyticsLabels = [[SRGAnalyticsStreamLabels alloc] init];
     analyticsLabels.customInfo = @{ @"custom_key" : @"custom_value" };
-    [self.mediaPlayerController playURL:OnDemandTestURL()
-                                 atTime:kCMTimeZero
-                    withToleranceBefore:kCMTimeZero
-                         toleranceAfter:kCMTimeZero
-                               segments:nil
-                        analyticsLabels:analyticsLabels
-                               userInfo:nil];
+    [self.mediaPlayerController playURL:OnDemandTestURL() atPosition:nil withSegments:nil analyticsLabels:analyticsLabels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
