@@ -22,7 +22,7 @@ CREATE_CARTFILE_PRIVATE_OPEN=@cp $(CARTFILE_HIDDEN) $(CARTFILE_PRIVATE)
 
 CLEAN_CARTFILE_PRIVATE=@rm -f $(CARTFILE_PRIVATE)
 
-.PHONY: all bootstrap bootstrap update bootstrap_closed update_closed bootstrap_open update_open package clean
+.PHONY: all resolve bootstrap update bootstrap_open update_open package clean
 
 all: bootstrap
 	xcodebuild build
@@ -70,5 +70,5 @@ package: bootstrap
 
 clean:
 	xcodebuild clean
-	rm -rf "$(CARTHAGE_FOLDER)"
+	rm -rf $(CARTHAGE_FOLDER)
 	$(CLEAN_CARTFILE_PRIVATE)
