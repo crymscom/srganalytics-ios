@@ -14,6 +14,12 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 @interface AnalyticsTestCase : XCTestCase
 
 /**
+ *  Return `YES` iff content protection is available. Without it, some streams cannot be played (e.g. livestreams)
+ *  and therefore some tests cannot work.
+ */
++ (BOOL)hasContentProtection;
+
+/**
  *  Expectation for general hidden event notifications.
  */
 - (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(EventExpectationHandler)handler;

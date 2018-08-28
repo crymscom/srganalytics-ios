@@ -168,7 +168,11 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlayLivestreamInMediaComposition
 {
-#if __has_include(<SRGContentProtection/SRGContentProtection.h>)
+    if (! [DataProviderTestCase hasContentProtection]) {
+        NSLog(@"Test disabled. Test stream not available without SRGContentProtection.framework.");
+        return;
+    }
+    
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_segment"], @"Livestream");
@@ -191,9 +195,6 @@ static NSURL *MMFTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.mediaComposition, fetchedMediaComposition);
     XCTAssertNil(self.mediaPlayerController.segments);
     XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeFlat);
-#else
-    #warning Test disabled. Livestreams are not available without SRG Content Protection.
-#endif
 }
 
 - (void)testPlay360InMediaComposition
@@ -222,7 +223,11 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlay360AndFlatInMediaComposition
 {
-#if __has_include(<SRGContentProtection/SRGContentProtection.h>)
+    if (! [DataProviderTestCase hasContentProtection]) {
+        NSLog(@"Test disabled. Test stream not available without SRGContentProtection.framework.");
+        return;
+    }
+    
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"play");
         return YES;
@@ -337,9 +342,6 @@ static NSURL *MMFTestURL(void)
     
     XCTAssertEqual(self.mediaPlayerController.mediaComposition, fetchedMediaComposition4);
     XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeFlat);
-#else
-    #warning Test disabled. Livestreams are not available without SRG Content Protection.
-#endif
 }
 
 - (void)testMetadata
@@ -490,7 +492,11 @@ static NSURL *MMFTestURL(void)
 
 - (void)testMediaCompositionUpdateWithNewSegment
 {
-#if __has_include(<SRGContentProtection/SRGContentProtection.h>)
+    if (! [DataProviderTestCase hasContentProtection]) {
+        NSLog(@"Test disabled. Test stream not available without SRGContentProtection.framework.");
+        return;
+    }
+    
     [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
         return [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePlaying;
     }];
@@ -528,9 +534,6 @@ static NSURL *MMFTestURL(void)
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-#else
-    #warning Test disabled. Livestreams are not available without SRG Content Protection.
-#endif
 }
 
 - (void)testDefaultStreamingMethod
