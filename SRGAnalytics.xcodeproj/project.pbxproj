@@ -57,13 +57,9 @@
 		6FB331EE1D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB331E61D9BFB00001469F2 /* SRGAnalytics_DataProvider.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FB331F91D9BFB77001469F2 /* SRGAnalytics_DataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB331F71D9BFB77001469F2 /* SRGAnalytics_DataProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6FB74DAD2105A79100E2D365 /* SRGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA82105A77B00E2D365 /* SRGNetwork.framework */; };
-		6FB74DAE2105A7A700E2D365 /* SRGContentProtection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */; };
-		6FB74DAF2105A7A700E2D365 /* SRGContentProtection.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FB74DB02105A7A700E2D365 /* SRGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA82105A77B00E2D365 /* SRGNetwork.framework */; };
 		6FB74DB12105A7A700E2D365 /* SRGNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA82105A77B00E2D365 /* SRGNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6FB74DB22105A7CA00E2D365 /* SRGContentProtection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */; };
 		6FB74DB32105A7CA00E2D365 /* SRGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA82105A77B00E2D365 /* SRGNetwork.framework */; };
-		6FB74DB42105A7D300E2D365 /* SRGContentProtection.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FB74DB52105A7D300E2D365 /* SRGNetwork.framework in Copy Frameworks Into Test Bundle */ = {isa = PBXBuildFile; fileRef = 6FB74DA82105A77B00E2D365 /* SRGNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FB97FE41E4AF0270014C4C2 /* MAKVONotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB97FE31E4AF0270014C4C2 /* MAKVONotificationCenter.framework */; };
 		6FB97FE51E4AF0B50014C4C2 /* MAKVONotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB97FE31E4AF0270014C4C2 /* MAKVONotificationCenter.framework */; };
@@ -222,7 +218,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6FB74DB42105A7D300E2D365 /* SRGContentProtection.framework in Copy Frameworks Into Test Bundle */,
 				6FB74DB52105A7D300E2D365 /* SRGNetwork.framework in Copy Frameworks Into Test Bundle */,
 				6F8F25961F0BD797009B116E /* TCCore.framework in Copy Frameworks Into Test Bundle */,
 				6F8F25971F0BD797009B116E /* TCSDK.framework in Copy Frameworks Into Test Bundle */,
@@ -252,7 +247,6 @@
 				0811A8551D800BBC00A9863B /* libextobjc.framework in Embed Frameworks */,
 				6FA09D8E1D9EC50B00EDCA64 /* SRGLogger.framework in Embed Frameworks */,
 				6FB74DB12105A7A700E2D365 /* SRGNetwork.framework in Embed Frameworks */,
-				6FB74DAF2105A7A700E2D365 /* SRGContentProtection.framework in Embed Frameworks */,
 				6FD9B24F1F0BC513004805D2 /* TCSDK.framework in Embed Frameworks */,
 				6FD9B24D1F0BC513004805D2 /* TCCore.framework in Embed Frameworks */,
 				6FF3E2171D9CF57600EB4A30 /* SRGDataProvider.framework in Embed Frameworks */,
@@ -419,7 +413,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6FB74DB22105A7CA00E2D365 /* SRGContentProtection.framework in Frameworks */,
 				6FB74DB32105A7CA00E2D365 /* SRGNetwork.framework in Frameworks */,
 				6FD9B2501F0BC551004805D2 /* libextobjc.framework in Frameworks */,
 				6FB97FEA1E4AF1800014C4C2 /* MAKVONotificationCenter.framework in Frameworks */,
@@ -467,7 +460,6 @@
 				E672EA511D62F19E00CFB080 /* ComScore.framework in Frameworks */,
 				6FF3E2181D9CF58C00EB4A30 /* Mantle.framework in Frameworks */,
 				6FB74DB02105A7A700E2D365 /* SRGNetwork.framework in Frameworks */,
-				6FB74DAE2105A7A700E2D365 /* SRGContentProtection.framework in Frameworks */,
 				6FD9B24E1F0BC513004805D2 /* TCSDK.framework in Frameworks */,
 				6FD9B24C1F0BC513004805D2 /* TCCore.framework in Frameworks */,
 				E6FC7EA51D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Frameworks */,
