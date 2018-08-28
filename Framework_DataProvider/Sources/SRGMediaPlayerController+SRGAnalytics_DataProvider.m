@@ -51,8 +51,14 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
         }
         
 #if __has_include(<SRGContentProtection/SRGContentProtection.h>)
-        SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
-        AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL licenseURL:fairPlayDRM.licenseURL];
+        AVURLAsset *asset = nil;
+        if ([[AVURLAsset class] respondsToSelector:@selector(srg_assetWithURL:licenseURL:)]) {
+            SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
+            asset = [AVURLAsset srg_assetWithURL:streamURL licenseURL:fairPlayDRM.licenseURL];
+        }
+        else {
+            asset = [AVURLAsset assetWithURL:streamURL];
+        }
 #else
         AVURLAsset *asset = [AVURLAsset assetWithURL:streamURL];
 #endif

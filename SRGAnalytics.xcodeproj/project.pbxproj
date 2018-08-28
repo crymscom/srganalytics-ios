@@ -895,6 +895,7 @@
 				E654909E1D803C03007D96E7 /* Frameworks */,
 				E654909F1D803C03007D96E7 /* Resources */,
 				E65490B31D803CFB007D96E7 /* Copy Frameworks Into Test Bundle */,
+				6FC5B88C21356C7900C79EDF /* Copy Proprietary Frameworks Into Test Bundle */,
 			);
 			buildRules = (
 			);
@@ -1081,6 +1082,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6FC5B88C21356C7900C79EDF /* Copy Proprietary Frameworks Into Test Bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Proprietary Frameworks Into Test Bundle";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "CONTENT_PROTECTION_FRAMEWORK=\"$SRCROOT/Carthage/Build/iOS/SRGContentProtection.framework\"\nif [ -d \"$CONTENT_PROTECTION_FRAMEWORK\" ]; then\n  cp -R \"$CONTENT_PROTECTION_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6F0C98CB2121CC9700073AB6 /* Sources */ = {
