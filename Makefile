@@ -22,11 +22,21 @@ CREATE_CARTFILE_PRIVATE_OPEN=@cp $(CARTFILE_HIDDEN) $(CARTFILE_PRIVATE)
 
 CLEAN_CARTFILE_PRIVATE=@rm -f $(CARTFILE_PRIVATE)
 
-.PHONY: all bootstrap bootstrap_open update update_open test package clean
+.PHONY: all bootstrap bootstrap update bootstrap_closed update_closed bootstrap_open update_open package clean
 
-all:
-	bootstrap
+all: bootstrap
 	xcodebuild build
+
+resolve:
+	$(CREATE_CARTFILE_PRIVATE_CLOSED)
+	carthage update $(CARTHAGE_FLAGS) --no-build
+	$(SAVE_CARTFILE_RESOLVED_CLOSED)
+
+	$(CREATE_CARTFILE_PRIVATE_OPEN)
+	carthage update $(CARTHAGE_FLAGS) --no-build
+	$(SAVE_CARTFILE_RESOLVED_OPEN)
+
+	$(CLEAN_CARTFILE_PRIVATE)
 
 bootstrap:
 	$(CREATE_CARTFILE_PRIVATE_CLOSED)
@@ -54,8 +64,7 @@ update_open:
 	$(SAVE_CARTFILE_RESOLVED_OPEN)
 	$(CLEAN_CARTFILE_PRIVATE)
 
-package:
-	bootstrap
+package: bootstrap
 	carthage build --no-skip-current
 	carthage archive --output ~/Desktop
 
