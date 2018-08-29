@@ -65,8 +65,9 @@ update_open:
 	$(CLEAN_CARTFILE_PRIVATE)
 
 package: bootstrap
+	mkdir -p archive
 	carthage build --no-skip-current
-	carthage archive --output ~/Desktop
+	carthage archive --output archive
 
 clean:
 	xcodebuild clean
