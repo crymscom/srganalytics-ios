@@ -13,9 +13,9 @@ CARTFILE_RESOLVED=Cartfile.resolved
 CARTFILE_RESOLVED_PROPRIETARY=Cartfile.resolved.proprietary
 CARTFILE_RESOLVED_PUBLIC=Cartfile.resolved.public
 
-RESTORE_CARTFILE_PRIVATE_COMMON=@[ -f $(CARTFILE_PRIVATE_COMMON) ] && cp $(CARTFILE_PRIVATE_COMMON) $(CARTFILE_PRIVATE) || touch $(CARTFILE_PRIVATE_COMMON)
-RESTORE_CARTFILE_PRIVATE_PROPRIETARY=$(RESTORE_CARTFILE_PRIVATE_COMMON);[ -f $(CARTFILE_PRIVATE_PROPRIETARY) ] && (echo; cat $(CARTFILE_PRIVATE_PROPRIETARY)) >> $(CARTFILE_PRIVATE) || true
-RESTORE_CARTFILE_PRIVATE_PUBLIC=$(RESTORE_CARTFILE_PRIVATE_COMMON);[ -f $(CARTFILE_PRIVATE_PUBLIC) ] && (echo; cat $(CARTFILE_PRIVATE_PUBLIC)) >> $(CARTFILE_PRIVATE) || true
+RESTORE_CARTFILE_PRIVATE_COMMON=@$(CLEAN_CARTFILE_RESOLVED);[ -f $(CARTFILE_PRIVATE_COMMON) ] && cat $(CARTFILE_PRIVATE_COMMON) >> $(CARTFILE_PRIVATE) || true
+RESTORE_CARTFILE_PRIVATE_PROPRIETARY=@$(RESTORE_CARTFILE_PRIVATE_COMMON);[ -f $(CARTFILE_PRIVATE_PROPRIETARY) ] && (echo; cat $(CARTFILE_PRIVATE_PROPRIETARY)) >> $(CARTFILE_PRIVATE) || true
+RESTORE_CARTFILE_PRIVATE_PUBLIC=@$(RESTORE_CARTFILE_PRIVATE_COMMON);[ -f $(CARTFILE_PRIVATE_PUBLIC) ] && (echo; cat $(CARTFILE_PRIVATE_PUBLIC)) >> $(CARTFILE_PRIVATE) || true
 
 CLEAN_CARTFILE_PRIVATE=@rm -f $(CARTFILE_PRIVATE)
 
@@ -68,7 +68,7 @@ bootstrap:
 	$(CLEAN_CARTFILE_PRIVATE)
 	@echo ""
 
-# Also keep open source build dependencies in sync
+# Also keep public build dependencies in sync
 .PHONY: update
 update: public.dependencies
 	@echo "Updating and building $(CARTFILE_RESOLVED_PROPRIETARY) dependencies..."
@@ -80,7 +80,7 @@ update: public.dependencies
 	$(CLEAN_CARTFILE_RESOLVED)
 	@echo ""
 
-# Open source dependency compilation
+# Public dependency compilation
 
 .PHONY: public.bootstrap
 public.bootstrap:
@@ -104,8 +104,7 @@ public.update:
 	$(CLEAN_CARTFILE_RESOLVED)
 	@echo ""
 
-# Framework package to attach to github releases. Only for proprietary builds (open source builds
-# can use these binaries as well).
+# Framework package to attach to github releases
 
 .PHONY: package
 package: bootstrap
@@ -135,7 +134,7 @@ help:
 	@echo "   update                      Update and build dependencies"
 	@echo "   package                     Build and package the framework for attaching to github releases"
 	@echo ""
-	@echo "The following targets must be used with the public project:"
+	@echo "The following targets must be used when building the public source code:"
 	@echo "   public.dependencies         Update dependencies without building them"
 	@echo "   public.bootstrap            Build dependencies as declared in $(CARTFILE_RESOLVED_PUBLIC)"
 	@echo "   public.update               Update and build dependencies"
