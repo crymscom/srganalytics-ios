@@ -66,7 +66,6 @@ Depending on your needs, the library requires the following frameworks to be add
   * `SRGAnalytics`: The main analytics framework.
   * `SRGAnalytics_DataProvider`: The data provider analytics companion framework.
   * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework.
-  * `SRGContentProtection`: The framework to enable playback of protected medias.
   * `SRGLogger`: The framework used for internal logging.
   * `SRGMediaPlayer`: The media player framework (if not already in your project).
   * `SRGNetwork`: A networking framework.
@@ -152,9 +151,25 @@ The library internally uses the [SRG Logger](https://github.com/SRGSSR/srglogger
 
 This logger either automatically integrates with your own logger, or can be easily integrated with it. Refer to the SRG Logger documentation for more information.
 
+## Content protection
+
+The `SRGAnalytics_DataProvider.framework` companion framework provides convenience methods for playing content delivered by our [SRG Data Provider](https://github.com/SRGSSR/srgdataprovider-ios) library. Not all content is accessible for legal reasons, though, in particular livestreams or foreign TV series.
+
+To play protected content, and provided you have been granted access to it, an optional internal [SRG Content Protection](https://github.com/SRGSSR/srgcontentprotection-ios) framework is available and must be added to your project `Cartfile` as well:
+
+```
+github "SRGSSR/srgcontentprotection-ios"
+```
+
+Note that binaries delivered as part of our [releases](https://github.com/SRGSSR/srganalytics-ios/releases) weakly link to this framework when available. As soon as the framework has been correctly linked to your project, protected content will be playable.
+
+### Remark
+
+If your project previously did not reference SRG Content Protection or when switching between dynamic and static linking, be sure to clean your `Carthage` folder so that dependencies are rebuilt appropriately.
+
 ## Advertising Identifier (IDFA)
 
-Neither the SRG Analytics SDK, nor its dependencies, involve the use of the Advertising Identifier (IDFA). Provided all other components your application depends on do not use the IDFA, you can therefore safely answer 'No' to the corresponding question when submitting your binaries through iTunes Connect.
+Neither the SRG Analytics SDK, nor its dependencies, involve the use of the Advertising Identifier (IDFA). Provided all other components your application depends on do not use the IDFA, you can therefore safely answer _No_ to the corresponding question when submitting your binaries through iTunes Connect.
 
 ## Demo project
 
