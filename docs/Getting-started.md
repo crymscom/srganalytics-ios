@@ -103,9 +103,9 @@ To measure any kind of application functionality, you can use hidden events. Tho
 
 Custom labels can also be used to send any additional measurement information you could need, and which might be different for TagCommander and comScore.
 
-## Measuring SRG MediaPlayer media consumption
+## Measuring SRG Media Player media consumption
 
-To measure media consumption for [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) controllers, you need to add the `SRGAnalytics_MediaPlayer.framework` companion framework to your project. As soon the framework has been added, it starts tracking any `SRGMediaPlayerController` instance by default. 
+To measure media consumption for [SRG Media Player](https://github.com/SRGSSR/SRGMediaPlayer-iOS) controllers, you need to add the `SRGAnalytics_MediaPlayer.framework` companion framework to your project. As soon the framework has been added, it starts tracking any `SRGMediaPlayerController` instance by default. 
 
 You can disable tracking by setting the `SRGMediaPlayerController` `tracked` property to `NO`. If you don't want the player to send any media playback events, you should perform this setup before actually beginning playback. You can still toggle the property on or off at any time if needed.
 
@@ -158,12 +158,10 @@ labels.customInfo = @{ @"MYAPP_MEDIA_ID" : @"My media". @"MYAPP_PRODUCER" : @"RT
 labels.comScoreCustomInfo = @{ @"myapp_media_id" : self.name };
 
 SRGMediaPlayerController *mediaPlayerController = [[SRGMediaPlayerController alloc] init];
-[mediaPlayerController playURL:URL 
-                        atTime:kCMTimeZero 
-                  withSegments:@[segment] 
-               analyticsLabels:labels
-                      userInfo:nil];
+[mediaPlayerController playURL:URL atPosition:nil withSegments:@[segment] analyticsLabels:labels userInfo:nil];
 ```
+
+You can adjust tolerances to have precise but slower startup at the specified location (`kCMTimeZero`, like in the example above), or faster startup at around the specified location (`kCMTimePositiveInfinity` or some bounded positive value).
 
 When playing the content, tracking information sent to TagCommander will contain:
 
@@ -188,9 +186,14 @@ Our services directly supply the custom analytics labels which need to be sent w
 This framework adds a category `SRGMediaPlayerController (SRGAnalytics_DataProvider)`, which adds playback methods for media compositions to `SRGMediaPlayerController`. To play a media composition retrieved from an `SRGDataProvider` and have all measurement information automatically associated with the playback, simply call:
 
 ```objective-c
-[mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodHLS streamtype:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^{
-    // ...
-}];
+[mediaPlayerController playMediaComposition:mediaComposition
+                                 atPosition:nil
+               withPreferredStreamingMethod:SRGStreamingMethodHLS
+                                 streamType:SRGStreamTypeNone 
+                                    quality:SRGQualityHD
+                                        DRM:YES
+                               startBitRate:0
+                                   userInfo:nil];
 ```
 
 on an `SRGMediaPlayerController` instance.
@@ -199,7 +202,7 @@ Nothing more is required for correct media consumption measurements. During play
 
 ## Measurements of other media players
 
-If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must implement media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsStreamTracker` object and retain it somewhere during media playback. 
+If your application cannot use [SRG Media Player](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must implement media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsStreamTracker` object and retain it somewhere during media playback. 
 
 ```objective-c
 self.streamTracker = [[SRGAnalyticsStreamTracker alloc] initWithLivestream:NO];

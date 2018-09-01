@@ -21,7 +21,7 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
 #pragma mark Playback methods
 
 - (BOOL)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
-                               atTime:(CMTime)time
+                           atPosition:(SRGPosition *)position
          withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                            streamType:(SRGStreamType)streamType
                               quality:(SRGQuality)quality
@@ -50,14 +50,14 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
         SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
         AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL licenseURL:fairPlayDRM.licenseURL];
         AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
-        [self prepareToPlayItem:playerItem atIndex:index time:time inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
+        [self prepareToPlayItem:playerItem atIndex:index position:position inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
             completionHandler ? completionHandler() : nil;
         }];
     }];
 }
 
 - (BOOL)playMediaComposition:(SRGMediaComposition *)mediaComposition
-                      atTime:(CMTime)time
+                  atPosition:(SRGPosition *)position
 withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                   streamType:(SRGStreamType)streamType
                      quality:(SRGQuality)quality
@@ -65,7 +65,7 @@ withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
                 startBitRate:(NSInteger)startBitRate
                     userInfo:(NSDictionary *)userInfo
 {
-    return [self prepareToPlayMediaComposition:mediaComposition atTime:time withPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality DRM:DRM startBitRate:startBitRate userInfo:userInfo completionHandler:^{
+    return [self prepareToPlayMediaComposition:mediaComposition atPosition:position withPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality DRM:DRM startBitRate:startBitRate userInfo:userInfo completionHandler:^{
         [self play];
     }];
 }
