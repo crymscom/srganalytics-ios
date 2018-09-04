@@ -9,3 +9,6 @@ build
 Carthage
 Cartfile.private
 Cartfile.resolved
+
+report.xml
+test_output
