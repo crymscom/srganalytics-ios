@@ -10,5 +10,5 @@ Carthage
 Cartfile.private
 Cartfile.resolved
 
-report.xml
-test_output
+fastlane/report.xml
+fastlane/test_output
