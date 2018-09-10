@@ -35,22 +35,6 @@ define restore_cartfile_resolved
 	fi;
 endef
 
-# Checkout a commit for a repository in the specified directory. Fails if the repository is dirty of if the
-# commit does not exist.  
-#   Syntax: $(call checkout_repository,directory,commit)
-define checkout_repository
-	@cd $(1); \
-	if [[ `git status --porcelain` ]]; then \
-		echo "The repository '$(1)' contains changes. Please commit or discard these changes and retry."; \
-		exit 1; \
-	elif `git checkout -q $(2)`; then \
-		exit 0; \
-	else \
-		echo "The repository '$(1)' could not be switched to commit $(2). Does this commit exist?"; \
-		exit 1; \
-	fi;
-endef
-
 .PHONY: all
 all: bootstrap
 	@echo "Building the project..."
