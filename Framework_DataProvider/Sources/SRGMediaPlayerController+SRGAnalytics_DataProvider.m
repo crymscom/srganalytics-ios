@@ -11,7 +11,10 @@
 #import "SRGSegment+SRGAnalytics_DataProvider.h"
 
 #import <libextobjc/libextobjc.h>
+
+#if __has_include(<SRGContentProtection/SRGContentProtection.h>)
 #import <SRGContentProtection/SRGContentProtection.h>
+#endif
 
 static NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
 static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMediaPlayerResource";
@@ -47,8 +50,18 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
             [fullUserInfo addEntriesFromDictionary:userInfo];
         }
         
-        SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
-        AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL licenseURL:fairPlayDRM.licenseURL];
+#if __has_include(<SRGContentProtection/SRGContentProtection.h>)
+        AVURLAsset *asset = nil;
+        if ([[AVURLAsset class] respondsToSelector:@selector(srg_assetWithURL:licenseURL:)]) {
+            SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
+            asset = [AVURLAsset srg_assetWithURL:streamURL licenseURL:fairPlayDRM.licenseURL];
+        }
+        else {
+            asset = [AVURLAsset assetWithURL:streamURL];
+        }
+#else
+        AVURLAsset *asset = [AVURLAsset assetWithURL:streamURL];
+#endif
         AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
         [self prepareToPlayItem:playerItem atIndex:index position:position inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
             completionHandler ? completionHandler() : nil;

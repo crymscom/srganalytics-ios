@@ -168,6 +168,11 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlayLivestreamInMediaComposition
 {
+    if (! [DataProviderTestCase hasContentProtection]) {
+        NSLog(@"Test disabled. Test stream not available without SRGContentProtection.framework.");
+        return;
+    }
+    
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_segment"], @"Livestream");
@@ -218,6 +223,11 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlay360AndFlatInMediaComposition
 {
+    if (! [DataProviderTestCase hasContentProtection]) {
+        NSLog(@"Test disabled. Test stream not available without SRGContentProtection.framework.");
+        return;
+    }
+    
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"play");
         return YES;
@@ -339,7 +349,7 @@ static NSURL *MMFTestURL(void)
     XCTestExpectation *expectation = [self expectationWithDescription:@"Play"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
-    [[dataProvider mediaCompositionForURN:@"urn:srf:video:c4927fcf-e1a0-0001-7edd-1ef01d441651" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
+    [[dataProvider mediaCompositionForURN:@"urn:srf:video:a2c7ad8b-026d-4696-9934-ade687497a82" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
         NSDictionary *userInfo = @{ @"key" : @"value" };
@@ -398,7 +408,7 @@ static NSURL *MMFTestURL(void)
     
     __block SRGMediaComposition *fetchedMediaComposition = nil;
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
-    [[dataProvider mediaCompositionForURN:@"urn:srf:video:c4927fcf-e1a0-0001-7edd-1ef01d441651" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
+    [[dataProvider mediaCompositionForURN:@"urn:srf:video:a2c7ad8b-026d-4696-9934-ade687497a82" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         fetchedMediaComposition = mediaComposition;
         
@@ -420,7 +430,7 @@ static NSURL *MMFTestURL(void)
     
     __block SRGMediaComposition *fetchedMediaComposition1 = nil;
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
-    [[dataProvider mediaCompositionForURN:@"urn:srf:video:c4927fcf-e1a0-0001-7edd-1ef01d441651" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
+    [[dataProvider mediaCompositionForURN:@"urn:srf:video:a2c7ad8b-026d-4696-9934-ade687497a82" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         fetchedMediaComposition1 = mediaComposition;
         
@@ -482,6 +492,11 @@ static NSURL *MMFTestURL(void)
 
 - (void)testMediaCompositionUpdateWithNewSegment
 {
+    if (! [DataProviderTestCase hasContentProtection]) {
+        NSLog(@"Test disabled. Test stream not available without SRGContentProtection.framework.");
+        return;
+    }
+    
     [self expectationForNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
         return [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePlaying;
     }];
