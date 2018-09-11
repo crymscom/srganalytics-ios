@@ -12,6 +12,10 @@
 
 #import <libextobjc/libextobjc.h>
 
+#if __has_include(<SRGContentProtection/SRGContentProtection.h>)
+#import <SRGContentProtection/SRGContentProtection.h>
+#endif
+
 static NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
 static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMediaPlayerResource";
 
@@ -19,21 +23,17 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
 
 #pragma mark Playback methods
 
-- (SRGRequest *)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
-                 withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                                   streamType:(SRGStreamType)streamType
-                                      quality:(SRGQuality)quality
-                                 startBitRate:(NSInteger)startBitRate
-                                     userInfo:(NSDictionary *)userInfo
-                                       resume:(BOOL)resume
-                            completionHandler:(void (^)(NSError * _Nullable))completionHandler
+- (BOOL)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
+                           atPosition:(SRGPosition *)position
+         withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                           streamType:(SRGStreamType)streamType
+                              quality:(SRGQuality)quality
+                                  DRM:(BOOL)DRM
+                         startBitRate:(NSInteger)startBitRate
+                             userInfo:(NSDictionary *)userInfo
+                    completionHandler:(void (^)(void))completionHandler
 {
-    SRGRequest *request = [mediaComposition resourceWithPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality startBitRate:startBitRate completionBlock:^(NSURL * _Nullable tokenizedURL, SRGResource *resource, NSArray<id<SRGSegment>> *segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels, NSError * _Nullable error) {
-        if (error) {
-            completionHandler ? completionHandler(error) : nil;
-            return;
-        }
-        
+    return [mediaComposition playbackContextWithPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality DRM:DRM startBitRate:startBitRate contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
         if (resource.presentation == SRGPresentation360) {
             if (self.view.viewMode != SRGMediaPlayerViewModeMonoscopic && self.view.viewMode != SRGMediaPlayerViewModeStereoscopic) {
                 self.view.viewMode = SRGMediaPlayerViewModeMonoscopic;
@@ -50,40 +50,37 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
             [fullUserInfo addEntriesFromDictionary:userInfo];
         }
         
-        [self prepareToPlayURL:tokenizedURL atIndex:index inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
-            completionHandler ? completionHandler(nil) : nil;
+#if __has_include(<SRGContentProtection/SRGContentProtection.h>)
+        AVURLAsset *asset = nil;
+        if ([[AVURLAsset class] respondsToSelector:@selector(srg_assetWithURL:licenseURL:)]) {
+            SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
+            asset = [AVURLAsset srg_assetWithURL:streamURL licenseURL:fairPlayDRM.licenseURL];
+        }
+        else {
+            asset = [AVURLAsset assetWithURL:streamURL];
+        }
+#else
+        AVURLAsset *asset = [AVURLAsset assetWithURL:streamURL];
+#endif
+        AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
+        [self prepareToPlayItem:playerItem atIndex:index position:position inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
+            completionHandler ? completionHandler() : nil;
         }];
     }];
-    if (resume) {
-        [request resume];
-    }
-    return request;
 }
 
-- (SRGRequest *)playMediaComposition:(SRGMediaComposition *)mediaComposition
-        withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                          streamType:(SRGStreamType)streamType
-                             quality:(SRGQuality)quality
-                        startBitRate:(NSInteger)startBitRate
-                            userInfo:(NSDictionary *)userInfo
-                              resume:(BOOL)resume
-                   completionHandler:(void (^)(NSError * _Nullable))completionHandler
+- (BOOL)playMediaComposition:(SRGMediaComposition *)mediaComposition
+                  atPosition:(SRGPosition *)position
+withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
+                  streamType:(SRGStreamType)streamType
+                     quality:(SRGQuality)quality
+                         DRM:(BOOL)DRM
+                startBitRate:(NSInteger)startBitRate
+                    userInfo:(NSDictionary *)userInfo
 {
-    void (^playCompletionHandler)(NSError * _Nullable) = ^(NSError * _Nullable error) {
-        if (! error) {
-            [self play];
-        }
-        completionHandler ? completionHandler(error) : nil;
-    };
-    
-    return [self prepareToPlayMediaComposition:mediaComposition
-                  withPreferredStreamingMethod:streamingMethod
-                                    streamType:streamType
-                                       quality:quality
-                                  startBitRate:startBitRate
-                                      userInfo:userInfo
-                                        resume:resume
-                             completionHandler:playCompletionHandler];
+    return [self prepareToPlayMediaComposition:mediaComposition atPosition:position withPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality DRM:DRM startBitRate:startBitRate userInfo:userInfo completionHandler:^{
+        [self play];
+    }];
 }
 
 #pragma mark Getters and setters

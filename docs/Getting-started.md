@@ -103,9 +103,9 @@ To measure any kind of application functionality, you can use hidden events. Tho
 
 Custom labels can also be used to send any additional measurement information you could need, and which might be different for TagCommander and comScore.
 
-## Measuring SRG MediaPlayer media consumption
+## Measuring SRG Media Player media consumption
 
-To measure media consumption for [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) controllers, you need to add the `SRGAnalytics_MediaPlayer.framework` companion framework to your project. As soon the framework has been added, it starts tracking any `SRGMediaPlayerController` instance by default. 
+To measure media consumption for [SRG Media Player](https://github.com/SRGSSR/SRGMediaPlayer-iOS) controllers, you need to add the `SRGAnalytics_MediaPlayer.framework` companion framework to your project. As soon the framework has been added, it starts tracking any `SRGMediaPlayerController` instance by default. 
 
 You can disable tracking by setting the `SRGMediaPlayerController` `tracked` property to `NO`. If you don't want the player to send any media playback events, you should perform this setup before actually beginning playback. You can still toggle the property on or off at any time if needed.
 
@@ -158,12 +158,10 @@ labels.customInfo = @{ @"MYAPP_MEDIA_ID" : @"My media". @"MYAPP_PRODUCER" : @"RT
 labels.comScoreCustomInfo = @{ @"myapp_media_id" : self.name };
 
 SRGMediaPlayerController *mediaPlayerController = [[SRGMediaPlayerController alloc] init];
-[mediaPlayerController playURL:URL 
-                        atTime:kCMTimeZero 
-                  withSegments:@[segment] 
-               analyticsLabels:labels
-                      userInfo:nil];
+[mediaPlayerController playURL:URL atPosition:nil withSegments:@[segment] analyticsLabels:labels userInfo:nil];
 ```
+
+You can adjust tolerances to have precise but slower startup at the specified location (`kCMTimeZero`, like in the example above), or faster startup at around the specified location (`kCMTimePositiveInfinity` or some bounded positive value).
 
 When playing the content, tracking information sent to TagCommander will contain:
 
@@ -181,25 +179,30 @@ MYAPP_PRODUCER = RTS
 
 The mechanism is the same for information sent to comScore.
 
-## Automatic media consumption measurement labels using the SRG DataProvider library
+## Automatic media consumption measurement labels using the SRG Data Provider library
 
 Our services directly supply the custom analytics labels which need to be sent with media consumption measurements. If you are using our [SRG DataProvider library](https://github.com/SRGSSR/srgdataprovider-ios) in your application, be sure to add the `SRGAnalytics_SRGDataProvider.framework` companion framework to your project as well, which will take care of all the process for you.
 
 This framework adds a category `SRGMediaPlayerController (SRGAnalytics_DataProvider)`, which adds playback methods for media compositions to `SRGMediaPlayerController`. To play a media composition retrieved from an `SRGDataProvider` and have all measurement information automatically associated with the playback, simply call:
 
 ```objective-c
-SRGRequest *request = [mediaPlayerController playMediaComposition:mediaComposition withPreferredStreamingMethod:SRGStreamingMethodHLS streamtype:SRGStreamTypeNone quality:SRGQualityHD startBitRate:0 userInfo:nil resume:YES completionHandler:^(NSError * _Nonnull error) {
-    // Deal with errors, or play the URL with a media player
-}];
+[mediaPlayerController playMediaComposition:mediaComposition
+                                 atPosition:nil
+               withPreferredStreamingMethod:SRGStreamingMethodHLS
+                                 streamType:SRGStreamTypeNone 
+                                    quality:SRGQualityHD
+                                        DRM:YES
+                               startBitRate:0
+                                   userInfo:nil];
 ```
 
-on an `SRGMediaPlayerController` instance. Note that the play method returns an `SRGRequest` which must be resumed so that a token is retrieved before attempting to play the media.
+on an `SRGMediaPlayerController` instance.
 
 Nothing more is required for correct media consumption measurements. During playback, all analytics labels for the content and its segments will be transparently managed for you.
 
 ## Measurements of other media players
 
-If your application cannot use [SRG MediaPlayer](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must implement media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsStreamTracker` object and retain it somewhere during media playback. 
+If your application cannot use [SRG Media Player](https://github.com/SRGSSR/SRGMediaPlayer-iOS) for media playback, you must implement media streaming measurements manually. To track playback for a media, instantiate an `SRGAnalyticsStreamTracker` object and retain it somewhere during media playback. 
 
 ```objective-c
 self.streamTracker = [[SRGAnalyticsStreamTracker alloc] initWithLivestream:NO];
@@ -220,6 +223,12 @@ For example, you can declare that the stream is being played at the 6th second b
 When using this lower-level API, you are responsible of following SRG SSR guidelines for playback measurements. For example, you need to supply correct segment labels if the user has chosen to play a specific part of your media (none in the example above). Read [our internal documentation](https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/195595938/Implementation+Concept+-+draft) for more information.
 
 Correctly conforming to all SRG SSR guidelines is not a trivial task, though. Please contact us if you need help in implementing correct stream statistics for a custom player.
+
+## Manual resource retrieval
+
+Using the `SRGAnalytics_DataProvider.framework` companion framework is all you need to play a media with complete analytics information, right within an SRG Media Player controller instance.
+
+In the case you need to play a resource without an SRG Media Player controller instance (e.g. with Google Cast default receiver), the companion framework provides the `-[SRGMediaComposition playbackContextWithPreferredStreamingMethod:streamType:quality:DRM:startBitRate:contextBlock:]` method, with which you can find the proper resource to play.
 
 ## Thread-safety
 

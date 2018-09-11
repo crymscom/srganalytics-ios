@@ -27,15 +27,21 @@ The library is suitable for applications running on iOS 9 and above. The project
 
 ## Installation
 
-The library can be added to a project using [Carthage](https://github.com/Carthage/Carthage) by specifying the following dependency in your `Cartfile`:
+The library can be added to a project using [Carthage](https://github.com/Carthage/Carthage) by adding the following dependency to your `Cartfile`:
     
 ```
 github "SRGSSR/srganalytics-ios"
 ```
 
-Then run `carthage update --platform iOS` to update the dependencies. You will need to manually add one or several of the `.framework`s generated in the `Carthage/Build/iOS` folder to your project, depending on your needs:
+Until Carthage 0.30, only dynamic frameworks could be integrated. Starting with Carthage 0.30, though, frameworks can be integrated statically as well, which avoids slow application startups usually associated with the use of too many dynamic frameworks.
 
-* If you need analytics only, add the following frameworks to your project:
+For more information about Carthage and its use, refer to the [official documentation](https://github.com/Carthage/Carthage).
+
+### Dependencies
+
+Depending on your needs, the library requires the following frameworks to be added to any target requiring it:
+
+* If you need analytics only, add the following frameworks to your target:
   * `ComScore`: comScore framework.
   * `libextobjc`: A utility framework.
   * `MAKVONotificationCenter`: A safe KVO framework.
@@ -43,7 +49,7 @@ Then run `carthage update --platform iOS` to update the dependencies. You will n
   * `SRGLogger`: The framework used for internal logging.
   * `TCCore`: The core TagCommander framework.
   * `TCSDK`: The main TagCommander SDK framework.
-* If you use our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS) and want automatic media consumption tracking as well, add the following frameworks to your project:
+* If you use our [SRG Media Player library](https://github.com/SRGSSR/SRGMediaPlayer-iOS) and want automatic media consumption tracking as well, add the following frameworks to your target:
   * `ComScore`: comScore framework.
   * `libextobjc`: A utility framework.
   * `MAKVONotificationCenter`: A safe KVO framework.
@@ -52,7 +58,7 @@ Then run `carthage update --platform iOS` to update the dependencies. You will n
   * `SRGLogger`: The framework used for internal logging.
   * `TCCore`: The core TagCommander framework.
   * `TCSDK`: The main TagCommander SDK framework.
-* If you use our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios) to retrieve and play medias, add the following frameworks to your project:
+* If you use our [SRG Data Provider library](https://github.com/SRGSSR/srgdataprovider-ios) to retrieve and play medias, add the following frameworks to your target:
   * `ComScore`: comScore framework.
   * `libextobjc`: A utility framework.
   * `MAKVONotificationCenter`: A safe KVO framework.
@@ -62,10 +68,37 @@ Then run `carthage update --platform iOS` to update the dependencies. You will n
   * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework.
   * `SRGLogger`: The framework used for internal logging.
   * `SRGMediaPlayer`: The media player framework (if not already in your project).
+  * `SRGNetwork`: A networking framework.
   * `TCCore`: The core TagCommander framework.
   * `TCSDK`: The main TagCommander SDK framework.
-  
-For more information about Carthage and its use, refer to the [official documentation](https://github.com/Carthage/Carthage).
+
+### Dynamic framework integration
+
+1. Run `carthage update` to update the dependencies (which is equivalent to `carthage update --configuration Release`). 
+2. Add the frameworks listed above and generated in the `Carthage/Build/iOS` folder to your target _Embedded binaries_.
+
+If your target is building an application, a few more steps are required:
+
+1. Add a _Run script_ build phase to your target, with `/usr/local/bin/carthage copy-frameworks` as command.
+2. Add each of the required frameworks above as input file `$(SRCROOT)/Carthage/Build/iOS/FrameworkName.framework`.
+
+### Static framework integration
+
+1. Run `carthage update --configuration Release-static` to update the dependencies. 
+2. Add the frameworks listed above and generated in the `Carthage/Build/iOS/Static` folder to the _Linked frameworks and libraries_ list of your target.
+3. Also add any resource bundle `.bundle` found within the `.framework` folders to your target directly.
+4. Some non-statically built framework dependencies are built in the `Carthage/Build/iOS` folder. Add them by following the _Dynamic framework integration_ instructions above.
+5. Add the `-all_load` flag to your target _Other linker flags_.
+
+## Building the project
+
+A [Makefile](../Makefile) provides several targets to build and package the library. The available targets can be listed by running the following command from the project root folder:
+
+```
+make help
+```
+
+Alternatively, you can of course open the project with Xcode and use the available schemes.
 
 ## Usage
 
@@ -128,9 +161,25 @@ The library internally uses the [SRG Logger](https://github.com/SRGSSR/srglogger
 
 This logger either automatically integrates with your own logger, or can be easily integrated with it. Refer to the SRG Logger documentation for more information.
 
+## Content protection
+
+The `SRGAnalytics_DataProvider.framework` companion framework provides convenience methods for playing content delivered by our [SRG Data Provider](https://github.com/SRGSSR/srgdataprovider-ios) library. Not all content is accessible for legal reasons, though, in particular livestreams or foreign TV series.
+
+To play protected content, and provided you have been granted access to it, an optional internal [SRG Content Protection](https://github.com/SRGSSR/srgcontentprotection-ios) framework is available and must be added to your project `Cartfile` as well:
+
+```
+github "SRGSSR/srgcontentprotection-ios"
+```
+
+Note that binaries delivered as part of our [releases](https://github.com/SRGSSR/srganalytics-ios/releases) weakly link to this framework when available. As soon as the framework has been correctly linked to your project, protected content will be playable.
+
+### Remark
+
+If your project previously did not reference SRG Content Protection or when switching between dynamic and static linking, be sure to clean your `Carthage` folder so that dependencies are rebuilt appropriately.
+
 ## Advertising Identifier (IDFA)
 
-Neither the SRG Analytics SDK, nor its dependencies, involve the use of the Advertising Identifier (IDFA). Provided all other components your application depends on do not use the IDFA, you can therefore safely answer 'No' to the corresponding question when submitting your binaries through iTunes Connect.
+Neither the SRG Analytics SDK, nor its dependencies, involve the use of the Advertising Identifier (IDFA). Provided all other components your application depends on do not use the IDFA, you can therefore safely answer _No_ to the corresponding question when submitting your binaries through iTunes Connect.
 
 ## Demo project
 
