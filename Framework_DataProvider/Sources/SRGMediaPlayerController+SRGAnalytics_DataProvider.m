@@ -54,7 +54,8 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
         AVURLAsset *asset = nil;
         if ([[AVURLAsset class] respondsToSelector:@selector(srg_assetWithURL:licenseURL:)]) {
             SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
-            asset = [AVURLAsset srg_assetWithURL:streamURL licenseURL:fairPlayDRM.licenseURL];
+            NSString *URN = mediaComposition.segmentURN ?: mediaComposition.chapterURN;
+            asset = [AVURLAsset srg_assetWithURL:streamURL licenseURL:fairPlayDRM.licenseURL userInfo:@{ SRGContentProtectionURNKey : URN }];
         }
         else {
             asset = [AVURLAsset assetWithURL:streamURL];
