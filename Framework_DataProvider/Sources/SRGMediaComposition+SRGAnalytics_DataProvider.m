@@ -52,7 +52,7 @@
                                             quality:(SRGQuality)quality
                                                 DRM:(BOOL)DRM
                                        startBitRate:(NSInteger)startBitRate
-                                       contextBlock:(SRGPlaybackContextBlock)contextBlock
+                                       contextBlock:(NS_NOESCAPE SRGPlaybackContextBlock)contextBlock
 {
     if (startBitRate < 0) {
         startBitRate = 0;
