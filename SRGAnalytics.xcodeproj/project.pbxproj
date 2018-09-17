@@ -25,6 +25,7 @@
 		6F0498621F343C7A00E88BEC /* SRGMediaPlayerTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F04985D1F343C7A00E88BEC /* SRGMediaPlayerTracker.h */; };
 		6F0498631F343C7A00E88BEC /* SRGMediaPlayerTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F04985E1F343C7A00E88BEC /* SRGMediaPlayerTracker.m */; };
 		6F0C98D92121CE0500073AB6 /* SRGAnalytics.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6F0C98CF2121CC9700073AB6 /* SRGAnalytics.bundle */; };
+		6F2DB07E214FD310001F9188 /* SRGContentProtection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6F3C400F1F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3C400D1F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F3C40101F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C400E1F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.m */; };
 		6F3C40171F87AF5E00FFEA85 /* SRGAnalyticsHiddenEventLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3C40111F87AF5E00FFEA85 /* SRGAnalyticsHiddenEventLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -390,6 +391,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F2DB07E214FD310001F9188 /* SRGContentProtection.framework in Frameworks */,
 				6FB74DAD2105A79100E2D365 /* SRGNetwork.framework in Frameworks */,
 				6FD9B24A1F0BC50C004805D2 /* TCCore.framework in Frameworks */,
 				6FD9B24B1F0BC50C004805D2 /* TCSDK.framework in Frameworks */,
