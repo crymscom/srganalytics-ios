@@ -168,8 +168,8 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlayLivestreamInMediaComposition
 {
-    if (! [DataProviderTestCase hasContentProtection]) {
-        NSLog(@"Test disabled. Test stream not available without SRGContentProtection.framework.");
+    if (SRGAnalyticsIsPublic()) {
+        NSLog(@"Test disabled. Test stream not available in a public setup.");
         return;
     }
     
@@ -223,8 +223,8 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlay360AndFlatInMediaComposition
 {
-    if (! [DataProviderTestCase hasContentProtection]) {
-        NSLog(@"Test disabled. Test stream not available without SRGContentProtection.framework.");
+    if (SRGAnalyticsIsPublic()) {
+        NSLog(@"Test disabled. Test stream not available in a public setup.");
         return;
     }
     
@@ -492,8 +492,8 @@ static NSURL *MMFTestURL(void)
 
 - (void)testMediaCompositionUpdateWithNewSegment
 {
-    if (! [DataProviderTestCase hasContentProtection]) {
-        NSLog(@"Test disabled. Test stream not available without SRGContentProtection.framework.");
+    if (SRGAnalyticsIsPublic()) {
+        NSLog(@"Test disabled. Test stream not available in a public setup.");
         return;
     }
     
