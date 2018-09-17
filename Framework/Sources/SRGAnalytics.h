@@ -9,6 +9,9 @@
 // Official version number.
 FOUNDATION_EXPORT NSString * SRGAnalyticsMarketingVersion(void);
 
+//  Return `YES` iff run in a public (open source) setup.
+FOUNDATION_EXPORT BOOL SRGAnalyticsIsPublic(void);
+
 // Public headers.
 #import "SRGAnalyticsConfiguration.h"
 #import "SRGAnalyticsHiddenEventLabels.h"
