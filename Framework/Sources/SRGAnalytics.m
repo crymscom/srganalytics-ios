@@ -8,18 +8,30 @@
 
 #import "NSBundle+SRGAnalytics.h"
 
-// Default implementation if not linking against SRGContentProtection.framework
-FOUNDATION_EXPORT BOOL SRGContentProtectionIsPublic(void)
-{
-    return YES;
-}
+#if __has_include(<SRGContentProtection/SRGContentProtection.h>)
+#import <SRGContentProtection/SRGContentProtection.h>
+#endif
 
 NSString *SRGAnalyticsMarketingVersion(void)
 {
     return [NSBundle srg_analyticsBundle].infoDictionary[@"CFBundleShortVersionString"];
 }
 
-BOOL SRGAnalyticsIsPublic(void)
+@implementation NSBundle (SRGAnalyticsVersion)
+
++ (BOOL)srg_analyticsIsPublic
 {
-    return (&SRGContentProtectionIsPublic != NULL) ? SRGContentProtectionIsPublic() : YES;
+#if __has_include(<SRGContentProtection/SRGContentProtection.h>)
+    if ([[NSBundle class] respondsToSelector:@selector(srg_contentProtectionIsPublic)]) {
+        return [NSBundle srg_contentProtectionIsPublic];
+    }
+    else {
+        return YES;
+    }
+#else
+    return YES;
+#endif
 }
+
+@end
+
