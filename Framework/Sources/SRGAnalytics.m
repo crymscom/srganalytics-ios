@@ -9,7 +9,11 @@
 #import "NSBundle+SRGAnalytics.h"
 
 #if __has_include(<SRGContentProtection/SRGContentProtection.h>)
+
 #import <SRGContentProtection/SRGContentProtection.h>
+
+FOUNDATION_EXPORT BOOL SRGContentProtectionIsPublic(void) __attribute__((weak_import));
+
 #endif
 
 NSString *SRGAnalyticsMarketingVersion(void)
