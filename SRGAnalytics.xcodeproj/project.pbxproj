@@ -572,7 +572,6 @@
 		9F1518B21AC2F1CE00AE051D = {
 			isa = PBXGroup;
 			children = (
-				6FA1550C214BFCD200049B4E /* SRGDiagnostics.framework */,
 				E69A202D1D61E5E80064E6C1 /* Framework */,
 				E61C0D5E1D61EFD200AEAE6D /* Framework_MediaPlayer */,
 				6FB331F41D9BFB77001469F2 /* Framework_DataProvider */,
@@ -610,6 +609,7 @@
 				6FF3E20E1D9CE68600EB4A30 /* Mantle.framework */,
 				6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */,
 				6FF3E2101D9CE6CF00EB4A30 /* SRGDataProvider.framework */,
+				6FA1550C214BFCD200049B4E /* SRGDiagnostics.framework */,
 				6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */,
 				E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */,
 				6FB74DA82105A77B00E2D365 /* SRGNetwork.framework */,
