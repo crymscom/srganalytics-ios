@@ -39,7 +39,7 @@ For more information about Carthage and its use, refer to the [official document
 
 ### Content protection
 
-The `SRGAnalytics_DataProvider.framework` companion framework provides convenience methods for playing content delivered by our [SRG Data Provider](https://github.com/SRGSSR/srgdataprovider-ios) library. Not all content is accessible for legal reasons, though, in particular livestreams or foreign TV series.
+The `SRGAnalytics_DataProvider.framework` companion framework provides convenience methods for playing content delivered by our [SRG Data Provider](https://github.com/SRGSSR/srgdataprovider-ios) library. Not all content is publicly accessible for legal reasons, though, in particular livestreams or foreign TV series.
 
 To play protected content, and provided you have been granted access to it, an internal [SRG Content Protection](https://github.com/SRGSSR/srgcontentprotection-ios) framework is available and must be added to your project `Cartfile` as well:
 
@@ -53,7 +53,7 @@ If you have no access to this repository, use the fake public replacement framew
 github "SRGSSR/srgcontentprotection-fake-ios"
 ```
 
-When linking against this framework, some content (e.g. livestreams) will not be playable.
+When linking against the fake framework, some content (e.g. livestreams) will not be playable.
 
 ### Dependencies
 
@@ -84,7 +84,7 @@ Depending on your needs, the library requires the following frameworks to be add
   * `SRGAnalytics`: The main analytics framework.
   * `SRGAnalytics_DataProvider`: The data provider analytics companion framework.
   * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework.
-  * `SRGContentProtection`: The content protection framework.
+  * `SRGContentProtection`: The framework to enable playback of protected medias.
   * `SRGLogger`: The framework used for internal logging.
   * `SRGMediaPlayer`: The media player framework (if not already in your project).
   * `SRGNetwork`: A networking framework.
