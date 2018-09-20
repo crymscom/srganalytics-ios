@@ -93,7 +93,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p; businessUnitIdentifier: %@; site: %@; container: %@; comScoreVurtualSite: %@; netMetrixIdentifier: %@>",
+    return [NSString stringWithFormat:@"<%@: %p; businessUnitIdentifier = %@; site = %@; container = %@; comScoreVurtualSite = %@; netMetrixIdentifier = %@>",
             self.class,
             self,
             self.businessUnitIdentifier,

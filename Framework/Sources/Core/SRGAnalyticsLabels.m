@@ -62,7 +62,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p; labelsDictionary: %@; comScoreLabelsDictionary: %@>",
+    return [NSString stringWithFormat:@"<%@: %p; labelsDictionary = %@; comScoreLabelsDictionary = %@>",
             self.class,
             self,
             self.labelsDictionary,

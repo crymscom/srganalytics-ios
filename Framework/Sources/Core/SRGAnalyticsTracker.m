@@ -433,7 +433,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 - (NSString *)description
 {
     if (self.configuration) {
-        return [NSString stringWithFormat:@"<%@: %p; configuration: %@>",
+        return [NSString stringWithFormat:@"<%@: %p; configuration = %@>",
                 self.class,
                 self,
                 self.configuration];

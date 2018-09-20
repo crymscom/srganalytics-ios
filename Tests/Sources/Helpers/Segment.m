@@ -65,7 +65,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p; name: %@; startTime: %@; duration: %@>",
+    return [NSString stringWithFormat:@"<%@: %p; name = %@; startTime = %@; duration = %@>",
             self.class,
             self,
             self.name,
