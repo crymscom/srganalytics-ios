@@ -25,6 +25,9 @@
 		6F0498621F343C7A00E88BEC /* SRGMediaPlayerTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F04985D1F343C7A00E88BEC /* SRGMediaPlayerTracker.h */; };
 		6F0498631F343C7A00E88BEC /* SRGMediaPlayerTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F04985E1F343C7A00E88BEC /* SRGMediaPlayerTracker.m */; };
 		6F0C98D92121CE0500073AB6 /* SRGAnalytics.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6F0C98CF2121CC9700073AB6 /* SRGAnalytics.bundle */; };
+		6F2E03F12150D94F00737B3C /* SRGContentProtection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */; };
+		6F2E03F22150D9F800737B3C /* SRGContentProtection.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6F2E03F32150DA1200737B3C /* SRGContentProtection.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6F3C400F1F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3C400D1F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F3C40101F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C400E1F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.m */; };
 		6F3C40171F87AF5E00FFEA85 /* SRGAnalyticsHiddenEventLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3C40111F87AF5E00FFEA85 /* SRGAnalyticsHiddenEventLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -46,6 +49,9 @@
 		6FA09D8E1D9EC50B00EDCA64 /* SRGLogger.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FA09D8F1D9EC52900EDCA64 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; };
 		6FA09D901D9EC53900EDCA64 /* SRGLogger.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6FA1550D214BFCD200049B4E /* SRGDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA1550C214BFCD200049B4E /* SRGDiagnostics.framework */; };
+		6FA1550E214BFCD200049B4E /* SRGDiagnostics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA1550C214BFCD200049B4E /* SRGDiagnostics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6FA1550F214BFCF200049B4E /* SRGDiagnostics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA1550C214BFCD200049B4E /* SRGDiagnostics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FABE2EE1D9C0255001C4E9A /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; };
 		6FABE2EF1D9C0258001C4E9A /* SRGAnalytics_MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D551D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer.framework */; };
 		6FABE2F01D9C0268001C4E9A /* SRGMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */; };
@@ -218,6 +224,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6F2E03F22150D9F800737B3C /* SRGContentProtection.framework in Embed Frameworks */,
+				6FA1550F214BFCF200049B4E /* SRGDiagnostics.framework in Embed Frameworks */,
 				6FB74DB52105A7D300E2D365 /* SRGNetwork.framework in Embed Frameworks */,
 				6F8F25961F0BD797009B116E /* TCCore.framework in Embed Frameworks */,
 				6F8F25971F0BD797009B116E /* TCSDK.framework in Embed Frameworks */,
@@ -238,6 +246,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6F2E03F32150DA1200737B3C /* SRGContentProtection.framework in Embed Frameworks */,
 				E6FC7EAA1D61F99100A55085 /* SRGMediaPlayer.framework in Embed Frameworks */,
 				E672EA521D62F19E00CFB080 /* ComScore.framework in Embed Frameworks */,
 				E6FC7EA61D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Embed Frameworks */,
@@ -246,6 +255,7 @@
 				6FF3E2191D9CF58C00EB4A30 /* Mantle.framework in Embed Frameworks */,
 				0811A8551D800BBC00A9863B /* libextobjc.framework in Embed Frameworks */,
 				6FA09D8E1D9EC50B00EDCA64 /* SRGLogger.framework in Embed Frameworks */,
+				6FA1550E214BFCD200049B4E /* SRGDiagnostics.framework in Embed Frameworks */,
 				6FB74DB12105A7A700E2D365 /* SRGNetwork.framework in Embed Frameworks */,
 				6FD9B24F1F0BC513004805D2 /* TCSDK.framework in Embed Frameworks */,
 				6FD9B24D1F0BC513004805D2 /* TCCore.framework in Embed Frameworks */,
@@ -291,6 +301,7 @@
 		6F971F771F87EAED007C5049 /* PageViewLabelsTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageViewLabelsTestCase.m; sourceTree = "<group>"; };
 		6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGLogger.framework; path = Carthage/Build/iOS/SRGLogger.framework; sourceTree = "<group>"; };
 		6FA09D921D9EC66D00EDCA64 /* SRGAnalyticsDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsDataProvider.h; sourceTree = "<group>"; };
+		6FA1550C214BFCD200049B4E /* SRGDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGDiagnostics.framework; path = Carthage/Build/iOS/SRGDiagnostics.framework; sourceTree = "<group>"; };
 		6FAE25F01F34D87600874A53 /* SRGAnalyticsConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsConfiguration.h; sourceTree = "<group>"; };
 		6FAE25F11F34D87600874A53 /* SRGAnalyticsConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsConfiguration.m; sourceTree = "<group>"; };
 		6FAE25F71F364E8B00874A53 /* ConfigurationTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationTestCase.m; sourceTree = "<group>"; };
@@ -384,6 +395,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F2E03F12150D94F00737B3C /* SRGContentProtection.framework in Frameworks */,
 				6FB74DAD2105A79100E2D365 /* SRGNetwork.framework in Frameworks */,
 				6FD9B24A1F0BC50C004805D2 /* TCCore.framework in Frameworks */,
 				6FD9B24B1F0BC50C004805D2 /* TCSDK.framework in Frameworks */,
@@ -460,6 +472,7 @@
 				0811A8541D800BBC00A9863B /* libextobjc.framework in Frameworks */,
 				E672EA511D62F19E00CFB080 /* ComScore.framework in Frameworks */,
 				6FF3E2181D9CF58C00EB4A30 /* Mantle.framework in Frameworks */,
+				6FA1550D214BFCD200049B4E /* SRGDiagnostics.framework in Frameworks */,
 				6FB74DB02105A7A700E2D365 /* SRGNetwork.framework in Frameworks */,
 				6FD9B24E1F0BC513004805D2 /* TCSDK.framework in Frameworks */,
 				6FD9B24C1F0BC513004805D2 /* TCCore.framework in Frameworks */,
@@ -602,6 +615,7 @@
 				6FF3E20E1D9CE68600EB4A30 /* Mantle.framework */,
 				6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */,
 				6FF3E2101D9CE6CF00EB4A30 /* SRGDataProvider.framework */,
+				6FA1550C214BFCD200049B4E /* SRGDiagnostics.framework */,
 				6FA09D881D9EC4BC00EDCA64 /* SRGLogger.framework */,
 				E61C0D841D61F14A00AEAE6D /* SRGMediaPlayer.framework */,
 				6FB74DA82105A77B00E2D365 /* SRGNetwork.framework */,
@@ -691,12 +705,12 @@
 		E65490AE1D803C3E007D96E7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				E65490CD1D816A18007D96E7 /* Helpers */,
 				083EE17A1F2B86B600413A68 /* ComScoreDataProviderTestCase.m */,
 				6FD86FF41F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m */,
 				08539C251F306CAF0033D406 /* ComScoreTrackerTestCase.m */,
 				6FAE25F71F364E8B00874A53 /* ConfigurationTestCase.m */,
 				6FF3E22A1D9D2E9B00EB4A30 /* DataProviderTestCase.m */,
-				E65490CD1D816A18007D96E7 /* Helpers */,
 				6FEBF9371F8B5815005DD291 /* HiddenEventLabelsTestCase.m */,
 				E65490B11D803CA2007D96E7 /* MediaPlayerTestCase.m */,
 				6F971F771F87EAED007C5049 /* PageViewLabelsTestCase.m */,
@@ -905,7 +919,6 @@
 				E654909E1D803C03007D96E7 /* Frameworks */,
 				E654909F1D803C03007D96E7 /* Resources */,
 				E65490B31D803CFB007D96E7 /* Embed Frameworks */,
-				6FC5B88C21356C7900C79EDF /* Embed Proprietary Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1092,23 +1105,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		6FC5B88C21356C7900C79EDF /* Embed Proprietary Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Proprietary Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "CONTENT_PROTECTION_FRAMEWORK=\"$SRCROOT/Carthage/Build/iOS/SRGContentProtection.framework\"\nif [ -d \"$CONTENT_PROTECTION_FRAMEWORK\" ]; then\n  cp -R \"$CONTENT_PROTECTION_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6F0C98CB2121CC9700073AB6 /* Sources */ = {
@@ -1341,7 +1337,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGMediaPlayerAnalytics;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-MediaPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1368,7 +1364,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = "SRG.SRGAnalytics-DataProvider";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-DataProvider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1534,7 +1530,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGMediaPlayerAnalytics;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-MediaPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1561,7 +1557,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = "SRG.SRGAnalytics-DataProvider";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-DataProvider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1735,7 +1731,7 @@
 				INFOPLIST_FILE = Framework_DataProvider/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "SRG.SRGAnalytics-DataProvider";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-DataProvider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1759,7 +1755,7 @@
 				INFOPLIST_FILE = Framework_DataProvider/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "SRG.SRGAnalytics-DataProvider";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-DataProvider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1890,7 +1886,7 @@
 				INFOPLIST_FILE = Framework_MediaPlayer/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGMediaPlayerAnalytics;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-MediaPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1914,7 +1910,7 @@
 				INFOPLIST_FILE = Framework_MediaPlayer/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGMediaPlayerAnalytics;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-MediaPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
