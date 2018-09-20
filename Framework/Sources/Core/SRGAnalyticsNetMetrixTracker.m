@@ -57,7 +57,7 @@
         
         // The app language must be sent, not the device language. This is sadly not documented in https://www.net-metrix.ch/fr/service/directives/directives-supplementaires-pour-les-applications,
         // but this information was obtained from a NetMetrix technician.
-        [request setValue:[NSBundle mainBundle].preferredLocalizations.firstObject forHTTPHeaderField:@"Accept-Language"];
+        [request setValue:NSBundle.mainBundle.preferredLocalizations.firstObject forHTTPHeaderField:@"Accept-Language"];
         
         SRGAnalyticsLogDebug(@"NetMetrix", @"Request %@ started", request.URL);
         [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -65,9 +65,9 @@
         }] resume];
     }
     else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsNetmetrixRequestNotification
-                                                            object:nil
-                                                          userInfo:@{ SRGAnalyticsNetmetrixURLKey : netMetrixURL }];
+        [NSNotificationCenter.defaultCenter postNotificationName:SRGAnalyticsNetmetrixRequestNotification
+                                                          object:nil
+                                                        userInfo:@{ SRGAnalyticsNetmetrixURLKey : netMetrixURL }];
     }
 }
 
@@ -75,10 +75,10 @@
 
 - (NSString *)device
 {
-    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         return @"phone";
     }
-    else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         return @"tablet";
     }
     else {
@@ -88,10 +88,10 @@
 
 - (NSString *)operatingSystem
 {
-    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         return @"iPhone OS";
     }
-    else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         return @"iPad OS";
     }
     else {

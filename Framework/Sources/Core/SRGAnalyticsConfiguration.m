@@ -49,11 +49,11 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
     static dispatch_once_t s_onceToken;
     dispatch_once(&s_onceToken, ^{
         s_sites = @{ SRGAnalyticsBusinessUnitIdentifierRSI : @3668,
-                                  SRGAnalyticsBusinessUnitIdentifierRTR : @3666,       // Under the SRG umbrella
-                                  SRGAnalyticsBusinessUnitIdentifierRTS : @3669,
-                                  SRGAnalyticsBusinessUnitIdentifierSRF : @3667,
-                                  SRGAnalyticsBusinessUnitIdentifierSRG : @3666,
-                                  SRGAnalyticsBusinessUnitIdentifierSWI : @3670 };
+                     SRGAnalyticsBusinessUnitIdentifierRTR : @3666,       // Under the SRG umbrella
+                     SRGAnalyticsBusinessUnitIdentifierRTS : @3669,
+                     SRGAnalyticsBusinessUnitIdentifierSRF : @3667,
+                     SRGAnalyticsBusinessUnitIdentifierSRG : @3666,
+                     SRGAnalyticsBusinessUnitIdentifierSWI : @3670 };
     });
     
     NSString *businessUnitIdentifier = self.centralized ? SRGAnalyticsBusinessUnitIdentifierSRG : self.businessUnitIdentifier;
@@ -79,7 +79,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    SRGAnalyticsConfiguration *configuration = [[self class] allocWithZone:zone];
+    SRGAnalyticsConfiguration *configuration = [self.class allocWithZone:zone];
     configuration.businessUnitIdentifier = self.businessUnitIdentifier;
     configuration.container = self.container;
     configuration.comScoreVirtualSite = self.comScoreVirtualSite;
@@ -94,7 +94,7 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@: %p; businessUnitIdentifier: %@; site: %@; container: %@; comScoreVurtualSite: %@; netMetrixIdentifier: %@>",
-            [self class],
+            self.class,
             self,
             self.businessUnitIdentifier,
             @(self.site),

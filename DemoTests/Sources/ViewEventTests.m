@@ -80,7 +80,7 @@ static NSDictionary *s_startLabels = nil;
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
     [self waitForExpectationsWithTimeout:5. handler:nil];
-
+    
     [tester tapViewWithAccessibilityLabel:@"Back"];
     [tester waitForTimeInterval:2.];
 }
@@ -174,7 +174,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (void)testMissingTitle
 {
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForName:SRGAnalyticsRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForName:SRGAnalyticsRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         XCTFail(@"No event must be sent when the title is empty");
     }];
     
@@ -183,7 +183,7 @@ static NSDictionary *s_startLabels = nil;
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
     [self waitForExpectationsWithTimeout:5. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     [tester tapViewWithAccessibilityLabel:@"Back"];

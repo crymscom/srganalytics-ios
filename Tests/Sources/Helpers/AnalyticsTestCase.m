@@ -10,7 +10,7 @@
 
 static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 {
-    NSString *contentProtectionFrameworkPath = [[NSBundle mainBundle] pathForResource:@"SRGContentProtection" ofType:@"framework" inDirectory:@"Frameworks"];
+    NSString *contentProtectionFrameworkPath = [NSBundle.mainBundle pathForResource:@"SRGContentProtection" ofType:@"framework" inDirectory:@"Frameworks"];
     NSBundle *contentProtectionFramework = [NSBundle bundleWithPath:contentProtectionFrameworkPath];
     [contentProtectionFramework loadAndReturnError:NULL];
 }

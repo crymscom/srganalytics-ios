@@ -20,12 +20,12 @@
 
 + (Segment *)segmentWithName:(NSString *)name timeRange:(CMTimeRange)timeRange
 {
-    return [[[self class] alloc] initWithName:name timeRange:timeRange];
+    return [[self.class alloc] initWithName:name timeRange:timeRange];
 }
 
 + (Segment *)blockedSegmentWithName:(NSString *)name timeRange:(CMTimeRange)timeRange
 {
-    Segment *segment = [[[self class] alloc] initWithName:name timeRange:timeRange];
+    Segment *segment = [[self.class alloc] initWithName:name timeRange:timeRange];
     segment.srg_blocked = YES;
     return segment;
 }
@@ -57,7 +57,7 @@
     labels.customInfo = @{ @"segment_name" : self.name,
                            @"overridable_name" : self.name };
     labels.comScoreCustomInfo = @{ @"segment_name" : self.name,
-                               @"overridable_name" : self.name };
+                                   @"overridable_name" : self.name };
     return labels;
 }
 
@@ -66,7 +66,7 @@
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@: %p; name: %@; startTime: %@; duration: %@>",
-            [self class],
+            self.class,
             self,
             self.name,
             @(CMTimeGetSeconds(self.srg_timeRange.start)),

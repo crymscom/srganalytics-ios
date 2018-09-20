@@ -54,12 +54,12 @@ static NSURL *DVRTestURL(void)
 - (void)testPrepareToPlay
 {
     // Prepare the player until it is paused. No event must be received
-    id prepareObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id prepareObserver = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when preparing a player");
     }];
     
     [self.mediaPlayerController prepareToPlayURL:OnDemandTestURL() withCompletionHandler:^{
-        [[NSNotificationCenter defaultCenter] removeObserver:prepareObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:prepareObserver];
     }];
     
     // Now playing must trigger a play event
@@ -187,7 +187,7 @@ static NSURL *DVRTestURL(void)
 - (void)testPlayPausePlay
 {
     __block NSInteger count1 = 0;
-    id eventObserver1 = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver1 = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         ++count1;
     }];
     
@@ -198,14 +198,14 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver1];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver1];
     }];
     
     // One event expected: play
     XCTAssertEqual(count1, 1);
     
     __block NSInteger count2 = 0;
-    id eventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver2 = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         ++count2;
     }];
     
@@ -216,14 +216,14 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController pause];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver2];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver2];
     }];
     
     // One event expected: pause
     XCTAssertEqual(count2, 1);
     
     __block NSInteger count3 = 0;
-    id eventObserver3 = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver3 = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         ++count3;
     }];
     
@@ -234,12 +234,12 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController play];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver3];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver3];
     }];
     
     [self expectationForElapsedTimeInterval:3. withHandler:nil];
     
-    id eventObserver4 = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver4 = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         // Also see http://stackoverflow.com/questions/14565405/avplayer-pauses-for-no-obvious-reason and
         // the demo project https://github.com/defagos/radars/tree/master/unexpected-player-rate-changes
         NSLog(@"[AVPlayer probable bug]: Unexpected state change to %@. Fast play - pause sequences can induce unexpected rate changes "
@@ -247,7 +247,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver4];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver4];
     }];
 }
 
@@ -290,7 +290,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testMediaError
 {
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received");
     }];
     
@@ -301,7 +301,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:[NSURL URLWithString:@"http://httpbin.org/status/403"]];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
 }
 
@@ -582,14 +582,14 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Let the segment be played through. No events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received");
     }];
     
     [self expectationForElapsedTimeInterval:3. withHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // Pause playback. Expect full-length information
@@ -618,7 +618,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    id eventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver2 = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         // Also see http://stackoverflow.com/questions/14565405/avplayer-pauses-for-no-obvious-reason and
         // the demo project https://github.com/defagos/radars/tree/master/unexpected-player-rate-changes
         NSLog(@"[AVPlayer probable bug]: Unexpected state change to %@. Fast play - pause sequences can induce unexpected rate changes "
@@ -628,7 +628,7 @@ static NSURL *DVRTestURL(void)
     [self expectationForElapsedTimeInterval:3. withHandler:nil];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver2];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver2];
     }];
 }
 
@@ -1409,7 +1409,7 @@ static NSURL *DVRTestURL(void)
 - (void)testDisableTrackingWhileIdle
 {
     // Play for a while. No stream events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when tracking has been disabled");
     }];
     
@@ -1419,7 +1419,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
 }
 
@@ -1436,7 +1436,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Play for a while. No stream events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when tracking has been disabled");
     }];
     
@@ -1446,7 +1446,7 @@ static NSURL *DVRTestURL(void)
     self.mediaPlayerController.tracked = NO;
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
 }
 
@@ -1655,7 +1655,7 @@ static NSURL *DVRTestURL(void)
 - (void)testEnableTrackingWhilePlaying
 {
     // Wait until the player is playing. No event must be received since tracking is not enabled yet
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when tracking has been disabled");
     }];
     
@@ -1667,7 +1667,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // Enable tracking. Expect a play to be received
@@ -1685,7 +1685,7 @@ static NSURL *DVRTestURL(void)
 - (void)testEnableTrackingWhilePlayingSegment
 {
     // Wait until the player is playing. No event must be received since tracking is not enabled yet
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when tracking has been disabled");
     }];
     
@@ -1703,7 +1703,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // Enable tracking. Expect a play to be received, with segment labels
@@ -1724,7 +1724,7 @@ static NSURL *DVRTestURL(void)
 - (void)testEnableTrackingWhilePaused
 {
     // Wait until the player is playing. No event must be received since tracking is not enabled yet
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when tracking has been disabled");
     }];
     
@@ -1736,7 +1736,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // Pause playback
@@ -1794,7 +1794,7 @@ static NSURL *DVRTestURL(void)
     
     // Stop tracking twice while playing. Expect a single end to be received
     __block NSInteger endEventCount = 0;
-    id endEventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id endEventObserver = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"end"]) {
             ++endEventCount;
         }
@@ -1810,7 +1810,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:5. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:endEventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:endEventObserver];
     }];
     
     // Check we have received the end notification only once
@@ -1831,7 +1831,7 @@ static NSURL *DVRTestURL(void)
     
     // Start tracking twice while playing. Expect a single play to be received
     __block NSInteger playEventCount = 0;
-    id endEventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id endEventObserver = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"play"]) {
             ++playEventCount;
         }
@@ -1847,7 +1847,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:5. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:endEventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:endEventObserver];
     }];
     
     // Check we have received the end notification only once

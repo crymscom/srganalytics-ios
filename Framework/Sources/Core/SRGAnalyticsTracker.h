@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The tracker singleton.
  */
-+ (instancetype)sharedTracker;
+@property (class, nonatomic, readonly) SRGAnalyticsTracker *sharedTracker;
 
 /**
  *  Start the tracker. This is required to specify for which business unit you are tracking events, as well as to

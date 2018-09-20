@@ -69,7 +69,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         [self.tagCommander enableRunningInBackground];
         [self.tagCommander addPermanentData:@"app_library_version" withValue:SRGAnalyticsMarketingVersion()];
         [self.tagCommander addPermanentData:@"navigation_app_site_name" withValue:configuration.comScoreVirtualSite];
-        [self.tagCommander addPermanentData:@"navigation_environment" withValue:[NSBundle srg_isProductionVersion] ? @"prod" : @"preprod"];
+        [self.tagCommander addPermanentData:@"navigation_environment" withValue:NSBundle.srg_isProductionVersion ? @"prod" : @"preprod"];
         [self.tagCommander addPermanentData:@"navigation_device" withValue:[self device]];
     }
 }
@@ -82,7 +82,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
     [CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
     [CSComScore enableAutoUpdate:60 foregroundOnly:NO];     //60 is the Comscore default interval value
     
-    NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+    NSString *applicationName = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleName"];
     if (applicationName) {
         [CSComScore setAutoStartLabels:@{ @"name": applicationName }];
     }
@@ -103,7 +103,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (NSDictionary<NSString *, NSString *> *)comscoreGlobalLabelsWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
-    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSBundle *mainBundle = NSBundle.mainBundle;
     
     NSString *appName = [[mainBundle objectForInfoDictionaryKey:@"CFBundleExecutable"] stringByAppendingString:@" iOS"];
     NSString *appLanguage = mainBundle.preferredLocalizations.firstObject ?: @"fr";
@@ -124,7 +124,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         dispatch_once(&s_onceToken, ^{
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             dateFormatter.dateFormat = @"yyyy-MM-dd'@'HH:mm:ss";
-            s_debugTimestamp = [dateFormatter stringFromDate:[NSDate date]];
+            s_debugTimestamp = [dateFormatter stringFromDate:NSDate.date];
         });
         globalLabels[@"srg_test"] = s_debugTimestamp;
     }
@@ -151,13 +151,13 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (NSString *)device
 {
-    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         return @"phone";
     }
-    else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         return @"tablet";
     }
-    else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomTV) {
+    else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomTV) {
         return @"tvbbox";
     }
     else {
@@ -192,9 +192,9 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         // Only custom labels are sent in the notification userInfo. Internal predefined TagCommander variables are not sent,
         // as they are not needed for tests (they are part of what is guaranteed by the TagCommander SDK). For a complete list of
         // predefined variables, see https://github.com/TagCommander/pods/blob/master/TCSDK/PredefinedVariables.md
-        [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsRequestNotification
-                                                            object:self
-                                                          userInfo:@{ SRGAnalyticsLabelsKey : labels }];
+        [NSNotificationCenter.defaultCenter postNotificationName:SRGAnalyticsRequestNotification
+                                                          object:self
+                                                        userInfo:@{ SRGAnalyticsLabelsKey : labels }];
     }
 }
 
@@ -280,7 +280,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
     [fullLabelsDictionary srg_safelySetString:title forKey:@"content_title"];
     [fullLabelsDictionary srg_safelySetString:self.configuration.businessUnitIdentifier.uppercaseString forKey:@"navigation_bu_distributer"];
     [fullLabelsDictionary srg_safelySetString:fromPushNotification ? @"true" : @"false" forKey:@"accessed_after_push_notification"];
-
+    
     [levels enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
         if (idx > 7) {
             *stop = YES;
@@ -370,7 +370,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         
         NSError *parseError = nil;
         id JSONObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-        if (! JSONObject || ! [JSONObject isKindOfClass:[NSArray class]]) {
+        if (! JSONObject || ! [JSONObject isKindOfClass:NSArray.class]) {
             SRGAnalyticsLogError(@"tracker", @"The application list format is incorrect");
             return;
         }
@@ -404,7 +404,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
             // support), the application must declare the schemes it supports via its Info.plist file (under the
             // `LSApplicationQueriesSchemes` key). If we are running on iOS 9 or above, check that the app list is consistent
             // with the remote list, and log an error if this is not the case
-            NSArray<NSString *> *declaredURLSchemesArray = [NSBundle mainBundle].infoDictionary[@"LSApplicationQueriesSchemes"];
+            NSArray<NSString *> *declaredURLSchemesArray = NSBundle.mainBundle.infoDictionary[@"LSApplicationQueriesSchemes"];
             NSSet<NSString *> *declaredURLSchemes = declaredURLSchemesArray ? [NSSet setWithArray:declaredURLSchemesArray] : [NSSet set];
             if (! [URLSchemes isSubsetOfSet:declaredURLSchemes]) {
                 SRGAnalyticsLogError(@"tracker", @"The URL schemes declared in your application Info.plist file under the "
@@ -434,12 +434,12 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 {
     if (self.configuration) {
         return [NSString stringWithFormat:@"<%@: %p; configuration: %@>",
-                [self class],
+                self.class,
                 self,
                 self.configuration];
     }
     else {
-        return [NSString stringWithFormat:@"<%@: %p (not started yet)>", [self class], self];
+        return [NSString stringWithFormat:@"<%@: %p (not started yet)>", self.class, self];
     }
 }
 

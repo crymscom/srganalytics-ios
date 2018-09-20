@@ -18,7 +18,7 @@
 
 - (BOOL)srg_isBlocked
 {
-    return [self blockingReasonAtDate:[NSDate date]] != SRGBlockingReasonNone;
+    return [self blockingReasonAtDate:NSDate.date] != SRGBlockingReasonNone;
 }
 
 - (BOOL)srg_isHidden
