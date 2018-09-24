@@ -3,12 +3,12 @@
 *.xcscmblueprint
 xcuserdata
 
-archive
-build
+/archive
+/build
 
-Carthage
-Cartfile.private
-Cartfile.resolved
+/Carthage
+/Cartfile.private
+/Cartfile.resolved
 
-fastlane/report.xml
-fastlane/test_output
+/fastlane/report.xml
+/fastlane/test_output
