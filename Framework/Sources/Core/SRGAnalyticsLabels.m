@@ -34,7 +34,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    SRGAnalyticsLabels *labels = [[[self class] allocWithZone:zone] init];
+    SRGAnalyticsLabels *labels = [[self.class allocWithZone:zone] init];
     labels.customInfo = self.customInfo;
     labels.comScoreCustomInfo = self.comScoreCustomInfo;
     return labels;
@@ -44,7 +44,7 @@
 
 - (BOOL)isEqual:(id)object
 {
-    if (! object || ! [object isKindOfClass:[self class]]) {
+    if (! [object isKindOfClass:self.class]) {
         return NO;
     }
     
@@ -62,8 +62,8 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p; labelsDictionary: %@; comScoreLabelsDictionary: %@>",
-            [self class],
+    return [NSString stringWithFormat:@"<%@: %p; labelsDictionary = %@; comScoreLabelsDictionary = %@>",
+            self.class,
             self,
             self.labelsDictionary,
             self.comScoreLabelsDictionary];

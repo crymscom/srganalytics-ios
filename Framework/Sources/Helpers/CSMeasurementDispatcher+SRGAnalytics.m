@@ -42,12 +42,12 @@ __attribute__((constructor)) static void CSMeasurementDispatcherInit(void)
 
 - (void)swizzled_send:(CSApplicationEventType)eventType labels:(NSDictionary *)labels cache:(BOOL)cache background:(BOOL)background
 {
-    SRGAnalyticsConfiguration *configuration = [SRGAnalyticsTracker sharedTracker].configuration;
+    SRGAnalyticsConfiguration *configuration = SRGAnalyticsTracker.sharedTracker.configuration;
     if (configuration.unitTesting) {
         // Labels are not complete. To get (almost) all labels we mimic the comScore SDK by creating the measurement object. The
         // timestamp will not be identical to the timestamp of the real event which is sent afterwards, and global labels will
         // be missing.
-        long long timestamp = [[NSDate date] timeIntervalSince1970];
+        long long timestamp = [NSDate.date timeIntervalSince1970];
         id measurement = [NSClassFromString(@"CSApplicationMeasurement") newWithCore:s_fakeCore eventType:eventType labels:labels timestamp:timestamp];
         
         NSMutableDictionary<NSString *, NSString *> *fullLabels = [NSMutableDictionary dictionary];
@@ -60,7 +60,7 @@ __attribute__((constructor)) static void CSMeasurementDispatcherInit(void)
         NSDictionary *userInfo = @{ SRGAnalyticsComScoreLabelsKey : [fullLabels copy] };
         
         void (^notificationBlock)(void) = ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:SRGAnalyticsComScoreRequestNotification object:self userInfo:userInfo];
+            [NSNotificationCenter.defaultCenter postNotificationName:SRGAnalyticsComScoreRequestNotification object:self userInfo:userInfo];
         };
         
         if (! [NSThread isMainThread]) {

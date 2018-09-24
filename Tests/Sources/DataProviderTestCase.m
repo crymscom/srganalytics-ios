@@ -371,7 +371,7 @@ static NSURL *MMFTestURL(void)
     
     __block NSString *originalTitle = nil;
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
-    NSDate *startDate = [NSDate date];
+    NSDate *startDate = NSDate.date;
     NSDate *endDate = [startDate dateByAddingTimeInterval:200];
     NSString *URN = [NSString stringWithFormat:@"urn:rts:video:_bipbop_advanced_delay_%@_%@", @((NSInteger)[startDate timeIntervalSince1970]), @((NSInteger)[endDate timeIntervalSince1970])];
     [[dataProvider mediaCompositionForURN:URN standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
@@ -504,7 +504,7 @@ static NSURL *MMFTestURL(void)
     
     __block SRGMediaComposition *fetchedMediaComposition1 = nil;
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
-    NSDate *startDate = [[NSDate date] dateByAddingTimeInterval:-6];
+    NSDate *startDate = [NSDate.date dateByAddingTimeInterval:-6];
     NSDate *endDate = [startDate dateByAddingTimeInterval:20];
     NSString *URN = [NSString stringWithFormat:@"urn:rts:video:_rts_info_fulldvr_%@_%@", @((NSInteger)[startDate timeIntervalSince1970]), @((NSInteger)[endDate timeIntervalSince1970])];
     [[dataProvider mediaCompositionForURN:URN standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
@@ -527,7 +527,7 @@ static NSURL *MMFTestURL(void)
     [[dataProvider mediaCompositionForURN:URN standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         XCTAssertTrue(fetchedMediaComposition1.mainChapter.segments.count != mediaComposition.mainChapter.segments.count);
-
+        
         self.mediaPlayerController.mediaComposition = mediaComposition;
         XCTAssertEqualObjects(self.mediaPlayerController.mediaComposition, mediaComposition);
         XCTAssertEqualObjects(self.mediaPlayerController.segments, mediaComposition.mainChapter.segments);

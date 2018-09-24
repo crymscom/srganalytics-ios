@@ -28,7 +28,7 @@
    openedFromPushNotification:(BOOL)openedFromPushNotification
          trackedAutomatically:(BOOL)trackedAutomatically
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:NSStringFromClass([self class]) bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:NSStringFromClass(self.class) bundle:nil];
     SimpleViewController *viewController = [storyboard instantiateInitialViewController];
     viewController.title = title;
     viewController.levels = levels;

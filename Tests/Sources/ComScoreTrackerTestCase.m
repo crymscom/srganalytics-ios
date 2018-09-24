@@ -27,7 +27,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
         return YES;
     }];
     
-    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@"Hidden event"];
+    [SRGAnalyticsTracker.sharedTracker trackHiddenEventWithName:@"Hidden event"];
     
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
@@ -51,24 +51,24 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
     labels.source = @"favorite_list";
     labels.value = @"true";
     labels.comScoreCustomInfo = @{ @"custom_label" : @"custom_value" };
-    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@"Hidden event"
-                                                            labels:labels];
+    [SRGAnalyticsTracker.sharedTracker trackHiddenEventWithName:@"Hidden event"
+                                                         labels:labels];
     
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
 - (void)testHiddenEventWithEmptyTitle
 {
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForComScoreHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"Events with missing title must not be sent");
     }];
     
     [self expectationForElapsedTimeInterval:5. withHandler:nil];
     
-    [[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@""];
+    [SRGAnalyticsTracker.sharedTracker trackHiddenEventWithName:@""];
     
     [self waitForExpectationsWithTimeout:5. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
 }
 

@@ -20,8 +20,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor blackColor];
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    self.window.backgroundColor = UIColor.blackColor;
     [self.window makeKeyAndVisible];
     
     [SRGLogger setLogHandler:SRGNSLogHandler()];
@@ -34,7 +34,7 @@
                                                                                              comScoreVirtualSite:@"rts-app-test-v"
                                                                                              netMetrixIdentifier:@"test"];
     configuration.unitTesting = (NSClassFromString(@"XCTestCase") != Nil);
-    [[SRGAnalyticsTracker sharedTracker] startWithConfiguration:configuration];
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:configuration];
     
     DemosViewController *demosViewController = [[DemosViewController alloc] init];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:demosViewController];

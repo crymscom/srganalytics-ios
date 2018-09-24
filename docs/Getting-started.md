@@ -20,7 +20,7 @@ Before measurements can be collected, the tracker singleton responsible of all a
                                                                                                        container:3
                                                                                              comScoreVirtualSite:@"srf-vsite"
                                                                                              netMetrixIdentifier:@"srf-app-identifier"];
-    [[SRGAnalyticsTracker sharedTracker] startWithConfiguration:configuration];
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:configuration];
                                                      
     // ...
 }
@@ -98,7 +98,7 @@ Note that the labels might differ depending on the service they are sent to. Be 
 To measure any kind of application functionality, you can use hidden events. Those can be emitted by calling the corresponding methods on the tracker singleton itself. For example, you could send the following event when the user taps on a player full-screen button within your application:
 
 ```objective-c
-[[SRGAnalyticsTracker sharedTracker] trackHiddenEventWithName:@"full-screen"];
+[SRGAnalyticsTracker.sharedTracker trackHiddenEventWithName:@"full-screen"];
 ```
 
 Custom labels can also be used to send any additional measurement information you could need, and which might be different for TagCommander and comScore.

@@ -71,10 +71,10 @@ static void swizzled_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL an
             fromPushNotification = [trackedSelf srg_isOpenedFromPushNotification];
         }
         
-        [[SRGAnalyticsTracker sharedTracker] trackPageViewWithTitle:title
-                                                             levels:levels
-                                                             labels:labels
-                                               fromPushNotification:fromPushNotification];
+        [SRGAnalyticsTracker.sharedTracker trackPageViewWithTitle:title
+                                                           levels:levels
+                                                           labels:labels
+                                             fromPushNotification:fromPushNotification];
     }
 }
 
@@ -100,7 +100,7 @@ static void swizzled_viewDidAppear(UIViewController *self, SEL _cmd, BOOL animat
     // parameter) is required. If we simply registered `self` as observer, removal in `-viewWillDisappear:` would also
     // remove all other registrations of the view controller for the same notifications!
     @weakify(self)
-    id observer = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
+    id observer = [NSNotificationCenter.defaultCenter addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
         @strongify(self)
         
         [self srg_trackPageViewAutomatic:YES];
@@ -113,6 +113,6 @@ static void swizzled_viewWillDisappear(UIViewController *self, SEL _cmd, BOOL an
     s_viewWillDisappear(self, _cmd, animated);
     
     id observer = objc_getAssociatedObject(self, s_observerKey);
-    [[NSNotificationCenter defaultCenter] removeObserver:observer];
+    [NSNotificationCenter.defaultCenter removeObserver:observer];
     objc_setAssociatedObject(self, s_observerKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }

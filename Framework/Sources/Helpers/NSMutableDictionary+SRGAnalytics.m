@@ -13,7 +13,7 @@
     if (string && key) {
         [self setObject:string forKey:key];
     }
-    else {
+    else if (key) {
         [self removeObjectForKey:key];
     }
 }

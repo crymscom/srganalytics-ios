@@ -82,18 +82,18 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)start
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(playbackStateDidChange:)
-                                                 name:SRGMediaPlayerPlaybackStateDidChangeNotification
-                                               object:self.mediaPlayerController];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(segmentDidStart:)
-                                                 name:SRGMediaPlayerSegmentDidStartNotification
-                                               object:self.mediaPlayerController];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(segmentDidEnd:)
-                                                 name:SRGMediaPlayerSegmentDidEndNotification
-                                               object:self.mediaPlayerController];
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:@selector(playbackStateDidChange:)
+                                               name:SRGMediaPlayerPlaybackStateDidChangeNotification
+                                             object:self.mediaPlayerController];
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:@selector(segmentDidStart:)
+                                               name:SRGMediaPlayerSegmentDidStartNotification
+                                             object:self.mediaPlayerController];
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:@selector(segmentDidEnd:)
+                                               name:SRGMediaPlayerSegmentDidEndNotification
+                                             object:self.mediaPlayerController];
     
     @weakify(self)
     [self.mediaPlayerController addObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked) options:0 block:^(MAKVONotification *notification) {
@@ -109,15 +109,15 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)stop
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:SRGMediaPlayerPlaybackStateDidChangeNotification
-                                                  object:self.mediaPlayerController];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:SRGMediaPlayerSegmentDidStartNotification
-                                                  object:self.mediaPlayerController];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:SRGMediaPlayerSegmentDidEndNotification
-                                                  object:self.mediaPlayerController];
+    [NSNotificationCenter.defaultCenter removeObserver:self
+                                                  name:SRGMediaPlayerPlaybackStateDidChangeNotification
+                                                object:self.mediaPlayerController];
+    [NSNotificationCenter.defaultCenter removeObserver:self
+                                                  name:SRGMediaPlayerSegmentDidStartNotification
+                                                object:self.mediaPlayerController];
+    [NSNotificationCenter.defaultCenter removeObserver:self
+                                                  name:SRGMediaPlayerSegmentDidEndNotification
+                                                object:self.mediaPlayerController];
     
     [self.mediaPlayerController removeObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked)];
 }
@@ -216,7 +216,7 @@ static NSMutableDictionary *s_trackers = nil;
 - (NSString *)windowState
 {
     CGSize size = self.mediaPlayerController.playerLayer.videoRect.size;
-    CGRect screenRect = [UIScreen mainScreen].bounds;
+    CGRect screenRect = UIScreen.mainScreen.bounds;
     return roundf(size.width) == roundf(screenRect.size.width) && roundf(size.height) == roundf(screenRect.size.height) ? @"full" : @"norm";
 }
 
@@ -260,7 +260,7 @@ static NSMutableDictionary *s_trackers = nil;
                             @(UIDeviceOrientationLandscapeLeft) : @"left",
                             @(UIDeviceOrientationLandscapeRight) : @"right" };
     });
-    return s_orientations[@([UIDevice currentDevice].orientation)];
+    return s_orientations[@(UIDevice.currentDevice.orientation)];
 }
 
 - (NSString *)dimensions
@@ -349,7 +349,7 @@ static NSMutableDictionary *s_trackers = nil;
 
 + (void)playbackStateDidChange:(NSNotification *)notification
 {
-    if (! [SRGAnalyticsTracker sharedTracker].configuration) {
+    if (! SRGAnalyticsTracker.sharedTracker.configuration) {
         return;
     }
     
@@ -466,10 +466,10 @@ static NSMutableDictionary *s_trackers = nil;
 __attribute__((constructor)) static void SRGMediaPlayerTrackerInit(void)
 {
     // Observe state changes for all media player controllers to create and remove trackers on the fly
-    [[NSNotificationCenter defaultCenter] addObserver:[SRGMediaPlayerTracker class]
-                                             selector:@selector(playbackStateDidChange:)
-                                                 name:SRGMediaPlayerPlaybackStateDidChangeNotification
-                                               object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:SRGMediaPlayerTracker.class
+                                           selector:@selector(playbackStateDidChange:)
+                                               name:SRGMediaPlayerPlaybackStateDidChangeNotification
+                                             object:nil];
     
     s_trackers = [NSMutableDictionary dictionary];
 }

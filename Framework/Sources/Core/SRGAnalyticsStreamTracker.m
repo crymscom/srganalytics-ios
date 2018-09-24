@@ -170,7 +170,7 @@
     // Restore the heartbeat timer when transitioning to play again.
     if (state == SRGAnalyticsStreamStatePlaying) {
         if (! self.heartbeatTimer) {
-            SRGAnalyticsConfiguration *configuration = [SRGAnalyticsTracker sharedTracker].configuration;
+            SRGAnalyticsConfiguration *configuration = SRGAnalyticsTracker.sharedTracker.configuration;
             NSTimeInterval heartbeatInterval = configuration.unitTesting ? 3. : 30.;
             self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:heartbeatInterval
                                                                    target:self
@@ -206,7 +206,7 @@
         [fullLabelsDictionary addEntriesFromDictionary:labelsDictionary];
     }
     
-    [[SRGAnalyticsTracker sharedTracker] trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
+    [SRGAnalyticsTracker.sharedTracker trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
 }
 
 #pragma mark Playback duration
