@@ -49,8 +49,8 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
         
         SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
         NSString *URN = mediaComposition.segmentURN ?: mediaComposition.chapterURN;
-        AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL licenseURL:fairPlayDRM.licenseURL options:@{ SRGAssetOptionDiagnosticServiceNameKey : @"SRGPlaybackMetrics",
-                                                                                                                SRGAssetOptionDiagnosticReportNameKey : URN }];
+        AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL certificateURL:fairPlayDRM.certificateURL options:@{ SRGAssetOptionDiagnosticServiceNameKey : @"SRGPlaybackMetrics",
+                                                                                                                        SRGAssetOptionDiagnosticReportNameKey : URN }];
         AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
         [self prepareToPlayItem:playerItem atIndex:index position:position inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
             completionHandler ? completionHandler() : nil;
