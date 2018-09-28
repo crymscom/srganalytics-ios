@@ -8,23 +8,14 @@
 
 #import <SRGAnalytics/SRGAnalytics.h>
 
-static BOOL s_hasContentProtection = NO;
-
 static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 {
-    NSString *contentProtectionFrameworkPath = [[NSBundle mainBundle] pathForResource:@"SRGContentProtection" ofType:@"framework" inDirectory:@"Frameworks"];
+    NSString *contentProtectionFrameworkPath = [NSBundle.mainBundle pathForResource:@"SRGContentProtection" ofType:@"framework" inDirectory:@"Frameworks"];
     NSBundle *contentProtectionFramework = [NSBundle bundleWithPath:contentProtectionFrameworkPath];
-    s_hasContentProtection = [contentProtectionFramework loadAndReturnError:NULL];
+    [contentProtectionFramework loadAndReturnError:NULL];
 }
 
 @implementation AnalyticsTestCase
-
-#pragma mark Class methods
-
-+ (BOOL)hasContentProtection
-{
-    return s_hasContentProtection;
-}
 
 #pragma mark Helpers
 

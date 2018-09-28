@@ -13,12 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The analytics resource bundle.
  */
-+ (NSBundle *)srg_analyticsBundle;
+@property (class, nonatomic, readonly) NSBundle *srg_analyticsBundle;
 
 /**
  *  Return `YES` iff the application bundle corresponds to an AppStore or TestFlight release.
  */
-+ (BOOL)srg_isProductionVersion;
+@property (class, nonatomic, readonly) BOOL srg_isProductionVersion;
 
 @end
 

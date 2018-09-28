@@ -23,7 +23,11 @@ The library can be used independently, but also seamlessly integrates with our [
  
 ## Compatibility
 
-The library is suitable for applications running on iOS 9 and above. The project is meant to be opened with the latest Xcode version (currently Xcode 9).
+The library is suitable for applications running on iOS 9 and above. The project is meant to be opened with the latest Xcode version (currently Xcode 10).
+
+## Contributing
+
+If you want to contribute to the project, have a look at our [contributing guide](CONTRIBUTING.md).
 
 ## Installation
 
@@ -33,9 +37,25 @@ The library can be added to a project using [Carthage](https://github.com/Cartha
 github "SRGSSR/srganalytics-ios"
 ```
 
-Until Carthage 0.30, only dynamic frameworks could be integrated. Starting with Carthage 0.30, though, frameworks can be integrated statically as well, which avoids slow application startups usually associated with the use of too many dynamic frameworks.
-
 For more information about Carthage and its use, refer to the [official documentation](https://github.com/Carthage/Carthage).
+
+### Content protection
+
+The `SRGAnalytics_DataProvider.framework` companion framework provides convenience methods for playing content delivered by our [SRG Data Provider](https://github.com/SRGSSR/srgdataprovider-ios) library. Not all content is publicly accessible for legal reasons, though, in particular livestreams or foreign TV series.
+
+To play protected content, and provided you have been granted access to it, an internal [SRG Content Protection](https://github.com/SRGSSR/srgcontentprotection-ios) framework is available and must be added to your project `Cartfile` as well:
+
+```
+github "SRGSSR/srgcontentprotection-ios"
+```
+
+If you have no access to this repository, use the fake public replacement framework by adding the following dependency instead:
+
+```
+github "SRGSSR/srgcontentprotection-fake-ios"
+```
+
+When linking against the fake framework, some content (e.g. livestreams) will not be playable.
 
 ### Dependencies
 
@@ -66,6 +86,7 @@ Depending on your needs, the library requires the following frameworks to be add
   * `SRGAnalytics`: The main analytics framework.
   * `SRGAnalytics_DataProvider`: The data provider analytics companion framework.
   * `SRGAnalytics_MediaPlayer`: The media player analytics companion framework.
+  * `SRGContentProtection`: The framework to enable playback of protected medias.
   * `SRGLogger`: The framework used for internal logging.
   * `SRGMediaPlayer`: The media player framework (if not already in your project).
   * `SRGNetwork`: A networking framework.
@@ -160,22 +181,6 @@ The library internally uses the [SRG Logger](https://github.com/SRGSSR/srglogger
 * `ch.srgssr.analytics.dataprovider` for `SRGAnalytics_DataProvider.framework` events.
 
 This logger either automatically integrates with your own logger, or can be easily integrated with it. Refer to the SRG Logger documentation for more information.
-
-## Content protection
-
-The `SRGAnalytics_DataProvider.framework` companion framework provides convenience methods for playing content delivered by our [SRG Data Provider](https://github.com/SRGSSR/srgdataprovider-ios) library. Not all content is accessible for legal reasons, though, in particular livestreams or foreign TV series.
-
-To play protected content, and provided you have been granted access to it, an optional internal [SRG Content Protection](https://github.com/SRGSSR/srgcontentprotection-ios) framework is available and must be added to your project `Cartfile` as well:
-
-```
-github "SRGSSR/srgcontentprotection-ios"
-```
-
-Note that binaries delivered as part of our [releases](https://github.com/SRGSSR/srganalytics-ios/releases) weakly link to this framework when available. As soon as the framework has been correctly linked to your project, protected content will be playable.
-
-### Remark
-
-If your project previously did not reference SRG Content Protection or when switching between dynamic and static linking, be sure to clean your `Carthage` folder so that dependencies are rebuilt appropriately.
 
 ## Advertising Identifier (IDFA)
 

@@ -53,12 +53,12 @@ static NSURL *DVRTestURL(void)
 - (void)testPrepareToPlay
 {
     // Prepare the player until it is paused. No event must be received
-    id prepareObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id prepareObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when preparing a player");
     }];
     
     [self.mediaPlayerController prepareToPlayURL:OnDemandTestURL() withCompletionHandler:^{
-        [[NSNotificationCenter defaultCenter] removeObserver:prepareObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:prepareObserver];
     }];
     
     // Now playing must trigger a play event
@@ -137,13 +137,13 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Play for a while. No stream events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when playing");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -170,13 +170,13 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Play for a while. No stream events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when playing");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -193,7 +193,7 @@ static NSURL *DVRTestURL(void)
 - (void)testPlayPausePlay
 {
     __block NSInteger count1 = 0;
-    id eventObserver1 = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver1 = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         ++count1;
     }];
     
@@ -204,14 +204,14 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver1];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver1];
     }];
     
     // One event expected: play
     XCTAssertEqual(count1, 1);
     
     __block NSInteger count2 = 0;
-    id eventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver2 = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         ++count2;
     }];
     
@@ -222,14 +222,14 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController pause];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver2];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver2];
     }];
     
     // One event expected: pause
     XCTAssertEqual(count2, 1);
     
     __block NSInteger count3 = 0;
-    id eventObserver3 = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver3 = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         ++count3;
     }];
     
@@ -240,12 +240,12 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController play];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver3];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver3];
     }];
     
     [self expectationForElapsedTimeInterval:3. withHandler:nil];
     
-    id eventObserver4 = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver4 = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         // Also see http://stackoverflow.com/questions/14565405/avplayer-pauses-for-no-obvious-reason and
         // the demo project https://github.com/defagos/radars/tree/master/unexpected-player-rate-changes
         NSLog(@"[AVPlayer probable bug]: Unexpected state change to %@. Fast play - pause sequences can induce unexpected rate changes "
@@ -253,14 +253,14 @@ static NSURL *DVRTestURL(void)
     }];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver4];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver4];
     }];
 }
 
 - (void)testPlaySeekPlay
 {
     __block NSInteger count1 = 0;
-    id eventObserver1 = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver1 = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         ++count1;
     }];
     
@@ -271,14 +271,14 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver1];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver1];
     }];
     
     // One event expected: play
     XCTAssertEqual(count1, 1);
     
     __block NSInteger count2 = 0;
-    id eventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver2 = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         ++count2;
     }];
     
@@ -312,7 +312,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTimeInSeconds:2.] withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver2];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver2];
     }];
     
     // Two events expected: seek and play
@@ -320,7 +320,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForElapsedTimeInterval:3. withHandler:nil];
     
-    id eventObserver4 = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver4 = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         // Also see http://stackoverflow.com/questions/14565405/avplayer-pauses-for-no-obvious-reason and
         // the demo project https://github.com/defagos/radars/tree/master/unexpected-player-rate-changes
         NSLog(@"[AVPlayer probable bug]: Unexpected state change to %@. Fast play - pause sequences can induce unexpected rate changes "
@@ -328,14 +328,14 @@ static NSURL *DVRTestURL(void)
     }];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver4];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver4];
     }];
 }
 
 - (void)testPlayPauseSeekPause
 {
     __block NSInteger count1 = 0;
-    id eventObserver1 = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver1 = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         ++count1;
     }];
     
@@ -346,14 +346,14 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver1];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver1];
     }];
     
     // One event expected: play
     XCTAssertEqual(count1, 1);
     
     __block NSInteger count2 = 0;
-    id eventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver2 = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         ++count2;
     }];
     
@@ -364,14 +364,14 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController pause];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver2];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver2];
     }];
     
     // One event expected: pause
     XCTAssertEqual(count2, 1);
     
     __block NSInteger count3 = 0;
-    id eventObserver3 = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver3 = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         ++count3;
     }];
     
@@ -404,7 +404,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTimeInSeconds:2.] withCompletionHandler:nil];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver3];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver3];
     }];
     
     // Two events expected: seek and pause
@@ -412,7 +412,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForElapsedTimeInterval:3. withHandler:nil];
     
-    id eventObserver5 = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver5 = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         // Also see http://stackoverflow.com/questions/14565405/avplayer-pauses-for-no-obvious-reason and
         // the demo project https://github.com/defagos/radars/tree/master/unexpected-player-rate-changes
         NSLog(@"[AVPlayer probable bug]: Unexpected state change to %@. Fast play - pause sequences can induce unexpected rate changes "
@@ -420,7 +420,7 @@ static NSURL *DVRTestURL(void)
     }];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver5];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver5];
     }];
 }
 
@@ -463,7 +463,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)testMediaError
 {
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received");
     }];
     
@@ -474,7 +474,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:[NSURL URLWithString:@"http://httpbin.org/status/403"]];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
 }
 
@@ -592,13 +592,13 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Play for a while. No stream events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when playing");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -613,13 +613,13 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Pause for a while. No stream events must be received
-    eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when it's in pause");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -648,13 +648,13 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Play for a while. No stream events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when playing");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -680,13 +680,13 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Pause for a while. No stream events must be received
-    eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when it's in pause");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -715,13 +715,13 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Play for a while. No stream events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when playing");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -745,13 +745,13 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Play for a while. No stream events must be received
-    eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when playing");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -905,14 +905,14 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Let the segment be played through. No events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received");
     }];
     
     [self expectationForElapsedTimeInterval:3. withHandler:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // Pause playback. Expect full-length information
@@ -941,7 +941,7 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    id eventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver2 = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         // Also see http://stackoverflow.com/questions/14565405/avplayer-pauses-for-no-obvious-reason and
         // the demo project https://github.com/defagos/radars/tree/master/unexpected-player-rate-changes
         NSLog(@"[AVPlayer probable bug]: Unexpected state change to %@. Fast play - pause sequences can induce unexpected rate changes "
@@ -951,7 +951,7 @@ static NSURL *DVRTestURL(void)
     [self expectationForElapsedTimeInterval:3. withHandler:nil];
     
     [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver2];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver2];
     }];
 }
 
@@ -1064,7 +1064,7 @@ static NSURL *DVRTestURL(void)
 - (void)testPrepareInitialSegmentSelectionAndPlayAndReset
 {
     // Prepare the player until it is paused. No event must be received
-    id prepareObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id prepareObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when preparing a player");
     }];
     
@@ -1075,7 +1075,7 @@ static NSURL *DVRTestURL(void)
     
     Segment *segment = [Segment segmentWithName:@"segment" timeRange:CMTimeRangeMake(CMTimeMakeWithSeconds(50., NSEC_PER_SEC), CMTimeMakeWithSeconds(3., NSEC_PER_SEC))];
     [self.mediaPlayerController prepareToPlayURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil completionHandler:^{
-        [[NSNotificationCenter defaultCenter] removeObserver:prepareObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:prepareObserver];
     }];
     
     // Now playing must trigger a play event
@@ -1127,13 +1127,13 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Play for a while. No stream events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when playing");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // When selecting a segment, usual playback events due to seeking must be inhibited
@@ -1575,13 +1575,13 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Play for a while. No stream events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when playing");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // Expect stop event with segment labels
@@ -1820,7 +1820,7 @@ static NSURL *DVRTestURL(void)
 - (void)testDisableTrackingWhileIdle
 {
     // Play for a while. No stream events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when tracking has been disabled");
     }];
     
@@ -1830,7 +1830,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
 }
 
@@ -1847,7 +1847,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Play for a while. No stream events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when tracking has been disabled");
     }];
     
@@ -1857,7 +1857,7 @@ static NSURL *DVRTestURL(void)
     self.mediaPlayerController.tracked = NO;
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
 }
 
@@ -2103,7 +2103,7 @@ static NSURL *DVRTestURL(void)
 - (void)testEnableTrackingWhilePlaying
 {
     // Wait until the player is playing. No event must be received since tracking is not enabled yet
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when tracking has been disabled");
     }];
     
@@ -2115,7 +2115,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // Enable tracking. Expect a play to be received
@@ -2133,7 +2133,7 @@ static NSURL *DVRTestURL(void)
 - (void)testEnableTrackingWhilePlayingSegment
 {
     // Wait until the player is playing. No event must be received since tracking is not enabled yet
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when tracking has been disabled");
     }];
     
@@ -2151,7 +2151,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL() atIndex:0 position:nil inSegments:@[segment] withAnalyticsLabels:labels userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // Enable tracking. Expect a play to be received, with segment labels
@@ -2172,7 +2172,7 @@ static NSURL *DVRTestURL(void)
 - (void)testEnableTrackingWhileSeeking
 {
     // Wait until the player is playing. No event must be received since tracking is not enabled yet
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when tracking has been disabled");
     }];
     
@@ -2184,7 +2184,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // Enable tracking right after seeking. Expect a play to be received, and the initial seek reflecting the player state
@@ -2216,7 +2216,7 @@ static NSURL *DVRTestURL(void)
 - (void)testEnableTrackingWhilePaused
 {
     // Wait until the player is playing. No event must be received since tracking is not enabled yet
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when tracking has been disabled");
     }];
     
@@ -2228,7 +2228,7 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // Pause playback
@@ -2286,7 +2286,7 @@ static NSURL *DVRTestURL(void)
     
     // Stop tracking twice while playing. Expect a single stop to be received
     __block NSInteger stopEventCount = 0;
-    id endEventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id endEventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"stop"]) {
             ++stopEventCount;
         }
@@ -2302,7 +2302,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:5. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:endEventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:endEventObserver];
     }];
     
     // Check we have received the stop notification only once
@@ -2323,7 +2323,7 @@ static NSURL *DVRTestURL(void)
     
     // Start tracking twice while playing. Expect a single play to be received
     __block NSInteger playEventCount = 0;
-    id endEventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id endEventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"play"]) {
             ++playEventCount;
         }
@@ -2339,7 +2339,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:5. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:endEventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:endEventObserver];
     }];
     
     // Check we have received the play notification only once
@@ -2364,7 +2364,7 @@ static NSURL *DVRTestURL(void)
     // For tests, heartbeat interval is set to 3 seconds.
     
     __block NSInteger heartbeatCount = 0;
-    id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver = [NSNotificationCenter.defaultCenter addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++heartbeatCount;
@@ -2377,7 +2377,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:7. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 2);
@@ -2393,7 +2393,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     heartbeatCount = 0;
-    heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    heartbeatEventObserver = [NSNotificationCenter.defaultCenter addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++heartbeatCount;
@@ -2406,7 +2406,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:4. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 0);
@@ -2421,7 +2421,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     heartbeatCount = 0;
-    heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    heartbeatEventObserver = [NSNotificationCenter.defaultCenter addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++heartbeatCount;
@@ -2434,7 +2434,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:7. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 2);
@@ -2461,7 +2461,7 @@ static NSURL *DVRTestURL(void)
     
     __block NSInteger heartbeatCount = 0;
     __block NSInteger liveHeartbeatCount = 0;
-    id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver = [NSNotificationCenter.defaultCenter addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             XCTAssertTrue(([labels[@"media_position"] integerValue] % 3) == 0);
@@ -2479,7 +2479,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:14. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 4);
@@ -2505,7 +2505,7 @@ static NSURL *DVRTestURL(void)
     
     __block NSInteger fullLengthHeartbeatCount = 0;
     __block NSInteger segmentHeartbeatCount = 0;
-    id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver = [NSNotificationCenter.defaultCenter addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             if ([labels[@"segment_name"] isEqualToString:@"segment"]) {
                 ++segmentHeartbeatCount;
@@ -2519,7 +2519,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:14. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(fullLengthHeartbeatCount, 2);
@@ -2543,13 +2543,13 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Play for a while. No stream events must be received
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when playing");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // When selecting a segment, usual playback events due to seeking must be inhibited
@@ -2595,7 +2595,7 @@ static NSURL *DVRTestURL(void)
     
     __block NSInteger fullLengthHeartbeatCount = 0;
     __block NSInteger segmentHeartbeatCount = 0;
-    id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver = [NSNotificationCenter.defaultCenter addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             if ([labels[@"segment_name"] isEqualToString:@"segment"]) {
                 ++segmentHeartbeatCount;
@@ -2609,7 +2609,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:15. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(fullLengthHeartbeatCount, 2);
@@ -2635,7 +2635,7 @@ static NSURL *DVRTestURL(void)
     
     __block NSInteger heartbeatCount = 0;
     __block NSInteger liveHeartbeatCount = 0;
-    id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver = [NSNotificationCenter.defaultCenter addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++heartbeatCount;
@@ -2649,7 +2649,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:14. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 4);
@@ -2686,7 +2686,7 @@ static NSURL *DVRTestURL(void)
     
     __block NSInteger heartbeatCount = 0;
     __block NSInteger liveHeartbeatCount = 0;
-    id heartbeatEventObserver = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver = [NSNotificationCenter.defaultCenter addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             ++heartbeatCount;
@@ -2700,7 +2700,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:14. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:heartbeatEventObserver];
     }];
     
     XCTAssertEqual(heartbeatCount, 4);
@@ -2722,7 +2722,7 @@ static NSURL *DVRTestURL(void)
     
     __block NSInteger heartbeatCount1 = 0;
     __block NSInteger liveHeartbeatCount1 = 0;
-    id heartbeatEventObserver1 = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver1 = [NSNotificationCenter.defaultCenter addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             ++heartbeatCount1;
         }
@@ -2734,7 +2734,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:7. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver1];
+        [NSNotificationCenter.defaultCenter removeObserver:heartbeatEventObserver1];
     }];
     
     XCTAssertEqual(heartbeatCount1, 2);
@@ -2745,7 +2745,7 @@ static NSURL *DVRTestURL(void)
     
     __block NSInteger heartbeatCount2 = 0;
     __block NSInteger liveHeartbeatCount2 = 0;
-    id heartbeatEventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver2 = [NSNotificationCenter.defaultCenter addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             ++heartbeatCount2;
         }
@@ -2757,7 +2757,7 @@ static NSURL *DVRTestURL(void)
     // Wait a little bit to collect potential events
     [self expectationForElapsedTimeInterval:7. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver2];
+        [NSNotificationCenter.defaultCenter removeObserver:heartbeatEventObserver2];
     }];
     
     XCTAssertEqual(heartbeatCount2, 0);
@@ -2767,7 +2767,7 @@ static NSURL *DVRTestURL(void)
 - (void)testHeartbeatAfterEnablingTracking
 {
     // Wait until the player is playing. No event must be received since tracking is not enabled yet
-    id eventObserver = [[NSNotificationCenter defaultCenter] addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when tracking has been disabled");
     }];
     
@@ -2779,13 +2779,13 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController playURL:LiveTestURL()];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:eventObserver];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
     // Play a little bit. No heartbeats must be received
     __block NSInteger heartbeatCount1 = 0;
     __block NSInteger liveHeartbeatCount1 = 0;
-    id heartbeatEventObserver1 = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver1 = [NSNotificationCenter.defaultCenter addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             ++heartbeatCount1;
         }
@@ -2796,7 +2796,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForElapsedTimeInterval:7. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver1];
+        [NSNotificationCenter.defaultCenter removeObserver:heartbeatEventObserver1];
     }];
     
     XCTAssertEqual(heartbeatCount1, 0);
@@ -2815,7 +2815,7 @@ static NSURL *DVRTestURL(void)
     
     __block NSInteger heartbeatCount2 = 0;
     __block NSInteger liveHeartbeatCount2 = 0;
-    id heartbeatEventObserver2 = [[NSNotificationCenter defaultCenter] addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id heartbeatEventObserver2 = [NSNotificationCenter.defaultCenter addObserverForHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         if ([event isEqualToString:@"pos"]) {
             ++heartbeatCount2;
         }
@@ -2826,7 +2826,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForElapsedTimeInterval:7. withHandler:nil];
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [[NSNotificationCenter defaultCenter] removeObserver:heartbeatEventObserver2];
+        [NSNotificationCenter.defaultCenter removeObserver:heartbeatEventObserver2];
     }];
     
     XCTAssertEqual(heartbeatCount2, 2);
