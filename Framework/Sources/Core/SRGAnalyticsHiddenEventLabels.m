@@ -20,11 +20,10 @@
     [dictionary srg_safelySetString:self.value forKey:@"event_value"];
     [dictionary srg_safelySetString:self.source forKey:@"event_source"];
     
-    NSUInteger valueIndex = 1;
-    for (NSString *value in self.values) {
-        [dictionary srg_safelySetString:value forKey:[NSString stringWithFormat:@"event_value_%lu", valueIndex]];
-        valueIndex++;
-    }
+    [self.values enumerateObjectsUsingBlock:^(NSString * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *valueKey = [NSString stringWithFormat:@"event_value_%@", @(idx + 1)];
+        [dictionary srg_safelySetString:object forKey:valueKey];
+    }];
     
     [dictionary addEntriesFromDictionary:[super labelsDictionary]];
     return [dictionary copy];
