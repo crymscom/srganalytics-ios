@@ -26,6 +26,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *value;
 
 /**
+ *  The event values (this concept is loosely defined, please discuss expected values for your application with your
+ *  measurement team).
+ */
+@property (nonatomic, copy, nullable) NSArray<NSString *> *values;
+
+/**
  *  The event source (this concept is loosely defined, please discuss expected values for your application with your
  *  measurement team).
  */

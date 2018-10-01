@@ -20,6 +20,12 @@
     [dictionary srg_safelySetString:self.value forKey:@"event_value"];
     [dictionary srg_safelySetString:self.source forKey:@"event_source"];
     
+    NSUInteger valueIndex = 1;
+    for (NSString *value in self.values) {
+        [dictionary srg_safelySetString:value forKey:[NSString stringWithFormat:@"event_value_%lu", valueIndex]];
+        valueIndex++;
+    }
+    
     [dictionary addEntriesFromDictionary:[super labelsDictionary]];
     return [dictionary copy];
 }
@@ -43,6 +49,7 @@
     SRGAnalyticsHiddenEventLabels *labels = [super copyWithZone:zone];
     labels.type = self.type;
     labels.value = self.value;
+    labels.values = self.values.copy;
     labels.source = self.source;
     return labels;
 }
