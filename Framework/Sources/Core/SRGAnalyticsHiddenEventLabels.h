@@ -9,25 +9,33 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Additional hidden event labels.
+ *  Additional hidden event labels. Data associated with a hidden event is generic (type, values and source) and
+ *  therefore flexible. Your measurement team should provide you precise guidelines about which information must
+ *  be sent in hidden events, and in which fields.
  */
 @interface SRGAnalyticsHiddenEventLabels : SRGAnalyticsLabels
 
 /**
- *  The event type (this concept is loosely defined, please discuss expected values for your application with your
- *  measurement team).
+ *  The event type.
  */
 @property (nonatomic, copy, nullable) NSString *type;
 
 /**
- *  The event value (this concept is loosely defined, please discuss expected values for your application with your
- *  measurement team).
+ *  The main value associated with the event.
  */
 @property (nonatomic, copy, nullable) NSString *value;
 
 /**
- *  The event source (this concept is loosely defined, please discuss expected values for your application with your
- *  measurement team).
+ *  Additional values associated with the event.
+ */
+@property (nonatomic, copy, nullable) NSString *extraValue1;
+@property (nonatomic, copy, nullable) NSString *extraValue2;
+@property (nonatomic, copy, nullable) NSString *extraValue3;
+@property (nonatomic, copy, nullable) NSString *extraValue4;
+@property (nonatomic, copy, nullable) NSString *extraValue5;
+
+/**
+ *  The event source.
  */
 @property (nonatomic, copy, nullable) NSString *source;
 
