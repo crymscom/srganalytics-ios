@@ -14,12 +14,12 @@
 
 static NSURL *ServiceTestURL(void)
 {
-    return [NSURL URLWithString:@"http://il.srgssr.ch"];
+    return SRGIntegrationLayerProductionServiceURL();
 }
 
 static NSURL *MMFTestURL(void)
 {
-    return [NSURL URLWithString:@"http://play-mmf.herokuapp.com"];
+    return [NSURL URLWithString:@"https://play-mmf.herokuapp.com/integrationlayer"];
 }
 
 @interface DataProviderTestCase : AnalyticsTestCase
