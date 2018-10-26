@@ -10,7 +10,7 @@
 
 static NSURL *ServiceTestURL(void)
 {
-    return [NSURL URLWithString:@"http://il.srgssr.ch"];
+    return SRGIntegrationLayerProductionServiceURL();
 }
 
 @interface ComScoreDataProviderTestCase : AnalyticsTestCase
