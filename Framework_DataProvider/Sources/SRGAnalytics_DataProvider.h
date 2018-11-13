@@ -12,4 +12,5 @@
 // Public headers.
 #import "SRGMediaComposition+SRGAnalytics_DataProvider.h"
 #import "SRGMediaPlayerController+SRGAnalytics_DataProvider.h"
+#import "SRGPlaybackSettings.h"
 #import "SRGSegment+SRGAnalytics_DataProvider.h"

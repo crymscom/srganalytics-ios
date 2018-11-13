@@ -22,15 +22,11 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
 
 - (BOOL)prepareToPlayMediaComposition:(SRGMediaComposition *)mediaComposition
                            atPosition:(SRGPosition *)position
-         withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                           streamType:(SRGStreamType)streamType
-                              quality:(SRGQuality)quality
-                                  DRM:(BOOL)DRM
-                         startBitRate:(NSInteger)startBitRate
+                withPreferredSettings:(SRGPlaybackSettings *)preferredSettings
                              userInfo:(NSDictionary *)userInfo
                     completionHandler:(void (^)(void))completionHandler
 {
-    return [mediaComposition playbackContextWithPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality DRM:DRM startBitRate:startBitRate contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
+    return [mediaComposition playbackContextWithPreferredSettings:preferredSettings contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
         if (resource.presentation == SRGPresentation360) {
             if (self.view.viewMode != SRGMediaPlayerViewModeMonoscopic && self.view.viewMode != SRGMediaPlayerViewModeStereoscopic) {
                 self.view.viewMode = SRGMediaPlayerViewModeMonoscopic;
@@ -60,14 +56,10 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
 
 - (BOOL)playMediaComposition:(SRGMediaComposition *)mediaComposition
                   atPosition:(SRGPosition *)position
-withPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                  streamType:(SRGStreamType)streamType
-                     quality:(SRGQuality)quality
-                         DRM:(BOOL)DRM
-                startBitRate:(NSInteger)startBitRate
+       withPreferredSettings:(SRGPlaybackSettings *)preferredSettings
                     userInfo:(NSDictionary *)userInfo
 {
-    return [self prepareToPlayMediaComposition:mediaComposition atPosition:position withPreferredStreamingMethod:streamingMethod streamType:streamType quality:quality DRM:DRM startBitRate:startBitRate userInfo:userInfo completionHandler:^{
+    return [self prepareToPlayMediaComposition:mediaComposition atPosition:position withPreferredSettings:preferredSettings userInfo:userInfo completionHandler:^{
         [self play];
     }];
 }

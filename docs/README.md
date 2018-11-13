@@ -140,7 +140,7 @@ or directly import the modules themselves:
 ```objective-c
 @import SRGAnalytics;                    // For SRGAnalytics.framework
 @import SRGAnalytics_MediaPlayer;        // For SRGAnalytics_MediaPlayer.framework
-@import SRGAnalytics_DataProvider;		 // For SRGAnalytics_DataProvider.framework
+@import SRGAnalytics_DataProvider;       // For SRGAnalytics_DataProvider.framework
 ```
 
 ### Usage from Swift source files
