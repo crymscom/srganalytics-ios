@@ -45,7 +45,10 @@ static NSURL *ServiceTestURL(void)
     [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         
-        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition atPosition:nil withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD DRM:NO startBitRate:0 userInfo:nil completionHandler:^{
+        SRGPlaybackSettings *settings = [[SRGPlaybackSettings alloc] init];
+        settings.quality = SRGQualityHD;
+        
+        [self.mediaPlayerController prepareToPlayMediaComposition:mediaComposition atPosition:nil withPreferredSettings:settings userInfo:nil completionHandler:^{
             XCTAssertEqual(self.mediaPlayerController.mediaComposition, mediaComposition);
             [expectation fulfill];
         }];
@@ -81,7 +84,7 @@ static NSURL *ServiceTestURL(void)
         XCTAssertNotNil(mediaComposition);
         fetchedMediaComposition = mediaComposition;
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition atPosition:nil withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD DRM:NO startBitRate:0 userInfo:nil];
+        [self.mediaPlayerController playMediaComposition:mediaComposition atPosition:nil withPreferredSettings:nil userInfo:nil];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
@@ -107,7 +110,10 @@ static NSURL *ServiceTestURL(void)
         XCTAssertNotNil(mediaComposition);
         fetchedMediaComposition = mediaComposition;
         
-        [self.mediaPlayerController playMediaComposition:mediaComposition atPosition:nil withPreferredStreamingMethod:SRGStreamingMethodNone streamType:SRGStreamTypeNone quality:SRGQualityHD DRM:NO startBitRate:0 userInfo:nil];
+        SRGPlaybackSettings *settings = [[SRGPlaybackSettings alloc] init];
+        settings.quality = SRGQualityHD;
+        
+        [self.mediaPlayerController playMediaComposition:mediaComposition atPosition:nil withPreferredSettings:nil userInfo:nil];
     }] resume];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];

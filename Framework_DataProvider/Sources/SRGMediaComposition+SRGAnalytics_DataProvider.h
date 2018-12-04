@@ -4,6 +4,8 @@
 //  License information is available from the LICENSE file.
 //
 
+#import "SRGPlaybackSettings.h"
+
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGDataProvider/SRGDataProvider.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
@@ -17,22 +19,9 @@ typedef void (^SRGPlaybackContextBlock)(NSURL *streamURL, SRGResource *resource,
 
 /**
  *  Retrieve a playback context for the receiver, trying to use the specified preferred settings. If no exact match can
- *  be found for the specified settings, a recommended valid setup will be used instead.
+ *  be found for the specified settings, a recommended approaching valid setup will be used instead.
  *
- *  @param streamingMethod   The streaming method to use. If `SRGStreamingMethodNone` or if the method is not
- *                           found, a recommended method will be used instead.
- *  @param streamType        The stream type to use. If `SRGStreamTypeNone` or not found, the optimal available stream
- *                           type is used.
- *  @param quality           The quality to use. If `SRGQualityNone` or not found, the best available quality
- *                           is used.
- *  @param DRM               Set to `YES` if DRM-protected streams should be favored over non-protected ones. If set
- *                           to `NO`, the first matching resource is used, based on their original order.
- *  @param startBitRate      The bit rate the media should start playing with, in kbps. This parameter is a
- *                           recommendation with no result guarantee, though it should in general be applied. The
- *                           nearest available quality (larger or smaller than the requested size) will be used.
- *                           Usual SRG SSR valid bit ranges vary from 100 to 3000 kbps. Use 0 to start with the
- *                           lowest quality stream.
- *  @param userInfo          Optional dictionary conveying arbitrary information during playback.
+ *  @param preferredSettings The settings which should ideally be applied. If `nil`, default settings are used.
  *  @param resultBlock       The block called to return the resolved resource context (stream URL, resource, segments
  *                           associated with the media, segment index to start at, as well as consolidated analytics labels).
  *
@@ -41,12 +30,8 @@ typedef void (^SRGPlaybackContextBlock)(NSURL *streamURL, SRGResource *resource,
  *
  *  @discussion Resource lookup is performed in the order of the parameters (streaming method first, quality last).
  */
-- (BOOL)playbackContextWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                                         streamType:(SRGStreamType)streamType
-                                            quality:(SRGQuality)quality
-                                                DRM:(BOOL)DRM
-                                       startBitRate:(NSInteger)startBitRate
-                                       contextBlock:(NS_NOESCAPE SRGPlaybackContextBlock)contextBlock;
+- (BOOL)playbackContextWithPreferredSettings:(nullable SRGPlaybackSettings *)preferredSettings
+                                contextBlock:(NS_NOESCAPE SRGPlaybackContextBlock)contextBlock;
 
 @end
 

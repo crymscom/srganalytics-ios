@@ -47,19 +47,12 @@
     return labels;
 }
 
-- (BOOL)playbackContextWithPreferredStreamingMethod:(SRGStreamingMethod)streamingMethod
-                                         streamType:(SRGStreamType)streamType
-                                            quality:(SRGQuality)quality
-                                                DRM:(BOOL)DRM
-                                       startBitRate:(NSInteger)startBitRate
-                                       contextBlock:(NS_NOESCAPE SRGPlaybackContextBlock)contextBlock
+- (BOOL)playbackContextWithPreferredSettings:(SRGPlaybackSettings *)preferredSettings
+                                contextBlock:(NS_NOESCAPE SRGPlaybackContextBlock)contextBlock
 {
-    if (startBitRate < 0) {
-        startBitRate = 0;
-    }
-    
     SRGChapter *chapter = self.mainChapter;
     
+    SRGStreamingMethod streamingMethod = preferredSettings.streamingMethod;
     if (streamingMethod == SRGStreamingMethodNone) {
         streamingMethod = chapter.recommendedStreamingMethod;
     }
@@ -96,6 +89,7 @@
     
     // Determine the stream type order to use (start with a default setup, overridden if a preferred value has been set).
     NSArray<NSNumber *> *orderedStreamTypes = @[@(SRGStreamTypeOnDemand), @(SRGStreamTypeLive), @(SRGStreamTypeDVR)];
+    SRGStreamType streamType = preferredSettings.streamType;
     if (streamType != SRGStreamTypeNone) {
         orderedStreamTypes = [[orderedStreamTypes mtl_arrayByRemovingObject:@(streamType)] arrayByAddingObject:@(streamType)];
     }
@@ -117,6 +111,7 @@
     
     // Determine the quality to use (start with a default setup, overridden if a preferred value has been set).
     NSArray<NSNumber *> *orderedQualities = @[@(SRGQualitySD), @(SRGQualityHD), @(SRGQualityHQ)];
+    SRGQuality quality = preferredSettings.quality;
     if (quality != SRGQualityNone) {
         orderedQualities = [[orderedQualities mtl_arrayByRemovingObject:@(quality)] arrayByAddingObject:@(quality)];
     }
@@ -139,6 +134,7 @@
     NSMutableArray<NSSortDescriptor *> *sortDescriptors = [@[URLSchemeSortDescriptor, streamTypeSortDescriptor, qualitySortDescriptor] mutableCopy];
     
     // Favor DRM resources if desired, otherwise preserve the original order
+    BOOL DRM = preferredSettings.DRM;
     if (DRM) {
         NSSortDescriptor *DRMSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@keypath(SRGResource.new, srg_requiresDRM) ascending:! DRM comparator:^NSComparisonResult(NSNumber * _Nonnull requiresDRM1, NSNumber * _Nonnull requiresDRM2) {
             if (requiresDRM1.boolValue == requiresDRM2.boolValue) {
@@ -163,6 +159,7 @@
     // Use the preferrred start bit rate is set. Currrently only supported for HLS streams by Akamai, via a __b__ parameter
     // (the actual bitrate will be rounded to the nearest available quality)
     NSURL *URL = resource.URL;
+    NSUInteger startBitRate = preferredSettings.startBitRate;
     if (startBitRate != 0 && [URL.host containsString:@"akamai"] && [URL.path.pathExtension isEqualToString:@"m3u8"]) {
         NSURLComponents *URLComponents = [NSURLComponents componentsWithURL:URL resolvingAgainstBaseURL:NO];
         

@@ -74,6 +74,9 @@
 		6FB97FE81E4AF0D60014C4C2 /* MAKVONotificationCenter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB97FE31E4AF0270014C4C2 /* MAKVONotificationCenter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6FB97FEA1E4AF1800014C4C2 /* MAKVONotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB97FE31E4AF0270014C4C2 /* MAKVONotificationCenter.framework */; };
 		6FB97FEB1E4AF1870014C4C2 /* MAKVONotificationCenter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB97FE31E4AF0270014C4C2 /* MAKVONotificationCenter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6FC24BAC219ABB1B0048091F /* SRGPlaybackSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FC24BAA219ABB1B0048091F /* SRGPlaybackSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6FC24BAD219ABB1B0048091F /* SRGPlaybackSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC24BAB219ABB1B0048091F /* SRGPlaybackSettings.m */; };
+		6FC24BB0219AD4BD0048091F /* PlaybackSettingsTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC24BAF219AD4BD0048091F /* PlaybackSettingsTestCase.m */; };
 		6FD31A661FE6D8C300D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD31A641FE6D8C200D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6FD31A671FE6D8C300D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD31A651FE6D8C200D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.m */; };
 		6FD31A691FE6E34300D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD31A681FE6E34200D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider_Private.h */; };
@@ -312,6 +315,9 @@
 		6FB74DA82105A77B00E2D365 /* SRGNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGNetwork.framework; path = Carthage/Build/iOS/SRGNetwork.framework; sourceTree = "<group>"; };
 		6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGContentProtection.framework; path = Carthage/Build/iOS/SRGContentProtection.framework; sourceTree = "<group>"; };
 		6FB97FE31E4AF0270014C4C2 /* MAKVONotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MAKVONotificationCenter.framework; path = Carthage/Build/iOS/MAKVONotificationCenter.framework; sourceTree = "<group>"; };
+		6FC24BAA219ABB1B0048091F /* SRGPlaybackSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGPlaybackSettings.h; sourceTree = "<group>"; };
+		6FC24BAB219ABB1B0048091F /* SRGPlaybackSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGPlaybackSettings.m; sourceTree = "<group>"; };
+		6FC24BAF219AD4BD0048091F /* PlaybackSettingsTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaybackSettingsTestCase.m; sourceTree = "<group>"; };
 		6FD31A641FE6D8C200D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SRGMediaComposition+SRGAnalytics_DataProvider.h"; sourceTree = "<group>"; };
 		6FD31A651FE6D8C200D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SRGMediaComposition+SRGAnalytics_DataProvider.m"; sourceTree = "<group>"; };
 		6FD31A681FE6E34200D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGMediaComposition+SRGAnalytics_DataProvider_Private.h"; sourceTree = "<group>"; };
@@ -551,6 +557,8 @@
 				6FD31A651FE6D8C200D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.m */,
 				6FF3E21A1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.h */,
 				6FF3E21B1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m */,
+				6FC24BAA219ABB1B0048091F /* SRGPlaybackSettings.h */,
+				6FC24BAB219ABB1B0048091F /* SRGPlaybackSettings.m */,
 				6F4ED9AF1F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.h */,
 				6F4ED9B01F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.m */,
 			);
@@ -714,6 +722,7 @@
 				6FEBF9371F8B5815005DD291 /* HiddenEventLabelsTestCase.m */,
 				E65490B11D803CA2007D96E7 /* MediaPlayerTestCase.m */,
 				6F971F771F87EAED007C5049 /* PageViewLabelsTestCase.m */,
+				6FC24BAF219AD4BD0048091F /* PlaybackSettingsTestCase.m */,
 				6FF4CB801F8B5B500082534E /* StreamLabelsTestCase.m */,
 				E600FE5C1D93C5ED000B8A1D /* TrackerTestCase.m */,
 			);
@@ -812,6 +821,7 @@
 			files = (
 				6F4ED9B31F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.h in Headers */,
 				6FF3E21C1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.h in Headers */,
+				6FC24BAC219ABB1B0048091F /* SRGPlaybackSettings.h in Headers */,
 				6FD31A661FE6D8C300D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.h in Headers */,
 				6FD31A691FE6E34300D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider_Private.h in Headers */,
 				6FE021E72119D58300DF6617 /* SRGResource+SRGAnalytics_DataProvider.h in Headers */,
@@ -1119,6 +1129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6FF3E21D1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m in Sources */,
+				6FC24BAD219ABB1B0048091F /* SRGPlaybackSettings.m in Sources */,
 				6FE021E62119D58300DF6617 /* SRGResource+SRGAnalytics_DataProvider.m in Sources */,
 				6FD31A671FE6D8C300D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.m in Sources */,
 				6F4ED9B41F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.m in Sources */,
@@ -1142,6 +1153,7 @@
 				6FEBF9381F8B5815005DD291 /* HiddenEventLabelsTestCase.m in Sources */,
 				E600FE5D1D93C5ED000B8A1D /* TrackerTestCase.m in Sources */,
 				083EE17C1F2B8B2700413A68 /* ComScoreDataProviderTestCase.m in Sources */,
+				6FC24BB0219AD4BD0048091F /* PlaybackSettingsTestCase.m in Sources */,
 				08539C271F306E390033D406 /* ComScoreTrackerTestCase.m in Sources */,
 				E6D609291DA7762600FA44EB /* AnalyticsTestCase.m in Sources */,
 				6FF3E22B1D9D2E9B00EB4A30 /* DataProviderTestCase.m in Sources */,
@@ -1286,7 +1298,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MARKETING_VERSION = 3.5.1;
+				MARKETING_VERSION = 3.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -1479,7 +1491,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MARKETING_VERSION = 3.5.1;
+				MARKETING_VERSION = 3.6;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1815,7 +1827,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MARKETING_VERSION = 3.5.1;
+				MARKETING_VERSION = 3.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -1865,7 +1877,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MARKETING_VERSION = 3.5.1;
+				MARKETING_VERSION = 3.6;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
