@@ -663,7 +663,7 @@ static NSURL *MMFTestURL(void)
         
         BOOL success = [mediaComposition playbackContextWithPreferredSettings:settings contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
             XCTAssertEqual(resource.streamingMethod, SRGStreamingMethodHLS);
-            XCTAssertFalse(resource.srg_requiresDRM);
+            XCTAssertTrue(resource.srg_requiresDRM);
         }];
         XCTAssertTrue(success);
         [expectation fulfill];
