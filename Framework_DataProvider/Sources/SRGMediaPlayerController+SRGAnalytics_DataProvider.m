@@ -45,10 +45,23 @@ static NSString * const SRGAnalyticsMediaPlayerSourceUidKey = @"SRGAnalyticsMedi
             [fullUserInfo addEntriesFromDictionary:userInfo];
         }
         
-        SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
         NSString *URN = mediaComposition.segmentURN ?: mediaComposition.chapterURN;
-        AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL certificateURL:fairPlayDRM.certificateURL options:@{ SRGAssetOptionDiagnosticServiceNameKey : @"SRGPlaybackMetrics",
-                                                                                                                        SRGAssetOptionDiagnosticReportNameKey : URN }];
+        NSDictionary<SRGResourceLoaderOption, id> *options = @{ SRGResourceLoaderOptionDiagnosticServiceNameKey : @"SRGPlaybackMetrics",
+                                                                SRGResourceLoaderOptionDiagnosticReportNameKey : URN };
+        
+        AVURLAsset *asset = nil;
+        
+        SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
+        if (fairPlayDRM) {
+            asset = [AVURLAsset srg_fairPlayProtectedAssetWithURL:streamURL certificateURL:fairPlayDRM.certificateURL options:options];
+        }
+        else if (resource.tokenType == SRGTokenTypeAkamai) {
+            asset = [AVURLAsset srg_akamaiTokenProtectedAssetWithURL:streamURL options:options];
+        }
+        else {
+            asset = [AVURLAsset assetWithURL:streamURL];
+        }
+        
         AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
         [self prepareToPlayItem:playerItem atIndex:index position:position inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
             completionHandler ? completionHandler() : nil;
