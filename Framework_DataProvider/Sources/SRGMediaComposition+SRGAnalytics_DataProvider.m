@@ -161,7 +161,7 @@
     // (the actual bitrate will be rounded to the nearest available quality)
     NSURL *URL = resource.URL;
     NSUInteger startBitRate = preferredSettings.startBitRate;
-    if (startBitRate != 0 && resource.tokenType == SRGTokenTypeAkamai) {
+    if (startBitRate != 0 && [URL.host containsString:@"akamai"] && [URL.path.pathExtension isEqualToString:@"m3u8"]) {
         NSURLComponents *URLComponents = [NSURLComponents componentsWithURL:URL resolvingAgainstBaseURL:NO];
         
         NSMutableArray<NSURLQueryItem *> *queryItems = [URLComponents.queryItems mutableCopy] ?: [NSMutableArray array];
