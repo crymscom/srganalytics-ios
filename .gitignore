@@ -10,5 +10,7 @@ xcuserdata
 /Cartfile.private
 /Cartfile.resolved
 
-/fastlane/report.xml
-/fastlane/test_output
+/fastlane/*.xml
+
+/vendor
+/.bundle
