@@ -30,7 +30,7 @@ OBJC_EXPORT SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIde
  *                                business unit which publishes the application.
  *  @param container              The TagCommander container identifier to which measurements will be sent.
  *  @param comScoreVirtualSite    The comScore virtual site to which measurements must be sent.
- *  @param netMetrixIdenfifier    The NetMetrix application identifier to send measurements for.
+ *  @param netMetrixIdentifier    The NetMetrix application identifier to send measurements for.
  */
 - (instancetype)initWithBusinessUnitIdentifier:(SRGAnalyticsBusinessUnitIdentifier)businessUnitIdentifier
                                      container:(NSInteger)container
