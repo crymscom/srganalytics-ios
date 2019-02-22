@@ -10,6 +10,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SRGAnalyticsTracker (Private)
 
+@property (nonatomic, null_resettable) NSDictionary<NSString *, NSString *> *globalLabels;
+
 - (void)trackTagCommanderEventWithLabels:(nullable NSDictionary<NSString *, NSString *> *)labels;
 
 @end

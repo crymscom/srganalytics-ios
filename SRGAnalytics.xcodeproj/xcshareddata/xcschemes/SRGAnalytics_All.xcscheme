@@ -48,6 +48,20 @@
                ReferencedContainer = "container:SRGAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "08EF58B72220A6BC000E7446"
+               BuildableName = "SRGAnalytics_Identity.framework"
+               BlueprintName = "SRGAnalytics_Identity"
+               ReferencedContainer = "container:SRGAnalytics.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

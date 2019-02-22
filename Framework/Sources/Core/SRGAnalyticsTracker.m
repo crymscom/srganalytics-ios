@@ -5,6 +5,7 @@
 //
 
 #import "SRGAnalyticsTracker.h"
+#import "SRGAnalyticsTracker+Private.h"
 
 #import "NSBundle+SRGAnalytics.h"
 #import "NSMutableDictionary+SRGAnalytics.h"
@@ -33,6 +34,8 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 @property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
 @property (nonatomic) CSStreamSense *streamSense;
 
+@property (nonatomic, null_resettable) NSDictionary<NSString *, NSString *> *globalLabels;
+
 @end
 
 @implementation SRGAnalyticsTracker
@@ -47,6 +50,15 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         s_sharedInstance = [SRGAnalyticsTracker new];
     });
     return s_sharedInstance;
+}
+
+#pragma mark Getters and Setters
+
+@synthesize globalLabels = _globalLabels;
+
+- (NSDictionary<NSString *,NSString *> *)globalLabels
+{
+    return _globalLabels ?: NSDictionary.new;
 }
 
 #pragma mark Start
@@ -184,6 +196,9 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
     // TagCommander might not initialized (for the test business unit)
     if (self.tagCommander) {
         [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+            [self.tagCommander addData:key withValue:object];
+        }];
+        [self.globalLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
             [self.tagCommander addData:key withValue:object];
         }];
         [self.tagCommander sendData];
