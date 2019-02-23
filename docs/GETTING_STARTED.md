@@ -226,6 +226,18 @@ Using the `SRGAnalytics_DataProvider.framework` companion framework is all you n
 
 In the case you need to play a resource without an SRG Media Player controller instance (e.g. with Google Cast default receiver), the companion framework provides the `-[SRGMediaComposition playbackContextWithPreferredSettings:contextBlock:]` method, with which you can find the proper resource to play.
 
+## Automatic identity measurement labels using the SRG Identity library
+
+If you are using our [SRG Identity library](https://github.com/SRGSSR/srgidentity-ios) in your application, be sure to add the `SRGAnalytics_SRGIdentity.framework` companion framework to your project as well, which will take care of all the process for you.
+
+This framework adds a category `SRGAnalyticsTracker (SRGAnalytics_Identity)`, which adds an `identityService` property to `SRGAnalyticsTracker `. To automatically track account updates and add all account measurement informations, simply call:
+
+```objective-c
+tracker.identityService = identityService;
+```
+
+just after instantiating your `SRGAnalyticsTracker` and `SRGIdentityService` objects.
+
 ## Thread-safety
 
 The library is intended to be used from the main thread only. Trying to use if from background threads results in undefined behavior.
