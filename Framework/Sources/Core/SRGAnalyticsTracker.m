@@ -88,6 +88,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (void)startComscoreTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
+    if (self.configuration.unitTesting) {
+        return;
+    }
+    
     [CSComScore setAppContext];
     [CSComScore setSecure:YES];
     [CSComScore setCustomerC2:@"6036016"];
@@ -188,6 +192,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (void)trackComScoreEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
+    if (self.configuration.unitTesting) {
+        return;
+    }
+    
     [CSComScore hiddenWithLabels:labels];
 }
 
@@ -242,6 +250,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
                                 labels:(SRGAnalyticsPageViewLabels *)labels
                   fromPushNotification:(BOOL)fromPushNotification
 {
+    if (self.configuration.unitTesting) {
+        return;
+    }
+    
     NSAssert(title.length != 0, @"A title is required");
     
     NSMutableDictionary *pageViewLabelsDictionary = [NSMutableDictionary dictionary];
@@ -336,6 +348,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (void)trackComScoreHiddenEventWithName:(NSString *)name labels:(SRGAnalyticsHiddenEventLabels *)labels
 {
+    if (self.configuration.unitTesting) {
+        return;
+    }
+    
     NSAssert(name.length != 0, @"A name is required");
     
     NSMutableDictionary *hiddenEventLabelsDictionary = [NSMutableDictionary dictionary];

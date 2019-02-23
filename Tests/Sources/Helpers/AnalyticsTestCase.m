@@ -19,6 +19,21 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 
 #pragma mark Helpers
 
+- (XCTestExpectation *)expectationForPageViewEventNotificationWithHandler:(EventExpectationHandler)handler
+{
+    return [self expectationForNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+        NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        
+        NSString *event = labels[@"event_id"];
+        if ([event isEqualToString:@"screen"]) {
+            return handler(event, labels);
+        }
+        else {
+            return NO;
+        }
+    }];
+}
+
 - (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(EventExpectationHandler)handler
 {
     return [self expectationForNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
