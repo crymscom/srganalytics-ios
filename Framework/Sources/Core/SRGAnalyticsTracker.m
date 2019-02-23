@@ -193,12 +193,13 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (void)trackTagCommanderEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
+    NSMutableDictionary *mutableLabels = labels.mutableCopy;
+    [mutableLabels addEntriesFromDictionary:self.globalLabels];
+    labels = mutableLabels.copy;
+    
     // TagCommander might not initialized (for the test business unit)
     if (self.tagCommander) {
         [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-            [self.tagCommander addData:key withValue:object];
-        }];
-        [self.globalLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
             [self.tagCommander addData:key withValue:object];
         }];
         [self.tagCommander sendData];
