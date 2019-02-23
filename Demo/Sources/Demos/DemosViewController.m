@@ -9,7 +9,10 @@
 #import "AppDelegate.h"
 #import "SimpleViewController.h"
 
+#import <SRGAnalytics_Identity/SRGAnalytics_Identity.h>
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
+
+static NSString * const LastLoggedInEmailAddress = @"LastLoggedInEmailAddress";
 
 @implementation DemosViewController
 
@@ -19,6 +22,25 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:NSStringFromClass(self.class) bundle:nil];
     return [storyboard instantiateInitialViewController];
+}
+
+#pragma mark View lifecycle
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didLogin:)
+                                                 name:SRGIdentityServiceUserDidLoginNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didUpdateAccount:)
+                                                 name:SRGIdentityServiceDidUpdateAccountNotification
+                                               object:nil];
+    
+    [self reloadData];
 }
 
 #pragma mark SRGAnalyticsViewTracking protocol
@@ -147,6 +169,57 @@
             return;
             break;
         }
+    }
+}
+
+#pragma mark UI
+
+- (void)reloadData
+{
+    SRGIdentityService *identityService = SRGIdentityService.currentIdentityService;
+    
+    if (identityService.loggedIn) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Logout", nil)
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(logout:)];
+    }
+    else {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Login", nil)
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(login:)];
+    }
+}
+
+#pragma mark Actions
+
+- (void)login:(id)sender
+{
+    NSString *lastEmailAddress = [NSUserDefaults.standardUserDefaults stringForKey:LastLoggedInEmailAddress];
+    [SRGIdentityService.currentIdentityService loginWithEmailAddress:lastEmailAddress];
+}
+
+- (void)logout:(id)sender
+{
+    [SRGIdentityService.currentIdentityService logout];
+}
+
+#pragma mark Notifications
+
+- (void)didLogin:(NSNotification *)notification
+{
+    [self reloadData];
+}
+
+- (void)didUpdateAccount:(NSNotification *)notification
+{
+    [self reloadData];
+    
+    NSString *emailAddress = SRGIdentityService.currentIdentityService.emailAddress;;
+    if (emailAddress) {
+        [NSUserDefaults.standardUserDefaults setObject:emailAddress forKey:LastLoggedInEmailAddress];
+        [NSUserDefaults.standardUserDefaults synchronize];
     }
 }
 
