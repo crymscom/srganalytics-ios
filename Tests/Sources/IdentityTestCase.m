@@ -22,6 +22,16 @@ static NSString *TestUserId = @"1234";
 
 @end
 
+static SRGAnalyticsConfiguration *TestConfiguration(void)
+{
+    SRGAnalyticsConfiguration *configuration = [[SRGAnalyticsConfiguration alloc] initWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierRTS
+                                                                                                       container:10
+                                                                                             comScoreVirtualSite:@"rts-app-test-v"
+                                                                                             netMetrixIdentifier:@"test"];
+    configuration.unitTesting = YES;
+    return configuration;
+}
+
 static NSURL *TestWebserviceURL(void)
 {
     return [NSURL URLWithString:@"https://api.srgssr.local"];
@@ -138,8 +148,9 @@ static NSURL *OnDemandTestURL(void)
 
 #pragma mark Tests
 
-- (void)testHiddenEventWithoutIdentityService
+- (void)testHiddenEventWithoutSRGAnalyticsIdentityFramework
 {
+    // Use an empty tracker. Random tests could have aldready use the internal `setIdentityService:` method.
     SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker new];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
@@ -153,9 +164,24 @@ static NSURL *OnDemandTestURL(void)
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
+- (void)testHiddenEventWithoutIdentityService
+{
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:nil];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"user_is_logged"], @"false");
+        XCTAssertNil(labels[@"user_id"]);
+        return YES;
+    }];
+    
+    [SRGAnalyticsTracker.sharedTracker trackHiddenEventWithName:@"Hidden event"];
+    
+    [self waitForExpectationsWithTimeout:5. handler:nil];
+}
+
 - (void)testHiddenEventNotLogged
 {
-    SRGAnalyticsTracker.sharedTracker.identityService = self.identityService;
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
     [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"user_is_logged"], @"false");
@@ -170,7 +196,7 @@ static NSURL *OnDemandTestURL(void)
 
 - (void)testHiddenEventJustLogged
 {
-    SRGAnalyticsTracker.sharedTracker.identityService = self.identityService;
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
     [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:^BOOL(NSNotification * _Nonnull notification) {
         XCTAssertTrue([NSThread isMainThread]);
@@ -194,7 +220,7 @@ static NSURL *OnDemandTestURL(void)
 
 - (void)testHiddenEventLogged
 {
-    SRGAnalyticsTracker.sharedTracker.identityService = self.identityService;
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
     [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:^BOOL(NSNotification * _Nonnull notification) {
         return YES;
@@ -221,7 +247,7 @@ static NSURL *OnDemandTestURL(void)
 
 - (void)testHiddenEventAfterUnauthorizedCall
 {
-    SRGAnalyticsTracker.sharedTracker.identityService = self.identityService;
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
     [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:^BOOL(NSNotification * _Nonnull notification) {
         return YES;
@@ -258,7 +284,7 @@ static NSURL *OnDemandTestURL(void)
 
 - (void)testHiddenEventAfterLogout
 {
-    SRGAnalyticsTracker.sharedTracker.identityService = self.identityService;
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
     [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:^BOOL(NSNotification * _Nonnull notification) {
         return YES;
@@ -285,7 +311,7 @@ static NSURL *OnDemandTestURL(void)
 
 - (void)testPageViewEventLogged
 {
-    SRGAnalyticsTracker.sharedTracker.identityService = self.identityService;
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
     [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:^BOOL(NSNotification * _Nonnull notification) {
         return YES;
@@ -313,7 +339,7 @@ static NSURL *OnDemandTestURL(void)
 
 - (void)testHiddenPlaybackEventLogged
 {
-    SRGAnalyticsTracker.sharedTracker.identityService = self.identityService;
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
     [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:^BOOL(NSNotification * _Nonnull notification) {
         return YES;

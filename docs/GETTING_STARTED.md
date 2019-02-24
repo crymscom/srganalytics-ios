@@ -230,13 +230,22 @@ In the case you need to play a resource without an SRG Media Player controller i
 
 If you are using our [SRG Identity library](https://github.com/SRGSSR/srgidentity-ios) in your application, be sure to add the `SRGAnalytics_SRGIdentity.framework` companion framework to your project as well, which will take care of all the process for you.
 
-This framework adds a category `SRGAnalyticsTracker (SRGAnalytics_Identity)`, which adds an `identityService` property to `SRGAnalyticsTracker `. To automatically track account updates and add all account measurement informations, simply call:
+This framework adds a category `SRGAnalyticsTracker (SRGAnalytics_Identity)`, which adds an additional `-startWithConfiguration:identityService:` method to `SRGAnalyticsTracker`. To automatically track account updates and add all account measurement informations, start your analytics tracker with this method instead of the orginal one.
 
 ```objective-c
-tracker.identityService = identityService;
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    // ...
+    
+    SRGIdentityService.currentIdentityService = [[SRGIdentityService alloc] initWith...];
+    
+    SRGAnalyticsConfiguration *configuration = [[SRGAnalyticsConfiguration alloc] initWith...];
+    
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:configuration identityService:SRGIdentityService.currentIdentityService];
+                                                     
+    // ...
+}
 ```
-
-just after instantiating your `SRGAnalyticsTracker` and `SRGIdentityService` objects.
 
 ## Thread-safety
 

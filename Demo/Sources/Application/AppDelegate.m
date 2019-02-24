@@ -38,10 +38,7 @@
                                                                                              comScoreVirtualSite:@"rts-app-test-v"
                                                                                              netMetrixIdentifier:@"test"];
     configuration.unitTesting = (NSClassFromString(@"XCTestCase") != Nil);
-    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:configuration];
-    SRGAnalyticsTracker.sharedTracker.identityService = SRGIdentityService.currentIdentityService;
-    
-
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:configuration identityService:SRGIdentityService.currentIdentityService];
     
     DemosViewController *demosViewController = [[DemosViewController alloc] init];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:demosViewController];

@@ -16,6 +16,12 @@ static void *s_analyticsIdentityServiceKey = &s_analyticsIdentityServiceKey;
 
 #pragma mark Getters and Setters
 
+- (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration identityService:(SRGIdentityService *)identityService
+{
+    self.identityService = identityService;
+    [self startWithConfiguration:configuration];
+}
+
 - (SRGIdentityService *)identityService
 {
     return objc_getAssociatedObject(self, s_analyticsIdentityServiceKey);
