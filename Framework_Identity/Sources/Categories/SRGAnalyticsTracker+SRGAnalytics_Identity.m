@@ -1,9 +1,7 @@
 //
-//  SRGAnalyticsTracker+SRGAnalytics_Identity.m
-//  SRGAnalytics_Identity
+//  Copyright (c) SRG SSR. All rights reserved.
 //
-//  Created by Pierre-Yves on 22.02.19.
-//  Copyright © 2019 SRG SSR. All rights reserved.
+//  License information is available from the LICENSE file.
 //
 
 #import <objc/runtime.h>
