@@ -62,6 +62,11 @@ static const NSUInteger SRGDefaultStartBitRate = 800;
  */
 @property (nonatomic) NSUInteger startBitRate;
 
+/**
+ *  Optional playback source unique id.
+ */
+@property (nonatomic, nullable) NSString *sourceUid;
+
 @end
 
 NS_ASSUME_NONNULL_END

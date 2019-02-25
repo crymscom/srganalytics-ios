@@ -32,6 +32,7 @@
     settings.quality = self.quality;
     settings.DRM = self.DRM;
     settings.startBitRate = self.startBitRate;
+    settings.sourceUid = self.sourceUid;
     return settings;
 }
 
