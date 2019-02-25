@@ -33,6 +33,8 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 @property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
 @property (nonatomic) CSStreamSense *streamSense;
 
+@property (nonatomic) NSDictionary<NSString *, NSString *> *globalLabels;
+
 @end
 
 @implementation SRGAnalyticsTracker
@@ -49,7 +51,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
     return s_sharedInstance;
 }
 
-#pragma mark Start
+#pragma mark Startup
 
 - (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
@@ -76,6 +78,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (void)startComscoreTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
+    if (self.configuration.unitTesting) {
+        return;
+    }
+    
     [CSComScore setAppContext];
     [CSComScore setSecure:YES];
     [CSComScore setCustomerC2:@"6036016"];
@@ -167,23 +173,23 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 #pragma mark General event tracking (internal use only)
 
-- (void)trackEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
-              comScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
-{
-    [self trackTagCommanderEventWithLabels:labels];
-    [self trackComScoreEventWithLabels:comScoreLabels];
-}
-
 - (void)trackComScoreEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
+    if (self.configuration.unitTesting) {
+        return;
+    }
+    
     [CSComScore hiddenWithLabels:labels];
 }
 
 - (void)trackTagCommanderEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
-    // TagCommander might not initialized (for the test business unit)
+    NSMutableDictionary<NSString *, NSString *> *allLabels = [self.globalLabels mutableCopy] ?: [NSMutableDictionary dictionary];
+    [allLabels addEntriesFromDictionary:labels];
+    
+    // TagCommander might not be initialized (for the test business unit)
     if (self.tagCommander) {
-        [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [allLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
             [self.tagCommander addData:key withValue:object];
         }];
         [self.tagCommander sendData];
@@ -194,7 +200,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         // predefined variables, see https://github.com/TagCommander/pods/blob/master/TCSDK/PredefinedVariables.md
         [NSNotificationCenter.defaultCenter postNotificationName:SRGAnalyticsRequestNotification
                                                           object:self
-                                                        userInfo:@{ SRGAnalyticsLabelsKey : labels }];
+                                                        userInfo:@{ SRGAnalyticsLabelsKey : [allLabels copy] }];
     }
 }
 
@@ -226,6 +232,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
                                 labels:(SRGAnalyticsPageViewLabels *)labels
                   fromPushNotification:(BOOL)fromPushNotification
 {
+    if (self.configuration.unitTesting) {
+        return;
+    }
+    
     NSAssert(title.length != 0, @"A title is required");
     
     NSMutableDictionary *pageViewLabelsDictionary = [NSMutableDictionary dictionary];
@@ -320,6 +330,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (void)trackComScoreHiddenEventWithName:(NSString *)name labels:(SRGAnalyticsHiddenEventLabels *)labels
 {
+    if (self.configuration.unitTesting) {
+        return;
+    }
+    
     NSAssert(name.length != 0, @"A name is required");
     
     NSMutableDictionary *hiddenEventLabelsDictionary = [NSMutableDictionary dictionary];

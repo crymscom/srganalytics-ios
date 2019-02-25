@@ -181,7 +181,7 @@ The mechanism is the same for information sent to comScore.
 
 ## Automatic media consumption measurement labels using the SRG Data Provider library
 
-Our services directly supply the custom analytics labels which need to be sent with media consumption measurements. If you are using our [SRG DataProvider library](https://github.com/SRGSSR/srgdataprovider-ios) in your application, be sure to add the `SRGAnalytics_SRGDataProvider.framework` companion framework to your project as well, which will take care of all the process for you.
+Our services directly supply the custom analytics labels which need to be sent with media consumption measurements. If you are using our [SRG DataProvider library](https://github.com/SRGSSR/srgdataprovider-ios) in your application, be sure to add the `SRGAnalytics_SRGDataProvider.framework` companion framework to your project as well, which will take care of the whole process for you.
 
 This framework adds a category `SRGMediaPlayerController (SRGAnalytics_DataProvider)`, which adds playback methods for media compositions to `SRGMediaPlayerController`. To play a media composition retrieved from an `SRGDataProvider` and have all measurement information automatically associated with the playback, simply call:
 
@@ -225,6 +225,25 @@ Correctly conforming to all SRG SSR guidelines is not a trivial task, though. Pl
 Using the `SRGAnalytics_DataProvider.framework` companion framework is all you need to play a media with complete analytics information, right within an SRG Media Player controller instance.
 
 In the case you need to play a resource without an SRG Media Player controller instance (e.g. with Google Cast default receiver), the companion framework provides the `-[SRGMediaComposition playbackContextWithPreferredSettings:contextBlock:]` method, with which you can find the proper resource to play.
+
+## Automatic identity measurement labels using the SRG Identity library
+
+If you are using our [SRG Identity library](https://github.com/SRGSSR/srgidentity-ios) in your application, be sure to add the `SRGAnalytics_SRGIdentity.framework` companion framework to your project as well. This ensures that an identity can be automatically associated with analytics measurements.
+
+This framework adds a category `SRGAnalyticsTracker (SRGAnalytics_Identity)`, which provides an additional `-startWithConfiguration:identityService:` method to `SRGAnalyticsTracker`. To automatically asssociate an identity with analytics measurements, start your analytics tracker with this method instead of the orginal one:
+
+```objective-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    // ...
+    
+    SRGIdentityService.currentIdentityService = [[SRGIdentityService alloc] initWith...];
+    SRGAnalyticsConfiguration *configuration = [[SRGAnalyticsConfiguration alloc] initWith...];
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:configuration identityService:SRGIdentityService.currentIdentityService];
+                                                     
+    // ...
+}
+```
 
 ## Thread-safety
 

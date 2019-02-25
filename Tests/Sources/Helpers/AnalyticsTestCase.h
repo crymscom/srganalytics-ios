@@ -14,6 +14,11 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 @interface AnalyticsTestCase : XCTestCase
 
 /**
+ *  Expectation for general page view event notifications.
+ */
+- (XCTestExpectation *)expectationForPageViewEventNotificationWithHandler:(EventExpectationHandler)handler;
+
+/**
  *  Expectation for general hidden event notifications.
  */
 - (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(EventExpectationHandler)handler;
