@@ -4,23 +4,25 @@
 //  License information is available from the LICENSE file.
 //
 
-#import <objc/runtime.h>
-
 #import "SRGAnalyticsTracker+SRGAnalytics_Identity.h"
 
 #import "SRGAnalyticsTracker+Private.h"
+
+#import <objc/runtime.h>
 
 static void *s_analyticsIdentityServiceKey = &s_analyticsIdentityServiceKey;
 
 @implementation SRGAnalyticsTracker (SRGAnalytics_Identity)
 
-#pragma mark Getters and Setters
+#pragma mark Startup
 
 - (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration identityService:(SRGIdentityService *)identityService
 {
     self.identityService = identityService;
     [self startWithConfiguration:configuration];
 }
+
+#pragma mark Getters and Setters
 
 - (SRGIdentityService *)identityService
 {
@@ -39,7 +41,7 @@ static void *s_analyticsIdentityServiceKey = &s_analyticsIdentityServiceKey;
     
     objc_setAssociatedObject(self, s_analyticsIdentityServiceKey, identityService, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    [self setAccount:identityService.account];
+    [self updateWithAccount:identityService.account];
     
     if (identityService) {
         [NSNotificationCenter.defaultCenter addObserver:self
@@ -49,7 +51,9 @@ static void *s_analyticsIdentityServiceKey = &s_analyticsIdentityServiceKey;
     }
 }
 
-- (void)setAccount:(SRGAccount *)account
+#pragma mark Account data
+
+- (void)updateWithAccount:(SRGAccount *)account
 {
     if (account.uid) {
         self.globalLabels = [self.globalLabels mtl_dictionaryByAddingEntriesFromDictionary:@{ @"user_id" : account.uid }];
@@ -65,7 +69,7 @@ static void *s_analyticsIdentityServiceKey = &s_analyticsIdentityServiceKey;
 - (void)didUpdateAccount:(NSNotification *)notification
 {
     SRGAccount *account = notification.userInfo[SRGIdentityServiceAccountKey];
-    [self setAccount:account];
+    [self updateWithAccount:account];
 }
 
 @end
