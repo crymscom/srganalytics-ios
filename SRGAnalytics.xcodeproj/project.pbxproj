@@ -871,9 +871,9 @@
 		E65490AC1D803C3E007D96E7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				E65490AD1D803C3E007D96E7 /* Info.plist */,
 				E65490AE1D803C3E007D96E7 /* Sources */,
 				08EF59342221B772000E7446 /* TestApp */,
+				E65490AD1D803C3E007D96E7 /* Info.plist */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -881,12 +881,12 @@
 		E65490AE1D803C3E007D96E7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				E65490CD1D816A18007D96E7 /* Helpers */,
 				083EE17A1F2B86B600413A68 /* ComScoreDataProviderTestCase.m */,
 				6FD86FF41F2B1E34001ED20F /* ComScoreMediaPlayerTestCase.m */,
 				08539C251F306CAF0033D406 /* ComScoreTrackerTestCase.m */,
 				6FAE25F71F364E8B00874A53 /* ConfigurationTestCase.m */,
 				6FF3E22A1D9D2E9B00EB4A30 /* DataProviderTestCase.m */,
-				E65490CD1D816A18007D96E7 /* Helpers */,
 				6FEBF9371F8B5815005DD291 /* HiddenEventLabelsTestCase.m */,
 				08EF59292220CFEE000E7446 /* IdentityTestCase.m */,
 				E65490B11D803CA2007D96E7 /* MediaPlayerTestCase.m */,
