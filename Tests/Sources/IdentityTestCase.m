@@ -342,4 +342,27 @@ static NSURL *OnDemandTestURL(void)
     [self waitForExpectationsWithTimeout:30. handler:nil];
 }
 
+- (void)testHiddenEventForTrackerStartedWithLoggedInUser
+{
+    [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
+    [self expectationForNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
+    
+    [self.identityService handleCallbackURL:TestLoginCallbackURL(self.identityService, TestValidToken)];
+    
+    [self waitForExpectationsWithTimeout:5. handler:nil];
+    
+    SRGAnalyticsTracker *analyticsTracker = [SRGAnalyticsTracker new];
+    [analyticsTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
+    
+    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"user_is_logged"], @"true");
+        XCTAssertEqualObjects(labels[@"user_id"], TestUserId);
+        return YES;
+    }];
+    
+    [analyticsTracker trackHiddenEventWithName:@"Hidden event"];
+    
+    [self waitForExpectationsWithTimeout:30. handler:nil];
+}
+
 @end
