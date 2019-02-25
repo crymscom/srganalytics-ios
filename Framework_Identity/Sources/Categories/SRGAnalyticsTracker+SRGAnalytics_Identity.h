@@ -5,7 +5,7 @@
 //
 
 #import <SRGAnalytics/SRGAnalytics.h>
-#import <SRGidentity/SRGIdentity.h>
+#import <SRGIdentity/SRGIdentity.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
