@@ -5,7 +5,6 @@
 //
 
 #import "SRGAnalyticsTracker.h"
-#import "SRGAnalyticsTracker+Private.h"
 
 #import "NSBundle+SRGAnalytics.h"
 #import "NSMutableDictionary+SRGAnalytics.h"
@@ -34,7 +33,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 @property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
 @property (nonatomic) CSStreamSense *streamSense;
 
-@property (nonatomic, null_resettable) NSDictionary<NSString *, NSString *> *globalLabels;
+@property (nonatomic) NSDictionary<NSString *, NSString *> *globalLabels;
 
 @end
 
@@ -50,15 +49,6 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         s_sharedInstance = [SRGAnalyticsTracker new];
     });
     return s_sharedInstance;
-}
-
-#pragma mark Getters and Setters
-
-@synthesize globalLabels = _globalLabels;
-
-- (NSDictionary<NSString *,NSString *> *)globalLabels
-{
-    return _globalLabels ?: NSDictionary.new;
 }
 
 #pragma mark Start
@@ -183,13 +173,6 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 #pragma mark General event tracking (internal use only)
 
-- (void)trackEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
-              comScoreLabels:(NSDictionary<NSString *, NSString *> *)comScoreLabels
-{
-    [self trackTagCommanderEventWithLabels:labels];
-    [self trackComScoreEventWithLabels:comScoreLabels];
-}
-
 - (void)trackComScoreEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
     if (self.configuration.unitTesting) {
@@ -201,13 +184,12 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (void)trackTagCommanderEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
-    NSMutableDictionary *mutableLabels = labels.mutableCopy;
-    [mutableLabels addEntriesFromDictionary:self.globalLabels];
-    labels = mutableLabels.copy;
+    NSMutableDictionary<NSString *, NSString *> *allLabels = [self.globalLabels mutableCopy] ?: [NSMutableDictionary dictionary];
+    [allLabels addEntriesFromDictionary:labels];
     
-    // TagCommander might not initialized (for the test business unit)
+    // TagCommander might not be initialized (for the test business unit)
     if (self.tagCommander) {
-        [labels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [allLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
             [self.tagCommander addData:key withValue:object];
         }];
         [self.tagCommander sendData];
@@ -218,7 +200,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         // predefined variables, see https://github.com/TagCommander/pods/blob/master/TCSDK/PredefinedVariables.md
         [NSNotificationCenter.defaultCenter postNotificationName:SRGAnalyticsRequestNotification
                                                           object:self
-                                                        userInfo:@{ SRGAnalyticsLabelsKey : labels }];
+                                                        userInfo:@{ SRGAnalyticsLabelsKey : [allLabels copy] }];
     }
 }
 
