@@ -51,7 +51,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
     return s_sharedInstance;
 }
 
-#pragma mark Start
+#pragma mark Startup
 
 - (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {

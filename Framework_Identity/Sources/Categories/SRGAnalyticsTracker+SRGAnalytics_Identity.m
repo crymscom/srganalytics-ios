@@ -55,13 +55,10 @@ static void *s_analyticsIdentityServiceKey = &s_analyticsIdentityServiceKey;
 
 - (void)updateWithAccount:(SRGAccount *)account
 {
-    if (account.uid) {
-        self.globalLabels = [self.globalLabels mtl_dictionaryByAddingEntriesFromDictionary:@{ @"user_id" : account.uid }];
-    }
-    else {
-        self.globalLabels = [self.globalLabels mtl_dictionaryByRemovingValuesForKeys:@[ @"user_id" ]];
-    }
-    self.globalLabels = [self.globalLabels mtl_dictionaryByAddingEntriesFromDictionary:@{ @"user_is_logged" : (account.uid) ? @"true" : @"false" }];
+    NSMutableDictionary<NSString *, NSString *> *globalLabels = [self.globalLabels mutableCopy] ?: [NSMutableDictionary dictionary];
+    globalLabels[@"user_id"] = account.uid;
+    globalLabels[@"user_is_logged"] = account.uid ? @"true" : @"false";
+    self.globalLabels = [globalLabels copy];
 }
 
 #pragma mark Notifications
