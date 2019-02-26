@@ -31,7 +31,7 @@ static NSDictionary *s_startLabels = nil;
 
 - (XCTestExpectation *)expectationForComScoreViewEventNotificationWithHandler:(EventExpectationHandler)handler
 {
-    return [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+    return [self expectationForSingleNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
         
         NSString *type = labels[@"ns_type"];
@@ -80,7 +80,7 @@ static NSDictionary *s_startLabels = nil;
     }];
     
     // Test NetMetrix notification as well. Not tested elsewhere since always the same
-    [self expectationForNotification:SRGAnalyticsNetmetrixRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+    [self expectationForSingleNotification:SRGAnalyticsNetmetrixRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSURL *URL = notification.userInfo[SRGAnalyticsNetmetrixURLKey];
         XCTAssertTrue([URL.absoluteString containsString:@"/apps/test/ios/"]);
         return YES;

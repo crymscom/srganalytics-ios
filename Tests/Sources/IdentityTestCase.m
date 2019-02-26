@@ -199,7 +199,7 @@ static NSURL *OnDemandTestURL(void)
 {
     [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
-    [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:^BOOL(NSNotification * _Nonnull notification) {
+    [self expectationForSingleNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:^BOOL(NSNotification * _Nonnull notification) {
         XCTAssertTrue([NSThread isMainThread]);
         return YES;
     }];
@@ -223,8 +223,8 @@ static NSURL *OnDemandTestURL(void)
 {
     [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
-    [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
-    [self expectationForNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
+    [self expectationForSingleNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
+    [self expectationForSingleNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
     
     [self.identityService handleCallbackURL:TestLoginCallbackURL(self.identityService, TestValidToken)];
     
@@ -245,14 +245,14 @@ static NSURL *OnDemandTestURL(void)
 {
     [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
-    [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
-    [self expectationForNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
+    [self expectationForSingleNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
+    [self expectationForSingleNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
     
     [self.identityService handleCallbackURL:TestLoginCallbackURL(self.identityService, TestValidToken)];
     
     [self waitForExpectationsWithTimeout:5. handler:nil];
     
-    [self expectationForNotification:SRGIdentityServiceUserDidLogoutNotification object:self.identityService handler:^BOOL(NSNotification * _Nonnull notification) {
+    [self expectationForSingleNotification:SRGIdentityServiceUserDidLogoutNotification object:self.identityService handler:^BOOL(NSNotification * _Nonnull notification) {
         XCTAssertTrue([NSThread isMainThread]);
         XCTAssertTrue([notification.userInfo[SRGIdentityServiceUnauthorizedKey] boolValue]);
         return YES;
@@ -277,8 +277,8 @@ static NSURL *OnDemandTestURL(void)
 {
     [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
-    [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
-    [self expectationForNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
+    [self expectationForSingleNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
+    [self expectationForSingleNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
     
     [self.identityService handleCallbackURL:TestLoginCallbackURL(self.identityService, TestValidToken)];
     
@@ -301,8 +301,8 @@ static NSURL *OnDemandTestURL(void)
 {
     [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
-    [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
-    [self expectationForNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
+    [self expectationForSingleNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
+    [self expectationForSingleNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
     
     [self.identityService handleCallbackURL:TestLoginCallbackURL(self.identityService, TestValidToken)];
     
@@ -324,8 +324,8 @@ static NSURL *OnDemandTestURL(void)
 {
     [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
-    [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
-    [self expectationForNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
+    [self expectationForSingleNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
+    [self expectationForSingleNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
     
     [self.identityService handleCallbackURL:TestLoginCallbackURL(self.identityService, TestValidToken)];
     
@@ -344,8 +344,8 @@ static NSURL *OnDemandTestURL(void)
 
 - (void)testHiddenEventForTrackerStartedWithLoggedInUser
 {
-    [self expectationForNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
-    [self expectationForNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
+    [self expectationForSingleNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:nil];
+    [self expectationForSingleNotification:SRGIdentityServiceDidUpdateAccountNotification object:self.identityService handler:nil];
     
     [self.identityService handleCallbackURL:TestLoginCallbackURL(self.identityService, TestValidToken)];
     

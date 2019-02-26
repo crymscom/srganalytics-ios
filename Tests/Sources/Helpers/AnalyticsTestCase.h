@@ -14,6 +14,12 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 @interface AnalyticsTestCase : XCTestCase
 
 /**
+ *  Replacement for the buggy `-expectationForSingleNotification:object:handler:`, catching notifications only once.
+ *  See http://openradar.appspot.com/radar?id=4976563959365632.
+ */
+- (XCTestExpectation *)expectationForSingleNotification:(NSNotificationName)notificationName object:(nullable id)objectToObserve handler:(nullable XCNotificationExpectationHandler)handler;
+
+/**
  *  Expectation for general page view event notifications.
  */
 - (XCTestExpectation *)expectationForPageViewEventNotificationWithHandler:(EventExpectationHandler)handler;

@@ -19,9 +19,31 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 
 #pragma mark Helpers
 
+- (XCTestExpectation *)expectationForSingleNotification:(NSNotificationName)notificationName object:(id)objectToObserve handler:(XCNotificationExpectationHandler)handler
+{
+    NSString *description = [NSString stringWithFormat:@"Expectation for notification '%@' from object %@", notificationName, objectToObserve];
+    XCTestExpectation *expectation = [self expectationWithDescription:description];
+    __block id observer = [NSNotificationCenter.defaultCenter addObserverForName:notificationName object:objectToObserve queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
+        void (^fulfill)(void) = ^{
+            [expectation fulfill];
+            [NSNotificationCenter.defaultCenter removeObserver:observer];
+        };
+        
+        if (handler) {
+            if (handler(notification)) {
+                fulfill();
+            }
+        }
+        else {
+            fulfill();
+        }
+    }];
+    return expectation;
+}
+
 - (XCTestExpectation *)expectationForPageViewEventNotificationWithHandler:(EventExpectationHandler)handler
 {
-    return [self expectationForNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+    return [self expectationForSingleNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
         
         NSString *event = labels[@"event_id"];
@@ -36,7 +58,7 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 
 - (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(EventExpectationHandler)handler
 {
-    return [self expectationForNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+    return [self expectationForSingleNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
         
         NSString *event = labels[@"event_id"];
@@ -50,7 +72,7 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 
 - (XCTestExpectation *)expectationForHiddenPlaybackEventNotificationWithHandler:(EventExpectationHandler)handler
 {
-    return [self expectationForNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+    return [self expectationForSingleNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
         
         static dispatch_once_t s_onceToken;
@@ -71,7 +93,7 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 
 - (XCTestExpectation *)expectationForComScoreHiddenEventNotificationWithHandler:(EventExpectationHandler)handler
 {
-    return [self expectationForNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+    return [self expectationForSingleNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
         
         NSString *type = labels[@"ns_type"];
