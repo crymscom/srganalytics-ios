@@ -13,8 +13,9 @@
 #import <libextobjc/libextobjc.h>
 #import <SRGContentProtection/SRGContentProtection.h>
 
-static NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
+static NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaComposition";
 static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMediaPlayerResource";
+static NSString * const SRGAnalyticsMediaPlayerSourceUidKey = @"SRGAnalyticsMediaPlayerSourceUid";
 
 @implementation SRGMediaPlayerController (SRGAnalytics_DataProvider)
 
@@ -39,6 +40,7 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
         NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
         fullUserInfo[SRGAnalyticsMediaPlayerMediaCompositionKey] = mediaComposition;
         fullUserInfo[SRGAnalyticsMediaPlayerResourceKey] = resource;
+        fullUserInfo[SRGAnalyticsMediaPlayerSourceUidKey] = preferredSettings.sourceUid;
         if (userInfo) {
             [fullUserInfo addEntriesFromDictionary:userInfo];
         }
@@ -84,7 +86,7 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
     // Synchronize analytics labels
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(self.resource.quality)];
     SRGResource *resource = [[mediaComposition.mainChapter resourcesForStreamingMethod:self.resource.streamingMethod] filteredArrayUsingPredicate:predicate].firstObject;
-    self.analyticsLabels = [mediaComposition analyticsLabelsForResource:resource];
+    self.analyticsLabels = [mediaComposition analyticsLabelsForResource:resource sourceUid:self.userInfo[SRGAnalyticsMediaPlayerSourceUidKey]];
     
     self.segments = mediaComposition.mainChapter.segments;
 }
