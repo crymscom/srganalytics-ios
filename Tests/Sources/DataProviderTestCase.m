@@ -944,12 +944,12 @@ static NSURL *MMFTestURL(void)
         
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:802df764-3044-488e-aff0-fca3cdec85ff");
-        XCTAssertEqualObjects(labels[@"source_id"], @"An other SRF source unique id");
+        XCTAssertEqualObjects(labels[@"source_id"], @"Another SRF source unique id");
         return YES;
     }];
     
     SRGPlaybackSettings *playbackSettings = [[SRGPlaybackSettings alloc] init];
-    playbackSettings.sourceUid = @"An other SRF source unique id";
+    playbackSettings.sourceUid = @"Another SRF source unique id";
     [self.mediaPlayerController playMediaComposition:[fetchedMediaComposition mediaCompositionForSubdivision:chapter1] atPosition:nil withPreferredSettings:playbackSettings userInfo:nil];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];

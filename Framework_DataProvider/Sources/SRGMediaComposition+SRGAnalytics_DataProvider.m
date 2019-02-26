@@ -30,9 +30,7 @@
     if (resource.analyticsLabels) {
         [customInfo addEntriesFromDictionary:resource.analyticsLabels];
     }
-    if (sourceUid) {
-        [customInfo addEntriesFromDictionary:@{ @"source_id" : sourceUid }];
-    }
+    customInfo[@"source_id"] = sourceUid;
     labels.customInfo = [customInfo copy];
     
     NSMutableDictionary<NSString *, NSString *> *comScoreCustomInfo = [NSMutableDictionary dictionary];

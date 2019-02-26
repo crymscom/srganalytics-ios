@@ -64,7 +64,7 @@
     settings.quality = SRGQualityNone;
     settings.DRM = NO;
     settings.startBitRate = SRGDefaultStartBitRate;
-    settings.sourceUid = @"An other source unique id";
+    settings.sourceUid = @"Another source unique id";
     
     // Check that the copy is identical to the original
     XCTAssertEqual(settingsCopy.streamingMethod, SRGStreamingMethodHLS);
