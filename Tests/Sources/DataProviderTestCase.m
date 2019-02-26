@@ -9,6 +9,7 @@
 // Private header
 #import "SRGResource+SRGAnalytics_DataProvider.h"
 
+#import <libextobjc/libextobjc.h>
 #import <SRGAnalytics_DataProvider/SRGAnalytics_DataProvider.h>
 #import <SRGContentProtection/SRGContentProtection.h>
 
@@ -816,6 +817,203 @@ static NSURL *MMFTestURL(void)
         XCTAssertTrue(success);
         [expectation fulfill];
     }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testPlayMediaCompositionWithSourceUid
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:swi:video:42297626");
+        XCTAssertEqualObjects(labels[@"source_id"], @"SWI source unique id");
+        return YES;
+    }];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
+    
+    [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        SRGPlaybackSettings *playbackSettings = [[SRGPlaybackSettings alloc] init];
+        playbackSettings.sourceUid = @"SWI source unique id";
+        [self.mediaPlayerController playMediaComposition:mediaComposition atPosition:nil withPreferredSettings:playbackSettings userInfo:nil];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testPlaySegmentInMediaCompositionWithSourceUid
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:84043ead-6e5a-4a05-875c-c1aa2998aa43");
+        XCTAssertEqualObjects(labels[@"source_id"], @"SRF source unique id");
+        return YES;
+    }];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
+    
+    [[dataProvider mediaCompositionForURN:@"urn:srf:video:84043ead-6e5a-4a05-875c-c1aa2998aa43" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        SRGPlaybackSettings *playbackSettings = [[SRGPlaybackSettings alloc] init];
+        playbackSettings.sourceUid = @"SRF source unique id";
+        [self.mediaPlayerController playMediaComposition:mediaComposition atPosition:nil withPreferredSettings:playbackSettings userInfo:nil];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testSeekToSegmentInMediaCompositionWithSourceUid
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:84043ead-6e5a-4a05-875c-c1aa2998aa43");
+        XCTAssertEqualObjects(labels[@"source_id"], @"SRF source unique id");
+        return YES;
+    }];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
+    
+    __block SRGMediaComposition *fetchedMediaComposition = nil;
+    [[dataProvider mediaCompositionForURN:@"urn:srf:video:84043ead-6e5a-4a05-875c-c1aa2998aa43" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        fetchedMediaComposition = mediaComposition;
+        
+        SRGPlaybackSettings *playbackSettings = [[SRGPlaybackSettings alloc] init];
+        playbackSettings.sourceUid = @"SRF source unique id";
+        [self.mediaPlayerController playMediaComposition:mediaComposition atPosition:nil withPreferredSettings:playbackSettings userInfo:nil];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGSegment.new, URN), @"urn:srf:video:802df764-3044-488e-aff0-fca3cdec85ff"];
+    SRGSegment *segment = [fetchedMediaComposition.mainChapter.segments filteredArrayUsingPredicate:predicate].firstObject;
+    XCTAssertNotNil(segment);
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if (! [labels[@"event_id"] isEqualToString:@"play"]) {
+            return NO;
+        }
+        
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:802df764-3044-488e-aff0-fca3cdec85ff");
+        XCTAssertEqualObjects(labels[@"source_id"], @"SRF source unique id");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController seekToPosition:nil inSegment:segment withCompletionHandler:^(BOOL finished) {
+        XCTAssertEqual(finished, YES);
+    }];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testSwitchChapterInMediaCompositionWithSourceUid
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:84043ead-6e5a-4a05-875c-c1aa2998aa43");
+        XCTAssertEqualObjects(labels[@"source_id"], @"SRF source unique id");
+        return YES;
+    }];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
+    
+    __block SRGMediaComposition *fetchedMediaComposition = nil;
+    [[dataProvider mediaCompositionForURN:@"urn:srf:video:84043ead-6e5a-4a05-875c-c1aa2998aa43" standalone:YES withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        fetchedMediaComposition = mediaComposition;
+        
+        SRGPlaybackSettings *playbackSettings = [[SRGPlaybackSettings alloc] init];
+        playbackSettings.sourceUid = @"SRF source unique id";
+        [self.mediaPlayerController playMediaComposition:mediaComposition atPosition:nil withPreferredSettings:playbackSettings userInfo:nil];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGChapter.new, URN), @"urn:srf:video:802df764-3044-488e-aff0-fca3cdec85ff"];
+    SRGChapter *chapter1 = [fetchedMediaComposition.chapters filteredArrayUsingPredicate:predicate1].firstObject;
+    XCTAssertNotNil(chapter1);
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if (! [labels[@"event_id"] isEqualToString:@"play"]) {
+            return NO;
+        }
+        
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:802df764-3044-488e-aff0-fca3cdec85ff");
+        XCTAssertEqualObjects(labels[@"source_id"], @"An other SRF source unique id");
+        return YES;
+    }];
+    
+    SRGPlaybackSettings *playbackSettings = [[SRGPlaybackSettings alloc] init];
+    playbackSettings.sourceUid = @"An other SRF source unique id";
+    [self.mediaPlayerController playMediaComposition:[fetchedMediaComposition mediaCompositionForSubdivision:chapter1] atPosition:nil withPreferredSettings:playbackSettings userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGChapter.new, URN), @"urn:srf:video:6ca4aaed-cc8a-4568-be5a-773afd20bbcf"];
+    SRGChapter *chapter2 = [fetchedMediaComposition.chapters filteredArrayUsingPredicate:predicate2].firstObject;
+    XCTAssertNotNil(chapter2);
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if (! [labels[@"event_id"] isEqualToString:@"play"]) {
+            return NO;
+        }
+        
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:6ca4aaed-cc8a-4568-be5a-773afd20bbcf");
+        XCTAssertNil(labels[@"source_id"]);
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playMediaComposition:[fetchedMediaComposition mediaCompositionForSubdivision:chapter2] atPosition:nil withPreferredSettings:nil userInfo:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testUpdateMediaCompositionWithSourceUid
+{
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:swi:video:42297626");
+        XCTAssertEqualObjects(labels[@"source_id"], @"SWI source unique id");
+        return YES;
+    }];
+    
+    SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
+    
+    [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        SRGPlaybackSettings *playbackSettings = [[SRGPlaybackSettings alloc] init];
+        playbackSettings.sourceUid = @"SWI source unique id";
+        [self.mediaPlayerController playMediaComposition:mediaComposition atPosition:nil withPreferredSettings:playbackSettings userInfo:nil];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition updated"];
+    
+    [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
+        XCTAssertNotNil(mediaComposition);
+        
+        self.mediaPlayerController.mediaComposition = mediaComposition;
+        [expectation fulfill];
+    }] resume];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"pause");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:swi:video:42297626");
+        XCTAssertEqualObjects(labels[@"source_id"], @"SWI source unique id");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController pause];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
