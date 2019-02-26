@@ -72,7 +72,7 @@ static NSURL *MMFTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePaused);
     
     // Start playback and check labels
-    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_segment"], @"Archive footage of the man and his moods");
         XCTAssertEqualObjects(labels[@"media_streaming_quality"], @"HD");
@@ -146,7 +146,7 @@ static NSURL *MMFTestURL(void)
 - (void)testPlaySegmentInMediaComposition
 {
     // Use a segment id as video id, expect segment labels
-    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_segment"], @"Der Neue ist der Alte");
         XCTAssertEqualObjects(labels[@"media_streaming_quality"], @"HD");
@@ -178,7 +178,7 @@ static NSURL *MMFTestURL(void)
         return;
     }
     
-    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_segment"], @"Livestream");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:rts:video:8841634");
@@ -204,7 +204,7 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlay360InMediaComposition
 {
-    [self expectationForHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:rts:video:8414077");
         return YES;
