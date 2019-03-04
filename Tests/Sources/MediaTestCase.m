@@ -40,7 +40,7 @@
 
 - (void)testTokenProtectedOnDemandVideoRSI
 {
-    [self playMediaWithURN:@"urn:rsi:video:11500043"];
+    [self playMediaWithURN:@"urn:rsi:video:11498675"];
 }
 
 - (void)testUnprotectedOnDemandAudioRSI
