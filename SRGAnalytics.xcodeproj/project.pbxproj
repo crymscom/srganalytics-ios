@@ -746,13 +746,13 @@
 		9F1518B21AC2F1CE00AE051D = {
 			isa = PBXGroup;
 			children = (
-				E6FC7F031D61FA4700A55085 /* Demo */,
-				E66F8A701D62DC570004EB58 /* DemoTests */,
 				E69A202D1D61E5E80064E6C1 /* Framework */,
+				E61C0D5E1D61EFD200AEAE6D /* Framework_MediaPlayer */,
 				6FB331F41D9BFB77001469F2 /* Framework_DataProvider */,
 				08EF58D92220A6F0000E7446 /* Framework_Identity */,
-				E61C0D5E1D61EFD200AEAE6D /* Framework_MediaPlayer */,
 				E65490AC1D803C3E007D96E7 /* Tests */,
+				E66F8A701D62DC570004EB58 /* DemoTests */,
+				E6FC7F031D61FA4700A55085 /* Demo */,
 				AC99606425BE818BA71D7E4D /* Frameworks */,
 				9F1518BC1AC2F1CE00AE051D /* Products */,
 			);
