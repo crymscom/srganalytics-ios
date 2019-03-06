@@ -11,7 +11,6 @@
 
 #import <libextobjc/libextobjc.h>
 #import <SRGAnalytics_DataProvider/SRGAnalytics_DataProvider.h>
-#import <SRGContentProtection/SRGContentProtection.h>
 
 static NSURL *ServiceTestURL(void)
 {
@@ -174,11 +173,6 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlayLivestreamInMediaComposition
 {
-    if (SRGContentProtectionIsPublic()) {
-        NSLog(@"Test disabled. Test stream not available in a public setup.");
-        return;
-    }
-    
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_segment"], @"Livestream");
@@ -229,11 +223,6 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlay360AndFlatInMediaComposition
 {
-    if (SRGContentProtectionIsPublic()) {
-        NSLog(@"Test disabled. Test stream not available in a public setup.");
-        return;
-    }
-    
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"play");
         return YES;
@@ -337,7 +326,7 @@ static NSURL *MMFTestURL(void)
     }];
     
     __block SRGMediaComposition *fetchedMediaComposition4 = nil;
-    [[dataProvider mediaCompositionForURN:@"urn:rts:video:_rts_info" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
+    [[dataProvider mediaCompositionForURN:@"urn:rts:video:10254787" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         fetchedMediaComposition4 = mediaComposition;
         
@@ -498,11 +487,6 @@ static NSURL *MMFTestURL(void)
 
 - (void)testMediaCompositionUpdateWithNewSegment
 {
-    if (SRGContentProtectionIsPublic()) {
-        NSLog(@"Test disabled. Test stream not available in a public setup.");
-        return;
-    }
-    
     [self expectationForSingleNotification:SRGMediaPlayerPlaybackStateDidChangeNotification object:self.mediaPlayerController handler:^BOOL(NSNotification * _Nonnull notification) {
         return [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue] == SRGMediaPlayerPlaybackStatePlaying;
     }];
@@ -511,7 +495,7 @@ static NSURL *MMFTestURL(void)
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
     NSDate *startDate = [NSDate.date dateByAddingTimeInterval:-6];
     NSDate *endDate = [startDate dateByAddingTimeInterval:20];
-    NSString *URN = [NSString stringWithFormat:@"urn:rts:video:_rts_info_fulldvr_%@_%@", @((NSInteger)[startDate timeIntervalSince1970]), @((NSInteger)[endDate timeIntervalSince1970])];
+    NSString *URN = [NSString stringWithFormat:@"urn:rts:video:_tagesschau24_ard_fulldvr_%@_%@", @((NSInteger)[startDate timeIntervalSince1970]), @((NSInteger)[endDate timeIntervalSince1970])];
     [[dataProvider mediaCompositionForURN:URN standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
         XCTAssertNotNil(mediaComposition);
         fetchedMediaComposition1 = mediaComposition;
