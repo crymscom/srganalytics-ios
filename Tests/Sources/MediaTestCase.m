@@ -7,6 +7,7 @@
 #import "AnalyticsTestCase.h"
 
 #import <SRGAnalytics_DataProvider/SRGAnalytics_DataProvider.h>
+#import <SRGContentProtection/SRGContentProtection.h>
 
 /**
  *  Tests for common media flavors. Almost no livestream tests are made (since almost all of them require FairPlay).
@@ -40,6 +41,11 @@
 
 - (void)testTokenProtectedOnDemandVideoRSI
 {
+    if (SRGContentProtectionIsPublic()) {
+        NSLog(@"Test disabled. Test stream not available in a public setup.");
+        return;
+    }
+    
     [self playMediaWithURN:@"urn:rsi:video:11498675"];
 }
 
@@ -67,6 +73,11 @@
 
 - (void)testTokenProtectedOnDemandVideoRTS
 {
+    if (SRGContentProtectionIsPublic()) {
+        NSLog(@"Test disabled. Test stream not available in a public setup.");
+        return;
+    }
+    
     [self playMediaWithURN:@"urn:rts:video:10260786"];
 }
 
