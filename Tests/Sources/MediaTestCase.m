@@ -57,7 +57,7 @@
 
 - (void)testUnprotectedOnDemandVideoRTS
 {
-    [self playMediaWithURN:@"urn:rts:video:10260786"];
+    [self playMediaWithURN:@"urn:rts:video:10246693"];
 }
 
 - (void)testUnprotectedOnDemand360VideoRTS
