@@ -94,19 +94,13 @@ Depending on your needs, the library requires the following frameworks to be add
   * `TCSDK`: The main TagCommander SDK framework.
 * If you use our [SRG Identity library](https://github.com/SRGSSR/srgidentity-ios) in your application, add the following frameworks to your target:
   * `ComScore`: comScore framework.
-  * `FXReachability`: A reachability framework.
   * `libextobjc`: An utility framework.
   * `MAKVONotificationCenter`: A safe KVO framework.
-  * `Mantle`: The framework used to parse the data.
-  * `Masonry`: An autolayout framework.
   * `SRGAnalytics`: The main analytics framework.
   * `SRGAnalytics_Identity`: The identity analytics companion framework.
-  * `SRGIdentity`: The identity library framework.
   * `SRGLogger`: The framework used for internal logging.
-  * `SRGNetwork`: A networking framework.
   * `TCCore`: The core TagCommander framework.
   * `TCSDK`: The main TagCommander SDK framework.
-  * `UICKeyChainStore`: The framework used to manage the keychain.
 
 ### Dynamic framework integration
 
