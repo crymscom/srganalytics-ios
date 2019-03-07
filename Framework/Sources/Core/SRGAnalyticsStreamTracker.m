@@ -7,6 +7,7 @@
 #import "SRGAnalyticsStreamTracker.h"
 
 #import "NSMutableDictionary+SRGAnalytics.h"
+#import "SCORStreamingAnalytics+SRGAnalytics.h"
 #import "SRGAnalyticsTracker+Private.h"
 
 #import <ComScore/ComScore.h>
@@ -16,7 +17,7 @@
 
 @property (nonatomic, getter=isLivestream) BOOL livestream;
 
-@property (nonatomic) CSStreamSense *streamSense;
+@property (nonatomic) SCORStreamingAnalytics *streamingAnalytics;
 
 @property (nonatomic, getter=isComScoreSessionAlive) BOOL comScoreSessionAlive;
 @property (nonatomic) SRGAnalyticsStreamState previousPlayerState;
@@ -32,15 +33,16 @@
 @implementation SRGAnalyticsStreamTracker
 
 #pragma mark Object lifecycle
-
+//
 - (instancetype)initForLivestream:(BOOL)livestream
 {
     if (self = [super init]) {
         self.livestream = livestream;
         
         // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
-        self.streamSense = [[CSStreamSense alloc] init];
-        [self.streamSense setKeepAliveInterval:9 * 60];
+        self.streamingAnalytics = [[SCORStreamingAnalytics alloc] init];
+        self.streamingAnalytics.keepAliveInterval = 9. * 60.;
+        [self.streamingAnalytics createPlaybackSession];
         
         self.previousPlayerState = SRGAnalyticsStreamStateEnded;
     }
@@ -80,50 +82,60 @@
                              position:(NSTimeInterval)position
                                labels:(SRGAnalyticsStreamLabels *)labels
 {
+    // TODO:
+    // - setDVRWindowLength and setDVRWindowOffset (Streaming PDF, section 2.3.2). Is it ok to set those to 0 if the
+    //   stream is an on-demand one? What are the exact rules to apply? (the documentation is not really clear)
+    // - Seek and buffering events?
+    // - Do we still need to nil labels as done below? Is there a cleaner way?
+    // - Pass labels to srg_notifyEvent? If not useful and set on the session, remove the parameter
+    
     // Ensure a play is emitted before events requiring a session to be opened (the comScore SDK does not open sessions
     // automatically)
+    // TODO: Still required with comScore 5?
     if (! self.comScoreSessionAlive && (state == SRGAnalyticsStreamStatePaused || state == SRGAnalyticsStreamStateSeeking)) {
         [self updateComScoreWithStreamState:SRGAnalyticsStreamStatePlaying position:position labels:labels];
     }
     
     static dispatch_once_t s_onceToken;
-    static NSDictionary<NSNumber *, NSNumber *> *s_streamSenseEvents;
+    static NSDictionary<NSNumber *, NSNumber *> *s_events;
     dispatch_once(&s_onceToken, ^{
-        s_streamSenseEvents = @{ @(SRGAnalyticsStreamStatePlaying) : @(CSStreamSensePlay),
-                                 @(SRGAnalyticsStreamStatePaused) : @(CSStreamSensePause),
-                                 @(SRGAnalyticsStreamStateSeeking) : @(CSStreamSensePause),
-                                 @(SRGAnalyticsStreamStateStopped) : @(CSStreamSenseEnd),
-                                 @(SRGAnalyticsStreamStateEnded) : @(CSStreamSenseEnd) };
+        s_events = @{ @(SRGAnalyticsStreamStatePlaying) : @(SCORStreamingAnalyticsEventPlay),
+                      @(SRGAnalyticsStreamStatePaused) : @(SCORStreamingAnalyticsEventPause),
+                      @(SRGAnalyticsStreamStateSeeking) : @(SCORStreamingAnalyticsEventPause),
+                      @(SRGAnalyticsStreamStateStopped) : @(SCORStreamingAnalyticsEventEnd),
+                      @(SRGAnalyticsStreamStateEnded) : @(SCORStreamingAnalyticsEventEnd) };
     });
     
-    NSNumber *eventTypeValue = s_streamSenseEvents[@(state)];
-    if (! eventTypeValue) {
+    NSNumber *eventValue = s_events[@(state)];
+    if (! eventValue) {
         return;
     }
     
-    [[self.streamSense labels] removeAllObjects];
-    [[labels comScoreLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [self.streamSense setLabel:key value:object];
+    SCORStreamingPlaybackSession *playbackSession = self.streamingAnalytics.playbackSession;
+    [playbackSession setLabels:nil];
+    [[labels comScoreLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull name, NSString * _Nonnull value, BOOL * _Nonnull stop) {
+        [playbackSession setLabelWithName:name value:value];
     }];
     
     // Reset clip labels to avoid inheriting from a previous segment. This does not reset internal hidden comScore labels
     // (e.g. ns_st_pa), which would otherwise be incorrect
-    [[[self.streamSense clip] labels] removeAllObjects];
-    [[labels comScoreSegmentLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [[self.streamSense clip] setLabel:key value:object];
+    SCORStreamingAsset *asset = playbackSession.asset;
+    [asset setLabels:nil];
+    [[labels comScoreSegmentLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull name, NSString * _Nonnull value, BOOL * _Nonnull stop) {
+        [asset setLabelWithName:name withValue:value];
     }];
     
     if (self.livestream) {
         position = 0;
     }
     
-    CSStreamSenseEventType eventType = eventTypeValue.intValue;
-    [self.streamSense notify:eventType position:position labels:nil /* already set on the stream and clip objects */];
+    SCORStreamingAnalyticsEvent event = eventValue.intValue;
+    [self.streamingAnalytics srg_notifyEvent:event withPosition:position labels:nil  /* already set on the stream and clip objects */];
     
-    if (eventType == CSStreamSensePlay) {
+    if (event == SCORStreamingAnalyticsEventPlay) {
         self.comScoreSessionAlive = YES;
     }
-    else if (eventType == CSStreamSenseEnd) {
+    else if (event == SCORStreamingAnalyticsEventEnd) {
         self.comScoreSessionAlive = NO;
     }
 }

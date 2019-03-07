@@ -16,7 +16,6 @@
 #import "UIViewController+SRGAnalytics.h"
 
 #import <ComScore/ComScore.h>
-#import <ComScore/CSTaskExecutor.h>
 #import <TCCore/TCCore.h>
 #import <TCSDK/TCSDK.h>
 
@@ -31,7 +30,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 @property (nonatomic) TagCommander *tagCommander;
 @property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
-@property (nonatomic) CSStreamSense *streamSense;
+@property (nonatomic) SCORStreamingAnalytics *streamSense;
 
 @property (nonatomic) NSDictionary<NSString *, NSString *> *globalLabels;
 
@@ -82,22 +81,24 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         return;
     }
     
-    [CSComScore setAppContext];
-    [CSComScore setSecure:YES];
-    [CSComScore setCustomerC2:@"6036016"];
-    [CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
-    [CSComScore enableAutoUpdate:60 foregroundOnly:NO];     //60 is the Comscore default interval value
-    
-    NSString *applicationName = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleName"];
-    if (applicationName) {
-        [CSComScore setAutoStartLabels:@{ @"name": applicationName }];
-    }
-    
-    [CSComScore setLabels:[self comscoreGlobalLabelsWithConfiguration:configuration]];
-    
-    // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
-    self.streamSense = [[CSStreamSense alloc] init];
-    [self.streamSense setKeepAliveInterval:9 * 60];
+    // TODO: Other configuration settings? startLabels? persistentLabels?
+    SCORPublisherConfiguration *publisherConfiguration = [SCORPublisherConfiguration publisherConfigurationWithBuilderBlock:^(SCORPublisherConfigurationBuilder *builder) {
+        builder.publisherId = @"6036016";
+        builder.publisherSecret = @"fee16147939462a9b6faa0944ad832d1";
+        
+        builder.applicationName = [[NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleExecutable"] stringByAppendingString:@" iOS"];
+        builder.applicationVersion = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+        
+        builder.vce = NO;
+        builder.secureTransmission = YES;
+        builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundAndBackground;
+        
+        // See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/721420782/ComScore+-+Media+Metrix+Report
+        // Coding Document for Video Players, page 16
+        builder.httpRedirectCaching = NO;
+    }];
+    [[SCORAnalytics configuration] addClientWithConfiguration:publisherConfiguration];
+    [SCORAnalytics start];
 }
 
 - (void)startNetmetrixTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
@@ -106,36 +107,6 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 }
 
 #pragma mark Labels
-
-- (NSDictionary<NSString *, NSString *> *)comscoreGlobalLabelsWithConfiguration:(SRGAnalyticsConfiguration *)configuration
-{
-    NSBundle *mainBundle = NSBundle.mainBundle;
-    
-    NSString *appName = [[mainBundle objectForInfoDictionaryKey:@"CFBundleExecutable"] stringByAppendingString:@" iOS"];
-    NSString *appLanguage = mainBundle.preferredLocalizations.firstObject ?: @"fr";
-    NSString *appVersion = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    
-    NSMutableDictionary<NSString *, NSString *> *globalLabels = [@{ @"ns_ap_an" : appName,
-                                                                    @"ns_ap_lang" : [NSLocale canonicalLanguageIdentifierFromString:appLanguage],
-                                                                    @"ns_ap_ver" : appVersion,
-                                                                    @"srg_unit" : configuration.businessUnitIdentifier.uppercaseString,
-                                                                    @"srg_ap_push" : @"0",
-                                                                    @"ns_site" : @"mainsite",                                          // The 'mainsite' is a constant value. If wrong, everything is screwed.
-                                                                    @"ns_vsite" : configuration.comScoreVirtualSite,                   // The virtual site 'vsite' is associated with the app. It is created by comScore
-                                                                    @"ns_st_pu" : SRGAnalyticsMarketingVersion() } mutableCopy];
-    
-    if (configuration.unitTesting) {
-        static NSString *s_debugTimestamp;
-        static dispatch_once_t s_onceToken;
-        dispatch_once(&s_onceToken, ^{
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"yyyy-MM-dd'@'HH:mm:ss";
-            s_debugTimestamp = [dateFormatter stringFromDate:NSDate.date];
-        });
-        globalLabels[@"srg_test"] = s_debugTimestamp;
-    }
-    return [globalLabels copy];
-}
 
 - (NSString *)pageIdWithTitle:(NSString *)title levels:(NSArray<NSString *> *)levels
 {
@@ -179,7 +150,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         return;
     }
     
-    [CSComScore hiddenWithLabels:labels];
+    [SCORAnalytics notifyHiddenEventWithLabels:labels];
 }
 
 - (void)trackTagCommanderEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
@@ -266,7 +237,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         category = [levelsComScoreFormattedString copy];
     }
     
-    [pageViewLabelsDictionary srg_safelySetString:category forKey:@"category"];
+    [pageViewLabelsDictionary srg_safelySetString:category forKey:@"ns_category"];
     [pageViewLabelsDictionary srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"name"];
     
     NSDictionary<NSString *, NSString *> *comScoreLabelsDictionary = [labels comScoreLabelsDictionary];
@@ -274,7 +245,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         [pageViewLabelsDictionary addEntriesFromDictionary:comScoreLabelsDictionary];
     }
     
-    [CSComScore viewWithLabels:pageViewLabelsDictionary];
+    [SCORAnalytics notifyViewEventWithLabels:pageViewLabelsDictionary];
 }
 
 - (void)trackTagCommanderPageViewWithTitle:(NSString *)title
@@ -346,7 +317,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         [hiddenEventLabelsDictionary addEntriesFromDictionary:comScoreLabelsDictionary];
     }
     
-    [CSComScore hiddenWithLabels:hiddenEventLabelsDictionary];
+    [SCORAnalytics notifyHiddenEventWithLabels:hiddenEventLabelsDictionary];
 }
 
 - (void)trackTagCommanderHiddenEventWithName:(NSString *)name labels:(SRGAnalyticsHiddenEventLabels *)labels

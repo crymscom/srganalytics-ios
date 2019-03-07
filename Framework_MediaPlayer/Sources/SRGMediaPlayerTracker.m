@@ -361,7 +361,7 @@ static NSMutableDictionary *s_trackers = nil;
         
         s_trackers[key] = tracker;
         if (s_trackers.count == 1) {
-            [CSComScore onUxActive];
+            [SCORAnalytics notifyUxActive];
         }
         
         [tracker start];
@@ -380,7 +380,7 @@ static NSMutableDictionary *s_trackers = nil;
             
             [s_trackers removeObjectForKey:key];
             if (s_trackers.count == 0) {
-                [CSComScore onUxInactive];
+                [SCORAnalytics notifyUxInactive];
             }
             
             SRGAnalyticsLogInfo(@"PlayerTracker", @"Stopped tracking for %@", key);
