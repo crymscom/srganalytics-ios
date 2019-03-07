@@ -96,17 +96,6 @@
                BlueprintName = "SRGAnalytics-tests"
                ReferencedContainer = "container:SRGAnalytics.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "ComScoreDataProviderTestCase">
-               </Test>
-               <Test
-                  Identifier = "ComScoreMediaPlayerTestCase">
-               </Test>
-               <Test
-                  Identifier = "ComScoreTrackerTestCase">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
