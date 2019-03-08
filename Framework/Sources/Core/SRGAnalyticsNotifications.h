@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  These notifications are only emitted when enabling the `unitTesting` tracker configuration flag, @see
  *  `SRGAnalyticsConfiguration`.
+ *
+ *  Notifications may be received on background threads.
  */
 
 // Notification sent when TagCommander analytics are sent.

@@ -91,8 +91,8 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         
         // comScore internal duration labels
-        XCTAssertNil(labels[@"ns_st_pa"]);
-        XCTAssertNil(labels[@"ns_st_pt"]);
+        XCTAssertEqualObjects(labels[@"ns_st_pa"], @"0");
+        XCTAssertEqualObjects(labels[@"ns_st_pt"], @"0");
         return YES;
     }];
     
@@ -120,8 +120,8 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         
         // comScore internal duration labels
-        XCTAssertNil(labels[@"ns_st_pa"]);
-        XCTAssertNil(labels[@"ns_st_pt"]);
+        XCTAssertNotEqualObjects(labels[@"ns_st_pa"], @"0");
+        XCTAssertNotEqualObjects(labels[@"ns_st_pt"], @"0");
         return YES;
     }];
     
