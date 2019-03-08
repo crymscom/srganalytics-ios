@@ -12,7 +12,7 @@
 #import "SRGAnalytics.h"
 #import "SRGAnalyticsLogger.h"
 #import "SRGAnalyticsNetMetrixTracker.h"
-#import "SRGAnalyticsNotifications.h"
+#import "SRGAnalyticsNotifications+Private.h"
 #import "UIViewController+SRGAnalytics.h"
 
 #import <ComScore/ComScore.h>
@@ -54,7 +54,16 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
+    if (self.configuration) {
+        SRGAnalyticsLogWarning(@"tracker", @"The tracker is already started");
+        return;
+    }
+    
     self.configuration = configuration;
+    
+    if (configuration.unitTesting) {
+        SRGAnalyticsEnableRequestInterceptor();
+    }
     
     [self startTagCommanderTrackerWithConfiguration:configuration];
     [self startComscoreTrackerWithConfiguration:configuration];
@@ -65,14 +74,12 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (void)startTagCommanderTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
-    if (! configuration.unitTesting) {
-        self.tagCommander = [[TagCommander alloc] initWithSiteID:(int)configuration.site andContainerID:(int)configuration.container];
-        [self.tagCommander enableRunningInBackground];
-        [self.tagCommander addPermanentData:@"app_library_version" withValue:SRGAnalyticsMarketingVersion()];
-        [self.tagCommander addPermanentData:@"navigation_app_site_name" withValue:configuration.comScoreVirtualSite];
-        [self.tagCommander addPermanentData:@"navigation_environment" withValue:NSBundle.srg_isProductionVersion ? @"prod" : @"preprod"];
-        [self.tagCommander addPermanentData:@"navigation_device" withValue:[self device]];
-    }
+    self.tagCommander = [[TagCommander alloc] initWithSiteID:(int)configuration.site andContainerID:(int)configuration.container];
+    [self.tagCommander enableRunningInBackground];
+    [self.tagCommander addPermanentData:@"app_library_version" withValue:SRGAnalyticsMarketingVersion()];
+    [self.tagCommander addPermanentData:@"navigation_app_site_name" withValue:configuration.comScoreVirtualSite];
+    [self.tagCommander addPermanentData:@"navigation_environment" withValue:NSBundle.srg_isProductionVersion ? @"prod" : @"preprod"];
+    [self.tagCommander addPermanentData:@"navigation_device" withValue:[self device]];
 }
 
 - (void)startComscoreTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
@@ -149,22 +156,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 {
     NSMutableDictionary<NSString *, NSString *> *allLabels = [self.globalLabels mutableCopy] ?: [NSMutableDictionary dictionary];
     [allLabels addEntriesFromDictionary:labels];
-    
-    // TagCommander might not be initialized (for the test business unit)
-    if (self.tagCommander) {
-        [allLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-            [self.tagCommander addData:key withValue:object];
-        }];
-        [self.tagCommander sendData];
-    }
-    else {
-        // Only custom labels are sent in the notification userInfo. Internal predefined TagCommander variables are not sent,
-        // as they are not needed for tests (they are part of what is guaranteed by the TagCommander SDK). For a complete list of
-        // predefined variables, see https://github.com/TagCommander/pods/blob/master/TCSDK/PredefinedVariables.md
-        [NSNotificationCenter.defaultCenter postNotificationName:SRGAnalyticsRequestNotification
-                                                          object:self
-                                                        userInfo:@{ SRGAnalyticsLabelsKey : [allLabels copy] }];
-    }
+    [allLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+        [self.tagCommander addData:key withValue:object];
+    }];
+    [self.tagCommander sendData];
 }
 
 #pragma mark Page view tracking

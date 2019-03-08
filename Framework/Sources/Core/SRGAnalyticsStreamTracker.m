@@ -86,7 +86,7 @@
     // - setDVRWindowLength and setDVRWindowOffset (Streaming PDF, section 2.3.2). Is it ok to set those to 0 if the
     //   stream is an on-demand one? What are the exact rules to apply? (the documentation is not really clear)
     // - Seek and buffering events?
-    // - Do we still need to nil labels as done below? Is there a cleaner way?
+    // - Do we still need to nil labels as done below? Is there a cleaner way? (maybe [self.streamingAnalytics reset])
     // - Pass labels to srg_notifyEvent? If not useful and set on the session, remove the parameter
     
     // Ensure a play is emitted before events requiring a session to be opened (the comScore SDK does not open sessions
