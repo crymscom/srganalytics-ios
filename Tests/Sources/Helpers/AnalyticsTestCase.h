@@ -40,6 +40,11 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 - (XCTestExpectation *)expectationForComScoreHiddenEventNotificationWithHandler:(EventExpectationHandler)handler;
 
 /**
+ *  Expectation for playback-related ComScore hidden event notifications.
+ */
+- (XCTestExpectation *)expectationForComScorePlaybackEventNotificationWithHandler:(EventExpectationHandler)handler;
+
+/**
  *  Expectation fulfilled after some given time interval (in seconds), calling the optionally provided handler. Can
  *  be useful for ensuring nothing unexpected occurs during some time
  */

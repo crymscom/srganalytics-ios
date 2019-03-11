@@ -89,6 +89,8 @@
     // - Do we still need to nil labels as done below? Is there a cleaner way? (maybe [self.streamingAnalytics reset])
     // - Pass labels to srg_notifyEvent? If not useful and set on the session, remove the parameter
     // - ns_st_pa and ns_st_pt correct after unit test updates?
+    // - Do we now must send additional events (buffer, seek start, etc.) without converting them to play / pause? It
+    //   sems we cannot send end events anymore when a segment ends (this stops measurements).
     
     // Ensure a play is emitted before events requiring a session to be opened (the comScore SDK does not open sessions
     // automatically)
