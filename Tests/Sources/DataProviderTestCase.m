@@ -584,7 +584,6 @@ static NSURL *MMFTestURL(void)
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
-    // TODO: Use production IL when DRM streams are provided on it
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18_special_3" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
         BOOL success = [mediaComposition playbackContextWithPreferredSettings:nil contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
@@ -602,7 +601,6 @@ static NSURL *MMFTestURL(void)
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
-    // TODO: Use production IL when DRM streams are provided on it
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18_special_3" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
         SRGPlaybackSettings *settings = [[SRGPlaybackSettings alloc] init];
@@ -623,7 +621,6 @@ static NSURL *MMFTestURL(void)
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
-    // TODO: Use production IL when DRM streams are provided on it
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
         BOOL success = [mediaComposition playbackContextWithPreferredSettings:nil contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
@@ -661,7 +658,6 @@ static NSURL *MMFTestURL(void)
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Media composition retrieved"];
     
-    // TODO: Use production IL when DRM streams are provided on it
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:MMFTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:rts:video:_drm18" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
         SRGPlaybackSettings *settings = [[SRGPlaybackSettings alloc] init];
