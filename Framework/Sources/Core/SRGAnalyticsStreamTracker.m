@@ -92,6 +92,8 @@
     //   sems we cannot send end events anymore when a segment ends (this stops measurements).
     // - Link with AdFramework?
     // - Remove NetMetrix implementation?
+    // - How must labels be properly set? (use labels: parameter? Work on the playback session and asset?). Currently
+    //   the only solution that works is to merge all labels (clip labels overriding standard ones).
     
     // Ensure a play is emitted before events requiring a session to be opened (the comScore SDK does not open sessions
     // automatically)
@@ -115,16 +117,15 @@
         return;
     }
     
-    SCORStreamingPlaybackSession *playbackSession = self.streamingAnalytics.playbackSession;
-    [playbackSession setLabels:[labels comScoreLabelsDictionary]];
-    [playbackSession setAssetWithLabels:[labels comScoreSegmentLabelsDictionary]];
-    
     if (self.livestream) {
         position = 0;
     }
     
+    NSMutableDictionary *allLabels = [[labels comScoreLabelsDictionary] mutableCopy];
+    [allLabels addEntriesFromDictionary:[labels comScoreSegmentLabelsDictionary]];
+    
     SCORStreamingAnalyticsEvent event = eventValue.intValue;
-    [self.streamingAnalytics srg_notifyEvent:event withPosition:position labels:nil  /* already set on the stream and clip objects */];
+    [self.streamingAnalytics srg_notifyEvent:event withPosition:position labels:[allLabels copy]];
     
     if (event == SCORStreamingAnalyticsEventPlay) {
         self.comScoreSessionAlive = YES;
