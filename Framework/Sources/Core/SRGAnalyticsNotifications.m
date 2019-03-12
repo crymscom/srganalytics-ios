@@ -8,6 +8,8 @@
 
 #import <objc/runtime.h>
 
+static BOOL s_interceptorEnabled = NO;
+
 NSString * const SRGAnalyticsRequestNotification = @"SRGAnalyticsRequestNotification";
 NSString * const SRGAnalyticsLabelsKey = @"SRGAnalyticsLabels";
 
@@ -81,6 +83,12 @@ static NSDictionary<NSString *, NSString *> *SRGAnalyticsProxyLabelsFromURLCompo
 
 void SRGAnalyticsEnableRequestInterceptor(void)
 {
+    if (s_interceptorEnabled) {
+        return;
+    }
+    
     [NSURLSession srg_enableAnalyticsInterceptor];
     [NSURLConnection srg_enableAnalyticsInterceptor];
+    
+    s_interceptorEnabled = YES;
 }
