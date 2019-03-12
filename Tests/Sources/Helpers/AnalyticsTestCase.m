@@ -66,6 +66,11 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
             return NO;
         }
         
+        NSString *name = labels[@"event_name"];
+        if ([name isEqualToString:@"Installed Apps"]) {
+            return NO;
+        }
+        
         return handler(event, labels);
     }];
 }

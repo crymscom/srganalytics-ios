@@ -20,6 +20,11 @@
             return;
         }
         
+        NSString *name = labels[@"event_name"];
+        if ([name isEqualToString:@"Installed Apps"]) {
+            return;
+        }
+        
         block(event, labels);
     }];
 }

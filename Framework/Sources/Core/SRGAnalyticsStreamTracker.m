@@ -86,7 +86,6 @@
     // - setDVRWindowLength and setDVRWindowOffset (Streaming PDF, section 2.3.2). Is it ok to set those to 0 if the
     //   stream is an on-demand one? What are the exact rules to apply? (the documentation is not really clear)
     // - Seek and buffering events?
-    // - Do we still need to nil labels as done below? Is there a cleaner way? (maybe [self.streamingAnalytics reset])
     // - Pass labels to srg_notifyEvent? If not useful and set on the session, remove the parameter
     // - ns_st_pa and ns_st_pt correct after unit test updates?
     // - Do we now must send additional events (buffer, seek start, etc.) without converting them to play / pause? It
@@ -117,15 +116,11 @@
     }
     
     SCORStreamingPlaybackSession *playbackSession = self.streamingAnalytics.playbackSession;
-    [playbackSession setLabels:nil];
     [[labels comScoreLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull name, NSString * _Nonnull value, BOOL * _Nonnull stop) {
         [playbackSession setLabelWithName:name value:value];
     }];
     
-    // Reset clip labels to avoid inheriting from a previous segment. This does not reset internal hidden comScore labels
-    // (e.g. ns_st_pa), which would otherwise be incorrect
     SCORStreamingAsset *asset = playbackSession.asset;
-    [asset setLabels:nil];
     [[labels comScoreSegmentLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull name, NSString * _Nonnull value, BOOL * _Nonnull stop) {
         [asset setLabelWithName:name withValue:value];
     }];
