@@ -66,6 +66,7 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
             return NO;
         }
         
+        // Discard app overlap measurements
         NSString *name = labels[@"event_name"];
         if ([name isEqualToString:@"Installed Apps"]) {
             return NO;
@@ -109,6 +110,12 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
         // Discard heartbeats (hidden events, but entirely outside our control)
         NSString *event = labels[@"ns_st_ev"];
         if ([event isEqualToString:@"hb"]) {
+            return NO;
+        }
+        
+        // Discard app overlap measurements
+        NSString *name = labels[@"srg_title"];
+        if ([name isEqualToString:@"Installed Apps"]) {
             return NO;
         }
         
