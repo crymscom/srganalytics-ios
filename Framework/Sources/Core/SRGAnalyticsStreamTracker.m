@@ -116,14 +116,8 @@
     }
     
     SCORStreamingPlaybackSession *playbackSession = self.streamingAnalytics.playbackSession;
-    [[labels comScoreLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull name, NSString * _Nonnull value, BOOL * _Nonnull stop) {
-        [playbackSession setLabelWithName:name value:value];
-    }];
-    
-    SCORStreamingAsset *asset = playbackSession.asset;
-    [[labels comScoreSegmentLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull name, NSString * _Nonnull value, BOOL * _Nonnull stop) {
-        [asset setLabelWithName:name withValue:value];
-    }];
+    [playbackSession setLabels:[labels comScoreLabelsDictionary]];
+    [playbackSession setAssetWithLabels:[labels comScoreSegmentLabelsDictionary]];
     
     if (self.livestream) {
         position = 0;
