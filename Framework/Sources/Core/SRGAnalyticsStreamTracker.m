@@ -33,7 +33,7 @@
 @implementation SRGAnalyticsStreamTracker
 
 #pragma mark Object lifecycle
-//
+
 - (instancetype)initForLivestream:(BOOL)livestream
 {
     if (self = [super init]) {
@@ -91,6 +91,8 @@
     // - ns_st_pa and ns_st_pt correct after unit test updates?
     // - Do we now must send additional events (buffer, seek start, etc.) without converting them to play / pause? It
     //   sems we cannot send end events anymore when a segment ends (this stops measurements).
+    // - Link with AdFramework?
+    // - Remove NetMetrix implementation?
     
     // Ensure a play is emitted before events requiring a session to be opened (the comScore SDK does not open sessions
     // automatically)

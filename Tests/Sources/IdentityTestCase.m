@@ -140,7 +140,17 @@ static NSURL *OnDemandTestURL(void)
     
     [OHHTTPStubs removeAllStubs];
     
-    [self.mediaPlayerController reset];
+    // Ensure each test ends in an expected state.
+    if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
+            && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
+        [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+            return [event isEqualToString:@"stop"];
+        }];
+        
+        [self.mediaPlayerController reset];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
+    }
     self.mediaPlayerController = nil;
 }
 
@@ -198,7 +208,7 @@ static NSURL *OnDemandTestURL(void)
     [SRGAnalyticsTracker.sharedTracker startWithConfiguration:TestConfiguration() identityService:self.identityService];
     
     [self expectationForSingleNotification:SRGIdentityServiceUserDidLoginNotification object:self.identityService handler:^BOOL(NSNotification * _Nonnull notification) {
-        XCTAssertTrue([NSThread isMainThread]);
+        XCTAssertTrue(NSThread.isMainThread);
         return YES;
     }];
     
@@ -251,7 +261,7 @@ static NSURL *OnDemandTestURL(void)
     [self waitForExpectationsWithTimeout:5. handler:nil];
     
     [self expectationForSingleNotification:SRGIdentityServiceUserDidLogoutNotification object:self.identityService handler:^BOOL(NSNotification * _Nonnull notification) {
-        XCTAssertTrue([NSThread isMainThread]);
+        XCTAssertTrue(NSThread.isMainThread);
         XCTAssertTrue([notification.userInfo[SRGIdentityServiceUnauthorizedKey] boolValue]);
         return YES;
     }];

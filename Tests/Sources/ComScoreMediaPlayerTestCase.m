@@ -9,6 +9,7 @@
 #import "Segment.h"
 
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
+#import <ComScore/ComScore.h>
 
 typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
@@ -45,7 +46,19 @@ static NSURL *DVRTestURL(void)
 
 - (void)tearDown
 {
-    [self.mediaPlayerController reset];
+    // Ensure each test ends in an expected state. Since we have no control over when the comScore singleton
+    // processes events, we must ensure that the player is properly reset before moving to the next test, and
+    // that the associated event has been received.
+    if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
+            && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
+        [self expectationForComScorePlaybackEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+            return [event isEqualToString:@"end"];
+        }];
+        
+        [self.mediaPlayerController reset];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
+    }
     self.mediaPlayerController = nil;
 }
 

@@ -40,7 +40,17 @@ static NSURL *MMFTestURL(void)
 
 - (void)tearDown
 {
-    [self.mediaPlayerController reset];
+    // Ensure each test ends in an expected state.
+    if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
+            && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
+        [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+            return [event isEqualToString:@"stop"];
+        }];
+        
+        [self.mediaPlayerController reset];
+        
+        [self waitForExpectationsWithTimeout:10. handler:nil];
+    }
     self.mediaPlayerController = nil;
 }
 
