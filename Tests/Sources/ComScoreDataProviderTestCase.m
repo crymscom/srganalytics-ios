@@ -111,7 +111,7 @@ static NSURL *ServiceTestURL(void)
     [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
         XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Der Neue ist der Alte");
-        XCTAssertEqualObjects(labels[@"srg_mqual"], @"HD");
+        XCTAssertEqualObjects(labels[@"srg_mqual"], @"SD");
         return YES;
     }];
     
@@ -123,7 +123,7 @@ static NSURL *ServiceTestURL(void)
         fetchedMediaComposition = mediaComposition;
         
         SRGPlaybackSettings *settings = [[SRGPlaybackSettings alloc] init];
-        settings.quality = SRGQualityHD;
+        settings.quality = SRGQualitySD;
         
         [self.mediaPlayerController playMediaComposition:mediaComposition atPosition:nil withPreferredSettings:nil userInfo:nil];
     }] resume];
