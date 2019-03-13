@@ -34,7 +34,7 @@
         [controller playMediaComposition:mediaComposition atPosition:nil withPreferredSettings:nil userInfo:nil];
     }] resume];
     
-    [self waitForExpectationsWithTimeout:10. handler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 #pragma mark RSI tests

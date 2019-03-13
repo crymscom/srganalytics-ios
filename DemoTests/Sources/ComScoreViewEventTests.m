@@ -88,7 +88,7 @@ static NSDictionary *s_startLabels = nil;
     
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
-    [self waitForExpectationsWithTimeout:5. handler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [tester tapViewWithAccessibilityLabel:@"Back"];
     [tester waitForTimeInterval:2.];
@@ -111,7 +111,7 @@ static NSDictionary *s_startLabels = nil;
     
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
-    [self waitForExpectationsWithTimeout:5. handler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [tester tapViewWithAccessibilityLabel:@"Back"];
     [tester waitForTimeInterval:2.];
@@ -142,7 +142,7 @@ static NSDictionary *s_startLabels = nil;
     
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
-    [self waitForExpectationsWithTimeout:5. handler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [tester tapViewWithAccessibilityLabel:@"Back"];
     [tester waitForTimeInterval:2.];
@@ -165,7 +165,7 @@ static NSDictionary *s_startLabels = nil;
     
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
-    [self waitForExpectationsWithTimeout:5. handler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [tester tapViewWithAccessibilityLabel:@"Back"];
     [tester waitForTimeInterval:2.];
@@ -188,7 +188,7 @@ static NSDictionary *s_startLabels = nil;
     [tester waitForTappableViewWithAccessibilityLabel:@"Track"];
     [tester tapViewWithAccessibilityLabel:@"Track"];
     
-    [self waitForExpectationsWithTimeout:5. handler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [tester tapViewWithAccessibilityLabel:@"Back"];
     [tester waitForTimeInterval:2.];
@@ -204,7 +204,7 @@ static NSDictionary *s_startLabels = nil;
     
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:0] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
-    [self waitForExpectationsWithTimeout:5. handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
@@ -221,7 +221,7 @@ static NSDictionary *s_startLabels = nil;
     
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"tableView"];
     
-    [self waitForExpectationsWithTimeout:5. handler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [tester tapViewWithAccessibilityLabel:@"Back"];
     [tester waitForTimeInterval:2.];

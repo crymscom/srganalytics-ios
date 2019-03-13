@@ -27,7 +27,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
     
     [SRGAnalyticsTracker.sharedTracker trackHiddenEventWithName:@"Hidden event"];
     
-    [self waitForExpectationsWithTimeout:5. handler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 - (void)testHiddenEventWithLabels
@@ -50,7 +50,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
     [SRGAnalyticsTracker.sharedTracker trackHiddenEventWithName:@"Hidden event"
                                                          labels:labels];
     
-    [self waitForExpectationsWithTimeout:5. handler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 - (void)testHiddenEventWithEmptyTitle
@@ -63,7 +63,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
     
     [SRGAnalyticsTracker.sharedTracker trackHiddenEventWithName:@""];
     
-    [self waitForExpectationsWithTimeout:5. handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
 }

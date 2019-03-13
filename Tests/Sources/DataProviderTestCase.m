@@ -49,7 +49,7 @@ static NSURL *MMFTestURL(void)
         
         [self.mediaPlayerController reset];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     self.mediaPlayerController = nil;
 }

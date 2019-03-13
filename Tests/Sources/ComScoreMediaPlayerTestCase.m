@@ -57,7 +57,7 @@ static NSURL *DVRTestURL(void)
         
         [self.mediaPlayerController reset];
         
-        [self waitForExpectationsWithTimeout:10. handler:nil];
+        [self waitForExpectationsWithTimeout:20. handler:nil];
     }
     self.mediaPlayerController = nil;
 }
@@ -210,7 +210,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
-    [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [NSNotificationCenter.defaultCenter removeObserver:eventObserver1];
     }];
     
@@ -228,7 +228,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController pause];
     
-    [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [NSNotificationCenter.defaultCenter removeObserver:eventObserver2];
     }];
     
@@ -246,7 +246,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController play];
     
-    [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [NSNotificationCenter.defaultCenter removeObserver:eventObserver3];
     }];
     
@@ -259,7 +259,7 @@ static NSURL *DVRTestURL(void)
               "captured via KVO in our implementation. Those changes do not harm but cannot be tested reliably", @(self.mediaPlayerController.playbackState));
     }];
     
-    [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [NSNotificationCenter.defaultCenter removeObserver:eventObserver4];
     }];
 }
@@ -640,7 +640,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForElapsedTimeInterval:3. withHandler:nil];
     
-    [self waitForExpectationsWithTimeout:30. handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [NSNotificationCenter.defaultCenter removeObserver:eventObserver2];
     }];
 }
