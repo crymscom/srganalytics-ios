@@ -85,12 +85,10 @@
     // TODO:
     // - setDVRWindowLength and setDVRWindowOffset (Streaming PDF, section 2.3.2). Is it ok to set those to 0 if the
     //   stream is an on-demand one? What are the exact rules to apply? (the documentation is not really clear)
-    // - Seek and buffering events?
-    // - Pass labels to srg_notifyEvent? If not useful and set on the session, remove the parameter
     // - ns_st_pa and ns_st_pt correct after unit test updates?
     // - Do we now must send additional events (buffer, seek start, etc.) without converting them to play / pause? It
     //   sems we cannot send end events anymore when a segment ends (this stops measurements).
-    // - Link with AdFramework?
+    // - Link with AdSupport.framework?
     // - Remove NetMetrix implementation?
     // - How must labels be properly set? (use labels: parameter? Work on the playback session and asset?). Currently
     //   the only solution that works is to merge all labels (clip labels overriding standard ones).
