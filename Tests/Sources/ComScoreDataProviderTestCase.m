@@ -4,7 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "AnalyticsTestCase.h"
+#import "XCTestCase+Tests.h"
 
 #import <SRGAnalytics_DataProvider/SRGAnalytics_DataProvider.h>
 
@@ -13,7 +13,7 @@ static NSURL *ServiceTestURL(void)
     return SRGIntegrationLayerProductionServiceURL();
 }
 
-@interface ComScoreDataProviderTestCase : AnalyticsTestCase
+@interface ComScoreDataProviderTestCase : XCTestCase
 
 @property (nonatomic) SRGMediaPlayerController *mediaPlayerController;
 

@@ -4,8 +4,9 @@
 //  License information is available from the LICENSE file.
 //
 
+#import "XCTestCase+Tests.h"
+
 #import <KIF/KIF.h>
-#import <SRGAnalytics/SRGAnalytics.h>
 #import <UIKit/UIKit.h>
 
 typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
@@ -27,38 +28,6 @@ static NSDictionary *s_startLabels = nil;
     [KIFSystemTestActor setDefaultTimeout:60.0];
 }
 
-#pragma mark Helpers
-
-- (XCTestExpectation *)expectationForComScoreViewEventNotificationWithHandler:(EventExpectationHandler)handler
-{
-    return [self expectationForSingleNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
-        NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
-        
-        NSString *type = labels[@"ns_type"];
-        if (! [type isEqualToString:@"view"]) {
-            return NO;
-        }
-        
-        // Discard start events (outside our control)
-        NSString *event = labels[@"ns_ap_ev"];
-        if ([event isEqualToString:@"start"]) {
-            return NO;
-        }
-        
-        return handler(event, labels);
-    }];
-}
-
-- (XCTestExpectation *)expectationForElapsedTimeInterval:(NSTimeInterval)timeInterval withHandler:(void (^)(void))handler
-{
-    XCTestExpectation *expectation = [self expectationWithDescription:[NSString stringWithFormat:@"Wait for %@ seconds", @(timeInterval)]];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [expectation fulfill];
-        handler ? handler() : nil;
-    });
-    return expectation;
-}
-
 #pragma mark Tests
 
 // For all tests, use KIF only to control the UI and wait for UI responses. For tests and waiting on other conditions, use
@@ -70,7 +39,7 @@ static NSDictionary *s_startLabels = nil;
 {
     [self expectationForComScoreViewEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"name"], @"app.automatic-tracking");
-        XCTAssertEqualObjects(labels[@"category"], @"app");
+        XCTAssertEqualObjects(labels[@"ns_category"], @"app");
         XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
         XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
         XCTAssertNil(labels[@"srg_n2"]);
@@ -90,7 +59,7 @@ static NSDictionary *s_startLabels = nil;
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [tester tapViewWithAccessibilityLabel:@"Back"];
+    [tester tapViewWithAccessibilityLabel:@"Reset"];
     [tester waitForTimeInterval:2.];
 }
 
@@ -103,7 +72,7 @@ static NSDictionary *s_startLabels = nil;
         XCTAssertEqualObjects(labels[@"srg_n2"], @"Level2");
         XCTAssertEqualObjects(labels[@"srg_n3"], @"Level3");
         XCTAssertNil(labels[@"srg_n4"]);
-        XCTAssertEqualObjects(labels[@"category"], @"level1.level2.level3");
+        XCTAssertEqualObjects(labels[@"ns_category"], @"level1.level2.level3");
         XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking with levels");
         XCTAssertEqualObjects(labels[@"ns_type"], @"view");
         return YES;
@@ -113,7 +82,7 @@ static NSDictionary *s_startLabels = nil;
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [tester tapViewWithAccessibilityLabel:@"Back"];
+    [tester tapViewWithAccessibilityLabel:@"Reset"];
     [tester waitForTimeInterval:2.];
 }
 
@@ -134,7 +103,7 @@ static NSDictionary *s_startLabels = nil;
         XCTAssertEqualObjects(labels[@"srg_n9"], @"Level9");
         XCTAssertEqualObjects(labels[@"srg_n10"], @"Level10");
         XCTAssertNil(labels[@"srg_n11"]);
-        XCTAssertEqualObjects(labels[@"category"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.level11.level12");
+        XCTAssertEqualObjects(labels[@"ns_category"], @"level1.level2.level3.level4.level5.level6.level7.level8.level9.level10.level11.level12");
         XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking with many levels");
         XCTAssertEqualObjects(labels[@"ns_type"], @"view");
         return YES;
@@ -144,7 +113,7 @@ static NSDictionary *s_startLabels = nil;
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [tester tapViewWithAccessibilityLabel:@"Back"];
+    [tester tapViewWithAccessibilityLabel:@"Reset"];
     [tester waitForTimeInterval:2.];
 }
 
@@ -156,7 +125,7 @@ static NSDictionary *s_startLabels = nil;
         XCTAssertEqualObjects(labels[@"srg_n1"], @"Level1");
         XCTAssertEqualObjects(labels[@"srg_n2"], @"Level2");
         XCTAssertNil(labels[@"srg_n3"]);
-        XCTAssertEqualObjects(labels[@"category"], @"level1.level2");
+        XCTAssertEqualObjects(labels[@"ns_category"], @"level1.level2");
         XCTAssertEqualObjects(labels[@"srg_title"], @"Automatic tracking with levels and labels");
         XCTAssertEqualObjects(labels[@"ns_type"], @"view");
         XCTAssertEqualObjects(labels[@"custom_label"], @"custom_value");
@@ -167,7 +136,7 @@ static NSDictionary *s_startLabels = nil;
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [tester tapViewWithAccessibilityLabel:@"Back"];
+    [tester tapViewWithAccessibilityLabel:@"Reset"];
     [tester waitForTimeInterval:2.];
 }
 
@@ -178,7 +147,7 @@ static NSDictionary *s_startLabels = nil;
         XCTAssertEqualObjects(labels[@"srg_ap_push"], @"0");
         XCTAssertEqualObjects(labels[@"srg_n1"], @"app");
         XCTAssertNil(labels[@"srg_n2"]);
-        XCTAssertEqualObjects(labels[@"category"], @"app");
+        XCTAssertEqualObjects(labels[@"ns_category"], @"app");
         XCTAssertEqualObjects(labels[@"srg_title"], @"Manual tracking");
         XCTAssertEqualObjects(labels[@"ns_type"], @"view");
         return YES;
@@ -190,7 +159,7 @@ static NSDictionary *s_startLabels = nil;
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [tester tapViewWithAccessibilityLabel:@"Back"];
+    [tester tapViewWithAccessibilityLabel:@"Reset"];
     [tester waitForTimeInterval:2.];
 }
 
@@ -208,7 +177,7 @@ static NSDictionary *s_startLabels = nil;
         [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
     
-    [tester tapViewWithAccessibilityLabel:@"Back"];
+    [tester tapViewWithAccessibilityLabel:@"Reset"];
     [tester waitForTimeInterval:2.];
 }
 
@@ -223,7 +192,7 @@ static NSDictionary *s_startLabels = nil;
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [tester tapViewWithAccessibilityLabel:@"Back"];
+    [tester tapViewWithAccessibilityLabel:@"Reset"];
     [tester waitForTimeInterval:2.];
 }
 

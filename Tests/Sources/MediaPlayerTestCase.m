@@ -4,9 +4,9 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "AnalyticsTestCase.h"
 #import "NSNotificationCenter+Tests.h"
 #import "Segment.h"
+#import "XCTestCase+Tests.h"
 
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 
@@ -27,7 +27,7 @@ static NSURL *DVRTestURL(void)
     return [NSURL URLWithString:@"http://tagesschau-lh.akamaihd.net/i/tagesschau_1@119231/master.m3u8"];
 }
 
-@interface MediaPlayerTestCase : AnalyticsTestCase
+@interface MediaPlayerTestCase : XCTestCase
 
 @property (nonatomic) SRGMediaPlayerController *mediaPlayerController;
 

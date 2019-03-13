@@ -220,6 +220,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         category = [levelsComScoreFormattedString copy];
     }
     
+    // TODO: category replaced with ns_category. Correct?
     [pageViewLabelsDictionary srg_safelySetString:category forKey:@"ns_category"];
     [pageViewLabelsDictionary srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"name"];
     
@@ -286,9 +287,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 {
     NSAssert(name.length != 0, @"A name is required");
     
+    // TODO: category replaced with ns_category. Correct?
     NSMutableDictionary *hiddenEventLabelsDictionary = [NSMutableDictionary dictionary];
     [hiddenEventLabelsDictionary srg_safelySetString:name forKey:@"srg_title"];
-    [hiddenEventLabelsDictionary srg_safelySetString:@"app" forKey:@"category"];
+    [hiddenEventLabelsDictionary srg_safelySetString:@"app" forKey:@"ns_category"];
     [hiddenEventLabelsDictionary srg_safelySetString:[NSString stringWithFormat:@"app.%@", name.srg_comScoreFormattedString] forKey:@"name"];
     
     NSDictionary<NSString *, NSString *> *comScoreLabelsDictionary = [labels comScoreLabelsDictionary];

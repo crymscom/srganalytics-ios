@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
-@interface AnalyticsTestCase : XCTestCase
+@interface XCTestCase (Tests)
 
 /**
  *  Replacement for the buggy `-expectationForSingleNotification:object:handler:`, catching notifications only once.
@@ -43,6 +43,16 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
  *  Expectation for playback-related ComScore hidden event notifications.
  */
 - (XCTestExpectation *)expectationForComScorePlaybackEventNotificationWithHandler:(EventExpectationHandler)handler;
+
+/**
+ *  Expectation for view event notifications.
+ */
+- (XCTestExpectation *)expectationForViewEventNotificationWithHandler:(EventExpectationHandler)handler;
+
+/**
+ *  Expectation for comScore view event notifications.
+ */
+- (XCTestExpectation *)expectationForComScoreViewEventNotificationWithHandler:(EventExpectationHandler)handler;
 
 /**
  *  Expectation fulfilled after some given time interval (in seconds), calling the optionally provided handler. Can

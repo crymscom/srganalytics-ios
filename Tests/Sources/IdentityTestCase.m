@@ -4,7 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "AnalyticsTestCase.h"
+#import "XCTestCase+Tests.h"
 
 #import <libextobjc/libextobjc.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
@@ -59,7 +59,7 @@ static NSURL *OnDemandTestURL(void)
     return [NSURL URLWithString:@"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"];
 }
 
-@interface IdentityTestCase : AnalyticsTestCase
+@interface IdentityTestCase : XCTestCase
 
 @property (nonatomic) SRGIdentityService *identityService;
 @property (nonatomic) SRGMediaPlayerController *mediaPlayerController;

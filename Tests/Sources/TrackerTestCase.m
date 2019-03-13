@@ -4,12 +4,12 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "AnalyticsTestCase.h"
 #import "NSNotificationCenter+Tests.h"
+#import "XCTestCase+Tests.h"
 
 typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
-@interface TrackerTestCase : AnalyticsTestCase
+@interface TrackerTestCase : XCTestCase
 
 @end
 

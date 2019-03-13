@@ -43,13 +43,6 @@ static NSString * const LastLoggedInEmailAddress = @"LastLoggedInEmailAddress";
     [self reloadData];
 }
 
-#pragma mark SRGAnalyticsViewTracking protocol
-
-- (NSString *)srg_pageViewTitle
-{
-    return @"Demo list";
-}
-
 #pragma mark UITableViewDelegate protocol
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -4,12 +4,12 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "AnalyticsTestCase.h"
 #import "NSNotificationCenter+Tests.h"
+#import "XCTestCase+Tests.h"
 
 typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
-@interface ComScoreTrackerTestCase : AnalyticsTestCase
+@interface ComScoreTrackerTestCase : XCTestCase
 
 @end
 
@@ -23,7 +23,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
         XCTAssertNil(event);
         XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
         XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
-        XCTAssertEqualObjects(labels[@"category"], @"app");
+        XCTAssertEqualObjects(labels[@"ns_category"], @"app");
         return YES;
     }];
     
@@ -38,7 +38,7 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
         XCTAssertNil(event);
         XCTAssertEqualObjects(labels[@"srg_title"], @"Hidden event");
         XCTAssertEqualObjects(labels[@"name"], @"app.hidden-event");
-        XCTAssertEqualObjects(labels[@"category"], @"app");
+        XCTAssertEqualObjects(labels[@"ns_category"], @"app");
         XCTAssertEqualObjects(labels[@"srg_evgroup"], @"toggle");
         XCTAssertEqualObjects(labels[@"srg_evsource"], @"favorite_list");
         XCTAssertEqualObjects(labels[@"srg_evvalue"], @"true");

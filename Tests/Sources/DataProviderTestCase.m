@@ -4,7 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "AnalyticsTestCase.h"
+#import "XCTestCase+Tests.h"
 
 // Private header
 #import "SRGResource+SRGAnalytics_DataProvider.h"
@@ -22,7 +22,7 @@ static NSURL *MMFTestURL(void)
     return [NSURL URLWithString:@"https://play-mmf.herokuapp.com/integrationlayer"];
 }
 
-@interface DataProviderTestCase : AnalyticsTestCase
+@interface DataProviderTestCase : XCTestCase
 
 @property (nonatomic) SRGMediaPlayerController *mediaPlayerController;
 

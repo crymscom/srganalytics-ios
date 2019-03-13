@@ -4,7 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "AnalyticsTestCase.h"
+#import "XCTestCase+Tests.h"
 
 #import <SRGAnalytics/SRGAnalytics.h>
 
@@ -15,7 +15,7 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
     [contentProtectionFramework loadAndReturnError:NULL];
 }
 
-@implementation AnalyticsTestCase
+@implementation XCTestCase (Tests)
 
 #pragma mark Helpers
 
@@ -138,6 +138,40 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
         else {
             return NO;
         }
+    }];
+}
+
+- (XCTestExpectation *)expectationForViewEventNotificationWithHandler:(EventExpectationHandler)handler
+{
+    return [self expectationForSingleNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+        NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        
+        NSString *event = labels[@"event_id"];
+        if (! [event isEqualToString:@"screen"]) {
+            return NO;
+        }
+        
+        return handler(event, labels);
+    }];
+}
+
+- (XCTestExpectation *)expectationForComScoreViewEventNotificationWithHandler:(EventExpectationHandler)handler
+{
+    return [self expectationForSingleNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+        NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
+        
+        NSString *type = labels[@"ns_type"];
+        if (! [type isEqualToString:@"view"]) {
+            return NO;
+        }
+        
+        // Discard start events (outside our control)
+        NSString *event = labels[@"ns_ap_ev"];
+        if ([event isEqualToString:@"start"]) {
+            return NO;
+        }
+        
+        return handler(event, labels);
     }];
 }
 

@@ -4,7 +4,7 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "AnalyticsTestCase.h"
+#import "XCTestCase+Tests.h"
 
 #import <SRGAnalytics_DataProvider/SRGAnalytics_DataProvider.h>
 #import <SRGContentProtection/SRGContentProtection.h>
@@ -12,7 +12,7 @@
 /**
  *  Tests for common media flavors. Almost no livestream tests are made (since almost all of them require FairPlay).
  */
-@interface MediaTestCase : AnalyticsTestCase
+@interface MediaTestCase : XCTestCase
 
 @end
 

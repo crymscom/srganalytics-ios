@@ -4,9 +4,9 @@
 //  License information is available from the LICENSE file.
 //
 
-#import "AnalyticsTestCase.h"
+#import "XCTestCase+Tests.h"
 
-@interface HiddenEventLabelsTestCase : AnalyticsTestCase
+@interface HiddenEventLabelsTestCase : XCTestCase
 
 @end
 
