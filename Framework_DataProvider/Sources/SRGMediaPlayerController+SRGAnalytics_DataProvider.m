@@ -13,8 +13,9 @@
 #import <libextobjc/libextobjc.h>
 #import <SRGContentProtection/SRGContentProtection.h>
 
-static NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaCompositionKey";
+static NSString * const SRGAnalyticsMediaPlayerMediaCompositionKey = @"SRGAnalyticsMediaPlayerMediaComposition";
 static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMediaPlayerResource";
+static NSString * const SRGAnalyticsMediaPlayerSourceUidKey = @"SRGAnalyticsMediaPlayerSourceUid";
 
 @implementation SRGMediaPlayerController (SRGAnalytics_DataProvider)
 
@@ -39,14 +40,28 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
         NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
         fullUserInfo[SRGAnalyticsMediaPlayerMediaCompositionKey] = mediaComposition;
         fullUserInfo[SRGAnalyticsMediaPlayerResourceKey] = resource;
+        fullUserInfo[SRGAnalyticsMediaPlayerSourceUidKey] = preferredSettings.sourceUid;
         if (userInfo) {
             [fullUserInfo addEntriesFromDictionary:userInfo];
         }
         
-        SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
         NSString *URN = mediaComposition.segmentURN ?: mediaComposition.chapterURN;
-        AVURLAsset *asset = [AVURLAsset srg_assetWithURL:streamURL certificateURL:fairPlayDRM.certificateURL options:@{ SRGAssetOptionDiagnosticServiceNameKey : @"SRGPlaybackMetrics",
-                                                                                                                        SRGAssetOptionDiagnosticReportNameKey : URN }];
+        NSDictionary<SRGResourceLoaderOption, id> *options = @{ SRGResourceLoaderOptionDiagnosticServiceNameKey : @"SRGPlaybackMetrics",
+                                                                SRGResourceLoaderOptionDiagnosticReportNameKey : URN };
+        
+        AVURLAsset *asset = nil;
+        
+        SRGDRM *fairPlayDRM = [resource DRMWithType:SRGDRMTypeFairPlay];
+        if (fairPlayDRM) {
+            asset = [AVURLAsset srg_fairPlayProtectedAssetWithURL:streamURL certificateURL:fairPlayDRM.certificateURL options:options];
+        }
+        else if (resource.tokenType == SRGTokenTypeAkamai) {
+            asset = [AVURLAsset srg_akamaiTokenProtectedAssetWithURL:streamURL options:options];
+        }
+        else {
+            asset = [AVURLAsset assetWithURL:streamURL];
+        }
+        
         AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
         [self prepareToPlayItem:playerItem atIndex:index position:position inSegments:segments withAnalyticsLabels:analyticsLabels userInfo:[fullUserInfo copy] completionHandler:^{
             completionHandler ? completionHandler() : nil;
@@ -84,7 +99,7 @@ static NSString * const SRGAnalyticsMediaPlayerResourceKey = @"SRGAnalyticsMedia
     // Synchronize analytics labels
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @keypath(SRGResource.new, quality), @(self.resource.quality)];
     SRGResource *resource = [[mediaComposition.mainChapter resourcesForStreamingMethod:self.resource.streamingMethod] filteredArrayUsingPredicate:predicate].firstObject;
-    self.analyticsLabels = [mediaComposition analyticsLabelsForResource:resource];
+    self.analyticsLabels = [mediaComposition analyticsLabelsForResource:resource sourceUid:self.userInfo[SRGAnalyticsMediaPlayerSourceUidKey]];
     
     self.segments = mediaComposition.mainChapter.segments;
 }

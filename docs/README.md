@@ -92,6 +92,15 @@ Depending on your needs, the library requires the following frameworks to be add
   * `SRGNetwork`: A networking framework.
   * `TCCore`: The core TagCommander framework.
   * `TCSDK`: The main TagCommander SDK framework.
+* If you use our [SRG Identity library](https://github.com/SRGSSR/srgidentity-ios) in your application, add the following frameworks to your target:
+  * `ComScore`: comScore framework.
+  * `libextobjc`: An utility framework.
+  * `MAKVONotificationCenter`: A safe KVO framework.
+  * `SRGAnalytics`: The main analytics framework.
+  * `SRGAnalytics_Identity`: The identity analytics companion framework.
+  * `SRGLogger`: The framework used for internal logging.
+  * `TCCore`: The core TagCommander framework.
+  * `TCSDK`: The main TagCommander SDK framework.
 
 ### Dynamic framework integration
 
@@ -133,6 +142,7 @@ Import the global header files using:
 #import <SRGAnalytics/SRGAnalytics.h>	                            // For SRGAnalytics.framework
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>       // For SRGAnalytics_MediaPlayer.framework
 #import <SRGAnalytics_DataProvider/SRGAnalytics_DataProvider.h>     // For SRGAnalytics_DataProvider.framework
+#import <SRGAnalytics_Identity/SRGAnalytics_Identity.h>             // For SRGAnalytics_Identity.framework
 ```
 
 or directly import the modules themselves:
@@ -141,6 +151,7 @@ or directly import the modules themselves:
 @import SRGAnalytics;                    // For SRGAnalytics.framework
 @import SRGAnalytics_MediaPlayer;        // For SRGAnalytics_MediaPlayer.framework
 @import SRGAnalytics_DataProvider;       // For SRGAnalytics_DataProvider.framework
+@import SRGAnalytics_Identity;     	     // For SRGAnalytics_Identity.framework
 ```
 
 ### Usage from Swift source files
@@ -151,6 +162,7 @@ Import the modules where needed:
 import SRGAnalytics                     // For SRGAnalytics.framework
 import SRGAnalytics_MediaPlayer         // For SRGAnalytics_MediaPlayer.framework
 import SRGAnalytics_DataProvider        // For SRGAnalytics_DataProvider.framework
+import SRGAnalytics_Identity            // For SRGAnalytics_Identity.framework
 ```
 
 ### Info.plist settings for application installation measurements
@@ -179,6 +191,7 @@ The library internally uses the [SRG Logger](https://github.com/SRGSSR/srglogger
 * `ch.srgssr.analytics` for `SRGAnalytics.framework` events.
 * `ch.srgssr.analytics.mediaplayer` for `SRGAnalytics_MediaPlayer.framework` events.
 * `ch.srgssr.analytics.dataprovider` for `SRGAnalytics_DataProvider.framework` events.
+* `ch.srgssr.analytics.identity` for `SRGAnalytics_Identity.framework` events.
 
 This logger either automatically integrates with your own logger, or can be easily integrated with it. Refer to the SRG Logger documentation for more information.
 

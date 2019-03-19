@@ -62,6 +62,12 @@ static const NSUInteger SRGDefaultStartBitRate = 800;
  */
 @property (nonatomic) NSUInteger startBitRate;
 
+/**
+ *  A source unique identifier to be associated with the playback. This can be used to convey information about where
+ *  the media was retrieved from (e.g. a media list identifier).
+ */
+@property (nonatomic, nullable, copy) NSString *sourceUid;
+
 @end
 
 NS_ASSUME_NONNULL_END

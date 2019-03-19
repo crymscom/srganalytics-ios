@@ -7,10 +7,10 @@
 #import "SRGAnalyticsNotifications.h"
 
 NSString * const SRGAnalyticsRequestNotification = @"SRGAnalyticsRequestNotification";
-NSString * const SRGAnalyticsLabelsKey = @"SRGAnalyticsLabelsKey";
+NSString * const SRGAnalyticsLabelsKey = @"SRGAnalyticsLabels";
 
 NSString * const SRGAnalyticsComScoreRequestNotification = @"SRGAnalyticsComScoreRequestNotification";
-NSString * const SRGAnalyticsComScoreLabelsKey = @"SRGAnalyticsComScoreLabelsKey";
+NSString * const SRGAnalyticsComScoreLabelsKey = @"SRGAnalyticsComScoreLabels";
 
 NSString * const SRGAnalyticsNetmetrixRequestNotification = @"SRGAnalyticsNetmetrixRequestNotification";
-NSString * const SRGAnalyticsNetmetrixURLKey = @"SRGAnalyticsNetmetrixURLKey";
+NSString * const SRGAnalyticsNetmetrixURLKey = @"SRGAnalyticsNetmetrixURL";

@@ -14,7 +14,7 @@
 
 @implementation SRGMediaComposition (SRGAnalytics_DataProvider)
 
-- (SRGAnalyticsStreamLabels *)analyticsLabelsForResource:(SRGResource *)resource
+- (SRGAnalyticsStreamLabels *)analyticsLabelsForResource:(SRGResource *)resource sourceUid:(NSString *)sourceUid
 {
     NSAssert([self.mainChapter.resources containsObject:resource], @"The specified resource must be associated with the current context");
     
@@ -30,6 +30,7 @@
     if (resource.analyticsLabels) {
         [customInfo addEntriesFromDictionary:resource.analyticsLabels];
     }
+    customInfo[@"source_id"] = sourceUid;
     labels.customInfo = [customInfo copy];
     
     NSMutableDictionary<NSString *, NSString *> *comScoreCustomInfo = [NSMutableDictionary dictionary];
@@ -170,7 +171,7 @@
         URL = URLComponents.URL;
     }
     
-    SRGAnalyticsStreamLabels *labels = [self analyticsLabelsForResource:resource];
+    SRGAnalyticsStreamLabels *labels = [self analyticsLabelsForResource:resource sourceUid:preferredSettings.sourceUid];
     NSInteger index = [chapter.segments indexOfObject:self.mainSegment];
     contextBlock(URL, resource, chapter.segments, index, labels);
     return YES;

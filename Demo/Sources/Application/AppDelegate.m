@@ -10,6 +10,7 @@
 #import "SimpleViewController.h"
 
 #import <SRGAnalytics/SRGAnalytics.h>
+#import <SRGAnalytics_Identity/SRGAnalytics_Identity.h>
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 #import <SRGLogger/SRGLogger.h>
 #import <TCCore/TCCore.h>
@@ -24,6 +25,9 @@
     self.window.backgroundColor = UIColor.blackColor;
     [self.window makeKeyAndVisible];
     
+    SRGIdentityService.currentIdentityService = [[SRGIdentityService alloc] initWithWebserviceURL:[NSURL URLWithString:@"https://hummingbird.rts.ch/api/profile"]
+                                                                                       websiteURL:[NSURL URLWithString:@"https://www.rts.ch/profile"]];
+    
     [SRGLogger setLogHandler:SRGNSLogHandler()];
     
     [TCDebug setDebugLevel:TCLogLevel_Verbose];
@@ -34,7 +38,7 @@
                                                                                              comScoreVirtualSite:@"rts-app-test-v"
                                                                                              netMetrixIdentifier:@"test"];
     configuration.unitTesting = (NSClassFromString(@"XCTestCase") != Nil);
-    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:configuration];
+    [SRGAnalyticsTracker.sharedTracker startWithConfiguration:configuration identityService:SRGIdentityService.currentIdentityService];
     
     DemosViewController *demosViewController = [[DemosViewController alloc] init];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:demosViewController];
