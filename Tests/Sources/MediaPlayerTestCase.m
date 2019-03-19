@@ -1477,7 +1477,6 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-// TODO: Test is flaky and can make further tests fail afterwards. Should be improved
 - (void)testSelectedSegmentAtStreamEnd
 {
     // Precise timing information gathered from the stream itself
