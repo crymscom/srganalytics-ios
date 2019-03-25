@@ -1,5 +1,5 @@
 github "SRGSSR/srgdataprovider-ios" "6.5"
-github "SRGSSR/srgidentity-ios" "8004a9446f3127475b3cb7546fb2a5dea1816a8c"
+github "SRGSSR/srgidentity-ios" "0ce8404dcdaf92acadb879284bd1f6d8789ddff0"
 github "SRGSSR/srgmediaplayer-ios" "30bfbc03846d2c07e65bd3f69bad9457cd3b5ab0"
 github "SRGSSR/tagcommander-ios" "4.1.5_4.1.3"
 github "comScore/ComScore-iOS-SDK" "92f34897cd7659d56bb5a3e9e85b808cf3758bda"
