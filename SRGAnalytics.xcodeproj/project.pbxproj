@@ -1264,10 +1264,11 @@
 			};
 			buildConfigurationList = 9F1518B61AC2F1CE00AE051D /* Build configuration list for PBXProject "SRGAnalytics" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				Base,
+				en,
 			);
 			mainGroup = 9F1518B21AC2F1CE00AE051D;
 			productRefGroup = 9F1518BC1AC2F1CE00AE051D /* Products */;
