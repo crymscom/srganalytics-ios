@@ -10,16 +10,12 @@
 #import "SCORStreamingAnalytics+SRGAnalytics.h"
 #import "SRGAnalyticsTracker+Private.h"
 
-#import <ComScore/ComScore.h>
 #import <SRGAnalytics/SRGAnalytics.h>
 
 @interface SRGAnalyticsStreamTracker ()
 
 @property (nonatomic, getter=isLivestream) BOOL livestream;
 
-@property (nonatomic) SCORStreamingAnalytics *streamingAnalytics;
-
-@property (nonatomic, getter=isComScoreSessionAlive) BOOL comScoreSessionAlive;
 @property (nonatomic) SRGAnalyticsStreamState previousPlayerState;
 
 @property (nonatomic) NSTimeInterval playbackDuration;
@@ -38,11 +34,6 @@
 {
     if (self = [super init]) {
         self.livestream = livestream;
-        
-        // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
-        self.streamingAnalytics = [[SCORStreamingAnalytics alloc] init];
-        [self.streamingAnalytics createPlaybackSession];
-        
         self.previousPlayerState = SRGAnalyticsStreamStateEnded;
     }
     return self;
@@ -71,78 +62,12 @@
 
 - (void)updateWithStreamState:(SRGAnalyticsStreamState)state
                      position:(NSTimeInterval)position
-                       labels:(SRGAnalyticsStreamLabels *)labels
-{
-    [self updateTagCommanderWithStreamState:state position:position labels:labels];
-    [self updateComScoreWithStreamState:state position:position labels:labels];
-}
-
-- (void)updateComScoreWithStreamState:(SRGAnalyticsStreamState)state
-                             position:(NSTimeInterval)position
-                               labels:(SRGAnalyticsStreamLabels *)labels
-{
-    // TODO:
-    // - setDVRWindowLength and setDVRWindowOffset (Streaming PDF, section 2.3.2). Is it ok to set those to 0 if the
-    //   stream is an on-demand one? What are the exact rules to apply? (the documentation is not really clear)
-    // - ns_st_pa and ns_st_pt correct after unit test updates?
-    // - Do we now must send additional events (buffer, seek start, etc.) without converting them to play / pause? It
-    //   sems we cannot send end events anymore when a segment ends (this stops measurements).
-    // - Link with AdSupport.framework?
-    // - Remove NetMetrix implementation?
-    // - How must labels be properly set? (use labels: parameter? Work on the playback session and asset?). Currently
-    //   the only solution that works is to merge all labels (clip labels overriding standard ones).
-    
-    // Ensure a play is emitted before events requiring a session to be opened (the comScore SDK does not open sessions
-    // automatically)
-    // TODO: Still required with comScore 5?
-    if (! self.comScoreSessionAlive && (state == SRGAnalyticsStreamStatePaused || state == SRGAnalyticsStreamStateSeeking)) {
-        [self updateComScoreWithStreamState:SRGAnalyticsStreamStatePlaying position:position labels:labels];
-    }
-    
-    static dispatch_once_t s_onceToken;
-    static NSDictionary<NSNumber *, NSNumber *> *s_events;
-    dispatch_once(&s_onceToken, ^{
-        s_events = @{ @(SRGAnalyticsStreamStatePlaying) : @(SCORStreamingAnalyticsEventPlay),
-                      @(SRGAnalyticsStreamStatePaused) : @(SCORStreamingAnalyticsEventPause),
-                      @(SRGAnalyticsStreamStateSeeking) : @(SCORStreamingAnalyticsEventPause),
-                      @(SRGAnalyticsStreamStateStopped) : @(SCORStreamingAnalyticsEventEnd),
-                      @(SRGAnalyticsStreamStateEnded) : @(SCORStreamingAnalyticsEventEnd) };
-    });
-    
-    NSNumber *eventValue = s_events[@(state)];
-    if (! eventValue) {
-        return;
-    }
-    
-    if (self.livestream) {
-        position = 0;
-    }
-    
-    // To be properly persisted for heartbeats, labels must be set on the asset. Since we have no ads, a single asset
-    // suffices.
-    NSMutableDictionary *allLabels = [[labels comScoreLabelsDictionary] mutableCopy];
-    [allLabels addEntriesFromDictionary:[labels comScoreSegmentLabelsDictionary]];
-    [self.streamingAnalytics.playbackSession setAssetWithLabels:[allLabels copy]];
-    
-    SCORStreamingAnalyticsEvent event = eventValue.intValue;
-    [self.streamingAnalytics srg_notifyEvent:event withPosition:position];
-    
-    if (event == SCORStreamingAnalyticsEventPlay) {
-        self.comScoreSessionAlive = YES;
-    }
-    else if (event == SCORStreamingAnalyticsEventEnd) {
-        self.comScoreSessionAlive = NO;
-    }
-}
-
-- (void)updateTagCommanderWithStreamState:(SRGAnalyticsStreamState)state
-                                 position:(NSTimeInterval)position
-                                   labels:(SRGAnalyticsStreamLabels *)labels
+                       labels:(SRGAnalyticsStreamLabels *)labels;
 {
     // Ensure a play is emitted before events requiring a session to be opened (the TagCommander SDK does not open sessions
     // automatically)
     if (self.previousPlayerState == SRGAnalyticsStreamStateEnded && (state == SRGAnalyticsStreamStatePaused || state == SRGAnalyticsStreamStateSeeking)) {
-        [self updateTagCommanderWithStreamState:SRGAnalyticsStreamStatePlaying position:position labels:labels];
+        [self updateWithStreamState:SRGAnalyticsStreamStatePlaying position:position labels:labels];
     }
     
     static dispatch_once_t s_onceToken;
@@ -197,10 +122,10 @@
     }
     
     // Send the event
-    [self trackTagCommanderMediaPlayerEventWithUid:action withPosition:position labels:labels];
+    [self trackMediaPlayerEventWithUid:action withPosition:position labels:labels];
 }
 
-- (void)trackTagCommanderMediaPlayerEventWithUid:(NSString *)eventUid withPosition:(NSTimeInterval)position labels:(SRGAnalyticsStreamLabels *)labels
+- (void)trackMediaPlayerEventWithUid:(NSString *)eventUid withPosition:(NSTimeInterval)position labels:(SRGAnalyticsStreamLabels *)labels
 {
     NSAssert(eventUid.length != 0, @"An event uid is required");
     
@@ -257,11 +182,11 @@
         }
         
         SRGAnalyticsStreamLabels *labels = [self.delegate labelsForStreamTracker:self];
-        [self trackTagCommanderMediaPlayerEventWithUid:@"pos" withPosition:position labels:labels];
+        [self trackMediaPlayerEventWithUid:@"pos" withPosition:position labels:labels];
         
         // Send a live heartbeat each minute
         if ([self.delegate streamTrackerIsPlayingLive:self] && self.heartbeatCount % 2 != 0) {
-            [self trackTagCommanderMediaPlayerEventWithUid:@"uptime" withPosition:position labels:labels];
+            [self trackMediaPlayerEventWithUid:@"uptime" withPosition:position labels:labels];
         }
     }
     
