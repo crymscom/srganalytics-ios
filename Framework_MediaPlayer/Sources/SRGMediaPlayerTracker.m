@@ -128,9 +128,20 @@ static NSMutableDictionary *s_trackers = nil;
     
     if (self.mediaPlayerController.tracked && state != SRGAnalyticsStreamStateStopped) {
         if (! self.streamTracker) {
-            BOOL isLivestream = (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeLive || self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR);
-            self.streamTracker = [[SRGAnalyticsStreamTracker alloc] initForLivestream:isLivestream];
-            self.streamTracker.delegate = self;
+            static dispatch_once_t s_onceToken;
+            static NSDictionary<NSNumber *, NSNumber *> *s_streamTypes;
+            dispatch_once(&s_onceToken, ^{
+                s_streamTypes = @{ @(SRGMediaPlayerStreamTypeOnDemand) : @(SRGAnalyticsStreamTypeOnDemand),
+                                   @(SRGMediaPlayerStreamTypeLive) : @(SRGAnalyticsStreamTypeLive),
+                                   @(SRGMediaPlayerStreamTypeDVR) : @(SRGAnalyticsStreamTypeDVR) };
+            });
+            
+            NSNumber *streamType = s_streamTypes[@(self.mediaPlayerController.streamType)];
+            if (! streamType) {
+                return;
+            }
+            
+            self.streamTracker = [[SRGAnalyticsStreamTracker alloc] initWithStreamType:streamType.integerValue delegate:self];
         }
         
         [self.streamTracker updateWithStreamState:state position:position labels:fullLabels];
@@ -330,17 +341,17 @@ static NSMutableDictionary *s_trackers = nil;
 
 #pragma mark SRGAnalyticsStreamTrackerDelegate protocol
 
-- (BOOL)streamTrackerIsPlayingLive:(SRGAnalyticsStreamTracker *)tracker
-{
-    return self.mediaPlayerController.live;
-}
-
-- (NSTimeInterval)positionForStreamTracker:(SRGAnalyticsStreamTracker *)tracker
+- (NSTimeInterval)playbackPosition
 {
     return [self currentPositionInMilliseconds];
 }
 
-- (SRGAnalyticsStreamLabels *)labelsForStreamTracker:(SRGAnalyticsStreamTracker *)tracker
+- (BOOL)isLive
+{
+    return self.mediaPlayerController.live;
+}
+
+- (SRGAnalyticsStreamLabels *)labels
 {
     return [self labelsWithSegment:self.mediaPlayerController.selectedSegment userInfo:nil];
 }

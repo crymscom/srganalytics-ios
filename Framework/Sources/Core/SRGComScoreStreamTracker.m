@@ -8,4 +8,19 @@
 
 @implementation SRGComScoreStreamTracker
 
+- (instancetype)initWithStreamType:(SRGAnalyticsStreamType)streamType delegate:(id<SRGAnalyticsStreamTrackerDelegate>)delegate
+{
+    if (self = [super init]) {
+        
+    }
+    return self;
+}
+
+- (void)updateWithStreamState:(SRGAnalyticsStreamState)state
+                     position:(NSTimeInterval)position
+                       labels:(SRGAnalyticsStreamLabels *)labels
+{
+    
+}
+
 @end

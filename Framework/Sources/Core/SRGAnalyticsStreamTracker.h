@@ -14,13 +14,35 @@ NS_ASSUME_NONNULL_BEGIN
 @class SRGAnalyticsStreamTracker;
 
 /**
+ *  @name Stream types
+ */
+typedef NS_ENUM(NSInteger, SRGAnalyticsStreamType) {
+    /**
+     *  On-demand stream.
+     */
+    SRGAnalyticsStreamTypeOnDemand = 1,
+    /**
+     *  Live stream.
+     */
+    SRGAnalyticsStreamTypeLive,
+    /**
+     *  DVR stream.
+     */
+    SRGAnalyticsStreamTypeDVR
+};
+
+/**
  *  @name Stream states
  */
 typedef NS_ENUM(NSInteger, SRGAnalyticsStreamState) {
     /**
+     *  The stream is currently being buffered (either during initial playback preparation or while re-buffering).
+     */
+    SRGAnalyticsStreamStateBuffering = 1,
+    /**
      *  The stream is currently being played.
      */
-    SRGAnalyticsStreamStatePlaying = 1,
+    SRGAnalyticsStreamStatePlaying,
     /**
      *  Stream playback is paused.
      */
@@ -30,7 +52,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsStreamState) {
      */
     SRGAnalyticsStreamStateSeeking,
     /**
-     *  The stream playback is stopped.
+     *  The stream playback has been stopped.
      */
     SRGAnalyticsStreamStateStopped,
     /**
@@ -45,69 +67,58 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsStreamState) {
 @protocol SRGAnalyticsStreamTrackerDelegate <NSObject>
 
 /**
- *  Return `YES` iff the stream is being played in live conditions.
- */
-- (BOOL)streamTrackerIsPlayingLive:(SRGAnalyticsStreamTracker *)tracker;
-
-/**
  *  The current playback position.
  */
-- (NSTimeInterval)positionForStreamTracker:(SRGAnalyticsStreamTracker *)tracker;
+@property (nonatomic, readonly) NSTimeInterval playbackPosition;
+
+/**
+ *  Return `YES` iff the stream is being played in live conditions.
+ */
+@property (nonatomic, readonly, getter=isLive) BOOL live;
 
 /**
  *  Current labels associated with the stream.
  */
-- (nullable SRGAnalyticsStreamLabels *)labelsForStreamTracker:(SRGAnalyticsStreamTracker *)tracker;
+@property (nonatomic, readonly, nullable) SRGAnalyticsStreamLabels *labels;
 
 @end
 
 /**
- *  Tracker for stream playback consumption. This tracker ensures that the stream analytics event sequences are always
- *  reliable, guaranteeing correct measurements. It also transparently manages heartbeats during playback.
+ *  Tracker for stream playback consumption. This tracker is a generic implementation suitable for any kind of media
+ *  player for which SRG-compliant analytics should be collected.
  *
  *  When you need to track a new stream playback, simply instantiate an `SRGAnalyticsStreamTracker`, keeping a strong
- *  reference to it, and call the update method to keep the tracker informed about your player state. You must know
- *  which kind of stream is being loaded at the time you initiate the tracker, so that the tracker behavior can be
- *  adjusted appropriately.
+ *  reference to it, and call the update method when a stream state change must be notified. A delegate is required,
+ *  through which instantaneous values can be obtained by the tracker when needed.
  *
- *  To have heartbeats managed transparently, attach a delegate to the tracker, and implement the associated protocol
- *  to return current playback information.
- *
- *  Note that implementing media player tracking can be tricky to get right, and should only be required if your player is not based
- *  on SRG MediaPlayer (e.g. if you use `AVPlayer` directly). Please refer to the official documentation more information:
- *    https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/195595938/Implementation+Concept+-+draft
+ *  The implementation itself only implement the core SRG analytics specifications. Custom players must provide
+ *  additional required information as required by SRG specifications. For easy integration you should rely on our
+ *  SRG Media Player for your playback purposes, as automatic integration is provided.
  */
 @interface SRGAnalyticsStreamTracker : NSObject
 
 /**
- *  Create a tracker instance.
- *
- *  @param livestream Set to `YES` if the stream is a livestream (either purely live or supporting DVR), or to `NO`
- *                    for on-demand streams.
+ *  Create a tracker instance for the specified kind of stream.
  */
-- (instancetype)initForLivestream:(BOOL)livestream;
+- (instancetype)initWithStreamType:(SRGAnalyticsStreamType)streamType delegate:(id<SRGAnalyticsStreamTrackerDelegate>)delegate;
 
 /**
- *  The tracker delegate.
- *
- *  @discussion No heartbeats are sent if no delegate has been assigned.
- */
-@property (nonatomic, weak, nullable) id<SRGAnalyticsStreamTrackerDelegate> delegate;
-
-/**
- *  Update the tracker with the specified stream state and information.
+ *  Update the tracker with the specified stream state and information. Can be used if different position / labels
+ *  than the ones obtained from the delegate are required.
  *
  *  @param state    The current player state.
  *  @param position The current player playback position, in milliseconds.
  *  @param labels   Additional detailed information.
- *
- *  @discussion A stream analytics event is only fired when proper conditions are met. To ensure events are emitted
- *              appropriately, you should therefore update the tracker when appropriate (e.g. when the player playing
- *              the stream changes its playback state).
  */
 - (void)updateWithStreamState:(SRGAnalyticsStreamState)state
                      position:(NSTimeInterval)position
                        labels:(nullable SRGAnalyticsStreamLabels *)labels;
+
+@end
+
+@interface SRGAnalyticsStreamTracker (Unavailable)
+
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 

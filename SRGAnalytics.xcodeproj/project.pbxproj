@@ -433,7 +433,6 @@
 		6FD86FFD1F2B2CA9001ED20F /* SRGAnalyticsTracker+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGAnalyticsTracker+Private.h"; sourceTree = "<group>"; };
 		6FD9B2441F0BC4E0004805D2 /* TCCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCCore.framework; path = Carthage/Build/iOS/TCCore.framework; sourceTree = "<group>"; };
 		6FD9B2451F0BC4E0004805D2 /* TCSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCSDK.framework; path = Carthage/Build/iOS/TCSDK.framework; sourceTree = "<group>"; };
-		6FDC8966224CDEDB0013E031 /* SRGAnalyticsStreamTracking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsStreamTracking.h; sourceTree = "<group>"; };
 		6FDC8967224CDF140013E031 /* SRGComScoreStreamTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGComScoreStreamTracker.h; sourceTree = "<group>"; };
 		6FDC8968224CDF140013E031 /* SRGComScoreStreamTracker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGComScoreStreamTracker.m; sourceTree = "<group>"; };
 		6FDC896B224CDF350013E031 /* SRGTagCommanderStreamTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGTagCommanderStreamTracker.h; sourceTree = "<group>"; };
@@ -837,7 +836,6 @@
 				6F3C400E1F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.m */,
 				6FD86FF81F2B2A7F001ED20F /* SRGAnalyticsStreamTracker.h */,
 				6FD86FF91F2B2A7F001ED20F /* SRGAnalyticsStreamTracker.m */,
-				6FDC8966224CDEDB0013E031 /* SRGAnalyticsStreamTracking.h */,
 				E61388911D916A9900218919 /* SRGAnalyticsTracker.h */,
 				E61388921D916A9900218919 /* SRGAnalyticsTracker.m */,
 				6FD86FFD1F2B2CA9001ED20F /* SRGAnalyticsTracker+Private.h */,
