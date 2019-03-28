@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, SCORStreamingAnalyticsEvent) {
 
 @interface SCORStreamingAnalytics (SRGAnalytics)
 
-- (BOOL)srg_notifyEvent:(SCORStreamingAnalyticsEvent)event withPosition:(long)position labels:(nullable NSDictionary *)labels;
+- (BOOL)srg_notifyEvent:(SCORStreamingAnalyticsEvent)event withPosition:(long)position;
 
 @end
 

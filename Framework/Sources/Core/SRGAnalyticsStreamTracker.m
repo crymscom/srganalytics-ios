@@ -41,7 +41,6 @@
         
         // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
         self.streamingAnalytics = [[SCORStreamingAnalytics alloc] init];
-        self.streamingAnalytics.keepAliveInterval = 9. * 60.;
         [self.streamingAnalytics createPlaybackSession];
         
         self.previousPlayerState = SRGAnalyticsStreamStateEnded;
@@ -119,11 +118,14 @@
         position = 0;
     }
     
+    // To be properly persisted for heartbeats, labels must be set on the asset. Since we have no ads, a single asset
+    // suffices.
     NSMutableDictionary *allLabels = [[labels comScoreLabelsDictionary] mutableCopy];
     [allLabels addEntriesFromDictionary:[labels comScoreSegmentLabelsDictionary]];
+    [self.streamingAnalytics.playbackSession setAssetWithLabels:[allLabels copy]];
     
     SCORStreamingAnalyticsEvent event = eventValue.intValue;
-    [self.streamingAnalytics srg_notifyEvent:event withPosition:position labels:[allLabels copy]];
+    [self.streamingAnalytics srg_notifyEvent:event withPosition:position];
     
     if (event == SCORStreamingAnalyticsEventPlay) {
         self.comScoreSessionAlive = YES;

@@ -8,36 +8,38 @@
 
 @implementation SCORStreamingAnalytics (SRGAnalytics)
 
-- (BOOL)srg_notifyEvent:(SCORStreamingAnalyticsEvent)event withPosition:(long)position labels:(NSDictionary *)labels
+- (BOOL)srg_notifyEvent:(SCORStreamingAnalyticsEvent)event withPosition:(long)position
 {
+    // Labels sent with -notify methods are only associated with the event and not persisted for other events (e.g.
+    // heartbeats). We therefore must use label-less methods only.
     switch (event) {
         case SCORStreamingAnalyticsEventBufferStart: {
-            return [self notifyBufferStartWithPosition:position labels:labels];
+            return [self notifyBufferStartWithPosition:position];
             break;
         }
             
         case SCORStreamingAnalyticsEventBufferStop: {
-            return [self notifyBufferStopWithPosition:position labels:labels];
+            return [self notifyBufferStopWithPosition:position];
             break;
         }
             
         case SCORStreamingAnalyticsEventPlay: {
-            return [self notifyPlayWithPosition:position labels:labels];
+            return [self notifyPlayWithPosition:position];
             break;
         }
             
         case SCORStreamingAnalyticsEventPause: {
-            return [self notifyPauseWithPosition:position labels:labels];
+            return [self notifyPauseWithPosition:position];
             break;
         }
             
         case SCORStreamingAnalyticsEventEnd: {
-            return [self notifyEndWithPosition:position labels:labels];
+            return [self notifyEndWithPosition:position];
             break;
         }
             
         case SCORStreamingAnalyticsEventSeekStart: {
-            return [self notifySeekStartWithPosition:position labels:labels];
+            return [self notifySeekStartWithPosition:position];
             break;
         }
             

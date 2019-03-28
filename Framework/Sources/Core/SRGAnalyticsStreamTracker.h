@@ -101,7 +101,7 @@ typedef NS_ENUM(NSInteger, SRGAnalyticsStreamState) {
  *  @param position The current player playback position, in milliseconds.
  *  @param labels   Additional detailed information.
  *
- *  @discussion An stream analytics event is only fired when proper conditions are met. To ensure events are emitted
+ *  @discussion A stream analytics event is only fired when proper conditions are met. To ensure events are emitted
  *              appropriately, you should therefore update the tracker when appropriate (e.g. when the player playing
  *              the stream changes its playback state).
  */
