@@ -8,6 +8,7 @@
 #import "Segment.h"
 #import "XCTestCase+Tests.h"
 
+#import <MediaAccessibility/MediaAccessibility.h>
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 
 typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
@@ -851,6 +852,8 @@ static NSURL *DVRTestURL(void)
 
 - (void)testSubtitles
 {
+    MACaptionAppearanceSetDisplayType(kMACaptionAppearanceDomainUser, kMACaptionAppearanceDisplayTypeAutomatic);
+    
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"true");
@@ -874,6 +877,8 @@ static NSURL *DVRTestURL(void)
 
 - (void)testNoSubtitles
 {
+    MACaptionAppearanceSetDisplayType(kMACaptionAppearanceDomainUser, kMACaptionAppearanceDisplayTypeAutomatic);
+    
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_subtitles_on"], @"false");
