@@ -159,6 +159,8 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)updateWithEventUid:(NSString *)eventUid position:(NSTimeInterval)position segment:(id<SRGSegment>)segment userInfo:(NSDictionary *)userInfo
 {
+    self.previousEventUid = eventUid;
+    
     // Restore the heartbeat timer when transitioning to play again.
     if ([eventUid isEqualToString:@"play"]) {
         if (! self.heartbeatTimer) {

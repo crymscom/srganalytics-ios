@@ -435,7 +435,7 @@ static NSURL *DVRTestURL(void)
     }];
 }
 
-- (void)testConsecutiveMedia
+- (void)testConsecutiveMedias
 {
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
