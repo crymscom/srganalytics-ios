@@ -15,8 +15,6 @@
 #import <libextobjc/libextobjc.h>
 #import <MAKVONotificationCenter/MAKVONotificationCenter.h>
 
-static void *s_kvoContext = &s_kvoContext;
-
 NSString * const SRGAnalyticsMediaPlayerLabelsKey = @"SRGAnalyticsMediaPlayerLabels";
 
 static long SRGAnalyticsCMTimeToMilliseconds(CMTime time)
@@ -55,6 +53,7 @@ static NSMutableDictionary *s_trackers = nil;
 {
     if (self = [super init]) {
         self.mediaPlayerController = mediaPlayerController;
+        self.previousEventUid = @"stop";
     }
     return self;
 }
@@ -91,10 +90,6 @@ static NSMutableDictionary *s_trackers = nil;
 }
 
 #pragma mark Tracking
-
-// TODO: - Restore initial session play if needed, restored tracked boolean management
-//       - Check memory profile
-//       - Define string enum for event uids (maybe rename as well).
 
 - (void)start
 {
@@ -159,6 +154,10 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)updateWithEventUid:(NSString *)eventUid position:(NSTimeInterval)position segment:(id<SRGSegment>)segment userInfo:(NSDictionary *)userInfo
 {
+    if ([self.previousEventUid isEqualToString:eventUid]) {
+        return;
+    }
+    
     self.previousEventUid = eventUid;
     
     // Restore the heartbeat timer when transitioning to play again.
@@ -447,8 +446,11 @@ static NSMutableDictionary *s_trackers = nil;
 - (void)playbackStateDidChange:(NSNotification *)notification
 {
     SRGMediaPlayerController *mediaPlayerController = self.mediaPlayerController;
+    
     SRGMediaPlayerPlaybackState playbackState = mediaPlayerController.playbackState;
-    NSAssert(playbackState != SRGMediaPlayerPlaybackStateIdle && playbackState != SRGMediaPlayerPlaybackStatePreparing, @"Tracker registrations are managed in idle and preparing states and should therefore not be caught as notification");
+    if (playbackState == SRGMediaPlayerPlaybackStateIdle || SRGMediaPlayerPlaybackStatePreparing) {
+        return;
+    }
     
     // Inhibit usual playback transitions occuring during segment selection
     if ([notification.userInfo[SRGMediaPlayerSelectionKey] boolValue]) {
