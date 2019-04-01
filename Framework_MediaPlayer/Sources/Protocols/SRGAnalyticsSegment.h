@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Analytics labels associated with the segment.
  */
-@property (nonatomic, readonly, nullable) SRGAnalyticsStreamLabels *srg_analyticsLabels;
+@property (nonatomic, readonly, nullable) NSDictionary <NSString *, NSString *> *srg_analyticsLabels;
 
 @end
 

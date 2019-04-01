@@ -14,38 +14,23 @@
 
 @implementation SRGMediaComposition (SRGAnalytics_DataProvider)
 
-- (SRGAnalyticsStreamLabels *)analyticsLabelsForResource:(SRGResource *)resource sourceUid:(NSString *)sourceUid
+- (NSDictionary<NSString *, NSString *> *)analyticsLabelsForResource:(SRGResource *)resource sourceUid:(NSString *)sourceUid
 {
     NSAssert([self.mainChapter.resources containsObject:resource], @"The specified resource must be associated with the current context");
     
-    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
-    
-    NSMutableDictionary<NSString *, NSString *> *customInfo = [NSMutableDictionary dictionary];
+    NSMutableDictionary<NSString *, NSString *> *labels = [NSMutableDictionary dictionary];
     if (self.analyticsLabels) {
-        [customInfo addEntriesFromDictionary:self.analyticsLabels];
+        [labels addEntriesFromDictionary:self.analyticsLabels];
     }
     if (self.mainChapter.analyticsLabels) {
-        [customInfo addEntriesFromDictionary:self.mainChapter.analyticsLabels];
+        [labels addEntriesFromDictionary:self.mainChapter.analyticsLabels];
     }
     if (resource.analyticsLabels) {
-        [customInfo addEntriesFromDictionary:resource.analyticsLabels];
+        [labels addEntriesFromDictionary:resource.analyticsLabels];
     }
-    customInfo[@"source_id"] = sourceUid;
-    labels.customInfo = [customInfo copy];
+    labels[@"source_id"] = sourceUid;
     
-    NSMutableDictionary<NSString *, NSString *> *comScoreCustomInfo = [NSMutableDictionary dictionary];
-    if (self.comScoreAnalyticsLabels) {
-        [comScoreCustomInfo addEntriesFromDictionary:self.comScoreAnalyticsLabels];
-    }
-    if (self.mainChapter.comScoreAnalyticsLabels) {
-        [comScoreCustomInfo addEntriesFromDictionary:self.mainChapter.comScoreAnalyticsLabels];
-    }
-    if (resource.comScoreAnalyticsLabels) {
-        [comScoreCustomInfo addEntriesFromDictionary:resource.comScoreAnalyticsLabels];
-    }
-    labels.comScoreCustomInfo = [comScoreCustomInfo copy];
-    
-    return labels;
+    return [labels copy];
 }
 
 - (BOOL)playbackContextWithPreferredSettings:(SRGPlaybackSettings *)preferredSettings
@@ -171,7 +156,7 @@
         URL = URLComponents.URL;
     }
     
-    SRGAnalyticsStreamLabels *labels = [self analyticsLabelsForResource:resource sourceUid:preferredSettings.sourceUid];
+    NSDictionary<NSString *, NSString *> *labels = [self analyticsLabelsForResource:resource sourceUid:preferredSettings.sourceUid];
     NSInteger index = [chapter.segments indexOfObject:self.mainSegment];
     contextBlock(URL, resource, chapter.segments, index, labels);
     return YES;

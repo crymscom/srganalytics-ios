@@ -37,9 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  ## Additional measurement labels
  *
- *  You can supply additional custom measurement labels with stream events sent from your application. These labels
- *  are provided through `SRGAnalyticsStreamLabels` instances whose properties can be set depending on which information
- *  is needed.
+ *  You can supply additional custom measurement labels with stream events sent from your application.
  *
  *  Custom information can be added to both content and segment labels. When playing a segment, its labels are merged
  *  with labels associated with the content, overriding existing keys. You can take advantage of this behavior to add
@@ -67,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)prepareToPlayURL:(NSURL *)URL
               atPosition:(nullable SRGPosition *)position
             withSegments:(nullable NSArray<id<SRGSegment>> *)segments
-         analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
+         analyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
 
@@ -81,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)prepareToPlayItem:(AVPlayerItem *)item
                atPosition:(nullable SRGPosition *)position
              withSegments:(nullable NSArray<id<SRGSegment>> *)segments
-          analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
+          analyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels
                  userInfo:(nullable NSDictionary *)userInfo
         completionHandler:(nullable void (^)(void))completionHandler;
 
@@ -95,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)playURL:(NSURL *)URL
      atPosition:(nullable SRGPosition *)position
    withSegments:(nullable NSArray<id<SRGSegment>> *)segments
-analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
+analyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
@@ -108,7 +106,7 @@ analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
 - (void)playItem:(AVPlayerItem *)item
       atPosition:(nullable SRGPosition *)position
     withSegments:(nullable NSArray<id<SRGSegment>> *)segments
- analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
+ analyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels
         userInfo:(nullable NSDictionary *)userInfo;
 
 /**
@@ -122,7 +120,7 @@ analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
                  atIndex:(NSInteger)index
                 position:(nullable SRGPosition *)position
               inSegments:(NSArray<id<SRGSegment>> *)segments
-     withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
+     withAnalyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels
                 userInfo:(nullable NSDictionary *)userInfo
        completionHandler:(nullable void (^)(void))completionHandler;
 
@@ -137,7 +135,7 @@ analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
                   atIndex:(NSInteger)index
                  position:(nullable SRGPosition *)position
                inSegments:(NSArray<id<SRGSegment>> *)segments
-      withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
+      withAnalyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels
                  userInfo:(nullable NSDictionary *)userInfo
         completionHandler:(nullable void (^)(void))completionHandler;
 
@@ -152,7 +150,7 @@ analyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
         atIndex:(NSInteger)index
        position:(nullable SRGPosition *)position
      inSegments:(NSArray<id<SRGSegment>> *)segments
-withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
+withAnalyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels
        userInfo:(nullable NSDictionary *)userInfo;
 
 /**
@@ -166,7 +164,7 @@ withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
          atIndex:(NSInteger)index
         position:(nullable SRGPosition *)position
       inSegments:(NSArray<id<SRGSegment>> *)segments
-withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
+withAnalyticsLabels:(nullable NSDictionary<NSString *, NSString *> *)analyticsLabels
         userInfo:(nullable NSDictionary *)userInfo;
 
 /**
@@ -199,7 +197,7 @@ withAnalyticsLabels:(nullable SRGAnalyticsStreamLabels *)analyticsLabels
  *  @discussion Labels will be discarded when the player is reset. These labels are stored within the `userInfo`
  *              dictionary.
  */
-@property (nonatomic, nullable, copy) SRGAnalyticsStreamLabels *analyticsLabels;
+@property (nonatomic, nullable, copy) NSDictionary<NSString *, NSString *> *analyticsLabels;
 
 @end
 

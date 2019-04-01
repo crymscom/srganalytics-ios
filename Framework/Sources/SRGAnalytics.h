@@ -15,6 +15,5 @@ FOUNDATION_EXPORT NSString * SRGAnalyticsMarketingVersion(void);
 #import "SRGAnalyticsLabels.h"
 #import "SRGAnalyticsNotifications.h"
 #import "SRGAnalyticsPageViewLabels.h"
-#import "SRGAnalyticsStreamLabels.h"
 #import "SRGAnalyticsTracker.h"
 #import "UIViewController+SRGAnalytics.h"

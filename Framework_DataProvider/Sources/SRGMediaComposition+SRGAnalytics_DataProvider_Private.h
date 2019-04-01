@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @discussion An exception is thrown in debug builds if the resource is not associated with the receiver.
  */
-- (SRGAnalyticsStreamLabels *)analyticsLabelsForResource:(SRGResource *)resource sourceUid:(nullable NSString *)sourceUid;
+- (NSDictionary<NSString *, NSString *> *)analyticsLabelsForResource:(SRGResource *)resource sourceUid:(nullable NSString *)sourceUid;
 
 @end
 

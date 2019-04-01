@@ -18,7 +18,7 @@ static void *s_analyticsPlayerVersionKey = &s_analyticsPlayerVersionKey;
 
 #pragma mark Class methods
 
-+ (NSDictionary *)fullInfoWithAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
++ (NSDictionary *)fullInfoWithAnalyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels
                                      userInfo:(NSDictionary *)userInfo
 {
     NSMutableDictionary *fullUserInfo = [NSMutableDictionary dictionary];
@@ -34,7 +34,7 @@ static void *s_analyticsPlayerVersionKey = &s_analyticsPlayerVersionKey;
 - (void)prepareToPlayURL:(NSURL *)URL
               atPosition:(SRGPosition *)position
             withSegments:(NSArray<id<SRGSegment>> *)segments
-         analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+         analyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels
                 userInfo:(NSDictionary *)userInfo
        completionHandler:(void (^)(void))completionHandler
 {
@@ -45,7 +45,7 @@ static void *s_analyticsPlayerVersionKey = &s_analyticsPlayerVersionKey;
 - (void)prepareToPlayItem:(AVPlayerItem *)item
                atPosition:(SRGPosition *)position
              withSegments:(NSArray<id<SRGSegment>> *)segments
-          analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+          analyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels
                  userInfo:(NSDictionary *)userInfo
         completionHandler:(void (^)(void))completionHandler
 {
@@ -56,7 +56,7 @@ static void *s_analyticsPlayerVersionKey = &s_analyticsPlayerVersionKey;
 - (void)playURL:(NSURL *)URL
      atPosition:(SRGPosition *)position
    withSegments:(NSArray<id<SRGSegment>> *)segments
-analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+analyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels
        userInfo:(NSDictionary *)userInfo
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
@@ -66,7 +66,7 @@ analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
 - (void)playItem:(AVPlayerItem *)item
       atPosition:(SRGPosition *)position
     withSegments:(NSArray<id<SRGSegment>> *)segments
- analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+ analyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels
         userInfo:(NSDictionary *)userInfo
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
@@ -77,7 +77,7 @@ analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
                  atIndex:(NSInteger)index
                 position:(SRGPosition *)position
               inSegments:(NSArray<id<SRGSegment>> *)segments
-     withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+     withAnalyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels
                 userInfo:(NSDictionary *)userInfo
        completionHandler:(void (^)(void))completionHandler
 {
@@ -89,7 +89,7 @@ analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
                   atIndex:(NSInteger)index
                  position:(SRGPosition *)position
                inSegments:(NSArray<id<SRGSegment>> *)segments
-      withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+      withAnalyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels
                  userInfo:(NSDictionary *)userInfo
         completionHandler:(void (^)(void))completionHandler
 {
@@ -101,7 +101,7 @@ analyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
         atIndex:(NSInteger)index
        position:(SRGPosition *)position
      inSegments:(NSArray<id<SRGSegment>> *)segments
-withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+withAnalyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels
        userInfo:(NSDictionary *)userInfo
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
@@ -112,7 +112,7 @@ withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
          atIndex:(NSInteger)index
         position:(SRGPosition *)position
       inSegments:(NSArray<id<SRGSegment>> *)segments
-withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+withAnalyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels
         userInfo:(NSDictionary *)userInfo
 {
     NSDictionary *fullUserInfo = [SRGMediaPlayerController fullInfoWithAnalyticsLabels:analyticsLabels userInfo:userInfo];
@@ -154,12 +154,12 @@ withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
     objc_setAssociatedObject(self, s_analyticsPlayerVersionKey, analyticsPlayerVersion, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (SRGAnalyticsStreamLabels *)analyticsLabels
+- (NSDictionary<NSString *, NSString *> *)analyticsLabels
 {
     return self.userInfo[SRGAnalyticsMediaPlayerLabelsKey];
 }
 
-- (void)setAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
+- (void)setAnalyticsLabels:(NSDictionary<NSString *, NSString *> *)analyticsLabels
 {
     NSMutableDictionary *userInfo = [self.userInfo mutableCopy] ?: [NSMutableDictionary dictionary];
     userInfo[SRGAnalyticsMediaPlayerLabelsKey] = analyticsLabels;

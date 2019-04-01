@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // Completion block signatures.
-typedef void (^SRGPlaybackContextBlock)(NSURL *streamURL, SRGResource *resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels);
+typedef void (^SRGPlaybackContextBlock)(NSURL *streamURL, SRGResource *resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, NSDictionary<NSString *, NSString *> * _Nullable analyticsLabels);
 
 @interface SRGMediaComposition (SRGAnalytics_DataProvider)
 
