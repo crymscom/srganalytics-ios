@@ -62,7 +62,7 @@ static NSNumber *SRGMediaPlayerTimeshiftInMilliseconds(SRGMediaPlayerStreamType 
     }
 }
 
-static NSNumber *SRGMediaPlayerCurrentTimeshiftInMilliseconds(SRGMediaPlayerController *mediaPlayerController)
+static NSNumber *SRGMediaPlayerTrackerCurrentTimeshiftInMilliseconds(SRGMediaPlayerController *mediaPlayerController)
 {
     return SRGMediaPlayerTimeshiftInMilliseconds(mediaPlayerController.streamType,
                                                  mediaPlayerController.timeRange,
@@ -112,17 +112,28 @@ static NSMutableDictionary *s_trackers = nil;
                                                    name:SRGMediaPlayerSegmentDidEndNotification
                                                  object:mediaPlayerController];
         
-#if 0
         @weakify(self)
         [mediaPlayerController addObserver:self keyPath:@keypath(SRGMediaPlayerController.new, tracked) options:0 block:^(MAKVONotification *notification) {
             @strongify(self)
             
-            [self updateWithPlaybackState:self.mediaPlayerController.playbackState
-                                 position:[self currentPositionInMilliseconds]
-                                  segment:self.mediaPlayerController.selectedSegment
-                                 userInfo:nil];
+            SRGMediaPlayerController *mediaPlayerController = self.mediaPlayerController;
+            if (mediaPlayerController.tracked) {
+                [self updateWithPlaybackState:mediaPlayerController.playbackState
+                                   streamType:mediaPlayerController.streamType
+                                     position:SRGMediaPlayerTrackerCurrentPositionInMilliseconds(mediaPlayerController)
+                                    timeshift:SRGMediaPlayerTrackerCurrentTimeshiftInMilliseconds(mediaPlayerController)
+                                      segment:mediaPlayerController.selectedSegment
+                                     userInfo:mediaPlayerController.userInfo];
+            }
+            else {
+                [self updateWithEventUid:@"stop"
+                              streamType:mediaPlayerController.streamType
+                                position:SRGMediaPlayerTrackerCurrentPositionInMilliseconds(mediaPlayerController)
+                               timeshift:SRGMediaPlayerTrackerCurrentTimeshiftInMilliseconds(mediaPlayerController)
+                                 segment:mediaPlayerController.selectedSegment
+                                userInfo:mediaPlayerController.userInfo];
+            }
         }];
-#endif
     }
     return self;
 }
@@ -153,14 +164,50 @@ static NSMutableDictionary *s_trackers = nil;
 
 #pragma mark Tracking
 
-- (void)trackMediaPlayerEventWithUid:(NSString *)eventUid
-                          streamType:(SRGMediaPlayerStreamType)streamType
-                            position:(NSTimeInterval)position
-                           timeshift:(NSNumber *)timeshift
-                             segment:(id<SRGSegment>)segment
-                            userInfo:(NSDictionary *)userInfo
+- (void)updateWithPlaybackState:(SRGMediaPlayerPlaybackState)playbackState
+                     streamType:(SRGMediaPlayerStreamType)streamType
+                       position:(NSTimeInterval)position
+                      timeshift:(NSNumber *)timeshift
+                        segment:(id<SRGSegment>)segment
+                       userInfo:(NSDictionary *)userInfo
+{
+    static dispatch_once_t s_onceToken;
+    static NSDictionary<NSNumber *, NSString *> *s_eventUids;
+    dispatch_once(&s_onceToken, ^{
+        s_eventUids = @{ @(SRGMediaPlayerPlaybackStateIdle) : @"stop",
+                         @(SRGMediaPlayerPlaybackStatePlaying) : @"play",
+                         @(SRGMediaPlayerPlaybackStateSeeking) : @"seek",
+                         @(SRGMediaPlayerPlaybackStatePaused) : @"pause",
+                         @(SRGMediaPlayerPlaybackStateEnded) : @"eof" };
+    });
+    
+    NSString *eventUid = s_eventUids[@(playbackState)];
+    if (! eventUid) {
+        return;
+    }
+    
+    [self updateWithEventUid:eventUid
+                  streamType:streamType
+                    position:position
+                   timeshift:timeshift
+                     segment:segment
+                    userInfo:userInfo];
+}
+
+- (void)updateWithEventUid:(NSString *)eventUid
+                streamType:(SRGMediaPlayerStreamType)streamType
+                  position:(NSTimeInterval)position
+                 timeshift:(NSNumber *)timeshift
+                   segment:(id<SRGSegment>)segment
+                  userInfo:(NSDictionary *)userInfo
 {
     NSAssert(eventUid.length != 0, @"An event uid is required");
+    
+    // Ensure a play is emitted before events requiring a session to be opened (the Tag Commander SDK does not open sessions
+    // automatically)
+    if ([self.lastEventUid isEqualToString:@"stop"] && ([eventUid isEqualToString:@"seek"] || [eventUid isEqualToString:@"pause"])) {
+        [self updateWithEventUid:@"play" streamType:streamType position:position timeshift:timeshift segment:segment userInfo:userInfo];
+    }
     
     if (! [eventUid isEqualToString:@"pos"] && ! [eventUid isEqualToString:@"uptime"]) {
         static dispatch_once_t s_onceToken;
@@ -178,24 +225,24 @@ static NSMutableDictionary *s_trackers = nil;
         }
         
         self.lastEventUid = eventUid;
-    }
-    
-    // Restore the heartbeat timer when transitioning to play again.
-    if ([eventUid isEqualToString:@"play"]) {
-        if (! self.heartbeatTimer) {
-            SRGAnalyticsConfiguration *configuration = SRGAnalyticsTracker.sharedTracker.configuration;
-            NSTimeInterval heartbeatInterval = configuration.unitTesting ? 3. : 30.;
-            self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:heartbeatInterval
-                                                                   target:self
-                                                                 selector:@selector(heartbeat:)
-                                                                 userInfo:nil
-                                                                  repeats:YES];
-            self.heartbeatCount = 0;
+        
+        // Restore the heartbeat timer when transitioning to play again.
+        if ([eventUid isEqualToString:@"play"]) {
+            if (! self.heartbeatTimer) {
+                SRGAnalyticsConfiguration *configuration = SRGAnalyticsTracker.sharedTracker.configuration;
+                NSTimeInterval heartbeatInterval = configuration.unitTesting ? 3. : 30.;
+                self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:heartbeatInterval
+                                                                       target:self
+                                                                     selector:@selector(heartbeat:)
+                                                                     userInfo:nil
+                                                                      repeats:YES];
+                self.heartbeatCount = 0;
+            }
         }
-    }
-    // Remove the heartbeat when not playing
-    else {
-        self.heartbeatTimer = nil;
+        // Remove the heartbeat when not playing
+        else {
+            self.heartbeatTimer = nil;
+        }
     }
     
     NSMutableDictionary<NSString *, NSString *> *labels = [NSMutableDictionary dictionary];
@@ -220,9 +267,6 @@ static NSMutableDictionary *s_trackers = nil;
         [labels srg_safelySetString:@(timeshift.integerValue / 1000).stringValue forKey:@"media_timeshift"];
     }
     
-    // TODO: - Check memory profile
-    //       - String enum for event uids (rename eventUid as well)
-    
     NSDictionary<NSString *, NSString *> *mainLabels = userInfo[SRGAnalyticsMediaPlayerLabelsKey];
     if (mainLabels) {
         [labels addEntriesFromDictionary:mainLabels];
@@ -236,13 +280,15 @@ static NSMutableDictionary *s_trackers = nil;
     [SRGAnalyticsTracker.sharedTracker trackTagCommanderEventWithLabels:[labels copy]];
 }
 
+#pragma mark Heartbeats
+
 - (NSTimeInterval)updatedPlaybackDurationWithEventUid:(NSString *)eventUid
 {
     if (self.previousPlaybackDurationUpdateDate) {
         self.playbackDuration -= [self.previousPlaybackDurationUpdateDate timeIntervalSinceNow] * 1000.;
     }
     
-    if ([eventUid isEqualToString:@"play"]) {
+    if ([eventUid isEqualToString:@"play"] || [eventUid isEqualToString:@"pos"] || [eventUid isEqualToString:@"uptime"]) {
         self.previousPlaybackDurationUpdateDate = NSDate.date;
     }
     else {
@@ -367,6 +413,8 @@ static NSMutableDictionary *s_trackers = nil;
     SRGMediaPlayerPlaybackState playbackState = [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue];
     SRGMediaPlayerPlaybackState previousPlaybackState = [notification.userInfo[SRGMediaPlayerPreviousPlaybackStateKey] integerValue];
     
+    // Always attach a tracker to a the player controller, whether or not it is actually tracked (otherwise we would
+    // be unable to attach to initially untracked controller later).
     if (playbackState == SRGMediaPlayerPlaybackStatePreparing) {
         SRGMediaPlayerTracker *tracker = [[SRGMediaPlayerTracker alloc] initWithMediaPlayerController:mediaPlayerController];
         s_trackers[key] = tracker;
@@ -383,12 +431,12 @@ static NSMutableDictionary *s_trackers = nil;
                                                                             [notification.userInfo[SRGMediaPlayerPreviousTimeRangeKey] CMTimeRangeValue],
                                                                             [notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue],
                                                                             mediaPlayerController.liveTolerance);
-                [tracker trackMediaPlayerEventWithUid:@"stop"
-                                           streamType:streamType
-                                             position:position
-                                            timeshift:timeshift
-                                              segment:notification.userInfo[SRGMediaPlayerPreviousSelectedSegmentKey]
-                                             userInfo:notification.userInfo[SRGMediaPlayerPreviousUserInfoKey]];
+                [tracker updateWithEventUid:@"stop"
+                                 streamType:streamType
+                                   position:position
+                                  timeshift:timeshift
+                                    segment:notification.userInfo[SRGMediaPlayerPreviousSelectedSegmentKey]
+                                   userInfo:notification.userInfo[SRGMediaPlayerPreviousUserInfoKey]];
             }
             s_trackers[key] = nil;
             
@@ -400,6 +448,9 @@ static NSMutableDictionary *s_trackers = nil;
 - (void)playbackStateDidChange:(NSNotification *)notification
 {
     SRGMediaPlayerController *mediaPlayerController = notification.object;
+    if (! mediaPlayerController.tracked) {
+        return;
+    }
     
     SRGMediaPlayerPlaybackState playbackState = mediaPlayerController.playbackState;
     if (playbackState == SRGMediaPlayerPlaybackStateIdle || playbackState == SRGMediaPlayerPlaybackStatePreparing) {
@@ -411,34 +462,22 @@ static NSMutableDictionary *s_trackers = nil;
         return;
     }
     
-    static dispatch_once_t s_onceToken;
-    static NSDictionary<NSNumber *, NSString *> *s_eventUids;
-    dispatch_once(&s_onceToken, ^{
-        s_eventUids = @{ @(SRGMediaPlayerPlaybackStateIdle) : @"stop",
-                         @(SRGMediaPlayerPlaybackStatePlaying) : @"play",
-                         @(SRGMediaPlayerPlaybackStateSeeking) : @"seek",
-                         @(SRGMediaPlayerPlaybackStatePaused) : @"pause",
-                         @(SRGMediaPlayerPlaybackStateEnded) : @"eof" };
-    });
-    
-    NSString *eventUid = s_eventUids[@(playbackState)];
-    if (! eventUid) {
-        return;
-    }
-    
-    [self trackMediaPlayerEventWithUid:eventUid
-                            streamType:mediaPlayerController.streamType
-                              position:SRGMediaPlayerTrackerCurrentPositionInMilliseconds(mediaPlayerController)
-                             timeshift:SRGMediaPlayerCurrentTimeshiftInMilliseconds(mediaPlayerController)
-                               segment:mediaPlayerController.selectedSegment
-                              userInfo:mediaPlayerController.userInfo];
+    [self updateWithPlaybackState:playbackState
+                       streamType:mediaPlayerController.streamType
+                         position:SRGMediaPlayerTrackerCurrentPositionInMilliseconds(mediaPlayerController)
+                        timeshift:SRGMediaPlayerTrackerCurrentTimeshiftInMilliseconds(mediaPlayerController)
+                          segment:mediaPlayerController.selectedSegment
+                         userInfo:mediaPlayerController.userInfo];
 }
 
 - (void)segmentDidStart:(NSNotification *)notification
 {
-    // Only send analytics for segment selections
+    SRGMediaPlayerController *mediaPlayerController = notification.object;
+    if (! mediaPlayerController.tracked) {
+        return;
+    }
+    
     if ([notification.userInfo[SRGMediaPlayerSelectionKey] boolValue]) {
-        SRGMediaPlayerController *mediaPlayerController = notification.object;
         SRGMediaPlayerStreamType streamType = mediaPlayerController.streamType;
         
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
@@ -450,28 +489,31 @@ static NSMutableDictionary *s_trackers = nil;
             NSTimeInterval position = SRGMediaPlayerTrackerCMTimeToMilliseconds(lastPlaybackTime);
             NSNumber *timeshift = SRGMediaPlayerTimeshiftInMilliseconds(streamType, mediaPlayerController.timeRange, lastPlaybackTime, mediaPlayerController.liveTolerance);
             
-            [self trackMediaPlayerEventWithUid:@"stop"
-                                    streamType:streamType
-                                      position:position
-                                     timeshift:timeshift
-                                       segment:nil
-                                      userInfo:mediaPlayerController.userInfo];
+            [self updateWithEventUid:@"stop"
+                          streamType:streamType
+                            position:position
+                           timeshift:timeshift
+                             segment:nil
+                            userInfo:mediaPlayerController.userInfo];
         }
         
-        [self trackMediaPlayerEventWithUid:@"play"
-                                streamType:streamType
-                                  position:SRGMediaPlayerTrackerCurrentPositionInMilliseconds(mediaPlayerController)
-                                 timeshift:SRGMediaPlayerCurrentTimeshiftInMilliseconds(mediaPlayerController)
-                                   segment:segment
-                                  userInfo:mediaPlayerController.userInfo];
+        [self updateWithEventUid:@"play"
+                      streamType:streamType
+                        position:SRGMediaPlayerTrackerCurrentPositionInMilliseconds(mediaPlayerController)
+                       timeshift:SRGMediaPlayerTrackerCurrentTimeshiftInMilliseconds(mediaPlayerController)
+                         segment:segment
+                        userInfo:mediaPlayerController.userInfo];
     }
 }
 
 - (void)segmentDidEnd:(NSNotification *)notification
 {
-    // Only send analytics for segments which were selected
+    SRGMediaPlayerController *mediaPlayerController = notification.object;
+    if (! mediaPlayerController.tracked) {
+        return;
+    }
+    
     if ([notification.userInfo[SRGMediaPlayerSelectedKey] boolValue]) {
-        SRGMediaPlayerController *mediaPlayerController = notification.object;
         SRGMediaPlayerStreamType streamType = mediaPlayerController.streamType;
         
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
@@ -483,26 +525,26 @@ static NSMutableDictionary *s_trackers = nil;
         // Notify full-length start if the transition was not due to another segment being selected
         if (! [notification.userInfo[SRGMediaPlayerSelectionKey] boolValue] && mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
             BOOL interrupted = [notification.userInfo[SRGMediaPlayerInterruptionKey] boolValue];
-            [self trackMediaPlayerEventWithUid:interrupted ? @"stop" : @"eof"
-                                    streamType:streamType
-                                      position:lastPosition
-                                     timeshift:lastTimeshift
-                                       segment:segment
-                                      userInfo:mediaPlayerController.userInfo];
-            [self trackMediaPlayerEventWithUid:@"play"
-                                    streamType:streamType
-                                      position:SRGMediaPlayerTrackerCurrentPositionInMilliseconds(mediaPlayerController)
-                                     timeshift:SRGMediaPlayerCurrentTimeshiftInMilliseconds(mediaPlayerController)
-                                       segment:nil
-                                      userInfo:mediaPlayerController.userInfo];
+            [self updateWithEventUid:interrupted ? @"stop" : @"eof"
+                          streamType:streamType
+                            position:lastPosition
+                           timeshift:lastTimeshift
+                             segment:segment
+                            userInfo:mediaPlayerController.userInfo];
+            [self updateWithEventUid:@"play"
+                          streamType:streamType
+                            position:SRGMediaPlayerTrackerCurrentPositionInMilliseconds(mediaPlayerController)
+                           timeshift:SRGMediaPlayerTrackerCurrentTimeshiftInMilliseconds(mediaPlayerController)
+                             segment:nil
+                            userInfo:mediaPlayerController.userInfo];
         }
         else {
-            [self trackMediaPlayerEventWithUid:@"stop"
-                                    streamType:streamType
-                                      position:lastPosition
-                                     timeshift:lastTimeshift
-                                       segment:segment
-                                      userInfo:mediaPlayerController.userInfo];
+            [self updateWithEventUid:@"stop"
+                          streamType:streamType
+                            position:lastPosition
+                           timeshift:lastTimeshift
+                             segment:segment
+                            userInfo:mediaPlayerController.userInfo];
         }
     }
 }
@@ -511,25 +553,30 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (void)heartbeat:(NSTimer *)timer
 {
-    SRGMediaPlayerStreamType streamType = self.mediaPlayerController.streamType;
-    NSTimeInterval position = SRGMediaPlayerTrackerCurrentPositionInMilliseconds(self.mediaPlayerController);
-    NSNumber *timeshift = SRGMediaPlayerCurrentTimeshiftInMilliseconds(self.mediaPlayerController);
+    SRGMediaPlayerController *mediaPlayerController = self.mediaPlayerController;
+    if (! mediaPlayerController.tracked) {
+        return;
+    }
     
-    [self trackMediaPlayerEventWithUid:@"pos"
-                            streamType:streamType
-                              position:position
-                             timeshift:timeshift
-                               segment:self.mediaPlayerController.selectedSegment
-                              userInfo:self.mediaPlayerController.userInfo];
+    SRGMediaPlayerStreamType streamType = mediaPlayerController.streamType;
+    NSTimeInterval position = SRGMediaPlayerTrackerCurrentPositionInMilliseconds(mediaPlayerController);
+    NSNumber *timeshift = SRGMediaPlayerTrackerCurrentTimeshiftInMilliseconds(mediaPlayerController);
+    
+    [self updateWithEventUid:@"pos"
+                  streamType:streamType
+                    position:position
+                   timeshift:timeshift
+                     segment:mediaPlayerController.selectedSegment
+                    userInfo:mediaPlayerController.userInfo];
     
     // Send a live heartbeat each minute
     if (self.mediaPlayerController.live && self.heartbeatCount % 2 != 0) {
-        [self trackMediaPlayerEventWithUid:@"uptime"
-                                streamType:streamType
-                                  position:position
-                                 timeshift:timeshift
-                                   segment:self.mediaPlayerController.selectedSegment
-                                  userInfo:self.mediaPlayerController.userInfo];
+        [self updateWithEventUid:@"uptime"
+                      streamType:streamType
+                        position:position
+                       timeshift:timeshift
+                         segment:mediaPlayerController.selectedSegment
+                        userInfo:mediaPlayerController.userInfo];
     }
     
     self.heartbeatCount += 1;
