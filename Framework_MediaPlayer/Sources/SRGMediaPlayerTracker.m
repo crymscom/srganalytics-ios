@@ -27,8 +27,6 @@ static MediaPlayerTrackerEvent const MediaPlayerTrackerEventStop = @"stop";
 static MediaPlayerTrackerEvent const MediaPlayerTrackerEventPosition = @"pos";
 static MediaPlayerTrackerEvent const MediaPlayerTrackerEventUptime = @"uptime";
 
-NSString * const SRGAnalyticsMediaPlayerLabelsKey = @"SRGAnalyticsMediaPlayerLabels";
-
 static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil;
 
 @interface SRGMediaPlayerTracker ()

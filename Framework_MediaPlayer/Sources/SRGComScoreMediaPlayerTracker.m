@@ -7,6 +7,7 @@
 #import "SRGComScoreMediaPlayerTracker.h"
 
 #import "SRGAnalyticsMediaPlayerLogger.h"
+#import "SRGAnalyticsStreamLabels.h"
 #import "SRGMediaAnalytics.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
@@ -37,6 +38,11 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
         
         self.streamingAnalytics = [[SCORStreamingAnalytics alloc] init];
         [self.streamingAnalytics createPlaybackSession];
+        
+        SRGAnalyticsStreamLabels *labels = mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey];
+        if (labels.comScoreLabelsDictionary) {
+            [self.streamingAnalytics.playbackSession setAssetWithLabels:labels.comScoreLabelsDictionary];
+        }
         
         [NSNotificationCenter.defaultCenter addObserver:self
                                                selector:@selector(playbackStateDidChange:)
@@ -70,54 +76,12 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
 
 #pragma clang diagnostic pop
 
-#pragma mark Tracking
-
 // TODO: Buffering. Preparing = buffering? Stalled = Buffering? Seeking = Buffering? Or simply deal separately from
 //       player state?
-
 // TODO: Restore tracker labels!! (for comScore labels stemming from the IL!)
 // TODO: Check that confcall hints have been implemented
 // TODO: Create common tracker parent class which deals with registrations and calls hooks (MP registration,
 //       notifications, tracked boolean changes)
-
-- (void)recordEventForPlaybackState:(SRGMediaPlayerPlaybackState)playbackState
-                       withPosition:(NSTimeInterval)position
-{
-    // Important: Never alter the stream type afterwards. Once we have determined the stream supports DVR, stick with
-    // it (the window length and offset can be updated, though).
-    if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
-        [self.streamingAnalytics setDVRWindowLength:CMTimeGetSeconds(self.mediaPlayerController.timeRange.duration) * 1000];
-        [self.streamingAnalytics setDVRWindowOffset:SRGMediaAnalyticsPlayerTimeshiftInMilliseconds(self.mediaPlayerController).integerValue];
-    }
-    
-    // Labels sent with `-notify` methods are only associated with the event and not persisted for other events (e.g.
-    // heartbeats). We therefore *must* use label-less methods only.
-    switch (playbackState) {
-        case SRGMediaPlayerPlaybackStatePlaying: {
-            [self.streamingAnalytics notifyPlayWithPosition:position];
-            break;
-        }
-            
-        case SRGMediaPlayerPlaybackStatePaused: {
-            [self.streamingAnalytics notifyPauseWithPosition:position];
-            break;
-        }
-            
-        case SRGMediaPlayerPlaybackStateEnded: {
-            [self.streamingAnalytics notifyEndWithPosition:position];
-            break;
-        }
-            
-        case SRGMediaPlayerPlaybackStateSeeking: {
-            [self.streamingAnalytics notifySeekStartWithPosition:position];
-            break;
-        }
-            
-        default: {
-            break;
-        }
-    }
-}
 
 #pragma mark Notifications
 
@@ -167,7 +131,56 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
         return;
     }
     
-    // TODO:
+    long position = SRGMediaAnalyticsPlayerPositionInMilliseconds(mediaPlayerController);
+    
+    SRGMediaPlayerPlaybackState previousPlaybackState = [notification.userInfo[SRGMediaPlayerPreviousPlaybackStateKey] integerValue];
+    if (previousPlaybackState == SRGMediaPlayerPlaybackStatePreparing) {
+        [self.streamingAnalytics notifyBufferStop];
+    }
+    else if (previousPlaybackState == SRGMediaPlayerPlaybackStateStalled) {
+        [self.streamingAnalytics notifyBufferStopWithPosition:position];
+    }
+    
+    // Important: Never alter the stream type afterwards. Once we have determined the stream supports DVR, stick with
+    // it (the window length and offset can be updated, though).
+    if (mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
+        [self.streamingAnalytics setDVRWindowLength:CMTimeGetSeconds(mediaPlayerController.timeRange.duration) * 1000];
+        [self.streamingAnalytics setDVRWindowOffset:SRGMediaAnalyticsPlayerTimeshiftInMilliseconds(mediaPlayerController).integerValue];
+    }
+    
+    // Labels sent with `-notify` methods are only associated with the event and not persisted for other events (e.g.
+    // heartbeats). We therefore *must* use label-less methods only.
+    SRGMediaPlayerPlaybackState playbackState = [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue];
+    switch (playbackState) {
+        case SRGMediaPlayerPlaybackStateStalled: {
+            [self.streamingAnalytics notifyBufferStartWithPosition:position];
+            break;
+        }
+            
+        case SRGMediaPlayerPlaybackStatePlaying: {
+            [self.streamingAnalytics notifyPlayWithPosition:position];
+            break;
+        }
+            
+        case SRGMediaPlayerPlaybackStatePaused: {
+            [self.streamingAnalytics notifyPauseWithPosition:position];
+            break;
+        }
+            
+        case SRGMediaPlayerPlaybackStateEnded: {
+            [self.streamingAnalytics notifyEndWithPosition:position];
+            break;
+        }
+            
+        case SRGMediaPlayerPlaybackStateSeeking: {
+            [self.streamingAnalytics notifySeekStartWithPosition:position];
+            break;
+        }
+            
+        default: {
+            break;
+        }
+    }
 }
 
 @end

@@ -6,6 +6,8 @@
 
 #import "SRGMediaAnalytics.h"
 
+NSString * const SRGAnalyticsMediaPlayerLabelsKey = @"SRGAnalyticsMediaPlayerLabels";
+
 NSInteger SRGMediaAnalyticsCMTimeToMilliseconds(CMTime time)
 {
     return (NSInteger)fmax(floor(CMTimeGetSeconds(time) * 1000.), 0.);

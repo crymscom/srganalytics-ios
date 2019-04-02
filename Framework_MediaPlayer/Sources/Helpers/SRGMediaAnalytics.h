@@ -8,6 +8,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// Key under which media player labels are stored in the media player controller user information (as
+// `NSDictionary<NSString *, NSString *>`).
+OBJC_EXTERN NSString * const SRGAnalyticsMediaPlayerLabelsKey;
+
 /**
  *  Convert a `CMTime` into an amount of milliseconds.
  */

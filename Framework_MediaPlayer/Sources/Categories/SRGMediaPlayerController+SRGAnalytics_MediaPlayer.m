@@ -6,6 +6,7 @@
 
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
+#import "SRGMediaAnalytics.h"
 #import "SRGMediaPlayerTracker.h"
 
 #import <objc/runtime.h>
