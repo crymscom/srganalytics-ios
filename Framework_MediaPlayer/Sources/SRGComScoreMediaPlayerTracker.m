@@ -7,6 +7,7 @@
 #import "SRGComScoreMediaPlayerTracker.h"
 
 #import "SRGAnalyticsMediaPlayerLogger.h"
+#import "SRGMediaAnalytics.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
 
 #import <ComScore/ComScore.h>
@@ -21,6 +22,8 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
 
 @property (nonatomic, weak) SRGMediaPlayerController *mediaPlayerController;
 
+@property (nonatomic) SCORStreamingAnalytics *streamingAnalytics;
+
 @end
 
 @implementation SRGComScoreMediaPlayerTracker
@@ -32,17 +35,12 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
     if (self = [super init]) {
         self.mediaPlayerController = mediaPlayerController;
         
+        self.streamingAnalytics = [[SCORStreamingAnalytics alloc] init];
+        [self.streamingAnalytics createPlaybackSession];
+        
         [NSNotificationCenter.defaultCenter addObserver:self
                                                selector:@selector(playbackStateDidChange:)
                                                    name:SRGMediaPlayerPlaybackStateDidChangeNotification
-                                                 object:mediaPlayerController];
-        [NSNotificationCenter.defaultCenter addObserver:self
-                                               selector:@selector(segmentDidStart:)
-                                                   name:SRGMediaPlayerSegmentDidStartNotification
-                                                 object:mediaPlayerController];
-        [NSNotificationCenter.defaultCenter addObserver:self
-                                               selector:@selector(segmentDidEnd:)
-                                                   name:SRGMediaPlayerSegmentDidEndNotification
                                                  object:mediaPlayerController];
         
         @weakify(self)
@@ -71,6 +69,55 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
 }
 
 #pragma clang diagnostic pop
+
+#pragma mark Tracking
+
+// TODO: Buffering. Preparing = buffering? Stalled = Buffering? Seeking = Buffering? Or simply deal separately from
+//       player state?
+
+// TODO: Restore tracker labels!! (for comScore labels stemming from the IL!)
+// TODO: Check that confcall hints have been implemented
+// TODO: Create common tracker parent class which deals with registrations and calls hooks (MP registration,
+//       notifications, tracked boolean changes)
+
+- (void)recordEventForPlaybackState:(SRGMediaPlayerPlaybackState)playbackState
+                       withPosition:(NSTimeInterval)position
+{
+    // Important: Never alter the stream type afterwards. Once we have determined the stream supports DVR, stick with
+    // it (the window length and offset can be updated, though).
+    if (self.mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
+        [self.streamingAnalytics setDVRWindowLength:CMTimeGetSeconds(self.mediaPlayerController.timeRange.duration) * 1000];
+        [self.streamingAnalytics setDVRWindowOffset:SRGMediaAnalyticsPlayerTimeshiftInMilliseconds(self.mediaPlayerController).integerValue];
+    }
+    
+    // Labels sent with `-notify` methods are only associated with the event and not persisted for other events (e.g.
+    // heartbeats). We therefore *must* use label-less methods only.
+    switch (playbackState) {
+        case SRGMediaPlayerPlaybackStatePlaying: {
+            [self.streamingAnalytics notifyPlayWithPosition:position];
+            break;
+        }
+            
+        case SRGMediaPlayerPlaybackStatePaused: {
+            [self.streamingAnalytics notifyPauseWithPosition:position];
+            break;
+        }
+            
+        case SRGMediaPlayerPlaybackStateEnded: {
+            [self.streamingAnalytics notifyEndWithPosition:position];
+            break;
+        }
+            
+        case SRGMediaPlayerPlaybackStateSeeking: {
+            [self.streamingAnalytics notifySeekStartWithPosition:position];
+            break;
+        }
+            
+        default: {
+            break;
+        }
+    }
+}
 
 #pragma mark Notifications
 
@@ -114,26 +161,6 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
 }
 
 - (void)playbackStateDidChange:(NSNotification *)notification
-{
-    SRGMediaPlayerController *mediaPlayerController = notification.object;
-    if (! mediaPlayerController.tracked) {
-        return;
-    }
-    
-    // TODO:
-}
-
-- (void)segmentDidStart:(NSNotification *)notification
-{
-    SRGMediaPlayerController *mediaPlayerController = notification.object;
-    if (! mediaPlayerController.tracked) {
-        return;
-    }
-    
-    // TODO:
-}
-
-- (void)segmentDidEnd:(NSNotification *)notification
 {
     SRGMediaPlayerController *mediaPlayerController = notification.object;
     if (! mediaPlayerController.tracked) {
