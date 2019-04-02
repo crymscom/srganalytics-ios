@@ -219,14 +219,16 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
         [labels srg_safelySetString:@(timeshift.integerValue / 1000).stringValue forKey:@"media_timeshift"];
     }
     
-    NSDictionary<NSString *, NSString *> *mainLabels = userInfo[SRGAnalyticsMediaPlayerLabelsKey];
-    if (mainLabels) {
-        [labels addEntriesFromDictionary:mainLabels];
+    SRGAnalyticsStreamLabels *mainLabels = userInfo[SRGAnalyticsMediaPlayerLabelsKey];
+    if (mainLabels.labelsDictionary) {
+        [labels addEntriesFromDictionary:mainLabels.labelsDictionary];
     }
     
     if ([segment conformsToProtocol:@protocol(SRGAnalyticsSegment)]) {
-        NSDictionary<NSString *, NSString *> *segmentLabels = [(id<SRGAnalyticsSegment>)segment srg_analyticsLabels];
-        [labels addEntriesFromDictionary:segmentLabels];
+        SRGAnalyticsStreamLabels *segmentLabels = [(id<SRGAnalyticsSegment>)segment srg_analyticsLabels];
+        if (segmentLabels.labelsDictionary) {
+            [labels addEntriesFromDictionary:segmentLabels.labelsDictionary];
+        }
     }
     
     [SRGAnalyticsTracker.sharedTracker trackTagCommanderEventWithLabels:[labels copy]];

@@ -4,9 +4,11 @@
 //  License information is available from the LICENSE file.
 //
 
+#import "SRGAnalyticsStreamLabels.h"
+
 #import <Foundation/Foundation.h>
 #import <SRGAnalytics/SRGAnalytics.h>
-#import <SRGMediaplayer/SRGSegment.h>
+#import <SRGMediaplayer/SRGMediaPlayer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Analytics labels associated with the segment.
  */
-@property (nonatomic, readonly, nullable) NSDictionary <NSString *, NSString *> *srg_analyticsLabels;
+@property (nonatomic, readonly, nullable) SRGAnalyticsStreamLabels *srg_analyticsLabels;
 
 @end
 

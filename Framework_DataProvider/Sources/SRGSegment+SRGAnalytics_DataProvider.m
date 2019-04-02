@@ -26,9 +26,11 @@
     return self.hidden;
 }
 
-- (NSDictionary<NSString *, NSString *> *)srg_analyticsLabels
+- (SRGAnalyticsStreamLabels *)srg_analyticsLabels
 {
-    return self.analyticsLabels;
+    SRGAnalyticsStreamLabels *labels = [[SRGAnalyticsStreamLabels alloc] init];
+    labels.customInfo = self.analyticsLabels;
+    return labels;
 }
 
 @end

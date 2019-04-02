@@ -82,6 +82,8 @@
 		6F1D28542253941200CE5802 /* SRGComScoreMediaPlayerTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1D28522253941200CE5802 /* SRGComScoreMediaPlayerTracker.m */; };
 		6F1D285822539CFE00CE5802 /* SRGMediaAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F1D285622539CFE00CE5802 /* SRGMediaAnalytics.h */; };
 		6F1D285922539CFE00CE5802 /* SRGMediaAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1D285722539CFE00CE5802 /* SRGMediaAnalytics.m */; };
+		6F1D285C2253D41C00CE5802 /* SRGAnalyticsStreamLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1D285A2253D41C00CE5802 /* SRGAnalyticsStreamLabels.m */; };
+		6F1D285D2253D41C00CE5802 /* SRGAnalyticsStreamLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F1D285B2253D41C00CE5802 /* SRGAnalyticsStreamLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F2E03F12150D94F00737B3C /* SRGContentProtection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */; };
 		6F2E03F32150DA1200737B3C /* SRGContentProtection.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6F399DB92232739900219478 /* SRGAnalyticsNotifications+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F399DB82232739900219478 /* SRGAnalyticsNotifications+Private.h */; };
@@ -390,6 +392,8 @@
 		6F1D28522253941200CE5802 /* SRGComScoreMediaPlayerTracker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGComScoreMediaPlayerTracker.m; sourceTree = "<group>"; };
 		6F1D285622539CFE00CE5802 /* SRGMediaAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGMediaAnalytics.h; sourceTree = "<group>"; };
 		6F1D285722539CFE00CE5802 /* SRGMediaAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGMediaAnalytics.m; sourceTree = "<group>"; };
+		6F1D285A2253D41C00CE5802 /* SRGAnalyticsStreamLabels.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsStreamLabels.m; sourceTree = "<group>"; };
+		6F1D285B2253D41C00CE5802 /* SRGAnalyticsStreamLabels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsStreamLabels.h; sourceTree = "<group>"; };
 		6F399DB82232739900219478 /* SRGAnalyticsNotifications+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGAnalyticsNotifications+Private.h"; sourceTree = "<group>"; };
 		6F3C40111F87AF5E00FFEA85 /* SRGAnalyticsHiddenEventLabels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRGAnalyticsHiddenEventLabels.h; sourceTree = "<group>"; };
 		6F3C40121F87AF5E00FFEA85 /* SRGAnalyticsHiddenEventLabels.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalyticsHiddenEventLabels.m; sourceTree = "<group>"; };
@@ -852,8 +856,8 @@
 		E61C0D5E1D61EFD200AEAE6D /* Framework_MediaPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				E61C0D601D61EFD200AEAE6D /* Sources */,
 				E61C0D5F1D61EFD200AEAE6D /* Info.plist */,
+				E61C0D601D61EFD200AEAE6D /* Sources */,
 			);
 			path = Framework_MediaPlayer;
 			sourceTree = "<group>";
@@ -864,6 +868,8 @@
 				6F0498591F343C7A00E88BEC /* Categories */,
 				6F1D285522539CDB00CE5802 /* Helpers */,
 				E6B8E9FC1D92868D000D6904 /* Protocols */,
+				6F1D285B2253D41C00CE5802 /* SRGAnalyticsStreamLabels.h */,
+				6F1D285A2253D41C00CE5802 /* SRGAnalyticsStreamLabels.m */,
 				E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */,
 				6F04985C1F343C7A00E88BEC /* SRGAnalyticsMediaPlayerLogger.h */,
 				6F1D28512253941200CE5802 /* SRGComScoreMediaPlayerTracker.h */,
@@ -1019,6 +1025,7 @@
 				6F1D285822539CFE00CE5802 /* SRGMediaAnalytics.h in Headers */,
 				6F04985F1F343C7A00E88BEC /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h in Headers */,
 				E61C0D751D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h in Headers */,
+				6F1D285D2253D41C00CE5802 /* SRGAnalyticsStreamLabels.h in Headers */,
 				6F0498611F343C7A00E88BEC /* SRGAnalyticsMediaPlayerLogger.h in Headers */,
 				E6B8EA041D92868D000D6904 /* SRGAnalyticsSegment.h in Headers */,
 				6F0498621F343C7A00E88BEC /* SRGMediaPlayerTracker.h in Headers */,
@@ -1402,6 +1409,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F1D285C2253D41C00CE5802 /* SRGAnalyticsStreamLabels.m in Sources */,
 				6F0498601F343C7A00E88BEC /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m in Sources */,
 				6F0498631F343C7A00E88BEC /* SRGMediaPlayerTracker.m in Sources */,
 				6F1D285922539CFE00CE5802 /* SRGMediaAnalytics.m in Sources */,

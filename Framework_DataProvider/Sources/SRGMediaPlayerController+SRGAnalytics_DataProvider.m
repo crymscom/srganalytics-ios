@@ -27,7 +27,7 @@ static NSString * const SRGAnalyticsMediaPlayerSourceUidKey = @"SRGAnalyticsMedi
                              userInfo:(NSDictionary *)userInfo
                     completionHandler:(void (^)(void))completionHandler
 {
-    return [mediaComposition playbackContextWithPreferredSettings:preferredSettings contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, NSDictionary<NSString *, NSString *> * _Nullable analyticsLabels) {
+    return [mediaComposition playbackContextWithPreferredSettings:preferredSettings contextBlock:^(NSURL * _Nonnull streamURL, SRGResource * _Nonnull resource, NSArray<id<SRGSegment>> * _Nullable segments, NSInteger index, SRGAnalyticsStreamLabels * _Nullable analyticsLabels) {
         if (resource.presentation == SRGPresentation360) {
             if (self.view.viewMode != SRGMediaPlayerViewModeMonoscopic && self.view.viewMode != SRGMediaPlayerViewModeStereoscopic) {
                 self.view.viewMode = SRGMediaPlayerViewModeMonoscopic;
