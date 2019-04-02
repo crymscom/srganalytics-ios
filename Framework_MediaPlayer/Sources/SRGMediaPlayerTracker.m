@@ -8,7 +8,7 @@
 
 #import "NSBundle+SRGAnalytics.h"
 #import "NSMutableDictionary+SRGAnalytics.h"
-#import "SRGAnalyticsLogger.h"
+#import "SRGAnalyticsMediaPlayerLogger.h"
 #import "SRGAnalyticsSegment.h"
 #import "SRGAnalyticsTracker+Private.h"
 #import "SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h"
@@ -28,7 +28,7 @@ static MediaPlayerTrackerEvent const MediaPlayerTrackerEventUptime = @"uptime";
 
 NSString * const SRGAnalyticsMediaPlayerLabelsKey = @"SRGAnalyticsMediaPlayerLabels";
 
-static NSMutableDictionary *s_trackers = nil;
+static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil;
 
 static long CMTimeToMilliseconds(CMTime time);
 static BOOL IsLiveStreamType(SRGMediaPlayerStreamType streamType);
@@ -100,11 +100,6 @@ static NSNumber *MediaPlayerTimeshiftInMilliseconds(SRGMediaPlayerController *me
     return self;
 }
 
-- (void)dealloc
-{
-    self.heartbeatTimer = nil;      // Invalidate timer
-}
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
 
@@ -112,6 +107,11 @@ static NSNumber *MediaPlayerTimeshiftInMilliseconds(SRGMediaPlayerController *me
 {
     [self doesNotRecognizeSelector:_cmd];
     return [self initWithMediaPlayerController:nil];
+}
+
+- (void)dealloc
+{
+    self.heartbeatTimer = nil;      // Invalidate timer
 }
 
 #pragma clang diagnostic pop
@@ -377,7 +377,7 @@ static NSNumber *MediaPlayerTimeshiftInMilliseconds(SRGMediaPlayerController *me
         SRGMediaPlayerTracker *tracker = [[SRGMediaPlayerTracker alloc] initWithMediaPlayerController:mediaPlayerController];
         s_trackers[key] = tracker;
         
-        SRGAnalyticsLogInfo(@"PlayerTracker", @"Started tracking for %@", key);
+        SRGAnalyticsMediaPlayerLogInfo(@"tracker", @"Started tracking for %@", key);
     }
     else if (playbackState == SRGMediaPlayerPlaybackStateIdle) {
         SRGMediaPlayerTracker *tracker = s_trackers[key];
@@ -398,7 +398,7 @@ static NSNumber *MediaPlayerTimeshiftInMilliseconds(SRGMediaPlayerController *me
             }
             s_trackers[key] = nil;
             
-            SRGAnalyticsLogInfo(@"PlayerTracker", @"Stopped tracking for %@", key);
+            SRGAnalyticsMediaPlayerLogInfo(@"tracker", @"Stopped tracking for %@", key);
         }
     }
 }

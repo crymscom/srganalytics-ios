@@ -78,6 +78,8 @@
 		6F0498631F343C7A00E88BEC /* SRGMediaPlayerTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F04985E1F343C7A00E88BEC /* SRGMediaPlayerTracker.m */; };
 		6F09268B222D0EEA009C2069 /* MediaTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09268A222D0EEA009C2069 /* MediaTestCase.m */; };
 		6F0C98D92121CE0500073AB6 /* SRGAnalytics.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6F0C98CF2121CC9700073AB6 /* SRGAnalytics.bundle */; };
+		6F1D28532253941200CE5802 /* SRGComScoreMediaPlayerTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F1D28512253941200CE5802 /* SRGComScoreMediaPlayerTracker.h */; };
+		6F1D28542253941200CE5802 /* SRGComScoreMediaPlayerTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1D28522253941200CE5802 /* SRGComScoreMediaPlayerTracker.m */; };
 		6F2E03F12150D94F00737B3C /* SRGContentProtection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */; };
 		6F2E03F32150DA1200737B3C /* SRGContentProtection.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB74DA92105A77B00E2D365 /* SRGContentProtection.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6F399D952231756700219478 /* SCORStreamingAnalytics+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F399D932231756700219478 /* SCORStreamingAnalytics+SRGAnalytics.h */; };
@@ -384,6 +386,8 @@
 		6F04985E1F343C7A00E88BEC /* SRGMediaPlayerTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGMediaPlayerTracker.m; sourceTree = "<group>"; };
 		6F09268A222D0EEA009C2069 /* MediaTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaTestCase.m; sourceTree = "<group>"; };
 		6F0C98CF2121CC9700073AB6 /* SRGAnalytics.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SRGAnalytics.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F1D28512253941200CE5802 /* SRGComScoreMediaPlayerTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRGComScoreMediaPlayerTracker.h; sourceTree = "<group>"; };
+		6F1D28522253941200CE5802 /* SRGComScoreMediaPlayerTracker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRGComScoreMediaPlayerTracker.m; sourceTree = "<group>"; };
 		6F399D932231756700219478 /* SCORStreamingAnalytics+SRGAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCORStreamingAnalytics+SRGAnalytics.h"; sourceTree = "<group>"; };
 		6F399D942231756700219478 /* SCORStreamingAnalytics+SRGAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SCORStreamingAnalytics+SRGAnalytics.m"; sourceTree = "<group>"; };
 		6F399DB82232739900219478 /* SRGAnalyticsNotifications+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRGAnalyticsNotifications+Private.h"; sourceTree = "<group>"; };
@@ -854,6 +858,8 @@
 				E6B8E9FC1D92868D000D6904 /* Protocols */,
 				E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */,
 				6F04985C1F343C7A00E88BEC /* SRGAnalyticsMediaPlayerLogger.h */,
+				6F1D28512253941200CE5802 /* SRGComScoreMediaPlayerTracker.h */,
+				6F1D28522253941200CE5802 /* SRGComScoreMediaPlayerTracker.m */,
 				6F04985D1F343C7A00E88BEC /* SRGMediaPlayerTracker.h */,
 				6F04985E1F343C7A00E88BEC /* SRGMediaPlayerTracker.m */,
 			);
@@ -1007,6 +1013,7 @@
 				6F0498611F343C7A00E88BEC /* SRGAnalyticsMediaPlayerLogger.h in Headers */,
 				E6B8EA041D92868D000D6904 /* SRGAnalyticsSegment.h in Headers */,
 				6F0498621F343C7A00E88BEC /* SRGMediaPlayerTracker.h in Headers */,
+				6F1D28532253941200CE5802 /* SRGComScoreMediaPlayerTracker.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1389,6 +1396,7 @@
 			files = (
 				6F0498601F343C7A00E88BEC /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m in Sources */,
 				6F0498631F343C7A00E88BEC /* SRGMediaPlayerTracker.m in Sources */,
+				6F1D28542253941200CE5802 /* SRGComScoreMediaPlayerTracker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
