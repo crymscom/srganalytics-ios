@@ -10,7 +10,12 @@ NSString * const SRGAnalyticsMediaPlayerLabelsKey = @"SRGAnalyticsMediaPlayerLab
 
 NSInteger SRGMediaAnalyticsCMTimeToMilliseconds(CMTime time)
 {
-    return (NSInteger)fmax(floor(CMTimeGetSeconds(time) * 1000.), 0.);
+    if (CMTIME_IS_INDEFINITE(time) || CMTIME_IS_INVALID(time)) {
+        return 0;
+    }
+    else {
+        return (NSInteger)fmax(floor(CMTimeGetSeconds(time) * 1000.), 0.);
+    }
 }
 
 BOOL SRGMediaAnalyticsIsLiveStreamType(SRGMediaPlayerStreamType streamType)
@@ -43,13 +48,7 @@ NSNumber *SRGMediaAnalyticsTimeshiftInMilliseconds(SRGMediaPlayerStreamType stre
 
 NSInteger SRGMediaAnalyticsPlayerPositionInMilliseconds(SRGMediaPlayerController *mediaPlayerController)
 {
-    CMTime currentTime = [mediaPlayerController.player.currentItem currentTime];
-    if (CMTIME_IS_INDEFINITE(currentTime) || CMTIME_IS_INVALID(currentTime)) {
-        return 0;
-    }
-    else {
-        return SRGMediaAnalyticsCMTimeToMilliseconds(currentTime);
-    }
+    return SRGMediaAnalyticsCMTimeToMilliseconds(mediaPlayerController.currentTime);
 }
 
 NSNumber *SRGMediaAnalyticsPlayerTimeshiftInMilliseconds(SRGMediaPlayerController *mediaPlayerController)

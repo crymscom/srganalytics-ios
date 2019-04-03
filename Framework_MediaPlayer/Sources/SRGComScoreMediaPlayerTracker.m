@@ -17,6 +17,13 @@
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
+typedef NS_ENUM(NSInteger, ComScoreMediaPlayerTrackerEvent) {
+    ComScoreMediaPlayerTrackerEventPlay,
+    ComScoreMediaPlayerTrackerEventPause,
+    ComScoreMediaPlayerTrackerEventEnd,
+    ComScoreMediaPlayerTrackerEventSeek
+};
+
 static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_trackers = nil;
 
 @interface SRGComScoreMediaPlayerTracker ()
@@ -76,12 +83,98 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
 
 #pragma clang diagnostic pop
 
-// TODO: Buffering. Preparing = buffering? Stalled = Buffering? Seeking = Buffering? Or simply deal separately from
-//       player state?
-// TODO: Restore tracker labels!! (for comScore labels stemming from the IL!)
-// TODO: Check that confcall hints have been implemented
-// TODO: Create common tracker parent class which deals with registrations and calls hooks (MP registration,
-//       notifications, tracked boolean changes)
+#pragma mark Tracking
+
+- (void)recordEventForPlaybackState:(SRGMediaPlayerPlaybackState)playbackState
+                     withStreamType:(SRGMediaPlayerStreamType)streamType
+                               time:(CMTime)time
+                          timeRange:(CMTimeRange)timeRange
+{
+    static dispatch_once_t s_onceToken;
+    static NSDictionary<NSNumber *, NSNumber *> *s_events;
+    dispatch_once(&s_onceToken, ^{
+        s_events = @{ @(SRGMediaPlayerPlaybackStateIdle) : @(ComScoreMediaPlayerTrackerEventEnd),
+                      @(SRGMediaPlayerPlaybackStatePlaying) : @(ComScoreMediaPlayerTrackerEventPlay),
+                      @(SRGMediaPlayerPlaybackStateSeeking) : @(ComScoreMediaPlayerTrackerEventSeek),
+                      @(SRGMediaPlayerPlaybackStatePaused) : @(ComScoreMediaPlayerTrackerEventPause),
+                      @(SRGMediaPlayerPlaybackStateEnded) : @(ComScoreMediaPlayerTrackerEventEnd) };
+    });
+    
+    NSNumber *event = s_events[@(playbackState)];
+    if (! event) {
+        return;
+    }
+    
+    [self recordEvent:event.integerValue
+       withStreamType:streamType
+                 time:time
+            timeRange:timeRange];
+}
+
+- (void)recordEvent:(ComScoreMediaPlayerTrackerEvent)event
+     withStreamType:(SRGMediaPlayerStreamType)streamType
+               time:(CMTime)time
+          timeRange:(CMTimeRange)timeRange
+{
+    if (streamType == SRGMediaPlayerStreamTypeDVR) {
+        [self.streamingAnalytics setDVRWindowLength:SRGMediaAnalyticsCMTimeToMilliseconds(self.mediaPlayerController.timeRange.duration)];
+        [self.streamingAnalytics setDVRWindowOffset:SRGMediaAnalyticsTimeshiftInMilliseconds(streamType, timeRange, time, self.mediaPlayerController.liveTolerance).integerValue];
+        
+        switch (event) {
+            case ComScoreMediaPlayerTrackerEventPlay: {
+                [self.streamingAnalytics notifyPlay];
+                break;
+            }
+                
+            case ComScoreMediaPlayerTrackerEventPause: {
+                [self.streamingAnalytics notifyPause];
+                break;
+            }
+                
+            case ComScoreMediaPlayerTrackerEventEnd: {
+                [self.streamingAnalytics notifyEnd];
+                break;
+            }
+                
+            case ComScoreMediaPlayerTrackerEventSeek: {
+                [self.streamingAnalytics notifySeekStart];
+                break;
+            }
+                
+            default: {
+                break;
+            }
+        }
+    }
+    else {
+        long position = SRGMediaAnalyticsCMTimeToMilliseconds(time);
+        switch (event) {
+            case ComScoreMediaPlayerTrackerEventPlay: {
+                [self.streamingAnalytics notifyPlayWithPosition:position];
+                break;
+            }
+                
+            case ComScoreMediaPlayerTrackerEventPause: {
+                [self.streamingAnalytics notifyPauseWithPosition:position];
+                break;
+            }
+                
+            case ComScoreMediaPlayerTrackerEventEnd: {
+                [self.streamingAnalytics notifyEndWithPosition:position];
+                break;
+            }
+                
+            case ComScoreMediaPlayerTrackerEventSeek: {
+                [self.streamingAnalytics notifySeekStartWithPosition:position];
+                break;
+            }
+                
+            default: {
+                break;
+            }
+        }
+    }
+}
 
 #pragma mark Notifications
 
@@ -112,7 +205,13 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
         SRGComScoreMediaPlayerTracker *tracker = s_trackers[key];
         if (tracker) {
             if (previousPlaybackState != SRGMediaPlayerPlaybackStatePreparing) {
-                
+                SRGMediaPlayerStreamType streamType = [notification.userInfo[SRGMediaPlayerPreviousStreamTypeKey] integerValue];
+                CMTime time = [notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue];
+                CMTimeRange timeRange = [notification.userInfo[SRGMediaPlayerPreviousTimeRangeKey] CMTimeRangeValue];
+                [tracker recordEvent:ComScoreMediaPlayerTrackerEventEnd
+                      withStreamType:streamType
+                                time:time
+                           timeRange:timeRange];
             }
             s_trackers[key] = nil;
             if (s_trackers.count == 0) {
@@ -131,56 +230,15 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
         return;
     }
     
-    long position = SRGMediaAnalyticsPlayerPositionInMilliseconds(mediaPlayerController);
-    
-    SRGMediaPlayerPlaybackState previousPlaybackState = [notification.userInfo[SRGMediaPlayerPreviousPlaybackStateKey] integerValue];
-    if (previousPlaybackState == SRGMediaPlayerPlaybackStatePreparing) {
-        [self.streamingAnalytics notifyBufferStop];
-    }
-    else if (previousPlaybackState == SRGMediaPlayerPlaybackStateStalled) {
-        [self.streamingAnalytics notifyBufferStopWithPosition:position];
+    SRGMediaPlayerPlaybackState playbackState = mediaPlayerController.playbackState;
+    if (playbackState == SRGMediaPlayerPlaybackStateIdle || playbackState == SRGMediaPlayerPlaybackStatePreparing) {
+        return;
     }
     
-    // Important: Never alter the stream type afterwards. Once we have determined the stream supports DVR, stick with
-    // it (the window length and offset can be updated, though).
-    if (mediaPlayerController.streamType == SRGMediaPlayerStreamTypeDVR) {
-        [self.streamingAnalytics setDVRWindowLength:CMTimeGetSeconds(mediaPlayerController.timeRange.duration) * 1000];
-        [self.streamingAnalytics setDVRWindowOffset:SRGMediaAnalyticsPlayerTimeshiftInMilliseconds(mediaPlayerController).integerValue];
-    }
-    
-    // Labels sent with `-notify` methods are only associated with the event and not persisted for other events (e.g.
-    // heartbeats). We therefore *must* use label-less methods only.
-    SRGMediaPlayerPlaybackState playbackState = [notification.userInfo[SRGMediaPlayerPlaybackStateKey] integerValue];
-    switch (playbackState) {
-        case SRGMediaPlayerPlaybackStateStalled: {
-            [self.streamingAnalytics notifyBufferStartWithPosition:position];
-            break;
-        }
-            
-        case SRGMediaPlayerPlaybackStatePlaying: {
-            [self.streamingAnalytics notifyPlayWithPosition:position];
-            break;
-        }
-            
-        case SRGMediaPlayerPlaybackStatePaused: {
-            [self.streamingAnalytics notifyPauseWithPosition:position];
-            break;
-        }
-            
-        case SRGMediaPlayerPlaybackStateEnded: {
-            [self.streamingAnalytics notifyEndWithPosition:position];
-            break;
-        }
-            
-        case SRGMediaPlayerPlaybackStateSeeking: {
-            [self.streamingAnalytics notifySeekStartWithPosition:position];
-            break;
-        }
-            
-        default: {
-            break;
-        }
-    }
+    [self recordEventForPlaybackState:playbackState
+                       withStreamType:mediaPlayerController.streamType
+                                 time:mediaPlayerController.currentTime
+                            timeRange:mediaPlayerController.timeRange];
 }
 
 @end
