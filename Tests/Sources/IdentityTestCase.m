@@ -143,7 +143,7 @@ static NSURL *OnDemandTestURL(void)
     // Ensure each test ends in an expected state.
     if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
             && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
-        [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
             return [event isEqualToString:@"stop"];
         }];
         
@@ -339,7 +339,7 @@ static NSURL *OnDemandTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"user_is_logged"], @"true");
         XCTAssertEqualObjects(labels[@"user_id"], TestUserId);
         return [event isEqualToString:@"play"];

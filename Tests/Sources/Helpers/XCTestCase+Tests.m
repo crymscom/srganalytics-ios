@@ -76,7 +76,7 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
     }];
 }
 
-- (XCTestExpectation *)expectationForHiddenPlaybackEventNotificationWithHandler:(EventExpectationHandler)handler
+- (XCTestExpectation *)expectationForHiddenPlayerEventNotificationWithHandler:(EventExpectationHandler)handler
 {
     return [self expectationForSingleNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
@@ -123,13 +123,13 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
     }];
 }
 
-- (XCTestExpectation *)expectationForComScorePlaybackEventNotificationWithHandler:(EventExpectationHandler)handler
+- (XCTestExpectation *)expectationForComScorePlayerEventNotificationWithHandler:(EventExpectationHandler)handler
 {
     return [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         static dispatch_once_t s_onceToken;
         static NSArray<NSString *> *s_playerEvents;
         dispatch_once(&s_onceToken, ^{
-            s_playerEvents = @[@"play", @"pause", @"end" ];
+            s_playerEvents = @[@"play", @"pause", @"seek", @"end" ];
         });
         
         if ([s_playerEvents containsObject:event]) {

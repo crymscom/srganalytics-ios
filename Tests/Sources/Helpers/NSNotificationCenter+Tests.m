@@ -29,19 +29,19 @@
     }];
 }
 
-- (id<NSObject>)addObserverForPlayerSingleHiddenEventNotificationUsingBlock:(void (^)(NSString *event, NSDictionary *labels))block
+- (id<NSObject>)addObserverForPlayerEventNotificationUsingBlock:(void (^)(NSString *event, NSDictionary *labels))block
 {
     return [self addObserverForName:SRGAnalyticsRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
         
         static dispatch_once_t s_onceToken;
-        static NSArray<NSString *> *s_playerSingleHiddenEvents;
+        static NSArray<NSString *> *s_playerEvents;
         dispatch_once(&s_onceToken, ^{
-            s_playerSingleHiddenEvents = @[@"play", @"pause", @"seek", @"stop", @"eof"];
+            s_playerEvents = @[@"play", @"pause", @"seek", @"stop", @"eof"];
         });
         
         NSString *event = labels[@"event_id"];
-        if ([s_playerSingleHiddenEvents containsObject:event]) {
+        if ([s_playerEvents containsObject:event]) {
             block(event, labels);
         }
         else {
@@ -66,6 +66,27 @@
         }
         
         block(event, labels);
+    }];
+}
+
+- (id<NSObject>)addObserverForComScorePlayerEventNotificationUsingBlock:(void (^)(NSString *event, NSDictionary *labels))block
+{
+    return [self addObserverForName:SRGAnalyticsComScoreRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
+        NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
+        
+        static dispatch_once_t s_onceToken;
+        static NSArray<NSString *> *s_playerEvents;
+        dispatch_once(&s_onceToken, ^{
+            s_playerEvents = @[@"play", @"pause", @"seek", @"end"];
+        });
+        
+        NSString *event = labels[@"ns_type"];
+        if ([s_playerEvents containsObject:event]) {
+            block(event, labels);
+        }
+        else {
+            return;
+        }
     }];
 }
 
