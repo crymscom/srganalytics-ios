@@ -63,16 +63,20 @@ static NSURL *DVRTestURL(void)
 
 - (void)testPrepareToPlay
 {
-    // Prepare the player until it is paused. No event must be received
+    // If the player starts in a paused state, no event needs to be emitted (there is no measurable media consumption
+    // after all)
     id prepareObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerSingleHiddenEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         XCTFail(@"No event must be received when preparing a player");
     }];
     
-    [self.mediaPlayerController prepareToPlayURL:OnDemandTestURL() withCompletionHandler:^{
+    [self expectationForElapsedTimeInterval:3. withHandler:nil];
+    
+    [self.mediaPlayerController prepareToPlayURL:OnDemandTestURL() withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
         [NSNotificationCenter.defaultCenter removeObserver:prepareObserver];
     }];
     
-    // Now playing must trigger a play event
     [self expectationForHiddenPlaybackEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         return YES;
