@@ -195,9 +195,6 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
     if (playbackState == SRGMediaPlayerPlaybackStatePreparing) {
         SRGComScoreMediaPlayerTracker *tracker = [[SRGComScoreMediaPlayerTracker alloc] initWithMediaPlayerController:mediaPlayerController];
         s_trackers[key] = tracker;
-        if (s_trackers.count == 1) {
-            [SCORAnalytics notifyUxActive];
-        }
         
         SRGAnalyticsMediaPlayerLogInfo(@"comScoreTracker", @"Started tracking for %@", key);
     }
@@ -214,9 +211,6 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
                            timeRange:timeRange];
             }
             s_trackers[key] = nil;
-            if (s_trackers.count == 0) {
-                [SCORAnalytics notifyUxInactive];
-            }
             
             SRGAnalyticsMediaPlayerLogInfo(@"comScoreTracker", @"Stopped tracking for %@", key);
         }
