@@ -14,7 +14,7 @@ NSInteger SRGMediaAnalyticsCMTimeToMilliseconds(CMTime time)
         return 0;
     }
     else {
-        return (NSInteger)fmax(floor(CMTimeGetSeconds(time) * 1000.), 0.);
+        return (NSInteger)fmax(roundf(CMTimeGetSeconds(time) * 1000.), 0.);
     }
 }
 

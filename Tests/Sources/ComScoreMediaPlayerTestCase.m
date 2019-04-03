@@ -311,24 +311,10 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testOnDemandLabels
+- (void)testOnDemandPlayback
 {
-    // Check that these labels are constant between states (for some, the value might differ, but they must
-    // in which case we test they are constantly availble or unavailable)
-    void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
-        XCTAssertNotNil(labels[@"ns_st_br"]);
-        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
-        XCTAssertNotNil(labels[@"ns_st_vo"]);
-        XCTAssertNil(labels[@"ns_ap_ot"]);
-        
-        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
-        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
-    };
-    
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertNil(labels[@"srg_timeshift"]);
-        checkMainLabels(labels);
         return YES;
     }];
     
@@ -338,8 +324,6 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        XCTAssertNil(labels[@"srg_timeshift"]);
-        checkMainLabels(labels);
         return YES;
     }];
     
@@ -349,8 +333,6 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertNil(labels[@"srg_timeshift"]);
-        checkMainLabels(labels);
         return YES;
     }];
     
@@ -359,7 +341,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testLiveLabels
+- (void)testLivePlayback
 {
     // FIXME: See https://github.com/SRGSSR/SRGMediaPlayer-iOS/issues/50. Workaround so that the test passes on iOS >= 11.3.
     NSOperatingSystemVersion operatingSystemVersion = [NSProcessInfo processInfo].operatingSystemVersion;
@@ -367,22 +349,8 @@ static NSURL *DVRTestURL(void)
         self.mediaPlayerController.minimumDVRWindowLength = 40.;
     }
     
-    // Check that these labels are constant between states (for some, the value might differ, but they must
-    // in which case we test they are constantly availble or unavailable)
-    void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
-        XCTAssertNotNil(labels[@"ns_st_br"]);
-        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
-        XCTAssertNotNil(labels[@"ns_st_vo"]);
-        XCTAssertNil(labels[@"ns_ap_ot"]);
-        
-        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
-        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
-    };
-    
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
-        checkMainLabels(labels);
         return YES;
     }];
     
@@ -392,8 +360,6 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
-        checkMainLabels(labels);
         return YES;
     }];
     
@@ -403,8 +369,6 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
-        checkMainLabels(labels);
         return YES;
     }];
     
@@ -413,24 +377,11 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testDVRLabels
+- (void)testDVRPlayback
 {
-    // Check that these labels are constant between states (for some, the value might differ, but they must
-    // in which case we test they are constantly availble or unavailable)
-    void (^checkMainLabels)(NSDictionary *) = ^(NSDictionary *labels) {
-        XCTAssertNotNil(labels[@"ns_st_br"]);
-        XCTAssertEqualObjects(labels[@"ns_st_ws"], @"norm");
-        XCTAssertNotNil(labels[@"ns_st_vo"]);
-        XCTAssertNil(labels[@"ns_ap_ot"]);
-        
-        XCTAssertEqualObjects(labels[@"ns_st_cs"], @"0x0");
-        XCTAssertEqualObjects(labels[@"srg_screen_type"], @"default");
-    };
-    
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
-        checkMainLabels(labels);
+        XCTAssertEqualObjects(labels[@"ns_st_ldo"], @"0");
         return YES;
     }];
     
@@ -440,8 +391,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"0");
-        checkMainLabels(labels);
+        XCTAssertEqualObjects(labels[@"ns_st_ldo"], @"0");
         return YES;
     }];
     
@@ -452,23 +402,25 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertNotNil(labels[@"srg_timeshift"]);
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"45000");
-        checkMainLabels(labels);
+        XCTAssertEqualObjects(labels[@"ns_st_ldo"], @"45000");
         return YES;
     }];
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertEqualObjects(labels[@"srg_timeshift"], @"45000");
-        checkMainLabels(labels);
+        XCTAssertEqualObjects(labels[@"ns_st_ldo"], @"44000");             // Not 45000 because of chunks
         return YES;
     }];
     
     [self.mediaPlayerController reset];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testLiveStopLive
+{
+    XCTFail(@"Implement");
 }
 
 - (void)testVolumeLabel

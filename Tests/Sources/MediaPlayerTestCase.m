@@ -480,7 +480,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testOnDemandLabels
+- (void)testOnDemandPlayback
 {
     [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
@@ -513,7 +513,7 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
-- (void)testLiveLabels
+- (void)testLivePlayback
 {
     [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
@@ -549,7 +549,7 @@ static NSURL *DVRTestURL(void)
     
     // Pause for a while. No stream events must be received
     eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-        XCTFail(@"No event must be received when it's in pause");
+        XCTFail(@"No event must be received when paused");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
@@ -561,6 +561,71 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
+- (void)testDVRPlayback
+{
+    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"media_position"], @"0");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:DVRTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Play for a while. No stream events must be received
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when playing");
+    }];
+    
+    [self expectationForElapsedTimeInterval:1. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
+    }];
+    
+    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"seek");
+        XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
+        XCTAssertEqualObjects(labels[@"media_position"], @"1");
+        return YES;
+    }];
+    
+    CMTime pastTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(45., NSEC_PER_SEC));
+    [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTime:pastTime] withCompletionHandler:nil];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_timeshift"], @"45");
+        XCTAssertEqualObjects(labels[@"media_position"], @"1");
+        return YES;
+    }];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    // Play for a while. No stream events must be received
+    eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        XCTFail(@"No event must be received when playing");
+    }];
+    
+    [self expectationForElapsedTimeInterval:1. withHandler:nil];
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
+    }];
+    
+    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"stop");
+        XCTAssertEqualObjects(labels[@"media_timeshift"], @"44");       // Not 45 because of chunks
+        XCTAssertEqualObjects(labels[@"media_position"], @"2");
         return YES;
     }];
     
@@ -616,7 +681,7 @@ static NSURL *DVRTestURL(void)
     
     // Pause for a while. No stream events must be received
     eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-        XCTFail(@"No event must be received when it's in pause");
+        XCTFail(@"No event must be received when paused");
     }];
     
     [self expectationForElapsedTimeInterval:1. withHandler:nil];
@@ -628,71 +693,6 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"event_id"], @"stop");
         XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
         XCTAssertEqualObjects(labels[@"media_position"], @"1");
-        return YES;
-    }];
-    
-    [self.mediaPlayerController reset];
-    
-    [self waitForExpectationsWithTimeout:20. handler:nil];
-}
-
-- (void)testDVRLabels
-{
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"event_id"], @"play");
-        XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
-        XCTAssertEqualObjects(labels[@"media_position"], @"0");
-        return YES;
-    }];
-    
-    [self.mediaPlayerController playURL:DVRTestURL()];
-    
-    [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    // Play for a while. No stream events must be received
-    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-        XCTFail(@"No event must be received when playing");
-    }];
-    
-    [self expectationForElapsedTimeInterval:1. withHandler:nil];
-    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
-    }];
-    
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"event_id"], @"seek");
-        XCTAssertEqualObjects(labels[@"media_timeshift"], @"0");
-        XCTAssertEqualObjects(labels[@"media_position"], @"1");
-        return YES;
-    }];
-    
-    CMTime pastTime = CMTimeSubtract(CMTimeRangeGetEnd(self.mediaPlayerController.timeRange), CMTimeMakeWithSeconds(45., NSEC_PER_SEC));
-    [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTime:pastTime] withCompletionHandler:nil];
-    
-    [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"event_id"], @"play");
-        XCTAssertEqualObjects(labels[@"media_timeshift"], @"45");
-        XCTAssertEqualObjects(labels[@"media_position"], @"1");
-        return YES;
-    }];
-    [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    // Play for a while. No stream events must be received
-    eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-        XCTFail(@"No event must be received when playing");
-    }];
-    
-    [self expectationForElapsedTimeInterval:1. withHandler:nil];
-    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
-    }];
-    
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        XCTAssertEqualObjects(labels[@"event_id"], @"stop");
-        XCTAssertNotNil(labels[@"media_timeshift"]); // Can't compare to 45, because of chunk size
-        XCTAssertEqualObjects(labels[@"media_position"], @"2");
         return YES;
     }];
     
