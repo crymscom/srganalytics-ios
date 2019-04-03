@@ -21,7 +21,8 @@ typedef NS_ENUM(NSInteger, ComScoreMediaPlayerTrackerEvent) {
     ComScoreMediaPlayerTrackerEventPlay,
     ComScoreMediaPlayerTrackerEventPause,
     ComScoreMediaPlayerTrackerEventEnd,
-    ComScoreMediaPlayerTrackerEventSeek
+    ComScoreMediaPlayerTrackerEventSeek,
+    ComScoreMediaPlayerTrackerEventBuffer
 };
 
 static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_trackers = nil;
@@ -50,6 +51,11 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
         if (labels.comScoreLabelsDictionary) {
             [self.streamingAnalytics.playbackSession setAssetWithLabels:labels.comScoreLabelsDictionary];
         }
+        
+        // No need to send explicit 'buffer stop' events. Sending a play or pause at the end of the buffering phase
+        // (which our player does) suffices to implicitly finish the buffering phase. Buffer events are not required
+        // to be sent when the player is seeking.
+        [self.streamingAnalytics notifyBufferStart];
         
         [NSNotificationCenter.defaultCenter addObserver:self
                                                selector:@selector(playbackStateDidChange:)
@@ -97,7 +103,8 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
                       @(SRGMediaPlayerPlaybackStatePlaying) : @(ComScoreMediaPlayerTrackerEventPlay),
                       @(SRGMediaPlayerPlaybackStateSeeking) : @(ComScoreMediaPlayerTrackerEventSeek),
                       @(SRGMediaPlayerPlaybackStatePaused) : @(ComScoreMediaPlayerTrackerEventPause),
-                      @(SRGMediaPlayerPlaybackStateEnded) : @(ComScoreMediaPlayerTrackerEventEnd) };
+                      @(SRGMediaPlayerPlaybackStateEnded) : @(ComScoreMediaPlayerTrackerEventEnd),
+                      @(SRGMediaPlayerPlaybackStateStalled) : @(ComScoreMediaPlayerTrackerEventBuffer) };
     });
     
     NSNumber *event = s_events[@(playbackState)];
@@ -141,6 +148,11 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
                 break;
             }
                 
+            case ComScoreMediaPlayerTrackerEventBuffer: {
+                [self.streamingAnalytics notifyBufferStart];
+                break;
+            }
+                
             default: {
                 break;
             }
@@ -166,6 +178,11 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
                 
             case ComScoreMediaPlayerTrackerEventSeek: {
                 [self.streamingAnalytics notifySeekStartWithPosition:position];
+                break;
+            }
+                
+            case ComScoreMediaPlayerTrackerEventBuffer: {
+                [self.streamingAnalytics notifyBufferStartWithPosition:position];
                 break;
             }
                 
