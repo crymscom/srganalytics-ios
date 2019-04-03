@@ -12,8 +12,6 @@
 #import <objc/runtime.h>
 
 static void *s_trackedKey = &s_trackedKey;
-static void *s_analyticsPlayerNameKey = &s_analyticsPlayerNameKey;
-static void *s_analyticsPlayerVersionKey = &s_analyticsPlayerVersionKey;
 
 @implementation SRGMediaPlayerController (SRGAnalytics_MediaPlayer)
 
@@ -131,28 +129,6 @@ withAnalyticsLabels:(SRGAnalyticsStreamLabels *)analyticsLabels
 - (void)setTracked:(BOOL)tracked
 {
     objc_setAssociatedObject(self, s_trackedKey, @(tracked), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSString *)analyticsPlayerName
-{
-    NSString *analyticsPlayerName = objc_getAssociatedObject(self, s_analyticsPlayerNameKey);
-    return analyticsPlayerName ?: @"SRGMediaPlayer";
-}
-
-- (void)setAnalyticsPlayerName:(NSString *)analyticsPlayerName
-{
-    objc_setAssociatedObject(self, s_analyticsPlayerNameKey, analyticsPlayerName, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSString *)analyticsPlayerVersion
-{
-    NSString *analyticsPlayerVersion = objc_getAssociatedObject(self, s_analyticsPlayerVersionKey);
-    return analyticsPlayerVersion ?: SRGMediaPlayerMarketingVersion();
-}
-
-- (void)setAnalyticsPlayerVersion:(NSString *)analyticsPlayerVersion
-{
-    objc_setAssociatedObject(self, s_analyticsPlayerVersionKey, analyticsPlayerVersion, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (SRGAnalyticsStreamLabels *)analyticsLabels
