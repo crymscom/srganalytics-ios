@@ -25,17 +25,39 @@ typedef NS_ENUM(NSInteger, ComScoreMediaPlayerTrackerEvent) {
     ComScoreMediaPlayerTrackerEventBuffer
 };
 
+static NSInteger s_playbackActivityCount = 0;
 static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_trackers = nil;
 
 @interface SRGComScoreMediaPlayerTracker ()
 
 @property (nonatomic, weak) SRGMediaPlayerController *mediaPlayerController;
-
 @property (nonatomic) SCORStreamingAnalytics *streamingAnalytics;
+
+@property (nonatomic, getter=isPlaying) BOOL playing;
 
 @end
 
 @implementation SRGComScoreMediaPlayerTracker
+
+#pragma mark Class methods
+
++ (void)increasePlaybackActivityCount
+{
+    ++s_playbackActivityCount;
+    if (s_playbackActivityCount == 1) {
+        [SCORAnalytics notifyUxActive];
+    }
+}
+
++ (void)decreasePlaybackActivityCount
+{
+    NSAssert(s_playbackActivityCount != 0, @"Incorrect activity count management");
+    
+    --s_playbackActivityCount;
+    if (s_playbackActivityCount == 0) {
+        [SCORAnalytics notifyUxInactive];
+    }
+}
 
 #pragma mark Object lifecycle
 
@@ -123,33 +145,44 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
                time:(CMTime)time
           timeRange:(CMTimeRange)timeRange
 {
+    SCORStreamingAnalytics *streamingAnalytics = self.streamingAnalytics;
+    
+    if (! self.playing && event == ComScoreMediaPlayerTrackerEventPlay) {
+        [SRGComScoreMediaPlayerTracker increasePlaybackActivityCount];
+        self.playing = YES;
+    }
+    else if (self.playing && (event == ComScoreMediaPlayerTrackerEventPause || event == ComScoreMediaPlayerTrackerEventEnd)) {
+        [SRGComScoreMediaPlayerTracker decreasePlaybackActivityCount];
+        self.playing = NO;
+    }
+    
     if (streamType == SRGMediaPlayerStreamTypeDVR) {
-        [self.streamingAnalytics setDVRWindowLength:SRGMediaAnalyticsCMTimeToMilliseconds(self.mediaPlayerController.timeRange.duration)];
-        [self.streamingAnalytics setDVRWindowOffset:SRGMediaAnalyticsTimeshiftInMilliseconds(streamType, timeRange, time, self.mediaPlayerController.liveTolerance).integerValue];
+        [streamingAnalytics setDVRWindowLength:SRGMediaAnalyticsCMTimeToMilliseconds(self.mediaPlayerController.timeRange.duration)];
+        [streamingAnalytics setDVRWindowOffset:SRGMediaAnalyticsTimeshiftInMilliseconds(streamType, timeRange, time, self.mediaPlayerController.liveTolerance).integerValue];
         
         switch (event) {
             case ComScoreMediaPlayerTrackerEventPlay: {
-                [self.streamingAnalytics notifyPlay];
+                [streamingAnalytics notifyPlay];
                 break;
             }
                 
             case ComScoreMediaPlayerTrackerEventPause: {
-                [self.streamingAnalytics notifyPause];
+                [streamingAnalytics notifyPause];
                 break;
             }
                 
             case ComScoreMediaPlayerTrackerEventEnd: {
-                [self.streamingAnalytics notifyEnd];
+                [streamingAnalytics notifyEnd];
                 break;
             }
                 
             case ComScoreMediaPlayerTrackerEventSeek: {
-                [self.streamingAnalytics notifySeekStart];
+                [streamingAnalytics notifySeekStart];
                 break;
             }
-                
+            
             case ComScoreMediaPlayerTrackerEventBuffer: {
-                [self.streamingAnalytics notifyBufferStart];
+                [streamingAnalytics notifyBufferStart];
                 break;
             }
                 
@@ -162,27 +195,27 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
         long position = SRGMediaAnalyticsCMTimeToMilliseconds(time);
         switch (event) {
             case ComScoreMediaPlayerTrackerEventPlay: {
-                [self.streamingAnalytics notifyPlayWithPosition:position];
+                [streamingAnalytics notifyPlayWithPosition:position];
                 break;
             }
                 
             case ComScoreMediaPlayerTrackerEventPause: {
-                [self.streamingAnalytics notifyPauseWithPosition:position];
+                [streamingAnalytics notifyPauseWithPosition:position];
                 break;
             }
                 
             case ComScoreMediaPlayerTrackerEventEnd: {
-                [self.streamingAnalytics notifyEndWithPosition:position];
+                [streamingAnalytics notifyEndWithPosition:position];
                 break;
             }
                 
             case ComScoreMediaPlayerTrackerEventSeek: {
-                [self.streamingAnalytics notifySeekStartWithPosition:position];
+                [streamingAnalytics notifySeekStartWithPosition:position];
                 break;
             }
                 
             case ComScoreMediaPlayerTrackerEventBuffer: {
-                [self.streamingAnalytics notifyBufferStartWithPosition:position];
+                [streamingAnalytics notifyBufferStartWithPosition:position];
                 break;
             }
                 
