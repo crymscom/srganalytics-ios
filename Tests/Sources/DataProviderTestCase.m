@@ -43,7 +43,7 @@ static NSURL *MMFTestURL(void)
     // Ensure each test ends in an expected state.
     if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
             && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
-        [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
             return [event isEqualToString:@"stop"];
         }];
         
@@ -82,7 +82,7 @@ static NSURL *MMFTestURL(void)
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePaused);
     
     // Start playback and check labels
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_segment"], @"Archive footage of the man and his moods");
         XCTAssertEqualObjects(labels[@"media_streaming_quality"], @"HD");
@@ -156,7 +156,7 @@ static NSURL *MMFTestURL(void)
 - (void)testPlaySegmentInMediaComposition
 {
     // Use a segment id as video id, expect segment labels
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_segment"], @"Zwangsheirat – mitten unter uns");
         XCTAssertEqualObjects(labels[@"media_streaming_quality"], @"HD");
@@ -183,7 +183,7 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlayLivestreamInMediaComposition
 {
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_segment"], @"Livestream");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:rts:video:8841634");
@@ -209,7 +209,7 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlay360InMediaComposition
 {
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:rts:video:8414077");
         return YES;
@@ -233,7 +233,7 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlay360AndFlatInMediaComposition
 {
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(event, @"play");
         return YES;
     }];
@@ -256,7 +256,7 @@ static NSURL *MMFTestURL(void)
     __block BOOL stopReceived = NO;
     __block BOOL playReceived = NO;
     
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"stop"]) {
             stopReceived = YES;
         }
@@ -287,7 +287,7 @@ static NSURL *MMFTestURL(void)
     stopReceived = NO;
     playReceived = NO;
     
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"stop"]) {
             stopReceived = YES;
         }
@@ -320,7 +320,7 @@ static NSURL *MMFTestURL(void)
     stopReceived = NO;
     playReceived = NO;
     
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if ([event isEqualToString:@"stop"]) {
             stopReceived = YES;
         }
@@ -813,7 +813,7 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlayMediaCompositionWithSourceUid
 {
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:swi:video:42297626");
         XCTAssertEqualObjects(labels[@"source_id"], @"SWI source unique id");
@@ -835,7 +835,7 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPlaySegmentInMediaCompositionWithSourceUid
 {
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:84043ead-6e5a-4a05-875c-c1aa2998aa43");
         XCTAssertEqualObjects(labels[@"source_id"], @"SRF source unique id");
@@ -857,7 +857,7 @@ static NSURL *MMFTestURL(void)
 
 - (void)testSeekToSegmentInMediaCompositionWithSourceUid
 {
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:84043ead-6e5a-4a05-875c-c1aa2998aa43");
         XCTAssertEqualObjects(labels[@"source_id"], @"SRF source unique id");
@@ -882,7 +882,7 @@ static NSURL *MMFTestURL(void)
     SRGSegment *segment = [fetchedMediaComposition.mainChapter.segments filteredArrayUsingPredicate:predicate].firstObject;
     XCTAssertNotNil(segment);
     
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if (! [labels[@"event_id"] isEqualToString:@"play"]) {
             return NO;
         }
@@ -902,7 +902,7 @@ static NSURL *MMFTestURL(void)
 
 - (void)testSwitchChapterInMediaCompositionWithSourceUid
 {
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:srf:video:84043ead-6e5a-4a05-875c-c1aa2998aa43");
         XCTAssertEqualObjects(labels[@"source_id"], @"SRF source unique id");
@@ -927,7 +927,7 @@ static NSURL *MMFTestURL(void)
     SRGChapter *chapter1 = [fetchedMediaComposition.chapters filteredArrayUsingPredicate:predicate1].firstObject;
     XCTAssertNotNil(chapter1);
     
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if (! [labels[@"event_id"] isEqualToString:@"play"]) {
             return NO;
         }
@@ -948,7 +948,7 @@ static NSURL *MMFTestURL(void)
     SRGChapter *chapter2 = [fetchedMediaComposition.chapters filteredArrayUsingPredicate:predicate2].firstObject;
     XCTAssertNotNil(chapter2);
     
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         if (! [labels[@"event_id"] isEqualToString:@"play"]) {
             return NO;
         }
@@ -966,7 +966,7 @@ static NSURL *MMFTestURL(void)
 
 - (void)testUpdateMediaCompositionWithSourceUid
 {
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:swi:video:42297626");
         XCTAssertEqualObjects(labels[@"source_id"], @"SWI source unique id");
@@ -996,7 +996,7 @@ static NSURL *MMFTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    [self expectationForHiddenPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"pause");
         XCTAssertEqualObjects(labels[@"media_urn"], @"urn:swi:video:42297626");
         XCTAssertEqualObjects(labels[@"source_id"], @"SWI source unique id");

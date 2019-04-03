@@ -76,7 +76,7 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
     }];
 }
 
-- (XCTestExpectation *)expectationForHiddenPlayerEventNotificationWithHandler:(EventExpectationHandler)handler
+- (XCTestExpectation *)expectationForPlayerEventNotificationWithHandler:(EventExpectationHandler)handler
 {
     return [self expectationForSingleNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];

@@ -19,7 +19,7 @@
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
 typedef NS_ENUM(NSInteger, ComScoreMediaPlayerTrackerEvent) {
-    ComScoreMediaPlayerTrackerEventPlay,
+    ComScoreMediaPlayerTrackerEventPlay = 1,
     ComScoreMediaPlayerTrackerEventPause,
     ComScoreMediaPlayerTrackerEventEnd,
     ComScoreMediaPlayerTrackerEventSeek,
