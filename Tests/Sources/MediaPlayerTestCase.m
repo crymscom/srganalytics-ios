@@ -1518,6 +1518,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
         XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"media_position"], @"0");
         return YES;
     }];
     
@@ -1543,6 +1544,7 @@ static NSURL *DVRTestURL(void)
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             XCTAssertNil(labels[@"segment_name"]);
             XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"media_position"], @"0");
             fullLengthSeekReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
@@ -1551,6 +1553,7 @@ static NSURL *DVRTestURL(void)
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             XCTAssertNil(labels[@"segment_name"]);
             XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"media_position"], @"60");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -1572,6 +1575,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
         XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"media_position"], @"0");
         return YES;
     }];
     
@@ -1598,6 +1602,7 @@ static NSURL *DVRTestURL(void)
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             XCTAssertNil(labels[@"segment_name"]);
             XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"media_position"], @"0");
             fullLengthSeekReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
@@ -1606,6 +1611,7 @@ static NSURL *DVRTestURL(void)
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             XCTAssertNil(labels[@"segment_name"]);
             XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"media_position"], @"60");
             fullLengthPlayReceived = YES;
         }
         else {
@@ -1657,6 +1663,7 @@ static NSURL *DVRTestURL(void)
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             XCTAssertNil(labels[@"segment_name"]);
             XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"media_position"], @"50");
             
             fullLengthSeekAt50Received = YES;
         }
@@ -1684,6 +1691,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
         XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqualObjects(labels[@"media_position"], @"0");
         return YES;
     }];
     
@@ -1709,6 +1717,7 @@ static NSURL *DVRTestURL(void)
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             XCTAssertNil(labels[@"segment_name"]);
             XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"media_position"], @"2");
             fullLengthSeekReceived = YES;
         }
         else if ([event isEqualToString:@"play"]) {
@@ -1716,6 +1725,7 @@ static NSURL *DVRTestURL(void)
             XCTAssertEqualObjects(labels[@"stream_name"], @"full");
             XCTAssertNil(labels[@"segment_name"]);
             XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+            XCTAssertEqualObjects(labels[@"media_position"], @"5");
             fullLengthPlayReceived = YES;
         }
         else {
