@@ -68,18 +68,17 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
         self.mediaPlayerController = mediaPlayerController;
         
         self.streamingAnalytics = [[SCORStreamingAnalytics alloc] init];
+        
+        // Provide the analytics library version (most useful information) as player information.
+        [self.streamingAnalytics setLabelWithName:@"ns_st_mp" value:@"SRGAnalytics"];
+        [self.streamingAnalytics setLabelWithName:@"ns_st_mv" value:SRGAnalyticsMarketingVersion()];
+        
         [self.streamingAnalytics createPlaybackSession];
         
-        NSMutableDictionary<NSString *, NSString *> *labels = [NSMutableDictionary dictionary];
-        [labels srg_safelySetString:@"SRGMediaPlayer" forKey:@"ns_st_mp"];
-        [labels srg_safelySetString:SRGMediaPlayerMarketingVersion() forKey:@"ns_st_mv"];
-        
-        SRGAnalyticsStreamLabels *streamLabels = mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey];
-        if (streamLabels.comScoreLabelsDictionary) {
-            [labels addEntriesFromDictionary:streamLabels.comScoreLabelsDictionary];
+        SRGAnalyticsStreamLabels *labels = mediaPlayerController.userInfo[SRGAnalyticsMediaPlayerLabelsKey];
+        if (labels.comScoreLabelsDictionary) {
+            [self.streamingAnalytics.playbackSession setAssetWithLabels:labels.comScoreLabelsDictionary];
         }
-        
-        [self.streamingAnalytics.playbackSession setAssetWithLabels:[labels copy]];
         
         // No need to send explicit 'buffer stop' events. Sending a play or pause at the end of the buffering phase
         // (which our player does) suffices to implicitly finish the buffering phase. Buffer events are not required
