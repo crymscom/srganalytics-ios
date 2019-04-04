@@ -122,7 +122,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"play");
-        XCTAssertNotEqualObjects(labels[@"media_position"], @"0");
+        XCTAssertEqualObjects(labels[@"media_position"], @"1795");
         return YES;
     }];
     
@@ -132,7 +132,7 @@ static NSURL *DVRTestURL(void)
     
     [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"event_id"], @"eof");
-        XCTAssertNotEqualObjects(labels[@"media_position"], @"0");
+        XCTAssertEqualObjects(labels[@"media_position"], @"1800");
         return YES;
     }];
     
@@ -203,46 +203,6 @@ static NSURL *DVRTestURL(void)
     [self.mediaPlayerController reset];
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
-}
-
-- (void)testPlayPausePlay
-{
-    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        return [event isEqualToString:@"play"];
-    }];
-    
-    [self.mediaPlayerController playURL:OnDemandTestURL()];
-    
-    [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        return [event isEqualToString:@"pause"];
-    }];
-    
-    [self.mediaPlayerController pause];
-    
-    [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
-        return [event isEqualToString:@"play"];
-    }];
-    
-    [self.mediaPlayerController play];
-    
-    [self waitForExpectationsWithTimeout:20. handler:nil];
-    
-    [self expectationForElapsedTimeInterval:3. withHandler:nil];
-    
-    id eventObserver4 = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-        // Also see http://stackoverflow.com/questions/14565405/avplayer-pauses-for-no-obvious-reason and
-        // the demo project https://github.com/defagos/radars/tree/master/unexpected-player-rate-changes
-        NSLog(@"[AVPlayer probable bug]: Unexpected state change to %@. Fast play - pause sequences can induce unexpected rate changes "
-              "captured via KVO in our implementation. Those changes do not harm but cannot be tested reliably", @(self.mediaPlayerController.playbackState));
-    }];
-    
-    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [NSNotificationCenter.defaultCenter removeObserver:eventObserver4];
-    }];
 }
 
 - (void)testPlaySeekPlay
@@ -322,28 +282,13 @@ static NSURL *DVRTestURL(void)
 
 - (void)testPlayPauseSeekPause
 {
-    __block NSInteger count1 = 0;
-    id eventObserver1 = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-        ++count1;
-    }];
-    
     [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         return [event isEqualToString:@"play"];
     }];
     
     [self.mediaPlayerController playURL:OnDemandTestURL()];
     
-    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [NSNotificationCenter.defaultCenter removeObserver:eventObserver1];
-    }];
-    
-    // One event expected: play
-    XCTAssertEqual(count1, 1);
-    
-    __block NSInteger count2 = 0;
-    id eventObserver2 = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-        ++count2;
-    }];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         return [event isEqualToString:@"pause"];
@@ -351,17 +296,7 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController pause];
     
-    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [NSNotificationCenter.defaultCenter removeObserver:eventObserver2];
-    }];
-    
-    // One event expected: pause
-    XCTAssertEqual(count2, 1);
-    
-    __block NSInteger count3 = 0;
-    id eventObserver3 = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-        ++count3;
-    }];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
     
     // Expect seek - pause transition with labels
     
@@ -391,16 +326,11 @@ static NSURL *DVRTestURL(void)
     
     [self.mediaPlayerController seekToPosition:[SRGPosition positionAtTimeInSeconds:2.] withCompletionHandler:nil];
     
-    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [NSNotificationCenter.defaultCenter removeObserver:eventObserver3];
-    }];
-    
-    // Two events expected: seek and pause
-    XCTAssertEqual(count3, 2);
+    [self waitForExpectationsWithTimeout:20. handler:nil];
     
     [self expectationForElapsedTimeInterval:3. withHandler:nil];
     
-    id eventObserver5 = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
         // Also see http://stackoverflow.com/questions/14565405/avplayer-pauses-for-no-obvious-reason and
         // the demo project https://github.com/defagos/radars/tree/master/unexpected-player-rate-changes
         NSLog(@"[AVPlayer probable bug]: Unexpected state change to %@. Fast play - pause sequences can induce unexpected rate changes "
@@ -408,7 +338,47 @@ static NSURL *DVRTestURL(void)
     }];
     
     [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [NSNotificationCenter.defaultCenter removeObserver:eventObserver5];
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
+    }];
+}
+
+- (void)testPlayPausePlay
+{
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        return [event isEqualToString:@"play"];
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        return [event isEqualToString:@"pause"];
+    }];
+    
+    [self.mediaPlayerController pause];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        return [event isEqualToString:@"play"];
+    }];
+    
+    [self.mediaPlayerController play];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForElapsedTimeInterval:3. withHandler:nil];
+    
+    id eventObserver = [NSNotificationCenter.defaultCenter addObserverForPlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
+        // Also see http://stackoverflow.com/questions/14565405/avplayer-pauses-for-no-obvious-reason and
+        // the demo project https://github.com/defagos/radars/tree/master/unexpected-player-rate-changes
+        NSLog(@"[AVPlayer probable bug]: Unexpected state change to %@. Fast play - pause sequences can induce unexpected rate changes "
+              "captured via KVO in our implementation. Those changes do not harm but cannot be tested reliably", @(self.mediaPlayerController.playbackState));
+    }];
+    
+    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
+        [NSNotificationCenter.defaultCenter removeObserver:eventObserver];
     }];
 }
 
