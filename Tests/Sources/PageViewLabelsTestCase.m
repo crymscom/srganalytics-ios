@@ -12,6 +12,8 @@
 
 @implementation PageViewLabelsTestCase
 
+#pragma mark Tests
+
 - (void)testEmpty
 {
     SRGAnalyticsPageViewLabels *labels = [[SRGAnalyticsPageViewLabels alloc] init];

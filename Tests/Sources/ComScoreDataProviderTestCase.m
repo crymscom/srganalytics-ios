@@ -110,7 +110,7 @@ static NSURL *ServiceTestURL(void)
     // Use a segment id as video id, expect segment labels
     [self expectationForComScoreHiddenEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"Der Neue ist der Alte");
+        XCTAssertEqualObjects(labels[@"ns_st_ep"], @"10vor10 vom 06.09.2018");
         XCTAssertEqualObjects(labels[@"srg_mqual"], @"SD");
         return YES;
     }];

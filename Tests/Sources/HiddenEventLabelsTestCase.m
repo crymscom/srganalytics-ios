@@ -12,6 +12,8 @@
 
 @implementation HiddenEventLabelsTestCase
 
+#pragma mark Tests
+
 - (void)testEmpty
 {
     SRGAnalyticsHiddenEventLabels *labels = [[SRGAnalyticsHiddenEventLabels alloc] init];
