@@ -96,10 +96,16 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
             
             SRGMediaPlayerController *mediaPlayerController = self.mediaPlayerController;
             if (mediaPlayerController.tracked) {
-                // TODO:
+                [self recordEventForPlaybackState:mediaPlayerController.playbackState
+                                   withStreamType:mediaPlayerController.streamType
+                                             time:mediaPlayerController.currentTime
+                                        timeRange:mediaPlayerController.timeRange];
             }
             else {
-                // TODO:
+                [self recordEvent:ComScoreMediaPlayerTrackerEventEnd
+                   withStreamType:mediaPlayerController.streamType
+                             time:mediaPlayerController.currentTime
+                        timeRange:mediaPlayerController.timeRange];
             }
         }];
     }
