@@ -45,17 +45,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)tearDown
 {
-    // Ensure each test ends in an expected state.
-    if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
-        && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
-        [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-            return [event isEqualToString:@"stop"];
-        }];
-        
-        [self.mediaPlayerController reset];
-        
-        [self waitForExpectationsWithTimeout:20. handler:nil];
-    }
+    [self.mediaPlayerController reset];
     self.mediaPlayerController = nil;
 }
 

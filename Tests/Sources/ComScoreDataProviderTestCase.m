@@ -31,19 +31,7 @@ static NSURL *ServiceTestURL(void)
 
 - (void)tearDown
 {
-    // Ensure each test ends in an expected state. Since we have no control over when the comScore singleton
-    // processes events, we must ensure that the player is properly reset before moving to the next test, and
-    // that the associated event has been received.
-    if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
-            && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
-        [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-            return [event isEqualToString:@"end"];
-        }];
-        
-        [self.mediaPlayerController reset];
-        
-        [self waitForExpectationsWithTimeout:20. handler:nil];
-    }
+    [self.mediaPlayerController reset];
     self.mediaPlayerController = nil;
 }
 
@@ -51,7 +39,7 @@ static NSURL *ServiceTestURL(void)
 
 - (void)testPrepareToPlayMediaComposition
 {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {

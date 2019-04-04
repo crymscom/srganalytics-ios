@@ -26,7 +26,7 @@ static NSDictionary *s_startLabels = nil;
 {
     [super setUp];
     
-    [KIFSystemTestActor setDefaultTimeout:60.0];
+    [KIFSystemTestActor setDefaultTimeout:60.];
 }
 
 #pragma mark Tests

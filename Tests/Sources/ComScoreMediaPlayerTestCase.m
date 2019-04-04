@@ -38,14 +38,6 @@ static NSURL *DVRTestURL(void)
 
 #pragma mark Setup and teardown
 
-+ (void)setUp
-{
-    // The comScore SDK caches events recorded during the initial ~5 seconds after it has been initialized. Then events
-    // are sent as they are recorded. For this reason, to get reliable timings, we just wait ~5 seconds at the beginning
-    // of the test suite.
-    [NSThread sleepForTimeInterval:6.];
-}
-
 - (void)setUp
 {
     self.mediaPlayerController = [[SRGMediaPlayerController alloc] init];
@@ -54,19 +46,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)tearDown
 {
-    // Ensure each test ends in an expected state. Since we have no control over when the comScore singleton
-    // processes events, we must ensure that the player is properly reset before moving to the next test, and
-    // that the associated event has been received.
-    if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
-            && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
-        [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-            return [event isEqualToString:@"end"];
-        }];
-        
-        [self.mediaPlayerController reset];
-        
-        [self waitForExpectationsWithTimeout:20. handler:nil];
-    }
+    [self.mediaPlayerController reset];
     self.mediaPlayerController = nil;
 }
 
