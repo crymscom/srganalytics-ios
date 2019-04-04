@@ -1685,18 +1685,30 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
+    __block BOOL playReceived = NO;
+    __block BOOL pauseReceived = NO;
+    
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([event isEqualToString:@"play"]) {
+            XCTAssertFalse(playReceived);
+            XCTAssertFalse(pauseReceived);
+            playReceived = YES;
+        }
+        else if ([event isEqualToString:@"pause"]) {
+            XCTAssertFalse(pauseReceived);
+            pauseReceived = YES;
+        }
+        else {
+            XCTFail(@"Unexpected event received");
+        }
+        
+        return playReceived && pauseReceived;
+    }];
+    
     XCTAssertEqual(self.mediaPlayerController.playbackState, SRGMediaPlayerPlaybackStatePaused);
     self.mediaPlayerController.tracked = YES;
     
-    id eventObserver2 = [NSNotificationCenter.defaultCenter addObserverForComScorePlayerEventNotificationUsingBlock:^(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
-        XCTFail(@"No event must be received");
-    }];
-    
-    [self expectationForElapsedTimeInterval:4. withHandler:nil];
-    
-    [self waitForExpectationsWithTimeout:20. handler:^(NSError * _Nullable error) {
-        [NSNotificationCenter.defaultCenter removeObserver:eventObserver2];
-    }];
+    [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
 - (void)testDisableTwiceTrackingWhilePlaying
