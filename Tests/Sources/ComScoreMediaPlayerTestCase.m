@@ -11,11 +11,6 @@
 #import <SRGAnalytics_MediaPlayer/SRGAnalytics_MediaPlayer.h>
 #import <ComScore/ComScore.h>
 
-// Remark: Currently, comScore notifications are received when the comScore SDK is sending the actual request. This makes
-//         it difficult to reliably implement some tests checking playhead positions. For example, if we start a player
-//         and wait until the play event has been received until pausing the player, the time at which the player will be
-//         paused depends on when the comScore SDK has sent the event.
-
 typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
 static NSURL *OnDemandTestURL(void)
@@ -43,6 +38,14 @@ static NSURL *DVRTestURL(void)
 
 #pragma mark Setup and teardown
 
++ (void)setUp
+{
+    // The comScore SDK caches events recorded during the initial ~5 seconds after it has been initialized. Then events
+    // are sent as they are recorded. For this reason, to get reliable timings, we just wait ~5 seconds at the beginning
+    // of the test suite.
+    [NSThread sleepForTimeInterval:6.];
+}
+
 - (void)setUp
 {
     self.mediaPlayerController = [[SRGMediaPlayerController alloc] init];
@@ -55,7 +58,7 @@ static NSURL *DVRTestURL(void)
     // processes events, we must ensure that the player is properly reset before moving to the next test, and
     // that the associated event has been received.
     if (self.mediaPlayerController.tracked && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateIdle
-        && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
+            && self.mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
         [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString * _Nonnull event, NSDictionary * _Nonnull labels) {
             return [event isEqualToString:@"end"];
         }];
@@ -320,7 +323,7 @@ static NSURL *DVRTestURL(void)
 {
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"play");
-        XCTAssertEqualObjects(labels[@"ns_st_po"], @"0");
+        XCTAssertEqual([labels[@"ns_st_po"] integerValue] / 1000, 0);
         return YES;
     }];
     
@@ -328,11 +331,9 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // TODO: If we had a comScore notification emitted when the event has been recorded (with full label info),
-    // we could check the ns_st_po value
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"pause");
-        XCTAssertNotEqualObjects(labels[@"ns_st_po"], @"0");
+        XCTAssertEqual([labels[@"ns_st_po"] integerValue] / 1000, 0);
         return YES;
     }];
     
@@ -340,11 +341,9 @@ static NSURL *DVRTestURL(void)
     
     [self waitForExpectationsWithTimeout:20. handler:nil];
     
-    // TODO: If we had a comScore notification emitted when the event has been recorded (with full label info),
-    // we could check the ns_st_po value
     [self expectationForComScorePlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
-        XCTAssertNotEqualObjects(labels[@"ns_st_po"], @"0");
+        XCTAssertEqual([labels[@"ns_st_po"] integerValue] / 1000, 0);
         return YES;
     }];
     
