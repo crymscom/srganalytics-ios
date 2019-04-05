@@ -158,7 +158,7 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
     
     // Ensure a play is emitted before events requiring a session to be opened (the Tag Commander SDK does not open sessions
     // automatically)
-    if ([self.lastEvent isEqualToString:MediaPlayerTrackerEventStop] && ([event isEqualToString:MediaPlayerTrackerEventSeek])) {
+    if ([self.lastEvent isEqualToString:MediaPlayerTrackerEventStop] && ([event isEqualToString:MediaPlayerTrackerEventPause] || [event isEqualToString:MediaPlayerTrackerEventSeek])) {
         [self recordEvent:MediaPlayerTrackerEventPlay withStreamType:streamType position:position timeshift:timeshift segment:segment userInfo:userInfo];
     }
     
