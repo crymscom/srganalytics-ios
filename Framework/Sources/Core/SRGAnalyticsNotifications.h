@@ -36,4 +36,16 @@ OBJC_EXPORT NSString * const SRGAnalyticsNetmetrixRequestNotification;
 // Information available for `SRGAnalyticsNetmetrixRequestNotification`.
 OBJC_EXPORT NSString * const SRGAnalyticsNetmetrixURLKey;
 
+/**
+ *  Get the currrent unique identifier added to all measurements made in unit testing mode.
+ */
+OBJC_EXPORT NSString * _Nonnull SRGAnalyticsUnitTestingIdentifier(void);
+
+/**
+ *  Renew the unique identifier added to all measurements made in unit testing mode.
+ *
+ *  @discussion Renewal does not alter the unit test identifier of a playback session while still running.
+ */
+OBJC_EXPORT void SRGAnalyticsRenewUnitTestingIdentifier(void);
+
 NS_ASSUME_NONNULL_END

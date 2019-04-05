@@ -20,9 +20,23 @@
 #import <TCCore/TCCore.h>
 #import <TCSDK/TCSDK.h>
 
+static NSString * s_unitTestingIdentifier = nil;
+
 __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 {
     [TCDebug setDebugLevel:TCLogLevel_None];
+    
+    SRGAnalyticsRenewUnitTestingIdentifier();
+}
+
+NSString *SRGAnalyticsUnitTestingIdentifier(void)
+{
+    return s_unitTestingIdentifier;
+}
+
+void SRGAnalyticsRenewUnitTestingIdentifier(void)
+{
+    s_unitTestingIdentifier = NSUUID.UUID.UUIDString;
 }
 
 @interface SRGAnalyticsTracker ()
@@ -96,6 +110,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         builder.secureTransmission = YES;
         builder.usagePropertiesAutoUpdateMode = SCORUsagePropertiesAutoUpdateModeForegroundAndBackground;
         
+        if (configuration.unitTesting) {
+            builder.startLabels = @{ @"srg_test_id" : SRGAnalyticsUnitTestingIdentifier() };
+        }
+        
         // See https://srfmmz.atlassian.net/wiki/spaces/INTFORSCHUNG/pages/721420782/ComScore+-+Media+Metrix+Report
         // Coding Document for Video Players, page 16
         builder.httpRedirectCaching = NO;
@@ -149,16 +167,16 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (void)trackComScoreEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
-    NSMutableDictionary<NSString *, NSString *> *allLabels = [self.globalLabels.comScoreLabelsDictionary mutableCopy] ?: [NSMutableDictionary dictionary];
-    [allLabels addEntriesFromDictionary:labels];
-    [SCORAnalytics notifyHiddenEventWithLabels:[allLabels copy]];
+    NSMutableDictionary<NSString *, NSString *> *fullLabels = [self.globalLabels.comScoreLabelsDictionary mutableCopy] ?: [NSMutableDictionary dictionary];
+    [fullLabels addEntriesFromDictionary:labels];
+    [SCORAnalytics notifyHiddenEventWithLabels:[fullLabels copy]];
 }
 
 - (void)trackTagCommanderEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
-    NSMutableDictionary<NSString *, NSString *> *allLabels = [self.globalLabels.labelsDictionary mutableCopy] ?: [NSMutableDictionary dictionary];
-    [allLabels addEntriesFromDictionary:labels];
-    [allLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
+    NSMutableDictionary<NSString *, NSString *> *fullLabels = [self.globalLabels.labelsDictionary mutableCopy] ?: [NSMutableDictionary dictionary];
+    [fullLabels addEntriesFromDictionary:labels];
+    [fullLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [self.tagCommander addData:key withValue:object];
     }];
     [self.tagCommander sendData];
@@ -194,14 +212,14 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 {
     NSAssert(title.length != 0, @"A title is required");
     
-    NSMutableDictionary *pageViewLabelsDictionary = [NSMutableDictionary dictionary];
-    [pageViewLabelsDictionary srg_safelySetString:title forKey:@"srg_title"];
-    [pageViewLabelsDictionary srg_safelySetString:@(fromPushNotification).stringValue forKey:@"srg_ap_push"];
+    NSMutableDictionary *fullLabelsDictionary = [NSMutableDictionary dictionary];
+    [fullLabelsDictionary srg_safelySetString:title forKey:@"srg_title"];
+    [fullLabelsDictionary srg_safelySetString:@(fromPushNotification).stringValue forKey:@"srg_ap_push"];
     
     NSString *category = @"app";
     
     if (! levels) {
-        [pageViewLabelsDictionary srg_safelySetString:category forKey:@"srg_n1"];
+        [fullLabelsDictionary srg_safelySetString:category forKey:@"srg_n1"];
     }
     else if (levels.count > 0) {
         __block NSMutableString *levelsComScoreFormattedString = [NSMutableString new];
@@ -210,7 +228,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
             NSString *levelValue = [object description];
             
             if (idx < 10) {
-                [pageViewLabelsDictionary srg_safelySetString:levelValue forKey:levelKey];
+                [fullLabelsDictionary srg_safelySetString:levelValue forKey:levelKey];
             }
             
             if (levelsComScoreFormattedString.length > 0) {
@@ -222,15 +240,19 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         category = [levelsComScoreFormattedString copy];
     }
     
-    [pageViewLabelsDictionary srg_safelySetString:category forKey:@"ns_category"];
-    [pageViewLabelsDictionary srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"name"];
+    [fullLabelsDictionary srg_safelySetString:category forKey:@"ns_category"];
+    [fullLabelsDictionary srg_safelySetString:[self pageIdWithTitle:title levels:levels] forKey:@"name"];
     
     NSDictionary<NSString *, NSString *> *comScoreLabelsDictionary = [labels comScoreLabelsDictionary];
     if (comScoreLabelsDictionary) {
-        [pageViewLabelsDictionary addEntriesFromDictionary:comScoreLabelsDictionary];
+        [fullLabelsDictionary addEntriesFromDictionary:comScoreLabelsDictionary];
     }
     
-    [SCORAnalytics notifyViewEventWithLabels:pageViewLabelsDictionary];
+    if (self.configuration.unitTesting) {
+        fullLabelsDictionary[@"srg_test_id"] = SRGAnalyticsUnitTestingIdentifier();
+    }
+    
+    [SCORAnalytics notifyViewEventWithLabels:[fullLabelsDictionary copy]];
 }
 
 - (void)trackTagCommanderPageViewWithTitle:(NSString *)title
@@ -262,6 +284,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         [fullLabelsDictionary addEntriesFromDictionary:labelsDictionary];
     }
     
+    if (self.configuration.unitTesting) {
+        fullLabelsDictionary[@"srg_test_id"] = SRGAnalyticsUnitTestingIdentifier();
+    }
+    
     [self trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];
 }
 
@@ -288,17 +314,21 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 {
     NSAssert(name.length != 0, @"A name is required");
     
-    NSMutableDictionary *hiddenEventLabelsDictionary = [NSMutableDictionary dictionary];
-    [hiddenEventLabelsDictionary srg_safelySetString:name forKey:@"srg_title"];
-    [hiddenEventLabelsDictionary srg_safelySetString:@"app" forKey:@"ns_category"];
-    [hiddenEventLabelsDictionary srg_safelySetString:[NSString stringWithFormat:@"app.%@", name.srg_comScoreFormattedString] forKey:@"name"];
+    NSMutableDictionary *fullLabelsDictionary = [NSMutableDictionary dictionary];
+    [fullLabelsDictionary srg_safelySetString:name forKey:@"srg_title"];
+    [fullLabelsDictionary srg_safelySetString:@"app" forKey:@"ns_category"];
+    [fullLabelsDictionary srg_safelySetString:[NSString stringWithFormat:@"app.%@", name.srg_comScoreFormattedString] forKey:@"name"];
     
     NSDictionary<NSString *, NSString *> *comScoreLabelsDictionary = [labels comScoreLabelsDictionary];
     if (comScoreLabelsDictionary) {
-        [hiddenEventLabelsDictionary addEntriesFromDictionary:comScoreLabelsDictionary];
+        [fullLabelsDictionary addEntriesFromDictionary:comScoreLabelsDictionary];
     }
     
-    [SCORAnalytics notifyHiddenEventWithLabels:hiddenEventLabelsDictionary];
+    if (self.configuration.unitTesting) {
+        fullLabelsDictionary[@"srg_test_id"] = SRGAnalyticsUnitTestingIdentifier();
+    }
+    
+    [self trackComScoreEventWithLabels:[fullLabelsDictionary copy]];
 }
 
 - (void)trackTagCommanderHiddenEventWithName:(NSString *)name labels:(SRGAnalyticsHiddenEventLabels *)labels
@@ -312,6 +342,10 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
     NSDictionary<NSString *, NSString *> *labelsDictionary = [labels labelsDictionary];
     if (labelsDictionary) {
         [fullLabelsDictionary addEntriesFromDictionary:labelsDictionary];
+    }
+    
+    if (self.configuration.unitTesting) {
+        fullLabelsDictionary[@"srg_test_id"] = SRGAnalyticsUnitTestingIdentifier();
     }
     
     [self trackTagCommanderEventWithLabels:[fullLabelsDictionary copy]];

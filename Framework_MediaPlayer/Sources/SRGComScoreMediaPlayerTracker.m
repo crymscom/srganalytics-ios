@@ -70,6 +70,10 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
         
         self.streamingAnalytics = [[SCORStreamingAnalytics alloc] init];
         
+        if (SRGAnalyticsTracker.sharedTracker.configuration.unitTesting) {
+            [self.streamingAnalytics setLabelWithName:@"srg_test_id" value:SRGAnalyticsUnitTestingIdentifier()];
+        }
+        
         // Provide the analytics library version (most useful information) as player information.
         [self.streamingAnalytics setLabelWithName:@"ns_st_mp" value:@"SRGAnalytics"];
         [self.streamingAnalytics setLabelWithName:@"ns_st_mv" value:SRGAnalyticsMarketingVersion()];

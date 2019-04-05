@@ -42,6 +42,8 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
 
 @property (nonatomic, copy) MediaPlayerTrackerEvent lastEvent;
 
+@property (nonatomic, copy) NSString *unitTestingIdentifier;
+
 @end
 
 @implementation SRGMediaPlayerTracker
@@ -53,6 +55,7 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
     if (self = [super init]) {
         self.mediaPlayerController = mediaPlayerController;
         self.lastEvent = MediaPlayerTrackerEventStop;
+        self.unitTestingIdentifier = SRGAnalyticsUnitTestingIdentifier();
         
         [NSNotificationCenter.defaultCenter addObserver:self
                                                selector:@selector(playbackStateDidChange:)
@@ -227,6 +230,10 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
         if (segmentLabels.labelsDictionary) {
             [labels addEntriesFromDictionary:segmentLabels.labelsDictionary];
         }
+    }
+    
+    if (SRGAnalyticsTracker.sharedTracker.configuration.unitTesting) {
+        labels[@"srg_test_id"] = self.unitTestingIdentifier;
     }
     
     [SRGAnalyticsTracker.sharedTracker trackTagCommanderEventWithLabels:[labels copy]];
