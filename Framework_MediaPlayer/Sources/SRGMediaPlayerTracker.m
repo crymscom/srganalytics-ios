@@ -8,6 +8,7 @@
 
 #import "NSBundle+SRGAnalytics.h"
 #import "NSMutableDictionary+SRGAnalytics.h"
+#import "SRGAnalyticsLabels+Private.h"
 #import "SRGAnalyticsMediaPlayerLogger.h"
 #import "SRGAnalyticsSegment.h"
 #import "SRGAnalyticsTracker+Private.h"

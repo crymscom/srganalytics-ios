@@ -7,6 +7,7 @@
 #import "SRGComScoreMediaPlayerTracker.h"
 
 #import "NSMutableDictionary+SRGAnalytics.h"
+#import "SRGAnalyticsLabels+Private.h"
 #import "SRGAnalyticsMediaPlayerLogger.h"
 #import "SRGAnalyticsStreamLabels.h"
 #import "SRGMediaAnalytics.h"
