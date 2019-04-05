@@ -6,6 +6,8 @@
 
 #import "XCTestCase+Tests.h"
 
+#import "SRGAnalyticsLabels+Private.h"
+
 @interface PageViewLabelsTestCase : XCTestCase
 
 @end

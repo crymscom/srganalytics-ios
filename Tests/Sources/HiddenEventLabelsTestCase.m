@@ -6,6 +6,8 @@
 
 #import "XCTestCase+Tests.h"
 
+#import "SRGAnalyticsLabels+Private.h"
+
 @interface HiddenEventLabelsTestCase : XCTestCase
 
 @end

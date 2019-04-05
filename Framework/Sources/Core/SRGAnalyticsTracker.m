@@ -33,7 +33,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 @property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
 @property (nonatomic) SCORStreamingAnalytics *streamSense;
 
-@property (nonatomic) NSDictionary<NSString *, NSString *> *globalLabels;
+@property (nonatomic) SRGAnalyticsLabels *globalLabels;
 
 @end
 
@@ -149,12 +149,14 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 
 - (void)trackComScoreEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
-    [SCORAnalytics notifyHiddenEventWithLabels:labels];
+    NSMutableDictionary<NSString *, NSString *> *allLabels = [self.globalLabels.comScoreLabelsDictionary mutableCopy] ?: [NSMutableDictionary dictionary];
+    [allLabels addEntriesFromDictionary:labels];
+    [SCORAnalytics notifyHiddenEventWithLabels:[allLabels copy]];
 }
 
 - (void)trackTagCommanderEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
 {
-    NSMutableDictionary<NSString *, NSString *> *allLabels = [self.globalLabels mutableCopy] ?: [NSMutableDictionary dictionary];
+    NSMutableDictionary<NSString *, NSString *> *allLabels = [self.globalLabels.labelsDictionary mutableCopy] ?: [NSMutableDictionary dictionary];
     [allLabels addEntriesFromDictionary:labels];
     [allLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
         [self.tagCommander addData:key withValue:object];
