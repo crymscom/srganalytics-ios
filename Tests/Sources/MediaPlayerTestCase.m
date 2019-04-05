@@ -1801,6 +1801,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
         XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"media_position"], @"2");
         return YES;
     }];
     
@@ -1819,6 +1820,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
         XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"media_position"], @"2");
         return YES;
     }];
     
@@ -1902,6 +1904,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
         XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"media_position"], @"2");
         return YES;
     }];
     
@@ -1919,6 +1922,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
         XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"media_position"], @"2");
         return YES;
     }];
     
@@ -1932,6 +1936,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
         XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"media_position"], @"2");
         return YES;
     }];
     
@@ -1987,6 +1992,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
         XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"media_position"], @"2");
         return YES;
     }];
     
@@ -2052,6 +2058,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertEqualObjects(labels[@"segment_name"], @"segment");
         XCTAssertEqualObjects(labels[@"overridable_name"], @"segment");
+        XCTAssertEqualObjects(labels[@"media_position"], @"2");
         return YES;
     }];
     

@@ -1352,6 +1352,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
         XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqual([labels[@"ns_st_po"] integerValue] / 1000, 2);
         return YES;
     }];
     
@@ -1369,6 +1370,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"ns_st_ev"], @"end");
         XCTAssertNil(labels[@"segment_name"]);
         XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqual([labels[@"ns_st_po"] integerValue] / 1000, 2);
         return YES;
     }];
     
@@ -1452,6 +1454,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
         XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqual([labels[@"ns_st_po"] integerValue] / 1000, 2);
         return YES;
     }];
     
@@ -1470,6 +1473,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
         XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqual([labels[@"ns_st_po"] integerValue] / 1000, 2);
         return YES;
     }];
     
@@ -1482,6 +1486,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
         XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqual([labels[@"ns_st_po"] integerValue] / 1000, 2);
         return YES;
     }];
     
@@ -1537,6 +1542,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
         XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqual([labels[@"ns_st_po"] integerValue] / 1000, 2);
         return YES;
     }];
     
@@ -1602,6 +1608,7 @@ static NSURL *DVRTestURL(void)
         XCTAssertEqualObjects(labels[@"stream_name"], @"full");
         XCTAssertNil(labels[@"segment_name"]);
         XCTAssertEqualObjects(labels[@"overridable_name"], @"full");
+        XCTAssertEqual([labels[@"ns_st_po"] integerValue] / 1000, 2);
         return YES;
     }];
     
