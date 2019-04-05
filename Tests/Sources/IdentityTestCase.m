@@ -72,6 +72,8 @@ static NSURL *OnDemandTestURL(void)
 
 - (void)setUp
 {
+    SRGAnalyticsRenewUnitTestingIdentifier();
+    
     self.identityService = [[SRGIdentityService alloc] initWithWebserviceURL:TestWebserviceURL() websiteURL:TestWebsiteURL()];
     [self.identityService logout];
     

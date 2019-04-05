@@ -34,6 +34,7 @@ static NSURL *MMFTestURL(void)
 
 - (void)setUp
 {
+    SRGAnalyticsRenewUnitTestingIdentifier();
     self.mediaPlayerController = [[SRGMediaPlayerController alloc] init];
     self.mediaPlayerController.liveTolerance = 10.;
 }

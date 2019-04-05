@@ -12,8 +12,14 @@
 
 - (id<NSObject>)addObserverForHiddenEventNotificationUsingBlock:(void (^)(NSString *event, NSDictionary *labels))block
 {
+    NSString *expectedTestingIdentifier = SRGAnalyticsUnitTestingIdentifier();
     return [self addObserverForName:SRGAnalyticsRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        
+        NSString *unitTestingIdentifier = labels[@"srg_test_id"];
+        if (! [unitTestingIdentifier isEqualToString:expectedTestingIdentifier]) {
+            return;
+        }
         
         NSString *event = labels[@"event_id"];
         if ([event isEqualToString:@"screen"]) {
@@ -50,8 +56,14 @@
 
 - (id<NSObject>)addObserverForComScoreHiddenEventNotificationUsingBlock:(void (^)(NSString *event, NSDictionary *labels))block
 {
+    NSString *expectedTestingIdentifier = SRGAnalyticsUnitTestingIdentifier();
     return [self addObserverForName:SRGAnalyticsComScoreRequestNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
+        
+        NSString *unitTestingIdentifier = labels[@"srg_test_id"];
+        if (! [unitTestingIdentifier isEqualToString:expectedTestingIdentifier]) {
+            return;
+        }
         
         NSString *type = labels[@"ns_type"];
         if (! [type isEqualToString:@"hidden"]) {

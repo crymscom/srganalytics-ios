@@ -40,6 +40,7 @@ static NSURL *DVRTestURL(void)
 
 - (void)setUp
 {
+    SRGAnalyticsRenewUnitTestingIdentifier();
     self.mediaPlayerController = [[SRGMediaPlayerController alloc] init];
 }
 

@@ -44,8 +44,14 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 
 - (XCTestExpectation *)expectationForPageViewEventNotificationWithHandler:(EventExpectationHandler)handler
 {
+    NSString *expectedTestingIdentifier = SRGAnalyticsUnitTestingIdentifier();
     return [self expectationForSingleNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        
+        NSString *unitTestingIdentifier = labels[@"srg_test_id"];
+        if (! [unitTestingIdentifier isEqualToString:expectedTestingIdentifier]) {
+            return NO;
+        }
         
         NSString *event = labels[@"event_id"];
         if ([event isEqualToString:@"screen"]) {
@@ -59,8 +65,14 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 
 - (XCTestExpectation *)expectationForHiddenEventNotificationWithHandler:(EventExpectationHandler)handler
 {
+    NSString *expectedTestingIdentifier = SRGAnalyticsUnitTestingIdentifier();
     return [self expectationForSingleNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        
+        NSString *unitTestingIdentifier = labels[@"srg_test_id"];
+        if (! [unitTestingIdentifier isEqualToString:expectedTestingIdentifier]) {
+            return NO;
+        }
         
         NSString *event = labels[@"event_id"];
         if ([event isEqualToString:@"screen"]) {
@@ -79,8 +91,14 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 
 - (XCTestExpectation *)expectationForPlayerEventNotificationWithHandler:(EventExpectationHandler)handler
 {
+    NSString *expectedTestingIdentifier = SRGAnalyticsUnitTestingIdentifier();
     return [self expectationForSingleNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        
+        NSString *unitTestingIdentifier = labels[@"srg_test_id"];
+        if (! [unitTestingIdentifier isEqualToString:expectedTestingIdentifier]) {
+            return NO;
+        }
         
         static dispatch_once_t s_onceToken;
         static NSArray<NSString *> *s_playerEvents;
@@ -100,8 +118,14 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 
 - (XCTestExpectation *)expectationForComScoreHiddenEventNotificationWithHandler:(EventExpectationHandler)handler
 {
+    NSString *expectedTestingIdentifier = SRGAnalyticsUnitTestingIdentifier();
     return [self expectationForSingleNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
+        
+        NSString *unitTestingIdentifier = labels[@"srg_test_id"];
+        if (! [unitTestingIdentifier isEqualToString:expectedTestingIdentifier]) {
+            return NO;
+        }
         
         NSString *type = labels[@"ns_type"];
         if (! [type isEqualToString:@"hidden"]) {
@@ -144,8 +168,14 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 
 - (XCTestExpectation *)expectationForViewEventNotificationWithHandler:(EventExpectationHandler)handler
 {
+    NSString *expectedTestingIdentifier = SRGAnalyticsUnitTestingIdentifier();
     return [self expectationForSingleNotification:SRGAnalyticsRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsLabelsKey];
+        
+        NSString *unitTestingIdentifier = labels[@"srg_test_id"];
+        if (! [unitTestingIdentifier isEqualToString:expectedTestingIdentifier]) {
+            return NO;
+        }
         
         NSString *event = labels[@"event_id"];
         if (! [event isEqualToString:@"screen"]) {
@@ -158,8 +188,14 @@ static __attribute__((constructor)) void AnalyticsTestCaseInit(void)
 
 - (XCTestExpectation *)expectationForComScoreViewEventNotificationWithHandler:(EventExpectationHandler)handler
 {
+    NSString *expectedTestingIdentifier = SRGAnalyticsUnitTestingIdentifier();
     return [self expectationForSingleNotification:SRGAnalyticsComScoreRequestNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
         NSDictionary *labels = notification.userInfo[SRGAnalyticsComScoreLabelsKey];
+        
+        NSString *unitTestingIdentifier = labels[@"srg_test_id"];
+        if (! [unitTestingIdentifier isEqualToString:expectedTestingIdentifier]) {
+            return NO;
+        }
         
         NSString *type = labels[@"ns_type"];
         if (! [type isEqualToString:@"view"]) {
