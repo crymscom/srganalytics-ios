@@ -127,7 +127,7 @@ static NSString * const LastLoggedInEmailAddress = @"LastLoggedInEmailAddress";
                 }
                     
                 case 1: {
-                    URL = [NSURL URLWithString:@"http://stream-i.rts.ch/i/tp/1993/tp_10071993-,450,k.mp4.csmil/master.m3u8"];
+                    URL = [NSURL URLWithString:@"http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4"];
                     break;
                 }
                     
