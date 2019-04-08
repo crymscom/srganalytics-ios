@@ -15,6 +15,13 @@ typedef BOOL (^EventExpectationHandler)(NSString *event, NSDictionary *labels);
 
 @implementation TrackerTestCase
 
+#pragma mark Setup and teardown
+
+- (void)setUp
+{
+    SRGAnalyticsRenewUnitTestingIdentifier();
+}
+
 #pragma mark Tests
 
 - (void)testHiddenEvent

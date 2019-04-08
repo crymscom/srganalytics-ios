@@ -19,11 +19,11 @@ static NSDictionary *s_startLabels = nil;
 
 @implementation ComScoreViewEventTests
 
-#pragma mark Setup and tear down
+#pragma mark Setup and teardown
 
 - (void)setUp
 {
-    [super setUp];
+    SRGAnalyticsRenewUnitTestingIdentifier();
     
     [KIFSystemTestActor setDefaultTimeout:60.];
 }

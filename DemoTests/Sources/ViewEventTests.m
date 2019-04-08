@@ -20,11 +20,11 @@ static NSDictionary *s_startLabels = nil;
 
 @implementation ViewEventTests
 
-#pragma mark Setup and tear down
+#pragma mark Setup and teardown
 
 - (void)setUp
 {
-    [super setUp];
+    SRGAnalyticsRenewUnitTestingIdentifier();
     
     [KIFSystemTestActor setDefaultTimeout:60.];
 }
