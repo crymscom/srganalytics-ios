@@ -31,11 +31,6 @@ OBJC_EXPORT BOOL SRGMediaAnalyticsIsLiveStreamType(SRGMediaPlayerStreamType stre
 OBJC_EXPORT NSNumber * _Nullable SRGMediaAnalyticsTimeshiftInMilliseconds(SRGMediaPlayerStreamType streamType, CMTimeRange timeRange, CMTime time, NSTimeInterval liveTolerance);
 
 /**
- *  Calculate the current playhead position of the specified media player controller, in milliseconds.
- */
-OBJC_EXPORT NSInteger SRGMediaAnalyticsPlayerPositionInMilliseconds(SRGMediaPlayerController *mediaPlayerController);
-
-/**
  *  Calculate the current timeshift value in milliseconds of the specified media player controller, in milliseconds.
  *
  *  @discussion If the stream being played is not a livestream, the function returns `nil`.

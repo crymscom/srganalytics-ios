@@ -46,11 +46,6 @@ NSNumber *SRGMediaAnalyticsTimeshiftInMilliseconds(SRGMediaPlayerStreamType stre
     }
 }
 
-NSInteger SRGMediaAnalyticsPlayerPositionInMilliseconds(SRGMediaPlayerController *mediaPlayerController)
-{
-    return SRGMediaAnalyticsCMTimeToMilliseconds(mediaPlayerController.currentTime);
-}
-
 NSNumber *SRGMediaAnalyticsPlayerTimeshiftInMilliseconds(SRGMediaPlayerController *mediaPlayerController)
 {
     return SRGMediaAnalyticsTimeshiftInMilliseconds(mediaPlayerController.streamType,

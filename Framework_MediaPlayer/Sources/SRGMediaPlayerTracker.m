@@ -78,7 +78,7 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
             if (mediaPlayerController.tracked) {
                 [self recordEventForPlaybackState:mediaPlayerController.playbackState
                                    withStreamType:mediaPlayerController.streamType
-                                         position:SRGMediaAnalyticsPlayerPositionInMilliseconds(mediaPlayerController)
+                                             time:mediaPlayerController.currentTime
                                         timeshift:SRGMediaAnalyticsPlayerTimeshiftInMilliseconds(mediaPlayerController)
                                           segment:mediaPlayerController.selectedSegment
                                          userInfo:mediaPlayerController.userInfo];
@@ -86,7 +86,7 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
             else {
                 [self recordEvent:MediaPlayerTrackerEventStop
                    withStreamType:mediaPlayerController.streamType
-                         position:SRGMediaAnalyticsPlayerPositionInMilliseconds(mediaPlayerController)
+                             time:mediaPlayerController.currentTime
                         timeshift:SRGMediaAnalyticsPlayerTimeshiftInMilliseconds(mediaPlayerController)
                           segment:mediaPlayerController.selectedSegment
                          userInfo:mediaPlayerController.userInfo];
@@ -124,7 +124,7 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
 
 - (void)recordEventForPlaybackState:(SRGMediaPlayerPlaybackState)playbackState
                      withStreamType:(SRGMediaPlayerStreamType)streamType
-                           position:(NSTimeInterval)position
+                               time:(CMTime)time
                           timeshift:(NSNumber *)timeshift
                             segment:(id<SRGSegment>)segment
                            userInfo:(NSDictionary *)userInfo
@@ -144,12 +144,12 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
         return;
     }
     
-    [self recordEvent:event withStreamType:streamType position:position timeshift:timeshift segment:segment userInfo:userInfo];
+    [self recordEvent:event withStreamType:streamType time:time timeshift:timeshift segment:segment userInfo:userInfo];
 }
 
 - (void)recordEvent:(MediaPlayerTrackerEvent)event
      withStreamType:(SRGMediaPlayerStreamType)streamType
-           position:(NSTimeInterval)position
+               time:(CMTime)time
           timeshift:(NSNumber *)timeshift
             segment:(id<SRGSegment>)segment
            userInfo:(NSDictionary *)userInfo
@@ -159,7 +159,7 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
     // Ensure a play is emitted before events requiring a session to be opened (the Tag Commander SDK does not open sessions
     // automatically)
     if ([self.lastEvent isEqualToString:MediaPlayerTrackerEventStop] && ([event isEqualToString:MediaPlayerTrackerEventPause] || [event isEqualToString:MediaPlayerTrackerEventSeek])) {
-        [self recordEvent:MediaPlayerTrackerEventPlay withStreamType:streamType position:position timeshift:timeshift segment:segment userInfo:userInfo];
+        [self recordEvent:MediaPlayerTrackerEventPlay withStreamType:streamType time:time timeshift:timeshift segment:segment userInfo:userInfo];
     }
     
     if (! [event isEqualToString:MediaPlayerTrackerEventPosition] && ! [event isEqualToString:MediaPlayerTrackerEventUptime]) {
@@ -208,7 +208,7 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
     [labels srg_safelySetString:event forKey:@"event_id"];
     
     // Use current duration as media position for livestreams, raw position otherwise
-    NSTimeInterval mediaPosition = SRGMediaAnalyticsIsLiveStreamType(streamType) ? [self updatedPlaybackDurationWithEvent:event] : position;
+    NSTimeInterval mediaPosition = SRGMediaAnalyticsIsLiveStreamType(streamType) ? [self updatedPlaybackDurationWithEvent:event] : SRGMediaAnalyticsCMTimeToMilliseconds(time);
     [labels srg_safelySetString:@(round(mediaPosition / 1000)).stringValue forKey:@"media_position"];
     
     [labels srg_safelySetString:self.playerVolumeInPercent.stringValue ?: @"0" forKey:@"media_volume"];
@@ -385,14 +385,14 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
         if (tracker) {
             if (previousPlaybackState != SRGMediaPlayerPlaybackStatePreparing) {
                 SRGMediaPlayerStreamType streamType = [notification.userInfo[SRGMediaPlayerPreviousStreamTypeKey] integerValue];
-                NSTimeInterval position = SRGMediaAnalyticsCMTimeToMilliseconds([notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue]);
+                CMTime time = [notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue];
                 NSNumber *timeshift = SRGMediaAnalyticsTimeshiftInMilliseconds(streamType,
                                                                                [notification.userInfo[SRGMediaPlayerPreviousTimeRangeKey] CMTimeRangeValue],
                                                                                [notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue],
                                                                                mediaPlayerController.liveTolerance);
                 [tracker recordEvent:MediaPlayerTrackerEventStop
                       withStreamType:streamType
-                            position:position
+                                time:time
                            timeshift:timeshift
                              segment:notification.userInfo[SRGMediaPlayerPreviousSelectedSegmentKey]
                             userInfo:notification.userInfo[SRGMediaPlayerPreviousUserInfoKey]];
@@ -423,7 +423,7 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
     
     [self recordEventForPlaybackState:playbackState
                        withStreamType:mediaPlayerController.streamType
-                             position:SRGMediaAnalyticsPlayerPositionInMilliseconds(mediaPlayerController)
+                                 time:mediaPlayerController.currentTime
                             timeshift:SRGMediaAnalyticsPlayerTimeshiftInMilliseconds(mediaPlayerController)
                               segment:mediaPlayerController.selectedSegment
                              userInfo:mediaPlayerController.userInfo];
@@ -442,13 +442,12 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
         // Notify full-length end (only if not starting at the given segment, i.e. if the player is not preparing playback)
         if (! notification.userInfo[SRGMediaPlayerPreviousSegmentKey]
                 && mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStatePreparing) {
-            CMTime lastPlaybackTime = [notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue];
-            NSTimeInterval position = SRGMediaAnalyticsCMTimeToMilliseconds(lastPlaybackTime);
-            NSNumber *timeshift = SRGMediaAnalyticsTimeshiftInMilliseconds(streamType, mediaPlayerController.timeRange, lastPlaybackTime, mediaPlayerController.liveTolerance);
+            CMTime time = [notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue];
+            NSNumber *timeshift = SRGMediaAnalyticsTimeshiftInMilliseconds(streamType, mediaPlayerController.timeRange, time, mediaPlayerController.liveTolerance);
             
             [self recordEvent:MediaPlayerTrackerEventStop
                withStreamType:streamType
-                     position:position
+                         time:time
                     timeshift:timeshift
                       segment:nil
                      userInfo:mediaPlayerController.userInfo];
@@ -456,7 +455,7 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
         
         [self recordEvent:MediaPlayerTrackerEventPlay
            withStreamType:streamType
-                 position:SRGMediaAnalyticsPlayerPositionInMilliseconds(mediaPlayerController)
+                     time:mediaPlayerController.currentTime
                 timeshift:SRGMediaAnalyticsPlayerTimeshiftInMilliseconds(mediaPlayerController)
                   segment:notification.userInfo[SRGMediaPlayerSegmentKey]
                  userInfo:mediaPlayerController.userInfo];
@@ -475,22 +474,21 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
         
         id<SRGSegment> segment = notification.userInfo[SRGMediaPlayerSegmentKey];
         
-        CMTime lastPlaybackTime = [notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue];
-        NSTimeInterval lastPosition = SRGMediaAnalyticsCMTimeToMilliseconds(lastPlaybackTime);
-        NSNumber *lastTimeshift = SRGMediaAnalyticsTimeshiftInMilliseconds(streamType, mediaPlayerController.timeRange, lastPlaybackTime, mediaPlayerController.liveTolerance);
+        CMTime time = [notification.userInfo[SRGMediaPlayerLastPlaybackTimeKey] CMTimeValue];
+        NSNumber *timeshift = SRGMediaAnalyticsTimeshiftInMilliseconds(streamType, mediaPlayerController.timeRange, time, mediaPlayerController.liveTolerance);
         
         // Notify full-length start if the transition was not due to another segment being selected
         if (! [notification.userInfo[SRGMediaPlayerSelectionKey] boolValue] && mediaPlayerController.playbackState != SRGMediaPlayerPlaybackStateEnded) {
             BOOL interrupted = [notification.userInfo[SRGMediaPlayerInterruptionKey] boolValue];
             [self recordEvent:interrupted ? MediaPlayerTrackerEventStop : MediaPlayerTrackerEventEnd
                withStreamType:streamType
-                     position:lastPosition
-                    timeshift:lastTimeshift
+                         time:time
+                    timeshift:timeshift
                       segment:segment
                      userInfo:mediaPlayerController.userInfo];
             [self recordEvent:MediaPlayerTrackerEventPlay
                withStreamType:streamType
-                     position:SRGMediaAnalyticsPlayerPositionInMilliseconds(mediaPlayerController)
+                         time:mediaPlayerController.currentTime
                     timeshift:SRGMediaAnalyticsPlayerTimeshiftInMilliseconds(mediaPlayerController)
                       segment:nil
                      userInfo:mediaPlayerController.userInfo];
@@ -498,8 +496,8 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
         else {
             [self recordEvent:MediaPlayerTrackerEventStop
                withStreamType:streamType
-                     position:lastPosition
-                    timeshift:lastTimeshift
+                         time:time
+                    timeshift:timeshift
                       segment:segment
                      userInfo:mediaPlayerController.userInfo];
         }
@@ -516,12 +514,11 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
     }
     
     SRGMediaPlayerStreamType streamType = mediaPlayerController.streamType;
-    NSTimeInterval position = SRGMediaAnalyticsPlayerPositionInMilliseconds(mediaPlayerController);
     NSNumber *timeshift = SRGMediaAnalyticsPlayerTimeshiftInMilliseconds(mediaPlayerController);
     
     [self recordEvent:MediaPlayerTrackerEventPosition
        withStreamType:streamType
-             position:position
+                 time:mediaPlayerController.currentTime
             timeshift:timeshift
               segment:mediaPlayerController.selectedSegment
              userInfo:mediaPlayerController.userInfo];
@@ -530,7 +527,7 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
     if (self.mediaPlayerController.live && self.heartbeatCount % 2 != 0) {
         [self recordEvent:MediaPlayerTrackerEventUptime
            withStreamType:streamType
-                 position:position
+                     time:mediaPlayerController.currentTime
                 timeshift:timeshift
                   segment:mediaPlayerController.selectedSegment
                  userInfo:mediaPlayerController.userInfo];
