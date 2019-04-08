@@ -139,6 +139,7 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
     static NSDictionary<NSNumber *, NSNumber *> *s_events;
     dispatch_once(&s_onceToken, ^{
         s_events = @{ @(SRGMediaPlayerPlaybackStateIdle) : @(ComScoreMediaPlayerTrackerEventEnd),
+                      @(SRGMediaPlayerPlaybackStatePreparing) : @(ComScoreMediaPlayerTrackerEventBuffer),
                       @(SRGMediaPlayerPlaybackStatePlaying) : @(ComScoreMediaPlayerTrackerEventPlay),
                       @(SRGMediaPlayerPlaybackStateSeeking) : @(ComScoreMediaPlayerTrackerEventSeek),
                       @(SRGMediaPlayerPlaybackStatePaused) : @(ComScoreMediaPlayerTrackerEventPause),
@@ -262,6 +263,11 @@ static NSMutableDictionary<NSValue *, SRGComScoreMediaPlayerTracker *> *s_tracke
     if (playbackState == SRGMediaPlayerPlaybackStatePreparing) {
         SRGComScoreMediaPlayerTracker *tracker = [[SRGComScoreMediaPlayerTracker alloc] initWithMediaPlayerController:mediaPlayerController];
         s_trackers[key] = tracker;
+        
+        [tracker recordEvent:ComScoreMediaPlayerTrackerEventBuffer
+              withStreamType:mediaPlayerController.streamType
+                        time:mediaPlayerController.currentTime
+                   timeRange:mediaPlayerController.timeRange];
         
         SRGAnalyticsMediaPlayerLogInfo(@"comScoreTracker", @"Started tracking for %@", key);
     }
