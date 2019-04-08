@@ -49,7 +49,24 @@ static NSURL *MMFTestURL(void)
 
 - (void)testPrepareToPlayMediaComposition
 {
-    __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Ready to play"];
+    // Prepare playback. An opening play event must be received
+    __block BOOL playReceived = NO;
+    __block BOOL pauseReceived = NO;
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        if ([labels[@"event_id"] isEqualToString:@"play"]) {
+            XCTAssertFalse(pauseReceived);
+            playReceived = YES;
+        }
+        else if ([labels[@"event_id"] isEqualToString:@"pause"]) {
+            pauseReceived = YES;
+        }
+        
+        XCTAssertEqualObjects(labels[@"media_segment"], @"Archive footage of the man and his moods");
+        XCTAssertEqualObjects(labels[@"media_streaming_quality"], @"HD");
+        XCTAssertEqualObjects(labels[@"media_urn"], @"urn:swi:video:42297626");
+        
+        return playReceived && pauseReceived;
+    }];
     
     SRGDataProvider *dataProvider = [[SRGDataProvider alloc] initWithServiceURL:ServiceTestURL()];
     [[dataProvider mediaCompositionForURN:@"urn:swi:video:42297626" standalone:NO withCompletionBlock:^(SRGMediaComposition * _Nullable mediaComposition, NSHTTPURLResponse * _Nullable HTTPResponse, NSError * _Nullable error) {
@@ -64,7 +81,6 @@ static NSURL *MMFTestURL(void)
             XCTAssertEqual(self.mediaPlayerController.resource.streamingMethod, SRGStreamingMethodHLS);
             XCTAssertEqual(self.mediaPlayerController.resource.quality, SRGQualityHD);
             XCTAssertEqual(self.mediaPlayerController.view.viewMode, SRGMediaPlayerViewModeFlat);
-            [expectation fulfill];
         }];
     }] resume];
     
