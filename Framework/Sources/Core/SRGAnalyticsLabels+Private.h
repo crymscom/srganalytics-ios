@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SRGAnalyticsLabels (Private)
 
 /**
- *  Dictionary containing the raw values which will be sent to TagComman1der.
+ *  Dictionary containing the raw values which will be sent to TagCommander.
  */
 @property (nonatomic, readonly) NSDictionary<NSString *, NSString *> *labelsDictionary;
 
