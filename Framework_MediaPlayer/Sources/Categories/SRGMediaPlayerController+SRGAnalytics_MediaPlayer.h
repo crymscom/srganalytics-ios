@@ -4,6 +4,8 @@
 //  License information is available from the LICENSE file.
 //
 
+#import "SRGAnalyticsStreamLabels.h"
+
 #import <SRGAnalytics/SRGAnalytics.h>
 #import <SRGMediaPlayer/SRGMediaPlayer.h>
 
@@ -11,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Streaming measurement additions to SRGAnalytics. The SRGAnalytics_MediaPlayer framework is an optional SRGAnalytics
- *  companion framework which can be used to easily measure audio and video consumption in applications powered by 
+ *  companion framework which can be used to easily measure audio and video consumption in applications powered by
  *  the SRG Media Player library. If you need to implement streaming measurements for other players, use an instance of
  *  `SRGAnalyticsStreamTracker`, available from the main SRGAnalytics framework.
  *
@@ -19,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    - Labels associated with the content being played.
  *    - Labels associated with the segment being played, merged on top of the chapter labels.
  *
- *  The SRGAnalytics_MediaPlayer framework automatically takes care of content and segment playback tracking, and 
+ *  The SRGAnalytics_MediaPlayer framework automatically takes care of content and segment playback tracking, and
  *  supplies mechanisms to add your custom measurement labels to stream events if needed.
  *
  *  ## Usage
@@ -28,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  `SRGAnalytics.framework` as well as `SRGMediaPlayer.framework` as dependencies).
  *
  *  The tracker itself must have been started before any measurements can take place (@see `SRGAnalyticsTracker`).
- * 
+ *
  *  By default, provided a tracker has been started, all SRG Media Player controllers are automatically tracked without any
  *  additional work. You can disable this behavior by setting the `SRGMediaPlayerController` `tracked` property to `NO`.
  *
@@ -44,15 +46,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  Custom information can be added to both content and segment labels. When playing a segment, its labels are merged
  *  with labels associated with the content, overriding existing keys. You can take advantage of this behavior to add
  *  segment information on top of content labels.
- *  
+ *
  *  ### Labels associated with the content
  *
  *  Labels associated with a media being played can be supplied when starting playback, using one of the plaback
- *  methods made available below. 
+ *  methods made available below.
  *
  *  ### Labels associated with a segment
  *
- *  To supply labels for a segment, have your segment model class conform to the `SRGAnalyticsSegment` protocol instead 
+ *  To supply labels for a segment, have your segment model class conform to the `SRGAnalyticsSegment` protocol instead
  *  of `SRGSegment`, and implement the required `srg_analyticsLabels` method.
  */
 @interface SRGMediaPlayerController (SRGAnalytics_MediaPlayer)
