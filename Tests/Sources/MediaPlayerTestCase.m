@@ -441,6 +441,59 @@ static NSURL *DVRTestURL(void)
     [self waitForExpectationsWithTimeout:20. handler:nil];
 }
 
+- (void)testCommonLabelsOverride
+{
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_player_display"], @"CustomPlayer");
+        XCTAssertEqualObjects(labels[@"media_player_version"], @"1.0");
+        return YES;
+    }];
+    
+    self.mediaPlayerController.analyticsPlayerName = @"CustomPlayer";
+    self.mediaPlayerController.analyticsPlayerVersion = @"1.0";
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"stop");
+        XCTAssertEqualObjects(labels[@"media_player_display"], @"CustomPlayer");
+        XCTAssertEqualObjects(labels[@"media_player_version"], @"1.0");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"play");
+        XCTAssertEqualObjects(labels[@"media_player_display"], @"CustomPlayer");
+        XCTAssertEqualObjects(labels[@"media_player_version"], @"1.0");
+        return YES;
+    }];
+    
+    [self.mediaPlayerController playURL:OnDemandTestURL()];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+    
+    [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {
+        XCTAssertEqualObjects(labels[@"event_id"], @"stop");
+        XCTAssertEqualObjects(labels[@"media_player_display"], @"SRGMediaPlayer");
+        XCTAssertEqualObjects(labels[@"media_player_version"], SRGMediaPlayerMarketingVersion());
+        return YES;
+    }];
+    
+    self.mediaPlayerController.analyticsPlayerName = nil;
+    self.mediaPlayerController.analyticsPlayerVersion = nil;
+    
+    [self.mediaPlayerController reset];
+    
+    [self waitForExpectationsWithTimeout:20. handler:nil];
+}
+
 - (void)testOnDemandPlayback
 {
     [self expectationForPlayerEventNotificationWithHandler:^BOOL(NSString *event, NSDictionary *labels) {

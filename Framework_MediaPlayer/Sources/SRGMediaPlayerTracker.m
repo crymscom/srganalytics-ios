@@ -202,8 +202,8 @@ static NSMutableDictionary<NSValue *, SRGMediaPlayerTracker *> *s_trackers = nil
     
     [labels srg_safelySetString:NSBundle.srg_isProductionVersion ? @"prod" : @"preprod" forKey:@"media_embedding_environment"];
     
-    [labels srg_safelySetString:@"SRGMediaPlayer" forKey:@"media_player_display"];
-    [labels srg_safelySetString:SRGMediaPlayerMarketingVersion() forKey:@"media_player_version"];
+    [labels srg_safelySetString:self.mediaPlayerController.analyticsPlayerName forKey:@"media_player_display"];
+    [labels srg_safelySetString:self.mediaPlayerController.analyticsPlayerVersion forKey:@"media_player_version"];
     
     [labels srg_safelySetString:event forKey:@"event_id"];
     
