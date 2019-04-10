@@ -306,10 +306,7 @@ static NSMutableDictionary *s_trackers = nil;
 
 - (NSString *)screenType
 {
-    if (self.mediaPlayerController.pictureInPictureController.pictureInPictureActive) {
-        return @"pip";
-    }
-    else if (self.mediaPlayerController.player.isExternalPlaybackActive) {
+    if (self.mediaPlayerController.player.isExternalPlaybackActive) {
         return @"airplay";
     }
     else {
