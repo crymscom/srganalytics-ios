@@ -92,7 +92,6 @@ void SRGAnalyticsRenewUnitTestingIdentifier(void)
     self.tagCommander = [[TagCommander alloc] initWithSiteID:(int)configuration.site andContainerID:(int)configuration.container];
     [self.tagCommander enableRunningInBackground];
     [self.tagCommander addPermanentData:@"app_library_version" withValue:SRGAnalyticsMarketingVersion()];
-    [self.tagCommander addPermanentData:@"navigation_app_site_name" withValue:configuration.comScoreVirtualSite];
     [self.tagCommander addPermanentData:@"navigation_environment" withValue:NSBundle.srg_isProductionVersion ? @"prod" : @"preprod"];
     [self.tagCommander addPermanentData:@"navigation_device" withValue:[self device]];
 }

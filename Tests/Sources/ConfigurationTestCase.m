@@ -18,14 +18,12 @@
 {
     SRGAnalyticsConfiguration *configuration = [[SRGAnalyticsConfiguration alloc] initWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierSRF
                                                                                                        container:7
-                                                                                             comScoreVirtualSite:@"comscore-vsite"
                                                                                              netMetrixIdentifier:@"netmetrix-identifier"];
     XCTAssertTrue(configuration.centralized);
     XCTAssertFalse(configuration.unitTesting);
     XCTAssertEqualObjects(configuration.businessUnitIdentifier, SRGAnalyticsBusinessUnitIdentifierSRF);
     XCTAssertEqual(configuration.site, 3666);
     XCTAssertEqual(configuration.container, 7);
-    XCTAssertEqualObjects(configuration.comScoreVirtualSite, @"comscore-vsite");
     XCTAssertEqualObjects(configuration.netMetrixIdentifier, @"netmetrix-identifier");
 }
 
@@ -33,7 +31,6 @@
 {
     SRGAnalyticsConfiguration *configuration = [[SRGAnalyticsConfiguration alloc] initWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierSRF
                                                                                                        container:7
-                                                                                             comScoreVirtualSite:@"comscore-vsite"
                                                                                              netMetrixIdentifier:@"netmetrix-identifier"];
     configuration.centralized = NO;
     
@@ -42,7 +39,6 @@
     XCTAssertEqualObjects(configuration.businessUnitIdentifier, SRGAnalyticsBusinessUnitIdentifierSRF);
     XCTAssertEqual(configuration.site, 3667);
     XCTAssertEqual(configuration.container, 7);
-    XCTAssertEqualObjects(configuration.comScoreVirtualSite, @"comscore-vsite");
     XCTAssertEqualObjects(configuration.netMetrixIdentifier, @"netmetrix-identifier");
 }
 
@@ -50,7 +46,6 @@
 {
     SRGAnalyticsConfiguration *configuration = [[SRGAnalyticsConfiguration alloc] initWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierSRF
                                                                                                        container:7
-                                                                                             comScoreVirtualSite:@"comscore-vsite"
                                                                                              netMetrixIdentifier:@"netmetrix-identifier"];
     configuration.unitTesting = YES;
     
@@ -59,7 +54,6 @@
     XCTAssertEqualObjects(configuration.businessUnitIdentifier, SRGAnalyticsBusinessUnitIdentifierSRF);
     XCTAssertEqual(configuration.site, 3666);
     XCTAssertEqual(configuration.container, 7);
-    XCTAssertEqualObjects(configuration.comScoreVirtualSite, @"comscore-vsite");
     XCTAssertEqualObjects(configuration.netMetrixIdentifier, @"netmetrix-identifier");
 }
 
@@ -67,7 +61,6 @@
 {
     SRGAnalyticsConfiguration *configuration = [[SRGAnalyticsConfiguration alloc] initWithBusinessUnitIdentifier:SRGAnalyticsBusinessUnitIdentifierSRF
                                                                                                        container:7
-                                                                                             comScoreVirtualSite:@"comscore-vsite"
                                                                                              netMetrixIdentifier:@"netmetrix-identifier"];
     configuration.centralized = YES;
     configuration.unitTesting = YES;
@@ -78,7 +71,6 @@
     XCTAssertEqualObjects(configuration.businessUnitIdentifier, configurationCopy.businessUnitIdentifier);
     XCTAssertEqual(configuration.site, configurationCopy.site);
     XCTAssertEqual(configuration.container, configurationCopy.container);
-    XCTAssertEqualObjects(configuration.comScoreVirtualSite, configurationCopy.comScoreVirtualSite);
     XCTAssertEqualObjects(configuration.netMetrixIdentifier, configurationCopy.netMetrixIdentifier);
 }
 

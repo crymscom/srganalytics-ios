@@ -17,7 +17,6 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 
 @property (nonatomic, copy) SRGAnalyticsBusinessUnitIdentifier businessUnitIdentifier;
 @property (nonatomic) NSInteger container;
-@property (nonatomic, copy) NSString *comScoreVirtualSite;
 @property (nonatomic, copy) NSString *netMetrixIdentifier;
 
 @end
@@ -28,13 +27,11 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 
 - (instancetype)initWithBusinessUnitIdentifier:(SRGAnalyticsBusinessUnitIdentifier)businessUnitIdentifier
                                      container:(NSInteger)container
-                           comScoreVirtualSite:(NSString *)comScoreVirtualSite
                            netMetrixIdentifier:(NSString *)netMetrixIdentifier
 {
     if (self = [super init] ) {
         self.businessUnitIdentifier = businessUnitIdentifier;
         self.container = container;
-        self.comScoreVirtualSite = comScoreVirtualSite;
         self.netMetrixIdentifier = netMetrixIdentifier;
         self.centralized = YES;
     }
@@ -82,7 +79,6 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
     SRGAnalyticsConfiguration *configuration = [self.class allocWithZone:zone];
     configuration.businessUnitIdentifier = self.businessUnitIdentifier;
     configuration.container = self.container;
-    configuration.comScoreVirtualSite = self.comScoreVirtualSite;
     configuration.netMetrixIdentifier = self.netMetrixIdentifier;
     configuration.centralized = self.centralized;
     configuration.unitTesting = self.unitTesting;
@@ -93,13 +89,12 @@ SRGAnalyticsBusinessUnitIdentifier const SRGAnalyticsBusinessUnitIdentifierSWI =
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p; businessUnitIdentifier = %@; site = %@; container = %@; comScoreVurtualSite = %@; netMetrixIdentifier = %@>",
+    return [NSString stringWithFormat:@"<%@: %p; businessUnitIdentifier = %@; site = %@; container = %@; netMetrixIdentifier = %@>",
             self.class,
             self,
             self.businessUnitIdentifier,
             @(self.site),
             @(self.container),
-            self.comScoreVirtualSite,
             self.netMetrixIdentifier];
 }
 
