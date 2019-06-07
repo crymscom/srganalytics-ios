@@ -16,9 +16,7 @@ static void *s_analyticsIdentityServiceKey = &s_analyticsIdentityServiceKey;
 
 #pragma mark Startup
 
-- (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration identityService:(SRGIdentityService *)identityService
-{
-    self.identityService = identityService;
+- (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration{
     [self startWithConfiguration:configuration];
 }
 

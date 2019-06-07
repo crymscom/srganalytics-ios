@@ -158,8 +158,6 @@
 		E61388A61D916A9900218919 /* SRGAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388921D916A9900218919 /* SRGAnalyticsTracker.m */; };
 		E61388A71D916A9900218919 /* UIViewController+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388931D916A9900218919 /* UIViewController+SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61388A81D916A9900218919 /* UIViewController+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388941D916A9900218919 /* UIViewController+SRGAnalytics.m */; };
-		E61388A91D916A9900218919 /* CSMeasurementDispatcher+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388961D916A9900218919 /* CSMeasurementDispatcher+SRGAnalytics.h */; };
-		E61388AA1D916A9900218919 /* CSMeasurementDispatcher+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388971D916A9900218919 /* CSMeasurementDispatcher+SRGAnalytics.m */; };
 		E61388AB1D916A9900218919 /* NSBundle+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388981D916A9900218919 /* NSBundle+SRGAnalytics.h */; };
 		E61388AC1D916A9900218919 /* NSBundle+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388991D916A9900218919 /* NSBundle+SRGAnalytics.m */; };
 		E61388AD1D916A9900218919 /* NSMutableDictionary+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E613889A1D916A9900218919 /* NSMutableDictionary+SRGAnalytics.h */; };
@@ -195,6 +193,75 @@
 		E6FC7F1D1D61FA4700A55085 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6FC7F061D61FA4700A55085 /* Images.xcassets */; };
 		E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */; };
 		E6FC7FC31D62D90800A55085 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69A1FF31D61E2070064E6C1 /* SRGAnalytics.framework */; };
+		EB9E7AA0228C49CE00727725 /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F04985B1F343C7A00E88BEC /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m */; };
+		EB9E7AA1228C49CE00727725 /* SRGMediaPlayerTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F04985E1F343C7A00E88BEC /* SRGMediaPlayerTracker.m */; };
+		EB9E7AAB228C49CE00727725 /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F04985A1F343C7A00E88BEC /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7AAC228C49CE00727725 /* SRGAnalytics_MediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C0D6A1D61EFD200AEAE6D /* SRGAnalytics_MediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7AAD228C49CE00727725 /* SRGAnalyticsMediaPlayerLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F04985C1F343C7A00E88BEC /* SRGAnalyticsMediaPlayerLogger.h */; };
+		EB9E7AAE228C49CE00727725 /* SRGAnalyticsSegment.h in Headers */ = {isa = PBXBuildFile; fileRef = E6B8E9FD1D92868D000D6904 /* SRGAnalyticsSegment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7AAF228C49CE00727725 /* SRGMediaPlayerTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F04985D1F343C7A00E88BEC /* SRGMediaPlayerTracker.h */; };
+		EB9E7AD5228C49FE00727725 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF3E21B1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m */; };
+		EB9E7AD6228C49FE00727725 /* SRGPlaybackSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC24BAB219ABB1B0048091F /* SRGPlaybackSettings.m */; };
+		EB9E7AD7228C49FE00727725 /* SRGResource+SRGAnalytics_DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE021E42119D58200DF6617 /* SRGResource+SRGAnalytics_DataProvider.m */; };
+		EB9E7AD8228C49FE00727725 /* SRGMediaComposition+SRGAnalytics_DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD31A651FE6D8C200D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.m */; };
+		EB9E7AD9228C49FE00727725 /* SRGSegment+SRGAnalytics_DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4ED9B01F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.m */; };
+		EB9E7AE7228C49FE00727725 /* SRGSegment+SRGAnalytics_DataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F4ED9AF1F38A50200E3EA51 /* SRGSegment+SRGAnalytics_DataProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7AE8228C49FE00727725 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FF3E21A1D9CFD7D00EB4A30 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7AE9228C49FE00727725 /* SRGPlaybackSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FC24BAA219ABB1B0048091F /* SRGPlaybackSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7AEA228C49FE00727725 /* SRGMediaComposition+SRGAnalytics_DataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD31A641FE6D8C200D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7AEB228C49FE00727725 /* SRGMediaComposition+SRGAnalytics_DataProvider_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD31A681FE6E34200D13595 /* SRGMediaComposition+SRGAnalytics_DataProvider_Private.h */; };
+		EB9E7AEC228C49FE00727725 /* SRGResource+SRGAnalytics_DataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE021E52119D58200DF6617 /* SRGResource+SRGAnalytics_DataProvider.h */; };
+		EB9E7AED228C49FE00727725 /* SRGAnalytics_DataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB331F71D9BFB77001469F2 /* SRGAnalytics_DataProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7BDC228C543000727725 /* NSBundle+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388991D916A9900218919 /* NSBundle+SRGAnalytics.m */; };
+		EB9E7BDD228C543000727725 /* SRGAnalyticsHiddenEventLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C40121F87AF5E00FFEA85 /* SRGAnalyticsHiddenEventLabels.m */; };
+		EB9E7BDE228C543000727725 /* NSMutableDictionary+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E613889B1D916A9900218919 /* NSMutableDictionary+SRGAnalytics.m */; };
+		EB9E7BE0228C543000727725 /* SRGAnalyticsConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FAE25F11F34D87600874A53 /* SRGAnalyticsConfiguration.m */; };
+		EB9E7BE1228C543000727725 /* SRGAnalyticsStreamLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C400E1F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.m */; };
+		EB9E7BE2228C543000727725 /* NSString+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E613889D1D916A9900218919 /* NSString+SRGAnalytics.m */; };
+		EB9E7BE3228C543000727725 /* SRGAnalyticsLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C40161F87AF5E00FFEA85 /* SRGAnalyticsLabels.m */; };
+		EB9E7BE4228C543000727725 /* SRGAnalyticsNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388BA1D91903B00218919 /* SRGAnalyticsNotifications.m */; };
+		EB9E7BE5228C543000727725 /* SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */; };
+		EB9E7BE6228C543000727725 /* SRGAnalyticsNetMetrixTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E613888D1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m */; };
+		EB9E7BE7228C543000727725 /* SRGAnalyticsStreamTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD86FF91F2B2A7F001ED20F /* SRGAnalyticsStreamTracker.m */; };
+		EB9E7BE8228C543000727725 /* SRGAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388921D916A9900218919 /* SRGAnalyticsTracker.m */; };
+		EB9E7BE9228C543000727725 /* SRGAnalyticsPageViewLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C40141F87AF5E00FFEA85 /* SRGAnalyticsPageViewLabels.m */; };
+		EB9E7BEA228C543000727725 /* UIViewController+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388941D916A9900218919 /* UIViewController+SRGAnalytics.m */; };
+		EB9E7BF3228C543000727725 /* UIViewController+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388931D916A9900218919 /* UIViewController+SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7BF4228C543000727725 /* SRGAnalyticsLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3C40131F87AF5E00FFEA85 /* SRGAnalyticsLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7BF5228C543000727725 /* SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E69A20481D61E5E80064E6C1 /* SRGAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7BF6228C543000727725 /* SRGAnalyticsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E613888A1D916A9900218919 /* SRGAnalyticsLogger.h */; };
+		EB9E7BF8228C543000727725 /* NSBundle+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388981D916A9900218919 /* NSBundle+SRGAnalytics.h */; };
+		EB9E7BF9228C543000727725 /* SRGAnalyticsConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FAE25F01F34D87600874A53 /* SRGAnalyticsConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7BFA228C543000727725 /* SRGAnalyticsStreamLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3C400D1F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7BFB228C543000727725 /* SRGAnalyticsTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388911D916A9900218919 /* SRGAnalyticsTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7BFC228C543000727725 /* SRGAnalyticsNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388B91D91903B00218919 /* SRGAnalyticsNotifications.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7BFD228C543000727725 /* NSString+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E613889C1D916A9900218919 /* NSString+SRGAnalytics.h */; };
+		EB9E7BFE228C543000727725 /* SRGAnalyticsNetMetrixTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E613888C1D916A9900218919 /* SRGAnalyticsNetMetrixTracker.h */; };
+		EB9E7BFF228C543000727725 /* SRGAnalyticsHiddenEventLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3C40111F87AF5E00FFEA85 /* SRGAnalyticsHiddenEventLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7C00228C543000727725 /* SRGAnalyticsTracker+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD86FFD1F2B2CA9001ED20F /* SRGAnalyticsTracker+Private.h */; };
+		EB9E7C01228C543000727725 /* NSMutableDictionary+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E613889A1D916A9900218919 /* NSMutableDictionary+SRGAnalytics.h */; };
+		EB9E7C02228C543000727725 /* SRGAnalyticsPageViewLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3C40151F87AF5E00FFEA85 /* SRGAnalyticsPageViewLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7C03228C543000727725 /* SRGAnalyticsStreamTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD86FF81F2B2A7F001ED20F /* SRGAnalyticsStreamTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB9E7C05228C543000727725 /* SRGAnalytics.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6F0C98CF2121CC9700073AB6 /* SRGAnalytics.bundle */; };
+		EBFC0D88228DA90600E7E4A8 /* SRGContentProtection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBFC0D87228DA90600E7E4A8 /* SRGContentProtection.framework */; };
+		EBFC0D8A228DA91200E7E4A8 /* SRGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBFC0D89228DA91200E7E4A8 /* SRGNetwork.framework */; };
+		EBFC0D8C228DA92000E7E4A8 /* SRGDataProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBFC0D8B228DA92000E7E4A8 /* SRGDataProvider.framework */; };
+		EBFC0D8D228DA92C00E7E4A8 /* MAKVONotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4B9DEA228C7AAF0076755A /* MAKVONotificationCenter.framework */; };
+		EBFC0D8E228DA93300E7E4A8 /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4B9DEB228C7AAF0076755A /* libextobjc.framework */; };
+		EBFC0D8F228DA93B00E7E4A8 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4B9DEC228C7AAF0076755A /* SRGLogger.framework */; };
+		EBFC0D90228DA94900E7E4A8 /* SRGMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB88E864228D72BF00AAA945 /* SRGMediaPlayer.framework */; };
+		EBFC0D92228DA95500E7E4A8 /* SRGAnalytics_Mediaplayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBFC0D91228DA95500E7E4A8 /* SRGAnalytics_Mediaplayer.framework */; };
+		EBFC0D93228DA95B00E7E4A8 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB88E862228D72B600AAA945 /* SRGAnalytics.framework */; };
+		EBFC0D96228DAA8300E7E4A8 /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4B9DEB228C7AAF0076755A /* libextobjc.framework */; };
+		EBFC0D97228DAA8300E7E4A8 /* MAKVONotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4B9DEA228C7AAF0076755A /* MAKVONotificationCenter.framework */; };
+		EBFC0D98228DAA8300E7E4A8 /* SRGAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB88E862228D72B600AAA945 /* SRGAnalytics.framework */; };
+		EBFC0D99228DAA8300E7E4A8 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4B9DEC228C7AAF0076755A /* SRGLogger.framework */; };
+		EBFC0D9A228DAA8300E7E4A8 /* SRGMediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB88E864228D72BF00AAA945 /* SRGMediaPlayer.framework */; };
+		EBFC0D9C228DAABC00E7E4A8 /* libextobjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4B9DEB228C7AAF0076755A /* libextobjc.framework */; };
+		EBFC0D9D228DAABC00E7E4A8 /* MAKVONotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4B9DEA228C7AAF0076755A /* MAKVONotificationCenter.framework */; };
+		EBFC0D9E228DAABC00E7E4A8 /* SRGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4B9DEC228C7AAF0076755A /* SRGLogger.framework */; };
+		EBFC0D9F228DB52200E7E4A8 /* CSMeasurementDispatcher+SRGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E61388961D916A9900218919 /* CSMeasurementDispatcher+SRGAnalytics.h */; };
+		EBFC0DA0228DB52200E7E4A8 /* CSMeasurementDispatcher+SRGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E61388971D916A9900218919 /* CSMeasurementDispatcher+SRGAnalytics.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -274,6 +341,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = E61C0D541D61E9CD00AEAE6D;
 			remoteInfo = SRGAnalytics_MediaPlayer;
+		};
+		EB9E7BDA228C543000727725 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9F1518B31AC2F1CE00AE051D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F0C98CE2121CC9700073AB6;
+			remoteInfo = "SRGAnalytics-resources";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -483,6 +557,37 @@
 		E6FC7F041D61FA4700A55085 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E6FC7F061D61FA4700A55085 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E6FC7F9E1D620AE700A55085 /* SRGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRGAnalytics.m; sourceTree = "<group>"; };
+		EB4B9DEA228C7AAF0076755A /* MAKVONotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MAKVONotificationCenter.framework; path = Carthage/Build/tvOS/MAKVONotificationCenter.framework; sourceTree = "<group>"; };
+		EB4B9DEB228C7AAF0076755A /* libextobjc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libextobjc.framework; path = Carthage/Build/tvOS/libextobjc.framework; sourceTree = "<group>"; };
+		EB4B9DEC228C7AAF0076755A /* SRGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGLogger.framework; path = Carthage/Build/tvOS/SRGLogger.framework; sourceTree = "<group>"; };
+		EB88E862228D72B600AAA945 /* SRGAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGAnalytics.framework; path = Carthage/Build/tvOS/SRGAnalytics.framework; sourceTree = "<group>"; };
+		EB88E864228D72BF00AAA945 /* SRGMediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGMediaPlayer.framework; path = Carthage/Build/tvOS/SRGMediaPlayer.framework; sourceTree = "<group>"; };
+		EB9E7AB6228C49CE00727725 /* SRGAnalytics_Mediaplayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics_Mediaplayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB9E7AB7228C49CE00727725 /* SRGAnalytics_MediaPlayer copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SRGAnalytics_MediaPlayer copy-Info.plist"; path = "/Users/tiziano/Documents/projects/Xcode/srganalytics-ios/SRGAnalytics_MediaPlayer copy-Info.plist"; sourceTree = "<absolute>"; };
+		EB9E7AD2228C49EC00727725 /* SRGAnalytics_Identity copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SRGAnalytics_Identity copy-Info.plist"; path = "/Users/tiziano/Documents/projects/Xcode/srganalytics-ios/SRGAnalytics_Identity copy-Info.plist"; sourceTree = "<absolute>"; };
+		EB9E7AF4228C49FE00727725 /* SRGAnalytics_DataProvider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics_DataProvider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB9E7AF5228C49FE00727725 /* SRGAnalytics_DataProvider copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SRGAnalytics_DataProvider copy-Info.plist"; path = "/Users/tiziano/Documents/projects/Xcode/srganalytics-ios/SRGAnalytics_DataProvider copy-Info.plist"; sourceTree = "<absolute>"; };
+		EB9E7AFF228C4B5000727725 /* SRGAnalytics-resources-tvos.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SRGAnalytics-resources-tvos.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB9E7B00228C4B5100727725 /* SRGAnalytics-resources copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SRGAnalytics-resources copy-Info.plist"; path = "/Users/tiziano/Documents/projects/Xcode/srganalytics-ios/SRGAnalytics-resources copy-Info.plist"; sourceTree = "<absolute>"; };
+		EB9E7B03228C4C5300727725 /* MAKVONotificationCenter-tvOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "MAKVONotificationCenter-tvOS.framework"; path = "Carthage/Build/tvOS/MAKVONotificationCenter-tvOS.framework"; sourceTree = "<group>"; };
+		EB9E7B04228C4C5400727725 /* SRGLogger-tvos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "SRGLogger-tvos.framework"; path = "Carthage/Build/tvOS/SRGLogger-tvos.framework"; sourceTree = "<group>"; };
+		EB9E7B05228C4C5400727725 /* libextobjc-tvos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "libextobjc-tvos.framework"; path = "Carthage/Build/tvOS/libextobjc-tvos.framework"; sourceTree = "<group>"; };
+		EB9E7B09228C4D8900727725 /* SRGAnalytics_tvos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGAnalytics_tvos.framework; path = Carthage/Build/tvOS/SRGAnalytics_tvos.framework; sourceTree = "<group>"; };
+		EB9E7B0B228C4E0F00727725 /* SRGMediaPlayer-tvos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "SRGMediaPlayer-tvos.framework"; path = "Carthage/Build/tvOS/SRGMediaPlayer-tvos.framework"; sourceTree = "<group>"; };
+		EB9E7B0D228C4E7500727725 /* SRGNetwork-tvos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "SRGNetwork-tvos.framework"; path = "Carthage/Build/tvOS/SRGNetwork-tvos.framework"; sourceTree = "<group>"; };
+		EB9E7B0F228C4E7F00727725 /* Masonry-tvos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Masonry-tvos.framework"; path = "Carthage/Build/tvOS/Masonry-tvos.framework"; sourceTree = "<group>"; };
+		EB9E7B13228C4E9F00727725 /* UICKeyChainStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UICKeyChainStore.framework; path = Carthage/Build/tvOS/UICKeyChainStore.framework; sourceTree = "<group>"; };
+		EB9E7B15228C4EA700727725 /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = Carthage/Build/tvOS/Mantle.framework; sourceTree = "<group>"; };
+		EB9E7B50228C51B300727725 /* SRGContentProtection-tvos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "SRGContentProtection-tvos.framework"; path = "Carthage/Build/tvOS/SRGContentProtection-tvos.framework"; sourceTree = "<group>"; };
+		EB9E7BD1228C52B100727725 /* SRGDataProvider-tvos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "SRGDataProvider-tvos.framework"; path = "Carthage/Build/tvOS/SRGDataProvider-tvos.framework"; sourceTree = "<group>"; };
+		EB9E7C0B228C543000727725 /* SRGAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRGAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB9E7C0C228C543100727725 /* SRGAnalytics copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SRGAnalytics copy-Info.plist"; path = "/Users/tiziano/Documents/projects/Xcode/srganalytics-ios/SRGAnalytics copy-Info.plist"; sourceTree = "<absolute>"; };
+		EB9E7C10228C546400727725 /* Comscore_tvos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Comscore_tvos.framework; path = Carthage/Build/tvOS/Comscore_tvos.framework; sourceTree = "<group>"; };
+		EB9E7C12228C56D100727725 /* ComScore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ComScore.framework; path = Carthage/Build/tvOS/ComScore.framework; sourceTree = "<group>"; };
+		EBFC0D87228DA90600E7E4A8 /* SRGContentProtection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGContentProtection.framework; path = Carthage/Build/tvOS/SRGContentProtection.framework; sourceTree = "<group>"; };
+		EBFC0D89228DA91200E7E4A8 /* SRGNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGNetwork.framework; path = Carthage/Build/tvOS/SRGNetwork.framework; sourceTree = "<group>"; };
+		EBFC0D8B228DA92000E7E4A8 /* SRGDataProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGDataProvider.framework; path = Carthage/Build/tvOS/SRGDataProvider.framework; sourceTree = "<group>"; };
+		EBFC0D91228DA95500E7E4A8 /* SRGAnalytics_Mediaplayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SRGAnalytics_Mediaplayer.framework; path = Carthage/Build/tvOS/SRGAnalytics_Mediaplayer.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -608,6 +713,51 @@
 				08EF591B2220C4BD000E7446 /* SRGIdentity.framework in Frameworks */,
 				E6FC7EA51D61F97800A55085 /* SRGAnalytics_MediaPlayer.framework in Frameworks */,
 				E6FC7EA01D61F97500A55085 /* SRGAnalytics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7AA2228C49CE00727725 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBFC0D96228DAA8300E7E4A8 /* libextobjc.framework in Frameworks */,
+				EBFC0D97228DAA8300E7E4A8 /* MAKVONotificationCenter.framework in Frameworks */,
+				EBFC0D98228DAA8300E7E4A8 /* SRGAnalytics.framework in Frameworks */,
+				EBFC0D99228DAA8300E7E4A8 /* SRGLogger.framework in Frameworks */,
+				EBFC0D9A228DAA8300E7E4A8 /* SRGMediaPlayer.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7ADA228C49FE00727725 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBFC0D88228DA90600E7E4A8 /* SRGContentProtection.framework in Frameworks */,
+				EBFC0D8A228DA91200E7E4A8 /* SRGNetwork.framework in Frameworks */,
+				EBFC0D8C228DA92000E7E4A8 /* SRGDataProvider.framework in Frameworks */,
+				EBFC0D8D228DA92C00E7E4A8 /* MAKVONotificationCenter.framework in Frameworks */,
+				EBFC0D8E228DA93300E7E4A8 /* libextobjc.framework in Frameworks */,
+				EBFC0D8F228DA93B00E7E4A8 /* SRGLogger.framework in Frameworks */,
+				EBFC0D90228DA94900E7E4A8 /* SRGMediaPlayer.framework in Frameworks */,
+				EBFC0D92228DA95500E7E4A8 /* SRGAnalytics_Mediaplayer.framework in Frameworks */,
+				EBFC0D93228DA95B00E7E4A8 /* SRGAnalytics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7AF8228C4B5000727725 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7BEB228C543000727725 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBFC0D9C228DAABC00E7E4A8 /* libextobjc.framework in Frameworks */,
+				EBFC0D9D228DAABC00E7E4A8 /* MAKVONotificationCenter.framework in Frameworks */,
+				EBFC0D9E228DAABC00E7E4A8 /* SRGLogger.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -755,6 +905,11 @@
 				E6FC7F031D61FA4700A55085 /* Demo */,
 				AC99606425BE818BA71D7E4D /* Frameworks */,
 				9F1518BC1AC2F1CE00AE051D /* Products */,
+				EB9E7AB7228C49CE00727725 /* SRGAnalytics_MediaPlayer copy-Info.plist */,
+				EB9E7AD2228C49EC00727725 /* SRGAnalytics_Identity copy-Info.plist */,
+				EB9E7AF5228C49FE00727725 /* SRGAnalytics_DataProvider copy-Info.plist */,
+				EB9E7B00228C4B5100727725 /* SRGAnalytics-resources copy-Info.plist */,
+				EB9E7C0C228C543100727725 /* SRGAnalytics copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -770,6 +925,10 @@
 				6F0C98CF2121CC9700073AB6 /* SRGAnalytics.bundle */,
 				08EF58D72220A6BD000E7446 /* SRGAnalytics_Identity.framework */,
 				08EF593C2221B7B4000E7446 /* SRGAnalytics-testapp.app */,
+				EB9E7AB6228C49CE00727725 /* SRGAnalytics_Mediaplayer.framework */,
+				EB9E7AF4228C49FE00727725 /* SRGAnalytics_DataProvider.framework */,
+				EB9E7AFF228C4B5000727725 /* SRGAnalytics-resources-tvos.bundle */,
+				EB9E7C0B228C543000727725 /* SRGAnalytics.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -777,6 +936,28 @@
 		AC99606425BE818BA71D7E4D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EBFC0D91228DA95500E7E4A8 /* SRGAnalytics_Mediaplayer.framework */,
+				EBFC0D8B228DA92000E7E4A8 /* SRGDataProvider.framework */,
+				EBFC0D89228DA91200E7E4A8 /* SRGNetwork.framework */,
+				EBFC0D87228DA90600E7E4A8 /* SRGContentProtection.framework */,
+				EB88E864228D72BF00AAA945 /* SRGMediaPlayer.framework */,
+				EB88E862228D72B600AAA945 /* SRGAnalytics.framework */,
+				EB4B9DEB228C7AAF0076755A /* libextobjc.framework */,
+				EB4B9DEA228C7AAF0076755A /* MAKVONotificationCenter.framework */,
+				EB4B9DEC228C7AAF0076755A /* SRGLogger.framework */,
+				EB9E7C12228C56D100727725 /* ComScore.framework */,
+				EB9E7C10228C546400727725 /* Comscore_tvos.framework */,
+				EB9E7BD1228C52B100727725 /* SRGDataProvider-tvos.framework */,
+				EB9E7B50228C51B300727725 /* SRGContentProtection-tvos.framework */,
+				EB9E7B15228C4EA700727725 /* Mantle.framework */,
+				EB9E7B13228C4E9F00727725 /* UICKeyChainStore.framework */,
+				EB9E7B0F228C4E7F00727725 /* Masonry-tvos.framework */,
+				EB9E7B0D228C4E7500727725 /* SRGNetwork-tvos.framework */,
+				EB9E7B0B228C4E0F00727725 /* SRGMediaPlayer-tvos.framework */,
+				EB9E7B09228C4D8900727725 /* SRGAnalytics_tvos.framework */,
+				EB9E7B05228C4C5400727725 /* libextobjc-tvos.framework */,
+				EB9E7B03228C4C5300727725 /* MAKVONotificationCenter-tvOS.framework */,
+				EB9E7B04228C4C5400727725 /* SRGLogger-tvos.framework */,
 				9FD74D401ACC2DDC00A2D86A /* CFNetwork.framework */,
 				E672EA461D62EE5D00CFB080 /* ComScore.framework */,
 				9F1519231AC422B800AE051D /* Foundation.framework */,
@@ -1029,9 +1210,9 @@
 				6F3C40191F87AF5E00FFEA85 /* SRGAnalyticsLabels.h in Headers */,
 				E69A20621D61E5E80064E6C1 /* SRGAnalytics.h in Headers */,
 				E613889E1D916A9900218919 /* SRGAnalyticsLogger.h in Headers */,
-				E61388A91D916A9900218919 /* CSMeasurementDispatcher+SRGAnalytics.h in Headers */,
 				E61388AB1D916A9900218919 /* NSBundle+SRGAnalytics.h in Headers */,
 				6FAE25F21F34D87600874A53 /* SRGAnalyticsConfiguration.h in Headers */,
+				EBFC0D9F228DB52200E7E4A8 /* CSMeasurementDispatcher+SRGAnalytics.h in Headers */,
 				6F3C400F1F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.h in Headers */,
 				E61388A51D916A9900218919 /* SRGAnalyticsTracker.h in Headers */,
 				E61388BB1D91903B00218919 /* SRGAnalyticsNotifications.h in Headers */,
@@ -1042,6 +1223,55 @@
 				E61388AD1D916A9900218919 /* NSMutableDictionary+SRGAnalytics.h in Headers */,
 				6F3C401B1F87AF5E00FFEA85 /* SRGAnalyticsPageViewLabels.h in Headers */,
 				6FD86FFA1F2B2A7F001ED20F /* SRGAnalyticsStreamTracker.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7AAA228C49CE00727725 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB9E7AAB228C49CE00727725 /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.h in Headers */,
+				EB9E7AAC228C49CE00727725 /* SRGAnalytics_MediaPlayer.h in Headers */,
+				EB9E7AAD228C49CE00727725 /* SRGAnalyticsMediaPlayerLogger.h in Headers */,
+				EB9E7AAE228C49CE00727725 /* SRGAnalyticsSegment.h in Headers */,
+				EB9E7AAF228C49CE00727725 /* SRGMediaPlayerTracker.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7AE6228C49FE00727725 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB9E7AE7228C49FE00727725 /* SRGSegment+SRGAnalytics_DataProvider.h in Headers */,
+				EB9E7AE8228C49FE00727725 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.h in Headers */,
+				EB9E7AE9228C49FE00727725 /* SRGPlaybackSettings.h in Headers */,
+				EB9E7AEA228C49FE00727725 /* SRGMediaComposition+SRGAnalytics_DataProvider.h in Headers */,
+				EB9E7AEB228C49FE00727725 /* SRGMediaComposition+SRGAnalytics_DataProvider_Private.h in Headers */,
+				EB9E7AEC228C49FE00727725 /* SRGResource+SRGAnalytics_DataProvider.h in Headers */,
+				EB9E7AED228C49FE00727725 /* SRGAnalytics_DataProvider.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7BF2228C543000727725 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB9E7BF3228C543000727725 /* UIViewController+SRGAnalytics.h in Headers */,
+				EB9E7BF4228C543000727725 /* SRGAnalyticsLabels.h in Headers */,
+				EB9E7BF5228C543000727725 /* SRGAnalytics.h in Headers */,
+				EB9E7BF6228C543000727725 /* SRGAnalyticsLogger.h in Headers */,
+				EB9E7BF8228C543000727725 /* NSBundle+SRGAnalytics.h in Headers */,
+				EB9E7BF9228C543000727725 /* SRGAnalyticsConfiguration.h in Headers */,
+				EB9E7BFA228C543000727725 /* SRGAnalyticsStreamLabels.h in Headers */,
+				EB9E7BFB228C543000727725 /* SRGAnalyticsTracker.h in Headers */,
+				EB9E7BFC228C543000727725 /* SRGAnalyticsNotifications.h in Headers */,
+				EB9E7BFD228C543000727725 /* NSString+SRGAnalytics.h in Headers */,
+				EB9E7BFE228C543000727725 /* SRGAnalyticsNetMetrixTracker.h in Headers */,
+				EB9E7BFF228C543000727725 /* SRGAnalyticsHiddenEventLabels.h in Headers */,
+				EB9E7C00228C543000727725 /* SRGAnalyticsTracker+Private.h in Headers */,
+				EB9E7C01228C543000727725 /* NSMutableDictionary+SRGAnalytics.h in Headers */,
+				EB9E7C02228C543000727725 /* SRGAnalyticsPageViewLabels.h in Headers */,
+				EB9E7C03228C543000727725 /* SRGAnalyticsStreamTracker.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1219,6 +1449,78 @@
 			productReference = E6FC7E881D61F95C00A55085 /* SRGAnalytics-demo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		EB9E7A9E228C49CE00727725 /* SRGAnalytics_MediaPlayer-tvos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB9E7AB1228C49CE00727725 /* Build configuration list for PBXNativeTarget "SRGAnalytics_MediaPlayer-tvos" */;
+			buildPhases = (
+				EB9E7A9F228C49CE00727725 /* Sources */,
+				EB9E7AA2228C49CE00727725 /* Frameworks */,
+				EB9E7AAA228C49CE00727725 /* Headers */,
+				EB9E7AB0228C49CE00727725 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SRGAnalytics_MediaPlayer-tvos";
+			productName = SRGMediaPlayerAnalytics;
+			productReference = EB9E7AB6228C49CE00727725 /* SRGAnalytics_Mediaplayer.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		EB9E7AD3228C49FE00727725 /* SRGAnalytics_DataProvider-tvos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB9E7AEF228C49FE00727725 /* Build configuration list for PBXNativeTarget "SRGAnalytics_DataProvider-tvos" */;
+			buildPhases = (
+				EB9E7AD4228C49FE00727725 /* Sources */,
+				EB9E7ADA228C49FE00727725 /* Frameworks */,
+				EB9E7AE6228C49FE00727725 /* Headers */,
+				EB9E7AEE228C49FE00727725 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SRGAnalytics_DataProvider-tvos";
+			productName = SRGAnalytics_DataProvider;
+			productReference = EB9E7AF4228C49FE00727725 /* SRGAnalytics_DataProvider.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		EB9E7AF6228C4B5000727725 /* SRGAnalytics-resources-tvos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB9E7AFA228C4B5000727725 /* Build configuration list for PBXNativeTarget "SRGAnalytics-resources-tvos" */;
+			buildPhases = (
+				EB9E7AF7228C4B5000727725 /* Sources */,
+				EB9E7AF8228C4B5000727725 /* Frameworks */,
+				EB9E7AF9228C4B5000727725 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SRGAnalytics-resources-tvos";
+			productName = "SRGAnalytics-resources";
+			productReference = EB9E7AFF228C4B5000727725 /* SRGAnalytics-resources-tvos.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		EB9E7BD8228C543000727725 /* SRGAnalytics-tvos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB9E7C06228C543000727725 /* Build configuration list for PBXNativeTarget "SRGAnalytics-tvos" */;
+			buildPhases = (
+				EB9E7BDB228C543000727725 /* Sources */,
+				EB9E7BEB228C543000727725 /* Frameworks */,
+				EB9E7BF2228C543000727725 /* Headers */,
+				EB9E7C04228C543000727725 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EB9E7BD9228C543000727725 /* PBXTargetDependency */,
+			);
+			name = "SRGAnalytics-tvos";
+			productName = SRGAnalytics;
+			productReference = EB9E7C0B228C543000727725 /* SRGAnalytics.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1260,6 +1562,9 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = VMGRRW6SG7;
 					};
+					EB9E7AF6228C4B5000727725 = {
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 9F1518B61AC2F1CE00AE051D /* Build configuration list for PBXProject "SRGAnalytics" */;
@@ -1267,6 +1572,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				Base,
 			);
 			mainGroup = 9F1518B21AC2F1CE00AE051D;
@@ -1283,6 +1589,10 @@
 				E66F8A651D62DC250004EB58 /* SRGAnalytics-demo-tests */,
 				E65490A01D803C03007D96E7 /* SRGAnalytics-tests */,
 				08EF593B2221B7B4000E7446 /* SRGAnalytics-testapp */,
+				EB9E7BD8228C543000727725 /* SRGAnalytics-tvos */,
+				EB9E7A9E228C49CE00727725 /* SRGAnalytics_MediaPlayer-tvos */,
+				EB9E7AD3228C49FE00727725 /* SRGAnalytics_DataProvider-tvos */,
+				EB9E7AF6228C4B5000727725 /* SRGAnalytics-resources-tvos */,
 			);
 		};
 /* End PBXProject section */
@@ -1353,6 +1663,35 @@
 				E6296E881DA6205200E33C32 /* SimpleViewController.storyboard in Resources */,
 				E6296E861DA60CE700E33C32 /* DemosViewController.storyboard in Resources */,
 				E6FC7F1D1D61FA4700A55085 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7AB0228C49CE00727725 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7AEE228C49FE00727725 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7AF9228C4B5000727725 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7C04228C543000727725 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB9E7C05228C543000727725 /* SRGAnalytics.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1444,13 +1783,13 @@
 				E61388AC1D916A9900218919 /* NSBundle+SRGAnalytics.m in Sources */,
 				6F3C40181F87AF5E00FFEA85 /* SRGAnalyticsHiddenEventLabels.m in Sources */,
 				E61388AE1D916A9900218919 /* NSMutableDictionary+SRGAnalytics.m in Sources */,
-				E61388AA1D916A9900218919 /* CSMeasurementDispatcher+SRGAnalytics.m in Sources */,
 				6FAE25F31F34D87600874A53 /* SRGAnalyticsConfiguration.m in Sources */,
 				6F3C40101F87AF4100FFEA85 /* SRGAnalyticsStreamLabels.m in Sources */,
 				E61388B01D916A9900218919 /* NSString+SRGAnalytics.m in Sources */,
 				6F3C401C1F87AF5E00FFEA85 /* SRGAnalyticsLabels.m in Sources */,
 				E61388BC1D91903B00218919 /* SRGAnalyticsNotifications.m in Sources */,
 				E6FC7F9F1D620AE700A55085 /* SRGAnalytics.m in Sources */,
+				EBFC0DA0228DB52200E7E4A8 /* CSMeasurementDispatcher+SRGAnalytics.m in Sources */,
 				E61388A11D916A9900218919 /* SRGAnalyticsNetMetrixTracker.m in Sources */,
 				6FD86FFB1F2B2A7F001ED20F /* SRGAnalyticsStreamTracker.m in Sources */,
 				E61388A61D916A9900218919 /* SRGAnalyticsTracker.m in Sources */,
@@ -1467,6 +1806,55 @@
 				088700D71DA2542700D4961A /* AppDelegate.m in Sources */,
 				088700DF1DA2543800D4961A /* SimpleViewController.m in Sources */,
 				088700D91DA2542D00D4961A /* DemosViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7A9F228C49CE00727725 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB9E7AA0228C49CE00727725 /* SRGMediaPlayerController+SRGAnalytics_MediaPlayer.m in Sources */,
+				EB9E7AA1228C49CE00727725 /* SRGMediaPlayerTracker.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7AD4228C49FE00727725 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB9E7AD5228C49FE00727725 /* SRGMediaPlayerController+SRGAnalytics_DataProvider.m in Sources */,
+				EB9E7AD6228C49FE00727725 /* SRGPlaybackSettings.m in Sources */,
+				EB9E7AD7228C49FE00727725 /* SRGResource+SRGAnalytics_DataProvider.m in Sources */,
+				EB9E7AD8228C49FE00727725 /* SRGMediaComposition+SRGAnalytics_DataProvider.m in Sources */,
+				EB9E7AD9228C49FE00727725 /* SRGSegment+SRGAnalytics_DataProvider.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7AF7228C4B5000727725 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB9E7BDB228C543000727725 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB9E7BDC228C543000727725 /* NSBundle+SRGAnalytics.m in Sources */,
+				EB9E7BDD228C543000727725 /* SRGAnalyticsHiddenEventLabels.m in Sources */,
+				EB9E7BDE228C543000727725 /* NSMutableDictionary+SRGAnalytics.m in Sources */,
+				EB9E7BE0228C543000727725 /* SRGAnalyticsConfiguration.m in Sources */,
+				EB9E7BE1228C543000727725 /* SRGAnalyticsStreamLabels.m in Sources */,
+				EB9E7BE2228C543000727725 /* NSString+SRGAnalytics.m in Sources */,
+				EB9E7BE3228C543000727725 /* SRGAnalyticsLabels.m in Sources */,
+				EB9E7BE4228C543000727725 /* SRGAnalyticsNotifications.m in Sources */,
+				EB9E7BE5228C543000727725 /* SRGAnalytics.m in Sources */,
+				EB9E7BE6228C543000727725 /* SRGAnalyticsNetMetrixTracker.m in Sources */,
+				EB9E7BE7228C543000727725 /* SRGAnalyticsStreamTracker.m in Sources */,
+				EB9E7BE8228C543000727725 /* SRGAnalyticsTracker.m in Sources */,
+				EB9E7BE9228C543000727725 /* SRGAnalyticsPageViewLabels.m in Sources */,
+				EB9E7BEA228C543000727725 /* UIViewController+SRGAnalytics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1528,6 +1916,11 @@
 			target = E61C0D541D61E9CD00AEAE6D /* SRGAnalytics_MediaPlayer */;
 			targetProxy = E6FC7EA71D61F97800A55085 /* PBXContainerItemProxy */;
 		};
+		EB9E7BD9228C543000727725 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6F0C98CE2121CC9700073AB6 /* SRGAnalytics-resources */;
+			targetProxy = EB9E7BDA228C543000727725 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -1550,7 +1943,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-Identity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1579,7 +1972,7 @@
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-Identity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1605,7 +1998,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-Identity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1634,7 +2027,7 @@
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-Identity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1806,7 +2199,7 @@
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGAnalytics;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1834,7 +2227,7 @@
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-MediaPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1862,7 +2255,7 @@
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-DataProvider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2003,7 +2396,7 @@
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGAnalytics;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2031,7 +2424,7 @@
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-MediaPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2059,7 +2452,7 @@
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-DataProvider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2232,7 +2625,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-DataProvider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2257,7 +2650,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-DataProvider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2395,7 +2788,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-MediaPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2420,7 +2813,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-MediaPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2523,7 +2916,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGAnalytics;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2548,7 +2941,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGAnalytics;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2596,6 +2989,422 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
+		};
+		EB9E7AB2228C49CE00727725 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "SRGAnalytics_MediaPlayer copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-MediaPlayer";
+				PRODUCT_NAME = SRGAnalytics_Mediaplayer;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EB9E7AB3228C49CE00727725 /* Debug-static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "SRGAnalytics_MediaPlayer copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-MediaPlayer";
+				PRODUCT_NAME = SRGAnalytics_Mediaplayer;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Debug-static";
+		};
+		EB9E7AB4228C49CE00727725 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "SRGAnalytics_MediaPlayer copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-MediaPlayer";
+				PRODUCT_NAME = SRGAnalytics_Mediaplayer;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EB9E7AB5228C49CE00727725 /* Release-static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "SRGAnalytics_MediaPlayer copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-MediaPlayer";
+				PRODUCT_NAME = SRGAnalytics_Mediaplayer;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Release-static";
+		};
+		EB9E7AF0228C49FE00727725 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = "SRGAnalytics_DataProvider copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-DataProvider";
+				PRODUCT_NAME = SRGAnalytics_DataProvider;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EB9E7AF1228C49FE00727725 /* Debug-static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = "SRGAnalytics_DataProvider copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-DataProvider";
+				PRODUCT_NAME = SRGAnalytics_DataProvider;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Debug-static";
+		};
+		EB9E7AF2228C49FE00727725 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = "SRGAnalytics_DataProvider copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-DataProvider";
+				PRODUCT_NAME = SRGAnalytics_DataProvider;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EB9E7AF3228C49FE00727725 /* Release-static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = "SRGAnalytics_DataProvider copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-DataProvider";
+				PRODUCT_NAME = SRGAnalytics_DataProvider;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Release-static";
+		};
+		EB9E7AFB228C4B5000727725 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "SRGAnalytics-resources copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-resources";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		EB9E7AFC228C4B5000727725 /* Debug-static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "SRGAnalytics-resources copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-resources";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = "Debug-static";
+		};
+		EB9E7AFD228C4B5000727725 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "SRGAnalytics-resources copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-resources";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		EB9E7AFE228C4B5000727725 /* Release-static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "SRGAnalytics-resources copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.srgssr.SRGAnalytics-resources";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = "Release-static";
+		};
+		EB9E7C07228C543000727725 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "SRGAnalytics copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGAnalytics;
+				PRODUCT_NAME = SRGAnalytics;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EB9E7C08228C543000727725 /* Debug-static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "SRGAnalytics copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGAnalytics;
+				PRODUCT_NAME = SRGAnalytics;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Debug-static";
+		};
+		EB9E7C09228C543000727725 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "SRGAnalytics copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGAnalytics;
+				PRODUCT_NAME = SRGAnalytics;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EB9E7C0A228C543000727725 /* Release-static */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "SRGAnalytics copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SRGAnalytics;
+				PRODUCT_NAME = SRGAnalytics;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Release-static";
 		};
 /* End XCBuildConfiguration section */
 
@@ -2706,6 +3515,50 @@
 				6F0C98C12121CBBB00073AB6 /* Debug-static */,
 				E6FC7E9E1D61F95C00A55085 /* Release */,
 				6F0C98C82121CBC400073AB6 /* Release-static */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EB9E7AB1228C49CE00727725 /* Build configuration list for PBXNativeTarget "SRGAnalytics_MediaPlayer-tvos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB9E7AB2228C49CE00727725 /* Debug */,
+				EB9E7AB3228C49CE00727725 /* Debug-static */,
+				EB9E7AB4228C49CE00727725 /* Release */,
+				EB9E7AB5228C49CE00727725 /* Release-static */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EB9E7AEF228C49FE00727725 /* Build configuration list for PBXNativeTarget "SRGAnalytics_DataProvider-tvos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB9E7AF0228C49FE00727725 /* Debug */,
+				EB9E7AF1228C49FE00727725 /* Debug-static */,
+				EB9E7AF2228C49FE00727725 /* Release */,
+				EB9E7AF3228C49FE00727725 /* Release-static */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EB9E7AFA228C4B5000727725 /* Build configuration list for PBXNativeTarget "SRGAnalytics-resources-tvos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB9E7AFB228C4B5000727725 /* Debug */,
+				EB9E7AFC228C4B5000727725 /* Debug-static */,
+				EB9E7AFD228C4B5000727725 /* Release */,
+				EB9E7AFE228C4B5000727725 /* Release-static */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EB9E7C06228C543000727725 /* Build configuration list for PBXNativeTarget "SRGAnalytics-tvos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB9E7C07228C543000727725 /* Debug */,
+				EB9E7C08228C543000727725 /* Debug-static */,
+				EB9E7C09228C543000727725 /* Release */,
+				EB9E7C0A228C543000727725 /* Release-static */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

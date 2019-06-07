@@ -5,7 +5,6 @@
 //
 
 #import <SRGAnalytics/SRGAnalytics.h>
-#import <SRGIdentity/SRGIdentity.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,8 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param configuration   The configuration to use. This configuration is copied and cannot be changed afterwards.
  *  @param identityService The service which identities can be retrieved from.
  */
-- (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration
-               identityService:(nullable SRGIdentityService *)identityService;
+- (void)startWithConfiguration:(SRGAnalyticsConfiguration *)configuration;
 
 /**
  *  The identity service associated with the tracker, if any.

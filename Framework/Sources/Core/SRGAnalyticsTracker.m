@@ -16,22 +16,17 @@
 #import "UIViewController+SRGAnalytics.h"
 
 #import <ComScore/ComScore.h>
-#import <ComScore/CSTaskExecutor.h>
-#import <TCCore/TCCore.h>
-#import <TCSDK/TCSDK.h>
 
 __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 {
-    [TCDebug setDebugLevel:TCLogLevel_None];
+    
 }
 
 @interface SRGAnalyticsTracker ()
 
 @property (nonatomic, copy) SRGAnalyticsConfiguration *configuration;
 
-@property (nonatomic) TagCommander *tagCommander;
 @property (nonatomic) SRGAnalyticsNetMetrixTracker *netmetrixTracker;
-@property (nonatomic) CSStreamSense *streamSense;
 
 @property (nonatomic) NSDictionary<NSString *, NSString *> *globalLabels;
 
@@ -57,24 +52,13 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
 {
     self.configuration = configuration;
     
-    [self startTagCommanderTrackerWithConfiguration:configuration];
     [self startComscoreTrackerWithConfiguration:configuration];
     [self startNetmetrixTrackerWithConfiguration:configuration];
     
     [self sendApplicationList];
 }
 
-- (void)startTagCommanderTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
-{
-    if (! configuration.unitTesting) {
-        self.tagCommander = [[TagCommander alloc] initWithSiteID:(int)configuration.site andContainerID:(int)configuration.container];
-        [self.tagCommander enableRunningInBackground];
-        [self.tagCommander addPermanentData:@"app_library_version" withValue:SRGAnalyticsMarketingVersion()];
-        [self.tagCommander addPermanentData:@"navigation_app_site_name" withValue:configuration.comScoreVirtualSite];
-        [self.tagCommander addPermanentData:@"navigation_environment" withValue:NSBundle.srg_isProductionVersion ? @"prod" : @"preprod"];
-        [self.tagCommander addPermanentData:@"navigation_device" withValue:[self device]];
-    }
-}
+
 
 - (void)startComscoreTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
 {
@@ -82,22 +66,8 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         return;
     }
     
-    [CSComScore setAppContext];
-    [CSComScore setSecure:YES];
-    [CSComScore setCustomerC2:@"6036016"];
-    [CSComScore setPublisherSecret:@"b19346c7cb5e521845fb032be24b0154"];
-    [CSComScore enableAutoUpdate:60 foregroundOnly:NO];     //60 is the Comscore default interval value
     
-    NSString *applicationName = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleName"];
-    if (applicationName) {
-        [CSComScore setAutoStartLabels:@{ @"name": applicationName }];
-    }
     
-    [CSComScore setLabels:[self comscoreGlobalLabelsWithConfiguration:configuration]];
-    
-    // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
-    self.streamSense = [[CSStreamSense alloc] init];
-    [self.streamSense setKeepAliveInterval:9 * 60];
 }
 
 - (void)startNetmetrixTrackerWithConfiguration:(SRGAnalyticsConfiguration *)configuration
@@ -179,7 +149,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         return;
     }
     
-    [CSComScore hiddenWithLabels:labels];
+    
 }
 
 - (void)trackTagCommanderEventWithLabels:(NSDictionary<NSString *, NSString *> *)labels
@@ -187,21 +157,9 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
     NSMutableDictionary<NSString *, NSString *> *allLabels = [self.globalLabels mutableCopy] ?: [NSMutableDictionary dictionary];
     [allLabels addEntriesFromDictionary:labels];
     
-    // TagCommander might not be initialized (for the test business unit)
-    if (self.tagCommander) {
-        [allLabels enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-            [self.tagCommander addData:key withValue:object];
-        }];
-        [self.tagCommander sendData];
-    }
-    else {
-        // Only custom labels are sent in the notification userInfo. Internal predefined TagCommander variables are not sent,
-        // as they are not needed for tests (they are part of what is guaranteed by the TagCommander SDK). For a complete list of
-        // predefined variables, see https://github.com/TagCommander/pods/blob/master/TCSDK/PredefinedVariables.md
-        [NSNotificationCenter.defaultCenter postNotificationName:SRGAnalyticsRequestNotification
-                                                          object:self
-                                                        userInfo:@{ SRGAnalyticsLabelsKey : [allLabels copy] }];
-    }
+    [NSNotificationCenter.defaultCenter postNotificationName:SRGAnalyticsRequestNotification
+                                                      object:self
+                                                    userInfo:@{ SRGAnalyticsLabelsKey : [allLabels copy] }];
 }
 
 #pragma mark Page view tracking
@@ -274,7 +232,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         [pageViewLabelsDictionary addEntriesFromDictionary:comScoreLabelsDictionary];
     }
     
-    [CSComScore viewWithLabels:pageViewLabelsDictionary];
+    
 }
 
 - (void)trackTagCommanderPageViewWithTitle:(NSString *)title
@@ -346,7 +304,7 @@ __attribute__((constructor)) static void SRGAnalyticsTrackerInit(void)
         [hiddenEventLabelsDictionary addEntriesFromDictionary:comScoreLabelsDictionary];
     }
     
-    [CSComScore hiddenWithLabels:hiddenEventLabelsDictionary];
+    
 }
 
 - (void)trackTagCommanderHiddenEventWithName:(NSString *)name labels:(SRGAnalyticsHiddenEventLabels *)labels

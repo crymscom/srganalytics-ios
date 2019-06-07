@@ -9,14 +9,12 @@
 #import "NSMutableDictionary+SRGAnalytics.h"
 #import "SRGAnalyticsTracker+Private.h"
 
-#import <ComScore/ComScore.h>
 #import <SRGAnalytics/SRGAnalytics.h>
 
 @interface SRGAnalyticsStreamTracker ()
 
 @property (nonatomic, getter=isLivestream) BOOL livestream;
 
-@property (nonatomic) CSStreamSense *streamSense;
 
 @property (nonatomic, getter=isComScoreSessionAlive) BOOL comScoreSessionAlive;
 @property (nonatomic) SRGAnalyticsStreamState previousPlayerState;
@@ -37,10 +35,6 @@
 {
     if (self = [super init]) {
         self.livestream = livestream;
-        
-        // The default keep-alive time interval of 20 minutes is too big. Set it to 9 minutes
-        self.streamSense = [[CSStreamSense alloc] init];
-        [self.streamSense setKeepAliveInterval:9 * 60];
         
         self.previousPlayerState = SRGAnalyticsStreamStateEnded;
     }
@@ -89,11 +83,7 @@
     static dispatch_once_t s_onceToken;
     static NSDictionary<NSNumber *, NSNumber *> *s_streamSenseEvents;
     dispatch_once(&s_onceToken, ^{
-        s_streamSenseEvents = @{ @(SRGAnalyticsStreamStatePlaying) : @(CSStreamSensePlay),
-                                 @(SRGAnalyticsStreamStatePaused) : @(CSStreamSensePause),
-                                 @(SRGAnalyticsStreamStateSeeking) : @(CSStreamSensePause),
-                                 @(SRGAnalyticsStreamStateStopped) : @(CSStreamSenseEnd),
-                                 @(SRGAnalyticsStreamStateEnded) : @(CSStreamSenseEnd) };
+        
     });
     
     NSNumber *eventTypeValue = s_streamSenseEvents[@(state)];
@@ -101,31 +91,23 @@
         return;
     }
     
-    [[self.streamSense labels] removeAllObjects];
+    
     [[labels comScoreLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [self.streamSense setLabel:key value:object];
+        
     }];
     
     // Reset clip labels to avoid inheriting from a previous segment. This does not reset internal hidden comScore labels
     // (e.g. ns_st_pa), which would otherwise be incorrect
-    [[[self.streamSense clip] labels] removeAllObjects];
+    
     [[labels comScoreSegmentLabelsDictionary] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull object, BOOL * _Nonnull stop) {
-        [[self.streamSense clip] setLabel:key value:object];
+        
     }];
     
     if (self.livestream) {
         position = 0;
     }
     
-    CSStreamSenseEventType eventType = eventTypeValue.intValue;
-    [self.streamSense notify:eventType position:position labels:nil /* already set on the stream and clip objects */];
     
-    if (eventType == CSStreamSensePlay) {
-        self.comScoreSessionAlive = YES;
-    }
-    else if (eventType == CSStreamSenseEnd) {
-        self.comScoreSessionAlive = NO;
-    }
 }
 
 - (void)updateTagCommanderWithStreamState:(SRGAnalyticsStreamState)state

@@ -167,7 +167,6 @@ static NSMutableDictionary *s_trackers = nil;
     NSMutableDictionary<NSString *, NSString *> *comScoreCustomInfo = [NSMutableDictionary dictionary];
     [comScoreCustomInfo srg_safelySetString:[self windowState] forKey:@"ns_st_ws"];
     [comScoreCustomInfo srg_safelySetString:[self scalingMode] forKey:@"ns_st_sg"];
-    [comScoreCustomInfo srg_safelySetString:[self orientation] forKey:@"ns_ap_ot"];
     playerLabels.comScoreCustomInfo = [comScoreCustomInfo copy];
     
     // comScore-only clip labels
@@ -246,21 +245,6 @@ static NSMutableDictionary *s_trackers = nil;
                          AVLayerVideoGravityResizeAspectFill : @"fill-a" };
     });
     return s_gravities[self.mediaPlayerController.playerLayer.videoGravity] ?: @"no";
-}
-
-- (NSString *)orientation
-{
-    static NSDictionary<NSNumber *, NSString *> *s_orientations;
-    static dispatch_once_t s_onceToken;
-    dispatch_once(&s_onceToken, ^{
-        s_orientations = @{ @(UIDeviceOrientationFaceDown) : @"facedown",
-                            @(UIDeviceOrientationFaceUp) : @"faceup",
-                            @(UIDeviceOrientationPortrait) : @"pt",
-                            @(UIDeviceOrientationPortraitUpsideDown) : @"updown",
-                            @(UIDeviceOrientationLandscapeLeft) : @"left",
-                            @(UIDeviceOrientationLandscapeRight) : @"right" };
-    });
-    return s_orientations[@(UIDevice.currentDevice.orientation)];
 }
 
 - (NSString *)dimensions
@@ -358,7 +342,7 @@ static NSMutableDictionary *s_trackers = nil;
         
         s_trackers[key] = tracker;
         if (s_trackers.count == 1) {
-            [CSComScore onUxActive];
+            
         }
         
         [tracker start];
@@ -377,7 +361,7 @@ static NSMutableDictionary *s_trackers = nil;
             
             [s_trackers removeObjectForKey:key];
             if (s_trackers.count == 0) {
-                [CSComScore onUxInactive];
+                
             }
             
             SRGAnalyticsLogInfo(@"PlayerTracker", @"Stopped tracking for %@", key);
